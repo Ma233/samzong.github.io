@@ -1,0 +1,1094 @@
+
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Blog">
+  <head>
+    <meta charset="utf-8">
+	<link rel="manifest" href="/pwa/manifest.json">
+	<title> mysqldump 常用参数 | SAMZONG </title>
+    
+		
+    <meta name="author" content="Samzong Lu">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#2196F3">
+	<meta name="google-site-verification" content="puZt0ZyqB-t67BYdYAgLUyIPBeismG68J0dmEc01QeY" />
+
+	
+    <script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function () {
+				navigator.serviceWorker
+										.register('/sw.js')
+										.then(function(registration) {
+											console.log("Successfully registered service worker", registration.scope);
+										}).catch(function(err) {
+											console.log("Service worker registration failed: ", err);
+										});
+				//navigator.serviceWorker.ready always resolve
+				navigator.serviceWorker.ready.then(function (registration) {
+					console.log('Service worker successfully registered on scope', registration.scope);
+				});
+			});
+		}
+    </script>
+	<script type="text/javascript" src="/assets/themes/evjekylltheme/jquery-3.6.0.slim.min.js"></script>
+
+	<link href="/assets/themes/evjekylltheme/google-code-prettify/desert.css" type="text/css" rel="stylesheet" />
+
+    <!-- Le styles -->
+    <link href="/assets/themes/evjekylltheme/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/evjekylltheme/css/style.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/images/favicon.ico">
+
+    <!-- atom & rss feed -->
+    <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Jekyll auto generate ATOM Feed">
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Site ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Site RSS Feed">
+	<link rel="stylesheet" href="/assets/themes/evjekylltheme/font-awesome-4.4.0/css/font-awesome.min.css">
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-W2LDG64');</script>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8529425670069509"
+						crossorigin="anonymous"></script>
+	<script async src="https://cdn.splitbee.io/sb.js"></script>
+  </head>
+
+  <body>
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2LDG64"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div class="navbar navbar-default navbar-fixed-top">
+				<div class="container">
+          <div class="row mobilepadding">
+					<a class="navbar-brand" href="/">SAMZONG</a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mNavbar">
+  					<ul class="nav navbar-nav">
+  						
+  						
+  						
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/friends.html">Friends</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+						  <li class="dropdown">
+							  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other</a>
+							  <ul class="dropdown-menu">
+									<li><a href="/about.html">About</a></li>
+									<li><a href="https://invest.einverne.info/" target="_blank">投资笔记</a></li>
+									<li><a href="https://broker.einverne.info/" target="_blank">券商推荐</a></li>
+									<li><a href="https://book.einverne.info/" target="_blank">图书分享</a></li>
+								  <li><a href="https://photo.einverne.info/" target="_blank">相册</a></li>
+								  <li><a href="https://kindle.einverne.info/" target="_blank">Kindle 笔记</a></li>
+								  <li><a href="https://ipfs.einverne.info/" target="_blank">IPFS 镜像</a></li>
+								  <li><a href="https://status.einverne.info/" target="_blank">服务状态</a></li>
+									<li><a href="https://board.gtk.pw" target="_blank">推荐代理</a></li>
+									<li><a href="https://pt.gtk.pw" target="_blank">私人PT</a></li>
+									<li><a href="https://talk.gtk.pw" target="_blank">讨论版</a></li>
+									<li><a rel="me" href="https://m.einverne.info/@einverne" target="_blank">在线嘟嘟</a></li>
+								</ul>
+						  </li>
+  					</ul>
+  					<form id="search-form" class="navbar-form navbar-right" role="search">
+  						<div class="form-group">
+  						<input type="text" class="form-control input-sm" placeholder="Search" id="query">
+  						</div>
+  					</form>
+  					<div class="nav-icon">
+  						<a href="/feed.xml"><i class="fa fa-rss fa-2x"></i></a>
+  					</div>
+          </div>
+				</div>
+      </div>
+    </div>
+
+    <div class="container">
+			<div class="row mobilepadding">
+        <div class="row">
+					<div class="col-md-12">
+						<div class="searchresult">
+						</div>
+						<div id="search-loader" class="img-wrap">
+						</div>
+					</div>
+        </div>
+				
+<div class="row" itemscope itemtype="http://schema.org/Article">
+    <div class="col-xs-12 col-md-8">
+        <div class="page-header" itemprop="name">
+            <h1>mysqldump 常用参数 
+            </h1>
+        </div>
+        <div class="post-meta">
+            
+            <span class="entry-date" itemprop="datePublished">Posted on 05/04/2016</span>
+            
+            
+            <span class="entry-author" itemprop="author">by Samzong Lu</span>
+            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/master/_posts/2016-05-05-MySQL-3-mysqldump常用参数.md"
+                 target="_blank">View revision history</a>
+        </div>
+        <div class="post-content" itemprop="articleBody">
+            <p>常用的mysqldump命令组合。</p>
+
+<h2 id="备份数据库">备份数据库</h2>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump db_name &gt; bak_name.sql
+mysqldump -A -u [dbuser] -p db_name &gt; bak_name.sql
+mysqldump -d -A --add-drop-table -uroot -p &gt;xxx.sql
+</code></pre></div></div>
+
+<h2 id="备份所有库到一个单独的文件">备份所有库到一个单独的文件</h2>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-e</span> <span class="s1">'show databases'</span> | <span class="nb">sed</span> <span class="nt">-n</span> <span class="s1">'2,$p'</span> | xargs <span class="nt">-I</span> DB <span class="s1">'mysqldump DB &gt; DB.sql'</span>
+</code></pre></div></div>
+
+<h3 id="1-导出结构不导出数据">1. 导出结构不导出数据</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　--opt　-d　db_name　-u　root　-p　&gt;　xxx.sql
+</code></pre></div></div>
+
+<h3 id="2-导出数据不导出结构">2. 导出数据不导出结构</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　-t　db_name　-uroot　-p　&gt;　xxx.sql
+</code></pre></div></div>
+
+<h3 id="3-导出数据和表结构">3. 导出数据和表结构</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　db_name　-uroot　-p　&gt;　xxx.sql
+</code></pre></div></div>
+
+<h3 id="4-导出特定表的结构">4. 导出特定表的结构</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　-uroot　-p　-B　db_name　--table　tb_name　&gt;　xxx.sql
+</code></pre></div></div>
+
+<h2 id="导入数据">导入数据</h2>
+<p>因为mysqldump导出的是完整的SQL语句，所以用mysql客户程序很容易就能把数据导入了：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql -u db_user -p db_name  &lt; xxx.sql
+mysql&gt; source /path/xxx.sql
+</code></pre></div></div>
+
+<h2 id="mysqldump参数详解">mysqldump参数详解：</h2>
+<p><code>–all-databases , -A </code>
+导出全部数据库<br />
+mysqldump -uroot -p –all-databases</p>
+
+<p><code>–all-tablespaces , -Y</code>
+导出全部表空间<br />
+mysqldump -uroot -p –all-databases –all-tablespaces</p>
+
+<p><code>–no-tablespaces , -y</code>
+不导出任何表空间信息<br />
+mysqldump -uroot -p –all-databases –no-tablespaces</p>
+
+<p><code>–add-drop-database</code>
+每个数据库创建之前添加drop数据库语句<br />
+mysqldump -uroot -p –all-databases –add-drop-database</p>
+
+<p><code>–add-drop-table</code>
+每个数据表创建之前添加drop数据表语句。(默认为打开状态，使用–skip-add-drop-table取消选项)<br />
+mysqldump -uroot -p –all-databases (默认添加drop语句)
+mysqldump -uroot -p –all-databases –skip-add-drop-table (取消drop语句)</p>
+
+<p><code>–add-locks</code>
+在每个表导出之前增加LOCK TABLES并且之后UNLOCK TABLE。(默认为打开状态，使用–skip-add-locks取消选项)<br />
+mysqldump -uroot -p –all-databases(默认添加LOCK语句)
+mysqldump -uroot -p –all-databases –skip-add-locks (取消LOCK语句)</p>
+
+<p><code>–comments</code>
+附加注释信息。<br />
+默认为打开，可以用–skip-comments取消mysqldump -uroot -p –all-databases (默认记录注释)mysqldump -uroot -p –all-databases “code”
+skip-comments (取消注释)</p>
+
+<p><code>–compact</code>
+导出更少的输出信息(用于调试),去掉注释和头尾等结构,可以使用选项：–skip-add-drop-table –skip-add-locks –skip-comments –skip-disable-keys<br />
+mysqldump -uroot -p –all-databases –compact</p>
+
+<p><code>–complete-insert, -c</code>
+使用完整的insert语句(包含列名称)。这么做能提高插入效率，但是可能会受到max_allowed_packet参数的影响而导致插入失败。<br />
+mysqldump -uroot -p –all-databases –complete-insert</p>
+
+<p><code>–compress, -C</code>
+在客户端和服务器之间启用压缩传递所有信息<br />
+mysqldump -uroot -p –all-databases –compress</p>
+
+<p><code>–databases, -B</code>
+导出几个数据库。参数后面所有名字参量都被看作数据库名。<br />
+mysqldump -uroot -p –databases test mysql</p>
+
+<p><code>–debug</code>
+输出debug信息，用于调试。<br />
+默认值为：d:t:o,/tmp/mysqldump.trace<br />
+mysqldump -uroot -p –all-databases –debug<br />
+mysqldump -uroot -p –all-databases –debug=”d:t:o,/tmp/debug.trace”</p>
+
+<p><code>–debug-info</code>
+输出调试信息并退出<br />
+mysqldump -uroot -p –all-databases –debug-info</p>
+
+<p><code>–default-character-set</code>
+设置默认字符集，默认值为utf8<br />
+mysqldump -uroot -p –all-databases –default-character-set=latin1</p>
+
+<p><code>–delayed-insert</code>
+采用延时插入方式（INSERT DELAYED）导出数据<br />
+mysqldump -uroot -p –all-databases –delayed-insert</p>
+
+<p><code>–events, -E</code>
+导出事件<br />
+mysqldump -uroot -p –all-databases –events</p>
+
+<p><code>–flush-logs</code>
+开始导出之前刷新日志<br />
+请注意：假如一次导出多个数据库(使用选项–databases或者–all-databases)，将会逐个数据库刷新日志。除使用–lock-all-tables或者–master-data外。在这种情况下，日志将会被刷新一次，相应的所以表同时被锁定。因此，如果打算同时导出和刷新日志应该使用–lock-all-tables 或者–master-data 和–flush-logs.<br />
+mysqldump -uroot -p –all-databases –flush-logs</p>
+
+<p><code>–flush-privileges</code>
+在导出mysql数据库之后，发出一条FLUSH PRIVILEGES 语句。为了正确恢复，该选项应该用于导出mysql数据库和依赖mysql数据库数据的任何时候。<br />
+mysqldump -uroot -p –all-databases –flush-privileges</p>
+
+<p><code>–force</code>
+在导出过程中忽略出现的SQL错误<br />
+mysqldump -uroot -p –all-databases –force</p>
+
+<p><code>–host, -h</code>
+需要导出的主机信息<br />
+mysqldump -uroot -p –host=localhost –all-databases</p>
+
+<p><code>–ignore-table</code></p>
+
+<p>不导出指定表。
+指定忽略多个表时，需要重复多次，每次一个表。每个表必须同时指定数据库和表名.
+例如：<br />–ignore-table=database.table1 –ignore-table=database.table2 ……<br />
+mysqldump -uroot -p –host=localhost –all-databases –ignore-table=mysql.user</p>
+
+<p><code>–lock-all-tables, -x</code>
+提交请求锁定所有数据库中的所有表，以保证数据的一致性。
+这是一个全局读锁，并且自动关闭–single-transaction 和–lock-tables 选项。<br />
+mysqldump -uroot -p –host=localhost –all-databases –lock-all-tables</p>
+
+<p><code>–lock-tables, -l</code>
+开始导出前，锁定所有表。<br />
+用READ LOCAL锁定表以允许MyISAM表并行插入。对于支持事务的表例如InnoDB和BDB，–single-transaction是一个更好的选择，因为它根本不需要锁定表.<br />
+请注意当导出多个数据库时，–lock-tables分别为每个数据库锁定表。因此，该选项不能保证导出文件中的表在数据库之间的逻辑一致性。不同数据库表的导出状态可以完全不同。<br />
+mysqldump -uroot -p –host=localhost –all-databases –lock-tables</p>
+
+<p><code>–no-create-db, -n </code>
+只导出数据，而不添加CREATE DATABASE 语句。<br />
+mysqldump -uroot -p –host=localhost –all-databases –no-create-db</p>
+
+<p><code>–no-create-info,-t</code>
+只导出数据，而不添加CREATE TABLE 语句<br />
+mysqldump -uroot -p –host=localhost –all-databases –no-create-info</p>
+
+<p><code> –no-data, -d </code>
+不导出任何数据，只导出数据库表结构<br />
+mysqldump -uroot -p –host=localhost –all-databases –no-data</p>
+
+<p><code> –password, -p </code>
+连接数据库密码</p>
+
+<p><code> –port, -P </code>
+连接数据库端口号</p>
+
+<p><code> –user, -u </code>
+指定连接的用户名。</p>
+
+        </div>
+
+        <div id="related">
+            <h2>Related Posts</h2>
+            <ul class="posts"><!--当一篇文章有两个tag一样时显示-->
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+
+        <hr>
+        <nav>
+            <ul class="pager">
+                
+                <li class="previous"><a href="/post/2016/05/HowTo-Install-Python-2-7-8-on-CentOS-6-x.html" title="HowTo Install Python 2.7.8 on CentOS 6.x">&larr;
+                    Previous（前一篇）</a></li>
+                
+                <li><a href="/archive.html">Archive（目录）</a></li>
+                
+                <li class="next"><a href="/post/2016/05/CentOS-7-1-%E4%BF%AE%E6%94%B9%E7%B3%BB%E7%BB%9F%E4%B8%BB%E6%9C%BA%E5%90%8D.html" title="CentOS 修改系统主机名">Next（后一篇） &rarr;</a></li>
+                
+            </ul>
+        </nav>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	<li><a href="/categories.html#数据库">
+    		数据库 <span>19</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#MySQL">
+    		MySQL <span>15</span>
+    	</a></li>
+    
+  
+
+
+
+        </ul>
+        
+
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-tag" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	<li><a href="/tags.html#MySQL">MySQL <span>16</span></a></li>
+    
+  
+
+
+
+        </ul>
+        
+        <div id="floatbox">
+            <div id="post-directory-module">
+                <div id="toc"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/assets/themes/evjekylltheme/toc.js"></script>
+<script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
+
+
+			</div>
+
+		</div>
+
+    <footer>
+      <div class="container">
+        <div class="row mobilepadding">
+          			<hr>
+      &copy; 2022 Samzong Lu. Powered by <a href="http://jekyllrb.com" target="_blank" title="The simple, blog-aware, static site generator.">Jekyll</a>. Hosted on <a href="http://github.com/Samzong" target="_blank" title="Ein Verne's GitHub Repos">GitHub</a> & <a href="https://www.netlify.com/" target="_blank" title="Netlify">Netlify</a> .
+      <br><br>
+      </div>
+    </div>
+    </footer>
+
+    
+
+
+
+
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/webcore.js"></script>
+
+ </body>
+</html>
+

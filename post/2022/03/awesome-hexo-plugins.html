@@ -1,0 +1,1057 @@
+
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Blog">
+  <head>
+    <meta charset="utf-8">
+	<link rel="manifest" href="/pwa/manifest.json">
+	<title> Awesome Hexo Plugin | SAMZONG </title>
+    
+		
+    <meta name="author" content="Samzong Lu">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#2196F3">
+	<meta name="google-site-verification" content="puZt0ZyqB-t67BYdYAgLUyIPBeismG68J0dmEc01QeY" />
+
+	
+    <script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function () {
+				navigator.serviceWorker
+										.register('/sw.js')
+										.then(function(registration) {
+											console.log("Successfully registered service worker", registration.scope);
+										}).catch(function(err) {
+											console.log("Service worker registration failed: ", err);
+										});
+				//navigator.serviceWorker.ready always resolve
+				navigator.serviceWorker.ready.then(function (registration) {
+					console.log('Service worker successfully registered on scope', registration.scope);
+				});
+			});
+		}
+    </script>
+	<script type="text/javascript" src="/assets/themes/evjekylltheme/jquery-3.6.0.slim.min.js"></script>
+
+	<link href="/assets/themes/evjekylltheme/google-code-prettify/desert.css" type="text/css" rel="stylesheet" />
+
+    <!-- Le styles -->
+    <link href="/assets/themes/evjekylltheme/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/evjekylltheme/css/style.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/images/favicon.ico">
+
+    <!-- atom & rss feed -->
+    <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Jekyll auto generate ATOM Feed">
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Site ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Site RSS Feed">
+	<link rel="stylesheet" href="/assets/themes/evjekylltheme/font-awesome-4.4.0/css/font-awesome.min.css">
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-W2LDG64');</script>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8529425670069509"
+						crossorigin="anonymous"></script>
+	<script async src="https://cdn.splitbee.io/sb.js"></script>
+  </head>
+
+  <body>
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2LDG64"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div class="navbar navbar-default navbar-fixed-top">
+				<div class="container">
+          <div class="row mobilepadding">
+					<a class="navbar-brand" href="/">SAMZONG</a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mNavbar">
+  					<ul class="nav navbar-nav">
+  						
+  						
+  						
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/friends.html">Friends</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+						  <li class="dropdown">
+							  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other</a>
+							  <ul class="dropdown-menu">
+									<li><a href="/about.html">About</a></li>
+									<li><a href="https://invest.einverne.info/" target="_blank">投资笔记</a></li>
+									<li><a href="https://broker.einverne.info/" target="_blank">券商推荐</a></li>
+									<li><a href="https://book.einverne.info/" target="_blank">图书分享</a></li>
+								  <li><a href="https://photo.einverne.info/" target="_blank">相册</a></li>
+								  <li><a href="https://kindle.einverne.info/" target="_blank">Kindle 笔记</a></li>
+								  <li><a href="https://ipfs.einverne.info/" target="_blank">IPFS 镜像</a></li>
+								  <li><a href="https://status.einverne.info/" target="_blank">服务状态</a></li>
+									<li><a href="https://board.gtk.pw" target="_blank">推荐代理</a></li>
+									<li><a href="https://pt.gtk.pw" target="_blank">私人PT</a></li>
+									<li><a href="https://talk.gtk.pw" target="_blank">讨论版</a></li>
+									<li><a rel="me" href="https://m.einverne.info/@einverne" target="_blank">在线嘟嘟</a></li>
+								</ul>
+						  </li>
+  					</ul>
+  					<form id="search-form" class="navbar-form navbar-right" role="search">
+  						<div class="form-group">
+  						<input type="text" class="form-control input-sm" placeholder="Search" id="query">
+  						</div>
+  					</form>
+  					<div class="nav-icon">
+  						<a href="/feed.xml"><i class="fa fa-rss fa-2x"></i></a>
+  					</div>
+          </div>
+				</div>
+      </div>
+    </div>
+
+    <div class="container">
+			<div class="row mobilepadding">
+        <div class="row">
+					<div class="col-md-12">
+						<div class="searchresult">
+						</div>
+						<div id="search-loader" class="img-wrap">
+						</div>
+					</div>
+        </div>
+				
+<div class="row" itemscope itemtype="http://schema.org/Article">
+    <div class="col-xs-12 col-md-8">
+        <div class="page-header" itemprop="name">
+            <h1>Awesome Hexo Plugin 
+            </h1>
+        </div>
+        <div class="post-meta">
+            
+            <span class="entry-date" itemprop="datePublished">Posted on 03/27/2022</span>
+            
+            
+            <span class="entry-author" itemprop="author">by Samzong Lu</span>
+            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/master/_posts/2022-03-27-awesome-hexo-plugins.md"
+                 target="_blank">View revision history</a>
+        </div>
+        <div class="post-content" itemprop="articleBody">
+            <p>About my blog use hexo plugin</p>
+
+<h2 id="hexo-hide-posts">hexo-hide-posts</h2>
+
+<p><a href="https://github.com/prinsss/hexo-hide-posts">hexo-hide-posts</a> is A plugin to hide specific posts from your Hexo blog and make them only accessible by links</p>
+
+<h3 id="installation">Installation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">install </span>hexo-hide-posts <span class="nt">--save</span>
+</code></pre></div></div>
+
+<p>Usage</p>
+
+<p>Add <code class="language-plaintext highlighter-rouge">hidden: true</code> to the <a href="https://hexo.io/docs/front-matter">front-matter</a> of posts which you want to hide.</p>
+
+<p>e.g. Edit <code class="language-plaintext highlighter-rouge">source/_posts/lorem-ipsum.md</code>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
+layout: post
+title: 'Lorem Ipsum'
+date: '2019/8/10 11:45:14'
+hidden: true
+---
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+</code></pre></div></div>
+
+<p>This post will not be shown anywhere, but you can still access it by <code class="language-plaintext highlighter-rouge">https://hexo.test/lorem-ipsum/</code>. (If you want to completely prevent a post from rendering, just set it as a <a href="https://hexo.io/docs/writing.html#Drafts">draft</a>.)</p>
+
+<p>To get a list of hidden posts, you can run <code class="language-plaintext highlighter-rouge">hexo hidden:list</code> from command line.</p>
+
+<p>For developers, <code class="language-plaintext highlighter-rouge">all_posts</code> and <code class="language-plaintext highlighter-rouge">hidden_posts</code> added to <a href="https://hexo.io/api/locals">Local Variables</a> may be useful.</p>
+
+<h3 id="config">Config</h3>
+
+<p>In your site’s <code class="language-plaintext highlighter-rouge">_config.yml</code>:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># hexo-hide-posts</span>
+<span class="na">hide_posts</span><span class="pi">:</span>
+  <span class="na">enable</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="c1"># Change the filter name to fit your need</span>
+  <span class="na">filter</span><span class="pi">:</span> <span class="s">hidden</span>
+  <span class="c1"># Generators which you want to expose all posts (include hidden ones) to.</span>
+  <span class="c1"># Common generators: index, tag, category, archive, sitemap, feed, etc.</span>
+  <span class="na">public_generators</span><span class="pi">:</span> <span class="pi">[]</span>
+  <span class="c1"># Add "noindex" meta tag to prevent hidden posts from being indexed by search engines</span>
+  <span class="na">noindex</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre></div></div>
+
+<h2 id="hexo-generator-restful">hexo-generator-restful</h2>
+
+<p><a href="https://github.com/yscoder/hexo-generator-restful">hexo-generator-restful</a> is generate restful json data for Hexo plugins.</p>
+
+<h3 id="install">Install</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>hexo-generator-restful <span class="nt">--save</span>
+</code></pre></div></div>
+
+<h3 id="config-1">Config</h3>
+
+<p>以下为默认配置，属性值为 <code class="language-plaintext highlighter-rouge">false</code> 表示不生成。</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">restful</span><span class="pi">:</span>
+  <span class="c1"># site 可配置为数组选择性生成某些属性</span>
+  <span class="c1"># site: ['title', 'subtitle', 'description', 'author', 'since', email', 'favicon', 'avatar']</span>
+  <span class="na">site</span><span class="pi">:</span> <span class="no">true</span>        <span class="c1"># hexo.config mix theme.config</span>
+  <span class="na">posts_size</span><span class="pi">:</span> <span class="m">10</span>    <span class="c1"># 文章列表分页，0 表示不分页</span>
+  <span class="na">posts_props</span><span class="pi">:</span>      <span class="c1"># 文章列表项的需要生成的属性</span>
+    <span class="na">title</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">slug</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">date</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">updated</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">comments</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">path</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">excerpt</span><span class="pi">:</span> <span class="no">false</span>
+    <span class="na">cover</span><span class="pi">:</span> <span class="no">true</span>      <span class="c1"># 封面图，取文章第一张图片</span>
+    <span class="na">content</span><span class="pi">:</span> <span class="no">false</span>
+    <span class="na">keywords</span><span class="pi">:</span> <span class="no">false</span>
+    <span class="na">categories</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">tags</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="na">categories</span><span class="pi">:</span> <span class="no">true</span>         <span class="c1"># 分类数据</span>
+  <span class="na">use_category_slug</span><span class="pi">:</span> <span class="no">false</span> <span class="c1"># Use slug for filename of category data</span>
+  <span class="na">tags</span><span class="pi">:</span> <span class="no">true</span>               <span class="c1"># 标签数据</span>
+  <span class="na">use_tag_slug</span><span class="pi">:</span> <span class="no">false</span>      <span class="c1"># Use slug for filename of tag data</span>
+  <span class="na">post</span><span class="pi">:</span> <span class="no">true</span>               <span class="c1"># 文章数据</span>
+  <span class="na">pages</span><span class="pi">:</span> <span class="no">false</span>             <span class="c1"># 额外的 Hexo 页面数据, 如 About</span>
+</code></pre></div></div>
+
+<h3 id="get-hexo-config">Get Hexo Config</h3>
+
+<p>获取所有 Hexo 配置（站点配置和主题配置）。</p>
+
+<blockquote>
+  <p>Request</p>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api/site.json
+</code></pre></div></div>
+
+<blockquote>
+  <p>Response</p>
+</blockquote>
+
+<p><a href="https://samzong.me/api/site.json">/api/site.json</a></p>
+
+<h3 id="get-posts">Get Posts</h3>
+
+<p>如果配置 <code class="language-plaintext highlighter-rouge">posts_size: 0</code> 则不分页，以下请求会获取全部文章。</p>
+
+<blockquote>
+  <p>Request</p>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api/posts.json
+</code></pre></div></div>
+
+<blockquote>
+  <p>Response</p>
+</blockquote>
+
+<p>示例为分页配置下的数据，会包含分页属性 <code class="language-plaintext highlighter-rouge">total</code>、<code class="language-plaintext highlighter-rouge">pageSize</code>、<code class="language-plaintext highlighter-rouge">pageCount</code>，不分页的数据不包含这三项。</p>
+
+<p><a href="https://samzong.me/api/posts.json">/api/posts.json</a></p>
+
+        </div>
+
+        <div id="related">
+            <h2>Related Posts</h2>
+            <ul class="posts"><!--当一篇文章有两个tag一样时显示-->
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+
+        <hr>
+        <nav>
+            <ul class="pager">
+                
+                <li class="previous"><a href="/post/2022/03/Python-%E5%A4%9A%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7.html" title="Pyenv Python多版本管理利器">&larr;
+                    Previous（前一篇）</a></li>
+                
+                <li><a href="/archive.html">Archive（目录）</a></li>
+                
+                <li class="next"><a href="/post/2022/03/Javascript-Tips.html" title="Javascript Tips">Next（后一篇） &rarr;</a></li>
+                
+            </ul>
+        </nav>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	<li><a href="/categories.html#Blog">
+    		Blog <span>4</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#Hexo">
+    		Hexo <span>1</span>
+    	</a></li>
+    
+  
+
+
+
+        </ul>
+        
+
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-tag" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	<li><a href="/tags.html#Hexo">Hexo <span>2</span></a></li>
+    
+  
+
+
+
+        </ul>
+        
+        <div id="floatbox">
+            <div id="post-directory-module">
+                <div id="toc"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/assets/themes/evjekylltheme/toc.js"></script>
+<script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
+
+
+			</div>
+
+		</div>
+
+    <footer>
+      <div class="container">
+        <div class="row mobilepadding">
+          			<hr>
+      &copy; 2022 Samzong Lu. Powered by <a href="http://jekyllrb.com" target="_blank" title="The simple, blog-aware, static site generator.">Jekyll</a>. Hosted on <a href="http://github.com/Samzong" target="_blank" title="Ein Verne's GitHub Repos">GitHub</a> & <a href="https://www.netlify.com/" target="_blank" title="Netlify">Netlify</a> .
+      <br><br>
+      </div>
+    </div>
+    </footer>
+
+    
+
+
+
+
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/webcore.js"></script>
+
+ </body>
+</html>
+

@@ -1,0 +1,1146 @@
+
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Blog">
+  <head>
+    <meta charset="utf-8">
+	<link rel="manifest" href="/pwa/manifest.json">
+	<title> HowTo Setup MariaDB Galera Cluster 10 On CentOS 6.x | SAMZONG </title>
+    
+		
+    <meta name="author" content="Samzong Lu">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#2196F3">
+	<meta name="google-site-verification" content="puZt0ZyqB-t67BYdYAgLUyIPBeismG68J0dmEc01QeY" />
+
+	
+    <script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function () {
+				navigator.serviceWorker
+										.register('/sw.js')
+										.then(function(registration) {
+											console.log("Successfully registered service worker", registration.scope);
+										}).catch(function(err) {
+											console.log("Service worker registration failed: ", err);
+										});
+				//navigator.serviceWorker.ready always resolve
+				navigator.serviceWorker.ready.then(function (registration) {
+					console.log('Service worker successfully registered on scope', registration.scope);
+				});
+			});
+		}
+    </script>
+	<script type="text/javascript" src="/assets/themes/evjekylltheme/jquery-3.6.0.slim.min.js"></script>
+
+	<link href="/assets/themes/evjekylltheme/google-code-prettify/desert.css" type="text/css" rel="stylesheet" />
+
+    <!-- Le styles -->
+    <link href="/assets/themes/evjekylltheme/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/evjekylltheme/css/style.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/images/favicon.ico">
+
+    <!-- atom & rss feed -->
+    <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Jekyll auto generate ATOM Feed">
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Site ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Site RSS Feed">
+	<link rel="stylesheet" href="/assets/themes/evjekylltheme/font-awesome-4.4.0/css/font-awesome.min.css">
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-W2LDG64');</script>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8529425670069509"
+						crossorigin="anonymous"></script>
+	<script async src="https://cdn.splitbee.io/sb.js"></script>
+  </head>
+
+  <body>
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2LDG64"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div class="navbar navbar-default navbar-fixed-top">
+				<div class="container">
+          <div class="row mobilepadding">
+					<a class="navbar-brand" href="/">SAMZONG</a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mNavbar">
+  					<ul class="nav navbar-nav">
+  						
+  						
+  						
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/friends.html">Friends</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+						  <li class="dropdown">
+							  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other</a>
+							  <ul class="dropdown-menu">
+									<li><a href="/about.html">About</a></li>
+									<li><a href="https://invest.einverne.info/" target="_blank">投资笔记</a></li>
+									<li><a href="https://broker.einverne.info/" target="_blank">券商推荐</a></li>
+									<li><a href="https://book.einverne.info/" target="_blank">图书分享</a></li>
+								  <li><a href="https://photo.einverne.info/" target="_blank">相册</a></li>
+								  <li><a href="https://kindle.einverne.info/" target="_blank">Kindle 笔记</a></li>
+								  <li><a href="https://ipfs.einverne.info/" target="_blank">IPFS 镜像</a></li>
+								  <li><a href="https://status.einverne.info/" target="_blank">服务状态</a></li>
+									<li><a href="https://board.gtk.pw" target="_blank">推荐代理</a></li>
+									<li><a href="https://pt.gtk.pw" target="_blank">私人PT</a></li>
+									<li><a href="https://talk.gtk.pw" target="_blank">讨论版</a></li>
+									<li><a rel="me" href="https://m.einverne.info/@einverne" target="_blank">在线嘟嘟</a></li>
+								</ul>
+						  </li>
+  					</ul>
+  					<form id="search-form" class="navbar-form navbar-right" role="search">
+  						<div class="form-group">
+  						<input type="text" class="form-control input-sm" placeholder="Search" id="query">
+  						</div>
+  					</form>
+  					<div class="nav-icon">
+  						<a href="/feed.xml"><i class="fa fa-rss fa-2x"></i></a>
+  					</div>
+          </div>
+				</div>
+      </div>
+    </div>
+
+    <div class="container">
+			<div class="row mobilepadding">
+        <div class="row">
+					<div class="col-md-12">
+						<div class="searchresult">
+						</div>
+						<div id="search-loader" class="img-wrap">
+						</div>
+					</div>
+        </div>
+				
+<div class="row" itemscope itemtype="http://schema.org/Article">
+    <div class="col-xs-12 col-md-8">
+        <div class="page-header" itemprop="name">
+            <h1>HowTo Setup MariaDB Galera Cluster 10 On CentOS 6.x 
+            </h1>
+        </div>
+        <div class="post-meta">
+            
+            <span class="entry-date" itemprop="datePublished">Posted on 08/04/2016</span>
+            
+            
+            <span class="entry-author" itemprop="author">by Samzong Lu</span>
+            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/master/_posts/2016-08-04-HowTo-Setup-MariaDB-Galera-Cluster-10-On-CentOS-6-x.md"
+                 target="_blank">View revision history</a>
+        </div>
+        <div class="post-content" itemprop="articleBody">
+            <h4 id="介绍">介绍</h4>
+<p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MariaDB Galera Cluster 是一套在MySQL InnoDB存储引擎上面实现multi-master及数据实时同步的系统架构，业务层面无需做读写分离工作，数据库读写压力都能按照既定的规则分发到 各个节点上去。在数据方面完全兼容 MariaDB 和 MySQL。使用MariaDB Galera的解决方案，可以方便快速的搭建出高可用的数据库Cluster，不是主备模式，而是双活模式，也就是说，没有主节点和备份节点，每个节点都可以看做是主节点，都可以进行读写，由Galera来实现底层的数据同步。
+</p>
+
+<ul>
+  <li>真正的多主架构，任何节点都可以进行读写</li>
+  <li>同步复制，各节点间无延迟且节点宕机不会导致数据丢失</li>
+  <li>紧密耦合，所有节点均保持相同状态</li>
+  <li>自动节点配置，无需手工备份当前数据库并拷贝至新节点</li>
+</ul>
+
+<h4 id="实验环境">实验环境</h4>
+
+<ul>
+  <li>Cluster node4 IP address 172.16.102.168</li>
+  <li>Cluster node5 IP address 172.16.102.165</li>
+  <li>Cluster node6 IP address 172.16.102.164</li>
+  <li>setenforce 0；sed -i ‘s/SELINUX=enforcing/SELINUX=disabled/’ /etc/selinux/config</li>
+  <li>/etc/init.d/iptables stop;chkconfig iptables off</li>
+</ul>
+
+<blockquote>
+  <p>使用vmware 测试需注意:克隆机器需要删除 <code>/etc/udev/rules.d/70-persistent-net.rules</code> 以及<code>/etc/sysconfig/network-scripts/ifcfg-eth0</code>中的网卡mac地址选项，不然网卡起不来</p>
+</blockquote>
+
+<h4 id="环境检测">环境检测</h4>
+<ul>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>检查iptables状态：/etc/init.d/iptables status;chkconfig –list</td>
+          <td>grep iptables</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>检查selinux状态：getenforce</li>
+  <li>检查openssh-client包是否安装：系统中是否有ssh命令</li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>检查是否系统中含有mysql相关的包：rpm -qa</td>
+          <td>grep mysql，有的话都需要卸载掉</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>检查网络是否通畅：ping www.baidu.com</li>
+</ul>
+
+<h4 id="安装">安装</h4>
+<h5 id="1-在所有节点编辑etchosts">1. 在所有节点编辑/etc/hosts</h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# vi /etc/hosts
+
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+# add follows
+172.16.102.164 node6
+172.16.102.165 node5
+172.16.102.168 node4
+
+[root@node4 ~]#
+
+# 依次在node5和node6上编辑/etc/hosts
+</code></pre></div></div>
+
+<h5 id="2-在所有node上安装-mariadb-galera">2. 在所有node上安装 MariaDB Galera</h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# vi /etc/yum.repos.d/mariadb.repo
+ # MariaDB 10.0 CentOS repository list
+# http://mariadb.org/mariadb/repositories/
+[mariadb]
+name = MariaDB
+baseurl = http://yum.mariadb.org/10.0/centos6-amd64
+gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+gpgcheck=1
+enabled=0
+
+[root@node4 ~]# yum --enablerepo=mariadb -y install MariaDB-Galera-server
+
+# 依次在node5和node6上安装 MariaDB-Galera-server
+</code></pre></div></div>
+
+<blockquote>
+  <p><i>注意安装完成之后，不要启动mysql</i></p>
+</blockquote>
+
+<h5 id="3-在其中一个节点上编辑etcmycnfdservercnf配置文件">3. 在其中一个节点上编辑/etc/my.cnf.d/server.cnf配置文件</h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# vi /etc/my.cnf.d/server.cnf
+# 19 行，取消下面的注释，并修改为需求
+[galera]
+wsrep_provider=/usr/lib64/galera/libgalera_smm.so
+# 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。
+wsrep_cluster_address="gcomm://node4,node5,node6"
+binlog_format=row
+default_storage_engine=InnoDB
+innodb_autoinc_lock_mode=2
+bind-address=0.0.0.0
+
+# add follows
+# cluster name
+wsrep_cluster_name="Visionet_MariaDB_Cluster"
+# replication provider
+wsrep_sst_method=rsync
+# own IP address
+wsrep_node_address="172.16.102.168"
+wsrep_node_name="node4"
+
+# 启动数据库
+[root@node4 ~]# /etc/rc.d/init.d/mysql bootstrap
+Starting MySQL. SUCCESS!
+
+# 初始化你的数据库
+[root@node4 ~]# mysql_secure_installation
+</code></pre></div></div>
+
+<h5 id="4-在其它节点上编辑etcmycnfdservercnf配置文件">4. 在其它节点上编辑/etc/my.cnf.d/server.cnf配置文件</h5>
+
+<h5 id="node5">node5</h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node5 ~]# vi /etc/my.cnf.d/server.cnf
+# 19 行，取消下面的注释，并修改为需求
+[galera]
+wsrep_provider=/usr/lib64/galera/libgalera_smm.so
+# 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。
+wsrep_cluster_address="gcomm://node4,node5,node6"
+binlog_format=row
+default_storage_engine=InnoDB
+innodb_autoinc_lock_mode=2
+bind-address=0.0.0.0
+
+# add follows
+# cluster name
+wsrep_cluster_name="Visionet_MariaDB_Cluster"
+# replication provider
+wsrep_sst_method=rsync
+
+# 以下内容注意，注意应设置为当前服务器信息
+wsrep_node_address="172.16.102.165"
+wsrep_node_name="node5"
+
+# 启动数据库
+[root@node5 ~]# /etc/rc.d/init.d/mysql start
+Starting MySQL...SST in progress, setting sleep higher. SUCCESS!
+</code></pre></div></div>
+
+<h5 id="node6">node6</h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node6 ~]# vi /etc/my.cnf.d/server.cnf
+# 19 行，取消下面的注释，并修改为需求
+[galera]
+wsrep_provider=/usr/lib64/galera/libgalera_smm.so
+# 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。
+wsrep_cluster_address="gcomm://node4,node5,node6"
+binlog_format=row
+default_storage_engine=InnoDB
+innodb_autoinc_lock_mode=2
+bind-address=0.0.0.0
+
+# add follows
+# cluster name
+wsrep_cluster_name="Visionet_MariaDB_Cluster"
+# replication provider
+wsrep_sst_method=rsync
+
+# 以下内容注意，注意应设置为当前服务器信息
+wsrep_node_address="172.16.102.164"
+wsrep_node_name="node6"
+
+# 启动数据库
+[root@node6 ~]# /etc/rc.d/init.d/mysql start
+Starting MySQL...SST in progress, setting sleep higher. SUCCESS!
+</code></pre></div></div>
+
+<blockquote>
+  <p>注意：只需要初始化第一个节点服务器的数据库，其他数据的配置文件会自动同步，所以你给node4设置的root可以在node5和node6直接使用，当然这是安装正确的前提。</p>
+</blockquote>
+
+<h4 id="登陆各个节点数据库检查配置是否成功">登陆各个节点数据库检查配置是否成功</h4>
+
+<p>        server.cnf的配置如果没有问题，那么wsrep_local_state_comment的状态应该是Synced。</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 15
+Server version: 10.0.26-MariaDB-wsrep MariaDB Server, wsrep_25.13.raf7f02e
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]&gt; show status like 'wsrep_local_state_comment';
++---------------------------+--------+
+| Variable_name             | Value  |
++---------------------------+--------+
+| wsrep_local_state_comment | Synced |
++---------------------------+--------+
+1 row in set (0.01 sec)
+
+MariaDB [(none)]&gt;
+</code></pre></div></div>
+
+<h4 id="结论">结论</h4>
+
+<p>        MariaDB Galera没有主节点和备份节点，配置成功之后，可以在任何一个node节点上操作会自动同步到其他节点，任何一个节点宕机不会影响其他节点的数据和稳定性，配置HAProxy设置VIP的方式来实现负载均衡，提高服务的高可用性，另外，当宕机节点上线之后，事务会自动同步不丢失。</p>
+
+
+        </div>
+
+        <div id="related">
+            <h2>Related Posts</h2>
+            <ul class="posts"><!--当一篇文章有两个tag一样时显示-->
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li><a href="/post/2016/08/HowTo-Setup-MariaDB-Galera-Cluster-10-On-CentOS-6-x.html">HowTo Setup MariaDB Galera Cluster 10 On CentOS 6.x</a> - <span>08/04/2016</span></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+
+        <hr>
+        <nav>
+            <ul class="pager">
+                
+                <li class="previous"><a href="/post/2016/08/HowTo-Install-Openfire-on-CentOS.html" title="HowTo Install Openfire  on CentOS">&larr;
+                    Previous（前一篇）</a></li>
+                
+                <li><a href="/archive.html">Archive（目录）</a></li>
+                
+                <li class="next"><a href="/post/2016/08/Script-Install-LNMP.html" title="Script Install LNMP">Next（后一篇） &rarr;</a></li>
+                
+            </ul>
+        </nav>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	<li><a href="/categories.html#数据库">
+    		数据库 <span>19</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#MySQL">
+    		MySQL <span>15</span>
+    	</a></li>
+    
+  
+
+
+
+        </ul>
+        
+
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-tag" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	<li><a href="/tags.html#MariaDB">MariaDB <span>1</span></a></li>
+     
+    	<li><a href="/tags.html#CentOS">CentOS <span>19</span></a></li>
+    
+  
+
+
+
+        </ul>
+        
+        <div id="floatbox">
+            <div id="post-directory-module">
+                <div id="toc"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/assets/themes/evjekylltheme/toc.js"></script>
+<script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
+
+
+			</div>
+
+		</div>
+
+    <footer>
+      <div class="container">
+        <div class="row mobilepadding">
+          			<hr>
+      &copy; 2022 Samzong Lu. Powered by <a href="http://jekyllrb.com" target="_blank" title="The simple, blog-aware, static site generator.">Jekyll</a>. Hosted on <a href="http://github.com/Samzong" target="_blank" title="Ein Verne's GitHub Repos">GitHub</a> & <a href="https://www.netlify.com/" target="_blank" title="Netlify">Netlify</a> .
+      <br><br>
+      </div>
+    </div>
+    </footer>
+
+    
+
+
+
+
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/webcore.js"></script>
+
+ </body>
+</html>
+

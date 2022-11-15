@@ -1,0 +1,932 @@
+
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Blog">
+  <head>
+    <meta charset="utf-8">
+	<link rel="manifest" href="/pwa/manifest.json">
+	<title> 无题 | SAMZONG </title>
+    
+		
+    <meta name="author" content="Samzong Lu">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#2196F3">
+	<meta name="google-site-verification" content="puZt0ZyqB-t67BYdYAgLUyIPBeismG68J0dmEc01QeY" />
+
+	
+    <script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function () {
+				navigator.serviceWorker
+										.register('/sw.js')
+										.then(function(registration) {
+											console.log("Successfully registered service worker", registration.scope);
+										}).catch(function(err) {
+											console.log("Service worker registration failed: ", err);
+										});
+				//navigator.serviceWorker.ready always resolve
+				navigator.serviceWorker.ready.then(function (registration) {
+					console.log('Service worker successfully registered on scope', registration.scope);
+				});
+			});
+		}
+    </script>
+	<script type="text/javascript" src="/assets/themes/evjekylltheme/jquery-3.6.0.slim.min.js"></script>
+
+	<link href="/assets/themes/evjekylltheme/google-code-prettify/desert.css" type="text/css" rel="stylesheet" />
+
+    <!-- Le styles -->
+    <link href="/assets/themes/evjekylltheme/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/evjekylltheme/css/style.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/images/favicon.ico">
+
+    <!-- atom & rss feed -->
+    <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Jekyll auto generate ATOM Feed">
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Site ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Site RSS Feed">
+	<link rel="stylesheet" href="/assets/themes/evjekylltheme/font-awesome-4.4.0/css/font-awesome.min.css">
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-W2LDG64');</script>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8529425670069509"
+						crossorigin="anonymous"></script>
+	<script async src="https://cdn.splitbee.io/sb.js"></script>
+  </head>
+
+  <body>
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2LDG64"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div class="navbar navbar-default navbar-fixed-top">
+				<div class="container">
+          <div class="row mobilepadding">
+					<a class="navbar-brand" href="/">SAMZONG</a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mNavbar">
+  					<ul class="nav navbar-nav">
+  						
+  						
+  						
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/friends.html">Friends</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+						  <li class="dropdown">
+							  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other</a>
+							  <ul class="dropdown-menu">
+									<li><a href="/about.html">About</a></li>
+									<li><a href="https://invest.einverne.info/" target="_blank">投资笔记</a></li>
+									<li><a href="https://broker.einverne.info/" target="_blank">券商推荐</a></li>
+									<li><a href="https://book.einverne.info/" target="_blank">图书分享</a></li>
+								  <li><a href="https://photo.einverne.info/" target="_blank">相册</a></li>
+								  <li><a href="https://kindle.einverne.info/" target="_blank">Kindle 笔记</a></li>
+								  <li><a href="https://ipfs.einverne.info/" target="_blank">IPFS 镜像</a></li>
+								  <li><a href="https://status.einverne.info/" target="_blank">服务状态</a></li>
+									<li><a href="https://board.gtk.pw" target="_blank">推荐代理</a></li>
+									<li><a href="https://pt.gtk.pw" target="_blank">私人PT</a></li>
+									<li><a href="https://talk.gtk.pw" target="_blank">讨论版</a></li>
+									<li><a rel="me" href="https://m.einverne.info/@einverne" target="_blank">在线嘟嘟</a></li>
+								</ul>
+						  </li>
+  					</ul>
+  					<form id="search-form" class="navbar-form navbar-right" role="search">
+  						<div class="form-group">
+  						<input type="text" class="form-control input-sm" placeholder="Search" id="query">
+  						</div>
+  					</form>
+  					<div class="nav-icon">
+  						<a href="/feed.xml"><i class="fa fa-rss fa-2x"></i></a>
+  					</div>
+          </div>
+				</div>
+      </div>
+    </div>
+
+    <div class="container">
+			<div class="row mobilepadding">
+        <div class="row">
+					<div class="col-md-12">
+						<div class="searchresult">
+						</div>
+						<div id="search-loader" class="img-wrap">
+						</div>
+					</div>
+        </div>
+				
+<div class="row" itemscope itemtype="http://schema.org/Article">
+    <div class="col-xs-12 col-md-8">
+        <div class="page-header" itemprop="name">
+            <h1>无题 
+            </h1>
+        </div>
+        <div class="post-meta">
+            
+            <span class="entry-date" itemprop="datePublished">Posted on 07/18/2015</span>
+            
+            
+            <span class="entry-author" itemprop="author">by Samzong Lu</span>
+            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/master/_posts/2015-07-18-无题.md"
+                 target="_blank">View revision history</a>
+        </div>
+        <div class="post-content" itemprop="articleBody">
+            <p>自家酿造的葡萄酒味道真的不错，喝过一大杯的我这样说的，你们应该去试试。是的我试图这样可以让自己早点睡下，我是这样做的，效果还是有点，至少，伴着微醺的思维，情感在释放；酒是一个令人着迷的味道，就好喝醉之后，所有的胡言乱语都会被原谅，谁会跟一个喝醉的人较劲，谁会在意一个喝醉的人说的话，who care。</p>
+
+<p>是夜，当你的周遭变得安静，内心的你便开始躁动不安，妄图支配你的灵魂，黑夜中另一个目光灼灼生辉，是的，沉默的夜色，让人的思维感性满负荷，到夜晚，每个人都是满腹豪情的大诗人，博古通今的大学者，柔肠寸断的伤心人，在天桥，在屋顶，在夜排档，在酒吧，在灯光闪耀你却尽量走在黑暗的马路上，不尽相同的人却都在夜里，这些情绪才会如月降临到每个人的心里，眼里，只被你看到。</p>
+
+<p>我一直想办法克制自己的负面情绪，每个人心中都会有一道疤，生长在内心深处，在任何黑暗之处浮现，奶奶的离去，那是我人生之中最大的灾难，她是我的信仰啊，我始终无法忘却那慈祥的目光；我不信鬼神，但是那一刻我匍匐在地向上苍期待，止不住的泪水在流淌，世上若有鬼魂，能否再让我看她一眼；我一直坚信着心朝阳光，要无比勇敢，是啊，怎可以怯懦，让生命如此不被珍惜，我真的好想你，现在我想奶奶从未离去，她将永远活在我的心里，我将永远缅怀哪些美好时光。</p>
+
+<p>生活是不易的，生命亦是无常，每当我想放弃的时候，就会想是不是再坚持一会，或许就能成功，于爱情，我一直在想是不是多走一步就能离你更近一些，这些年，我停不下来，我退步，我往前，可以我永远无法摆脱你，也无法靠近你，我热切的爱恋，我伤心的远走他乡，我努力，我放弃，可是，我始终无法琢磨你的心思；不敢放弃，我害怕多年之后听到你说，如果当时你能在坚持一点的话，我会受不了的，所以，我才一直不敢放弃，我一直在坚持是不是再往前走一步就能触摸到你，爱情都是自私的，我热切的爱恋着你，也希望可以被你爱恋，可是我无论怎样却永远无法靠近你，我是不是走错了方向，或许，我并不为你所爱，或是并不值得，这些我都明白，我不怕被拒绝，我只是无法琢磨你的想法。诚然，现在去谈论爱情为时尚早，爱情本来就是一种奢侈品，或终其一生都不能拥有，很早，我就知道，你是我的命数，永远绕不过你，我无法对内心的情感置若罔闻，到现在，已经无所谓结局，我都会是你一辈的的朋友，就像习惯喜欢你，就像每天打开电脑都会看下你的状态，就像当年的大男孩，喜欢傻笑，就这么看着你，不说话，一直傻笑，我不喜欢离你忽近忽远，我不愿辗转不知所措，我希望你可以明明白白的告诉我，我不愿逼迫你，也不允许你因为感动而接受我，任何不理性不成熟的对我的回答，都是莫大的伤害，我一直的信念都是希望你幸福，像一个魔咒束缚着我，或者我或是他，我不知道你何时能看到这篇文章，大多数情况你永远看不到，我只要你答应我，遵从内心的感觉，不爱一个人是不会因为时间而改变，在你准备好的时候，给我一个答案。</p>
+
+<p>晚安，奶奶，晚安，我沉痛的思念；</p>
+
+<p>晚安，初恋，晚安，我爱恋的姑娘；</p>
+
+<p>+</p>
+
+<p>晚安，于我人生道路上如此重要的两个人。</p>
+
+<blockquote>
+  <p>补档感言： 当年太年轻，热血又傻逼。</p>
+</blockquote>
+
+        </div>
+
+        <div id="related">
+            <h2>Related Posts</h2>
+            <ul class="posts"><!--当一篇文章有两个tag一样时显示-->
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+
+        <hr>
+        <nav>
+            <ul class="pager">
+                
+                <li class="previous"><a href="/post/2015/06/%E6%B0%91%E8%B0%A3%E6%98%AF%E7%94%9F.html" title="民谣是生">&larr;
+                    Previous（前一篇）</a></li>
+                
+                <li><a href="/archive.html">Archive（目录）</a></li>
+                
+                <li class="next"><a href="/post/2015/08/HowTo-Automatic-EasyBackup-MysqlDB.html" title="HowTo Automatic EasyBackup MysqlDB">Next（后一篇） &rarr;</a></li>
+                
+            </ul>
+        </nav>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+        
+
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-tag" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	<li><a href="/tags.html#我给你讲个故事吧">我给你讲个故事吧 <span>21</span></a></li>
+    
+  
+
+
+
+        </ul>
+        
+        <div id="floatbox">
+            <div id="post-directory-module">
+                <div id="toc"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/assets/themes/evjekylltheme/toc.js"></script>
+<script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
+
+
+			</div>
+
+		</div>
+
+    <footer>
+      <div class="container">
+        <div class="row mobilepadding">
+          			<hr>
+      &copy; 2022 Samzong Lu. Powered by <a href="http://jekyllrb.com" target="_blank" title="The simple, blog-aware, static site generator.">Jekyll</a>. Hosted on <a href="http://github.com/Samzong" target="_blank" title="Ein Verne's GitHub Repos">GitHub</a> & <a href="https://www.netlify.com/" target="_blank" title="Netlify">Netlify</a> .
+      <br><br>
+      </div>
+    </div>
+    </footer>
+
+    
+
+
+
+
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/webcore.js"></script>
+
+ </body>
+</html>
+

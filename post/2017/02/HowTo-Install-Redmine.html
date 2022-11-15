@@ -1,0 +1,1133 @@
+
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Blog">
+  <head>
+    <meta charset="utf-8">
+	<link rel="manifest" href="/pwa/manifest.json">
+	<title> HowTo Install Redmine | SAMZONG </title>
+    
+		
+    <meta name="author" content="Samzong Lu">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#2196F3">
+	<meta name="google-site-verification" content="puZt0ZyqB-t67BYdYAgLUyIPBeismG68J0dmEc01QeY" />
+
+	
+    <script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function () {
+				navigator.serviceWorker
+										.register('/sw.js')
+										.then(function(registration) {
+											console.log("Successfully registered service worker", registration.scope);
+										}).catch(function(err) {
+											console.log("Service worker registration failed: ", err);
+										});
+				//navigator.serviceWorker.ready always resolve
+				navigator.serviceWorker.ready.then(function (registration) {
+					console.log('Service worker successfully registered on scope', registration.scope);
+				});
+			});
+		}
+    </script>
+	<script type="text/javascript" src="/assets/themes/evjekylltheme/jquery-3.6.0.slim.min.js"></script>
+
+	<link href="/assets/themes/evjekylltheme/google-code-prettify/desert.css" type="text/css" rel="stylesheet" />
+
+    <!-- Le styles -->
+    <link href="/assets/themes/evjekylltheme/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/evjekylltheme/css/style.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/images/favicon.ico">
+
+    <!-- atom & rss feed -->
+    <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Jekyll auto generate ATOM Feed">
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Site ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Site RSS Feed">
+	<link rel="stylesheet" href="/assets/themes/evjekylltheme/font-awesome-4.4.0/css/font-awesome.min.css">
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-W2LDG64');</script>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8529425670069509"
+						crossorigin="anonymous"></script>
+	<script async src="https://cdn.splitbee.io/sb.js"></script>
+  </head>
+
+  <body>
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2LDG64"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div class="navbar navbar-default navbar-fixed-top">
+				<div class="container">
+          <div class="row mobilepadding">
+					<a class="navbar-brand" href="/">SAMZONG</a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mNavbar">
+  					<ul class="nav navbar-nav">
+  						
+  						
+  						
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/friends.html">Friends</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+						  <li class="dropdown">
+							  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other</a>
+							  <ul class="dropdown-menu">
+									<li><a href="/about.html">About</a></li>
+									<li><a href="https://invest.einverne.info/" target="_blank">投资笔记</a></li>
+									<li><a href="https://broker.einverne.info/" target="_blank">券商推荐</a></li>
+									<li><a href="https://book.einverne.info/" target="_blank">图书分享</a></li>
+								  <li><a href="https://photo.einverne.info/" target="_blank">相册</a></li>
+								  <li><a href="https://kindle.einverne.info/" target="_blank">Kindle 笔记</a></li>
+								  <li><a href="https://ipfs.einverne.info/" target="_blank">IPFS 镜像</a></li>
+								  <li><a href="https://status.einverne.info/" target="_blank">服务状态</a></li>
+									<li><a href="https://board.gtk.pw" target="_blank">推荐代理</a></li>
+									<li><a href="https://pt.gtk.pw" target="_blank">私人PT</a></li>
+									<li><a href="https://talk.gtk.pw" target="_blank">讨论版</a></li>
+									<li><a rel="me" href="https://m.einverne.info/@einverne" target="_blank">在线嘟嘟</a></li>
+								</ul>
+						  </li>
+  					</ul>
+  					<form id="search-form" class="navbar-form navbar-right" role="search">
+  						<div class="form-group">
+  						<input type="text" class="form-control input-sm" placeholder="Search" id="query">
+  						</div>
+  					</form>
+  					<div class="nav-icon">
+  						<a href="/feed.xml"><i class="fa fa-rss fa-2x"></i></a>
+  					</div>
+          </div>
+				</div>
+      </div>
+    </div>
+
+    <div class="container">
+			<div class="row mobilepadding">
+        <div class="row">
+					<div class="col-md-12">
+						<div class="searchresult">
+						</div>
+						<div id="search-loader" class="img-wrap">
+						</div>
+					</div>
+        </div>
+				
+<div class="row" itemscope itemtype="http://schema.org/Article">
+    <div class="col-xs-12 col-md-8">
+        <div class="page-header" itemprop="name">
+            <h1>HowTo Install Redmine 
+            </h1>
+        </div>
+        <div class="post-meta">
+            
+            <span class="entry-date" itemprop="datePublished">Posted on 02/22/2017</span>
+            
+            
+            <span class="entry-author" itemprop="author">by Samzong Lu</span>
+            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/master/_posts/2017-02-22-HowTo-Install-Redmine.md"
+                 target="_blank">View revision history</a>
+        </div>
+        <div class="post-content" itemprop="articleBody">
+            <h4 id="runtime-environment">Runtime environment</h4>
+
+<ul>
+  <li>CentOS 6.x</li>
+  <li>Redmine 3.3.2</li>
+  <li>Ruby 2.2.6</li>
+  <li>rails 4.2</li>
+  <li>MySQL 5.1</li>
+  <li>Nginx 1.10</li>
+</ul>
+
+<h4 id="安装rvm">安装rvm</h4>
+
+<h5 id="导入公钥">导入公钥</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# curl -sSL https://rvm.io/mpapis.asc | gpg --import
+</code></pre></div></div>
+
+<h5 id="安装">安装</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# curl -L https://get.rvm.io | bash -s stable
+</code></pre></div></div>
+
+<h5 id="加载rvm环境并安装基础依赖包">加载rvm环境并安装基础依赖包</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# source /etc/profile.d/rvm.sh
+[root@localhost ~]# rvm requirements
+</code></pre></div></div>
+
+<h4 id="安装ruby">安装ruby</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# rvm install 2.2.6
+...
+[root@localhost ~]# rvm use 2.2.6 --default
+</code></pre></div></div>
+
+<h4 id="安装rails">安装rails</h4>
+
+<h5 id="更换gem源">更换gem源</h5>
+
+<p>默认gem的源站点是https://rubygems.org 由于国内的网络原因导致无法连接，所以导致无法使用gem安装，这里换成国内淘宝的gem镜像站点</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# gem sources -l
+*** CURRENT SOURCES ***
+
+https://rubygems.org/
+[root@localhost ~]# gem sources --remove https://rubygems.org/
+[root@localhost ~]# gem sources -a https://ruby.taobao.org/
+[root@localhost ~]# gem sources -l
+*** CURRENT SOURCES ***
+
+https://ruby.taobao.org/
+</code></pre></div></div>
+
+<h5 id="安装-1">安装</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# gem install rails -v=4.2
+</code></pre></div></div>
+
+<h4 id="安装mysql">安装MySQL</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# yum install -y mysql-server mysql-libs mysql-devel mysql
+[root@localhost ~]# service mysqld start
+[root@localhost ~]# mysql_secure_installation
+</code></pre></div></div>
+
+<h4 id="安装redmine">安装redmine</h4>
+
+<h5 id="下载redmine-332">下载Redmine 3.3.2</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# wget http://www.redmine.org/releases/redmine-3.3.2.tar.gz
+[root@localhost ~]# tar xf redmine-3.3.2.tar.gz
+[root@localhost ~]# mv redmine-3.3.2 /opt
+</code></pre></div></div>
+
+<h5 id="安装管理ruby的包管理工具bundler">安装管理ruby的包管理工具bundler</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 注意，一定要在redmine目录下操作
+[root@localhost ~]# cd /opt/redmine-3.3.2
+[root@localhost redmine-3.3.2]# gem install bundler
+</code></pre></div></div>
+
+<h5 id="安装redmine运行所需要的依赖包">安装redmine运行所需要的依赖包</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# bundle install --without development test rmagick
+</code></pre></div></div>
+
+<h5 id="为rails生产cookies秘钥">为rails生产cookies秘钥</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# rake generate_secret_token
+</code></pre></div></div>
+
+<h5 id="创建redmine的数据库">创建redmine的数据库</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; create database redmine character set utf8;
+mysql&gt; grant all privileges on redmine.* to 'redmine'@'localhost' identified by 'redmine_pass';
+</code></pre></div></div>
+
+<h5 id="修改redmine的databaseyml">修改redmine的database.yml</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# cp config/database.yml.example config/database.yml
+[root@localhost redmine-3.3.2]# vim config/database.yml
+production:
+  adapter: mysql2
+  database: redmine
+  host: localhost
+  username: redmine
+  password: "redmine_pass"
+  encoding: utf8
+</code></pre></div></div>
+
+<h5 id="创建数据库结构">创建数据库结构</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# RAILS_ENV=production bundle exec rake db:migrate
+</code></pre></div></div>
+
+<h5 id="生产缺省数据">生产缺省数据</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# RAILS_ENV=production bundle exec rake redmine:load_default_data
+# 选择默认语言，之后可更改，初始为en
+</code></pre></div></div>
+
+<h5 id="测试是否安装成功">测试是否安装成功</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# bundle exec rails server webrick -e production -b 0.0.0.0
+</code></pre></div></div>
+
+<blockquote>
+  <p>默认运行3000端口，默认管理员admin/admin</p>
+</blockquote>
+
+<h4 id="配置redmine在nginx上运行">配置Redmine在Nginx上运行</h4>
+
+<p>Redmine常用的解决办法是使用passenger+nginx，但是Nginx不支持装载模块，所以需要重新编译安装Nginx，安装Nginx的Passenger有两种方式</p>
+
+<ul>
+  <li>采用Passenger提供的脚本进行安装，适合新环境</li>
+  <li>手动编译安装Nginx增加Passenger模块，适合已存在Nginx环境</li>
+</ul>
+
+<h5 id="采用passenger提供脚本安装">采用Passenger提供脚本安装</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# gem install passenger
+[root@localhost redmine-3.3.2]# passenger-install-nginx-module --auto --prefix=/opt/nginx
+</code></pre></div></div>
+
+<h5 id="采用重新编译nginx增加passenger模块">采用重新编译Nginx增加Passenger模块</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 获取passenger的安装路径
+[root@localhost ~]# passenger-config --root
+/usr/local/rvm/gems/ruby-2.2.6/gems/passenger-5.1.2
+
+# 重新编译Nginx并添加模块
+[root@localhost ~]# wget http://nginx.org/download/nginx-1.10.3.tar.gz
+[root@localhost ~]# tar xf nginx-1.10.3.tar.gz
+[root@localhost ~]# cd nginx-1.10.3
+[root@localhost nginx-1.10.3]# ./configure ... -add-module=/usr/local/rvm/gems/ruby-2.2.6/gems/passenger-5.1.2
+</code></pre></div></div>
+
+<h5 id="增加http模块内以下配置">增加HTTP模块内以下配置</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>passenger_root /usr/local/rvm/gems/ruby-2.2.6/gems/passenger-5.1.2
+</code></pre></div></div>
+
+<h5 id="配置nginxconf-修改server模块中location的配置">配置nginx.conf 修改server模块中location的配置</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ...
+server	{
+  # ...
+  passenger_enabled on;
+  location / {
+    root /opt/redmine-3.3.2/public;
+    index index.html index.htm;
+  }
+}
+# ...
+</code></pre></div></div>
+
+<h5 id="启动nginx">启动Nginx</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# /root/nginx-1.10.3/sbin/nginx -c /root/nginx-1.10.3/conf/nginx.conf
+</code></pre></div></div>
+
+<h4 id="其他">其他</h4>
+
+<p>到这里，所有的安装都完成了，过程中我遇到这些问题，你也注意下：</p>
+
+<h5 id="71-could-not-find-gem-mysql2--0311-in-any-of-the-gem-sources-listed-in-your-gemfile">7.1 Could not find gem ‘mysql2 (~&gt; 0.3.11)’ in any of the gem sources listed in your Gemfile.</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# rm -f Gemfile.lock
+[root@localhost redmine-3.3.2]# bundle install
+</code></pre></div></div>
+
+<h5 id="72-curl-tools">7.2 curl-tools</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install libcurl-devel
+</code></pre></div></div>
+
+
+        </div>
+
+        <div id="related">
+            <h2>Related Posts</h2>
+            <ul class="posts"><!--当一篇文章有两个tag一样时显示-->
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+
+        <hr>
+        <nav>
+            <ul class="pager">
+                
+                <li class="previous"><a href="/post/2017/02/HowTo-Upgrade-Your-Ghost-Version.html" title="HowTo Upgrade Your Ghost Version">&larr;
+                    Previous（前一篇）</a></li>
+                
+                <li><a href="/archive.html">Archive（目录）</a></li>
+                
+                <li class="next"><a href="/post/2017/02/HowTo-Install-NextCloud.html" title="HowTo Install NextCloud">Next（后一篇） &rarr;</a></li>
+                
+            </ul>
+        </nav>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	<li><a href="/categories.html#OpenSource">
+    		OpenSource <span>11</span>
+    	</a></li>
+     
+    	<li><a href="/categories.html#Redmine">
+    		Redmine <span>2</span>
+    	</a></li>
+    
+  
+
+
+
+        </ul>
+        
+
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-tag" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	<li><a href="/tags.html#Redmine">Redmine <span>2</span></a></li>
+    
+  
+
+
+
+        </ul>
+        
+        <div id="floatbox">
+            <div id="post-directory-module">
+                <div id="toc"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/assets/themes/evjekylltheme/toc.js"></script>
+<script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
+
+
+			</div>
+
+		</div>
+
+    <footer>
+      <div class="container">
+        <div class="row mobilepadding">
+          			<hr>
+      &copy; 2022 Samzong Lu. Powered by <a href="http://jekyllrb.com" target="_blank" title="The simple, blog-aware, static site generator.">Jekyll</a>. Hosted on <a href="http://github.com/Samzong" target="_blank" title="Ein Verne's GitHub Repos">GitHub</a> & <a href="https://www.netlify.com/" target="_blank" title="Netlify">Netlify</a> .
+      <br><br>
+      </div>
+    </div>
+    </footer>
+
+    
+
+
+
+
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/webcore.js"></script>
+
+ </body>
+</html>
+

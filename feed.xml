@@ -1,0 +1,898 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-11-15T10:04:31-06:00</updated><id>/feed.xml</id><title type="html">SAMZONG</title><author><name>Samzong Lu</name><email>samzong.lu@gmail.com</email></author><entry><title type="html">K8s系列 南北流量和东西流量</title><link href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html" rel="alternate" type="text/html" title="K8s系列 南北流量和东西流量" /><published>2022-09-12T00:00:00-05:00</published><updated>2022-09-12T00:00:00-05:00</updated><id>/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F</id><content type="html" xml:base="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">&lt;h2 id=&quot;南北流量和东西流量-是什么意思&quot;&gt;南北流量和东西流量 是什么意思？&lt;/h2&gt;
+
+&lt;p&gt;在Service Mesh微服务架构中，我们常常会听到东西流量和南北流量两个术语。&lt;/p&gt;
+
+&lt;p&gt;南北流量（NORTH-SOUTH traffic）和东西流量（EAST-WEST traffic）是数据中心环境中的网络流量模式。下面我们通过一个例子来理解这两个术语。&lt;/p&gt;
+
+&lt;p&gt;假设我们尝试通过浏览器访问某些Web应用。Web应用部署在位于某个数据中心的应用服务器中。在多层体系结构中，典型的数据中心不仅包含应用服务器，还包含其他服务器，如负载均衡器、数据库等，以及路由器和交换机等网络组件。假设应用服务器是负载均衡器的前端。&lt;/p&gt;
+
+&lt;p&gt;当我们访问web应用时，会发生以下类型的网络流量：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/f9c10a68e23f6955cc25c176d2ea98f7.png?x-oss-process=image/resize,w_960,m_lfit&quot; alt=&quot;img&quot; style=&quot;zoom:80%;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;数据中心树型拓扑图是一个典型的包含接入层、汇聚层、核心层三层的网络结构。这种结构诞生之初就是为了将外部流量引流到内部应用。&lt;/p&gt;
+
+&lt;p&gt;流量从外部穿过防火墙或者数据中心其它外围网络设备进来，对应到上⾯这张图里，流动方向为从上到下，称为南向流量（和地图一样，上北下南），而与之对应的，数据中心内部产生的，离开数据中心的流量，从下到上故称为北向流量。合起来称为南北流量。&lt;/p&gt;
+
+&lt;p&gt;在微服务化流行之前，以巨石系统（monolithic）这种单体应用为单位部署的方式，产生的是典型的南北流量。一个单体应用配有一个专门的服务器（或虚拟机），一个外部请求通常在单体应用内独立完成，除了访问数据库等必须依赖服务之外，很少会发生横向的流量。&lt;/p&gt;
+
+&lt;p&gt;但云计算机、大数据、微服务、云原生等技术的发展催生了大量的从左到右以及从右到左的流量，也被称为东西流量。&lt;/p&gt;
+
+&lt;p&gt;数据中心内部南北流量的削弱，而东西流量的井喷在硬件上要求数据中心要横向扩展以提供更宽的大二层以及容纳更多的服务器，而在软件上则要求一种新的服务编排方式以便能充分挖掘、利用现有的计算能力，从这个角度看 K8s 的出现是一种必然。&lt;/p&gt;
+
+&lt;p&gt;举两个例子：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;客户端（位于数据中心一侧的浏览器）与负载均衡器（位于数据中心）之间的网络流量&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;负载均衡器、应用服务器、数据库等之间的网络流量，它们都位于数据中心。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在这个例子中，前者即即客户端和服务器之间的流量被称为南北流量。简而言之，南北流量是server-client流量。&lt;/p&gt;
+
+&lt;p&gt;第二种流量即不同服务器之间的流量与数据中心或不同数据中心之间的网络流被称为东西流量。简而言之，东西流量是 service-service 流量。&lt;/p&gt;
+
+&lt;p&gt;当下，东西流量远超南北流量，尤其是在当今的大数据生态系统中，比如Hadoop生态系统（大量server驻留在数据中心中，用map reduce处理），server-server流量远大于server-client流量。&lt;/p&gt;
+
+&lt;p&gt;大家可能会好奇，东西南北，为什么这么命名 ？&lt;/p&gt;
+
+&lt;p&gt;该命名来自于绘制典型network diagrams的习惯。在图表中，通常核心网络组件绘制在顶部（NORTH），客户端绘制在底部（SOUTH），而数据中心内的不同服务器水平（EAST-WEST）&lt;/p&gt;</content><author><name>Samzong Lu</name><email>samzong.lu@gmail.com</email></author><category term="K8s" /><summary type="html">南北流量和东西流量 是什么意思？</summary></entry><entry><title type="html">jq 命令行 Json 处理神器</title><link href="/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8.html" rel="alternate" type="text/html" title="jq 命令行 Json 处理神器" /><published>2022-07-22T00:00:00-05:00</published><updated>2022-07-22T00:00:00-05:00</updated><id>/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8</id><content type="html" xml:base="/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8.html">&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://mozillazg.com/2018/01/jq-use-examples-cookbook.html&quot;&gt;https://mozillazg.com/2018/01/jq-use-examples-cookbook.htm&lt;/a&gt;-&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;jq 命令日常练习 https://jqplay.org/s/KhRuUFCP2h&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;一个灵活的轻量级命令行JSON处理器&lt;/p&gt;
+
+&lt;h2 id=&quot;说明&quot;&gt;说明&lt;/h2&gt;
+
+&lt;p&gt;jq 是 stedolan 开发的一个轻量级的和灵活的命令行JSON处理器，源码请参考 &lt;a href=&quot;https://github.com/stedolan/jq&quot;&gt;jq 项目主页&lt;/a&gt; 。jq 用于处理JSON输入，将给定过滤器应用于其JSON文本输入并在标准输出上将过滤器的结果生成为JSON；最简单的过滤器是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.&lt;/code&gt;，它将jq的输入未经修改地复制到其输出中（格式设置除外）； 请注意，jq 当前仅支持64位双精度浮点数（IEEE754）。&lt;/p&gt;
+
+&lt;h2 id=&quot;安装&quot;&gt;安装&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# Debian系，如 Ubuntu&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;apt-get &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;jq
+
+&lt;span class=&quot;c&quot;&gt;# RedHat系, 如 CentOS&lt;/span&gt;
+yum &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;jq
+
+&lt;span class=&quot;c&quot;&gt;# MacOS&lt;/span&gt;
+brew &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;jq
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;语法&quot;&gt;语法&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jq &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;options] &amp;lt;jq filter&amp;gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;file...]
+jq &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;options] &lt;span class=&quot;nt&quot;&gt;--args&lt;/span&gt; &amp;lt;jq filter&amp;gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;strings...]
+jq &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;options] &lt;span class=&quot;nt&quot;&gt;--jsonargs&lt;/span&gt; &amp;lt;jq filter&amp;gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;JSON_TEXTS...]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;选项&quot;&gt;选项&lt;/h2&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt;               紧凑而不是漂亮的输出&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;-n&lt;/span&gt;               使用&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;null&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;作为单个输入值&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt;               根据输出设置退出状态代码&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt;               将所有输入读取（吸取）到数组中；应用过滤器&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;-r&lt;/span&gt;               输出原始字符串，而不是JSON文本&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;-R&lt;/span&gt;               读取原始字符串，而不是JSON文本&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;-C&lt;/span&gt;               为JSON着色&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;-M&lt;/span&gt;               单色（不要为JSON着色）&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;-S&lt;/span&gt;               在输出上排序对象的键&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--tab&lt;/span&gt;            使用制表符进行缩进&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--arg&lt;/span&gt; a v        将变量&lt;span class=&quot;nv&quot;&gt;$a&lt;/span&gt;设置为value&amp;lt;v&amp;gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--argjson&lt;/span&gt; a v    将变量&lt;span class=&quot;nv&quot;&gt;$a&lt;/span&gt;设置为JSON value&amp;lt;v&amp;gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--slurpfile&lt;/span&gt; a f  将变量&lt;span class=&quot;nv&quot;&gt;$a&lt;/span&gt;设置为从&amp;lt;f&amp;gt;读取的JSON文本数组&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--rawfile&lt;/span&gt; a f    将变量&lt;span class=&quot;nv&quot;&gt;$a&lt;/span&gt;设置为包含&amp;lt;f&amp;gt;内容的字符串&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--args&lt;/span&gt;           其余参数是字符串参数，而不是文件&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--jsonargs&lt;/span&gt;       其余的参数是JSON参数，而不是文件&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;--&lt;/span&gt;               终止参数处理&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;例子&quot;&gt;例子&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.&lt;/code&gt;: 以漂亮的方式输出&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{ &quot;foo&quot;: { &quot;bar&quot;: { &quot;baz&quot;: 123 } } }'&lt;/span&gt; | jq &lt;span class=&quot;s1&quot;&gt;'.'&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;foo&quot;&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;s2&quot;&gt;&quot;bar&quot;&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;s2&quot;&gt;&quot;baz&quot;&lt;/span&gt;: 123
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.foo, .foo.bar, .foo?&lt;/code&gt;: 获取一个键的值&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{&quot;foo&quot;: 42, &quot;bar&quot;: &quot;less interesting data&quot;}'&lt;/span&gt; | jq &lt;span class=&quot;s1&quot;&gt;'.foo'&lt;/span&gt;
+42
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.[], .[]?, .[2], .[10:15]&lt;/code&gt;: 数组运算&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'[{&quot;name&quot;:&quot;JSON&quot;, &quot;good&quot;:true}, {&quot;name&quot;:&quot;XML&quot;, &quot;good&quot;:false}]'&lt;/span&gt; | jq &lt;span class=&quot;s1&quot;&gt;'.[1]'&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;name&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;XML&quot;&lt;/span&gt;,
+  &lt;span class=&quot;s2&quot;&gt;&quot;good&quot;&lt;/span&gt;: &lt;span class=&quot;nb&quot;&gt;false&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;[], {}&lt;/code&gt;: 构造一个数组/对象&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{&quot;user&quot;:&quot;stedolan&quot;,&quot;titles&quot;:[&quot;JQ Primer&quot;, &quot;More JQ&quot;]}'&lt;/span&gt; | jq &lt;span class=&quot;s1&quot;&gt;'{user, title: .titles[]}'&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;user&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;stedolan&quot;&lt;/span&gt;,
+  &lt;span class=&quot;s2&quot;&gt;&quot;title&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;JQ Primer&quot;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;user&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;stedolan&quot;&lt;/span&gt;,
+  &lt;span class=&quot;s2&quot;&gt;&quot;title&quot;&lt;/span&gt;: &lt;span class=&quot;s2&quot;&gt;&quot;More JQ&quot;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;length&lt;/code&gt;: 计算一个值的长度&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'[[1,2], &quot;string&quot;, {&quot;a&quot;:2}, null]'&lt;/span&gt; | jq &lt;span class=&quot;s1&quot;&gt;'.[] | length'&lt;/span&gt;                                  
+2
+6
+1
+0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;keys&lt;/code&gt;: 取出数组中的键&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{&quot;abc&quot;: 1, &quot;abcd&quot;: 2, &quot;Foo&quot;: 3}'&lt;/span&gt; | jq &lt;span class=&quot;s1&quot;&gt;'keys'&lt;/span&gt;                                        
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;
+  &lt;span class=&quot;s2&quot;&gt;&quot;Foo&quot;&lt;/span&gt;,
+  &lt;span class=&quot;s2&quot;&gt;&quot;abc&quot;&lt;/span&gt;,
+  &lt;span class=&quot;s2&quot;&gt;&quot;abcd&quot;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;,&lt;/code&gt;: 使用多个过滤器&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{ &quot;foo&quot;: 42, &quot;bar&quot;: &quot;something else&quot;, &quot;baz&quot;: true}'&lt;/span&gt; | jq &lt;span class=&quot;s1&quot;&gt;'.foo, .bar'&lt;/span&gt; 
+42
+&lt;span class=&quot;s2&quot;&gt;&quot;something else&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;|&lt;/code&gt;: 通过管道将一个过滤器的输出当做下一个过滤器的输入&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'[{&quot;name&quot;:&quot;JSON&quot;, &quot;good&quot;:true}, {&quot;name&quot;:&quot;XML&quot;, &quot;good&quot;:false}]'&lt;/span&gt; | jq &lt;span class=&quot;s1&quot;&gt;'.[] | .name'&lt;/span&gt;                                                 
+&lt;span class=&quot;s2&quot;&gt;&quot;JSON&quot;&lt;/span&gt;
+&lt;span class=&quot;s2&quot;&gt;&quot;XML&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;select(foo)&lt;/code&gt;: 如果foo返回true，则输入保持不变&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'[1,5,3,0,7]'&lt;/span&gt; | jq &lt;span class=&quot;s1&quot;&gt;'map(select(. &amp;gt;= 2))'&lt;/span&gt;                                                    
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;
+  5,
+  3,
+  7
+&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;map(foo)&lt;/code&gt;: 每个输入调用过滤器&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'[1,2,3]'&lt;/span&gt; | jq &lt;span class=&quot;s1&quot;&gt;'map(.+1)'&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;
+  2,
+  3,
+  4
+&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;if-then-else-end&lt;/code&gt;: 条件判断&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'2'&lt;/span&gt; | jq &lt;span class=&quot;s1&quot;&gt;'if . == 0 then &quot;zero&quot; elif . == 1 then &quot;one&quot; else &quot;many&quot; end'&lt;/span&gt;
+&lt;span class=&quot;s2&quot;&gt;&quot;many&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;\(foo)&lt;/code&gt;: 在字符串中插入值并进行运算&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'42'&lt;/span&gt; | jq &lt;span class=&quot;s1&quot;&gt;'&quot;The input was \(.), which is one less than \(.+1)&quot;'&lt;/span&gt;          
+&lt;span class=&quot;s2&quot;&gt;&quot;The input was 42, which is one less than 43&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Samzong Lu</name><email>samzong.lu@gmail.com</email></author><category term="unix command" /><summary type="html">https://mozillazg.com/2018/01/jq-use-examples-cookbook.htm-</summary></entry><entry><title type="html">闭关备战 11月</title><link href="/post/2022/07/%E9%97%AD%E5%85%B3%E5%A4%87%E6%88%98-11%E6%9C%88.html" rel="alternate" type="text/html" title="闭关备战 11月" /><published>2022-07-18T00:00:00-05:00</published><updated>2022-07-18T00:00:00-05:00</updated><id>/post/2022/07/%E9%97%AD%E5%85%B3%E5%A4%87%E6%88%98-11%E6%9C%88</id><content type="html" xml:base="/post/2022/07/%E9%97%AD%E5%85%B3%E5%A4%87%E6%88%98-11%E6%9C%88.html">&lt;p&gt;title: 闭关备战 11月
+toc: true
+author: samzong.lu
+author_id: defaultAuthorId
+language: zh
+abbrlink: 13757
+tags: []
+categories: []
+date: 2022-07-18 00:35:00
+—&lt;/p&gt;
+&lt;h2 id=&quot;目标&quot;&gt;目标&lt;/h2&gt;
+
+&lt;p&gt;获得软考中级证书，完成落户条件准备。&lt;/p&gt;
+
+&lt;p&gt;下一次考试时间是 11 月份，&lt;/p&gt;
+
+&lt;p&gt;开始闭关。&lt;/p&gt;</content><author><name>Samzong Lu</name><email>samzong.lu@gmail.com</email></author><summary type="html">title: 闭关备战 11月 toc: true author: samzong.lu author_id: defaultAuthorId language: zh abbrlink: 13757 tags: [] categories: [] date: 2022-07-18 00:35:00 — 目标</summary></entry><entry><title type="html">Hexo 增加admonition样式支持</title><link href="/post/2022/05/hexo-admonition.html" rel="alternate" type="text/html" title="Hexo 增加admonition样式支持" /><published>2022-05-28T17:27:18-05:00</published><updated>2022-05-28T17:27:18-05:00</updated><id>/post/2022/05/hexo-admonition</id><content type="html" xml:base="/post/2022/05/hexo-admonition.html">&lt;h2 id=&quot;背景&quot;&gt;背景&lt;/h2&gt;
+
+&lt;p&gt;除了在 Hexo 维护个人博客之外，目前经常用到的 2 个文档工具： 语雀和 Mkdocs 都是支持 admonition样式，所以也在考虑如何给 Hexo 博客文章也增加这样的能力。&lt;/p&gt;
+
+&lt;p&gt;保证写作习惯的一致性，好在有人开发出对应的插件，感谢.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://github.com/lxl80/hexo-admonition&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;安装方式&quot;&gt;安装方式&lt;/h2&gt;
+
+&lt;p&gt;简单通过 2 个步骤即可，&lt;/p&gt;
+
+&lt;h3 id=&quot;安装插件&quot;&gt;安装插件&lt;/h3&gt;
+
+&lt;p&gt;采用 npm 安装，如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;npm &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;hexo-admonition &lt;span class=&quot;nt&quot;&gt;--save&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;样式配置&quot;&gt;样式配置&lt;/h3&gt;
+
+&lt;p&gt;你的 hexo 可能会使用不同主题，所以需要自己增加样式，将如下样式放入 hexo 主题的自定义样式文件中（如：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ext.css&lt;/code&gt;），并按自己喜好修改：&lt;/p&gt;
+
+&lt;div class=&quot;language-css highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nc&quot;&gt;.admonition&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;margin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1.5625em&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;.6rem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;overflow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;hidden&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;font-size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;.64rem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;page-break-inside&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;avoid&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;border-left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;.3rem&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;solid&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#42b983&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;border-radius&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;.3rem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;box-shadow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.1rem&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.4rem&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rgba&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;.05&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0.05rem&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rgba&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#fafafa&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;relative&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;margin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;-.6rem&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;-.6rem&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;.8em&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;-.6rem&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;!important&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;padding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;.4rem&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;.6rem&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;.4rem&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;2.5rem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;font-weight&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;700&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rgba&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;66&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;185&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;131&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;::before&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;absolute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;top&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;.9rem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1rem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;12px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;12px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#42b983&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;border-radius&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;50%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;' '&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;.info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;.todo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rgba&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;184&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;212&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;.warning&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;.attention&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;.caution&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rgba&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;255&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;145&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;.failure&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;.missing&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;.fail&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;.error&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rgba&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;255&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;82&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;82&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;m&quot;&gt;.1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;.admonition.info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;.admonition.todo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;border-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#00b8d4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;.admonition.warning&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;.admonition.attention&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;.admonition.caution&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;border-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#ff9100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;.admonition.failure&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;.admonition.missing&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;.admonition.fail&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;.admonition.error&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;border-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#ff5252&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;.info&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;::before&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;.todo&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;::before&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#00b8d4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;border-radius&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;50%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;.success&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;::before&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#00c853&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;border-radius&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;50%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;.warning&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;::before&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;.attention&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;::before&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;.caution&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;::before&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#ff9100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;border-radius&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;50%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;.failure&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;::before&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.missing&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;::before&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.fail&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;::before&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.error&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;.admonition-title&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;::before&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;#ff5252&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;border-radius&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;50%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;nc&quot;&gt;.admonition&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nd&quot;&gt;:last-child&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;margin-bottom&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;cp&quot;&gt;!important&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;使用说明&quot;&gt;使用说明&lt;/h2&gt;
+
+&lt;p&gt;Hexo-admonition 遵循一种简单的语法：每个块都以 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;!!!&lt;/code&gt; 开头，然后是代表提示类型的关键字（&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;type&lt;/code&gt;）及标题（&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title&lt;/code&gt;）。例如:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;!!! note Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 note，并设置了自定义标题。
+    提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在 Hexo 渲染前，将被转换成如下内容：&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;admonition note &quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;admonition-title&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Hexo-admonition 插件使用示例&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 note，并设置了自定义标题。&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&amp;gt;&lt;/span&gt;提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;最终呈现效果如下：&lt;/p&gt;
+
+&lt;p&gt;!!! note Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 note，并设置了自定义标题。
+    提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。&lt;/p&gt;
+
+&lt;h3 id=&quot;支持的类型&quot;&gt;支持的类型&lt;/h3&gt;
+
+&lt;p&gt;提示类型 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;type&lt;/code&gt; 将用作 CSS 类名称，暂支持如下类型：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;note&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;info, todo&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;warning, attention, caution&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;error, failure, missing, fail&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;设置隐藏标题&quot;&gt;设置/隐藏标题&lt;/h3&gt;
+
+&lt;p&gt;标题 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title&lt;/code&gt; 是可选的，当未设置时，将以 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;type&lt;/code&gt; 作为默认值:&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;!!! warning
+    这是一条采用默认标题的警告信息。
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;效果如下：&lt;/p&gt;
+
+&lt;p&gt;!!! warning
+    这是一条采用默认标题的警告信息。&lt;/p&gt;
+
+&lt;p&gt;如果不想显示标题，可以将 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;title&lt;/code&gt; 设置为 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&quot;&quot;&lt;/code&gt;：&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;!!! Warning &quot;&quot;
+    这是一条不带标题的警告信息。
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;效果如下：&lt;/p&gt;
+
+&lt;p&gt;!!! Warning “”
+    这是一条不带标题的警告信息。&lt;/p&gt;
+
+&lt;h2 id=&quot;卡片演示&quot;&gt;卡片演示&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;主要四种类型：info, warning, error, note&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;!!! note Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 note，并设置了自定义标题。&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;!!! warning Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 warning，并设置了自定义标题。&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;!!! error Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 error，并设置了自定义标题。&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;!!! info Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 info，并设置了自定义标题。&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;!!! todo Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 todo，并设置了自定义标题。&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;!!! attention Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 attention，并设置了自定义标题。&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Samzong Lu</name><email>samzong.lu@gmail.com</email></author><category term="Hexo" /><summary type="html">背景</summary></entry><entry><title type="html">国内环境搭建 MacOS K8s 开发环境</title><link href="/post/2022/05/%E5%9B%BD%E5%86%85%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA-MacOS-K8s-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.html" rel="alternate" type="text/html" title="国内环境搭建 MacOS K8s 开发环境" /><published>2022-05-17T05:09:02-05:00</published><updated>2022-05-17T05:09:02-05:00</updated><id>/post/2022/05/%E5%9B%BD%E5%86%85%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA-MacOS-K8s-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83</id><content type="html" xml:base="/post/2022/05/%E5%9B%BD%E5%86%85%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA-MacOS-K8s-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.html">&lt;h2 id=&quot;minikube&quot;&gt;Minikube&lt;/h2&gt;
+
+&lt;p&gt;在 Mac 上搭建开发环境，这里主要使用了 Kubernetes 官方推荐的 minikube 和 docker-for-desktop 环境&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;minikube start &lt;span class=&quot;nt&quot;&gt;--image-mirror-country&lt;/span&gt; cn &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;--registry-mirror&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;https://vbj8usl3.mirror.aliyuncs.com
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Samzong Lu</name><email>samzong.lu@gmail.com</email></author><category term="K8s" /><summary type="html">Minikube</summary></entry><entry><title type="html">MacOS隐藏Dock栏中特定应用</title><link href="/post/2022/05/MacOS%E9%9A%90%E8%97%8FDock%E6%A0%8F%E4%B8%AD%E7%89%B9%E5%AE%9A%E5%BA%94%E7%94%A8.html" rel="alternate" type="text/html" title="MacOS隐藏Dock栏中特定应用" /><published>2022-05-07T09:57:54-05:00</published><updated>2022-05-07T09:57:54-05:00</updated><id>/post/2022/05/MacOS%E9%9A%90%E8%97%8FDock%E6%A0%8F%E4%B8%AD%E7%89%B9%E5%AE%9A%E5%BA%94%E7%94%A8</id><content type="html" xml:base="/post/2022/05/MacOS%E9%9A%90%E8%97%8FDock%E6%A0%8F%E4%B8%AD%E7%89%B9%E5%AE%9A%E5%BA%94%E7%94%A8.html">&lt;h2 id=&quot;背景说明&quot;&gt;背景说明&lt;/h2&gt;
+
+&lt;p&gt;MacOS Dock 栏的空间是有限的，而且绝大部分应用都会占用一个 Dock 的槽位；但并不是所有软件都提供了 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Hidden  in Dock&lt;/code&gt; 的能力，所以从来不点击，但一直存在，挺痛苦的。&lt;/p&gt;
+
+&lt;p style=&quot;color:red;font-size=16px&quot;&gt;为不具备隐藏 Dock Icon 的应用附加隐藏能力&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;符合这类特征的软件： a. 常驻应用，开机自启动，基本不会打开； b. 像我这样的 Alfred 爱好者&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;之前了解到一些软件对系统的影响都比较大，基本上都是要接管 整个&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Dock&lt;/code&gt;，要关闭 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SIP&lt;/code&gt;，使用成本太好，基本不值得采用。&lt;/p&gt;
+
+&lt;h2 id=&quot;全球同性交友网站&quot;&gt;全球同性交友网站&lt;/h2&gt;
+
+&lt;p&gt;下午在闲逛的时候，发现了这个仓库： https://github.com/FirePanther/MacOS-Hide-Dock-Icon ，一个非常简单的 PHP 脚本，貌似可以提供这个能力，于是我就简单的 Download ，按照 README.md 的方法执行了一下。&lt;/p&gt;
+
+&lt;p&gt;很神奇的！ 满足了我的需求！ 所以，我在这里记录和分享给大家，如果你也需要的话。&lt;/p&gt;
+
+&lt;h2 id=&quot;操作步骤&quot;&gt;操作步骤&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;当然，你也可以直接 从这切换到 官方仓库的 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;README.md&lt;/code&gt; 去操作&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 下载 脚本文件&lt;/span&gt;
+➜  ~ wget https://raw.githubusercontent.com/FirePanther/MacOS-Hide-Dock-Icon/master/hideDockIcon.php &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; hideDockIcon.php
+
+&lt;span class=&quot;c&quot;&gt;# 备份地址&lt;/span&gt;
+➜  ~ wget https://raw.githubusercontent.com/SAMZONG/MacOS-Hide-Dock-Icon/master/hideDockIcon.php &lt;span class=&quot;nt&quot;&gt;-O&lt;/span&gt; hideDockIcon.php
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;确保你的 Mac 内装有 PHP&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;php   &lt;span class=&quot;c&quot;&gt;# just one command&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;接下就是操作步骤了： 在此之前，你需要完全退出被隐藏的软件**&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20220507152104232.png?x-oss-process=image/resize,w_960,m_lfit&quot; alt=&quot;image-20220507152104232&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;下方是脚本的执行过程：&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;➜  ~ &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;php hideDockIcon.php
+App name: BaiduNetdisk_mac
+Cracking app BaiduNetdisk_mac
+Info.plist successfully injected
+Signing &lt;span class=&quot;nt&quot;&gt;------&lt;/span&gt;
+/Applications/BaiduNetdisk_mac.app: replacing existing signature
+&lt;span class=&quot;nt&quot;&gt;------&lt;/span&gt;
+
+Finished  &lt;span class=&quot;c&quot;&gt;# 看到这个就是成功了&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;执行成功后，再次打开App，App会先在Dock栏跳动加载，加载完后图标自动消失，但App依旧在运行。&lt;/p&gt;
+
+&lt;p&gt;以上，你就成功的隐藏这个需要的软件，经过在测试，脚本的健壮性很好:&lt;/p&gt;
+
+&lt;p&gt;支持的 PC : &lt;strong&gt;2022 年 M1 Max MacOS12.3.1&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;注意事项&quot;&gt;注意事项&lt;/h2&gt;
+
+&lt;h3 id=&quot;确认对的-app-name&quot;&gt;确认对的 App Name&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20220507153226027.png?x-oss-process=image/resize,w_960,m_lfit&quot; alt=&quot;image-20220507153226027&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;恢复被隐藏的应用&quot;&gt;恢复被隐藏的应用&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;首先 &amp;gt;&lt;/strong&gt; 还是要退出App，这时Dock栏也不显示了，菜单栏也没有，所以不好使用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;邮件退出的方式&lt;/code&gt;，那么接下来我们要找到下方这个软件：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20220507153525040.png?x-oss-process=image/resize,w_960,m_lfit&quot; alt=&quot;image-20220507153525040&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;打开软件后，等待加载完成，通过搜索窗口利用 App name 找到被隐藏的软件&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20220507154000558.png?x-oss-process=image/resize,w_960,m_lfit&quot; alt=&quot;image-20220507154000558&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;然后使用上方的，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;X&lt;/code&gt; 关闭按钮，在弹窗中，选择 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Quit&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;然后 &amp;gt; 再去执行下 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hideDockIcon.php&lt;/code&gt; 这个脚本:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;➜  &lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;php hideDockIcon.php
+Password:
+App name: BaiduNetDisk_mac
+Cracking app BaiduNetDisk_mac
+This app should be invisible &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;the Dock
+Would you like to show it? &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;y/n&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; y
+Info.plist successfully injected
+Signing &lt;span class=&quot;nt&quot;&gt;------&lt;/span&gt;
+/Applications/BaiduNetDisk_mac.app: replacing existing signature
+&lt;span class=&quot;nt&quot;&gt;------&lt;/span&gt;
+
+Finished
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;然后再次启动 App，那么就会出现在 Dock 栏并且不再隐藏&lt;/p&gt;
+
+&lt;h2 id=&quot;结语&quot;&gt;结语&lt;/h2&gt;
+
+&lt;p&gt;没事儿还是要逛逛 Github&lt;/p&gt;</content><author><name>Samzong Lu</name><email>samzong.lu@gmail.com</email></author><category term="Mac" /><summary type="html">背景说明</summary></entry><entry><title type="html">满足预期的文档站 Mkdocs</title><link href="/post/2022/05/%E6%BB%A1%E8%B6%B3%E9%A2%84%E6%9C%9F%E7%9A%84%E6%96%87%E6%A1%A3%E7%AB%99-Mkdocs.html" rel="alternate" type="text/html" title="满足预期的文档站 Mkdocs" /><published>2022-05-06T12:25:04-05:00</published><updated>2022-05-06T12:25:04-05:00</updated><id>/post/2022/05/%E6%BB%A1%E8%B6%B3%E9%A2%84%E6%9C%9F%E7%9A%84%E6%96%87%E6%A1%A3%E7%AB%99-Mkdocs</id><content type="html" xml:base="/post/2022/05/%E6%BB%A1%E8%B6%B3%E9%A2%84%E6%9C%9F%E7%9A%84%E6%96%87%E6%A1%A3%E7%AB%99-Mkdocs.html">&lt;h2 id=&quot;组合三件套&quot;&gt;组合三件套&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Mkdocs	# 热门的静态博客框架&lt;/li&gt;
+  &lt;li&gt;Mkdocs-material	# Mkdocs 颜值担当的主题&lt;/li&gt;
+  &lt;li&gt;MkDocs Awesome Pages Plugin   # Mkdocs 动态的 Navgation 插件&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;依赖的插件&quot;&gt;依赖的插件&lt;/h3&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;mkdocs 
+pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;mkdocs-material 
+pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;mkdocs-git-revision-date-plugin 
+pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;mkdocs-mermaid2-plugin 
+pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;mkdocs-rss-plugin 
+pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;mkdocs-minify-plugin 
+pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;mkdocs-macros-plugin 
+pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;mkdocs-git-revision-date-localized-plugin 
+pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;mkdocs-awesome-pages-plugin 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;github-repo&quot;&gt;Github repo&lt;/h3&gt;
+
+&lt;p&gt;Private Teamplate https://github.com/SAMZONG/mkdocs-template&lt;/p&gt;
+
+&lt;h3 id=&quot;awesome-plugin-常用参数&quot;&gt;Awesome Plugin 常用参数&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;在文档内的路径展示&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;sb&quot;&gt;```&lt;/span&gt;sh
+docs
+├── .pages.yaml     &lt;span class=&quot;c&quot;&gt;# 站点顶部导航配置文件，控制顺序和名称，一般不增加&lt;/span&gt;
+├── README.md       &lt;span class=&quot;c&quot;&gt;# 默认情况下 目录下 README.md 作为 default 页面&lt;/span&gt;
+├── SUMMARY.md
+├── dce5.0          &lt;span class=&quot;c&quot;&gt;# 子文件夹，支持多级目录，自动检测配置&lt;/span&gt;
+│   ├── .pages.yaml
+│   ├── 01kpanda.md &lt;span class=&quot;c&quot;&gt;# 子文件自动检测，可以通过文件名前缀数字控制排序&lt;/span&gt;
+│   ├── 02ghippo.md
+│   ├── 03clusterpedia.md
+│   ├── ...
+├── design
+│   ├── .pages.yaml &lt;span class=&quot;c&quot;&gt;# 每个目录下都有一个 `.pages.yaml` 用来进行目录的配置&lt;/span&gt;
+│   ├── README.md
+│   ├── ...
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;通过对每个文件下的特定处理，默认情况下 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.pages.yaml&lt;/code&gt; 为空即可，如需要特殊处理，可以在文档添加下方参数:&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;title&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Products&lt;/span&gt;     &lt;span class=&quot;c1&quot;&gt;# 文件夹展示的标题&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;order&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1&lt;/span&gt;            &lt;span class=&quot;c1&quot;&gt;# 文件夹的顺序，数字越小越靠前&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;hide&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;         &lt;span class=&quot;c1&quot;&gt;# 是否隐藏，默认不隐藏&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;nav&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;                &lt;span class=&quot;c1&quot;&gt;# 采用自定义导航&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;filename.md&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;filename2.md&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nav&lt;/code&gt; 的配置方式，还有更多高级用法，可以参考插件做的的 Github 介绍 &lt;a href=&quot;https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin#customize-navigation&quot;&gt;传送门&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;mkdocsyaml-的配置变更&quot;&gt;mkdocs.yaml 的配置变更&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;不要设定 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;nav&lt;/code&gt; OR &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;page&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;在 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;plugin&lt;/code&gt; 增加下方配置&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;plugins&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;awesome-pages&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+       &lt;span class=&quot;na&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;.pages.yaml&lt;/span&gt;
+       &lt;span class=&quot;na&quot;&gt;collapse_single_pages&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+       &lt;span class=&quot;na&quot;&gt;strict&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Samzong Lu</name><email>samzong.lu@gmail.com</email></author><category term="随笔" /><summary type="html">组合三件套</summary></entry><entry><title type="html">Alfred Workflow 推荐</title><link href="/post/2022/05/Alfred-Workflow-%E6%8E%A8%E8%8D%90.html" rel="alternate" type="text/html" title="Alfred Workflow 推荐" /><published>2022-05-03T15:14:49-05:00</published><updated>2022-05-03T15:14:49-05:00</updated><id>/post/2022/05/Alfred-Workflow-%E6%8E%A8%E8%8D%90</id><content type="html" xml:base="/post/2022/05/Alfred-Workflow-%E6%8E%A8%E8%8D%90.html">&lt;h2 id=&quot;alfred-介绍&quot;&gt;Alfred 介绍&lt;/h2&gt;
+
+&lt;p&gt;Alfred 是 Mac 上一款著名的效率应用，强大的功能和众多的扩展能让你在实际操作中大幅提升工作效率，网络上也有大量关于的 Alfred 的评测和技巧的文章。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn.sspai.com/attachment/origin/2016/02/19/311872.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;workflow-介绍&quot;&gt;Workflow 介绍&lt;/h2&gt;
+
+&lt;p&gt;Workflow 工作流；将一件事情的多个步骤，通过一个的规则相连，并依次执行，最终完成，这个方式就是工作流； Alfred Workflow 就是一个将我们日常工作流 实现的一个工具，可以让我们在 Alfred 中更加方便的完成我们的工作；现实生活中的工作流可能更为复杂，但本质还是如此。正是基于这种现实背景，alfred 从 2.0 版本起加入了 workflow，简单的示例说明。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/mUZ6OI.png?x-oss-process=image/resize,w_960,m_lfit&quot; alt=&quot;mUZ6OI&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;我的推荐&quot;&gt;我的推荐&lt;/h2&gt;
+
+&lt;p&gt;整理常用的一些 Workflow 分享, 提高工作和生活的效率小技巧。&lt;/p&gt;
+
+&lt;h3 id=&quot;5-星推荐&quot;&gt;5 星推荐&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.packal.org/workflow/timezones-2&quot;&gt;https://www.packal.org/workflow/timezones-2&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.packal.org/workflow/homebrew-and-cask-alfred&quot;&gt;https://www.packal.org/workflow/homebrew-and-cask-alfred&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.packal.org/workflow/mac-app-store-search&quot;&gt;https://www.packal.org/workflow/mac-app-store-search&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/xiaotu9639/alfred-yuque-workflow&quot;&gt;https://github.com/xiaotu9639/alfred-yuque-workflow&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/whyliam/whyliam.workflows.youdao&quot;&gt;https://github.com/whyliam/whyliam.workflows.youdao&lt;/a&gt; 有道翻译
+    &lt;ul&gt;
+      &lt;li&gt;zhiyu_id: 12ba82650be566f5&lt;/li&gt;
+      &lt;li&gt;zhiyu_key:XWkQjLboE4llgQuWZMR1e0d03Au9w8ob&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;4-星推荐&quot;&gt;4 星推荐&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.packal.org/workflow/alfred-markdown-table&quot;&gt;https://www.packal.org/workflow/alfred-markdown-table&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.packal.org/workflow/pretty-json&quot;&gt;https://www.packal.org/workflow/pretty-json&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.packal.org/workflow/who&quot;&gt;https://www.packal.org/workflow/who&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;如何获取-workflow-&quot;&gt;如何获取 Workflow ?&lt;/h2&gt;
+
+&lt;p&gt;可以到这个网站 https://www.packal.org/  有非常丰富的 Workflow 或者 主题可以选择，丰富你的 Alfred 使用&lt;/p&gt;
+
+&lt;p&gt;如果你有能力制作一些优秀的 Workflow ，也可以在这里分享&lt;/p&gt;
+
+&lt;h2 id=&quot;更多关于-alfred-的使用教程&quot;&gt;更多关于 Alfred 的使用教程&lt;/h2&gt;
+
+&lt;p&gt;网络上已经有大量的 视频和文本的使用教程了，所以我这里直接引用我学习时使用的教程&lt;/p&gt;
+
+&lt;h2 id=&quot;视频教程&quot;&gt;视频教程&lt;/h2&gt;
+
+&lt;iframe width=&quot;640&quot; height=&quot;360&quot; src=&quot;//player.bilibili.com/player.html?aid=894481262&amp;amp;bvid=BV1GP4y1g7HJ&amp;amp;cid=700510300&amp;amp;page=1&quot; scrolling=&quot;no&quot; frameborder=&quot;no&quot; framespacing=&quot;0&quot; allowfullscreen=&quot;true&quot;&gt; &lt;/iframe&gt;
+
+&lt;h2 id=&quot;文本教程&quot;&gt;文本教程&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://ihtcboy.com/2020/02/09/2020-02-09_%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84macOS%E7%B3%BB%E5%88%97%EF%BC%9A%E9%AB%98%E6%95%88Alfred%E8%BF%9B%E9%98%B6/&quot;&gt;程序员的macOS系列：高效Alfred进阶&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;同时，也推荐下这位优秀博主，如果关注 iOS 开发，可以关注他更新的内容&lt;/p&gt;</content><author><name>Samzong Lu</name><email>samzong.lu@gmail.com</email></author><category term="Mac" /><category term="Mac" /><summary type="html">Alfred 介绍</summary></entry><entry><title type="html">youtube-dl 下载 YouTube 视频</title><link href="/post/2022/05/youtube-dl-%E4%B8%8B%E8%BD%BD-YouTube-%E8%A7%86%E9%A2%91.html" rel="alternate" type="text/html" title="youtube-dl 下载 YouTube 视频" /><published>2022-05-03T08:57:28-05:00</published><updated>2022-05-03T08:57:28-05:00</updated><id>/post/2022/05/youtube-dl-%E4%B8%8B%E8%BD%BD-YouTube-%E8%A7%86%E9%A2%91</id><content type="html" xml:base="/post/2022/05/youtube-dl-%E4%B8%8B%E8%BD%BD-YouTube-%E8%A7%86%E9%A2%91.html">&lt;blockquote&gt;
+  &lt;p&gt;截止 2022.5 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;youtube-dl&lt;/code&gt; 已经较长时间未更新了，建议采用 &lt;a href=&quot;https://github.com/yt-dlp/yt-dlp&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;yt-dlp&lt;/code&gt;&lt;/a&gt;, 将命令进行替换即可&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;安装新版本的-yt-dlp&quot;&gt;安装新版本的 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;yt-dlp&lt;/code&gt;&lt;/h2&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;yt-dlp/taps/yt-dlp
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;yt-dlp&lt;/code&gt; 是从 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;youtube-dl&lt;/code&gt; 分支出来的版本，提供持续更新和向前兼容，在友好型上做了优化；仅需要将所有安装命令中 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;youtube-dl&lt;/code&gt; 替换为 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;yt-dlp&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;如果你还是喜欢使用 youtube-dl，可以使用以下命令将程序默认替换，同时不影响你的使用:&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;➜  ~ &lt;span class=&quot;nb&quot;&gt;alias &lt;/span&gt;youtube-dl&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;yt-dlp
+➜  ~ &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;alias youtube-dl=yt-dlp&quot;&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; ~/.zshrc  &lt;span class=&quot;c&quot;&gt;# or ~/.bashrc&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/JwWiwh.png?x-oss-process=image/resize,w_960,m_lfit&quot; /&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;youtube-dl-下载-youtube-视频&quot;&gt;youtube-dl 下载 YouTube 视频&lt;/h2&gt;
+
+&lt;p&gt;视频下载命令行工具里，网友推荐通常都是『国外视频用 youtube-dl』，有这两个工具国内外主流视频网站的视频基本就横扫了，适合想收藏或者喜欢下载后用本地播放器的 Geek 群体。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://rg3.github.io/youtube-dl/download.html&quot;&gt;youtube-dl&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;命令行工具本身其实不复杂，理解了它们的语法就能开始使用了，结合 Alfred 还可以把常用的命令设置成触发的动作，提升交互体验和效率。然而很多人一看网站的介绍估计和我最初的感受差不多，还要部署一堆使用环境啊。&lt;/p&gt;
+
+&lt;h2 id=&quot;xcode-的命令行工具&quot;&gt;Xcode 的命令行工具&lt;/h2&gt;
+
+&lt;p&gt;Homebrew 环境安装前先检查一下 Xcode 的命令行工具是否已经安装，如果 macOS 系统更新过可能也需要重新安装一次，「终端」（应用程序 - 实用工具 - 终端）中输入 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;xcode-select --install&lt;/code&gt;。&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;➜  ~ xcode-select &lt;span class=&quot;nt&quot;&gt;--install&lt;/span&gt;
+xcode-select: error: &lt;span class=&quot;nb&quot;&gt;command &lt;/span&gt;line tools are already installed, use &lt;span class=&quot;s2&quot;&gt;&quot;Software Update&quot;&lt;/span&gt; to &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;updates
+➜  ~
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;em&gt;先前配置时已经安装过 Xcode 命令行工具，所以会出现上面的提示信息。&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;homebrew-依赖&quot;&gt;Homebrew 依赖&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://brew.sh/index_zh-cn.html&quot;&gt;Homebrew&lt;/a&gt; 是一个macOS 上的软件包管理工具，通过命令行的方式安装和卸载软件，大部分的流行软件都提供了 Homebrew 的安装方式，也是开源世界里安装和更新软件的主流方式；&lt;/p&gt;
+
+&lt;h3 id=&quot;homebrew&quot;&gt;&lt;a href=&quot;https://brew.sh/index_zh-cn.html&quot;&gt;Homebrew&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;只需要在联网的情况下运行一行命令：&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/usr/bin/ruby &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;curl &lt;span class=&quot;nt&quot;&gt;-fsSL&lt;/span&gt; https://raw.githubusercontent.com/Homebrew/install/master/install&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;更多关于 Homebrew 的使用相关，可以查看我的另一篇文章  &lt;a href=&quot;https://samzong.me/2022/05/03/Mac%E4%B8%8Bhomebrew%E7%9A%84%E4%BD%BF%E7%94%A8/&quot;&gt;Mac 下 Homebrew 的使用&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;安装-youtube-dl&quot;&gt;安装 youtube-dl&lt;/h2&gt;
+
+&lt;p&gt;上面刚学习到的命令可以先用起来，先看看 youtube-dl 的软件信息，在终端里输入 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;brew info youtube-dl&lt;/code&gt;，了解一下 youtube-dl 的依存环境和需要搭档的其他应用。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/S4sQmN.png?x-oss-process=image/resize,w_960,m_lfit&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;从终端运行的反馈能看到，youtube-dl 的使用环境是 Python3，合并视频片断还会用到 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ffmpeg&lt;/code&gt;  这个组件，也就是说安装完 youtube-dl，还要再运行一次 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;brew install ffmpeg&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;youtube-dl
+brew &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;ffmpeg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;youtube-dl-的基本用法&quot;&gt;youtube-dl 的基本用法&lt;/h2&gt;
+
+&lt;p&gt;前 3 步结束已经可以用命令行下载视频了，这里介绍几个常用的命令，更多的命令用法在官网都有介绍 ，查看 Github 更全的操作指引 &lt;a href=&quot;https://github.com/ytdl-org/youtube-dl/blob/master/README.md#description&quot;&gt;Document&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;➜  ~ youtube-dl &lt;span class=&quot;nt&quot;&gt;-h&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;Options
+Options:
+  General Options:
+  Network Options:
+  Download Options:
+  Filesystem Options:
+  Thumbnail Options:
+  Verbosity / Simulation Options:
+  Video Format Options:
+  Subtitle Options:
+  Authentication Options:
+  Adobe Pass Options:
+  Post-processing Options:
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;导出视频指定文件名称&quot;&gt;导出视频指定文件名称&lt;/h3&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;youtube-dl https://www.youtube.com/watch?v&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;Ga4UCK627nU &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;~/Downloads/aaa.mp4&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;youtube-dl&lt;/code&gt; 还提供了 一些变量的方式，可以作用在文件名上，比较常用的如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# %(title)s.%(ext)s 则是指定了文件名的格式，%(title)s 是视频的标题，%(ext)s 则是视频的文件扩展名&lt;/span&gt;
+youtube-dl https://www.youtube.com/watch?v&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;Ga4UCK627nU &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;~/Downloads/%(title)s.%(ext)s&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;通过 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;视频名.扩展名&lt;/code&gt; 这样可以规范化导出文档的名称；还有其他非常丰富的变量支持，可以去这里找到你想要的 &lt;a href=&quot;https://github.com/ytdl-org/youtube-dl/blob/master/README.md#output-template&quot;&gt;Output Template&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;查询视频支持的版本&quot;&gt;查询视频支持的版本&lt;/h3&gt;
+
+&lt;p&gt;导出的画质不如意，希望自定义导出画质，可以采用这个方式，使用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-F&lt;/code&gt; 查看视频资源支持的类型，通过 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-f&lt;/code&gt; 指定对应的版本进行下载&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/eUUy9N.png?x-oss-process=image/resize,w_960,m_lfit&quot; /&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;➜  ~ youtube-dl &lt;span class=&quot;nt&quot;&gt;-F&lt;/span&gt; https://www.youtube.com/watch&lt;span class=&quot;se&quot;&gt;\?&lt;/span&gt;v&lt;span class=&quot;se&quot;&gt;\=&lt;/span&gt;BYkHLlKFEsM
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;youtube] BYkHLlKFEsM: Downloading webpage
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;info] Available formats &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;BYkHLlKFEsM:
+format code  extension  resolution note
+249          webm       audio only tiny   53k , webm_dash container, opus @ 53k &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;48000Hz&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 2.44MiB
+250          webm       audio only tiny   70k , webm_dash container, opus @ 70k &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;48000Hz&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 3.22MiB
+140          m4a        audio only tiny  129k , m4a_dash container, mp4a.40.2@129k &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;44100Hz&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 5.93MiB
+251          webm       audio only tiny  136k , webm_dash container, opus @136k &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;48000Hz&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 6.27MiB
+160          mp4        256x144    144p   32k , mp4_dash container, avc1.4d400c@  32k, 30fps, video only, 1.48MiB
+278          webm       256x144    144p   75k , webm_dash container, vp9@  75k, 30fps, video only, 3.45MiB
+133          mp4        426x240    240p   48k , mp4_dash container, avc1.4d4015@  48k, 30fps, video only, 2.21MiB
+242          webm       426x240    240p   76k , webm_dash container, vp9@  76k, 30fps, video only, 3.51MiB
+134          mp4        638x360    360p   80k , mp4_dash container, avc1.4d401e@  80k, 30fps, video only, 3.70MiB
+243          webm       638x360    360p  115k , webm_dash container, vp9@ 115k, 30fps, video only, 5.28MiB
+135          mp4        852x480    480p  120k , mp4_dash container, avc1.4d401f@ 120k, 30fps, video only, 5.50MiB
+244          webm       852x480    480p  161k , webm_dash container, vp9@ 161k, 30fps, video only, 7.41MiB
+136          mp4        1278x720   720p  217k , mp4_dash container, avc1.4d401f@ 217k, 30fps, video only, 9.97MiB
+247          webm       1278x720   720p  273k , webm_dash container, vp9@ 273k, 30fps, video only, 12.52MiB
+248          webm       1916x1080  1080p  896k , webm_dash container, vp9@ 896k, 30fps, video only, 41.01MiB
+137          mp4        1916x1080  1080p  923k , mp4_dash container, avc1.640028@ 923k, 30fps, video only, 42.24MiB
+18           mp4        638x360    360p  350k , avc1.42001E, 30fps, mp4a.40.2 &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;44100Hz&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 16.07MiB &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;best&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+➜  ~ youtube-dl &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; 137 https://www.youtube.com/watch&lt;span class=&quot;se&quot;&gt;\?&lt;/span&gt;v&lt;span class=&quot;se&quot;&gt;\=&lt;/span&gt;BYkHLlKFEsM  &lt;span class=&quot;c&quot;&gt;# 下载对应的 format code&lt;/span&gt;
+➜  ~ youtube-dl &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; best https://www.youtube.com/watch&lt;span class=&quot;se&quot;&gt;\?&lt;/span&gt;v&lt;span class=&quot;se&quot;&gt;\=&lt;/span&gt;BYkHLlKFEsM  &lt;span class=&quot;c&quot;&gt;# 下载最佳的版本&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;仅导出音频文件&quot;&gt;仅导出音频文件&lt;/h3&gt;
+
+&lt;p&gt;:::information_source: 经常拿过来做个人的歌曲库导出，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;youtube-dl -x&lt;/code&gt; 提供了 -x 参数来进行指定 仅导出音频，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--extract-audio&lt;/code&gt; 这里需要使用到 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ffmpeg&lt;/code&gt; 。&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;youtube-dl &lt;span class=&quot;nt&quot;&gt;-x&lt;/span&gt; https://www.youtube.com/watch?v&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;Ga4UCK627nU &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;~/Downloads/%(title)s.%(ext)s&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;默认下载的音频文件类型，可能无法满足你，这个时候，可以使用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--audio-format&lt;/code&gt; 参数，来指定对应的音频格式（使用 ffmpeg 自动转码），目前支持个格式类型有：&lt;/p&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Specify audio format: &lt;span class=&quot;s2&quot;&gt;&quot;best&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;aac&quot;&lt;/span&gt;,&lt;span class=&quot;s2&quot;&gt;&quot;flac&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;mp3&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;m4a&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;opus&quot;&lt;/span&gt;, &lt;span class=&quot;s2&quot;&gt;&quot;vorbis&quot;&lt;/span&gt;,or &lt;span class=&quot;s2&quot;&gt;&quot;wav&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;best&quot;&lt;/span&gt; by default
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;youtube-dl &lt;span class=&quot;nt&quot;&gt;-x&lt;/span&gt; https://www.youtube.com/watch?v&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;Ga4UCK627nU &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;~/Downloads/%(title)s.%(ext)s&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--audio-format&lt;/span&gt; mp3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>Samzong Lu</name><email>samzong.lu@gmail.com</email></author><category term="Tools" /><category term="Mac" /><summary type="html">截止 2022.5 youtube-dl 已经较长时间未更新了，建议采用 yt-dlp, 将命令进行替换即可</summary></entry><entry><title type="html">GitHub Pages 的妙用</title><link href="/post/2022/04/GitHub-Pages-%E7%9A%84%E5%A6%99%E7%94%A8.html" rel="alternate" type="text/html" title="GitHub Pages 的妙用" /><published>2022-04-22T12:23:00-05:00</published><updated>2022-04-22T12:23:00-05:00</updated><id>/post/2022/04/GitHub-Pages-%E7%9A%84%E5%A6%99%E7%94%A8</id><content type="html" xml:base="/post/2022/04/GitHub-Pages-%E7%9A%84%E5%A6%99%E7%94%A8.html">&lt;h2 id=&quot;本来是想好好工作的&quot;&gt;本来是想好好工作的&lt;/h2&gt;
+
+&lt;p&gt;最近换了新工作（后面找个时间好好说说），大量接触 k8s &amp;amp; docker，开始写了比较多的 yaml 和 Dockerfile；散落在电脑上的话，还是很不方便，有个仓库管理起来的话，就会很方便了，于是有了这个项目 &lt;a href=&quot;https://github.com/SAMZONG/k8s-yaml&quot;&gt;samzong/k8s-yaml&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;k8s-yaml 一开始的定义就是 public ，希望给更多其他的人提供帮助，索性就再增加了一个网页吧&lt;/p&gt;
+
+&lt;h2 id=&quot;一分钟快速搭建网站&quot;&gt;一分钟快速搭建网站&lt;/h2&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git branch gh-pages
+&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;## Hello gh-pages&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; index.md
+git push origin gh-pages
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;eeen…. 这样就 ok ！&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gh-pages&lt;/code&gt; 是每个 GitHub 仓库的默认 github pages 分支，当你创建这个分支并推动到 GitHub 时，会自动触发 Pages 的构建任务，大约30s 左右，你就会得到一个网站&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;http://[github_username].github.io/[github_repo_name]&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;简单的配置&quot;&gt;简单的配置&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/X4tbDt.png?x-oss-process=image/resize,w_960,m_lfit&quot; alt=&quot;X4tbDt&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;上图简单指引了如何打开 GitHub Pages 的配置路径，下面对主要的几个模块进行说明:&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Source  - 指定的 以那个分支作为 built 源和文件夹，默认是 gh-pages, 建议不动，统一认知&lt;/li&gt;
+  &lt;li&gt;Theme Chooser - 选择对应的博客主题，大概有 10 个，都比较普通，根据自己喜好来，可以自定义，这里不展开 (Google Jekyll themes 一大堆&lt;/li&gt;
+  &lt;li&gt;Custom Domain - 可以指定默认的特定的域名，需要配置 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/CNAME&lt;/code&gt;，需要和这里的域名一致，同时域名解析需要配置好 CNAME&lt;/li&gt;
+  &lt;li&gt;Enforce HTTPS - 启用 HTTPS，默认不启动，建议启用&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;CNAME 配置，将指定的域名指向到 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;[github_username].github.io&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;经过简单的配置，这个仓库的网站，已经完成了你想要的； 在 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;index.md&lt;/code&gt; 内修改为你想要的内容。&lt;/p&gt;
+
+&lt;h2 id=&quot;高级功能结合-github-issue-的评论功能&quot;&gt;高级功能：结合 GitHub issue 的评论功能&lt;/h2&gt;
+
+&lt;p&gt;这里采用的 评论组件是 &lt;a href=&quot;https://utteranc.es/&quot;&gt;utterances&lt;/a&gt;, 提供轻量级的博客评论功能，并且评论是直接创建 GitHub issue，方便管理&lt;/p&gt;
+
+&lt;p&gt;这里不赘述安装细节的，比较简单，直接去看下面几个网站即可&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://utteranc.es/&lt;/li&gt;
+  &lt;li&gt;https://roife.github.io/2021/02/12/use-utterances-for-comment/&lt;/li&gt;
+  &lt;li&gt;https://www.evanlin.com/jekyll-remove-disqus/&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;注意需要增加的文件&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-md highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir _layouts
+wget https://raw.githubusercontent.com/SAMZONG/k8s-yaml/gh-pages/_layouts/post.html -o _layouts/post.html
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;index.md 增加 layout 参数，追加在最顶部&lt;/p&gt;
+
+&lt;div class=&quot;language-md highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;post&lt;/span&gt;
+&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git add _layouts/post.html
+git add index.md
+
+git commit &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;add comment module with utterances&quot;&lt;/span&gt;
+git push origin gh-pages
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;end&quot;&gt;End&lt;/h2&gt;
+
+&lt;p&gt;以上就是全部的部署内容了，可以去看下我的网站和项目&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://k8s-yaml.samzong.me&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;如果你觉得喜欢，求 fork，求 star&lt;/p&gt;</content><author><name>samzong.lu</name></author><category term="Blog" /><category term="Github" /><category term="Github" /><summary type="html">本来是想好好工作的</summary></entry></feed>

@@ -1,0 +1,1208 @@
+
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Blog">
+  <head>
+    <meta charset="utf-8">
+	<link rel="manifest" href="/pwa/manifest.json">
+	<title> bypy 百度网盘Python客户端 | SAMZONG </title>
+    
+		
+    <meta name="author" content="Samzong Lu">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#2196F3">
+	<meta name="google-site-verification" content="puZt0ZyqB-t67BYdYAgLUyIPBeismG68J0dmEc01QeY" />
+
+	
+    <script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function () {
+				navigator.serviceWorker
+										.register('/sw.js')
+										.then(function(registration) {
+											console.log("Successfully registered service worker", registration.scope);
+										}).catch(function(err) {
+											console.log("Service worker registration failed: ", err);
+										});
+				//navigator.serviceWorker.ready always resolve
+				navigator.serviceWorker.ready.then(function (registration) {
+					console.log('Service worker successfully registered on scope', registration.scope);
+				});
+			});
+		}
+    </script>
+	<script type="text/javascript" src="/assets/themes/evjekylltheme/jquery-3.6.0.slim.min.js"></script>
+
+	<link href="/assets/themes/evjekylltheme/google-code-prettify/desert.css" type="text/css" rel="stylesheet" />
+
+    <!-- Le styles -->
+    <link href="/assets/themes/evjekylltheme/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/evjekylltheme/css/style.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/images/favicon.ico">
+
+    <!-- atom & rss feed -->
+    <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Jekyll auto generate ATOM Feed">
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Site ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Site RSS Feed">
+	<link rel="stylesheet" href="/assets/themes/evjekylltheme/font-awesome-4.4.0/css/font-awesome.min.css">
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-W2LDG64');</script>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8529425670069509"
+						crossorigin="anonymous"></script>
+	<script async src="https://cdn.splitbee.io/sb.js"></script>
+  </head>
+
+  <body>
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2LDG64"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div class="navbar navbar-default navbar-fixed-top">
+				<div class="container">
+          <div class="row mobilepadding">
+					<a class="navbar-brand" href="/">SAMZONG</a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mNavbar">
+  					<ul class="nav navbar-nav">
+  						
+  						
+  						
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/friends.html">Friends</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+						  <li class="dropdown">
+							  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other</a>
+							  <ul class="dropdown-menu">
+									<li><a href="/about.html">About</a></li>
+									<li><a href="https://invest.einverne.info/" target="_blank">投资笔记</a></li>
+									<li><a href="https://broker.einverne.info/" target="_blank">券商推荐</a></li>
+									<li><a href="https://book.einverne.info/" target="_blank">图书分享</a></li>
+								  <li><a href="https://photo.einverne.info/" target="_blank">相册</a></li>
+								  <li><a href="https://kindle.einverne.info/" target="_blank">Kindle 笔记</a></li>
+								  <li><a href="https://ipfs.einverne.info/" target="_blank">IPFS 镜像</a></li>
+								  <li><a href="https://status.einverne.info/" target="_blank">服务状态</a></li>
+									<li><a href="https://board.gtk.pw" target="_blank">推荐代理</a></li>
+									<li><a href="https://pt.gtk.pw" target="_blank">私人PT</a></li>
+									<li><a href="https://talk.gtk.pw" target="_blank">讨论版</a></li>
+									<li><a rel="me" href="https://m.einverne.info/@einverne" target="_blank">在线嘟嘟</a></li>
+								</ul>
+						  </li>
+  					</ul>
+  					<form id="search-form" class="navbar-form navbar-right" role="search">
+  						<div class="form-group">
+  						<input type="text" class="form-control input-sm" placeholder="Search" id="query">
+  						</div>
+  					</form>
+  					<div class="nav-icon">
+  						<a href="/feed.xml"><i class="fa fa-rss fa-2x"></i></a>
+  					</div>
+          </div>
+				</div>
+      </div>
+    </div>
+
+    <div class="container">
+			<div class="row mobilepadding">
+        <div class="row">
+					<div class="col-md-12">
+						<div class="searchresult">
+						</div>
+						<div id="search-loader" class="img-wrap">
+						</div>
+					</div>
+        </div>
+				
+<div class="row" itemscope itemtype="http://schema.org/Article">
+    <div class="col-xs-12 col-md-8">
+        <div class="page-header" itemprop="name">
+            <h1>bypy 百度网盘Python客户端 
+            </h1>
+        </div>
+        <div class="post-meta">
+            
+            <span class="entry-date" itemprop="datePublished">Posted on 06/02/2017</span>
+            
+            
+            <span class="entry-author" itemprop="author">by Samzong Lu</span>
+            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/master/_posts/2017-06-02-百度网盘Python客户端.md"
+                 target="_blank">View revision history</a>
+        </div>
+        <div class="post-content" itemprop="articleBody">
+            <p>最近在GitHub上发现一个有趣的项目，<a href="https://github.com/houtianze/bypy">百度网盘Python客户端</a>(bypy)，主要使用在Linux命令行下，这样很大的一个好处是可以利用到百度云盘2TB的存储空间(如果你是会员有6TB)；你可以在任何服务器上，利用自动化脚本实现一些数据文件、日志文件等等备份操作，同时也提供丰富的文件列表、上传、下载、对比、同步以及批量操作等。</p>
+
+<blockquote>
+  <p>虽然百度网盘Python客户端提供很大的便利，但是我强烈不建议将一些重要数据放到百度云盘</p>
+</blockquote>
+
+<h2 id="实验目的">实验目的</h2>
+
+<p>数据库备份文件自动上传到百度网盘</p>
+
+<h2 id="环境依赖">环境依赖</h2>
+
+<ul>
+  <li>Python 2.7 or 3.0 以上</li>
+  <li>Encoding UTF-8</li>
+</ul>
+
+<h2 id="python-环境">Python 环境</h2>
+
+<p>首先使用<code class="language-plaintext highlighter-rouge">python -V</code>检查你的Python版本，如果你的版本是2.7或以上，那么就不需要做任何操作，可以直接安装bypy，但是如果你像我一样多数是CentOS 6.x 那么就需要先升级Python版本。我这里是将Python升级到2.7。</p>
+
+<h3 id="install-python-27">Install Python 2.7</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check current Python version</span>
+➜  ~ python <span class="nt">-V</span>
+Python 2.6.6
+
+<span class="c"># Download python 2.7.13 or new packge.</span>
+➜  ~ wget http://www.python.org/ftp/python/2.7.13/Python-2.7.13.tar.xz
+
+<span class="c"># Extract and change in</span>
+➜  ~ <span class="nb">tar </span>xf Python-2.7.13.tar.xz
+➜  ~ <span class="nb">cd </span>Python-2.7.13
+
+<span class="c"># Run the configure:</span>
+➜  Python-2.7.13 ./configure <span class="nt">--prefix</span><span class="o">=</span>/usr/local
+
+<span class="c"># Compile and install it:</span>
+➜  Python-2.7.13 make <span class="o">&amp;&amp;</span> make altinstall
+
+<span class="c"># Check Python Version</span>
+➜  Python-2.7.13 python2.7 <span class="nt">-V</span>
+Python 2.7.13
+</code></pre></div></div>
+
+<p>虽然Python2.7已经安装成功了，但是默认的Python仍然是2.6版本，所以我们要替换默认Python命令指到2.7</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update bin python to python2.7</span>
+➜  ~ ll /usr/bin/python /usr/local/bin/python2.7
+➜  ~ ll /usr/bin/python-config /usr/local/bin/python2.7-config
+➜  ~ python <span class="nt">-V</span>
+Python 2.7.13
+</code></pre></div></div>
+
+<h3 id="can-not-use-yum-">Can not use Yum ?</h3>
+
+<p>因为<code class="language-plaintext highlighter-rouge">yum</code>必须要使用Python2.6 ，所以当升级成功之后，发现yum无法使用，这时我们要稍微修改下：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ which-command yum
+/usr/bin/yum
+
+<span class="c">#Update frist line "#!/usr/bin/python" to "#!/usr/bin/python2.6"</span>
+➜  ~ vim /usr/bin/yum
+</code></pre></div></div>
+
+<h2 id="安装bypy">安装<code class="language-plaintext highlighter-rouge">bypy</code></h2>
+
+<h5 id="install-setuptools--requests">Install Setuptools &amp; requests</h5>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ wget <span class="nt">--no-check-certificate</span> https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz
+<span class="nb">tar </span>xf setuptools-1.4.2.tar.gz
+➜  ~ python setup.py <span class="nb">install</span>
+
+➜  ~ pip2.7 <span class="nb">install </span>requests
+</code></pre></div></div>
+
+<h3 id="clone---install">Clone &amp;  Install</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ git clone https://github.com/houtianze/bypy.git
+➜  ~ <span class="nb">cd </span>bypy
+➜  bypy git:<span class="o">(</span>master<span class="o">)</span> python setup.py <span class="nb">install</span>
+</code></pre></div></div>
+
+<p>如果安装失败，注意看报错，是否缺少Python依赖包，或者版本不对</p>
+
+<h3 id="基本操作">基本操作</h3>
+
+<p>在成功安装完成之后，以下需要注意：</p>
+
+<h4 id="授权">授权</h4>
+
+<p>首次安装之后，需要进行授权，只需要运行任何一个命令都可以，例如<code class="language-plaintext highlighter-rouge">bypy info</code>，然后根据提示，打开网页登录你的百度网盘账号，取得授权码，即可。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/2grhz.png" alt="" /></p>
+
+<p>复制上图中的链接到你的浏览器中，打开可以看到百度API授权页面，如下图，将授权码粘贴到命令行，然后回车等待验证通过即可。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/9zhdm.png" alt="" /></p>
+
+<p>然后再次运行命令时，就不需要进行身份验证了</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost bypy]# bypy info
+Quota: 6.103TB
+Used: 180.074GB
+</code></pre></div></div>
+
+<p>你可以看到我的百度网盘有6.103TB的空间，已经使用了180.074GB</p>
+
+<h4 id="常用操作">常用操作</h4>
+
+<p>由于百度PCS API权限限制，程序只能存取百度云端/apps/bypy目录下面的文件和目录。通过以下链接可以打开你的bypy默认路径：</p>
+
+<p>https://pan.baidu.com/disk/home#list/vmode=list&amp;path=%2Fapps%2Fbypy</p>
+
+<h4 id="查看">查看</h4>
+
+<p>我在百度网盘内增加了一个v6的文件夹，对应我服务器名称，这是我在服务器内利用命令即可看到。</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost bypy]# bypy list
+/apps/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
+D v6 0 2017-06-02, 10:28:41
+</code></pre></div></div>
+
+<h4 id="创建文件夹">创建文件夹</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy <span class="nb">mkdir </span>v6/bypy
+<span class="o">[</span>root@localhost ~]# bypy list v6
+/apps/bypy/v6 <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
+D bypy 0 2017-06-02, 10:35:53
+</code></pre></div></div>
+
+<h4 id="上传">上传</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy upload bypy.tgz
+<span class="o">[</span>root@localhost ~]# bypy list
+/apps/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
+D v6 0 2017-06-02, 10:28:41
+D v6_1 0 2017-06-02, 10:34:52
+F bypy.tgz 2867963 2017-06-02, 10:37:30 aa4160cdbf2f4eca9baf0fcd395241fe
+</code></pre></div></div>
+
+<h4 id="本地同步到百度网盘">本地同步到百度网盘</h4>
+
+<p>使用<code class="language-plaintext highlighter-rouge">syncup</code>参数将本地目录文件同步到百度网盘</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy syncup ./bypy v6/bypy
+<span class="o">[</span>root@localhost ~]# bypy list v6/bypy
+/apps/bypy/v6/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
+D .git 0 2017-06-02, 10:45:31
+D baidudoc 0 2017-06-02, 10:44:50
+D build 0 2017-06-02, 10:45:11
+D bypy 0 2017-06-02, 10:45:54
+D bypy.egg-info 0 2017-06-02, 10:45:00
+D dist 0 2017-06-02, 10:44:54
+D update 0 2017-06-02, 10:45:08
+F .editorconfig 277 2017-06-02, 10:45:08 d9f71b00f908626ae68da571ca47cbe2
+F .gitignore 484 2017-06-02, 10:45:00 833d8511a69044a1f1c6e0fe4b3c3117
+F .travis.yml 628 2017-06-02, 10:44:58 9f377251309ced0a55548c18896ebd7a
+F CONTRIBUTING.md 683 2017-06-02, 10:44:52 f5e8a568937039e5853613ff0fe296ee
+F genrst.py 129 2017-06-02, 10:45:30 4565eddf226c2e8bed73d2c30dfae9f3
+F HISTORY.md 2542 2017-06-02, 10:45:11 16605670a55a3dd9768d4c862543eac4
+F HISTORY.rst 2639 2017-06-02, 10:44:57 7215fbd0a3be667fd7f9fda14f06c1a9
+F LICENSE 1078 2017-06-02, 10:44:59 ebd1a0c53ea3046f505b995629faf8fb
+F MANIFEST.in 116 2017-06-02, 10:44:50 c98e18e65329b318f13abd031a4397c4
+F README.md 6276 2017-06-02, 10:46:15 d4b88fd543d93c6b63863d28f5c4e716
+F release.sh 1795 2017-06-02, 10:45:53 c086eb283e9554bbcd23daf0888e2819
+F requirements.txt 42 2017-06-02, 10:44:54 28b314f2f2d2ed79957a7a7e6d3f7c17
+F setup.cfg 70 2017-06-02, 10:45:11 b23579970dcedbcaeaaa00636d601335
+F setup.py 2377 2017-06-02, 10:44:58 34d63d5143ab02d3db7808321a7f9df4
+<span class="o">[</span>root@localhost ~]# bypy syncup ./bypy v6/bypy
+<span class="o">[</span>root@localhost ~]#
+</code></pre></div></div>
+
+<h4 id="搜索">搜索</h4>
+
+<p><code class="language-plaintext highlighter-rouge">bypy</code> 同样支持搜索，根据文件名检索，自动递归所有目录</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy search release.sh
+Found:
+F /apps/bypy/v6/bypy/release.sh 1795 2017-06-02, 10:45:53 2017-06-02, 10:45:53 c086eb283e9554bbcd23daf0888e2819
+</code></pre></div></div>
+
+<h4 id="比较本地与百度网盘">比较本地与百度网盘</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 先删除本地一个文件</span>
+<span class="o">[</span>root@localhost ~]# <span class="nb">rm</span> ./bypy/release.sh
+
+<span class="c"># 对比</span>
+<span class="o">[</span>root@localhost ~]# bypy compare v6/bypy ./bypy
+<span class="o">====</span> Same files <span class="o">===</span>
+F - MANIFEST.in
+... omit ...
+F - bypy/monkey.py
+F - README.md
+<span class="o">====</span> Different files <span class="o">===</span>
+<span class="o">====</span> Local only <span class="o">====</span>
+<span class="o">====</span> Remote only <span class="o">====</span>
+F - release.sh
+
+Statistics:
+<span class="nt">--------------------------------</span>
+Same: 131
+Different: 0
+Local only: 0
+Remote only: 1
+</code></pre></div></div>
+
+<p>通过以上可以看到，相同文件131，远程目录多了一个文件。</p>
+
+<h4 id="其他">其他</h4>
+
+<p><code class="language-plaintext highlighter-rouge">bypy</code>支持的操作很多，使用<code class="language-plaintext highlighter-rouge">bypy help</code>即可以看到，若要调试，使用以下参数可以打开对应调试信息：</p>
+
+<ul>
+  <li>运行时添加<code class="language-plaintext highlighter-rouge">-v</code>参数，会显示进度详情。</li>
+  <li>运行时添加<code class="language-plaintext highlighter-rouge">-d</code>，会显示一些调试信息。</li>
+  <li>运行时添加<code class="language-plaintext highlighter-rouge">-ddd</code>，还会会显示HTTP通讯信息（<strong>警告：非常多</strong>）</li>
+</ul>
+
+<h2 id="数据库备份自动上传到百度网盘">数据库备份自动上传到百度网盘</h2>
+
+<p>之前也写过很多关于Mysql备份的文章，如果要详细查看，请打开以下链接：<a href="https://samzong.me/categories/MySQL/">分类MySQL</a></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># create back script.</span>
+<span class="o">[</span>root@localhost ~]# <span class="nb">touch </span>mysql_back.sh
+
+<span class="c"># add executable permissions</span>
+<span class="o">[</span>root@localhost ~]# <span class="nb">chmod</span> +x mysql_back.sh
+
+<span class="o">[</span>root@localhost ~]# vim mysql_back.sh
+<span class="c">#!/bin/bash</span>
+<span class="c">#  </span>
+<span class="c"># backup mysqldump file to baidu yunPan</span>
+<span class="c"># filepath: /usr/local/bin/mysql_back.sh</span>
+<span class="c"># Author: samzong</span>
+<span class="c">#</span>
+
+<span class="k">function </span>upload_file<span class="o">(){</span>
+        <span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H%M%S"</span><span class="sb">`</span>
+        <span class="nv">folder</span><span class="o">=</span><span class="s2">"/mysqlbak"</span>
+        <span class="nv">filename</span><span class="o">=</span><span class="s2">"db_</span><span class="nv">$TIME</span><span class="s2">.sql"</span>
+        <span class="nv">filePath</span><span class="o">=</span><span class="nv">$folder</span>/<span class="nv">$filename</span>
+
+        <span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="nv">$filePath</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+                </span><span class="nb">echo</span> <span class="s2">"[ERROR]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] </span><span class="nv">$folder</span><span class="s2">/</span><span class="nv">$filename</span><span class="s2"> not found."</span>
+        <span class="k">else
+                </span><span class="nb">echo</span> <span class="s2">"[INFO]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] </span><span class="nv">$folder</span><span class="s2">/</span><span class="nv">$filename</span><span class="s2"> has been found. Start uploading ......"</span>
+                bypy upload <span class="s2">"</span><span class="nv">$filePath</span><span class="s2">"</span> <span class="s2">"v6/mysql_backup/</span><span class="nv">$filename</span><span class="s2">"</span>
+                <span class="nb">echo</span> <span class="s2">"[INFO]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] Uploading end."</span>
+        <span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="c">#  set TIME variable</span>
+<span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H%M%S"</span><span class="sb">`</span>
+
+<span class="c"># backup db ghost to /mysqlbak/</span>
+mysqldump <span class="nt">--single-transaction</span> <span class="nt">-h</span> localhost <span class="nt">-u</span> ghost_backuser <span class="nt">-pbackupPass</span> ghost  <span class="o">&gt;</span> /mysqlbak/db_<span class="nv">$TIME</span>.sql
+
+<span class="c"># tar sql file</span>
+<span class="nb">tar </span>czvf /mysqlbak/ghost_<span class="nv">$TIME</span>.sql.tgz /mysqlbak/ghost_<span class="nv">$TIME</span>.sql <span class="nt">--remove-files</span>
+
+<span class="c"># upload sql file to baidu yunPan.</span>
+upload_file<span class="p">;</span>
+
+<span class="c"># send mial to admin'mial</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"ghost SQL dump is successfully. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-successfully  samzong.lu@gmail.com
+<span class="k">else
+    </span><span class="nb">echo</span> <span class="s2">" Error Error ghost SQL dump is Error. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-error samzong.lu@gmail.com
+<span class="k">fi</span>
+</code></pre></div></div>
+
+<h2 id="添加计划任务">添加计划任务</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ~ crontab <span class="nt">-e</span>
+00 00 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> sh /usr/local/bin/mysql_back.sh
+</code></pre></div></div>
+
+        </div>
+
+        <div id="related">
+            <h2>Related Posts</h2>
+            <ul class="posts"><!--当一篇文章有两个tag一样时显示-->
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+
+        <hr>
+        <nav>
+            <ul class="pager">
+                
+                <li class="previous"><a href="/post/2017/05/%E6%88%91%E6%9D%A5%E5%88%B0%E8%BF%99%E4%B8%96%E4%B8%8A.html" title="我来到这世上">&larr;
+                    Previous（前一篇）</a></li>
+                
+                <li><a href="/archive.html">Archive（目录）</a></li>
+                
+                <li class="next"><a href="/post/2017/08/blazemeter_recoding_jmx.html" title="Jmeter 使用BlazeMeter为Jmeter录制脚本">Next（后一篇） &rarr;</a></li>
+                
+            </ul>
+        </nav>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	<li><a href="/categories.html#Python">
+    		Python <span>7</span>
+    	</a></li>
+    
+  
+
+
+
+        </ul>
+        
+
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-tag" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	<li><a href="/tags.html#Python">Python <span>8</span></a></li>
+    
+  
+
+
+
+        </ul>
+        
+        <div id="floatbox">
+            <div id="post-directory-module">
+                <div id="toc"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/assets/themes/evjekylltheme/toc.js"></script>
+<script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
+
+
+			</div>
+
+		</div>
+
+    <footer>
+      <div class="container">
+        <div class="row mobilepadding">
+          			<hr>
+      &copy; 2022 Samzong Lu. Powered by <a href="http://jekyllrb.com" target="_blank" title="The simple, blog-aware, static site generator.">Jekyll</a>. Hosted on <a href="http://github.com/Samzong" target="_blank" title="Ein Verne's GitHub Repos">GitHub</a> & <a href="https://www.netlify.com/" target="_blank" title="Netlify">Netlify</a> .
+      <br><br>
+      </div>
+    </div>
+    </footer>
+
+    
+
+
+
+
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/webcore.js"></script>
+
+ </body>
+</html>
+

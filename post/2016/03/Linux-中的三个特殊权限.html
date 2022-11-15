@@ -1,0 +1,989 @@
+
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Blog">
+  <head>
+    <meta charset="utf-8">
+	<link rel="manifest" href="/pwa/manifest.json">
+	<title> Linux 中的三个特殊权限 | SAMZONG </title>
+    
+		
+    <meta name="author" content="Samzong Lu">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#2196F3">
+	<meta name="google-site-verification" content="puZt0ZyqB-t67BYdYAgLUyIPBeismG68J0dmEc01QeY" />
+
+	
+    <script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function () {
+				navigator.serviceWorker
+										.register('/sw.js')
+										.then(function(registration) {
+											console.log("Successfully registered service worker", registration.scope);
+										}).catch(function(err) {
+											console.log("Service worker registration failed: ", err);
+										});
+				//navigator.serviceWorker.ready always resolve
+				navigator.serviceWorker.ready.then(function (registration) {
+					console.log('Service worker successfully registered on scope', registration.scope);
+				});
+			});
+		}
+    </script>
+	<script type="text/javascript" src="/assets/themes/evjekylltheme/jquery-3.6.0.slim.min.js"></script>
+
+	<link href="/assets/themes/evjekylltheme/google-code-prettify/desert.css" type="text/css" rel="stylesheet" />
+
+    <!-- Le styles -->
+    <link href="/assets/themes/evjekylltheme/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/evjekylltheme/css/style.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/images/favicon.ico">
+
+    <!-- atom & rss feed -->
+    <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Jekyll auto generate ATOM Feed">
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Site ATOM Feed">
+    <link href="/rss.xml" type="application/rss+xml" rel="alternate" title="Site RSS Feed">
+	<link rel="stylesheet" href="/assets/themes/evjekylltheme/font-awesome-4.4.0/css/font-awesome.min.css">
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-W2LDG64');</script>
+		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8529425670069509"
+						crossorigin="anonymous"></script>
+	<script async src="https://cdn.splitbee.io/sb.js"></script>
+  </head>
+
+  <body>
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2LDG64"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div class="navbar navbar-default navbar-fixed-top">
+				<div class="container">
+          <div class="row mobilepadding">
+					<a class="navbar-brand" href="/">SAMZONG</a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mNavbar">
+  					<ul class="nav navbar-nav">
+  						
+  						
+  						
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/friends.html">Friends</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+						  <li class="dropdown">
+							  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other</a>
+							  <ul class="dropdown-menu">
+									<li><a href="/about.html">About</a></li>
+									<li><a href="https://invest.einverne.info/" target="_blank">投资笔记</a></li>
+									<li><a href="https://broker.einverne.info/" target="_blank">券商推荐</a></li>
+									<li><a href="https://book.einverne.info/" target="_blank">图书分享</a></li>
+								  <li><a href="https://photo.einverne.info/" target="_blank">相册</a></li>
+								  <li><a href="https://kindle.einverne.info/" target="_blank">Kindle 笔记</a></li>
+								  <li><a href="https://ipfs.einverne.info/" target="_blank">IPFS 镜像</a></li>
+								  <li><a href="https://status.einverne.info/" target="_blank">服务状态</a></li>
+									<li><a href="https://board.gtk.pw" target="_blank">推荐代理</a></li>
+									<li><a href="https://pt.gtk.pw" target="_blank">私人PT</a></li>
+									<li><a href="https://talk.gtk.pw" target="_blank">讨论版</a></li>
+									<li><a rel="me" href="https://m.einverne.info/@einverne" target="_blank">在线嘟嘟</a></li>
+								</ul>
+						  </li>
+  					</ul>
+  					<form id="search-form" class="navbar-form navbar-right" role="search">
+  						<div class="form-group">
+  						<input type="text" class="form-control input-sm" placeholder="Search" id="query">
+  						</div>
+  					</form>
+  					<div class="nav-icon">
+  						<a href="/feed.xml"><i class="fa fa-rss fa-2x"></i></a>
+  					</div>
+          </div>
+				</div>
+      </div>
+    </div>
+
+    <div class="container">
+			<div class="row mobilepadding">
+        <div class="row">
+					<div class="col-md-12">
+						<div class="searchresult">
+						</div>
+						<div id="search-loader" class="img-wrap">
+						</div>
+					</div>
+        </div>
+				
+<div class="row" itemscope itemtype="http://schema.org/Article">
+    <div class="col-xs-12 col-md-8">
+        <div class="page-header" itemprop="name">
+            <h1>Linux 中的三个特殊权限 
+            </h1>
+        </div>
+        <div class="post-meta">
+            
+            <span class="entry-date" itemprop="datePublished">Posted on 03/29/2016</span>
+            
+            
+            <span class="entry-author" itemprop="author">by Samzong Lu</span>
+            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/master/_posts/2016-03-29-Linux-中的三个特殊权限.md"
+                 target="_blank">View revision history</a>
+        </div>
+        <div class="post-content" itemprop="articleBody">
+            <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Linux中除了普通权限之外，还有三个特殊权限。
+SUID:：以文件的所属用户执行，而非执行文件的用户，多用于可执行文件，设置suid后，在权限位中，所属用户的  最后一个权
+限为变为s，添加SUID权限可用“+s”表示。
+例如：passwd
+[adam@ultraera  ~]$  which  passwd
+/usr/bin/passwd
+[adam@ultraera  ~]$  ls  -l  /usr/bin/passwd
+-rwsr-xr-x.  1  root  root  25980  Feb  22  2012  /usr/bin/passwd
+[adam@ultraera  ~]$
+SGID：主要针对文件夹，在设置了SGID的文件夹中创建任何新文件都继承该文件的所属组，设置sgid后，在权限位中，所属
+组的最后一个权限位变为s，添加SGID权限可用“+s”表示。
+例如：
+[adam@ultraera  ~]$  mkdir  ultraera
+[adam@ultraera  ~]$  ls  -l
+total  4
+drwxrwxr-x  2  adam  adam  4096  Nov  27  21:09  ultraera
+[adam@ultraera  ~]$  chmod  g+s  ultraera/
+[adam@ultraera  ~]$  ls  -l
+total  4
+drwxrwsr-x  2  adam  adam  4096  Nov  27  21:09  ultraera
+[adam@ultraera  ~]$  su
+Password:
+[root@ultraera  adam]#  mkdir  -p  ultraera/test
+[root@ultraera  adam]#  ls  -l  ultraera/
+total  4
+drwxr-sr-x  2  root  adam  4096  Nov  27  21:09  test
+[root@ultraera  adam]#
+sticky：针对文件夹，对目录拥有写权限的用户，仅可以删除其所拥有的文件，无法删除其他用户所拥有的文件，设置了sticky
+之后，在权限位，other的最后一个权限位变为t,添加SGID权限可用“+t”表示。
+例如：
+[root@ultraera  tmp]#  mkdir  ultraera
+[root@ultraera  tmp]#  chmod  a=rwx,o+t  ultraera/
+[root@ultraera  tmp]#  ls  -ld  ultraera/
+drwxrwxrwt  2  root  root  4096  Nov  27  21:29  ultraera/
+[root@ultraera  tmp]#  useradd  user1
+[root@ultraera  tmp]#  useradd  user2
+[root@ultraera  tmp]#  su  user1
+[user1@ultraera  tmp]$  touch  ./ultraera/test
+[user1@ultraera  tmp]$  ls  -l  ultraera/
+total  0
+-rw-rw-r--  1  user1  user1  0  Nov  27  21:31  test
+[user1@ultraera  tmp]$  exit
+exit
+[root@ultraera  tmp]#  su  user2
+[user2@ultraera  tmp]$  rm  -f  ./ultraera/test
+rm:  cannot  remove  `./ultraera/test':  Operation  not  permitted
+[user2@ultraera  tmp]$
+
+
+同样使用chmod来设定特殊权限，与普通权限一样，特殊权限也可以用数字表示：
+suid  ：  4
+sgid  ：  2
+sticky ：  1
+chmod  4644  filename	#设置文件suid权限
+chmod  2755  flodername	#设置文件夹sgid权限
+chmod  1755  flodername	#设置文件夹sticky权限
+
+</code></pre></div></div>
+
+        </div>
+
+        <div id="related">
+            <h2>Related Posts</h2>
+            <ul class="posts"><!--当一篇文章有两个tag一样时显示-->
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+
+        <hr>
+        <nav>
+            <ul class="pager">
+                
+                <li class="previous"><a href="/post/2016/03/CentOS-6-1-%E4%BD%BF%E7%94%A8createrepo%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E6%BA%90.html" title="CentOS 使用createrepo搭建本地源">&larr;
+                    Previous（前一篇）</a></li>
+                
+                <li><a href="/archive.html">Archive（目录）</a></li>
+                
+                <li class="next"><a href="/post/2016/03/MySQL-4-MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80.html" title="MySQL数据库使用基础">Next（后一篇） &rarr;</a></li>
+                
+            </ul>
+        </nav>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	<li><a href="/categories.html#Linux">
+    		Linux <span>21</span>
+    	</a></li>
+    
+  
+
+
+
+        </ul>
+        
+
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-tag" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	<li><a href="/tags.html#Linux">Linux <span>4</span></a></li>
+    
+  
+
+
+
+        </ul>
+        
+        <div id="floatbox">
+            <div id="post-directory-module">
+                <div id="toc"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/assets/themes/evjekylltheme/toc.js"></script>
+<script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
+
+
+			</div>
+
+		</div>
+
+    <footer>
+      <div class="container">
+        <div class="row mobilepadding">
+          			<hr>
+      &copy; 2022 Samzong Lu. Powered by <a href="http://jekyllrb.com" target="_blank" title="The simple, blog-aware, static site generator.">Jekyll</a>. Hosted on <a href="http://github.com/Samzong" target="_blank" title="Ein Verne's GitHub Repos">GitHub</a> & <a href="https://www.netlify.com/" target="_blank" title="Netlify">Netlify</a> .
+      <br><br>
+      </div>
+    </div>
+    </footer>
+
+    
+
+
+
+
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/webcore.js"></script>
+
+ </body>
+</html>
+

@@ -197,6 +197,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -238,6 +242,146 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2016/08/Script-Install-LNMP.html">Use Script Install LNMP</a></h1>
+    <div class="post_at_index">
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
+
+#
+
+if [[ $1 == "uninstall" ]];then
+	echo "starting backup data..."
+	mkdir -p /www/backup
+	service mysqld stop
+	service nginxd stop
+	service httpd stop
+	service wdapache stop
+	service pureftpd stop
+	tar zcvf /www/backup/mysqldatdbk.tar.gz /www/wdlinux/mysql/var
+	tar zcvf /www/backup/ngconfbk.tar.gz /www/wdlinux/nginx/conf
+	tar zcvf /www/backup/apconfbk.tar.gz /www/wdlinux/apache/conf
+	rpm -e lanmp_wdcp --nodeps
+	rm -fr /www/wdlinux
+	echo
+	echo "	lanmp,wdcp remove is OK"
+	echo
+	exit 0
+fi
+
+echo "Turn off selinux..."
+setenforce 0
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+sed -i 's/^exclude=/#exclude=/g' /etc/yum.conf
+yum install -y gcc gcc-c++ make autoconf libtool-ltdl-devel gd-devel freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel patch libmcrypt-devel libmhash-devel ncurses-devel sudo bzip2 iptables sendmail iptables unzip
+
+#echo "Check the network..."
+#ping -c 2 113.105.167.1
+#if [[ $? != 0 ]];then
+#	echo
+#	echo "network err"
+#	exit 1
+#fi
+ping -c 3 dl.wdlinux.cn
+if [[ $? == 2 ]];then
+	echo
+	echo "dns error"
+	exit 1
+fi
+
+if [[ ! -d /www/wdlinux ]];then
+	echo
+	echo "rpm remove..."
+	rpm -e php --nodeps
+	rpm -e httpd --nodeps
+	rpm -e mysql-server --nodeps
+	rpm -e mysql --nodeps
+fi
+
+echo "yum update..."
+yum install -y make autoconf sudo wget libtool-ltdl-devel gd-devel freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel patch libmcrypt-devel libmhash-devel ncurses-devel iptables
+
+arch=i386
+Aurl="http://dl.wdlinux.cn:5180/rpms"
+if [[ `uname -m` == "x86_64" ]];then
+	arch="x86_64"
+fi
+
+function in_finsh {
+        echo
+        echo "          configuration ,lamp or lnmp,wdcp install is finshed"
+        echo "          visit http://ip"
+        echo "          wdcp visit http://ip:8080"
+        echo "          more infomation please visit http://www.wdlinux.cn"
+        echo
+}
+
+function in_check {
+        if [[ $1 == 1 ]];then
+                echo
+                echo "============  $2 install error  ============="
+                echo
+                exit 1
+        else
+                echo
+                echo "============  $2 install OK  =============="
+                echo
+                echo
+        fi
+}
+
+grep -E 'wdOS 1|5\.' /etc/redhat-release &gt; /dev/null 2&gt;&amp;1
+v1=$?
+grep -E 'wdOS 2|6\.' /etc/redhat-release &gt; /dev/null 2&gt;&amp;1
+v2=$?
+if [ $v1 == 0 ];then
+	RF="lanmp_wdcp-2-5.$arch.rpm";
+elif [ $v2 == 0 ];then
+	RF="lanmp_wdcp-2-5.el6.$arch.rpm";
+	if [ $arch == "x86_64" ];then
+		wget -c http://dl.wdlinux.cn:5180/soft/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
+		rpm -ivh rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
+	else
+		wget -c http://dl.wdlinux.cn:5180/soft/rpmforge-release-0.5.2-2.el6.rf.i686.rpm
+		rpm -ivh rpmforge-release-0.5.2-2.el6.rf.i686.rpm
+	fi
+	yum install -y mhash-devel libmcrypt-devel
+else
+	echo
+	echo "The current system does not support"
+	echo
+	exit
+fi
+wget -c http://dl.wdlinux.cn:5180/rpms/$RF
+rpm -ivh $RF --nodeps
+I_F=$?
+if [ $I_F == 0 ];then
+	echo
+fi
+in_check $I_F lanmp_wdcp
+
+rm -f wdcp_v*
+wget -c http://down.wdlinux.cn/down/wdcp_v2.5.tar.gz &gt; /dev/null 2&gt;&amp;1
+tar zxvf wdcp_v2.5.tar.gz -C / &gt; /dev/null 2&gt;&amp;1
+
+in_finsh
+
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-08-13</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Shell">Shell</a>
+      , 
+      <a href="/tags.html#CentOS">CentOS</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2016/08/HowTo-Setup-MariaDB-Galera-Cluster-10-On-CentOS-6-x.html">HowTo Setup MariaDB Galera Cluster 10 On CentOS 6.x</a></h1>
@@ -1538,67 +1682,6 @@ fi
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/07/HowTo-Play-Pokemon-GO-in-China.html">HowTo Play Pokemon GO in China</a></h1>
-    <div class="post_at_index">
-      <h2 id="installtions">Installtions</h2>
-
-<ul>
-  <li><a href="http://www.tutuapp.cn">TuTuAPP</a></li>
-  <li><a href="https://shadowsocks.biz/?ref=518">VPN</a></li>
-  <li><a href="https://accounts.google.com">Google Account ID</a></li>
-</ul>
-
-<p>&emsp;&emsp;最近看到身边朋友都在玩Pokemon GO, 心痒难耐，于是跟同事请教琢磨了，终于在自己的手机上玩起来了，由于我的手机是iPhone 5s，身边朋友也都是iPhone，所以不确定是Android是否可以玩耍，想来应该是没有问题话，Android平台做破解等操作一直以来比iPhone更加方便。
-</p>
-<div align="center">
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo1.jpg&gt;
-</div>
-<p>  1. 点击上面的TuTuAPP，可以打开兔兔助手的网站，用手机扫描首页的二维码(可以用微信等，带有二维码扫描的都可以)，注意如果你的iPhone已经越狱，请切换标签页到越狱版本。</p>
-
-<p>  2. 安装时注意按照提示添加信任，等待兔兔助手安装完成之后，打开软件，在Search栏输入“精灵宝可梦GO”，请下载美区版，有两个版本：懒人版与移动版；懒人版有移动按钮，可以不需要走动躺在床上玩耍，移动版是需要人走动才能玩耍，我下载的移动版，你根据自己的喜欢选择，选择完成后，按提示按钮安装即可。</p>
-
-<p>  3. 安装完成Pokemon GO之后也需要设定信任，请按照提示操作；好了， 到这一步，Pokemon GO已经安装在你的手机上了，下一步就是怎么登录玩耍。</p>
-
-<p>  4. 到这里及一下的步骤能继续下去的前提是，你有一个美国的VPN节点。打开你手机App Store，搜索VPN，列表中会有很多的免费应用，因为我一直用的是付费VPN，所以对这些不是很清楚，朋友推荐<strong>ArkVPN</strong>，如果你没有付费VPN，可以试试这个，注意VPN节点要选择US，如果你也要使付费VPN的，我推荐Shadowsocks＋Potatso( App)</p>
-
-<p>  5. 注册Google Account ID，<a href="https://account.google.com">点击</a></p>
-<div align="center">
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo2.jpg width="360" height="640"&gt;
-</div>
-<p>  6. 进入游戏，登录Google ID，然后授权，进入游戏。</p>
-<div align="center">
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo3.png width="360" height="640"&gt;
-</div>
-<p>  7. 开始捕捉你的小精灵吧，手动微笑。</p>
-
-<blockquote>
-  <p>Tips：这款游戏会大量耗电发热，因为打开摄像头捕捉小精灵；另外很容易入迷，在室外玩耍时一定要注意安全。</p>
-</blockquote>
-
-<p>  8. 注意：如果看到了GPS signal not found，说明是GPS信息丢失，这是根据GPS定位的游戏，所以这很重要，记得选择美国的VPN代理。</p>
-<div align="center">
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo4.png
-width="360" height="640"&gt;
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo5.png
-width="360" height="640"&gt;
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo6.png
-width="360" height="640"&gt;
-</div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-07-24</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#iPhone">iPhone</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1640,7 +1723,7 @@ width="360" height="640"&gt;
             <li class="active"><a>9</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page14">14</a></li>
+          <li><a href="/page15">15</a></li>
         
 
         
@@ -1888,6 +1971,16 @@ width="360" height="640"&gt;
       <li><a href="/categories.html#Github">
     		Github <span>1</span>
     	</a></li>
+     
+    	
+      <li><a href="/categories.html#云原生">
+    		云原生 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#微服务">
+    		微服务 <span>1</span>
+    	</a></li>
     
   
 
@@ -1898,6 +1991,15 @@ width="360" height="640"&gt;
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
+          
+  参考资料：
+
+
+
+        </li>
         
         <li>
           <a href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s系列 南北流量和东西流量</a>
@@ -1925,13 +2027,6 @@ width="360" height="640"&gt;
         <li>
           <a href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a>
           背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/05/%E5%9B%BD%E5%86%85%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA-MacOS-K8s-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.html">国内环境搭建 MacOS K8s 开发环境</a>
-          Minikube
 
 
         </li>

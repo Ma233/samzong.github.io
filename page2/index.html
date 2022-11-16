@@ -197,6 +197,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -238,6 +242,106 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2022/04/GitHub-Pages-%E7%9A%84%E5%A6%99%E7%94%A8.html">GitHub Pages 的妙用</a></h1>
+    <div class="post_at_index">
+      <h2 id="本来是想好好工作的">本来是想好好工作的</h2>
+
+<p>最近换了新工作（后面找个时间好好说说），大量接触 k8s &amp; docker，开始写了比较多的 yaml 和 Dockerfile；散落在电脑上的话，还是很不方便，有个仓库管理起来的话，就会很方便了，于是有了这个项目 <a href="https://github.com/SAMZONG/k8s-yaml">samzong/k8s-yaml</a></p>
+
+<p>k8s-yaml 一开始的定义就是 public ，希望给更多其他的人提供帮助，索性就再增加了一个网页吧</p>
+
+<h2 id="一分钟快速搭建网站">一分钟快速搭建网站</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch gh-pages
+<span class="nb">echo</span> <span class="s2">"## Hello gh-pages"</span> <span class="o">&gt;</span> index.md
+git push origin gh-pages
+</code></pre></div></div>
+
+<p>eeen…. 这样就 ok ！</p>
+
+<p><code class="language-plaintext highlighter-rouge">gh-pages</code> 是每个 GitHub 仓库的默认 github pages 分支，当你创建这个分支并推动到 GitHub 时，会自动触发 Pages 的构建任务，大约30s 左右，你就会得到一个网站</p>
+
+<blockquote>
+  <p>http://[github_username].github.io/[github_repo_name]</p>
+</blockquote>
+
+<h2 id="简单的配置">简单的配置</h2>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/X4tbDt.png?x-oss-process=image/resize,w_960,m_lfit" alt="X4tbDt" /></p>
+
+<p>上图简单指引了如何打开 GitHub Pages 的配置路径，下面对主要的几个模块进行说明:</p>
+
+<ol>
+  <li>Source  - 指定的 以那个分支作为 built 源和文件夹，默认是 gh-pages, 建议不动，统一认知</li>
+  <li>Theme Chooser - 选择对应的博客主题，大概有 10 个，都比较普通，根据自己喜好来，可以自定义，这里不展开 (Google Jekyll themes 一大堆</li>
+  <li>Custom Domain - 可以指定默认的特定的域名，需要配置 <code class="language-plaintext highlighter-rouge">/CNAME</code>，需要和这里的域名一致，同时域名解析需要配置好 CNAME</li>
+  <li>Enforce HTTPS - 启用 HTTPS，默认不启动，建议启用</li>
+</ol>
+
+<blockquote>
+  <p>CNAME 配置，将指定的域名指向到 <code class="language-plaintext highlighter-rouge">[github_username].github.io</code></p>
+</blockquote>
+
+<p>经过简单的配置，这个仓库的网站，已经完成了你想要的； 在 <code class="language-plaintext highlighter-rouge">index.md</code> 内修改为你想要的内容。</p>
+
+<h2 id="高级功能结合-github-issue-的评论功能">高级功能：结合 GitHub issue 的评论功能</h2>
+
+<p>这里采用的 评论组件是 <a href="https://utteranc.es/">utterances</a>, 提供轻量级的博客评论功能，并且评论是直接创建 GitHub issue，方便管理</p>
+
+<p>这里不赘述安装细节的，比较简单，直接去看下面几个网站即可</p>
+
+<ul>
+  <li>https://utteranc.es/</li>
+  <li>https://roife.github.io/2021/02/12/use-utterances-for-comment/</li>
+  <li>https://www.evanlin.com/jekyll-remove-disqus/</li>
+</ul>
+
+<blockquote>
+  <p>注意需要增加的文件</p>
+</blockquote>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir _layouts
+wget https://raw.githubusercontent.com/SAMZONG/k8s-yaml/gh-pages/_layouts/post.html -o _layouts/post.html
+</code></pre></div></div>
+
+<p>index.md 增加 layout 参数，追加在最顶部</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">layout</span><span class="pi">:</span> <span class="s">post</span>
+<span class="nn">---</span>
+</code></pre></div></div>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add _layouts/post.html
+git add index.md
+
+git commit <span class="nt">-m</span> <span class="s2">"add comment module with utterances"</span>
+git push origin gh-pages
+</code></pre></div></div>
+
+<h2 id="end">End</h2>
+
+<p>以上就是全部的部署内容了，可以去看下我的网站和项目</p>
+
+<ul>
+  <li>https://k8s-yaml.samzong.me</li>
+</ul>
+
+<p>如果你觉得喜欢，求 fork，求 star</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-22</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Github">Github</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2022/04/%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E7%AB%9E%E5%93%81.html">需要了解的 K8s 发行版本</a></h1>
@@ -1397,145 +1501,6 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/03/awesome-hexo-plugins.html">Awesome Hexo Plugin</a></h1>
-    <div class="post_at_index">
-      <p>About my blog use hexo plugin</p>
-
-<h2 id="hexo-hide-posts">hexo-hide-posts</h2>
-
-<p><a href="https://github.com/prinsss/hexo-hide-posts">hexo-hide-posts</a> is A plugin to hide specific posts from your Hexo blog and make them only accessible by links</p>
-
-<h3 id="installation">Installation</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">install </span>hexo-hide-posts <span class="nt">--save</span>
-</code></pre></div></div>
-
-<p>Usage</p>
-
-<p>Add <code class="language-plaintext highlighter-rouge">hidden: true</code> to the <a href="https://hexo.io/docs/front-matter">front-matter</a> of posts which you want to hide.</p>
-
-<p>e.g. Edit <code class="language-plaintext highlighter-rouge">source/_posts/lorem-ipsum.md</code>:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
-layout: post
-title: 'Lorem Ipsum'
-date: '2019/8/10 11:45:14'
-hidden: true
----
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-</code></pre></div></div>
-
-<p>This post will not be shown anywhere, but you can still access it by <code class="language-plaintext highlighter-rouge">https://hexo.test/lorem-ipsum/</code>. (If you want to completely prevent a post from rendering, just set it as a <a href="https://hexo.io/docs/writing.html#Drafts">draft</a>.)</p>
-
-<p>To get a list of hidden posts, you can run <code class="language-plaintext highlighter-rouge">hexo hidden:list</code> from command line.</p>
-
-<p>For developers, <code class="language-plaintext highlighter-rouge">all_posts</code> and <code class="language-plaintext highlighter-rouge">hidden_posts</code> added to <a href="https://hexo.io/api/locals">Local Variables</a> may be useful.</p>
-
-<h3 id="config">Config</h3>
-
-<p>In your site’s <code class="language-plaintext highlighter-rouge">_config.yml</code>:</p>
-
-<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># hexo-hide-posts</span>
-<span class="na">hide_posts</span><span class="pi">:</span>
-  <span class="na">enable</span><span class="pi">:</span> <span class="no">true</span>
-  <span class="c1"># Change the filter name to fit your need</span>
-  <span class="na">filter</span><span class="pi">:</span> <span class="s">hidden</span>
-  <span class="c1"># Generators which you want to expose all posts (include hidden ones) to.</span>
-  <span class="c1"># Common generators: index, tag, category, archive, sitemap, feed, etc.</span>
-  <span class="na">public_generators</span><span class="pi">:</span> <span class="pi">[]</span>
-  <span class="c1"># Add "noindex" meta tag to prevent hidden posts from being indexed by search engines</span>
-  <span class="na">noindex</span><span class="pi">:</span> <span class="no">true</span>
-</code></pre></div></div>
-
-<h2 id="hexo-generator-restful">hexo-generator-restful</h2>
-
-<p><a href="https://github.com/yscoder/hexo-generator-restful">hexo-generator-restful</a> is generate restful json data for Hexo plugins.</p>
-
-<h3 id="install">Install</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>hexo-generator-restful <span class="nt">--save</span>
-</code></pre></div></div>
-
-<h3 id="config-1">Config</h3>
-
-<p>以下为默认配置，属性值为 <code class="language-plaintext highlighter-rouge">false</code> 表示不生成。</p>
-
-<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">restful</span><span class="pi">:</span>
-  <span class="c1"># site 可配置为数组选择性生成某些属性</span>
-  <span class="c1"># site: ['title', 'subtitle', 'description', 'author', 'since', email', 'favicon', 'avatar']</span>
-  <span class="na">site</span><span class="pi">:</span> <span class="no">true</span>        <span class="c1"># hexo.config mix theme.config</span>
-  <span class="na">posts_size</span><span class="pi">:</span> <span class="m">10</span>    <span class="c1"># 文章列表分页，0 表示不分页</span>
-  <span class="na">posts_props</span><span class="pi">:</span>      <span class="c1"># 文章列表项的需要生成的属性</span>
-    <span class="na">title</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">slug</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">date</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">updated</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">comments</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">path</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">excerpt</span><span class="pi">:</span> <span class="no">false</span>
-    <span class="na">cover</span><span class="pi">:</span> <span class="no">true</span>      <span class="c1"># 封面图，取文章第一张图片</span>
-    <span class="na">content</span><span class="pi">:</span> <span class="no">false</span>
-    <span class="na">keywords</span><span class="pi">:</span> <span class="no">false</span>
-    <span class="na">categories</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">tags</span><span class="pi">:</span> <span class="no">true</span>
-  <span class="na">categories</span><span class="pi">:</span> <span class="no">true</span>         <span class="c1"># 分类数据</span>
-  <span class="na">use_category_slug</span><span class="pi">:</span> <span class="no">false</span> <span class="c1"># Use slug for filename of category data</span>
-  <span class="na">tags</span><span class="pi">:</span> <span class="no">true</span>               <span class="c1"># 标签数据</span>
-  <span class="na">use_tag_slug</span><span class="pi">:</span> <span class="no">false</span>      <span class="c1"># Use slug for filename of tag data</span>
-  <span class="na">post</span><span class="pi">:</span> <span class="no">true</span>               <span class="c1"># 文章数据</span>
-  <span class="na">pages</span><span class="pi">:</span> <span class="no">false</span>             <span class="c1"># 额外的 Hexo 页面数据, 如 About</span>
-</code></pre></div></div>
-
-<h3 id="get-hexo-config">Get Hexo Config</h3>
-
-<p>获取所有 Hexo 配置（站点配置和主题配置）。</p>
-
-<blockquote>
-  <p>Request</p>
-</blockquote>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api/site.json
-</code></pre></div></div>
-
-<blockquote>
-  <p>Response</p>
-</blockquote>
-
-<p><a href="https://samzong.me/api/site.json">/api/site.json</a></p>
-
-<h3 id="get-posts">Get Posts</h3>
-
-<p>如果配置 <code class="language-plaintext highlighter-rouge">posts_size: 0</code> 则不分页，以下请求会获取全部文章。</p>
-
-<blockquote>
-  <p>Request</p>
-</blockquote>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api/posts.json
-</code></pre></div></div>
-
-<blockquote>
-  <p>Response</p>
-</blockquote>
-
-<p>示例为分页配置下的数据，会包含分页属性 <code class="language-plaintext highlighter-rouge">total</code>、<code class="language-plaintext highlighter-rouge">pageSize</code>、<code class="language-plaintext highlighter-rouge">pageCount</code>，不分页的数据不包含这三项。</p>
-
-<p><a href="https://samzong.me/api/posts.json">/api/posts.json</a></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-03-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Hexo">Hexo</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1575,7 +1540,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page14">14</a></li>
+          <li><a href="/page15">15</a></li>
         
 
         
@@ -1823,6 +1788,16 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       <li><a href="/categories.html#Github">
     		Github <span>1</span>
     	</a></li>
+     
+    	
+      <li><a href="/categories.html#云原生">
+    		云原生 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#微服务">
+    		微服务 <span>1</span>
+    	</a></li>
     
   
 
@@ -1833,6 +1808,15 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
+          
+  参考资料：
+
+
+
+        </li>
         
         <li>
           <a href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s系列 南北流量和东西流量</a>
@@ -1860,13 +1844,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         <li>
           <a href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a>
           背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/05/%E5%9B%BD%E5%86%85%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA-MacOS-K8s-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.html">国内环境搭建 MacOS K8s 开发环境</a>
-          Minikube
 
 
         </li>

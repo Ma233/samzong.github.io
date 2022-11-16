@@ -197,6 +197,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -238,6 +242,53 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2016/04/HowTo-Add-Piwik-Tracking-to-Ghost.html">HowTo Add Piwik Tracking to Ghost</a></h1>
+    <div class="post_at_index">
+      <p>This is what about piwik on wiki. <a href="https://en.wikipedia.org/wiki/Piwik">goto</a></p>
+
+<h2 id="step-1---getting-your-piwik-tracking-code">Step 1 - Getting your Piwik Tracking code</h2>
+<p>The first step to having Piwik tracking your Ghost blog will be to add a new website in Piwik, if you are unfamiliar with this process you can checkout the Piwik documention on Managing Websites. With your Ghost blog added into Piwik you will end up with tracking code that will look similar to the following:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;!-- Piwik --&gt;
+&lt;script type="text/javascript"&gt;
+    var _paq = _paq || [];
+    (function(){ var u=(("https:" == document.location.protocol) ? "https://{$PIWIK_URL}/" : "http://{$PIWIK_URL}/");
+    _paq.push(['setSiteId', {$IDSITE}]);
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript'; g.defer=true; g.async=true; g.src=u+'piwik.js';
+    s.parentNode.insertBefore(g,s); })();
+&lt;/script&gt;
+&lt;!-- End Piwik Code --&gt;
+</code></pre></div></div>
+<blockquote>
+  <p>Where <code>$PIWIK_URL</code> will be the domain name you have setup for Piwik.</p>
+</blockquote>
+
+<h2 id="step-2---adding-piwik-tracking-code-to-ghost-theme-file">Step 2 - Adding Piwik Tracking Code To Ghost Theme File</h2>
+
+<p>Piwik recommends that you add the tracking code right above the <code>&#60;/body&#62;</code> tag, which you can find in your Ghost’s <code>default.hbs</code> theme file. You will find the <code>default.hbs</code> file in <code>/path/to/ghost/content/themes/your-theme/default.hbs</code>
+How you add the tracking code to your <code>default.hbs</code> will depend on if you are editing the file on your local computer or directly on the server. If you are editing your theme locally you can edit this file in any text editor and when you are finished upload this file to your server. Otherwise if you are editing this file directly on the server you can use the command line editor, <code>vim</code>, to add the tracking code.</p>
+
+<h2 id="step-3---restart-ghost">Step 3 - Restart Ghost</h2>
+<p>For the changes in your theme to take effect you will need to restart Ghost. Restarting Ghost will load up a fresh copy of your theme files, with your Piwik tracking code. How you restart Ghost depends on how you started Ghost. If you followed our <a href="https://www.howtoinstallghost.com/how-to-start-ghost-with-forever/">Keep Ghost Running with forever</a>, then you can restart Ghost with <code>forever restart ghost</code>.
+Within a few moments you will start to see data coming in for your Ghost blog!
+If you have any questions about setting this up or run into any issues please leave us a comment below and we will do what we can to help.</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-04-27</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Piwik">Piwik</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2016/04/HowTo-Install-piwik-with-nginx-on-centos-6-x.html">HowTo Install piwik with nginx on centos 6.x</a></h1>
@@ -1339,135 +1390,6 @@ Server has startup warnings:
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/03/%E5%9C%A8CentOS%E4%B8%AD%E9%85%8D%E7%BD%AE-SFTP-%E7%8E%AF%E5%A2%83.html">在CentOS中配置 SFTP 环境</a></h1>
-    <div class="post_at_index">
-      <p>       做运维工作的，应该经常会碰到这样的问题，需要新上一个web项目，需要上传文件到服务器上，解决方法有很多种，常见的如sftp和ftp，今天讲如何使用sftp让系统用户用户上传项目的权限，并且实现chroot和无法使用ssh登录到系统。</p>
-
-<p>       SFTP是指SSH文件传输协议（SSH File Transfer protocol）或安全文件传输协议（Secure File Transfer Protocol），它提供了可信数据流下的文件访问、文件传输以及文件管理功能。当我们为SFTP配置chroot环境后，只有被许可的用户可以访问，并被限制到他们的家目录中，换言之：被许可的用户将处于牢笼环境中，在此环境中它们甚至不能切换它们的目录。</p>
-
-<h3 id="1-测试环境">1. 测试环境</h3>
-
-<ul>
-  <li>MacBook Pro 15-inch i7 16GB</li>
-  <li>VMware Fushion 8 Pro</li>
-  <li>Transmit （ SFTP tools for Mac ）</li>
-</ul>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# cat /etc/issue
-CentOS release 6.6 (Final)
-Kernel \r on an \m
-[root@test ~]# rpm -qa | grep openssh-server
-openssh-server-5.3p1-104.el6.i686
-</code></pre></div></div>
-
-<h3 id="2-实验步骤">2. 实验步骤</h3>
-
-<h5 id="21-增加一个sftpusers用户组">2.1 增加一个sftpusers用户组</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# groupadd sftpusers
-</code></pre></div></div>
-
-<h5 id="22-创建一个用户user01并分配给sftpusers用户组">2.2 创建一个用户user01，并分配给sftpusers用户组</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# useradd -g sftpusers user01
-</code></pre></div></div>
-
-<h5 id="23-修改用户家目录及指定不能登录shell">2.3 修改用户家目录及指定不能登录shell</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# mkdir /sftp/
-[root@test ~]# usermod -s /sbin/nologin -d /sftp/user01 -m user01
-</code></pre></div></div>
-
-<h5 id="24-给用户创建密码注意密码不明文显示">2.4 给用户创建密码（注意密码不明文显示）</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# passwd user01
-Changing password for user user01.
-New password:
-BAD PASSWORD: it is too simplistic/systematic
-BAD PASSWORD: is too simple
-Retype new password:
-passwd: all authentication tokens updated successfully.
-[root@test ~]#
-</code></pre></div></div>
-
-<h4 id="25-修改ssh的配置文件如下设置">2.5 修改ssh的配置文件，如下设置</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# ll /etc/ssh/sshd_config
--rw-------. 1 root root 3879 Oct 15  2014 /etc/ssh/sshd_config
-[root@test ~]# vim /etc/ssh/sshd_config
-
-# line 132
-#Subsystem      sftp    /usr/libexec/openssh/sftp-server    #注释
-Subsystem       sftp    internal-sftp        #修改为internal-sftp
-
-# add this lines at the end of file
-Match Group sftpusers        #指定一下参数仅适用的用户组sftpusers
-    X11Forwarding no
-    AllowTcpForwarding no
-    ChrootDirectory %h       #设置chroot将用户锁在家目录，%h=家目录
-    ForceCommand internal-sftp    #该参数强制执行内部sftp
-</code></pre></div></div>
-
-<h5 id="26-重启ssh服务">2.6 重启ssh服务</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# /etc/init.d/sshd restart
-Stopping sshd:                                             [  OK  ]
-Starting sshd:                                             [  OK  ]
-</code></pre></div></div>
-
-<h5 id="27-设置用户家目录权限注意权限不能大于0755">2.7 设置用户家目录权限,(注意权限不能大于0755)</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# chmod 0755 /sftp/user01/
-[root@test ~]# chown root /sftp/user01/
-[root@test ~]# chgrp -R sftpusers /sftp/user01/
-</code></pre></div></div>
-
-<h5 id="28-关于上传根目录无法上传文件">2.8 关于上传,根目录无法上传文件。</h5>
-<p>       因为用户家目录属主是root，并且权限最大0755，所以没法写，我的解决方法是在在家目录建立一个文件夹，作为上传目录，并把属主给user01即可。</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# mkdir /sftp/user01/upload
-[root@test ~]# chown user01:sftpusers /sftp/user01/upload/
-</code></pre></div></div>
-
-<h3 id="3-测试验证">3. 测试验证</h3>
-<h5 id="31-linux-登录测试">3.1 Linux 登录测试</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# su - user01
-This account is currently not available.    #su - 切换失败
-
-[root@test ~]# cat /etc/passwd | tail -1
-user01:x:500:500::/sftp/user01:/sbin/nologin
-
-[root@test ~]# ssh user01@localhost
-The authenticity of host 'localhost (::1)' can't be established.
-RSA key fingerprint is f3:fc:31:dc:7d:16:d5:ad:8c:bc:eb:69:8f:b2:0b:c9.
-Are you sure you want to continue connecting (yes/no)? yes
-Warning: Permanently added 'localhost' (RSA) to the list of known hosts.
-user01@localhost's password:
-This service allows sftp connections only.    #ssh登录也失败，ssh设置成功
-Connection to localhost closed.
-
-[root@test ~]# sftp user01@localhost
-Connecting to localhost...
-user01@localhost's password:
-sftp&gt; ls
-upload
-sftp&gt; pwd
-Remote working directory: /
-sftp&gt;
-
-</code></pre></div></div>
-
-<h5 id="32-sftp-工具测试">3.2 SFTP 工具测试</h5>
-<p>       我这里使用的是Mac，但是传统的文件传输工具都差不多，Windows下有Winscp、Xftp等。</p>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-03-24</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SSH">SSH</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1509,7 +1431,7 @@ sftp&gt;
             <li class="active"><a>12</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page14">14</a></li>
+          <li><a href="/page15">15</a></li>
         
 
         
@@ -1757,6 +1679,16 @@ sftp&gt;
       <li><a href="/categories.html#Github">
     		Github <span>1</span>
     	</a></li>
+     
+    	
+      <li><a href="/categories.html#云原生">
+    		云原生 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#微服务">
+    		微服务 <span>1</span>
+    	</a></li>
     
   
 
@@ -1767,6 +1699,15 @@ sftp&gt;
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
+          
+  参考资料：
+
+
+
+        </li>
         
         <li>
           <a href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s系列 南北流量和东西流量</a>
@@ -1794,13 +1735,6 @@ sftp&gt;
         <li>
           <a href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a>
           背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/05/%E5%9B%BD%E5%86%85%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA-MacOS-K8s-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.html">国内环境搭建 MacOS K8s 开发环境</a>
-          Minikube
 
 
         </li>

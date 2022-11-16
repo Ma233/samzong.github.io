@@ -197,6 +197,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -238,6 +242,135 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2016/11/Denyhosts%E5%A2%9E%E5%8A%A0%E6%9C%8D%E5%8A%A1%E5%99%A8SSH%E9%BB%91%E5%90%8D%E5%8D%95%E6%9C%BA%E5%88%B6.html">Denyhosts增加服务器SSH黑名单机制</a></h1>
+    <div class="post_at_index">
+      <h5 id="查看当前服务器失败登录的统计">查看当前服务器失败登录的统计：</h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat /var/log/secure | awk '/Failed/{print $(NF-3)}' | sort | uniq -c | sort -n |  awk '{print $2" = "$1}'
+</code></pre></div></div>
+<h5 id="install-denyhosts">Install denyhosts</h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 需要预先安装epel源
+sudo yum install -y epel-release
+sudo yum install -y denyhosts
+</code></pre></div></div>
+<h5 id="配置文件解析">配置文件解析</h5>
+<p>默认配置文件/etc/denyhosts。</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 查看的sshd日志文件
+SECURE_LOG = /var/log/secure
+
+# 将阻止IP写入的配置文件
+HOSTS_DENY = /etc/hosts.deny
+
+# 过多久之后清除，其中w代表周，d代表天，h代表小时，s代表秒，m代表分钟。
+PURGE_DENY = 4h
+
+# 阻止的服务名称
+BLOCK_SERVICE  = sshd
+
+# 允许无效用户（在/etc/passwd未列出）登录失败次数,允许无效用户登录失败的次数.
+DENY_THRESHOLD_INVALID = 1
+
+# 允许普通用户登录失败的次数
+DENY_THRESHOLD_VALID = 5
+
+# 允许root登录失败的次数
+DENY_THRESHOLD_ROOT = 2
+DENY_THRESHOLD_RESTRICTED = 1
+
+# 设定 deny host 写入到该资料夹
+WORK_DIR = /var/lib/denyhosts
+
+# 将deny的host或ip纪录到Work_dir中
+SUSPICIOUS_LOGIN_REPORT_ALLOWED_HOSTS=YES
+
+# 是否做域名反解
+HOSTNAME_LOOKUP=YES
+
+# 将DenyHOts启动的pid纪录到LOCK_FILE中，已确保服务正确启动，防止同时启动多个服务。
+LOCK_FILE = /var/lock/subsys/denyhosts
+
+# 设置管理员邮件地址
+ADMIN_EMAIL = luchuanjia@msn.com
+SMTP_HOST = localhost
+SMTP_PORT = 25
+SMTP_FROM = DenyHosts &lt;nobody@localhost&gt;
+SMTP_SUBJECT = DenyHosts Report from $[HOSTNAME]
+
+# 有效用户登录失败计数归零的时间
+AGE_RESET_VALID=1d
+
+# root用户登录失败计数归零的时间
+AGE_RESET_ROOT=25d
+
+# 用户的失败登录计数重置为0的时间(/usr/share/denyhosts/data/restricted-usernames)
+AGE_RESET_RESTRICTED=25d
+
+# 无效用户登录失败计数归零的时间
+AGE_RESET_INVALID=10d
+
+# denyhosts的日志文件位置
+DAEMON_LOG = /var/log/denyhosts
+
+# denyhosts的轮询时间
+DAEMON_SLEEP = 30s
+
+# 该项与PURGE_DENY 设置一样，也是清除hosts.deny中 ssh用户的时间
+DAEMON_PURGE = 1h
+</code></pre></div></div>
+
+<h5 id="faq">FAQ</h5>
+
+<ol>
+  <li>如果想删除一个已经禁止的主机IP，并加入到允许主机例表，只在 /etc/hosts.deny 删除是没用的,还需要以下：
+```
+/var/lib/denyhosts 目录，进入以下操作：
+    <h1 id="停止denyhosts服务">停止denyhosts服务</h1>
+    <p>sudo service denyhosts stop</p>
+  </li>
+</ol>
+
+<h1 id="进入denyhosts的目录">进入denyhosts的目录</h1>
+<p>cd /var/lib/denyhosts</p>
+
+<h1 id="查看哪些文件添加了ssh限制将ip_addr替换成你的ip">查看哪些文件添加了ssh限制,将IP_addr替换成你的IP</h1>
+<p>sudo grep IP_addr /usr/share/denyhosts/data/*</p>
+
+<h1 id="然后一个个删除文件中你想取消的主机ip所在的行">然后一个个删除文件中你想取消的主机IP所在的行:</h1>
+<p>/usr/share/denyhosts/data/hosts
+/usr/share/denyhosts/data/hosts-restricted
+/usr/share/denyhosts/data/hosts-root
+/usr/share/denyhosts/data/hosts-valid
+/usr/share/denyhosts/data/users-hosts</p>
+
+<h1 id="添加你想允许的主机ip地址到allowed-hosts">添加你想允许的主机IP地址到allowed-hosts:</h1>
+<p>sudo echo IP_addr »/usr/share/denyhosts/data/allowed-hostsps</p>
+
+<h1 id="启动-denyhosts服务">启动 DenyHosts服务：</h1>
+<p>service denyhosts start
+```</p>
+
+<h5 id="tips">Tips</h5>
+
+<ul>
+  <li>尽量是用key验证登录服务器</li>
+  <li>尽量从固定IP点登录服务器，然后将该地址加入白名单</li>
+</ul>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-11-23</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#DenyHosts">DenyHosts</a>
+      , 
+      <a href="/tags.html#Tools">Tools</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2016/11/Python-1-%E5%9F%BA%E7%A1%80.html">Python 基础</a></h1>
@@ -1312,146 +1445,6 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/08/Script-Install-LNMP.html">Use Script Install LNMP</a></h1>
-    <div class="post_at_index">
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
-
-#
-
-if [[ $1 == "uninstall" ]];then
-	echo "starting backup data..."
-	mkdir -p /www/backup
-	service mysqld stop
-	service nginxd stop
-	service httpd stop
-	service wdapache stop
-	service pureftpd stop
-	tar zcvf /www/backup/mysqldatdbk.tar.gz /www/wdlinux/mysql/var
-	tar zcvf /www/backup/ngconfbk.tar.gz /www/wdlinux/nginx/conf
-	tar zcvf /www/backup/apconfbk.tar.gz /www/wdlinux/apache/conf
-	rpm -e lanmp_wdcp --nodeps
-	rm -fr /www/wdlinux
-	echo
-	echo "	lanmp,wdcp remove is OK"
-	echo
-	exit 0
-fi
-
-echo "Turn off selinux..."
-setenforce 0
-sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
-sed -i 's/^exclude=/#exclude=/g' /etc/yum.conf
-yum install -y gcc gcc-c++ make autoconf libtool-ltdl-devel gd-devel freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel patch libmcrypt-devel libmhash-devel ncurses-devel sudo bzip2 iptables sendmail iptables unzip
-
-#echo "Check the network..."
-#ping -c 2 113.105.167.1
-#if [[ $? != 0 ]];then
-#	echo
-#	echo "network err"
-#	exit 1
-#fi
-ping -c 3 dl.wdlinux.cn
-if [[ $? == 2 ]];then
-	echo
-	echo "dns error"
-	exit 1
-fi
-
-if [[ ! -d /www/wdlinux ]];then
-	echo
-	echo "rpm remove..."
-	rpm -e php --nodeps
-	rpm -e httpd --nodeps
-	rpm -e mysql-server --nodeps
-	rpm -e mysql --nodeps
-fi
-
-echo "yum update..."
-yum install -y make autoconf sudo wget libtool-ltdl-devel gd-devel freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel patch libmcrypt-devel libmhash-devel ncurses-devel iptables
-
-arch=i386
-Aurl="http://dl.wdlinux.cn:5180/rpms"
-if [[ `uname -m` == "x86_64" ]];then
-	arch="x86_64"
-fi
-
-function in_finsh {
-        echo
-        echo "          configuration ,lamp or lnmp,wdcp install is finshed"
-        echo "          visit http://ip"
-        echo "          wdcp visit http://ip:8080"
-        echo "          more infomation please visit http://www.wdlinux.cn"
-        echo
-}
-
-function in_check {
-        if [[ $1 == 1 ]];then
-                echo
-                echo "============  $2 install error  ============="
-                echo
-                exit 1
-        else
-                echo
-                echo "============  $2 install OK  =============="
-                echo
-                echo
-        fi
-}
-
-grep -E 'wdOS 1|5\.' /etc/redhat-release &gt; /dev/null 2&gt;&amp;1
-v1=$?
-grep -E 'wdOS 2|6\.' /etc/redhat-release &gt; /dev/null 2&gt;&amp;1
-v2=$?
-if [ $v1 == 0 ];then
-	RF="lanmp_wdcp-2-5.$arch.rpm";
-elif [ $v2 == 0 ];then
-	RF="lanmp_wdcp-2-5.el6.$arch.rpm";
-	if [ $arch == "x86_64" ];then
-		wget -c http://dl.wdlinux.cn:5180/soft/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
-		rpm -ivh rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
-	else
-		wget -c http://dl.wdlinux.cn:5180/soft/rpmforge-release-0.5.2-2.el6.rf.i686.rpm
-		rpm -ivh rpmforge-release-0.5.2-2.el6.rf.i686.rpm
-	fi
-	yum install -y mhash-devel libmcrypt-devel
-else
-	echo
-	echo "The current system does not support"
-	echo
-	exit
-fi
-wget -c http://dl.wdlinux.cn:5180/rpms/$RF
-rpm -ivh $RF --nodeps
-I_F=$?
-if [ $I_F == 0 ];then
-	echo
-fi
-in_check $I_F lanmp_wdcp
-
-rm -f wdcp_v*
-wget -c http://down.wdlinux.cn/down/wdcp_v2.5.tar.gz &gt; /dev/null 2&gt;&amp;1
-tar zxvf wdcp_v2.5.tar.gz -C / &gt; /dev/null 2&gt;&amp;1
-
-in_finsh
-
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-08-13</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Shell">Shell</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1493,7 +1486,7 @@ in_finsh
             <li class="active"><a>8</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page14">14</a></li>
+          <li><a href="/page15">15</a></li>
         
 
         
@@ -1741,6 +1734,16 @@ in_finsh
       <li><a href="/categories.html#Github">
     		Github <span>1</span>
     	</a></li>
+     
+    	
+      <li><a href="/categories.html#云原生">
+    		云原生 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#微服务">
+    		微服务 <span>1</span>
+    	</a></li>
     
   
 
@@ -1751,6 +1754,15 @@ in_finsh
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
+          
+  参考资料：
+
+
+
+        </li>
         
         <li>
           <a href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s系列 南北流量和东西流量</a>
@@ -1778,13 +1790,6 @@ in_finsh
         <li>
           <a href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a>
           背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/05/%E5%9B%BD%E5%86%85%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA-MacOS-K8s-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.html">国内环境搭建 MacOS K8s 开发环境</a>
-          Minikube
 
 
         </li>

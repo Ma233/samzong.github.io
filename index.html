@@ -197,6 +197,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -238,6 +242,135 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a></h1>
+    <div class="post_at_index">
+      <blockquote>
+  <p>参考资料：</p>
+</blockquote>
+
+<ul>
+  <li><a href="https://juejin.cn/post/7128953614403371015#heading-5">https://juejin.cn/post/7128953614403371015#heading-5</a></li>
+  <li><a href="https://dubbo.apache.org/zh/docs/">https://dubbo.apache.org/zh/docs/</a></li>
+</ul>
+
+<h2 id="简介">简介</h2>
+
+<ul>
+  <li>Apache Dubbo 一款基于RPC服务开发的云原生微服务框架，与 SpringCloud 类似</li>
+  <li>使用 Dubbo 开发的微服务原生具备相互之间远程地址发现(注册中心)和通信的能力</li>
+  <li>Dubbo 支持丰富的服务治理特性，包含 服务发现、负载均衡、流量调度 等，高度可扩展</li>
+  <li>Dubbo 由 阿里巴巴 开发，并贡献给 Apache</li>
+</ul>
+
+<h2 id="发展历程">发展历程</h2>
+
+<h3 id="版本迭代">版本迭代</h3>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/20221117023215.png?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<h3 id="软件生态的活跃度">软件生态的活跃度</h3>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/8G8hZG.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<h2 id="与-springcloud-相比的优势">与 SpringCloud 相比的优势</h2>
+
+<ul>
+  <li>功能丰富，基于原生库即可完成大部分的微服务治理能力</li>
+  <li>支持超大规模的微服务机器设计，高性能 RPC 通信协议实现</li>
+  <li>高度可扩展性，支持在调用过程中对流量及协议进行拦截扩展，如 Filter、Router、LB 等</li>
+  <li>支持微服务治理的扩展组件
+    <ul>
+      <li>Registry 注册中心： Zookeeper、Nacos</li>
+      <li>Config Center 配置中心： Zookeeper、Nacos</li>
+      <li>Metadata Center 元数据中心 (Dubbo3支持)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="dubbo-的基础概念介绍">Dubbo 的基础概念介绍</h2>
+
+<ul>
+  <li>RPC 通信</li>
+  <li>服务发现</li>
+  <li>流量治理</li>
+</ul>
+
+<h3 id="rpc-通信">RPC 通信</h3>
+
+<ul>
+  <li>Dubbo3之中， RPC 通信主要使用 Triple 协议，构建在 HTTP/2 协议之上，兼容 gRPC</li>
+  <li>提供 Request Response、Request Streaming、Response Streaming、Bi-directional Streaming 通信模型</li>
+  <li>支持 IDL ，基于 Triple 协议</li>
+</ul>
+
+<h3 id="服务发现">服务发现</h3>
+
+<p>服务发现，是消费端自动发现服务地址列表的能力，是微服务框架需要具备的关键能力，借助于自动化的服务发现，微服务之间在无需感知对端部署位置与IP地址的情况下实现通信。</p>
+
+<p>Dubbo提供的Client-Based服务发现机制，同时也需要第三方注册中心来协调服务发现过程，比如Nacos/Zookeeper等。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/oaqyGX.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<h3 id="流量治理">流量治理</h3>
+
+<ul>
+  <li>Dubbo2开始，Dubbo就提供了丰富的服务治理规则，包括路由规则/动态配置等</li>
+  <li>Dubbo3之中的实现
+    <ul>
+      <li>Dubbo Mesh : 通过对接 xDS 对接到时下流行的 Mesh 产品如 Istio 中所使用的以 VirtualService、DestinationRule 为代表的治理规则</li>
+      <li>另一方面 Dubbo 正寻求设计一套自有规则以实现在不通部署场景下的流量治理，以及灵活的治理能力。</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="dubbo-mesh">Dubbo Mesh</h2>
+
+<p>Dubbo Mesh 的目标是提供适应 Dubbo 体系的完整 Mesh 解决方案，包含定制化控制面（Control Plane）、定制化数据面解决方案。Dubbo 控制面基于业界主流 Istio 扩展，支持更丰富的流量治理规则、Dubbo应用级服务发现模型等，Dubbo 数据面可以采用 Envoy Sidecar，即实现 Dubbo SDK + Envoy 的部署方案，也可以采用 Dubbo Proxyless 模式，直接实现 Dubbo 与控制面的通信。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/vMniiR.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<h2 id="dubbo3">Dubbo3</h2>
+
+<p>Dubbo 3.0 提供的新特性包括：</p>
+
+<ul>
+  <li><strong>新的地址发现模型（应用级服务发现）</strong>
+    <ul>
+      <li>查看<a href="https://dubbo.apache.org/zh/docs/migration/migration-service-discovery">应用级服务发现的迁移步骤</a></li>
+      <li>查看应用级服务发现的使用方式</li>
+      <li>查看应用级服务发现设计与实现</li>
+    </ul>
+  </li>
+  <li><strong>下一代基于 HTTP/2 的 Triple 协议</strong>
+    <ul>
+      <li>查看<a href="https://dubbo.apache.org/zh/docs/migration/migration-triple">Triple 协议迁移步骤</a></li>
+      <li>查看 <a href="https://dubbo.apache.org/zh/docs/references/protocols/tri">Triple 协议使用方式</a></li>
+      <li>查看 Triple 协议设计与实现</li>
+    </ul>
+  </li>
+  <li><strong>统一的路由规则。</strong>
+    <ul>
+      <li>查看<a href="https://dubbo.apache.org/zh/docs/migration/migration-routingrule/">统一路由规则的迁移步骤</a></li>
+      <li>查看<a href="https://dubbo.apache.org/zh/docs/references/routers/">统一路由规则使用方式</a></li>
+      <li>查看统一路由规则设计与实现</li>
+    </ul>
+  </li>
+</ul>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-11-16</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Dubbo">Dubbo</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s系列 南北流量和东西流量</a></h1>
@@ -1207,106 +1340,6 @@ format code  extension  resolution note
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/04/GitHub-Pages-%E7%9A%84%E5%A6%99%E7%94%A8.html">GitHub Pages 的妙用</a></h1>
-    <div class="post_at_index">
-      <h2 id="本来是想好好工作的">本来是想好好工作的</h2>
-
-<p>最近换了新工作（后面找个时间好好说说），大量接触 k8s &amp; docker，开始写了比较多的 yaml 和 Dockerfile；散落在电脑上的话，还是很不方便，有个仓库管理起来的话，就会很方便了，于是有了这个项目 <a href="https://github.com/SAMZONG/k8s-yaml">samzong/k8s-yaml</a></p>
-
-<p>k8s-yaml 一开始的定义就是 public ，希望给更多其他的人提供帮助，索性就再增加了一个网页吧</p>
-
-<h2 id="一分钟快速搭建网站">一分钟快速搭建网站</h2>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch gh-pages
-<span class="nb">echo</span> <span class="s2">"## Hello gh-pages"</span> <span class="o">&gt;</span> index.md
-git push origin gh-pages
-</code></pre></div></div>
-
-<p>eeen…. 这样就 ok ！</p>
-
-<p><code class="language-plaintext highlighter-rouge">gh-pages</code> 是每个 GitHub 仓库的默认 github pages 分支，当你创建这个分支并推动到 GitHub 时，会自动触发 Pages 的构建任务，大约30s 左右，你就会得到一个网站</p>
-
-<blockquote>
-  <p>http://[github_username].github.io/[github_repo_name]</p>
-</blockquote>
-
-<h2 id="简单的配置">简单的配置</h2>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/X4tbDt.png?x-oss-process=image/resize,w_960,m_lfit" alt="X4tbDt" /></p>
-
-<p>上图简单指引了如何打开 GitHub Pages 的配置路径，下面对主要的几个模块进行说明:</p>
-
-<ol>
-  <li>Source  - 指定的 以那个分支作为 built 源和文件夹，默认是 gh-pages, 建议不动，统一认知</li>
-  <li>Theme Chooser - 选择对应的博客主题，大概有 10 个，都比较普通，根据自己喜好来，可以自定义，这里不展开 (Google Jekyll themes 一大堆</li>
-  <li>Custom Domain - 可以指定默认的特定的域名，需要配置 <code class="language-plaintext highlighter-rouge">/CNAME</code>，需要和这里的域名一致，同时域名解析需要配置好 CNAME</li>
-  <li>Enforce HTTPS - 启用 HTTPS，默认不启动，建议启用</li>
-</ol>
-
-<blockquote>
-  <p>CNAME 配置，将指定的域名指向到 <code class="language-plaintext highlighter-rouge">[github_username].github.io</code></p>
-</blockquote>
-
-<p>经过简单的配置，这个仓库的网站，已经完成了你想要的； 在 <code class="language-plaintext highlighter-rouge">index.md</code> 内修改为你想要的内容。</p>
-
-<h2 id="高级功能结合-github-issue-的评论功能">高级功能：结合 GitHub issue 的评论功能</h2>
-
-<p>这里采用的 评论组件是 <a href="https://utteranc.es/">utterances</a>, 提供轻量级的博客评论功能，并且评论是直接创建 GitHub issue，方便管理</p>
-
-<p>这里不赘述安装细节的，比较简单，直接去看下面几个网站即可</p>
-
-<ul>
-  <li>https://utteranc.es/</li>
-  <li>https://roife.github.io/2021/02/12/use-utterances-for-comment/</li>
-  <li>https://www.evanlin.com/jekyll-remove-disqus/</li>
-</ul>
-
-<blockquote>
-  <p>注意需要增加的文件</p>
-</blockquote>
-
-<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir _layouts
-wget https://raw.githubusercontent.com/SAMZONG/k8s-yaml/gh-pages/_layouts/post.html -o _layouts/post.html
-</code></pre></div></div>
-
-<p>index.md 增加 layout 参数，追加在最顶部</p>
-
-<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
-<span class="na">layout</span><span class="pi">:</span> <span class="s">post</span>
-<span class="nn">---</span>
-</code></pre></div></div>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add _layouts/post.html
-git add index.md
-
-git commit <span class="nt">-m</span> <span class="s2">"add comment module with utterances"</span>
-git push origin gh-pages
-</code></pre></div></div>
-
-<h2 id="end">End</h2>
-
-<p>以上就是全部的部署内容了，可以去看下我的网站和项目</p>
-
-<ul>
-  <li>https://k8s-yaml.samzong.me</li>
-</ul>
-
-<p>如果你觉得喜欢，求 fork，求 star</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Github">Github</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1339,7 +1372,7 @@ git push origin gh-pages
         </li>
         
         <li><span>...</span></li>
-        <li><a href="/page14">14</a></li>
+        <li><a href="/page15">15</a></li>
         
 
         
@@ -1590,6 +1623,16 @@ git push origin gh-pages
       <li><a href="/categories.html#Github">
     		Github <span>1</span>
     	</a></li>
+     
+    	
+      <li><a href="/categories.html#云原生">
+    		云原生 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#微服务">
+    		微服务 <span>1</span>
+    	</a></li>
     
   
 
@@ -1600,6 +1643,15 @@ git push origin gh-pages
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
+          
+  参考资料：
+
+
+
+        </li>
         
         <li>
           <a href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s系列 南北流量和东西流量</a>
@@ -1627,13 +1679,6 @@ git push origin gh-pages
         <li>
           <a href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a>
           背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/05/%E5%9B%BD%E5%86%85%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA-MacOS-K8s-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.html">国内环境搭建 MacOS K8s 开发环境</a>
-          Minikube
 
 
         </li>

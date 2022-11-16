@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 	<link rel="manifest" href="/static/pwa/manifest.json">
-	<title> HowTo Upgrade Your Ghost Version | 船长的课记 </title>
+	<title> Dubbo 基础知识梳理 | 船长的课记 </title>
     
 		
     <meta name="author" content="船长">
@@ -243,73 +243,131 @@
 <div class="row" itemscope itemtype="http://schema.org/Article">
     <div class="col-xs-12 col-md-8">
         <div class="page-header" itemprop="name">
-            <h1>HowTo Upgrade Your Ghost Version 
+            <h1>Dubbo 基础知识梳理 
             </h1>
         </div>
         <div class="post-meta">
             
-            <span class="entry-date" itemprop="datePublished">Posted on 02/20/2017</span>
+            <span class="entry-date" itemprop="datePublished">Posted on 11/16/2022</span>
             
             
             <span class="entry-author" itemprop="author">by 船长</span>
-            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/main/_posts/2017-02-20-HowTo-Upgrade-Your-Ghost-Version.md"
+            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/main/_posts/2022-11-16-Dubbo-基础知识.md"
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <p><br /></p>
-<h4 id="1-下载最新版的ghost">1. 下载最新版的Ghost</h4>
+            <blockquote>
+  <p>参考资料：</p>
+</blockquote>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -LOk https://ghost.org/zip/ghost-latest.zip
-</code></pre></div></div>
+<ul>
+  <li><a href="https://juejin.cn/post/7128953614403371015#heading-5">https://juejin.cn/post/7128953614403371015#heading-5</a></li>
+  <li><a href="https://dubbo.apache.org/zh/docs/">https://dubbo.apache.org/zh/docs/</a></li>
+</ul>
 
-<h4 id="2-创建临时目录并解压ghost-latestzip到此">2. 创建临时目录，并解压ghost-latest.zip到此</h4>
+<h2 id="简介">简介</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir /usr/ghost-tmp
-unzip ghost-latest.zip -d /usr/ghost-tmp
-</code></pre></div></div>
+<ul>
+  <li>Apache Dubbo 一款基于RPC服务开发的云原生微服务框架，与 SpringCloud 类似</li>
+  <li>使用 Dubbo 开发的微服务原生具备相互之间远程地址发现(注册中心)和通信的能力</li>
+  <li>Dubbo 支持丰富的服务治理特性，包含 服务发现、负载均衡、流量调度 等，高度可扩展</li>
+  <li>Dubbo 由 阿里巴巴 开发，并贡献给 Apache</li>
+</ul>
 
-<h4 id="3-进入到原ghost目录删除core">3. 进入到原ghost目录，删除core</h4>
+<h2 id="发展历程">发展历程</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd  /usr/ghost
-rm -rf core
-</code></pre></div></div>
+<h3 id="版本迭代">版本迭代</h3>
 
-<h4 id="4进入到新版本的ghost临时目录">4.进入到新版本的ghost临时目录</h4>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/20221117023215.png?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /usr/ghost-tmp
-</code></pre></div></div>
+<h3 id="软件生态的活跃度">软件生态的活跃度</h3>
 
-<h4 id="5-拷贝所需文件到ghost升级目录">5. 拷贝所需文件到ghost升级目录</h4>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/8G8hZG.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp -R core /usr/ghost
-cp index.js *.json /usr/ghost
-</code></pre></div></div>
+<h2 id="与-springcloud-相比的优势">与 SpringCloud 相比的优势</h2>
 
-<h4 id="6-可选升级casperghost默认主题">6. (可选)升级casper，ghost默认主题</h4>
+<ul>
+  <li>功能丰富，基于原生库即可完成大部分的微服务治理能力</li>
+  <li>支持超大规模的微服务机器设计，高性能 RPC 通信协议实现</li>
+  <li>高度可扩展性，支持在调用过程中对流量及协议进行拦截扩展，如 Filter、Router、LB 等</li>
+  <li>支持微服务治理的扩展组件
+    <ul>
+      <li>Registry 注册中心： Zookeeper、Nacos</li>
+      <li>Config Center 配置中心： Zookeeper、Nacos</li>
+      <li>Metadata Center 元数据中心 (Dubbo3支持)</li>
+    </ul>
+  </li>
+</ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp -R content/themes/casper /usr/ghost/content/themes/
-</code></pre></div></div>
+<h2 id="dubbo-的基础概念介绍">Dubbo 的基础概念介绍</h2>
 
-<h4 id="7-切换回到ghost安装目录">7. 切换回到ghost安装目录</h4>
+<ul>
+  <li>RPC 通信</li>
+  <li>服务发现</li>
+  <li>流量治理</li>
+</ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /usr/ghost
-</code></pre></div></div>
+<h3 id="rpc-通信">RPC 通信</h3>
 
-<h4 id="8-修改文件目录所有者和所属组为ghost">8. 修改文件目录所有者和所属组为ghost</h4>
+<ul>
+  <li>Dubbo3之中， RPC 通信主要使用 Triple 协议，构建在 HTTP/2 协议之上，兼容 gRPC</li>
+  <li>提供 Request Response、Request Streaming、Response Streaming、Bi-directional Streaming 通信模型</li>
+  <li>支持 IDL ，基于 Triple 协议</li>
+</ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chown -R ghost:ghost ./*
-</code></pre></div></div>
+<h3 id="服务发现">服务发现</h3>
 
-<h4 id="9-重新安装环境">9. 重新安装环境</h4>
+<p>服务发现，是消费端自动发现服务地址列表的能力，是微服务框架需要具备的关键能力，借助于自动化的服务发现，微服务之间在无需感知对端部署位置与IP地址的情况下实现通信。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install --production
-</code></pre></div></div>
+<p>Dubbo提供的Client-Based服务发现机制，同时也需要第三方注册中心来协调服务发现过程，比如Nacos/Zookeeper等。</p>
 
-<h4 id="10-重启ghost">10. 重启Ghost</h4>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/oaqyGX.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pm2 restart ghost
-</code></pre></div></div>
+<h3 id="流量治理">流量治理</h3>
 
+<ul>
+  <li>Dubbo2开始，Dubbo就提供了丰富的服务治理规则，包括路由规则/动态配置等</li>
+  <li>Dubbo3之中的实现
+    <ul>
+      <li>Dubbo Mesh : 通过对接 xDS 对接到时下流行的 Mesh 产品如 Istio 中所使用的以 VirtualService、DestinationRule 为代表的治理规则</li>
+      <li>另一方面 Dubbo 正寻求设计一套自有规则以实现在不通部署场景下的流量治理，以及灵活的治理能力。</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="dubbo-mesh">Dubbo Mesh</h2>
+
+<p>Dubbo Mesh 的目标是提供适应 Dubbo 体系的完整 Mesh 解决方案，包含定制化控制面（Control Plane）、定制化数据面解决方案。Dubbo 控制面基于业界主流 Istio 扩展，支持更丰富的流量治理规则、Dubbo应用级服务发现模型等，Dubbo 数据面可以采用 Envoy Sidecar，即实现 Dubbo SDK + Envoy 的部署方案，也可以采用 Dubbo Proxyless 模式，直接实现 Dubbo 与控制面的通信。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/vMniiR.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<h2 id="dubbo3">Dubbo3</h2>
+
+<p>Dubbo 3.0 提供的新特性包括：</p>
+
+<ul>
+  <li><strong>新的地址发现模型（应用级服务发现）</strong>
+    <ul>
+      <li>查看<a href="https://dubbo.apache.org/zh/docs/migration/migration-service-discovery">应用级服务发现的迁移步骤</a></li>
+      <li>查看应用级服务发现的使用方式</li>
+      <li>查看应用级服务发现设计与实现</li>
+    </ul>
+  </li>
+  <li><strong>下一代基于 HTTP/2 的 Triple 协议</strong>
+    <ul>
+      <li>查看<a href="https://dubbo.apache.org/zh/docs/migration/migration-triple">Triple 协议迁移步骤</a></li>
+      <li>查看 <a href="https://dubbo.apache.org/zh/docs/references/protocols/tri">Triple 协议使用方式</a></li>
+      <li>查看 Triple 协议设计与实现</li>
+    </ul>
+  </li>
+  <li><strong>统一的路由规则。</strong>
+    <ul>
+      <li>查看<a href="https://dubbo.apache.org/zh/docs/migration/migration-routingrule/">统一路由规则的迁移步骤</a></li>
+      <li>查看<a href="https://dubbo.apache.org/zh/docs/references/routers/">统一路由规则使用方式</a></li>
+      <li>查看统一路由规则设计与实现</li>
+    </ul>
+  </li>
+</ul>
 
         </div>
 
@@ -888,13 +946,13 @@ cp index.js *.json /usr/ghost
         <nav>
             <ul class="pager">
                 
-                <li class="previous"><a href="/post/2017/02/HowTo-Automatic-Updates-CENTOS-RHEL-Using-YUM.html" title="HowTo Automatic Updates CENTOS/RHEL Using YUM">&larr;
+                <li class="previous"><a href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html" title="K8s系列 南北流量和东西流量">&larr;
                     Previous（前一篇）</a></li>
                 
                 <!-- <li><a href="/static/archive.html">Archive（目录）</a></li> -->
                 <li><a href="/archive.html">Archive（目录）</a></li>
                 
-                <li class="next"><a href="/post/2017/02/HowTo-Install-Redmine.html" title="HowTo Install Redmine">Next（后一篇） &rarr;</a></li>
+                <li class="next disabled"><a>Next（后一篇） &rarr;</a></li>
                 
             </ul>
         </nav>
@@ -911,13 +969,13 @@ cp index.js *.json /usr/ghost
   
      
     	
-      <li><a href="/categories.html#Blog">
-    		Blog <span>4</span>
+      <li><a href="/categories.html#云原生">
+    		云原生 <span>1</span>
     	</a></li>
      
     	
-      <li><a href="/categories.html#Ghost">
-    		Ghost <span>2</span>
+      <li><a href="/categories.html#微服务">
+    		微服务 <span>1</span>
     	</a></li>
     
   
@@ -937,7 +995,7 @@ cp index.js *.json /usr/ghost
   
      
     	
-    	<li><a href="/tags.html#Ghost">Ghost <span>2</span></a></li>
+    	<li><a href="/tags.html#Dubbo">Dubbo <span>1</span></a></li>
     
   
 

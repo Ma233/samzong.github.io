@@ -197,6 +197,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -238,6 +242,78 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2019/07/MySQL-%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BE%85%E5%8A%A9-mycli.html">MySQL 命令行辅助 mycli</a></h1>
+    <div class="post_at_index">
+      <h5 id="install">Install</h5>
+
+<p>Mycli is tested on macOS and Linux. It runs on Python 2.7 and 3.4+.</p>
+
+<blockquote>
+  <p>NOTE: Python 2.6 support was dropped in mycli 1.9.0. If you’re running Python 2.6, you’ll want to install mycli 1.8.1.</p>
+</blockquote>
+
+<p>######Python Package:</p>
+
+<p>If you already know how to install python packages, then you can do:</p>
+
+<ul>
+  <li>You might need sudo.</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>pip <span class="nb">install </span>mycli
+or
+<span class="nv">$ </span>easy_install mycli
+
+<span class="c"># Windows:</span>
+<span class="c"># Follow the instructions on this blogpost to install mycli on Windows:  https://www.codewall.co.uk/installing-using-mycli-on-windows/</span>
+
+<span class="c"># macOS:</span>
+<span class="c">#The easiest way install mycli on a Mac is to use Homebrew.</span>
+<span class="nv">$ </span>brew <span class="nb">install </span>mycli
+
+
+<span class="c"># Linux:</span>
+<span class="c"># Debian/Ubuntu Package:</span>
+<span class="c"># https://packages.debian.org/search?keywords=mycli</span>
+<span class="nv">$ </span><span class="nb">sudo </span>apt-get update
+<span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install </span>mycli
+
+<span class="c"># Fedora</span>
+<span class="nv">$ </span><span class="nb">sudo </span>dnf <span class="nb">install </span>mycli
+
+
+<span class="c"># RHEL, Centos:</span>
+<span class="c"># We don't have packages for RHEL or Centos, yet. Instead, use pip to install mycli. You can install pip on your system using:</span>
+<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>python-pip python-devel
+<span class="c"># Once that is installed, you can install mycli:</span>
+<span class="nv">$ </span><span class="nb">sudo </span>pip <span class="nb">install </span>mycli
+</code></pre></div></div>
+
+<h5 id="install-error-qa">Install Error QA.</h5>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cannot uninstall <span class="s1">'configobj'</span><span class="nb">.</span> It is a distutils installed project and thus we cannot accurately determine which files belong to it which would lead to only a partial uninstall.
+</code></pre></div></div>
+
+<h6 id="fix-code">Fix code</h6>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="nt">--ignore-installed</span> mycli
+</code></pre></div></div>
+
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2019-07-03</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#MySQL">MySQL</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2019/01/Mac%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%BD%95%E5%88%B6GiF%E5%B0%8F%E8%A7%86%E9%A2%91.html">MacTips 如何快速录制GiF小视频</a></h1>
@@ -1108,73 +1184,6 @@ upload_file<span class="p">;</span>
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2017/05/%E6%88%91%E6%9D%A5%E5%88%B0%E8%BF%99%E4%B8%96%E4%B8%8A.html">我来到这世上</a></h1>
-    <div class="post_at_index">
-      <hr />
-
-<p>我也没有等你，只是还没找不到一个比你还让我更喜欢的人。</p>
-
-<hr />
-
-<p><a href="https://www.zhihu.com/question/25401683/answer/157581428">知乎</a> @七万</p>
-
-<p>苦涩困在胸中，日夜锥心刺骨，却如鲠在喉。</p>
-
-<p>有人说：“你不必等我。”</p>
-
-<p>我觉得话已经说的很明白了，
-再多问一句，都是作践自己。</p>
-
-<p>我到底还是喜欢的，可是喜欢的情绪从心里涌出嘴的时候，自尊就会死死的掐着脖子，根本不能说话，能好好呼吸都是享受。</p>
-
-<p>我得自己走了，谢谢你带我来山顶看烟花。</p>
-
-<p>你说，这事儿得怪谁呢？</p>
-
-<p>该怨你吗？怨字说不口。
-终究是我一个人的梦，没理由非得拽你一起圆。</p>
-
-<p>该怨我吗？实在是不忍心。
-我心里住了两个小人儿。
-一个跪在地上，涕零如雨，边哭边求。
-另一个站他旁边，气冲斗牛，边骂边羞。
-它们撕扯着我，片刻不停。</p>
-
-<p>真他妈难受。</p>
-
-<p>最后还是得走啊。来生，要是有来生。
-我就做你的影子吧，你不必一定爱我，你也赶不走我。
-或者做你手边的一本书，咱们能心平气和的聊聊天。
-再不济就做你床头柜里的成人玩具，你知我长短，我知你深浅……
-这辈子，是什么都不行了。</p>
-
-<p>小的时候，觉得女儿国国王就是个小贱婊，
-妈的，勾搭大和尚！各种挽留，留你妈哔啊，赶紧让人办正事去得了。</p>
-
-<p>长大后才知道，
-这个电视剧里最可怜的不是历尽艰险的唐僧，
-不是一次又一次被赶走的孙猴儿，
-不是被傲娇玉帝罚的一脸懵逼的凤仙郡百姓，
-不是那群刚出场就被孙悟空打死的智障炮灰，
-是女儿国王啊，
-这娘们把能给的都给出去了，那和尚瞅都没瞅，一句女施主请自重，断绝了她所有的念想。</p>
-
-<p>唉，你没来之前我也是个要脸的人啊。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-05-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1214,7 +1223,7 @@ upload_file<span class="p">;</span>
             
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page14">14</a></li>
+          <li><a href="/page15">15</a></li>
         
 
         
@@ -1462,6 +1471,16 @@ upload_file<span class="p">;</span>
       <li><a href="/categories.html#Github">
     		Github <span>1</span>
     	</a></li>
+     
+    	
+      <li><a href="/categories.html#云原生">
+    		云原生 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#微服务">
+    		微服务 <span>1</span>
+    	</a></li>
     
   
 
@@ -1472,6 +1491,15 @@ upload_file<span class="p">;</span>
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
+          
+  参考资料：
+
+
+
+        </li>
         
         <li>
           <a href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s系列 南北流量和东西流量</a>
@@ -1499,13 +1527,6 @@ upload_file<span class="p">;</span>
         <li>
           <a href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a>
           背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/05/%E5%9B%BD%E5%86%85%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA-MacOS-K8s-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.html">国内环境搭建 MacOS K8s 开发环境</a>
-          Minikube
 
 
         </li>

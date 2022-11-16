@@ -1,4 +1,115 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-11-16T02:32:28-06:00</updated><id>/feed.xml</id><title type="html">船长的课记</title><author><name>船长</name><email>samzong.lu@gmail.com</email></author><entry><title type="html">K8s系列 南北流量和东西流量</title><link href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html" rel="alternate" type="text/html" title="K8s系列 南北流量和东西流量" /><published>2022-09-12T00:00:00-05:00</published><updated>2022-09-12T00:00:00-05:00</updated><id>/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F</id><content type="html" xml:base="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">&lt;h2 id=&quot;南北流量和东西流量-是什么意思&quot;&gt;南北流量和东西流量 是什么意思？&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2022-11-16T12:37:40-06:00</updated><id>/feed.xml</id><title type="html">船长的课记</title><author><name>船长</name><email>samzong.lu@gmail.com</email></author><entry><title type="html">Dubbo 基础知识梳理</title><link href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html" rel="alternate" type="text/html" title="Dubbo 基础知识梳理" /><published>2022-11-16T00:00:00-06:00</published><updated>2022-11-16T00:00:00-06:00</updated><id>/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86</id><content type="html" xml:base="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">&lt;blockquote&gt;
+  &lt;p&gt;参考资料：&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://juejin.cn/post/7128953614403371015#heading-5&quot;&gt;https://juejin.cn/post/7128953614403371015#heading-5&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://dubbo.apache.org/zh/docs/&quot;&gt;https://dubbo.apache.org/zh/docs/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;简介&quot;&gt;简介&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Apache Dubbo 一款基于RPC服务开发的云原生微服务框架，与 SpringCloud 类似&lt;/li&gt;
+  &lt;li&gt;使用 Dubbo 开发的微服务原生具备相互之间远程地址发现(注册中心)和通信的能力&lt;/li&gt;
+  &lt;li&gt;Dubbo 支持丰富的服务治理特性，包含 服务发现、负载均衡、流量调度 等，高度可扩展&lt;/li&gt;
+  &lt;li&gt;Dubbo 由 阿里巴巴 开发，并贡献给 Apache&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;发展历程&quot;&gt;发展历程&lt;/h2&gt;
+
+&lt;h3 id=&quot;版本迭代&quot;&gt;版本迭代&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/20221117023215.png?x-oss-process=image/resize,w_960,m_lfit&quot; alt=&quot;resize,w_960,m_lfit&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;软件生态的活跃度&quot;&gt;软件生态的活跃度&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/8G8hZG.jpg?x-oss-process=image/resize,w_960,m_lfit&quot; alt=&quot;resize,w_960,m_lfit&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;与-springcloud-相比的优势&quot;&gt;与 SpringCloud 相比的优势&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;功能丰富，基于原生库即可完成大部分的微服务治理能力&lt;/li&gt;
+  &lt;li&gt;支持超大规模的微服务机器设计，高性能 RPC 通信协议实现&lt;/li&gt;
+  &lt;li&gt;高度可扩展性，支持在调用过程中对流量及协议进行拦截扩展，如 Filter、Router、LB 等&lt;/li&gt;
+  &lt;li&gt;支持微服务治理的扩展组件
+    &lt;ul&gt;
+      &lt;li&gt;Registry 注册中心： Zookeeper、Nacos&lt;/li&gt;
+      &lt;li&gt;Config Center 配置中心： Zookeeper、Nacos&lt;/li&gt;
+      &lt;li&gt;Metadata Center 元数据中心 (Dubbo3支持)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;dubbo-的基础概念介绍&quot;&gt;Dubbo 的基础概念介绍&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;RPC 通信&lt;/li&gt;
+  &lt;li&gt;服务发现&lt;/li&gt;
+  &lt;li&gt;流量治理&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;rpc-通信&quot;&gt;RPC 通信&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Dubbo3之中， RPC 通信主要使用 Triple 协议，构建在 HTTP/2 协议之上，兼容 gRPC&lt;/li&gt;
+  &lt;li&gt;提供 Request Response、Request Streaming、Response Streaming、Bi-directional Streaming 通信模型&lt;/li&gt;
+  &lt;li&gt;支持 IDL ，基于 Triple 协议&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;服务发现&quot;&gt;服务发现&lt;/h3&gt;
+
+&lt;p&gt;服务发现，是消费端自动发现服务地址列表的能力，是微服务框架需要具备的关键能力，借助于自动化的服务发现，微服务之间在无需感知对端部署位置与IP地址的情况下实现通信。&lt;/p&gt;
+
+&lt;p&gt;Dubbo提供的Client-Based服务发现机制，同时也需要第三方注册中心来协调服务发现过程，比如Nacos/Zookeeper等。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/oaqyGX.jpg?x-oss-process=image/resize,w_960,m_lfit&quot; alt=&quot;resize,w_960,m_lfit&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;流量治理&quot;&gt;流量治理&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Dubbo2开始，Dubbo就提供了丰富的服务治理规则，包括路由规则/动态配置等&lt;/li&gt;
+  &lt;li&gt;Dubbo3之中的实现
+    &lt;ul&gt;
+      &lt;li&gt;Dubbo Mesh : 通过对接 xDS 对接到时下流行的 Mesh 产品如 Istio 中所使用的以 VirtualService、DestinationRule 为代表的治理规则&lt;/li&gt;
+      &lt;li&gt;另一方面 Dubbo 正寻求设计一套自有规则以实现在不通部署场景下的流量治理，以及灵活的治理能力。&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;dubbo-mesh&quot;&gt;Dubbo Mesh&lt;/h2&gt;
+
+&lt;p&gt;Dubbo Mesh 的目标是提供适应 Dubbo 体系的完整 Mesh 解决方案，包含定制化控制面（Control Plane）、定制化数据面解决方案。Dubbo 控制面基于业界主流 Istio 扩展，支持更丰富的流量治理规则、Dubbo应用级服务发现模型等，Dubbo 数据面可以采用 Envoy Sidecar，即实现 Dubbo SDK + Envoy 的部署方案，也可以采用 Dubbo Proxyless 模式，直接实现 Dubbo 与控制面的通信。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/vMniiR.jpg?x-oss-process=image/resize,w_960,m_lfit&quot; alt=&quot;resize,w_960,m_lfit&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;dubbo3&quot;&gt;Dubbo3&lt;/h2&gt;
+
+&lt;p&gt;Dubbo 3.0 提供的新特性包括：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;新的地址发现模型（应用级服务发现）&lt;/strong&gt;
+    &lt;ul&gt;
+      &lt;li&gt;查看&lt;a href=&quot;https://dubbo.apache.org/zh/docs/migration/migration-service-discovery&quot;&gt;应用级服务发现的迁移步骤&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;查看应用级服务发现的使用方式&lt;/li&gt;
+      &lt;li&gt;查看应用级服务发现设计与实现&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;下一代基于 HTTP/2 的 Triple 协议&lt;/strong&gt;
+    &lt;ul&gt;
+      &lt;li&gt;查看&lt;a href=&quot;https://dubbo.apache.org/zh/docs/migration/migration-triple&quot;&gt;Triple 协议迁移步骤&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;查看 &lt;a href=&quot;https://dubbo.apache.org/zh/docs/references/protocols/tri&quot;&gt;Triple 协议使用方式&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;查看 Triple 协议设计与实现&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;统一的路由规则。&lt;/strong&gt;
+    &lt;ul&gt;
+      &lt;li&gt;查看&lt;a href=&quot;https://dubbo.apache.org/zh/docs/migration/migration-routingrule/&quot;&gt;统一路由规则的迁移步骤&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;查看&lt;a href=&quot;https://dubbo.apache.org/zh/docs/references/routers/&quot;&gt;统一路由规则使用方式&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;查看统一路由规则设计与实现&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</content><author><name>船长</name><email>samzong.lu@gmail.com</email></author><category term="云原生" /><category term="微服务" /><category term="Dubbo" /><summary type="html">参考资料：</summary></entry><entry><title type="html">K8s系列 南北流量和东西流量</title><link href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html" rel="alternate" type="text/html" title="K8s系列 南北流量和东西流量" /><published>2022-09-12T00:00:00-05:00</published><updated>2022-09-12T00:00:00-05:00</updated><id>/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F</id><content type="html" xml:base="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">&lt;h2 id=&quot;南北流量和东西流量-是什么意思&quot;&gt;南北流量和东西流量 是什么意思？&lt;/h2&gt;
 
 &lt;p&gt;在Service Mesh微服务架构中，我们常常会听到东西流量和南北流量两个术语。&lt;/p&gt;
 
@@ -803,86 +914,4 @@ format code  extension  resolution note
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;youtube-dl &lt;span class=&quot;nt&quot;&gt;-x&lt;/span&gt; https://www.youtube.com/watch?v&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;Ga4UCK627nU &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;~/Downloads/%(title)s.%(ext)s&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--audio-format&lt;/span&gt; mp3
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>船长</name><email>samzong.lu@gmail.com</email></author><category term="Tools" /><category term="Mac" /><summary type="html">截止 2022.5 youtube-dl 已经较长时间未更新了，建议采用 yt-dlp, 将命令进行替换即可</summary></entry><entry><title type="html">GitHub Pages 的妙用</title><link href="/post/2022/04/GitHub-Pages-%E7%9A%84%E5%A6%99%E7%94%A8.html" rel="alternate" type="text/html" title="GitHub Pages 的妙用" /><published>2022-04-22T12:23:00-05:00</published><updated>2022-04-22T12:23:00-05:00</updated><id>/post/2022/04/GitHub-Pages-%E7%9A%84%E5%A6%99%E7%94%A8</id><content type="html" xml:base="/post/2022/04/GitHub-Pages-%E7%9A%84%E5%A6%99%E7%94%A8.html">&lt;h2 id=&quot;本来是想好好工作的&quot;&gt;本来是想好好工作的&lt;/h2&gt;
-
-&lt;p&gt;最近换了新工作（后面找个时间好好说说），大量接触 k8s &amp;amp; docker，开始写了比较多的 yaml 和 Dockerfile；散落在电脑上的话，还是很不方便，有个仓库管理起来的话，就会很方便了，于是有了这个项目 &lt;a href=&quot;https://github.com/SAMZONG/k8s-yaml&quot;&gt;samzong/k8s-yaml&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;k8s-yaml 一开始的定义就是 public ，希望给更多其他的人提供帮助，索性就再增加了一个网页吧&lt;/p&gt;
-
-&lt;h2 id=&quot;一分钟快速搭建网站&quot;&gt;一分钟快速搭建网站&lt;/h2&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git branch gh-pages
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;## Hello gh-pages&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; index.md
-git push origin gh-pages
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;eeen…. 这样就 ok ！&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gh-pages&lt;/code&gt; 是每个 GitHub 仓库的默认 github pages 分支，当你创建这个分支并推动到 GitHub 时，会自动触发 Pages 的构建任务，大约30s 左右，你就会得到一个网站&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;http://[github_username].github.io/[github_repo_name]&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;简单的配置&quot;&gt;简单的配置&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/X4tbDt.png?x-oss-process=image/resize,w_960,m_lfit&quot; alt=&quot;X4tbDt&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;上图简单指引了如何打开 GitHub Pages 的配置路径，下面对主要的几个模块进行说明:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;Source  - 指定的 以那个分支作为 built 源和文件夹，默认是 gh-pages, 建议不动，统一认知&lt;/li&gt;
-  &lt;li&gt;Theme Chooser - 选择对应的博客主题，大概有 10 个，都比较普通，根据自己喜好来，可以自定义，这里不展开 (Google Jekyll themes 一大堆&lt;/li&gt;
-  &lt;li&gt;Custom Domain - 可以指定默认的特定的域名，需要配置 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/CNAME&lt;/code&gt;，需要和这里的域名一致，同时域名解析需要配置好 CNAME&lt;/li&gt;
-  &lt;li&gt;Enforce HTTPS - 启用 HTTPS，默认不启动，建议启用&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;CNAME 配置，将指定的域名指向到 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;[github_username].github.io&lt;/code&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;经过简单的配置，这个仓库的网站，已经完成了你想要的； 在 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;index.md&lt;/code&gt; 内修改为你想要的内容。&lt;/p&gt;
-
-&lt;h2 id=&quot;高级功能结合-github-issue-的评论功能&quot;&gt;高级功能：结合 GitHub issue 的评论功能&lt;/h2&gt;
-
-&lt;p&gt;这里采用的 评论组件是 &lt;a href=&quot;https://utteranc.es/&quot;&gt;utterances&lt;/a&gt;, 提供轻量级的博客评论功能，并且评论是直接创建 GitHub issue，方便管理&lt;/p&gt;
-
-&lt;p&gt;这里不赘述安装细节的，比较简单，直接去看下面几个网站即可&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;https://utteranc.es/&lt;/li&gt;
-  &lt;li&gt;https://roife.github.io/2021/02/12/use-utterances-for-comment/&lt;/li&gt;
-  &lt;li&gt;https://www.evanlin.com/jekyll-remove-disqus/&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;注意需要增加的文件&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;language-md highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir _layouts
-wget https://raw.githubusercontent.com/SAMZONG/k8s-yaml/gh-pages/_layouts/post.html -o _layouts/post.html
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;index.md 增加 layout 参数，追加在最顶部&lt;/p&gt;
-
-&lt;div class=&quot;language-md highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;post&lt;/span&gt;
-&lt;span class=&quot;nn&quot;&gt;---&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git add _layouts/post.html
-git add index.md
-
-git commit &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;add comment module with utterances&quot;&lt;/span&gt;
-git push origin gh-pages
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;end&quot;&gt;End&lt;/h2&gt;
-
-&lt;p&gt;以上就是全部的部署内容了，可以去看下我的网站和项目&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;https://k8s-yaml.samzong.me&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;如果你觉得喜欢，求 fork，求 star&lt;/p&gt;</content><author><name>samzong.lu</name></author><category term="Blog" /><category term="Github" /><category term="Github" /><summary type="html">本来是想好好工作的</summary></entry></feed>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;</content><author><name>船长</name><email>samzong.lu@gmail.com</email></author><category term="Tools" /><category term="Mac" /><summary type="html">截止 2022.5 youtube-dl 已经较长时间未更新了，建议采用 yt-dlp, 将命令进行替换即可</summary></entry></feed>

@@ -225,6 +225,14 @@
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
@@ -266,6 +274,188 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2021/09/01-%E5%BF%AB%E9%80%9F%E4%BA%86%E8%A7%A3%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93.html">01 快速了解连接数据库</a></h1>
+    <div class="post_at_index">
+      <p>SQLAlchemy 是 ORM 框架 ，目前主流且比较通用，在程序中用来处理数据库相关的能力，本文是用于学习和理解 SQLAlchemy 的记录，主要使用的编程语言是Python</p>
+
+<blockquote>
+  <p>Python3 AND MySQL 5.6</p>
+</blockquote>
+
+<h2 id="安装">安装</h2>
+
+<p>目前较为场景的关系型数据库是 MySQL ，这里介绍 在Python 中安装和MySQL的链接方式</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip3 <span class="nb">install </span>sqlalchemy pymysql
+</code></pre></div></div>
+
+<blockquote>
+  <p>快速连接数据库</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># easy script.
+</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+<span class="k">from</span> <span class="n">sqlalchemy</span> <span class="n">impory</span> <span class="n">text</span>
+
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s">'mysql+pymysql://root:pass@localhost/dbName'</span><span class="p">)</span>
+
+<span class="n">conn</span> <span class="o">=</span> <span class="n">engine</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+
+<span class="n">sql</span> <span class="o">=</span> <span class="n">text</span><span class="p">(</span><span class="s">"select version();"</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">sql</span><span class="p">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="简单的查询">简单的查询</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">from</span> <span class="n">sqlalchemy</span> <span class="n">impory</span> <span class="n">text</span>
+
+<span class="n">sql</span> <span class="o">=</span> <span class="n">text</span><span class="p">(</span><span class="s">"select * from userTable where create_date&gt;=:start_time AND login_cnt=:times"</span><span class="p">)</span>
+<span class="c1"># start_time 开始时间
+# times 登录次数
+</span>
+<span class="c1"># sql 执行时动态入参
+</span>
+<span class="n">start_time</span><span class="p">,</span><span class="n">times</span> <span class="o">=</span> <span class="s">'2021-06-01 00:00:00'</span><span class="p">,</span> <span class="mi">3</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">create_date</span> <span class="o">=</span> <span class="n">start_time</span><span class="p">.</span><span class="n">pydatetime</span><span class="p">(),</span> <span class="n">loign_cnt</span><span class="o">=</span><span class="n">times</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="对于查询结果的说明">对于查询结果的说明</h2>
+
+<p>获取所有的查询结果，返回的数据为 tuple 的列表 <code class="language-plaintext highlighter-rouge">data = res.fetachAll()</code> </p>
+
+<blockquote>
+  <p>使用 pandas 将查询结果保存到 csv 中</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">'user_id'</span><span class="p">,],)</span>  <span class="c1"># data 是要写入的数据, columns 是列头，List
+</span>
+
+<span class="n">df</span><span class="p">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">'~/export_filepath.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-09-24</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/09/%E4%BD%BF%E7%94%A8Python3%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%A4%A7%E5%9E%8Bjson%E6%96%87%E4%BB%B6.html">使用Python3格式化大型json文件</a></h1>
+    <div class="post_at_index">
+      <p>当单个甚至单行Json文件大小超过100M时，无论是哪个文本编辑器在处理时都会显得吃力，接下来介绍一种非常方便的方式，快速格式化大型Json文件。</p>
+
+<p>:::info
+Python 自带json-tool 在转换是会导致中文乱码，以下在原有基础上进行了优化，并增加中文支持
+:::</p>
+
+<h3 id="no-bb-show-code">No BB, Show Code</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"""
+Command-line tool to validate and pretty-print JSON
+
+Usage::
+
+    $ python3 json-tool.json import.json  output.json
+
+    Need Python 3.
+
+"""</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">prog</span> <span class="o">=</span> <span class="s">'python -m json.tool'</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="s">'A simple command line interface for json module '</span>
+                   <span class="s">'to validate and pretty-print JSON objects.'</span><span class="p">)</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="p">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="n">prog</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">'infile'</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s">'?'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="p">.</span><span class="n">FileType</span><span class="p">(),</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s">'a JSON file to be validated or pretty-printed'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">'outfile'</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s">'?'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="p">.</span><span class="n">FileType</span><span class="p">(</span><span class="s">'w'</span><span class="p">),</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s">'write the output of infile to outfile'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">'--sort-keys'</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">'store_true'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s">'sort the output of dictionaries alphabetically by key'</span><span class="p">)</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">parser</span><span class="p">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">infile</span> <span class="o">=</span> <span class="n">options</span><span class="p">.</span><span class="n">infile</span> <span class="ow">or</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span>
+    <span class="n">outfile</span> <span class="o">=</span> <span class="n">options</span><span class="p">.</span><span class="n">outfile</span> <span class="ow">or</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdout</span>
+    <span class="n">sort_keys</span> <span class="o">=</span> <span class="n">options</span><span class="p">.</span><span class="n">sort_keys</span>
+    <span class="k">with</span> <span class="n">infile</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sort_keys</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span>
+                                <span class="n">object_pairs_hook</span><span class="o">=</span><span class="n">collections</span><span class="p">.</span><span class="n">OrderedDict</span><span class="p">)</span>
+        <span class="k">except</span> <span class="nb">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="nb">SystemExit</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">outfile</span><span class="p">:</span>
+        <span class="n">json</span><span class="p">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="n">sort_keys</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">outfile</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="running">RUNNING</h3>
+
+<p>将以上代码文件保存为 json-tool.json，然后使用 Python3 运行即可</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 json-tool.json 190720_190730.json 06.json
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-09-05</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/09/dataframe-Pandas.html">dataframe - Pandas</a></h1>
+    <div class="post_at_index">
+      <p><a href="https://www.cnblogs.com/timotong/p/9678490.html">https://www.cnblogs.com/timotong/p/9678490.html</a></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-09-05</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      , 
+      <a href="/tags.html#Pandas">Pandas</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2021/08/MySQL-REGEXP-%E6%B4%BB%E5%AD%A6%E6%B4%BB%E7%94%A8.html">MySQL REGEXP 活学活用</a></h1>
@@ -327,6 +517,26 @@
     <div>
       <cite>2021-08-08</cite> <i class="icon-tag"></i>
       <a href="/tags.html#SQL">SQL</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/07/%E7%9F%A5%E4%B9%8E%E5%91%A8%E5%88%8A-%E5%8D%95%E8%BA%AB%E4%BC%9A%E4%B8%8A%E7%98%BE.html">知乎周刊・单身会上瘾</a></h1>
+    <div class="post_at_index">
+      <ul>
+  <li>我们所有的迷茫与纠结，恰恰因为我们把目光只放在「结婚」或者「不结婚」，我们辗转反侧，因为我们期盼只一种选择便可以带自己过幸福生活。</li>
+</ul>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-07-22</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
       
       
       
@@ -602,237 +812,6 @@
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2021/04/HQL_SQL%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86.html">HQL/SQL时间处理</a></h1>
-    <div class="post_at_index">
-      <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">--HQL ms</span>
-<span class="n">from_unixtime</span><span class="p">(</span><span class="k">CAST</span><span class="p">(</span><span class="n">obtained_ms</span><span class="o">/</span><span class="mi">1000</span> <span class="k">AS</span> <span class="nb">BIGINT</span><span class="p">),</span> <span class="s1">'yyyy-MM-dd HH:mm:ss'</span><span class="p">)</span>
-
-<span class="c1">--SQL ms</span>
-<span class="n">from_unixtime</span><span class="p">(</span><span class="n">time_in_ms</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>
-
-<span class="c1">--SQL date</span>
-<span class="nb">date</span><span class="p">(</span><span class="n">from_unixtime</span><span class="p">(</span><span class="n">time_in_ms</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">))</span> <span class="k">as</span> <span class="n">dt</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-04-16</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SQL">SQL</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/04/%E5%A6%82%E4%BD%95%E9%87%8D%E7%BD%AE-Mac-%E7%9A%84-SMC.html">如何重置 Mac 的 SMC</a></h1>
-    <div class="post_at_index">
-      <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437045272-4d2c8ef2-804a-4ed7-bb53-b241152c780c.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<p>:::info
-MacBookPro 雷电口不可用了不着送修，尝试下一下方法；可以为您省下大几千块钱哟 ~
-:::</p>
-
-<h3 id="什么是-smc-">什么是 SMC ？</h3>
-
-<p>SMC 全称 系统管理控制器负责管理与以下功能相关的行为：</p>
-
-<ul>
-  <li>电源，包括电源按钮和 USB 端口的电源</li>
-  <li>电池和充电</li>
-  <li>风扇和其他热能管理功能</li>
-  <li>指示灯或感应器，例如状态指示灯（睡眠状态、电池充电状态等）、突发移动感应器、环境光传感器和键盘背光</li>
-  <li>打开和合上笔记本电脑盖时的行为</li>
-</ul>
-
-<hr />
-
-<h3 id="smc-常见问题">SMC 常见问题</h3>
-
-<p>由于Mac的雷电接口经常需要插拔外接设备，而外接设备的接口电流电压不一致，Mac在遇到异常电涌时会触发  SMC 的自我保护机制，通常意义是雷电口不可用。</p>
-
-<p>通过重置系统管理控制器 (SMC) 可以解决某些与电源、电池、风扇和其他功能相关的问题。</p>
-
-<hr />
-
-<h3 id="注意事项">注意事项</h3>
-
-<p>:::danger
-新款 Apple M1 设备的重置步骤本文不一致，后续会补充更新</p>
-
-<p>:::</p>
-
-<hr />
-
-<h3 id="配备-t2-芯片的笔记本电脑">配备 T2 芯片的笔记本电脑</h3>
-
-<ol>
-  <li>将 Mac 关机</li>
-  <li>在内建键盘上，按住以下所有按键。Mac 可能会开机。
-    <ul>
-      <li>键盘左侧的 <strong>Control</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437210613-0f478f9a-1f5b-4b51-8060-6f9af28a4ae0.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-      <li>键盘左侧的 <strong>Option</strong> (Alt) <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437216356-d0ba8e9e-ebb9-4756-8459-124876d0c332.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-      <li>键盘右侧的 <strong>Shift</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437210667-cdfb2059-1d3d-4cb4-bb6c-88e38c1c3054.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-    </ul>
-  </li>
-  <li>按住<strong>全部三个按键</strong> 7 秒钟，然后在不松开按键的情况下按住<strong>电源按钮</strong>。如果 Mac 处于开机状态，它将在您按住这些按键时关机。</li>
-</ol>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437286162-81a557b7-7f54-49b2-9ad6-32716f0b8488.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<ol>
-  <li>继续按住<strong>全部四个按键</strong> 7 秒钟，然后松开这些按键。</li>
-  <li>等待几秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
-
-<hr />
-
-<h3 id="配备-t2-芯片的台式电脑">配备 T2 芯片的台式电脑</h3>
-
-<ol>
-  <li>将 Mac 关机，然后拔下电源线。</li>
-  <li>等待 15 秒钟，然后重新接回电源线。</li>
-  <li>等待 5 秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
-
-<hr />
-
-<h3 id="在其他电脑上重置-smc">在其他电脑上重置 SMC</h3>
-
-<p>:::info
-如果您的 Mac 没有配备 Apple T2 安全芯片，请按照以下步骤操作。
-:::</p>
-
-<h4 id="装有不可拆卸电池的笔记本电脑">装有不可拆卸电池的笔记本电脑</h4>
-
-<p>这类电脑包括 2009 年中至 2017 年推出的 MacBook Pro 机型、2017 年或之前推出的 MacBook Air 机型，以及所有 MacBook 机型，但 MacBook（13 英寸，2009 年中）除外。</p>
-
-<ol>
-  <li>将 Mac 关机。</li>
-  <li>在内建键盘上，按住以下所有按键：
-    <ul>
-      <li>键盘左侧的 <strong>Shift</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437453096-c4dd55c9-dea8-4ece-810d-d0a6bf880b5a.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-      <li>键盘左侧的 <strong>Control</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437452982-7bdab59b-e4d2-4aa0-863d-59d224b081a9.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-      <li>键盘左侧的 <strong>Option</strong> (Alt) <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437453069-12f401d8-bfbf-4657-9323-67169460f2fa.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-    </ul>
-  </li>
-  <li>在按住<strong>全部三个按键</strong>的情况下，按住<strong>电源按钮</strong>。</li>
-</ol>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437452835-44611990-1f9b-49c4-a49b-446cef022d56.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
-
-<ol>
-  <li>按住<strong>全部四个按键</strong> 10 秒钟。</li>
-  <li>松开所有按键，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
-
-<h4 id="装有可拆卸电池的笔记本电脑">装有可拆卸电池的笔记本电脑</h4>
-
-<p>这类电脑包括 2009 年初或之前推出的所有 MacBook Pro 和 MacBook 机型，以及 MacBook（13 英寸，2009 年中）。 </p>
-
-<ol>
-  <li>将 Mac 关机。</li>
-  <li>
-    <p>拆下电池。</p>
-  </li>
-  <li>按住<strong>电源按钮</strong> 5 秒钟。</li>
-  <li>重新安装电池。</li>
-  <li>按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
-
-<h4 id="台式电脑">台式电脑</h4>
-
-<ol>
-  <li>将 Mac 关机，然后拔下电源线。</li>
-  <li>等待 15 秒钟，然后重新接回电源线。</li>
-  <li>等待 5 秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-04-03</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/03/how-to-set-container-auto-restarting-with-docker.html">how to set container auto-restarting with docker</a></h1>
-    <div class="post_at_index">
-      <p>auto-restarting with docker 
-docker run –restart=always my-container
-========================================</p>
-
-<p>disable auto-restarting with docker
-docker update –restart=no my-container
-=======================================</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-03-12</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Docker">Docker</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/03/macOS-10.15-%E5%BC%80%E5%90%AF-HiDPI.html">macOS 10.15 开启 HiDPI</a></h1>
-    <div class="post_at_index">
-      <p>以前手抖买了台 HKC 32 寸 2K 显示器, 接上 MacBook 发现原生的分辨率设置在 2K 显示器上字体很小, 换成 1080P 分辨率显示效果又特别模糊. 上网查了一下发现可以为 MacBook 强行开启 HiDPI.</p>
-
-<p>下文的教程结合了 Github 上用户 ZeRo° Xu 在 一键开启 HiDPI 脚本 里的 Github Issue 和一篇博文 《为 Mac 连接的 2k 显示器开启 HiDPI》.</p>
-
-<h2 id="什么是-hidpi">什么是 HiDPI</h2>
-
-<p>引用自 Github 用户 ZeRo° Xu :</p>
-
-<blockquote>
-  <p>它使用横纵 2 个物理像素也就是 4 个物理像素来显示 1 个像素区域, 结果就是图像的–细节得到翻倍, 更清晰, 边缘更平滑–. 拿 13 寸的 MacBook Pro 举例, 它的屏幕物理分辨率是 2560 x 1600, 所以原生的 HiDPI 分辨率就是 1280x800. 更高的一档 1440x900 HiDPI 缩放分辨率, 则是虚拟出一个 2880x1800 的分辨率, 再进行软缩放输入. 所以你能发现苹果的电脑总是有很高的分辨率. 好了, 既然你的屏幕是 1080p, 本身就没有那么多像素去合成 HiDPI, 如果以原生的显示计算, 你这屏幕的 1080p 分辨率应该是 960x540, 这么低的分辨率你是没法用的. 这个脚本的功能就是虚拟出比你的屏幕物理分辨率更高的假分辨率……如果你要开启 1080p 的 HiDPI 分辨率, 就虚拟一个 3840 x 2160 的假分辨率, 然后 macOS 会使用 4 个像素来显示 1 个像素区域, 也就是和你物理分辨率一样的 1080p 分辨率.</p>
-</blockquote>
-
-<h2 id="自动配置-hidpi">自动配置 HiDPI</h2>
-
-<p>上文 链接 里提到一键配置脚本, 你不妨先按照脚本的步骤开启 HiDPI 试试.</p>
-
-<p>但是脚本并没有适配所有显示器的情况 (至少我的 Dell P2416D 使用后无效) , 所以就有了下面的步骤.</p>
-
-<h2 id="手动配置-hidpi">手动配置 HiDPI</h2>
-
-<p>本教程测试环境:</p>
-
-<ul>
-  <li>笔记本：MacBook Pro (Retina, 15-inch, Mid 2018)</li>
-  <li>显示器：HKC 32寸2K</li>
-  <li>操作系统：MacOS Catalina (Version 10.15.3)</li>
-</ul>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-03-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -874,7 +853,7 @@ docker update –restart=no my-container
             <li class="active"><a>7</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page21">21</a></li>
+          <li><a href="/page23">23</a></li>
         
 
         
@@ -1086,6 +1065,11 @@ docker update –restart=no my-container
     	
       <li><a href="/categories.html#随笔">
     		随笔 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#读书笔记">
+    		读书笔记 <span>16</span>
     	</a></li>
      
     	

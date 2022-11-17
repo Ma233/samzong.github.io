@@ -225,6 +225,14 @@
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
@@ -266,6 +274,392 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8.html">jq 命令行 Json 处理神器</a></h1>
+    <div class="post_at_index">
+      <ul>
+  <li>
+    <p><a href="https://mozillazg.com/2018/01/jq-use-examples-cookbook.html">https://mozillazg.com/2018/01/jq-use-examples-cookbook.htm</a>-</p>
+  </li>
+  <li>
+    <p>jq 命令日常练习 https://jqplay.org/s/KhRuUFCP2h</p>
+  </li>
+</ul>
+
+<p>一个灵活的轻量级命令行JSON处理器</p>
+
+<h2 id="说明">说明</h2>
+
+<p>jq 是 stedolan 开发的一个轻量级的和灵活的命令行JSON处理器，源码请参考 <a href="https://github.com/stedolan/jq">jq 项目主页</a> 。jq 用于处理JSON输入，将给定过滤器应用于其JSON文本输入并在标准输出上将过滤器的结果生成为JSON；最简单的过滤器是<code class="language-plaintext highlighter-rouge">.</code>，它将jq的输入未经修改地复制到其输出中（格式设置除外）； 请注意，jq 当前仅支持64位双精度浮点数（IEEE754）。</p>
+
+<h2 id="安装">安装</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Debian系，如 Ubuntu</span>
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>jq
+
+<span class="c"># RedHat系, 如 CentOS</span>
+yum <span class="nb">install </span>jq
+
+<span class="c"># MacOS</span>
+brew <span class="nb">install </span>jq
+</code></pre></div></div>
+
+<h2 id="语法">语法</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jq <span class="o">[</span>options] &lt;jq filter&gt; <span class="o">[</span>file...]
+jq <span class="o">[</span>options] <span class="nt">--args</span> &lt;jq filter&gt; <span class="o">[</span>strings...]
+jq <span class="o">[</span>options] <span class="nt">--jsonargs</span> &lt;jq filter&gt; <span class="o">[</span>JSON_TEXTS...]
+</code></pre></div></div>
+
+<h2 id="选项">选项</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-c</span>               紧凑而不是漂亮的输出<span class="p">;</span>
+<span class="nt">-n</span>               使用<span class="sb">`</span>null<span class="sb">`</span>作为单个输入值<span class="p">;</span>
+<span class="nt">-e</span>               根据输出设置退出状态代码<span class="p">;</span>
+<span class="nt">-s</span>               将所有输入读取（吸取）到数组中；应用过滤器<span class="p">;</span>
+<span class="nt">-r</span>               输出原始字符串，而不是JSON文本<span class="p">;</span>
+<span class="nt">-R</span>               读取原始字符串，而不是JSON文本<span class="p">;</span>
+<span class="nt">-C</span>               为JSON着色<span class="p">;</span>
+<span class="nt">-M</span>               单色（不要为JSON着色）<span class="p">;</span>
+<span class="nt">-S</span>               在输出上排序对象的键<span class="p">;</span>
+<span class="nt">--tab</span>            使用制表符进行缩进<span class="p">;</span>
+<span class="nt">--arg</span> a v        将变量<span class="nv">$a</span>设置为value&lt;v&gt;<span class="p">;</span>
+<span class="nt">--argjson</span> a v    将变量<span class="nv">$a</span>设置为JSON value&lt;v&gt;<span class="p">;</span>
+<span class="nt">--slurpfile</span> a f  将变量<span class="nv">$a</span>设置为从&lt;f&gt;读取的JSON文本数组<span class="p">;</span>
+<span class="nt">--rawfile</span> a f    将变量<span class="nv">$a</span>设置为包含&lt;f&gt;内容的字符串<span class="p">;</span>
+<span class="nt">--args</span>           其余参数是字符串参数，而不是文件<span class="p">;</span>
+<span class="nt">--jsonargs</span>       其余的参数是JSON参数，而不是文件<span class="p">;</span>
+<span class="nt">--</span>               终止参数处理<span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="例子">例子</h2>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">.</code>: 以漂亮的方式输出</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{ "foo": { "bar": { "baz": 123 } } }'</span> | jq <span class="s1">'.'</span>
+<span class="o">{</span>
+  <span class="s2">"foo"</span>: <span class="o">{</span>
+    <span class="s2">"bar"</span>: <span class="o">{</span>
+      <span class="s2">"baz"</span>: 123
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">.foo, .foo.bar, .foo?</code>: 获取一个键的值</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{"foo": 42, "bar": "less interesting data"}'</span> | jq <span class="s1">'.foo'</span>
+42
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">.[], .[]?, .[2], .[10:15]</code>: 数组运算</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[{"name":"JSON", "good":true}, {"name":"XML", "good":false}]'</span> | jq <span class="s1">'.[1]'</span>
+<span class="o">{</span>
+  <span class="s2">"name"</span>: <span class="s2">"XML"</span>,
+  <span class="s2">"good"</span>: <span class="nb">false</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">[], {}</code>: 构造一个数组/对象</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{"user":"stedolan","titles":["JQ Primer", "More JQ"]}'</span> | jq <span class="s1">'{user, title: .titles[]}'</span>
+<span class="o">{</span>
+  <span class="s2">"user"</span>: <span class="s2">"stedolan"</span>,
+  <span class="s2">"title"</span>: <span class="s2">"JQ Primer"</span>
+<span class="o">}</span>
+<span class="o">{</span>
+  <span class="s2">"user"</span>: <span class="s2">"stedolan"</span>,
+  <span class="s2">"title"</span>: <span class="s2">"More JQ"</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">length</code>: 计算一个值的长度</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[[1,2], "string", {"a":2}, null]'</span> | jq <span class="s1">'.[] | length'</span>                                  
+2
+6
+1
+0
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">keys</code>: 取出数组中的键</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{"abc": 1, "abcd": 2, "Foo": 3}'</span> | jq <span class="s1">'keys'</span>                                        
+<span class="o">[</span>
+  <span class="s2">"Foo"</span>,
+  <span class="s2">"abc"</span>,
+  <span class="s2">"abcd"</span>
+<span class="o">]</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">,</code>: 使用多个过滤器</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{ "foo": 42, "bar": "something else", "baz": true}'</span> | jq <span class="s1">'.foo, .bar'</span> 
+42
+<span class="s2">"something else"</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">|</code>: 通过管道将一个过滤器的输出当做下一个过滤器的输入</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[{"name":"JSON", "good":true}, {"name":"XML", "good":false}]'</span> | jq <span class="s1">'.[] | .name'</span>                                                 
+<span class="s2">"JSON"</span>
+<span class="s2">"XML"</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">select(foo)</code>: 如果foo返回true，则输入保持不变</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[1,5,3,0,7]'</span> | jq <span class="s1">'map(select(. &gt;= 2))'</span>                                                    
+<span class="o">[</span>
+  5,
+  3,
+  7
+<span class="o">]</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">map(foo)</code>: 每个输入调用过滤器</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[1,2,3]'</span> | jq <span class="s1">'map(.+1)'</span>
+<span class="o">[</span>
+  2,
+  3,
+  4
+<span class="o">]</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">if-then-else-end</code>: 条件判断</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'2'</span> | jq <span class="s1">'if . == 0 then "zero" elif . == 1 then "one" else "many" end'</span>
+<span class="s2">"many"</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">\(foo)</code>: 在字符串中插入值并进行运算</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'42'</span> | jq <span class="s1">'"The input was \(.), which is one less than \(.+1)"'</span>          
+<span class="s2">"The input was 42, which is one less than 43"</span>
+</code></pre></div></div>
+
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-07-22</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#unix command">unix command</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/07/%E9%97%AD%E5%85%B3%E5%A4%87%E6%88%98-11%E6%9C%88.html">闭关备战 11月</a></h1>
+    <div class="post_at_index">
+      <h2 id="目标">目标</h2>
+
+<p>获得软考中级证书，完成落户条件准备。</p>
+
+<p>下一次考试时间是 11 月份，</p>
+
+<p>开始闭关。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-07-17</cite> <i class="icon-tag"></i>
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/06/Mac%E4%B8%8A%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E7%9A%84%E6%96%B9%E5%BC%8F.html">Mac上安装软件的方式</a></h1>
+    <div class="post_at_index">
+      <h2 id="写在前面的话">写在前面的话</h2>
+
+<p>如果你第一次看到这个文档，那么，欢迎加入Mac的大家庭！</p>
+
+<p>接下来我会带领你来初始化的刚到手还热乎的Mac，如果能对你有些帮助，那最好不过了。</p>
+
+<h2 id="简析mac软件与windows软件的区别">简析Mac软件与Windows软件的区别</h2>
+
+<p>首先 软件名.exe 的软件是不能在Mac运行的，并且Mac软件与Windows的生态环境不同，所以你在安装软件的时候，注意下载对应Mac版本；好在由于苹果软件生态的优势，如果你安装了Mac版本，软件的UI体验和广告体验会比Windows好很多。</p>
+
+<h3 id="软件付费概念">软件付费概念</h3>
+
+<p>如果同我们从Android 手机转为iPhone时竟然发现软件还需要花钱买一样，苹果有着优质软件生态，是无数开发者和Apple共同运营的结果，所以尊重知识产权，合理付费，同时也可以体验到优质的产品和服务。</p>
+
+<blockquote>
+  <p>但是Apple 目前有些收费策略的确让人搞不懂，如果你可以通过能(tao)力(bao)的方式省钱，欢迎告诉我。</p>
+</blockquote>
+
+<h2 id="mac软件安装的三种方式">Mac软件安装的三种方式</h2>
+
+<h4 id="1-app-store">1. App Store</h4>
+
+<p>这是苹果的官方渠道，如同iPhone的App Store，可以在这边方便下载和更新你的软件。但是由于App Store的软件审核和发布流程的繁琐，Mac版相对iPhone版，软件少的可怜，不过一些主流应用还是都可以找到的，下面列出一些常用的软件。</p>
+
+<ul>
+  <li>微信 <a href="https://apps.apple.com/cn/app/wechat/id836500024?l=en&amp;mt=12">https://apps.apple.com/cn/app/wechat/id836500024?l=en&amp;mt=12</a></li>
+  <li>钉钉 <a href="https://apps.apple.com/cn/app/dingtalk/id1435447041?l=en&amp;mt=12">https://apps.apple.com/cn/app/dingtalk/id1435447041?l=en&amp;mt=12</a></li>
+  <li>Maipo <a href="https://apps.apple.com/cn/app/maipo-for-weibo/id789066512?l=en&amp;mt=12">https://apps.apple.com/cn/app/maipo-for-weibo/id789066512?l=en&amp;mt=12</a></li>
+  <li>QQ  <a href="https://apps.apple.com/cn/app/qq/id451108668?l=en&amp;mt=12">https://apps.apple.com/cn/app/qq/id451108668?l=en&amp;mt=12</a></li>
+  <li>WPS <a href="https://apps.apple.com/cn/app/wps-office/id1443749478?l=en&amp;mt=12">https://apps.apple.com/cn/app/wps-office/id1443749478?l=en&amp;mt=12</a></li>
+</ul>
+
+<h4 id="2-软件官方网站">2. 软件官方网站</h4>
+
+<p>注意，在Mac上目前还没成熟的第三方软件仓库管理工具，例如某安全卫士和某管家都集成Windows 软件管理仓库。所以到你需要用到的软件官网下载是一个非常保险的方式。</p>
+
+<ul>
+  <li><a href="https://bearychat.com/downloads">https://bearychat.com/downloads</a>  倍洽 - 内部沟通IM</li>
+  <li><a href="https://support.logi.com/hc/zh-cn/articles/360025297893">https://support.logi.com/hc/zh-cn/articles/360025297893</a>  logitech Mouse - 公司给的M336的鼠标</li>
+  <li><a href="https://www.iterm2.com/">https://www.iterm2.com/</a>  iTerm 2 - 提到Mac自带终端的Terminal工具</li>
+  <li><a href="https://filezilla-project.org/">https://filezilla-project.org/</a>  Filezilla - 免费的SFTP工具</li>
+</ul>
+
+<blockquote>
+  <p>Mac 版本的软件后缀名一般为.dmg 或 .pkg，注意安装过程中可能需要输入密码</p>
+</blockquote>
+
+<h4 id="3-第三方mac软件收集网站导航">3. 第三方Mac软件收集网站导航</h4>
+
+<p>不要相信一些华军软件园等，或者CSDN上下载，这里推荐一些专门做Mac Apps收集梳理的网站，注意这里会用到百度网盘或CT网盘，下载速度会有些慢，氪金可以解决问题。</p>
+
+<p>下面分享一下 Mac应用网站：</p>
+
+<ul>
+  <li><a href="https://xclient.info/">https://xclient.info/</a>  精品MAC应用分享</li>
+  <li><a href="https://www.macw.cn">https://www.macw.cn</a>  麦克坞</li>
+  <li><a href="https://sspai.com/mall">https://sspai.com/mall</a>  少数派-正版软件商店 - 要钱的</li>
+  <li><a href="https://www.waitsun.com/">https://www.waitsun.com/</a> 麦氪派 - 良心网站</li>
+  <li><a href="https://www.ifunmac.com/">https://www.ifunmac.com/</a>  玩转苹果</li>
+  <li><a href="https://macwk.com/">https://macwk.com/</a> MacWK</li>
+</ul>
+
+<blockquote>
+  <p>注意，以上网站下载软件后解压时需要输入密码，对应网站会有提示或者Google Search</p>
+</blockquote>
+
+<h4 id="4-github-软件收集仓库">4. Github 软件收集仓库</h4>
+
+<p>我竟然关注了一堆非开发相关的东西，真是奇特的知识。（GayHub 还有非常丰富的东西），这里就直接把Github上的仓库分享出来了，喜欢的老铁请自行Star、Watch、打赏(刚出的功能)。</p>
+
+<ul>
+  <li><a href="https://github.com/serhii-londar/open-source-mac-os-apps">https://github.com/serhii-londar/open-source-mac-os-apps</a>  open-source-mac-os-apps</li>
+  <li><a href="https://github.com/hzlzh/Best-App">https://github.com/hzlzh/Best-App</a>  Best-App</li>
+  <li><a href="https://github.com/catofmrlu/MacApps">https://github.com/catofmrlu/MacApps</a>  MacApps</li>
+</ul>
+
+<h4 id="5-homebrew--cask">5. Homebrew &amp; Cask</h4>
+
+<p>到了重点部分了，Mac很大的一个特色是MacOS底层的Unix衍生版本，和当前主流服务器操作系统如Redhat、Debian等一样，有这个强大的命令行模式，所以Mac在拥有非常好的软件生态的同时，也支持方便使用一些命令的指令，对开发者来讲，上手是十分友好的。</p>
+
+<h5 id="51-安装brew">5.1 安装brew</h5>
+
+<p>直接将下面的命令放到终端中运行，稍等片刻即可安装完成</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>安装完成后，你可以非常方便的使用<code class="language-plaintext highlighter-rouge">brew</code> 进行软件的安装和管理</p>
+
+<p>下面是一些安装软件的演示以及一些常用指令</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 安装wget</span>
+→ brew <span class="nb">install </span>wget
+
+<span class="c"># 查找mysql</span>
+→ brew search mysql
+<span class="o">==&gt;</span> Formulae
+automysqlbackup             mysql-client                mysql-connector-c++         mysql-utilities             mysql@5.7
+mysql ✔                     mysql-cluster               mysql-sandbox               mysql@5.5 ✔                 mysqltuner
+mysql++                     mysql-connector-c           mysql-search-replace        mysql@5.6 ✔
+
+<span class="c"># 安装mysql 5.7，使用@ 来指定版本，如果无多版本直接使用软件名称即可</span>
+→ brew <span class="nb">install </span>mysql@5.7
+
+<span class="c"># 更新一个软件</span>
+→ brew upgrade wget
+</code></pre></div></div>
+
+<h5 id="52-安装cask-用于安装mac图形化软件">5.2 安装Cask 用于安装Mac图形化软件</h5>
+
+<p>有Homebrew 出现之后，丰富了Mac进行命令行工具和服务端应用的安装，但一直缺少图形化软件这一块，所以有其他开发者开发了附件的Brew-Cask插件，使得Homebrew拥有了安装图形化的能力，而作为使用者，我们只需要运行以下命令加载对应Caskroom的源即可。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew tap caskroom/cask
+</code></pre></div></div>
+
+<p>成功加载源之后，我们就可以方便的安装软件啦，因为Cask都是通过去官方的软件仓库下载和安装，所以大家在使用时大可放心，下面直接用命令展示下，经常会用到的命令。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 安装google-chrome</span>
+→ brew cask <span class="nb">install </span>google-chrome   <span class="c"># 我们只需在安装时加上 cask就行</span>
+
+<span class="c"># 查找eclipse</span>
+→ brew search eclipse
+<span class="o">==&gt;</span> Casks
+eclipse-cpp                 eclipse-installer           eclipse-jee                 eclipse-platform            eclipse-scout
+eclipse-dsl                 eclipse-java                eclipse-modeling            eclipse-ptp                 eclipse-testing
+eclipse-ide                 eclipse-javascript          eclipse-php                 eclipse-rcp                 nodeclipse
+
+<span class="c"># 查找mysql </span>
+→ brew search mysql
+<span class="o">==&gt;</span> Formulae  （CLI）
+automysqlbackup             mysql-client                mysql-connector-c++         mysql-utilities             mysql@5.7
+mysql ✔                     mysql-cluster               mysql-sandbox               mysql@5.5 ✔                 mysqltuner
+mysql++                     mysql-connector-c           mysql-search-replace        mysql@5.6 ✔
+
+<span class="o">==&gt;</span> Casks        （图形化）
+mysql-connector-python                         mysql-utilities                                navicat-for-mysql
+mysql-shell                                    mysqlworkbench                                 sqlpro-for-mysql
+
+<span class="c"># 更新软件 </span>
+→ brew cask upgrade google-chrome
+</code></pre></div></div>
+
+<h2 id="结束语">结束语</h2>
+
+<p>好了，以上简单进行了Mac上安装软件的几个方法介绍，希望可以帮助到大家，也是为了自己做笔记。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-06-29</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a></h1>
@@ -1107,186 +1501,6 @@ format code  extension  resolution note
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/05/%E6%B7%98%E5%AE%9DPython-SDK%E4%BC%98%E5%8C%96%E6%94%AF%E6%8C%81Python3.html">淘宝Python SDK优化支持Python3</a></h1>
-    <div class="post_at_index">
-      <p>淘宝开放平台的SDK，Python的 SDK 是在2012年，仅支持Python2.7 及以上，但不支持Python3；二现在是2102年了，像我这样的新手都是直接从Python3开始的，</p>
-
-<h4 id="1-python3-int替代了long">1. Python3 int替代了long</h4>
-
-<p><code class="language-plaintext highlighter-rouge">P_TIMESTAMP: str(int(time.time() * 1000))</code></p>
-
-<h4 id="2-用items替代iteritems">2. 用items替代iteritems:</h4>
-
-<p><code class="language-plaintext highlighter-rouge">for key, value in application_parameter.items():</code></p>
-
-<h4 id="3-查阅资料发现有人说到dict-methods-dictkeys-dictitems-and-dictvalues-return-views-instead-of-lists这样就显而易见知道怎么改了">3. 查阅资料，发现有人说到dict methods dict.keys(), dict.items() and dict.values() return “views” instead of lists.这样就显而易见知道怎么改了：</h4>
-
-<p><code class="language-plaintext highlighter-rouge">keys = sorted(keys)</code></p>
-
-<h4 id="4-英文意思很明确unicode对象在哈希之前必须进行编码转换想起之前又看到过中文字符在python中是以unicode存在的所以">4. 英文意思很明确，unicode对象在哈希之前必须进行编码转换，想起之前又看到过中文字符在python中是以unicode存在的，所以：</h4>
-
-<p><code class="language-plaintext highlighter-rouge">sign = hashlib.md5(parameters.encode("utf-8")).hexdigest().upper()</code></p>
-
-<h4 id="5-这是花费时间最长的一个错误首先直接看最后错误在soketpy里心凉了半截难道这里的调用都不一样了再网上看又是python-3x的http模块去百度了半天也没有发现类似的错误只能自己硬着头皮去看模块功夫不负有心人其实也很简单在类httpconnection的初始化函数是这样定义的">5. 这是花费时间最长的一个错误。首先，直接看最后，错误在soket.py里，心凉了半截，难道这里的调用都不一样了,再网上看又是python 3.X的http模块，去百度了半天也没有发现类似的错误，只能自己硬着头皮去看模块，功夫不负有心人，其实也很简单，在类HTTPConnection的初始化函数是这样定义的:</h4>
-
-<p><code class="language-plaintext highlighter-rouge">connection = httplib.HTTPConnection(self.__domain, self.__port, timeout)</code></p>
-
-<blockquote>
-  <p>比较下参数发现，python 2比3多了一个参数，去掉即可，这个错误主要是是报错的地方和修改的地方不在一起，所以很难插出原因。</p>
-</blockquote>
-
-<h4 id="6-官方文档是这样解释的urllib-has-been-split-up-in-python-3-the-urlliburlencode-function-is-now-urllibparseurlencode-and-the-urlliburlopen-function-is-now-urllibrequesturlopen">6. 官方文档是这样解释的：urllib has been split up in Python 3. The urllib.urlencode() function is now urllib.parse.urlencode(), and the urllib.urlopen() function is now urllib.request.urlopen()</h4>
-
-<p><code class="language-plaintext highlighter-rouge">url = N_REST + "?" + urllib.parse.urlencode(sys_parameters)</code></p>
-
-<h4 id="7-这个错误是在api调用出异常的时候暴露出来的原因前面已经提到了稍微查了下替代的方法">7. 这个错误是在API调用出异常的时候暴露出来的。原因前面已经提到了，稍微查了下替代的方法：</h4>
-
-<p><code class="language-plaintext highlighter-rouge">if "error_response" in jsonobj:</code></p>
-
-<p><code class="language-plaintext highlighter-rouge">if P_CODE in jsonobj["error_response"]:</code></p>
-
-<h4 id="8-在if-需要使用反向时应该是--而不是使用-is-not-这个也是-pycharm-给的建议所以在使用时所以简单调整下就好了">8. 在if 需要使用反向时，应该是 != ，而不是使用  is not ；这个也是 PyCharm 给的建议，所以在使用时，所以简单调整下就好了</h4>
-
-<p><code class="language-plaintext highlighter-rouge">if response.status != 200:</code></p>
-
-<p>以上调整之后，基本就可以正常跑起来了，基本是可以支持Python3的使用，我试过了Python3.6-3.9，都是OK的。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-05-03</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/04/GitHub-Pages-%E7%9A%84%E5%A6%99%E7%94%A8.html">GitHub Pages 的妙用</a></h1>
-    <div class="post_at_index">
-      <h2 id="本来是想好好工作的">本来是想好好工作的</h2>
-
-<p>最近换了新工作（后面找个时间好好说说），大量接触 k8s &amp; docker，开始写了比较多的 yaml 和 Dockerfile；散落在电脑上的话，还是很不方便，有个仓库管理起来的话，就会很方便了，于是有了这个项目 <a href="https://github.com/SAMZONG/k8s-yaml">samzong/k8s-yaml</a></p>
-
-<p>k8s-yaml 一开始的定义就是 public ，希望给更多其他的人提供帮助，索性就再增加了一个网页吧</p>
-
-<h2 id="一分钟快速搭建网站">一分钟快速搭建网站</h2>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch gh-pages
-<span class="nb">echo</span> <span class="s2">"## Hello gh-pages"</span> <span class="o">&gt;</span> index.md
-git push origin gh-pages
-</code></pre></div></div>
-
-<p>eeen…. 这样就 ok ！</p>
-
-<p><code class="language-plaintext highlighter-rouge">gh-pages</code> 是每个 GitHub 仓库的默认 github pages 分支，当你创建这个分支并推动到 GitHub 时，会自动触发 Pages 的构建任务，大约30s 左右，你就会得到一个网站</p>
-
-<blockquote>
-  <p>http://[github_username].github.io/[github_repo_name]</p>
-</blockquote>
-
-<h2 id="简单的配置">简单的配置</h2>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/X4tbDt.png?x-oss-process=image/resize,w_960,m_lfit" alt="X4tbDt" /></p>
-
-<p>上图简单指引了如何打开 GitHub Pages 的配置路径，下面对主要的几个模块进行说明:</p>
-
-<ol>
-  <li>Source  - 指定的 以那个分支作为 built 源和文件夹，默认是 gh-pages, 建议不动，统一认知</li>
-  <li>Theme Chooser - 选择对应的博客主题，大概有 10 个，都比较普通，根据自己喜好来，可以自定义，这里不展开 (Google Jekyll themes 一大堆</li>
-  <li>Custom Domain - 可以指定默认的特定的域名，需要配置 <code class="language-plaintext highlighter-rouge">/CNAME</code>，需要和这里的域名一致，同时域名解析需要配置好 CNAME</li>
-  <li>Enforce HTTPS - 启用 HTTPS，默认不启动，建议启用</li>
-</ol>
-
-<blockquote>
-  <p>CNAME 配置，将指定的域名指向到 <code class="language-plaintext highlighter-rouge">[github_username].github.io</code></p>
-</blockquote>
-
-<p>经过简单的配置，这个仓库的网站，已经完成了你想要的； 在 <code class="language-plaintext highlighter-rouge">index.md</code> 内修改为你想要的内容。</p>
-
-<h2 id="高级功能结合-github-issue-的评论功能">高级功能：结合 GitHub issue 的评论功能</h2>
-
-<p>这里采用的 评论组件是 <a href="https://utteranc.es/">utterances</a>, 提供轻量级的博客评论功能，并且评论是直接创建 GitHub issue，方便管理</p>
-
-<p>这里不赘述安装细节的，比较简单，直接去看下面几个网站即可</p>
-
-<ul>
-  <li>https://utteranc.es/</li>
-  <li>https://roife.github.io/2021/02/12/use-utterances-for-comment/</li>
-  <li>https://www.evanlin.com/jekyll-remove-disqus/</li>
-</ul>
-
-<blockquote>
-  <p>注意需要增加的文件</p>
-</blockquote>
-
-<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir _layouts
-wget https://raw.githubusercontent.com/SAMZONG/k8s-yaml/gh-pages/_layouts/post.html -o _layouts/post.html
-</code></pre></div></div>
-
-<p>index.md 增加 layout 参数，追加在最顶部</p>
-
-<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
-<span class="na">layout</span><span class="pi">:</span> <span class="s">post</span>
-<span class="nn">---</span>
-</code></pre></div></div>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add _layouts/post.html
-git add index.md
-
-git commit <span class="nt">-m</span> <span class="s2">"add comment module with utterances"</span>
-git push origin gh-pages
-</code></pre></div></div>
-
-<h2 id="end">End</h2>
-
-<p>以上就是全部的部署内容了，可以去看下我的网站和项目</p>
-
-<ul>
-  <li>https://k8s-yaml.samzong.me</li>
-</ul>
-
-<p>如果你觉得喜欢，求 fork，求 star</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Github">Github</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/04/%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E7%AB%9E%E5%93%81.html">需要了解的 K8s 发行版本</a></h1>
-    <div class="post_at_index">
-      <h2 id="k8s-的发行版本">K8s 的发行版本</h2>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/6ngC8v.png" alt="6ngC8v" /></p>
-
-<p>开始学习喜欢的东西，上面的每一个都要了解</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-19</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#K8s">K8s</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1326,7 +1540,7 @@ git push origin gh-pages
             
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page21">21</a></li>
+          <li><a href="/page23">23</a></li>
         
 
         
@@ -1538,6 +1752,11 @@ git push origin gh-pages
     	
       <li><a href="/categories.html#随笔">
     		随笔 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#读书笔记">
+    		读书笔记 <span>16</span>
     	</a></li>
      
     	

@@ -225,6 +225,14 @@
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
@@ -268,131 +276,64 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2017/01/%E6%AF%8F%E6%97%A5%E5%A4%87%E4%BB%BDMySQL%E5%8D%95%E8%A1%A8%E6%95%B0%E6%8D%AE.html">每日备份MySQL单表数据</a></h1>
+    <h1><a class="title" href="/post/2017/05/%E6%88%91%E6%9D%A5%E5%88%B0%E8%BF%99%E4%B8%96%E4%B8%8A.html">我来到这世上</a></h1>
     <div class="post_at_index">
-      <p>最近愈近年底，客户业务涉及对账操作，所以同事提出需求需要单独备份某张表数据，并且每日备份；思考之后解决办法如下：</p>
+      <hr />
 
-<ol>
-  <li>mysqldump导出单张表的表结构及数据</li>
-  <li>新增数据库，专做临时每日数据备份库</li>
-  <li>导入该表数据到新增数据库内</li>
-  <li>重命名导入的表名（预防计划任务下次导入时数据覆盖）</li>
-  <li>编写脚本，添加Linux计划任务</li>
-</ol>
+<p>我也没有等你，只是还没找不到一个比你还让我更喜欢的人。</p>
 
-<h4 id="1-mysqldump导出但张表的表结构及数据">1. mysqldump导出但张表的表结构及数据</h4>
+<hr />
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump -h dbServer -PdbServerPort -u db_user -p -d dbName tbName &gt; tbName.sql
-</code></pre></div></div>
+<p><a href="https://www.zhihu.com/question/25401683/answer/157581428">知乎</a> @七万</p>
 
-<h4 id="2-新增数据库专做临时每日数据备份库">2. 新增数据库，专做临时每日数据备份库</h4>
+<p>苦涩困在胸中，日夜锥心刺骨，却如鲠在喉。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># loginTo your DBserver
-mysql&gt; create database bakdbName character set utf8;
-</code></pre></div></div>
+<p>有人说：“你不必等我。”</p>
 
-<h4 id="3-导入该表数据到新增数据库内">3. 导入该表数据到新增数据库内</h4>
+<p>我觉得话已经说的很明白了，
+再多问一句，都是作践自己。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql -h dbServer -P dbServerPort -u db_user -p bakdbName &lt; tbName.sql
-</code></pre></div></div>
+<p>我到底还是喜欢的，可是喜欢的情绪从心里涌出嘴的时候，自尊就会死死的掐着脖子，根本不能说话，能好好呼吸都是享受。</p>
 
-<h4 id="4--重命名导入的表名">4 . 重命名导入的表名</h4>
+<p>我得自己走了，谢谢你带我来山顶看烟花。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql -u db_user -p -e "rename table bakdbName.tbName to bakdbName.tbName_$DATE"
-</code></pre></div></div>
+<p>你说，这事儿得怪谁呢？</p>
 
-<h4 id="5-编写脚本">5. 编写脚本</h4>
+<p>该怨你吗？怨字说不口。
+终究是我一个人的梦，没理由非得拽你一起圆。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@testServer01 ~]# cat /usr/local/bin/bakTable.sh
-#!/bin/bash
+<p>该怨我吗？实在是不忍心。
+我心里住了两个小人儿。
+一个跪在地上，涕零如雨，边哭边求。
+另一个站他旁边，气冲斗牛，边骂边羞。
+它们撕扯着我，片刻不停。</p>
 
-#Create by SAMZONG
+<p>真他妈难受。</p>
 
-DATE=`date +%Y%m%d`
-TMPDIR=/tmp/baksql
+<p>最后还是得走啊。来生，要是有来生。
+我就做你的影子吧，你不必一定爱我，你也赶不走我。
+或者做你手边的一本书，咱们能心平气和的聊聊天。
+再不济就做你床头柜里的成人玩具，你知我长短，我知你深浅……
+这辈子，是什么都不行了。</p>
 
-# modify your DB configure
-DBSERVER1=localhost
-DBSERVER1_PORT=3306
-DBSERVER1_USER=root
-DBSERVER1_PASSWORD=password
-MASTER_DBNAME=zabbix
-MASTER_TBNAME=users
+<p>小的时候，觉得女儿国国王就是个小贱婊，
+妈的，勾搭大和尚！各种挽留，留你妈哔啊，赶紧让人办正事去得了。</p>
 
-DBSERVER2=localhost
-DBSERVER2_PORT=3306
-DBSERVER2_USER=root
-DBSERVER2_PASSWORD=password
-BAKDBNAME=z3
+<p>长大后才知道，
+这个电视剧里最可怜的不是历尽艰险的唐僧，
+不是一次又一次被赶走的孙猴儿，
+不是被傲娇玉帝罚的一脸懵逼的凤仙郡百姓，
+不是那群刚出场就被孙悟空打死的智障炮灰，
+是女儿国王啊，
+这娘们把能给的都给出去了，那和尚瞅都没瞅，一句女施主请自重，断绝了她所有的念想。</p>
 
-# creat tmp folder
-if [ ! -d $TMPDIR ]; then
-	mkdir $TMPDIR
-fi
-
-# dump tbName
-mysqldump -h $DBSERVER1 -P $DBSERVER1_PORT -u $DBSERVER1_USER -p"$DBSERVER1_PASSWORD" -d $MASTER_DBNAME  $MASTER_TBNAME &gt; $TMPDIR/$MASTER_TBNAME.sql
-
-
-# insert tbNAME to bakdbName
-if [ $? -eq 0  ]; then
-	mysql -h $DBSERVER2 -P $DBSERVER2_PORT -u $DBSERVER2_USER -p"$DBSERVER2_PASSWORD" $BAKDBNAME &lt; $TMPDIR/$MASTER_TBNAME.sql
-
-	if [ $? -eq 0 ]; then
-		# rename tbName
-		mysql -h $DBSERVER2 -P $DBSERVER2_PORT -u $DBSERVER2_USER -p"$DBSERVER2_PASSWORD" -e "rename table "$BAKDBNAME"."$MASTER_TBNAME" to "$BAKDBNAME"."$MASTER_TBNAME"_"$DATE";"
-	fi
-
-fi
-</code></pre></div></div>
-
-<h4 id="6-添加到linux计划任务">6. 添加到Linux计划任务</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>00 00 * * * /usr/local/bin/bakTable.sh
-</code></pre></div></div>
-
+<p>唉，你没来之前我也是个要脸的人啊。</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2017-01-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
-      , 
-      <a href="/tags.html#Shell">Shell</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2017/01/%E7%94%9F%E6%B4%BB%E5%9C%A8%E5%88%AB%E5%A4%84.html">生活在别处</a></h1>
-    <div class="post_at_index">
-      <p>生活在别处，第一次看到这句话的时候是初中，便在之后的许多年间未曾忘记。</p>
-
-<p>第一我不懂为何“生活在别处”，生活如何在别处？生活不应再当下？生活如影随行，在你忙忙碌碌烦烦烦烦时，生活就在这里，在你快快乐乐时，生活还在这里，我一直以为所见所行就是生活；可是，随着生长，你依旧在这里，而生活早已飘落别处。</p>
-
-<p>“生活在别处”是法国诗人兰波的一句名言，而他用一生践行了这句话，他一生都在出走，从法国到英国而后非洲，兰波一生都在出走，直到最后死去；他是一位无法被归类的诗人，放荡不羁，与魏尔伦的爱情，新世界的开创者，兰波一生都在尝试不同的人生，就像他说的：“我愿成为任何人”。</p>
-
-<blockquote>
-  <p><em>《全蝕狂愛》 1995 ，描述了兰波的故事，与魏尔伦的爱情。由李奥纳多扮演。</em></p>
-</blockquote>
-
-<p>我不会写故事，更多的用来记录我的生活，本来今天晚上准备写些什么，如何关于整理笔记之类，下班日常刷知乎，看到《这个杀手不太冷》中一句话，“生活一直是那么艰难吗？还是只有小时候是这样？” “一直是。”脑海里就浮现了“生活在别处”这句话，随着人生阅历的成长，对这几句话的理解，也是不断加深； 所以，回来写下这段文字。</p>
-
-<p>我一直试着找出自身的问题，我一直努力和生活更好地相处，我其实并不知道如何规划，我能感受到生命中特别重要的东西，要拼尽所有力气去抓住；我不喜欢去做承诺，我所能做的就是一直努力去做；在我们的人生中肯定会存在一些望不到顶的大山，可能我穷尽一生也无法看到山顶的景色和山的那边的一切，这的确是一件想想就很难过的事情，并且这一切无法逃避，听起来是那么地令人绝望，但是，亲爱的，我们总要去面对，或是大步向前，冲向那满是荆棘望不到顶的大山，要打败可以吃掉我们的大老虎，一次又一次，我们会经常失败，摔倒，伤痕累累，可是我总要爬起来，一次又一次，每次都像是用尽整个生命的力量，也许我们真的最后跌倒爬不起来了，也许我们最后真的无法凝聚一丝力量，那至少，我们明白我是真的做不到，而不是说从一开始就放弃，努力让自己变更好；嗯，方向也很重要。</p>
-
-<p>好了，我还要去整理笔记，然后早点睡觉，今天心情不太好，可身边总有些美丽的人，谢谢！</p>
-
-<p>最后，生活一直是那么艰难吗？</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-01-10</cite> <i class="icon-tag"></i>
+      <cite>2017-05-20</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Zero">Zero</a>
       
       
@@ -402,135 +343,126 @@ fi
     <hr/>
     
     
-    <h1><a class="title" href="/post/2017/01/Docker-Hub-%E5%9B%BD%E5%86%85%E5%8A%A0%E9%80%9F.html">Docker Hub 国内加速</a></h1>
+    <h1><a class="title" href="/post/2017/05/Wannacry%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E4%BA%8B%E4%BB%B6%E5%8F%8A%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%A1%88.html">Wannacry蠕虫病毒事件及修复方案</a></h1>
     <div class="post_at_index">
-      <p>因为Docker Hub没有在国内部署站点或者增加了国内的CDN，这导致国内的开发者在使用docker pull 获取images的时候速度非常的慢，甚至于因为网络的原因会失败。</p>
+      <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/3d0jo.png" alt="" /></p>
 
-<p>但是Docker Hub有着非常丰富的镜像资源，所以我这一直是个问题困扰着我，一次偶然机会发现了<a href="https://www.daocloud.io">DaoCloud</a>提供了国内镜像加速服务，并且提供的Docker Hub Mirror详细的文档。</p>
+<h3 id="事件背景">事件背景</h3>
 
-<h4 id="1-注册daocloud账号">1. 注册DaoCloud账号</h4>
-<p>首先，你需要到一DaoCloud账号，注册很方便，点击地址：<a href="https://account.daocloud.io/signup">signup</a>
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/o6wh3.jpg" alt="" /></p>
+<p>5月12日晚， WannaCry 蠕虫病毒在全球大肆爆发。据BBC、CNN等媒体报道，恶意攻击者利用 NSA（美国国家安全局）泄露的 Windows 0day 利用工具对99个国家实施了超过75000次攻击，主要影响SMB和RDP服务，主要影响了137、138、139、445端口。</p>
 
-<h4 id="2-登录到你的daocloud账号内然后入下图操作">2. 登录到你的DaoCloud账号内，然后入下图操作</h4>
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/n9mt7.jpg" alt="" /></p>
-
-<h4 id="3-查看你的daocloud加速器地址">3. 查看你的DaoCloud加速器地址</h4>
-<p><a href="https://www.daocloud.io/mirror#accelerator-doc">链接</a></p>
-
-<p>选择你相对应平台的的加速器设置
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/4wuea.jpg" alt="" /></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-01-07</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Docker">Docker</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/12/HowTo-Mount-OSS-Bucket-On-ECS.html">HowTo Mount OSS Bucket On ECS</a></h1>
-    <div class="post_at_index">
-      <blockquote>
-  <p>From <a href="https://github.com/aliyun/ossfs">阿里云官方Github</a></p>
-</blockquote>
-
-<blockquote>
-  <p>Demo: CentOS 6.8 on ECS</p>
-</blockquote>
-
-<p>ossfs 是通过磁盘挂载的形式，将oss存储挂载到linux、类unix等操作系统，而且不仅仅可以挂载阿里云内的ECS上，理论上所有网络能到达oss的都可以挂载，但还是要以实际问题为准。</p>
-
-<h5 id="1download--install">1.Download &amp; Install</h5>
-<p><a href="https://github.com/aliyun/ossfs/releases">官方版本发布页面</a>，请根据你的系统类型进行选择，我这演示的环境是CentOS 6.8；ossfs目前最新的版本是v1.79.9，您可以根据自己当时版本进行选择，建议选择最新版本。</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 请先将包上传到服务器上
- sudo yum localinstall ossfs_1.79.9_centos6.5_x86_64.rpm
-</code></pre></div></div>
-<blockquote>
-  <p>注意使用localinstall，因为在安装过程，yum 可以很好的解决依赖关系，会节省我们很多时间</p>
-</blockquote>
-
-<h5 id="2-oss--bucket">2. OSS &amp; Bucket</h5>
-
-<p>需要获取以下信息，在后面我们都会用到的：<br /></p>
-<ol>
-  <li>Bucket 名称
-  <img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/QQ20161111-0.jpg" alt="" />
-  <br /></li>
-  <li>Access Key ID</li>
-  <li>Access Key Secret
-  <img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/0256A9CB-A0FA-43BC-82AF-4DE17D4852B6.png" alt="" /></li>
-</ol>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/QQ20161111-2.jpg" alt="" />
-<br /></p>
-<ol>
-  <li>Location，这需要注意点，不要加上Bucket的名字，区域对应表如下，注意你的Bucket所在区域:</li>
-</ol>
-<div><table><thead><tr><th style="color:green">Region中文名称</th><th style="text-align:left;color: green;">Region英文表示</th><th style="text-align:left;color: green;">外网Endpoint</th><th style="text-align:left;color: green;">ECS访问的内网Endpoint</th></tr></thead><tbody><tr><td>华东 1</td><td style="text-align:left">oss-cn-hangzhou</td><td style="text-align:left">oss-cn-hangzhou.aliyuncs.com</td><td style="text-align:left">oss-cn-hangzhou-internal.aliyuncs.com</td></tr><tr><td>华东 2</td><td style="text-align:left">oss-cn-shanghai</td><td style="text-align:left">oss-cn-shanghai.aliyuncs.com</td><td style="text-align:left">oss-cn-shanghai-internal.aliyuncs.com</td></tr><tr><td>华北 1</td><td style="text-align:left">oss-cn-qingdao</td><td style="text-align:left">oss-cn-qingdao.aliyuncs.com</td><td style="text-align:left">oss-cn-qingdao-internal.aliyuncs.com</td></tr><tr><td>华北 2</td><td style="text-align:left">oss-cn-beijing</td><td style="text-align:left">oss-cn-beijing.aliyuncs.com</td><td style="text-align:left">oss-cn-beijing-internal.aliyuncs.com</td></tr><tr><td>华南 1</td><td style="text-align:left">oss-cn-shenzhen</td><td style="text-align:left">oss-cn-shenzhen.aliyuncs.com</td><td style="text-align:left">oss-cn-shenzhen-internal.aliyuncs.com</td></tr><tr><td>香港数据中心</td><td style="text-align:left">oss-cn-hongkong</td><td style="text-align:left">oss-cn-hongkong.aliyuncs.com</td><td style="text-align:left">oss-cn-hongkong-internal.aliyuncs.com</td></tr><tr><td>美国硅谷数据中心</td><td style="text-align:left">oss-us-west-1</td><td style="text-align:left">oss-us-west-1.aliyuncs.com</td><td style="text-align:left">oss-us-west-1-internal.aliyuncs.com</td></tr><tr><td>美国弗吉尼亚数据中心</td><td style="text-align:left">oss-us-east-1</td><td style="text-align:left">oss-us-east-1.aliyuncs.com</td><td style="text-align:left">oss-us-east-1-internal.aliyuncs.com</td></tr><tr><td>亚太（新加坡）数据中心</td><td style="text-align:left">oss-ap-southeast-1</td><td style="text-align:left">oss-ap-southeast-1.aliyuncs.com</td><td style="text-align:left">oss-ap-southeast-1-internal.aliyuncs.com</td></tr><tr><td>亚太东北 1（日本）数据中心</td><td style="text-align:left">oss-ap-northeast-1</td><td style="text-align:left">oss-ap-northeast-1.aliyuncs.com</td><td style="text-align:left">oss-ap-northeast-1-internal.aliyuncs.com</td></tr></tbody></table></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 设置bucket/access key/id的信息，将其存放在/etc/passwd-ossfs 文件中
-# 注意这个文件的权限必须正确设置，建议设为640
-sudo echo my-bucket:my-access-key-id:my-access-key-secret &gt; /etc/passwd-ossfs
-sudo chmod 640 /etc/passwd-ossfs
-</code></pre></div></div>
-<p><br /></p>
-<h5 id="3-mount--uasge">3. Mount &amp; Uasge</h5>
-<p>将oss bucket mount到指定目录:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 我碰到安装后找不到ossfs命令，查看下因为ossfs没有x权限，目录路径为/usr/local/bin，如果您也碰到这个问题，可以增加x权限后再测试
-sudo ossfs my-bucket /mnt/ossdir -ourl=http://oss-location.aliyuncs.com
-
-# 如果使用ossfs的机器是阿里云ECS，可以使用内网域名来避免流量收费和 提高速度：
-sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com
-</code></pre></div></div>
-<p>磁盘空间达到上百T：
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/0B78E099-5488-4839-AE48-09A074E7415D.png" alt="" />
-<br /></p>
-
-<p>umount：</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 注意用户身份
-umount /tmp/ossfs # root user
-sudo fusermount -u /tmp/ossfs # non-root user
-</code></pre></div></div>
-<p><br /></p>
-<h5 id="4-debug--faq">4. Debug &amp; FAQ</h5>
-<p>当遇到错误的时候，可以试着打开Debug日志信息，然后分析问题原因：</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 使用 -o dbglevel=debug -f -d参数打印日志信息
-sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com -o dbglevel=debug -f -d &gt; /mnt/ossfs.log 2&gt;&amp;1
-</code></pre></div></div>
-
-<p>更多的问题，请移步查看<a href="https://github.com/aliyun/ossfs/wiki/FAQ">官方的FAQ文档</a>。</p>
-
-<p><br /></p>
-<h5 id="5-about">5. About</h5>
-<p>ossfs提供的功能和性能和本地文件系统相比，具有一些局限性。具体包括：</p>
+<p>目前已知已知的Windows版本包括但不限于一下都受影响：</p>
 
 <ul>
-  <li>随机或者追加写文件会导致整个文件的重写。</li>
-  <li>元数据操作，例如list directory，性能较差，因为需要远程访问oss服务器。</li>
-  <li>文件/文件夹的rename操作不是原子的。</li>
-  <li>多个客户端挂载同一个oss bucket时，依赖用户自行协调各个客户端的行为。例如避免多个客户端写同一个文件等等。</li>
-  <li>不支持hard link。</li>
-  <li>不适合用在高并发读/写的场景，这样会让系统的load升高</li>
+  <li>Windows NT</li>
+  <li>Windows 2000</li>
+  <li>Windows XP</li>
+  <li>Windows 2003</li>
+  <li>Windows Vista</li>
+  <li>Windows 7</li>
+  <li>Windows 8</li>
+  <li>Windows 10</li>
+  <li>Windows 2008</li>
+  <li>Windows 2008 R2</li>
+  <li>Windows Server 2012 SP0</li>
 </ul>
 
-<blockquote>
-  <p>另外，ossfs的稳定性很大一部分依赖于网络环境，建议的使用场景更多是作为临时数据迁移或定期备份，虽然ossfs挂载到系统中会有着几百TB的空间，但是稳定性并不高。</p>
-</blockquote>
+<p>勒索者源头来自暗网，攻击具备兼容性、多语言支持，多个行业受到影响，国内高校网络系统沦为感染重灾区。据有关机构统计，目前国内每天有数万台机器遭到该蠕虫病毒袭击，国内的ATM机、火车站、自助终端、邮政、医院、政府办事终端、视频监控都可能遭受攻击。据报道，今日全国多地的中石油加油站无法进行网络支付，只能进行现金支付。中石油有关负责人表示，怀疑受到病毒攻击，具体情况还在核查。而截至目前，一些公安系统已经遭到入侵。</p>
+
+<p>如果你也遇到了这样的问题，请不要担心，我在下面给出了如何修复这个漏洞的建议。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/9y7cc.jpg" alt="" /></p>
+
+<h3 id="什么是比特币蠕虫病毒">什么是比特币蠕虫病毒？</h3>
+
+<p>这次攻击的始作俑者是一款名为“WannaCry”（中文名：想哭）的勒索病毒，带有加密功能，它利用 Windows 在 445 端口的安全漏洞潜入电脑并对多种文件类型加密并添加后缀(.onion)使用户无法打开，用户电脑存在文档被加密的情况，攻击者称需支付比特币解锁。(比特币是一种全球通用的互联网加密货币)</p>
+
+<h3 id="漏洞验证">漏洞验证</h3>
+
+<ol>
+  <li>
+    <p>使用<code>Win</code>+<code>R</code>按键打开运行窗口，输入cmd，进入命令行工具，然后输入<code>netstat -an</code> 查看是否开放了对应的端口。</p>
+
+    <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/3m1jm.png" alt="" /></p>
+
+    <p>上图中的服务器就是开放了445端口，这有很大的风险可能会WannaCry 蠕虫病毒被攻击到，所以我们应该关掉对应端口，并修复漏洞。</p>
+
+    <h3 id="漏洞修复">漏洞修复</h3>
+
+    <ol>
+      <li>目前微软已发布补丁MS17-010修复了“永恒之蓝”攻击的系统漏洞，请尽快为电脑安装此补丁，网址为<a href="https://laod.cn/go.php?url=https://technet.microsoft.com/zh-cn/library/security/MS17-010">https://technet.microsoft.com/zh-cn/library/security/MS17-010</a></li>
+      <li>对于XP、2003等微软已不再提供安全更新的机器，推荐使用360“NSA武器库免疫工具”检测系统是否存在漏洞，并关闭受到漏洞影响的端口，可以避免遭到勒索软件等病毒的侵害，可以在360电脑安全管家中找到。</li>
+      <li>开启系统防火墙，利用系统防火墙的“高级设置”阻止外部对 445 端口进的访问（存在一定影响，该操作会影响使用 445 端口的服务）。</li>
+    </ol>
+  </li>
+</ol>
+
+<h3 id="修复脚本">修复脚本</h3>
+
+<p>如果以上方式都不能修复漏洞，大家可以使用我以下的批处理脚本文件来尝试关闭端口及服务，批处理禁用该漏洞可能利用到的端口，全版本通用，右键管理员启动即可，注意这需要打开Windows的防火墙。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>net stop SCardSvr
+net stop SCPolicySvc
+sc config SCardSvr <span class="nv">start</span><span class="o">=</span>disabled
+sc config SCPolicySvc <span class="nv">start</span><span class="o">=</span>disabled
+net start MpsSvc
+sc config MpsSvc <span class="nv">start</span><span class="o">=</span>auto
+netsh advfirewall <span class="nb">set </span>allprofiles state on
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny udp 137"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>udp <span class="nv">localport</span><span class="o">=</span>137 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny tcp 137"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>tcp <span class="nv">localport</span><span class="o">=</span>137 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny udp 138"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>udp <span class="nv">localport</span><span class="o">=</span>138 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny tcp 138"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>tcp <span class="nv">localport</span><span class="o">=</span>138 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny udp 139"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>udp <span class="nv">localport</span><span class="o">=</span>139 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny tcp 139"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>tcp <span class="nv">localport</span><span class="o">=</span>139 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny udp 445"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>udp <span class="nv">localport</span><span class="o">=</span>445 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny tcp 445"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>tcp <span class="nv">localport</span><span class="o">=</span>445 <span class="nv">action</span><span class="o">=</span>block
+pause
+</code></pre></div></div>
+
+<p>我已经将脚本上传到百度云盘中，大家可以自行下载运行，注意解压缩Zip包之后的fix_WannaCry.bat</p>
+
+<p>下载链接：https://pan.baidu.com/s/1gfceNRH</p>
+
+<h3 id="添加防火规则">添加防火规则</h3>
+
+<ol>
+  <li>
+    <p>打开控制面板中的Windows防火墙，并保证防火墙处于启用状态；</p>
+  </li>
+  <li>
+    <p>打开防火墙的高级设置；</p>
+  </li>
+  <li>
+    <p>在“入站规则”中新建一条规则，本地端口号选择445，操作选择阻止连接。</p>
+
+    <p><img src="https://pic3.zhimg.com/v2-85f14330cdba1fbf89369b26b9e48f52_b.png" alt="" /></p>
+
+    <p><img src="https://pic2.zhimg.com/v2-1bbe08395ec8ef8d0e2028cbccb01055_b.png" alt="" /></p>
+  </li>
+</ol>
+
+<h3 id="手动导入安全策略">手动导入安全策略</h3>
+
+<p>下载策略文件</p>
+
+<p>https://share.weiyun.com/15b7bbd3f86c493a66721dd948a81c54</p>
+
+<p>打开控制面板–管理工具-本地安全策略–IP安全策略 –&gt;所有任务–&gt;导入策略：</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/hj9f4.jpg" alt="" /></p>
+
+<p>或者，通过<code>Win</code>+<code>R</code>，输入<code>gpedit.msc</code></p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/9vsqx.jpg" alt="" /></p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/tosjk.jpg" alt="" /></p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-12-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Aliyun">Aliyun</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
+      <cite>2017-05-15</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Windows">Windows</a>
       
       
       
@@ -539,28 +471,227 @@ sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com 
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/12/%E4%B8%8A%E6%B5%B7%E5%A4%A9%E5%86%B7%E4%BA%86.html">上海天冷了</a></h1>
+    <h1><a class="title" href="/post/2017/04/CentOS%E5%A2%9E%E5%8A%A0%E6%96%B0%E7%A1%AC%E7%9B%98%E7%BB%99%E6%A0%B9%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%89%A9%E5%AE%B9.html">CentOS增加新硬盘给根文件系统扩容</a></h1>
     <div class="post_at_index">
-      <p>上海天冷了啊！上海天冷了啊啊！！上海天冷了啊啊！！！</p>
+      <p>由于刚开始做磁盘空间规划时，失误给根分区分配磁盘较小，导致后续实验环境无法进行，所以在经过研究后，决定尝试增加根分区的磁盘空间，注意这仅适用于创建在LVM上的文件系统。</p>
 
-<p>重要的事情说三遍，这是一个好习惯，有了冬天的感觉，早上起床的时候有感觉，下班路上有感觉，现在坐在键盘前打字也很有感觉；前几天在微博上写了几句话:如今算是最好的季节，褪去夏日的燥热与汗渍，又不像冬日那么干冷凛冽，穿的衣服也是刚刚好，单条牛仔裤加个风衣或冲锋衣既藏住身上的赘肉，又不失潇洒，正是装逼好时节，而最最好的是这个季节的女子，美丽更胜其它季节。朋友嘲笑说其实想看黑丝，哈哈！谁知才过几天，就感受到了那种“干冷凛冽”。但是，我喜欢这种感觉，就像我喜欢这座城市，我说我喜欢冬天，自小就喜欢，我说我喜欢这座城市，就像自小就喜欢；我说不出来为什么喜欢，就像很多说不出来为什么喜欢，就像有些人，就像有些事，就像有些讨厌，人终是要顺了自己的心意，不然不会开心，但是要懂事，不懂事就不可爱了。</p>
+<h3 id="实验环境">实验环境</h3>
+
+<ul>
+  <li>Parallels Desktop 12</li>
+  <li>CentOS 6.9</li>
+  <li>根分区空间 6.5GB</li>
+  <li>已使用 5.8GB</li>
+  <li>预计 增加12G 磁盘空间</li>
+</ul>
 
 <!-- more -->
 
-<p>最近一直比较忙，弄得心烦意乱。</p>
+<h3 id="增加一块物理磁盘">增加一块物理磁盘</h3>
 
-<p>生活上，最近外公有生病，母亲十分挂念，原本外公外婆年岁已高且身体不好，家里几位舅父却又不有作为，也令母亲十分苦恼，本来她身体也有不好，我却不能帮上她一二，内心也是颇为着急挂念，只能尽力安慰。说起外公外婆，也是难过不已，近两年，因些事每年都要回去两三趟，而又匆忙，故无多时间陪陪他们，外婆已多年卧病在床，起居生活全有外公照顾，我一次尝试想搀扶外婆起床，是异常艰难，可外公80多岁老人一扶就是8年多。有时，自己也想，若是自己到了这般年纪，该如何处置，想想也难过不已，想二位老人，到了这个年纪，早已不在乎吃穿用度如何如何，多年孤苦在家，更想要的子女多多陪伴，所以每次母亲打电话回去都哭泣不止；最怕“子欲养而亲不待”的事，我也劝说母亲有空就多多回老家陪陪，而母亲却担心我的婚娶生活，更令我难过不已，暗恨自己无用；昨今两日，父母又相继回老家，也希望外公身体早日恢复。</p>
+<p>Parallels Desktop 不能在线增加磁盘，所以要先将VM关闭，然后添加：
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/m5e1d.jpg" alt="" />
+增加12G的磁盘
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/prgyd.jpg" alt="" /></p>
 
-<p>工作上，自从去年与领导夸下豪言便一直不敢懈怠，但实际做下来的确是要比想象中困难许多，本来自己就不是聪明，这段时间做项目需求，改了许多稿总算通过，开心，感叹领导是好性格，如此耐心指导我；而前段时间，这个项目好几处也是几近失控，和其他公司的人沟通协调处理等一团糟，还好如今都渐回正轨；第一项目还未做完，就打退堂鼓，幸亏领导的指导，同事的帮助，当然还有我的好妹妹，每次感觉扛不住的找她聊聊发发牢骚，都能耐心听并给我加油打气。感谢这些人，当然也感谢自己，总有各种办法给自己恢复元气，今早，用思维导图把最近的烦心事要做的事全部写出来，然后一条一条的分析处理，最后恢复了好心情，又一如既往的工作生活。</p>
+<p>然后启动VM，这时可以通过<code>fdisk -l</code>查看当前已经增加了一块12G的磁盘</p>
 
-<p>又23点过半了，要抓紧早睡了，调整正常作息才能更充沛的工作生活，记录走出了这一段不好的日子，恢复元气的自己，但是不能懈怠，毕竟“革命尚未成功，同志仍需努力”。</p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/tat9r.jpg" alt="" /></p>
+
+<h3 id="格式化磁盘并加入到vgroup组内">格式化磁盘并加入到VGroup组内</h3>
+
+<h4 id="查看当前pvdisplay磁盘列表将devsdb创建pv块">查看当前<code>pvdisplay</code>磁盘列表，将<code>/dev/sdb</code>创建pv块</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# pvdisplay
+  <span class="nt">---</span> Physical volume <span class="nt">---</span>
+  PV Name               /dev/sda2
+  VG Name               vg_hadoop01
+  PV Size               7.51 GiB / not usable 3.00 MiB
+  Allocatable           <span class="nb">yes</span> <span class="o">(</span>but full<span class="o">)</span>
+  PE Size               4.00 MiB
+  Total PE              1922
+  Free PE               0
+  Allocated PE          1922
+  PV UUID               MUCrDa-eJpZ-EXwE-YwwM-S2Az-p2m7-K9q3Fo
+
+<span class="o">[</span>root@centos ~]# pvcreate /dev/sdb
+  Physical volume <span class="s2">"/dev/sdb"</span> successfully created
+<span class="o">[</span>root@centos ~]# pvdisplay
+  <span class="nt">---</span> Physical volume <span class="nt">---</span>
+  PV Name               /dev/sda2
+  VG Name               vg_hadoop01
+  PV Size               7.51 GiB / not usable 3.00 MiB
+  Allocatable           <span class="nb">yes</span> <span class="o">(</span>but full<span class="o">)</span>
+  PE Size               4.00 MiB
+  Total PE              1922
+  Free PE               0
+  Allocated PE          1922
+  PV UUID               MUCrDa-eJpZ-EXwE-YwwM-S2Az-p2m7-K9q3Fo
+
+  <span class="nt">---</span> Physical volume <span class="nt">---</span>
+  PV Name               /dev/sdb
+  VG Name               vg_hadoop01
+  PV Size               12.00 GiB / not usable 4.00 MiB
+  Allocatable           <span class="nb">yes
+  </span>PE Size               4.00 MiB
+  Total PE              3071
+  Free PE               3071
+  Allocated PE          0
+  PV UUID               XTpaBR-512W-vQIV-fwwz-So7L-ZCa3-yjDccQ
+</code></pre></div></div>
+
+<h4 id="查看当前vgdisplayvgroup组将devsdb加入根目录所在vgroup">查看当前<code>vgdisplay</code>VGroup组，将<code>/dev/sdb</code>加入根目录所在VGroup</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# vgdisplay
+  <span class="nt">---</span> Volume group <span class="nt">---</span>
+  VG Name               vg_hadoop01
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  3
+  VG Access             <span class="nb">read</span>/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                2
+  Open LV               2
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               7.51 GiB
+  PE Size               4.00 MiB
+  Total PE              1922
+  Alloc PE / Size       1922 / 7.51 GiB
+  Free  PE / Size       0 / 0
+  VG UUID               szQ4fH-Sr1Z-V6c2-KVMp-ZUik-oUDP-rU8dQS
+
+<span class="o">[</span>root@centos ~]# vgextend vg_hadoop01 /dev/sdb
+  Volume group <span class="s2">"vg_hadoop01"</span> successfully extended
+<span class="o">[</span>root@centos ~]# vgdisplay
+  <span class="nt">---</span> Volume group <span class="nt">---</span>
+  VG Name               vg_hadoop01
+  System ID
+  Format                lvm2
+  Metadata Areas        2
+  Metadata Sequence No  4
+  VG Access             <span class="nb">read</span>/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                2
+  Open LV               2
+  Max PV                0
+  Cur PV                2
+  Act PV                2
+  VG Size               19.50 GiB
+  PE Size               4.00 MiB
+  Total PE              4993
+  Alloc PE / Size       1922 / 7.51 GiB
+  Free  PE / Size       3071 / 12.00 GiB
+  VG UUID               szQ4fH-Sr1Z-V6c2-KVMp-ZUik-oUDP-rU8dQS
+</code></pre></div></div>
+
+<h4 id="查看lvdisplay根卷的名称将磁盘加入根卷的lv">查看<code>lvdisplay</code>根卷的名称，将磁盘加入根卷的LV</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@centos ~]# lvdisplay
+  --- Logical volume ---
+  LV Path                /dev/vg_hadoop01/lv_root
+  LV Name                lv_root
+  VG Name                vg_hadoop01
+  LV UUID                tJDetu-Theq-BQ5g-3ZFe-Gan7-1SSv-OHeYrH
+  LV Write Access        read/write
+  LV Creation host, time hadoop01, 2017-04-18 07:09:58 +0800
+  LV Status              available
+  # open                 1
+  LV Size                6.71 GiB
+  Current LE             1718
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:0
+
+  --- Logical volume ---
+  LV Path                /dev/vg_hadoop01/lv_swap
+  LV Name                lv_swap
+  VG Name                vg_hadoop01
+  LV UUID                D4K7I6-tPO0-HMbC-VWkR-2HV4-WjAe-M82wYq
+  LV Write Access        read/write
+  LV Creation host, time hadoop01, 2017-04-18 07:09:59 +0800
+  LV Status              available
+  # open                 1
+  LV Size                816.00 MiB
+  Current LE             204
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:1
+
+[root@centos ~]# lvextend -l +100%FREE /dev/vg_hadoop01/lv_root
+  Size of logical volume vg_hadoop01/lv_root changed from 6.71 GiB (1718 extents) to 18.71 GiB (4789 extents).
+  Logical volume lv_root successfully resized.
+[root@centos ~]# lvdisplay
+  --- Logical volume ---
+  LV Path                /dev/vg_hadoop01/lv_root
+  LV Name                lv_root
+  VG Name                vg_hadoop01
+  LV UUID                tJDetu-Theq-BQ5g-3ZFe-Gan7-1SSv-OHeYrH
+  LV Write Access        read/write
+  LV Creation host, time hadoop01, 2017-04-18 07:09:58 +0800
+  LV Status              available
+  # open                 1
+  LV Size                18.71 GiB
+  Current LE             4789
+  Segments               2
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:0
+
+  --- Logical volume ---
+  LV Path                /dev/vg_hadoop01/lv_swap
+  LV Name                lv_swap
+  VG Name                vg_hadoop01
+  LV UUID                D4K7I6-tPO0-HMbC-VWkR-2HV4-WjAe-M82wYq
+  LV Write Access        read/write
+  LV Creation host, time hadoop01, 2017-04-18 07:09:59 +0800
+  LV Status              available
+  # open                 1
+  LV Size                816.00 MiB
+  Current LE             204
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:1
+</code></pre></div></div>
+
+<h3 id="更新磁盘分区表">更新磁盘分区表</h3>
+
+<p>当你增加完成之后，这时使用<code>df -h</code>查看的磁盘空间仍然没有变化，因为我们还需要将根卷的分区表刷新。</p>
+
+<h4 id="使用resize2fs刷新根卷信息">使用<code>resize2fs</code>刷新根卷信息</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@centos ~]# resize2fs /dev/vg_hadoop01/lv_root
+resize2fs 1.41.12 (17-May-2010)
+Filesystem at /dev/vg_hadoop01/lv_root is mounted on /; on-line resizing required
+old desc_blocks = 1, new_desc_blocks = 2
+Performing an on-line resize of /dev/vg_hadoop01/lv_root to 4903936 (4k) blocks.
+The filesystem on /dev/vg_hadoop01/lv_root is now 4903936 blocks long.
+
+[root@centos ~]# df -h
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/mapper/vg_hadoop01-lv_root
+                       19G  5.8G   12G  33% /
+tmpfs                 244M     0  244M   0% /dev/shm
+/dev/sda1             477M   52M  400M  12% /boot
+</code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-12-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
+      <cite>2017-04-18</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#LVM">LVM</a>
       
       
       
@@ -569,149 +700,371 @@ sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com 
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/12/%E5%91%8A%E5%88%AB.html">告别</a></h1>
+    <h1><a class="title" href="/post/2017/04/HowTo-Install-GitLab.html">HowTo Install GitLab</a></h1>
     <div class="post_at_index">
-      <p>你们一起看过很多风景</p>
+      <p>目前最为主流的在线Git版本控制系统可以说是非GitHub莫属，对于个人开发者和开源项目可以直接选择GitHub作为Git版本控制系统即可，但是，对于企业内部开发管理的Git版本控制系统，在对保密性有高要求时GitHub就不合适了，这时GitLab作为一个可以完全搭建在企业内部的Git版本控制系统，而且基本囊括了GitHub的所有功能。</p>
 
-<p>走过很多路</p>
-
-<p>因为小事争吵</p>
-
-<p>为了让对方委曲求全过</p>
-
-<p>你们花光了所有力气</p>
-
-<p>竟还是没有逃过分开的命运</p>
-
-<p>于是从此以后</p>
-
-<p>你走那条路都会想起当时的嬉笑怒骂</p>
-
-<p>你经过街角的那间咖啡馆会记得甜得发腻的糖霜</p>
-
-<p>可是人啊</p>
-
-<p>总要学会告别</p>
-
-<p>无论如何</p>
-
-<p>我们的生命中</p>
-
-<p>都逃脱不了</p>
-
-<p>永无休止的告别</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/pk6qu.JPG" alt="img" /></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-12-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/12/%E8%A1%80%E6%88%98%E9%92%A2%E9%94%AF%E5%B2%AD.html">血战钢锯岭</a></h1>
-    <div class="post_at_index">
-      <p>历史才是最好的教科书，我们从一段又一段历史中汲取经验和教训，尽量让人生走得不去更加艰难，而这毫无疑问战争是最好的老师，最残酷的史实，人类从千百的历史中依然没能学会和平，战争，让这个世界变得满目疮痍。</p>
-
-<p>今天去看了《血战钢锯岭》，有多久没有感动到流下眼泪，很好，前半段在讲述道斯如何与军队抗争，坚守自己的信仰，信仰是个好东西，但愿你我都有。后半段战争的场面极其的血腥暴力，电影尚是如此，真实又怎样想象，人生从来没有NG，因为真实，才最有力量；我们都喜欢甜美的故事，我也为了道斯的爱情而感动，也因战争的残酷而愤怒。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/gjt1b.jpg" alt="道斯和妻子吻别" />
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/w4nzi.jpg" alt="道斯冒着枪林弹雨拯救受伤的士兵" /></p>
-
-<p>这是我最喜欢的电影了，最让我感动的话是在军事法庭上道斯说：世界已经分崩离析，我要把它拼成原来的样子。看到这里心都碎了，这个世界上总有些人，哪怕与所有人为敌，所有人不信任，经受磨难羞辱，也坚持自己的信仰，这才是英雄；放下枪的人才是勇敢，他教会我们，我们应该成为怎样的人，不能忘记历史带给我们的伤痛，不能忘记而不是去恨，珍惜美好生活，不要战争。</p>
-
-<p>在这段时期，同样想起的是南京大屠杀，同样是二战时期日军留下的暴行，他们是魔鬼，他们终将会受到应有的惩罚；首先，我们都不能忘记，这是我们的伤痛，真实的历史远比想象的更加残酷，哪些被迫害的人，哪些南京大屠杀纪念馆的人名册，这些人是多么的绝望啊，数以千万计的道斯奋战的美好世界，怎能让战争败类去迫害，我不喜欢战争，任何一个国家。</p>
-
-<p>同样的选择给我，我会选择拿起枪，鲁迅先生说过：学医是救不了中国的，我终于不是道斯，看到咫尺近前的战友被日本人用刺刀刺死，却选择不拿起枪，我做不到；实际上，我也是一个有信仰的人，我的信仰的是我在乎的人，我愿意为了他们奋不顾身直到死亡，因为，他们是我的逆鳞啊！</p>
-
-<p>小时候，常听老人家说，要忆苦思甜，实际上应该是要铭记战争带给我们的伤痛，要铭记那段时期，勇敢的坚持的信仰，更加重要的是珍惜现在的美好。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-12-11</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/12/HowTo-Install-Python3-on-CentOS-6-x.html">HowTo Install Python3 on CentOS 6.x</a></h1>
-    <div class="post_at_index">
-      <p>接触过Python2.x与Python3.x的应该知道，它们二者的区别也是蛮大的，而随着Python3.x的盛行，越来越多的应用运行与Python3.x的环境之上，但是我们的CentOS的系列，目前都默认安装时Python2.x（CentOS 7.x也是），所以不得不我们需要自己行动手安装Python 3.x的环境。</p>
-
-<p>Mirosoft平台与Mac平台，不在考虑范围，他们都有相应的软件包与图形化安装工具，可以很好的解决这个问题，所以今天我们的环境是在CentOS 6.x系列上进行。</p>
-
-<blockquote>
-  <p>Demo ：CentOS 6.8</p>
-</blockquote>
-
-<h4 id="method-1-build--install-from-source-file">Method 1. Build &amp; Install From Source-File</h4>
+<h4 id="目前gitlab已经整合的功能">目前GitLab已经整合的功能</h4>
 
 <ol>
-  <li>Python3.x 源码文件下载，请选择适合的版本。 <a href="https://www.python.org/ftp/python/">下载页面</a></li>
-  <li>我这里使用版本 Python 3.5
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[cent@demo ~]$ wget https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tgz
-</code></pre></div>    </div>
-  </li>
-  <li>安装系统基本工具：
-```
-    <h1 id="yum-utils">yum-utils</h1>
-    <p>[cent@demo ~]$ sudo yum install -y yum-utils</p>
-  </li>
+  <li>Repository access</li>
+  <li>Administration</li>
+  <li>Issues</li>
+  <li>Forks</li>
+  <li>Code review</li>
+  <li>Wiki</li>
+  <li>Merge Requests</li>
+  <li>Web Editor</li>
 </ol>
 
-<h1 id="构建python-编译环境">构建python 编译环境</h1>
-<p>[cent@demo ~]$ sudo yum-builddep python</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4. 开始编译 &amp; 安装
-并且源码安装的同时，会将pip3与setuptools一同安装.
+<h4 id="测试环境">测试环境</h4>
+
+<ul>
+  <li>2 core 4GB</li>
+  <li>50GB HDD</li>
+  <li>CentOS 6.8</li>
+  <li>Gitlab</li>
+</ul>
+
+<h4 id="安装需求">安装需求</h4>
+
+<p>关于GitLab的安装需求，主要是针对用户量然后评估出服务器及相关资源的配置，<a href="https://docs.gitlab.com.cn/ce/install/requirements.html">查看</a></p>
+
+<h3 id="gitlab-安装"><strong>GitLab 安装</strong></h3>
+
+<h4 id="安装配置依赖项">安装配置依赖项</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install curl openssh-server openssh-clients postfix cronie
+sudo service postfix start
+sudo chkconfig postfix on
+sudo lokkit -s http -s ssh
 </code></pre></div></div>
-<p>[cent@demo ~]$ tar xf Python-3.5.0.tgz
-[cent@demo ~]$ cd Python-3.5.0
-[cent@demo ~]$ ./configure
-[cent@demo ~]$ make
-[cent@demo ~]$ sudo make install</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>5. 检查版本
+
+<h4 id="添加gitlab仓库并安装到服务器上">添加GitLab仓库,并安装到服务器上</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -sS http://packages.gitlab.cc/install/gitlab-ce/script.rpm.sh | sudo bash
+sudo yum install gitlab-ce
 </code></pre></div></div>
-<p>[cent@demo ~]$ python3 -V
-Python 3.5.0</p>
 
-<h1 id="如果希望系统默认为python3">如果希望系统默认为Python3</h1>
-<p>[cent@demo ~]$ alias python=’usr/bin/python3.5’</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-#### Method 2. Install From EPEL repos
-也许有的同学会说，编译安装，那是上古时期的做法了，yum在线安装才是王道，当然这种说法也有可取之处，所以接下来讲下如何使用yum安装，需要注意的是yum安装是需要时间测试和增加到相应的源仓库，一般会稍慢于源码安装的方式，这里采用EPEL源，这是一个非常棒的第三方源仓库，之前的文章中也多次提到，这里就不做过多描述，请看下面的命令：
+<h4 id="启动gitlab并初始化">启动GitLab并初始化</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo gitlab-ctl reconfigure
 </code></pre></div></div>
-<p>[cent@demo ~]$ sudo yum install -y epel-release
-[cent@demo ~]$ sudo yum install -y python34</p>
 
-<h1 id="因为yum安装时没能同时安装pip与setuptools所以我们要手动安装这里采用拿第三方包解决问题">因为yum安装时没能同时安装pip与setuptools，所以我们要手动安装，这里采用拿第三方包解决问题</h1>
+<p>默认登录账号是：<strong>root</strong> ，你可以在首次打开时设置密码。</p>
 
-<p>[cent@demo ~]$ curl -O https://bootstrap.pypa.io/get-pip.py
-[cent@demo ~]$ sudo python3 get-pip.py</p>
+<h3 id="gitlab-初始化"><strong>GitLab 初始化</strong></h3>
 
-<p>[cent@demo ~]$  python3 -V
-Python 3.4.3
-```</p>
+<h4 id="开机自启动">开机自启动</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> vi /etc/rc.local
+ /opt/gitlab/bin/gitlab-ctl start
+</code></pre></div></div>
+
+<h4 id="gitlab-配置文件">GitLab 配置文件</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/gitlab/gitlab.rb
+</code></pre></div></div>
+
+<h4 id="smtp-邮箱配置">SMTP 邮箱配置</h4>
+
+<p>如果想使用SMTP代替sendmail来发送邮件，应该在gitlab.rb中启用对应的配置，然后运行<code class="language-plaintext highlighter-rouge">gitlab-ctl reconfigure</code>使修改生效。</p>
+
+<h5 id="qq企业邮箱配置示例">QQ企业邮箱配置示例</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails['smtp_enable'] = true
+gitlab_rails['smtp_address'] = "smtp.exmail.qq.com"
+gitlab_rails['smtp_port'] = 465
+gitlab_rails['smtp_user_name'] = "xxxx@xx.com"
+gitlab_rails['smtp_password'] = "password"
+gitlab_rails['smtp_authentication'] = "login"
+gitlab_rails['smtp_enable_starttls_auto'] = true
+gitlab_rails['smtp_tls'] = true
+gitlab_rails['gitlab_email_from'] = 'xxxx@xx.com'
+</code></pre></div></div>
+
+<h5 id="gmail邮箱配置示例">Gmail邮箱配置示例</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails['smtp_enable'] = true
+gitlab_rails['smtp_address'] = "smtp.gmail.com"
+gitlab_rails['smtp_port'] = 587
+gitlab_rails['smtp_user_name'] = "my.email@gmail.com"
+gitlab_rails['smtp_password'] = "my-gmail-password"
+gitlab_rails['smtp_domain'] = "smtp.gmail.com"
+gitlab_rails['smtp_authentication'] = "login"
+gitlab_rails['smtp_enable_starttls_auto'] = true
+gitlab_rails['smtp_tls'] = false
+gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+</code></pre></div></div>
+
+<h5 id="outlook邮箱配置示例">Outlook邮箱配置示例</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails['smtp_enable'] = true
+gitlab_rails['smtp_address'] = "smtp-mail.outlook.com"
+gitlab_rails['smtp_port'] = 587
+gitlab_rails['smtp_user_name'] = "username@outlook.com"
+gitlab_rails['smtp_password'] = "password"
+gitlab_rails['smtp_domain'] = "smtp-mail.outlook.com"
+gitlab_rails['smtp_authentication'] = "login"
+gitlab_rails['smtp_enable_starttls_auto'] = true
+gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+</code></pre></div></div>
+
+<blockquote>
+  <p>​:warning: ‘smtp_password’字段不应包含任何 Ruby或者YAML语法中的分隔符 (如<code class="language-plaintext highlighter-rouge">'</code>),以避免处理配置文件的过程中发生不必要的意外。</p>
+</blockquote>
+
+<h4 id="gitlab-日常维护">GitLab 日常维护</h4>
+
+<h5 id="1-查看服务状态">1. 查看服务状态</h5>
+
+<p>使用 gitlab-ctl status 查看服务状态</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@6 ~]# sudo gitlab-ctl status
+run: gitaly: (pid 15055) 23089s; run: log: (pid 3142) 55379s
+run: gitlab-monitor: (pid 15060) 23088s; run: log: (pid 3325) 55357s
+run: gitlab-workhorse: (pid 15063) 23088s; run: log: (pid 3156) 55377s
+run: logrotate: (pid 17867) 1487s; run: log: (pid 3197) 55369s
+run: nginx: (pid 15077) 23087s; run: log: (pid 3169) 55375s
+run: node-exporter: (pid 15083) 23087s; run: log: (pid 3247) 55366s
+run: postgres-exporter: (pid 15088) 23086s; run: log: (pid 3311) 55358s
+run: postgresql: (pid 15093) 23086s; run: log: (pid 2988) 55412s
+run: prometheus: (pid 15101) 23085s; run: log: (pid 3230) 55368s
+run: redis: (pid 15109) 23085s; run: log: (pid 2931) 55419s
+run: redis-exporter: (pid 15113) 23085s; run: log: (pid 3290) 55364s
+run: sidekiq: (pid 17029) 22450s; run: log: (pid 3131) 55380s
+run: unicorn: (pid 17001) 22460s; run: log: (pid 3100) 55386s
+</code></pre></div></div>
+
+<h5 id="2-启动关闭重启">2. 启动、关闭、重启</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 启动Gitlab所有组件
+sudo gitlab-ctl start
+
+# 停止Gitlab所有组件
+sudo gitlab-ctl stop
+
+# 重启Gitlab所有组件
+sudo gitlab-ctl restart
+
+# 重启单个组件
+sudo gitlab-ctl restart sidekiq
+</code></pre></div></div>
+
+<h5 id="3-控制台实时查看日志">3. 控制台实时查看日志</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 查看所有的logs; 按 Ctrl-C 退出
+sudo gitlab-ctl tail
+
+# 拉取/var/log/gitlab下子目录的日志
+sudo gitlab-ctl tail gitlab-rails
+
+# 拉取某个指定的日志文件
+sudo gitlab-ctl tail nginx/gitlab_error.log
+</code></pre></div></div>
+
+<h3 id="gitlab-安装后优化"><strong>GitLab 安装后优化</strong></h3>
+
+<h4 id="启用https">启用HTTPS</h4>
+
+<p>首先，你需要提供一个有可信任CA证书，默认情况下GitLab是没有启用HTTPS的，如果要启用HTTPS时，首先要修改<code>/etc/gitlab/gitlab.rb</code>中的<code>external_url</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 修改为https
+external_url "https://git.ultraera.org"
+
+# 设置默认将http重定向到https
+nginx['redirect_http_to_https'] = true
+</code></pre></div></div>
+
+<p>如果你暂时没有https证书，那么你可以临时自己颁发一个证书，注意这个证书是不受信任的。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir -p /etc/nginx/ssl/
+cd /etc/nginx/ssl/
+sudo openssl req -newkey rsa:2048 -x509 -nodes -days 3560 -out gitlab.crt -keyout gitlab.key
+sudo chmod o-r gitlab.key
+sudo mv gitlab.key gitlab.crt /etc/ssl/
+</code></pre></div></div>
+
+<p>另外，还需要在gitlab-shell中的config.yml中将self_signed_cert 修改为启用:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>self_signed_cert = true
+</code></pre></div></div>
+
+<h4 id="设置延迟启动">设置延迟启动</h4>
+
+<p>为保证服务质量，我们可以设置让omnibus-gitlab的服务(Nginx, Redis, Unicorn等) 在指定的文件系统挂载成功后再启动，在<code>/etc/gitlab/gitlab.rb</code> 文件中添加如下内容：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 等待/var/opt/gitlab 先被挂载
+high_availability['mountpoint'] = '/var/opt/gitlab'
+</code></pre></div></div>
+
+<blockquote>
+  <p>注意在修改配置之后，要使用重新reconfigure配置</p>
+</blockquote>
+
+<h4 id="backups-备份还原">Backups 备份还原</h4>
+
+<h5 id="备份">备份</h5>
+
+<p>Gitlab的配置也非常简单,使用一条命令即可创建完整的Gitlab备份:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab-rake gitlab:backup:create
+</code></pre></div></div>
+
+<p>该命令会在<code class="language-plaintext highlighter-rouge">/var/opt/gitlab/backups</code>目录下创建一个名称类似为<code class="language-plaintext highlighter-rouge">1491989249_2017_04_12_gitlab_backup.tar</code>的压缩包, 这个压缩包就是Gitlab整个的完整部分，其中开头的<code class="language-plaintext highlighter-rouge">1491989249_2017_04_12</code>是备份创建的日期，这也是我们等下恢复是要用的字段。</p>
+
+<h5 id="修改默认备份路径">修改默认备份路径</h5>
+
+<p>如果你像我一样，是使用yum安装的，那么GitLab默认的备份目录应该在<code class="language-plaintext highlighter-rouge">/var/opt/gitlab/backups</code>，我建议将备份目录修改为其他位置，并添加定时自动备份脚本，可以通过修改<code class="language-plaintext highlighter-rouge">/etc/gitlab/gitlab.rb</code>来修改默认位置：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails['backup_path'] = '/mnt/backups'
+</code></pre></div></div>
+
+<h5 id="使用crontab-添加自动备份">使用crontab 添加自动备份</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 每天凌晨00:00 自动备份
+00 00 * * * /opt/gitlab/bin/gitlab-rake gitlab:backup:create
+</code></pre></div></div>
+
+<h5 id="备份恢复">备份恢复</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 停止相关数据连接服务
+gitlab-ctl stop unicorn
+gitlab-ctl stop sidekiq
+
+# 从1491989249_2017_04_12编号备份中恢复
+gitlab-rake gitlab:backup:restore BACKUP=1491989249_2017_04_12
+
+# 启动Gitlab
+sudo gitlab-ctl start unicorn
+sudo gitlab-ctl start sidekiq
+</code></pre></div></div>
+
+<h3 id="gitlab-迁移"><strong>GitLab 迁移</strong></h3>
+
+<p>只需将原服务器<code class="language-plaintext highlighter-rouge">/var/opt/gitlab/backups</code>目录下的备份文件拷贝到新服务器上的<code class="language-plaintext highlighter-rouge">/var/opt/gitlab/backups</code>上即可(如果你没修改过默认备份目录的话)， 但是需要注意的是新服务器上的Gitlab的版本必须与创建备份时的Gitlab版本号相同， 比如新服务器安装的是最新的9.0.5版本的Gitlab, 那么迁移之前，最好将老服务器的Gitlab 升级为9.0.5在进行备份。</p>
+
+<p>/Users/Alex/Documents/Hexo/source/_posts/</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-12-08</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
+      <cite>2017-04-13</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Gitlab">Gitlab</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2017/04/%E5%85%B3%E4%BA%8E%E8%80%83%E8%AF%95.html">关于考试</a></h1>
+    <div class="post_at_index">
+      <blockquote>
+  <p>时光飞逝，那大概是世界上最糟糕的一种感觉了吧。</p>
+</blockquote>
+
+<p>有点记不大清楚，上一次为了考试是什么时间了。</p>
+
+<p>我说的考试不是各种面试等无形的考试，而是，你坐在四四方方的台子前，给你纸笔，限定时间，那种紧张的感觉，那种备考的心态。</p>
+
+<p>所以时光会消磨人的斗志，让你不大能聚精会神的准备考试，让你变得懒散，让你变得不再有血性；所以，时间这种东西，不仅会在你的身上刻下斑驳印记，还会磨去你内心的棱角，一旦这样，你就会停下了脚步，大家的生活成了日复一日的重复，日子也过得索然无味，好像很多很多你想做的事，最后都是选择plan B。</p>
+
+<p>促使我写这篇的动力来自于，最近AWS助理级系统架构师的考试，而就在年前的时候，第一次去参加考试，没有通过，而且我一直在想到底是哪里出了问题，尽管我不愿意承认，问题根本是，我根本没有静下心来去准备考试，其实是，现在真的很难去静下心来去做考试这种事情，心气浮躁，要做的事情很多堆积在面前，你可能会被这些事情唬到，所以你很焦虑，光顾着去焦虑了，却没想着去解决这些问题，所以难道你的不是这些看起来很困难的问题，而是，你丧失了解决这些问题的勇气很血性；一方面反映在这里，另一方面也反映在你生活的各个方面，你好像没有动力去处理这些事情，总是在最后关头，勉勉强强叫上一份拼拼凑凑的答卷，这不会是你想要的样子，这是一种病，拖延。</p>
+
+<p><a href="https://www.youtube.com/watch?v=Q6ZgU7KyQsM">每個人的遺憾，都大抵相似</a></p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Q6ZgU7KyQsM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<p>之前看到过的一个视频，讲述的是在New York的街头方一块黑板，让你写下最后悔的事，很多都是自己真正想要做的，却未曾努力去做的事，“最后总是选择plan B”，“未曾跳出自己的舒适圈”，人生总是带有遗憾，总是想象着自己会多么的闪耀，却没有勇气付出真心努力，对我是这样，学习，考试，减肥，很多自己想做的事，如果不能够鼓足勇气去做，人生过着便没有意义。</p>
+
+<p>所以，很多事情，并非要你一定做到，而是，你是否真的努力去付出过，还是假意的敷衍，拖延妥协，这种感觉只有你自己真的知道，最后的遗憾，也只有自己知道，为什么要放手自己想要的。</p>
+
+<p>不要怀疑，不要犹豫，努力去做自己想做的事，努力成为那个，你想要成为的人，永远怀揣着梦想，永远热泪盈眶。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-04-11</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2017/04/HowTo-set-Tomcat-7-automatic-startup-with-CentOS-7.html">HowTo set Tomcat 7 automatic startup with CentOS 7</a></h1>
+    <div class="post_at_index">
+      <p>因CentOS7与6在系统上，变化较大，所以在之前的文章中讲到的使用Tomcat7开机自启动的方式在CentOS7是是无法使用的，所以这篇文章的目的是如何在CentOS7上将Tomcat7设置为开机自启动。</p>
+
+<h4 id="安装java环境">安装JAVA环境</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+[root@7 ~]# curl -LO -H "Cookie: oraclelicense=accept-securebackup-cookie" \
+"http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-linux-x64.rpm"
+
+[root@7 ~]# rpm -Uvh jdk-7u75-linux-x64.rpm
+Preparing...                ########################################### [100%]
+   1:jdk                    ########################################### [100%]
+Unpacking JAR files...
+        rt.jar...
+        jsse.jar...
+        charsets.jar...
+        tools.jar...
+        localedata.jar...
+        jfxrt.jar...
+
+[root@7 ~]# vi /etc/profile
+# add follows to the end
+export JAVA_HOME=/usr/java/default
+export PATH=$PATH:$JAVA_HOME/bin
+export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
+[root@7 ~]# source /etc/profile
+</code></pre></div></div>
+
+<h4 id="安装tomcat7">安装Tomcat7</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+[root@7 ~]# wget http://ftp.riken.jp/net/apache/tomcat/tomcat-7/v7.0.77/bin/apache-tomcat-7.0.77.tar.gz
+[root@7 ~]# tar zxvf apache-tomcat-7.0.77.tar.gz
+[root@7 ~]# mv apache-tomcat-7.0.77 /usr/tomcat7
+[root@7 ~]# useradd -M -d /usr/tomcat7 tomcat7
+[root@7 ~]# chown -R tomcat7. /usr/tomcat7
+</code></pre></div></div>
+
+<h4 id="创建开机自启动脚本">创建开机自启动脚本</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@7 ~]# cat /usr/lib/systemd/system/tomcat7.service
+# create new
+ [Unit]
+Description=Apache Tomcat 7
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/tomcat7/bin/startup.sh
+ExecStop=/usr/tomcat7/bin/shutdown.sh
+RemainAfterExit=yes
+User=tomcat7
+Group=tomcat7
+
+[Install]
+WantedBy=multi-user.target
+</code></pre></div></div>
+
+<h4 id="启动tomcat7">启动Tomcat7</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@7 ~]# systemctl start tomcat7.service
+[root@7 ~]# systemctl enable tomcat7.service
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-04-05</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Tomcat">Tomcat</a>
       , 
       <a href="/tags.html#CentOS">CentOS</a>
       
@@ -722,71 +1075,225 @@ Python 3.4.3
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/12/HowTo-Reset-MySQL-Root-Password.html">HowTo Reset MySQL Root Password</a></h1>
+    <h1><a class="title" href="/post/2017/03/%E5%9C%A8Linux%E7%BB%88%E7%AB%AF%E4%BD%BF%E7%94%A8SSR%E6%9C%8D%E5%8A%A1%E5%AE%9E%E7%8E%B0%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91.html">在Linux终端使用SSR服务实现科学上网</a></h1>
     <div class="post_at_index">
-      <h4 id="1-处理的状态">1. 处理的状态</h4>
-<p>首先确认服务器出于安全的状态，也就是没有人能够任意地连接MySQL数据库。
-因为在重新设置MySQL的root密码的期间，MySQL数据库完全出于没有密码保护的
-状态下，其他的用户也可以任意地登录和修改MySQL的信息。可以采用将MySQL对
-外的端口封闭，并且停止Apache以及所有的用户进程的方法实现服务器的准安全
-状态。最安全的状态是到服务器的Console上面操作，并且拔掉网线。</p>
+      <p>昨天在群内看到有朋友在询问如何在Linux终端内使用SSR来实现科学上网，所以抽空研究了下在Linux中如何使用，本文参考了<a href="https://www.zfl9.com/">Otokaze</a> 和 <a href="https://www.djangoz.com">Django</a> 两位的博客，文章链接在博文最后；SSR服务提供商依然采用了<a href="http://ssglobal.co/wp">ssGlobal</a>，在Google的过程中，找了不少解决方案，这里仅做一种简单整理，实验操作系统有CentOS 7.4 &amp; Ubuntu 16.04.3。</p>
 
-<h4 id="2-重置密码">2. 重置密码</h4>
+<h4 id="ssr-代理服务">ssr 代理服务</h4>
 
-<ol>
-  <li>修改mysql配置文件，增加skip-grant-tables
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@demo ~]# vim /etc/my.cnf
-[mysqld]
-skip-grant-tables
-</code></pre></div>    </div>
-  </li>
-  <li>重启mysqld
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@demo ~]# service mysqld restart
-Stopping mysqld:                                           [  OK  ]
-Starting mysqld:                                           [  OK  ]
-</code></pre></div>    </div>
-  </li>
-  <li>登录mysql，并修改root密码.
-```
-[root@demo ~]# mysql -u root
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 3
-Server version: 5.5.53 MySQL Community Server (GPL)</li>
-</ol>
+<h5 id="下载">下载</h5>
 
-<p>Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.</p>
-
-<p>Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.</p>
-
-<p>Type ‘help;’ or ‘\h’ for help. Type ‘\c’ to clear the current input statement.</p>
-
-<p>mysql&gt; use mysql
-Reading table information for completion of table and column names
-You can turn off this feature to get a quicker startup with -A</p>
-
-<p>Database changed
-mysql&gt; update user set password=password(‘new-pass’) where user=’root’;
-Query OK, 5 rows affected (0.00 sec)
-Rows matched: 5  Changed: 5  Warnings: 0</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-4. 配置文件去除skip-grant-tables，并重启服务器.
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 需要本地git 环境</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> git
+git clone https://github.com/SAMZONG/gfwlist2privoxy.git
+<span class="nb">cd </span>gfwlist2privoxy/
+<span class="nb">mv </span>ssr /usr/local/bin
+<span class="nb">chmod</span> +x /usr/local/bin/ssr
 </code></pre></div></div>
-<p>[root@demo ~]# vim /etc/my.cnf
-[root@demo ~]# service mysqld restart</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-5. 使用新密码登录到mysql
+
+<h5 id="安装配置">安装配置</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# ssr <span class="nb">install
+</span>Cloning into <span class="s1">'/usr/local/share/shadowsocksr'</span>...
+remote: Counting objects: 5490, <span class="k">done</span><span class="nb">.</span>
+remote: Total 5490 <span class="o">(</span>delta 0<span class="o">)</span>, reused 0 <span class="o">(</span>delta 0<span class="o">)</span>, pack-reused 5490
+Receiving objects: 100% <span class="o">(</span>5490/5490<span class="o">)</span>, 1.71 MiB | 410.00 KiB/s, <span class="k">done</span><span class="nb">.</span>
+Resolving deltas: 100% <span class="o">(</span>3799/3799<span class="o">)</span>, <span class="k">done</span><span class="nb">.</span>
+
+<span class="o">[</span>root@localhost ~]# ssr config 		<span class="c"># 配置文件路径 /usr/local/share/shadowsocksr/config.json</span>
+<span class="o">{</span>
+    <span class="s2">"server"</span>: <span class="s2">"0..0.0.0"</span>,	// ssr服务器ip
+    <span class="s2">"server_ipv6"</span>: <span class="s2">"::"</span>,
+    <span class="s2">"server_port"</span>: 8080,	// ssr服务器端口
+    <span class="s2">"local_address"</span>: <span class="s2">"127.0.0.1"</span>,
+    <span class="s2">"local_port"</span>: 1080,
+
+    <span class="s2">"password"</span>: <span class="s2">"123456"</span>,		// 对应password
+    <span class="s2">"method"</span>: <span class="s2">"none"</span>,			// 这里对应SSGlobal配置中的Encryption
+    <span class="s2">"protocol"</span>: <span class="s2">"auth_chain_a"</span>,		//对应protocl
+    <span class="s2">"protocol_param"</span>: <span class="s2">""</span>,
+    <span class="s2">"obfs"</span>: <span class="s2">"http_simple"</span>,		//对应obfs
+    <span class="s2">"obfs_param"</span>: <span class="s2">"hello.world"</span>,	//对应obfs_param
+    <span class="s2">"speed_limit_per_con"</span>: 0,
+    <span class="s2">"speed_limit_per_user"</span>: 0,
+
+    <span class="s2">"additional_ports"</span> : <span class="o">{}</span>, // only works under multi-user mode
+    <span class="s2">"additional_ports_only"</span> : <span class="nb">false</span>, // only works under multi-user mode
+    <span class="s2">"timeout"</span>: 120,
+    <span class="s2">"udp_timeout"</span>: 60,
+    <span class="s2">"dns_ipv6"</span>: <span class="nb">false</span>,
+    <span class="s2">"connect_verbose_info"</span>: 0,
+    <span class="s2">"redirect"</span>: <span class="s2">""</span>,
+    <span class="s2">"fast_open"</span>: <span class="nb">false</span>
+<span class="o">}</span>
 </code></pre></div></div>
-<p>[root@demo ~]# mysql -h localhost -u root -p
-```</p>
+
+<h5 id="启动关闭">启动/关闭</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssr start
+ssr stop 
+</code></pre></div></div>
+
+<h5 id="卸载">卸载</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssr uninstall <span class="c"># 这里操作会删除/usr/local/share/shadowsocksr</span>
+</code></pre></div></div>
+
+<p>以上，本地监听服务已经配置完成了，在填写的过程中，要注意你的本地监听地址和监听端口，默认是127.0.0.1:1080，如果你修改了设置，那么在后续配置中也要配合修改。</p>
+
+<h4 id="privoxy-配置">Privoxy 配置</h4>
+
+<p>首先，需要安装privoxy</p>
+
+<h6 id="centos-74">CentOS 7.4</h6>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
+yum <span class="nb">install</span> <span class="nt">-y</span> privoxy
+</code></pre></div></div>
+
+<h6 id="ubuntu-1604">Ubuntu 16.04</h6>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt <span class="nb">install</span> <span class="nt">-y</span> privoxy
+</code></pre></div></div>
+
+<h5 id="全局模式">全局模式</h5>
+
+<p>代理模式同其他平台上方式，将所有http/https请求走代理服务，如果需要全局代理的话按照如下操作即可，如果要使用PAC模式，请跳过此部分。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 添加本地ssr服务到配置文件</span>
+<span class="nb">echo</span> <span class="s1">'forward-socks5 / 127.0.0.1:1080 .'</span> <span class="o">&gt;&gt;</span> /etc/privoxy/config
+
+<span class="c"># Privoxy 默认监听端口是是8118</span>
+<span class="nb">export </span><span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export </span><span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export </span><span class="nv">no_proxy</span><span class="o">=</span>localhost
+
+<span class="c"># 启动服务</span>
+systemctl start privoxy.service
+</code></pre></div></div>
+
+<h5 id="pac模式">PAC模式</h5>
+
+<p>使用GFWList是由AutoProxy官方维护，由众多网民收集整理的一个中国大陆防火长城的屏蔽列表，这里感谢<a href="https://www.zfl9.com/">@Otokaze</a> 为我们提供了转换shell自动转换脚本，为了方便修改，我fork了这个项目，将这篇教程所用到的资源进行了汇总，你可以在最开始<code class="language-plaintext highlighter-rouge">git clone</code>的目录中找到执行脚本。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# <span class="nb">cd </span>gfwlist2privoxy/
+<span class="o">[</span>root@localhost gfwlist2privoxy]# <span class="nb">ls
+</span>gfw.action  gfwlist2privoxy  README.md  ssr
+<span class="o">[</span>root@localhost gfwlist2privoxy]# bash gfwlist2privoxy
+proxy<span class="o">(</span>socks5<span class="o">)</span>: 127.0.0.1:1080		<span class="c"># 注意，如果你修改了ssr本地监听端口是需要设置对应的</span>
+<span class="o">{</span>+forward-override<span class="o">{</span>forward-socks5 127.0.0.1:1080 .<span class="o">}}</span>
+
+<span class="o">=================================================================</span>
+
+<span class="s2">"cp -af /root/gfwlist2privoxy/gfw.action /etc/privoxy/"</span>
+
+<span class="o">[</span>root@localhost ~]# <span class="nb">cp</span> <span class="nt">-af</span> gfw.action /etc/privoxy/
+<span class="o">[</span>root@localhost ~]# <span class="nb">echo</span> <span class="s1">'actionsfile gfw.action'</span> <span class="o">&gt;&gt;</span> /etc/privoxy/config
+
+<span class="c"># Privoxy 默认监听端口是是8118</span>
+<span class="nb">export </span><span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export </span><span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export </span><span class="nv">no_proxy</span><span class="o">=</span>localhost
+
+<span class="c"># 启动服务</span>
+systemctl start privoxy.service
+</code></pre></div></div>
+
+<h5 id="proxy-环境变量">proxy 环境变量</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># privoxy默认监听端口为8118</span>
+<span class="nb">export </span><span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export </span><span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export </span><span class="nv">no_proxy</span><span class="o">=</span>localhost
+
+<span class="c"># no_proxy是不经过privoxy代理的地址</span>
+<span class="c"># 只能填写具体的ip、域名后缀，多个条目之间使用','逗号隔开</span>
+<span class="c"># 比如: export no_proxy="localhost, 192.168.1.1, ip.cn, chinaz.com"</span>
+<span class="c"># 访问 localhost、192.168.1.1、ip.cn、*.ip.cn、chinaz.com、*.chinaz.com 将不使用代理</span>
+</code></pre></div></div>
+
+<h4 id="代理测试">代理测试</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 访问各大网站，如果都有网页源码输出说明代理没问题</span>
+curl <span class="nt">-sL</span> www.baidu.com
+curl <span class="nt">-sL</span> www.google.com
+curl <span class="nt">-sL</span> www.google.com.hk
+curl <span class="nt">-sL</span> www.google.co.jp
+curl <span class="nt">-sL</span> www.youtube.com
+curl <span class="nt">-sL</span> mail.google.com
+curl <span class="nt">-sL</span> facebook.com
+curl <span class="nt">-sL</span> twitter.com
+curl <span class="nt">-sL</span> www.wikipedia.org
+
+<span class="c"># 获取当前 IP 地址</span>
+<span class="c"># 如果使用 privoxy 全局模式，则应该显示 ss 服务器的 IP</span>
+<span class="c"># 如果使用 privoxy gfwlist模式，则应该显示本地公网 IP</span>
+curl <span class="nt">-sL</span> ip.chinaz.com/getip.aspx
+</code></pre></div></div>
+
+<h5 id="管理脚本">管理脚本</h5>
+
+<p>在以上部署操作完成后，应该已经可以正常科学上网了，但是如果需要进行管理时，需要分别管理ssr和privoxy，为了方便管理，这里写了一个shell脚本方便管理: ssr_manager</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c"># Author Samzong.lu</span>
+
+<span class="k">case</span> <span class="nv">$1</span> <span class="k">in
+	</span>start<span class="p">)</span>
+		ssr start &amp;&gt; /var/log/ssr-local.log
+		systemctl start privoxy.service
+		<span class="nb">export </span><span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+		<span class="nb">export </span><span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+		<span class="nb">export </span><span class="nv">no_proxy</span><span class="o">=</span><span class="s2">"localhost, ip.cn, chinaz.com"</span>
+		<span class="p">;;</span>
+	stop<span class="p">)</span>
+		<span class="nb">unset </span>http_proxy https_proxy no_proxy
+		systemctl stop privoxy.service
+		ssr stop &amp;&gt; /var/log/ssr-log.log
+		<span class="p">;;</span>
+	autostart<span class="p">)</span>
+		<span class="nb">echo</span> <span class="s2">"ssr start"</span> <span class="o">&gt;&gt;</span> /etc/rc.local
+		systemctl <span class="nb">enable </span>privoxy.service
+		<span class="nb">echo</span> <span class="s2">"http_proxy=http://127.0.0.1:8118"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
+		<span class="nb">echo</span> <span class="s2">"https_proxy=http://127.0.0.1:8118"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
+		<span class="nb">echo</span> <span class="s2">"no_proxy='localhost, ip.cn, chinaz.com'"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
+		<span class="p">;;</span>
+	<span class="k">*</span><span class="p">)</span>
+		<span class="nb">echo</span> <span class="s2">"usage: source </span><span class="nv">$0</span><span class="s2"> start|stop|autostart"</span>
+		<span class="nb">exit </span>1
+		<span class="p">;;</span>
+<span class="k">esac</span>
+</code></pre></div></div>
+
+<h5 id="使用">使用</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv </span>gfwlist2privoxy/ssr_manager /usr/local/bin
+<span class="nb">chmod</span> +x ssr_manager
+
+<span class="c"># 启动服务</span>
+ssr_manager start
+
+<span class="c"># 关闭服务</span>
+ssr_manager stop 
+
+<span class="c"># 添加开机自启动</span>
+ssr_manager autostart
+</code></pre></div></div>
+
+<h4 id="参考链接">参考链接</h4>
+
+<ul>
+  <li>https://www.zfl9.com/ss-local.html</li>
+  <li>https://www.djangoz.com/2017/08/16/linux_setup_ssr/</li>
+</ul>
+
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-12-04</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
+      <cite>2017-03-23</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#VPN">VPN</a>
       
       
       
@@ -795,103 +1302,119 @@ Rows matched: 5  Changed: 5  Warnings: 0</p>
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/12/Tomcat-2-%E5%88%A9%E7%94%A8JDK%E8%87%AA%E8%BA%ABkeytool%E5%AE%9E%E7%8E%B0HTTPS.html">Tomcat 利用JDK自身keytool实现HTTPS</a></h1>
+    <h1><a class="title" href="/post/2017/03/HowTo-install-Zoomdata.html">HowTo install Zoomdata</a></h1>
     <div class="post_at_index">
-      <p>因为一个偶然机会，想把自己的webserver通过https加密访问，这里就采用JDK自带的keytool工具实现，tomcat官方也推荐这种方式，英文好的同学走这里：<a href="https://tomcat.apache.org/tomcat-7.0-doc/ssl-howto.html">官方配置</a></p>
+      <p>Zoomdata是一个大数据可视化展示的工具，由ZoomData企业创建，是为数不多的同时支持移动端的数据分析公司，Zoomdata的可视化可将大数据流转化为触屏友好的，艺术感十足的三维形态，Zoomdata的定位是非ETL(传统的提取、转换和加载的数据处理过程)工具，Zoomdata支持多种数据源，包括社交媒体等，其中应用最主流是大数据平台的展示工具，并且Zoomdata对Cloudera Impala做了很好的支持，所以我们做了Zoomdata+Cloudera技术实施。[^1]</p>
 
-<blockquote>
-  <p>demo: CentOS 6.6 &amp; Tomcat 7 &amp; JDK 1.7</p>
-</blockquote>
+<h4 id="系统要求"><strong>系统要求</strong></h4>
+<p>Zoomdata最新版是v2.4，支持常见主流的操作系统，并且有非常友好的安装帮助，但是Zoomdata不支持安装在32位的操作系统之上
+<br />
+|biaoti|biaoti|baiiti|
+|——|——|——|
+|list|file|china|
+|letian|zhong|hongkong|</p>
 
-<h4 id="1-生成-keystore">1. 生成 keystore</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test conf]# keytool -genkey -v -alias tomcat -keyalg RSA -keystore mykeystore
-Enter keystore password:              #设置密码
-Re-enter new password:                #重复一次
-What is your first and last name?
-  [Unknown]:  Alex Lu                #随便填
-What is the name of your organizational unit?
-  [Unknown]:  visionet                #随便填
-What is the name of your organization?
-  [Unknown]:  visionet                #随便填
-What is the name of your City or Locality?
-  [Unknown]:  SH                #随便填
-What is the name of your State or Province?
-  [Unknown]:  SH                #随便填
-What is the two-letter country code for this unit?
-  [Unknown]:  ZH                #随便填
-Is CN=Alex Lu, OU=visionet, O=visionet, L=SH, ST=SH, C=ZH correct?
-  [no]:  Y                    #这里要Y，确认前面信息。
-
-Generating 2,048 bit RSA key pair and self-signed certificate (SHA256withRSA) with a validity of 90 days
-    for: CN=Alex Lu, OU=visionet, O=visionet, L=SH, ST=SH, C=ZH
-Enter key password for &lt;tomcat&gt;
-    (RETURN if same as keystore password):        #默认回车即可，不需要设置太多密码
-[Storing mykeystore]
-[root@test conf]# ls
-Catalina  catalina.policy  catalina.properties  context.xml  logging.properties  mykeystore  server.xml  tomcat-users.xml  web.xml
-</code></pre></div></div>
-<blockquote>
-  <p>注意：-keystore是用来指定keystore保存位置，如果不加参数默认保存的当前用户家目录为~/.keystore
-       -validity 可以用来指定证书有效期，单位为天，缺省值为90天。</p>
-</blockquote>
-
-<h4 id="2-备份tomcatdirconfserverxml">2. 备份$tomcatdir/conf/server.xml</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp $tomcatdir/conf/server.xml $tomcatdir/conf/server.xml
-</code></pre></div></div>
-
-<h4 id="3-修改serverxml">3. 修改server.xml</h4>
-<h6 id="a-注释以下tomcat注释用---xxxx----如何也想保留http访问可以不注释">a. 注释以下：（tomcat注释用：&lt;!-- XXXX --&gt; ）,如何也想保留http访问，可以不注释</h6>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;!--
-&lt;Connector executor="tomcatThreadPool"
-                port="80" protocol="HTTP/1.1"
-                connectionTimeout="20000"
-                redirectPort="8443" /&gt;
---&gt;
-</code></pre></div></div>
-<h6 id="b-取消下面注释">b. 取消下面注释</h6>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Connector port="443" protocol="HTTP/1.1" SSLEnabled="true"
-                maxThreads="150" scheme="https" secure="true"
-                clientAuth="false" sslProtocol="TLS" /&gt;
-</code></pre></div></div>
-<h6 id="c-增加keystorefile和keystorepass">c. 增加keystoreFile和keystorePass</h6>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Connector port="443" protocol="HTTP/1.1" SSLEnabled="true"
-               maxThreads="150" scheme="https" secure="true"
-               clientAuth="false" sslProtocol="TLS"
-               keystoreFile="conf/mykeystore" keystorePass="123456"/&gt;
-</code></pre></div></div>
-<blockquote>
-  <p>keystoreFile=跟keystore文件位置
-keystorePass=跟当时keytool命令执行时输入的密码</p>
-</blockquote>
-
-<h4 id="4-重启tomcat">4. 重启tomcat</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test conf]# ../bin/catalina.sh stop &amp;&amp; ../bin/catalina.sh start
-Using CATALINA_BASE:   /home/pms/apache-tomcat-6.0.44
-Using CATALINA_HOME:   /home/pms/apache-tomcat-6.0.44
-Using CATALINA_TMPDIR: /home/pms/apache-tomcat-6.0.44/temp
-Using JRE_HOME:        /home/pms/jdk1.7.0_65
-Using CLASSPATH:       /home/pms/apache-tomcat-6.0.44/bin/bootstrap.jar
-Using CATALINA_BASE:   /home/pms/apache-tomcat-6.0.44
-Using CATALINA_HOME:   /home/pms/apache-tomcat-6.0.44
-Using CATALINA_TMPDIR: /home/pms/apache-tomcat-6.0.44/temp
-Using JRE_HOME:        /home/pms/jdk1.7.0_65
-Using CLASSPATH:       /home/pms/apache-tomcat-6.0.44/bin/bootstrap.jar
-[root@test conf]# netstat -ntlup | grep -e "80\|443"
-tcp        0      0 0.0.0.0:80         0.0.0.0:*          LISTEN      21960/java
-tcp        0      0 0.0.0.0:443        0.0.0.0:*          LISTEN      21960/java
-tcp        0      0 127.0.0.1:8005     0.0.0.0:*          LISTEN      21960/java
-tcp        0      0 0.0.0.0:8009       0.0.0.0:*          LISTEN      21960/java
-[root@test conf]#
-</code></pre></div></div>
-
-<p>OK !</p>
+<p><br />
+[^1]: 这是一个示意的文档</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-12-03</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Tomcat">Tomcat</a>
+      <cite>2017-03-06</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zoomdata">Zoomdata</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2017/03/%E5%9B%9B%E9%98%B6%E9%AD%94%E6%96%B9%E7%89%B9%E6%AE%8A%E6%83%85%E5%86%B5%E4%B9%8B%E5%A4%84%E7%90%86.html">四阶魔方特殊情况之处理</a></h1>
+    <div class="post_at_index">
+      <p>在还原高阶魔方(四阶及以上)时，采用的处理方法是，将魔方降级为三阶魔方，然后按照三阶魔方的技巧进行还原即可，但是在还原四阶魔方时会遇到2个不可能出现在三阶魔方的特殊情况，下面是针对这两个特殊情况的公式。</p>
+
+<blockquote>
+  <p>注意，本文不是四阶魔方的还原教程。</p>
+</blockquote>
+
+<h4 id="特殊情况顶层黄色无法形成十或l">特殊情况：顶层黄色无法形成“十”或“L”</h4>
+
+<p>1.手势：黄色面朝上
+2.右边两层旋转180’（这时应该黄色面有右面两层为白色）
+3.后面一层旋转180’
+4.上面一层旋转180’
+5.左边两层靠近你身体旋转90’
+6.上面一层旋转180’
+7.右面两层靠近你身体旋转90’
+8.上面一层旋转180’
+9.右面两层远离你身体旋转90’
+10.上面一层旋转180’
+11.前面一层旋转180’
+12.右面两层远离你身体旋转90’
+13.前面一层旋转180’
+14.左边两层远离你身体旋转90’
+15.后面一层旋转180’
+16.右边两层旋转180’</p>
+
+<h4 id="特殊情况最后四对棱角只有两对还原">特殊情况：最后四对棱角只有两对还原</h4>
+
+<p>1.黄色面已经还原的情况下，黄色面朝上
+2.右面夹层旋转180’
+3.上面一层旋转180‘
+4.右面夹层旋转180’
+5.上面两层旋转180’
+6.右面夹层旋转180’
+7.上面两层旋转180’</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-03-04</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#随笔">随笔</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2017/02/MacTips-%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E5%85%B3%E9%97%AD%E5%92%8C%E5%90%AF%E5%8A%A8AirPort.html">MacTips 使用命令关闭和启动AirPort</a></h1>
+    <div class="post_at_index">
+      <p>今天在给妹妹调试新的MacBookAir 13’时遇到一个问题，无法检测到她家的WiFi，一开始怀疑是不是无线路由器长时间未重启导致，所以重启了路由器，但是问题依然没有解决，于是我们将问题转向排查设备，因我们基本正好有iPad，iPhone，MacBook这些设备，发现唯独他的这个Macbook无法识别WiFi，后来在Google的帮助下，发现多个版本的Mac OS X都出现了类似的问题，可以通过重启AirPort解决问题，但是AirPort在System Preferences找不到选项，所以需要使用命令行来重启。</p>
+
+<h5 id="查看网络接口"><strong>查看网络接口</strong></h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ifconfig
+en0: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
+	ether 60:f8:1d:ad:85:76
+	inet6 fe80::18a9:fa23:b02f:5d8a%en0 prefixlen 64 secured scopeid 0x4
+	inet 192.168.199.200 netmask 0xffffff00 broadcast 192.168.199.255
+	nd6 options=201&lt;PERFORMNUD,DAD&gt;
+	media: autoselect
+	status: active
+</code></pre></div></div>
+<h5 id="关闭airport"><strong>关闭AirPort</strong></h5>
+<p>有时候设备的名称是en0、en1这样，所以，可以用过设备名称来重启airport，例如en0</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup -setairportpower en0 off
+</code></pre></div></div>
+
+<h5 id="查看状态"><strong>查看状态</strong></h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup -getairportpower en0
+</code></pre></div></div>
+
+<h5 id="关闭airport-1"><strong>关闭AirPort</strong></h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup -setairportpower en0 on
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-02-27</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
       
       
       
@@ -940,7 +1463,7 @@ tcp        0      0 0.0.0.0:8009       0.0.0.0:*          LISTEN      21960/java
             <li class="active"><a>13</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page21">21</a></li>
+          <li><a href="/page23">23</a></li>
         
 
         
@@ -1152,6 +1675,11 @@ tcp        0      0 0.0.0.0:8009       0.0.0.0:*          LISTEN      21960/java
     	
       <li><a href="/categories.html#随笔">
     		随笔 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#读书笔记">
+    		读书笔记 <span>16</span>
     	</a></li>
      
     	

@@ -225,6 +225,14 @@
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
@@ -268,234 +276,253 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2016/09/HowTo-Use-pt-query-digest.html">HowTo Use pt-query-digest</a></h1>
+    <h1><a class="title" href="/post/2016/12/%E4%B8%8A%E6%B5%B7%E5%A4%A9%E5%86%B7%E4%BA%86.html">上海天冷了</a></h1>
     <div class="post_at_index">
-      <h3 id="1-简介">1. 简介</h3>
-<p>索引可以我们更快速的执行查询，但是肯定存在不合理的索引，如果想找到那些索引不是很合适的查询，并在它们成为问题前进行优化，则可以使用pt-query-digest的查询审查“review”功能，分析其EXPLAIN出来的执行计划。</p>
+      <p>上海天冷了啊！上海天冷了啊啊！！上海天冷了啊啊！！！</p>
 
-<p>pt-query-digest是用于分析mysql慢查询的一个工具，它可以分析binlog、General log、slowlog，也可以通过SHOWPROCESSLIST或者通过tcpdump抓取的MySQL协议数据来进行分析。可以把分析结果输出到文件中，分析过程是先对查询语句的条件进行参数化，然后对参数化以后的查询进行分组统计，统计出各查询的执行时间、次数、占比等，可以借助分析结果找出问题进行优化。</p>
+<p>重要的事情说三遍，这是一个好习惯，有了冬天的感觉，早上起床的时候有感觉，下班路上有感觉，现在坐在键盘前打字也很有感觉；前几天在微博上写了几句话:如今算是最好的季节，褪去夏日的燥热与汗渍，又不像冬日那么干冷凛冽，穿的衣服也是刚刚好，单条牛仔裤加个风衣或冲锋衣既藏住身上的赘肉，又不失潇洒，正是装逼好时节，而最最好的是这个季节的女子，美丽更胜其它季节。朋友嘲笑说其实想看黑丝，哈哈！谁知才过几天，就感受到了那种“干冷凛冽”。但是，我喜欢这种感觉，就像我喜欢这座城市，我说我喜欢冬天，自小就喜欢，我说我喜欢这座城市，就像自小就喜欢；我说不出来为什么喜欢，就像很多说不出来为什么喜欢，就像有些人，就像有些事，就像有些讨厌，人终是要顺了自己的心意，不然不会开心，但是要懂事，不懂事就不可爱了。</p>
 
-<h3 id="2-install-percona-toolkit--pt-query-digest">2. Install Percona Toolkit &amp; pt-query-digest</h3>
-<p>percona-toolkit是一组高级命令行工具的集合，用来执行各种通过手工执行非常复杂和麻烦的mysql和系统任务。这些任务包括：</p>
+<!-- more -->
 
-<ul>
-  <li>检查master和slave数据的一致性</li>
-  <li>有效地对记录进行归档</li>
-  <li>查找重复的索引</li>
-  <li>对服务器信息进行汇总</li>
-  <li>分析来自日志和tcpdump的查询</li>
-  <li>当系统出问题的时候收集重要的系统信息</li>
-</ul>
+<p>最近一直比较忙，弄得心烦意乱。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultrera ~]# wget percona.com/get/percona-toolkit.tar.gz
---2016-09-22 09:17:00--  http://percona.com/get/percona-toolkit.tar.gz
-Resolving percona.com... 74.121.199.234, 74.121.199.234
-Connecting to percona.com|74.121.199.234|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://www.percona.com/get/percona-toolkit.tar.gz [following]
---2016-09-22 09:17:02--  https://www.percona.com/get/percona-toolkit.tar.gz
-Resolving www.percona.com... 74.121.199.234, 74.121.199.234
-Connecting to www.percona.com|74.121.199.234|:443... connected.
-HTTP request sent, awaiting response... 302 Found
-Location: https://www.percona.com/downloads/percona-toolkit/2.2.19/tarball/percona-toolkit-2.2.19.tar.gz [following]
---2016-09-22 09:17:03--  https://www.percona.com/downloads/percona-toolkit/2.2.19/tarball/percona-toolkit-2.2.19.tar.gz
-Reusing existing connection to www.percona.com:443.
-HTTP request sent, awaiting response... 200 OK
-Length: 1425623 (1.4M) [application/x-gzip]
-Saving to: “percona-toolkit.tar.gz”
+<p>生活上，最近外公有生病，母亲十分挂念，原本外公外婆年岁已高且身体不好，家里几位舅父却又不有作为，也令母亲十分苦恼，本来她身体也有不好，我却不能帮上她一二，内心也是颇为着急挂念，只能尽力安慰。说起外公外婆，也是难过不已，近两年，因些事每年都要回去两三趟，而又匆忙，故无多时间陪陪他们，外婆已多年卧病在床，起居生活全有外公照顾，我一次尝试想搀扶外婆起床，是异常艰难，可外公80多岁老人一扶就是8年多。有时，自己也想，若是自己到了这般年纪，该如何处置，想想也难过不已，想二位老人，到了这个年纪，早已不在乎吃穿用度如何如何，多年孤苦在家，更想要的子女多多陪伴，所以每次母亲打电话回去都哭泣不止；最怕“子欲养而亲不待”的事，我也劝说母亲有空就多多回老家陪陪，而母亲却担心我的婚娶生活，更令我难过不已，暗恨自己无用；昨今两日，父母又相继回老家，也希望外公身体早日恢复。</p>
 
-100%[=======================&gt;] 1,425,623    766K/s   in 1.8s
+<p>工作上，自从去年与领导夸下豪言便一直不敢懈怠，但实际做下来的确是要比想象中困难许多，本来自己就不是聪明，这段时间做项目需求，改了许多稿总算通过，开心，感叹领导是好性格，如此耐心指导我；而前段时间，这个项目好几处也是几近失控，和其他公司的人沟通协调处理等一团糟，还好如今都渐回正轨；第一项目还未做完，就打退堂鼓，幸亏领导的指导，同事的帮助，当然还有我的好妹妹，每次感觉扛不住的找她聊聊发发牢骚，都能耐心听并给我加油打气。感谢这些人，当然也感谢自己，总有各种办法给自己恢复元气，今早，用思维导图把最近的烦心事要做的事全部写出来，然后一条一条的分析处理，最后恢复了好心情，又一如既往的工作生活。</p>
 
-2016-09-22 09:17:05 (766 KB/s) - “percona-toolkit.tar.gz” saved [1425623/1425623]
-
-[root@ultrera ~]# tar xf percona-toolkit.tar.gz
-[root@ultrera ~]# ls
-percona-toolkit-2.2.19  percona-toolkit.tar.gz
-[root@ultrera ~]# cd percona-toolkit-2.2.19
-[root@ultrera percona-toolkit-2.2.19]# perl Makefile.PL
-Warning: prerequisite DBD::mysql 3 not found.
-Writing Makefile for percona-toolkit
-[root@ultrera percona-toolkit-2.2.19]# make
-cp bin/pt-mysql-summary blib/script/pt-mysql-summary
-....
-Manifying blib/man1/pt-index-usage.1p
-Manifying blib/man1/pt-duplicate-key-checker.1p
-Manifying blib/man1/pt-config-diff.1p
-Manifying blib/man1/pt-stalk.1p
-[root@ultrera percona-toolkit-2.2.19]# make install
-Installing /usr/local/share/man/man1/pt-query-digest.1p
-...
-Installing /usr/local/bin/pt-query-digest
-...
-Appending installation info to /usr/lib64/perl5/perllocal.pod
-</code></pre></div></div>
-<blockquote>
-  <p>运行工具可能会遇到下面的错误: Can’t locate Time/HiRes.pm in @INC</p>
-</blockquote>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 解决办法：
-[root@ultrera ~]# yum install -y perl-Time-HiRes
-[root@ultrera ~]# pt-query-digest --version
-pt-query-digest 2.2.19
-</code></pre></div></div>
-
-<h3 id="3-开启-mysql慢日志">3. 开启 mysql慢日志</h3>
-<h5 id="a-查看当前slow_query_log-状态">a. 查看当前‘slow_query_log’ 状态：</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like '%query%';
-+------------------------------+---------------------------------+
-| Variable_name                | Value                           |
-+------------------------------+---------------------------------+
-| binlog_rows_query_log_events | OFF                             |
-| ft_query_expansion_limit     | 20                              |
-| have_query_cache             | YES                             |
-| long_query_time              | 10.000000                       |
-| query_alloc_block_size       | 8192                            |
-| query_cache_limit            | 1048576                         |
-| query_cache_min_res_unit     | 4096                            |
-| query_cache_size             | 1048576                         |
-| query_cache_type             | OFF                             |
-| query_cache_wlock_invalidate | OFF                             |
-| query_prealloc_size          | 8192                            |
-| slow_query_log               | OFF                             |
-| slow_query_log_file          | /var/lib/mysql/ultrera-slow.log |
-+------------------------------+---------------------------------+
-13 rows in set (0.00 sec)
-
-mysql&gt; show variables like 'log_queries_not_using_indexes';
-+-------------------------------+-------+
-| Variable_name                 | Value |
-+-------------------------------+-------+
-| log_queries_not_using_indexes | OFF   |
-+-------------------------------+-------+
-1 row in set (0.00 sec)
-</code></pre></div></div>
-<h5 id="b-启动slow_log-配置">b. 启动slow_log, 配置</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 设定记录大于2s的sql
-mysql&gt; set global long_query_time=2;
-Query OK, 0 rows affected (0.00 sec)
-
-# 设定log存放路径
-mysql&gt; set global slow_query_log_file='/tmp/ultraera-slow.log';
-Query OK, 0 rows affected (0.00 sec)
-
-# 启用慢日志
-mysql&gt; set global slow_query_log=ON;
-Query OK, 0 rows affected (0.00 sec)
-
-# 同时记录没有使用索引的sql
-mysql&gt; set global log_queries_not_using_indexes=on;
-Query OK, 0 rows affected (0.00 sec)
-</code></pre></div></div>
-
-<blockquote>
-  <p>等待一段时间，slow.log 增大的非常快，实际生产中，注意不要被slow.log将磁盘撑满，影响到正常生产使用。</p>
-</blockquote>
-
-<h3 id="4-分析">4. 分析</h3>
-<p>pt-query-digest可以从普通MySQL日志，慢查询日志以及二进制日志中分析查询，甚至可以从SHOW PROCESSLIST和MySQL协议的tcpdump中进行分析，如果没有指定文件，它从标准输入流（STDIN）中读取数据。</p>
-<h5 id="a-简单使用方法">a. 简单使用方法：</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest slow.logs
-</code></pre></div></div>
-<p>输出信息如下：</p>
-
-<div align="left">
-![](http://images.cnitblog.com/blog/288950/201312/14135450-6f7a732598054f7aa311e95cbd4df3b1.png)
-</div>
-
-<ul>
-1. Overall这个部分是一个大致的概要信息(类似loadrunner给出的概要信息)，通过它可以对当前MySQL的查询性能做一个初步的评估，比如各个指标的最大值(max)，平均值(min)，95%分布值，中位数(median)，标准偏差(stddev)
-<li>查询的执行时间（Exec time）</li>
-<li>锁占用的时间（Lock time）</li>
-<li>MySQL执行器需要检查的行数（Rows examine）</li>
-<li>最后返回给客户端的行数（Rows sent）</li>
-<li>查询的大小。</li>
-</ul>
-<ul>
-2. Profile
-<li>Rank ： 整个分析中该“语句”的排名，一般也就是性能最慢的</li>
-<li>Query ID ：每个查询都有一个</li>
-<li>Response time ： “语句”的响应时间以及整体占比情况。</li>
-<li>Calls ：“语句”的执行次数</li>
-<li>R/Call ：每次执行的平均响应时间。 </li>
-<li>V/M</li>
-</ul>
-<h5 id="详细信息">详细信息</h5>
-<p>列出上面Profile中每个Query ID的详细信息</p>
-
-<h5 id="b-从tcpdump包中分析通过tcpdump命令抓取一定时间网络数据包然后进行分析">b. 从tcpdump包中分析：通过tcpdump命令抓取一定时间网络数据包，然后进行分析：</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest --type tcpdump mysql.tcp.txt
-</code></pre></div></div>
-
-<h5 id="c-pt-query-digest-还支持很对其他的数据包分析形势但是我们主要使用的还是针对慢日志进行分析">c. pt-query-digest 还支持很对其他的数据包分析形势，但是我们主要使用的还是针对慢日志进行分析</h5>
-<blockquote>
-  <p>更多的帮助文档，请查看官方文档：http://www.percona.com/doc/percona-toolkit/2.2/pt-query-digest.html</p>
-</blockquote>
-
-<h3 id="5-使用anemometer将pt-query-digest的mysql慢查询可视化">5. 使用Anemometer将pt-query-digest的MySQL慢查询可视化</h3>
-
-<ul>
-  <li>需要安装php 5.3 and over</li>
-  <li>需要预先配置mysql数据库</li>
-  <li>需要预先安装好pt-query-digest</li>
-</ul>
-
-<h5 id="51-安装">5.1 安装</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultrera ~]# git clone https://github.com/box/Anemometer.git anemometer
-
-[root@ultrera ~]# mv anemometer /var/www/html
-[root@ultrera ~]# cd /var/www/html/anemometer/
-[root@ultrera anemometer]# mysql -h localhost -u root -p &lt; mysql56-install.sql
-[root@ultrera anemometer]# mysql -h localhost -u root -p -e "grant all privileges on slow_query_log.* to 'anemometer'@'%' identified by 'anemometer';"
-</code></pre></div></div>
-<h5 id="52-配置">5.2 配置</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultrera anemometer]# cp conf/sample.config.inc.php conf/config.inc.php
-[root@ultrera anemometer]# vim conf/config.inc.php
-
-# line 48,49 and line 284,285
-设置数据库的用户名和密码;
-
-[root@ultrera anemometer]# vim conf/config.inc.php
-# line 7,8
-设置数据库的用户名和密码;
-</code></pre></div></div>
-<h5 id="53-导入">5.3 导入</h5>
-<p>将pt-query-digest 的分析结果到anemometer；</p>
-
-<blockquote>
-  <p>pt-query-digest version &lt; 2.2</p>
-</blockquote>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pt-query-digest --user=anemometer --password=superSecurePass \
-                  --review h=db.example.com,D=slow_query_log,t=global_query_review \
-                  --review-history h=db.example.com,D=slow_query_log,t=global_query_review_history \
-                  --no-report --limit=0% \
-                  --filter=" \$event-&gt;{Bytes} = length(\$event-&gt;{arg}) and \$event-&gt;{hostname}=\"$HOSTNAME\"" \
-                  /var/lib/mysql/db.example.com-slow.log
-</code></pre></div></div>
-
-<blockquote>
-  <p>pt-query-digest version &gt;= 2.2</p>
-</blockquote>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest --user=anemometer --password=superSecurePass \
-                  --review h=db.example.com,D=slow_query_log,t=global_query_review \
-                  --history h=db.example.com,D=slow_query_log,t=global_query_review_history \
-                  --no-report --limit=0% \
-                  --filter=" \$event-&gt;{Bytes} = length(\$event-&gt;{arg}) and \$event-&gt;{hostname}=\"$HOSTNAME\"" \
-                  /var/lib/mysql/db.example.com-slow.log
-
-
-Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57A" isn't numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 27.
-Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57B" isn't numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 28.
-Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57C" isn't numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 29.
-</code></pre></div></div>
-
+<p>又23点过半了，要抓紧早睡了，调整正常作息才能更充沛的工作生活，记录走出了这一段不好的日子，恢复元气的自己，但是不能懈怠，毕竟“革命尚未成功，同志仍需努力”。</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-09-22</cite> <i class="icon-tag"></i>
+      <cite>2016-12-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/12/%E5%91%8A%E5%88%AB.html">告别</a></h1>
+    <div class="post_at_index">
+      <p>你们一起看过很多风景</p>
+
+<p>走过很多路</p>
+
+<p>因为小事争吵</p>
+
+<p>为了让对方委曲求全过</p>
+
+<p>你们花光了所有力气</p>
+
+<p>竟还是没有逃过分开的命运</p>
+
+<p>于是从此以后</p>
+
+<p>你走那条路都会想起当时的嬉笑怒骂</p>
+
+<p>你经过街角的那间咖啡馆会记得甜得发腻的糖霜</p>
+
+<p>可是人啊</p>
+
+<p>总要学会告别</p>
+
+<p>无论如何</p>
+
+<p>我们的生命中</p>
+
+<p>都逃脱不了</p>
+
+<p>永无休止的告别</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/pk6qu.JPG" alt="img" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-12-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/12/%E8%A1%80%E6%88%98%E9%92%A2%E9%94%AF%E5%B2%AD.html">血战钢锯岭</a></h1>
+    <div class="post_at_index">
+      <p>历史才是最好的教科书，我们从一段又一段历史中汲取经验和教训，尽量让人生走得不去更加艰难，而这毫无疑问战争是最好的老师，最残酷的史实，人类从千百的历史中依然没能学会和平，战争，让这个世界变得满目疮痍。</p>
+
+<p>今天去看了《血战钢锯岭》，有多久没有感动到流下眼泪，很好，前半段在讲述道斯如何与军队抗争，坚守自己的信仰，信仰是个好东西，但愿你我都有。后半段战争的场面极其的血腥暴力，电影尚是如此，真实又怎样想象，人生从来没有NG，因为真实，才最有力量；我们都喜欢甜美的故事，我也为了道斯的爱情而感动，也因战争的残酷而愤怒。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/gjt1b.jpg" alt="道斯和妻子吻别" />
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/w4nzi.jpg" alt="道斯冒着枪林弹雨拯救受伤的士兵" /></p>
+
+<p>这是我最喜欢的电影了，最让我感动的话是在军事法庭上道斯说：世界已经分崩离析，我要把它拼成原来的样子。看到这里心都碎了，这个世界上总有些人，哪怕与所有人为敌，所有人不信任，经受磨难羞辱，也坚持自己的信仰，这才是英雄；放下枪的人才是勇敢，他教会我们，我们应该成为怎样的人，不能忘记历史带给我们的伤痛，不能忘记而不是去恨，珍惜美好生活，不要战争。</p>
+
+<p>在这段时期，同样想起的是南京大屠杀，同样是二战时期日军留下的暴行，他们是魔鬼，他们终将会受到应有的惩罚；首先，我们都不能忘记，这是我们的伤痛，真实的历史远比想象的更加残酷，哪些被迫害的人，哪些南京大屠杀纪念馆的人名册，这些人是多么的绝望啊，数以千万计的道斯奋战的美好世界，怎能让战争败类去迫害，我不喜欢战争，任何一个国家。</p>
+
+<p>同样的选择给我，我会选择拿起枪，鲁迅先生说过：学医是救不了中国的，我终于不是道斯，看到咫尺近前的战友被日本人用刺刀刺死，却选择不拿起枪，我做不到；实际上，我也是一个有信仰的人，我的信仰的是我在乎的人，我愿意为了他们奋不顾身直到死亡，因为，他们是我的逆鳞啊！</p>
+
+<p>小时候，常听老人家说，要忆苦思甜，实际上应该是要铭记战争带给我们的伤痛，要铭记那段时期，勇敢的坚持的信仰，更加重要的是珍惜现在的美好。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-12-11</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/12/HowTo-Install-Python3-on-CentOS-6-x.html">HowTo Install Python3 on CentOS 6.x</a></h1>
+    <div class="post_at_index">
+      <p>接触过Python2.x与Python3.x的应该知道，它们二者的区别也是蛮大的，而随着Python3.x的盛行，越来越多的应用运行与Python3.x的环境之上，但是我们的CentOS的系列，目前都默认安装时Python2.x（CentOS 7.x也是），所以不得不我们需要自己行动手安装Python 3.x的环境。</p>
+
+<p>Mirosoft平台与Mac平台，不在考虑范围，他们都有相应的软件包与图形化安装工具，可以很好的解决这个问题，所以今天我们的环境是在CentOS 6.x系列上进行。</p>
+
+<blockquote>
+  <p>Demo ：CentOS 6.8</p>
+</blockquote>
+
+<h4 id="method-1-build--install-from-source-file">Method 1. Build &amp; Install From Source-File</h4>
+
+<ol>
+  <li>Python3.x 源码文件下载，请选择适合的版本。 <a href="https://www.python.org/ftp/python/">下载页面</a></li>
+  <li>我这里使用版本 Python 3.5
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[cent@demo ~]$ wget https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tgz
+</code></pre></div>    </div>
+  </li>
+  <li>安装系统基本工具：
+```
+    <h1 id="yum-utils">yum-utils</h1>
+    <p>[cent@demo ~]$ sudo yum install -y yum-utils</p>
+  </li>
+</ol>
+
+<h1 id="构建python-编译环境">构建python 编译环境</h1>
+<p>[cent@demo ~]$ sudo yum-builddep python</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4. 开始编译 &amp; 安装
+并且源码安装的同时，会将pip3与setuptools一同安装.
+</code></pre></div></div>
+<p>[cent@demo ~]$ tar xf Python-3.5.0.tgz
+[cent@demo ~]$ cd Python-3.5.0
+[cent@demo ~]$ ./configure
+[cent@demo ~]$ make
+[cent@demo ~]$ sudo make install</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>5. 检查版本
+</code></pre></div></div>
+<p>[cent@demo ~]$ python3 -V
+Python 3.5.0</p>
+
+<h1 id="如果希望系统默认为python3">如果希望系统默认为Python3</h1>
+<p>[cent@demo ~]$ alias python=’usr/bin/python3.5’</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+#### Method 2. Install From EPEL repos
+也许有的同学会说，编译安装，那是上古时期的做法了，yum在线安装才是王道，当然这种说法也有可取之处，所以接下来讲下如何使用yum安装，需要注意的是yum安装是需要时间测试和增加到相应的源仓库，一般会稍慢于源码安装的方式，这里采用EPEL源，这是一个非常棒的第三方源仓库，之前的文章中也多次提到，这里就不做过多描述，请看下面的命令：
+</code></pre></div></div>
+<p>[cent@demo ~]$ sudo yum install -y epel-release
+[cent@demo ~]$ sudo yum install -y python34</p>
+
+<h1 id="因为yum安装时没能同时安装pip与setuptools所以我们要手动安装这里采用拿第三方包解决问题">因为yum安装时没能同时安装pip与setuptools，所以我们要手动安装，这里采用拿第三方包解决问题</h1>
+
+<p>[cent@demo ~]$ curl -O https://bootstrap.pypa.io/get-pip.py
+[cent@demo ~]$ sudo python3 get-pip.py</p>
+
+<p>[cent@demo ~]$  python3 -V
+Python 3.4.3
+```</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-12-08</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      , 
+      <a href="/tags.html#CentOS">CentOS</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/12/HowTo-Reset-MySQL-Root-Password.html">HowTo Reset MySQL Root Password</a></h1>
+    <div class="post_at_index">
+      <h4 id="1-处理的状态">1. 处理的状态</h4>
+<p>首先确认服务器出于安全的状态，也就是没有人能够任意地连接MySQL数据库。
+因为在重新设置MySQL的root密码的期间，MySQL数据库完全出于没有密码保护的
+状态下，其他的用户也可以任意地登录和修改MySQL的信息。可以采用将MySQL对
+外的端口封闭，并且停止Apache以及所有的用户进程的方法实现服务器的准安全
+状态。最安全的状态是到服务器的Console上面操作，并且拔掉网线。</p>
+
+<h4 id="2-重置密码">2. 重置密码</h4>
+
+<ol>
+  <li>修改mysql配置文件，增加skip-grant-tables
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@demo ~]# vim /etc/my.cnf
+[mysqld]
+skip-grant-tables
+</code></pre></div>    </div>
+  </li>
+  <li>重启mysqld
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@demo ~]# service mysqld restart
+Stopping mysqld:                                           [  OK  ]
+Starting mysqld:                                           [  OK  ]
+</code></pre></div>    </div>
+  </li>
+  <li>登录mysql，并修改root密码.
+```
+[root@demo ~]# mysql -u root
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.5.53 MySQL Community Server (GPL)</li>
+</ol>
+
+<p>Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.</p>
+
+<p>Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.</p>
+
+<p>Type ‘help;’ or ‘\h’ for help. Type ‘\c’ to clear the current input statement.</p>
+
+<p>mysql&gt; use mysql
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A</p>
+
+<p>Database changed
+mysql&gt; update user set password=password(‘new-pass’) where user=’root’;
+Query OK, 5 rows affected (0.00 sec)
+Rows matched: 5  Changed: 5  Warnings: 0</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+4. 配置文件去除skip-grant-tables，并重启服务器.
+</code></pre></div></div>
+<p>[root@demo ~]# vim /etc/my.cnf
+[root@demo ~]# service mysqld restart</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+5. 使用新密码登录到mysql
+</code></pre></div></div>
+<p>[root@demo ~]# mysql -h localhost -u root -p
+```</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-12-04</cite> <i class="icon-tag"></i>
       <a href="/tags.html#MySQL">MySQL</a>
       
       
@@ -505,240 +532,102 @@ Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57C" isn'
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/09/%E7%94%9F%E8%80%85%E5%AD%A4%E7%8B%AC.html">生者孤独</a></h1>
+    <h1><a class="title" href="/post/2016/12/Tomcat-2-%E5%88%A9%E7%94%A8JDK%E8%87%AA%E8%BA%ABkeytool%E5%AE%9E%E7%8E%B0HTTPS.html">Tomcat 利用JDK自身keytool实现HTTPS</a></h1>
     <div class="post_at_index">
-      <p>张楚说：孤独是可耻的。
-我一直不愿承认的，我是一个孤独的人；或者这个世界上，没有人不会感到孤独吧；我的孤独，就好像在喧闹的人群中，突然就孤独了。</p>
+      <p>因为一个偶然机会，想把自己的webserver通过https加密访问，这里就采用JDK自带的keytool工具实现，tomcat官方也推荐这种方式，英文好的同学走这里：<a href="https://tomcat.apache.org/tomcat-7.0-doc/ssl-howto.html">官方配置</a></p>
 
-<p>小王子说：有一天，我看了四十四次日落！
-李寻欢问阿飞：你看这棵树上的梅花已经开了，你可知道已经开了多少朵？
-孔乙己问：你可知道茴的四种写法？
-鲁迅说：楼下一个男人病的要死，那间壁的一家唱着留声机；对面是弄孩子，楼上有两人狂笑，还有打牌声，河中的穿上有女人哭着她死去的母亲，人类的悲欢并不相通，我只是觉得她们吵闹。
-大话西游中说：你看那个人，好像一条狗！</p>
+<blockquote>
+  <p>demo: CentOS 6.6 &amp; Tomcat 7 &amp; JDK 1.7</p>
+</blockquote>
 
-<p>一千个读者，有一千个哈姆雷特！
-一个人走的太远太久了，便看腻了人潮似海。
-如果问，你所理解的孤独是什么？大概每个人都有自己的答案吧。
-突然觉得，原本以为亲密无间的伙伴并没有把我当朋友。
-小心翼翼地与人相处，把她当作真诚的伙伴，害怕隔阂，害怕犯错。
-或许，你所害怕的不是失去某个朋友，而是不够勇敢地去面对一个人的孤独。
-有人说，最孤独的事，不是不能跟一个人在一起，而是你根本不知道想跟谁在一起…</p>
+<h4 id="1-生成-keystore">1. 生成 keystore</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test conf]# keytool -genkey -v -alias tomcat -keyalg RSA -keystore mykeystore
+Enter keystore password:              #设置密码
+Re-enter new password:                #重复一次
+What is your first and last name?
+  [Unknown]:  Alex Lu                #随便填
+What is the name of your organizational unit?
+  [Unknown]:  visionet                #随便填
+What is the name of your organization?
+  [Unknown]:  visionet                #随便填
+What is the name of your City or Locality?
+  [Unknown]:  SH                #随便填
+What is the name of your State or Province?
+  [Unknown]:  SH                #随便填
+What is the two-letter country code for this unit?
+  [Unknown]:  ZH                #随便填
+Is CN=Alex Lu, OU=visionet, O=visionet, L=SH, ST=SH, C=ZH correct?
+  [no]:  Y                    #这里要Y，确认前面信息。
 
-<p>其实，我们生来就是孤独;
-生命的本质就是孤独，不管你拥有什么，我们生来就是孤独。
-出现在这个世界本来就是一个偶然的事，谣言嘈杂的社会，人来人往，浮光掠影，匆匆碌碌。
-这个世界永远都是陌生的，理解是奢侈的，你永远想不起来来时的路，你永远无法让一个人不离你而去。
-不管你拥有什么，我们生来就是孤独。</p>
+Generating 2,048 bit RSA key pair and self-signed certificate (SHA256withRSA) with a validity of 90 days
+    for: CN=Alex Lu, OU=visionet, O=visionet, L=SH, ST=SH, C=ZH
+Enter key password for &lt;tomcat&gt;
+    (RETURN if same as keystore password):        #默认回车即可，不需要设置太多密码
+[Storing mykeystore]
+[root@test conf]# ls
+Catalina  catalina.policy  catalina.properties  context.xml  logging.properties  mykeystore  server.xml  tomcat-users.xml  web.xml
+</code></pre></div></div>
+<blockquote>
+  <p>注意：-keystore是用来指定keystore保存位置，如果不加参数默认保存的当前用户家目录为~/.keystore
+       -validity 可以用来指定证书有效期，单位为天，缺省值为90天。</p>
+</blockquote>
 
-<p>当我年轻的时候我想变成任何人，除了我自己。</p>
+<h4 id="2-备份tomcatdirconfserverxml">2. 备份$tomcatdir/conf/server.xml</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp $tomcatdir/conf/server.xml $tomcatdir/conf/server.xml
+</code></pre></div></div>
+
+<h4 id="3-修改serverxml">3. 修改server.xml</h4>
+<h6 id="a-注释以下tomcat注释用---xxxx----如何也想保留http访问可以不注释">a. 注释以下：（tomcat注释用：&lt;!-- XXXX --&gt; ）,如何也想保留http访问，可以不注释</h6>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;!--
+&lt;Connector executor="tomcatThreadPool"
+                port="80" protocol="HTTP/1.1"
+                connectionTimeout="20000"
+                redirectPort="8443" /&gt;
+--&gt;
+</code></pre></div></div>
+<h6 id="b-取消下面注释">b. 取消下面注释</h6>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Connector port="443" protocol="HTTP/1.1" SSLEnabled="true"
+                maxThreads="150" scheme="https" secure="true"
+                clientAuth="false" sslProtocol="TLS" /&gt;
+</code></pre></div></div>
+<h6 id="c-增加keystorefile和keystorepass">c. 增加keystoreFile和keystorePass</h6>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Connector port="443" protocol="HTTP/1.1" SSLEnabled="true"
+               maxThreads="150" scheme="https" secure="true"
+               clientAuth="false" sslProtocol="TLS"
+               keystoreFile="conf/mykeystore" keystorePass="123456"/&gt;
+</code></pre></div></div>
+<blockquote>
+  <p>keystoreFile=跟keystore文件位置
+keystorePass=跟当时keytool命令执行时输入的密码</p>
+</blockquote>
+
+<h4 id="4-重启tomcat">4. 重启tomcat</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test conf]# ../bin/catalina.sh stop &amp;&amp; ../bin/catalina.sh start
+Using CATALINA_BASE:   /home/pms/apache-tomcat-6.0.44
+Using CATALINA_HOME:   /home/pms/apache-tomcat-6.0.44
+Using CATALINA_TMPDIR: /home/pms/apache-tomcat-6.0.44/temp
+Using JRE_HOME:        /home/pms/jdk1.7.0_65
+Using CLASSPATH:       /home/pms/apache-tomcat-6.0.44/bin/bootstrap.jar
+Using CATALINA_BASE:   /home/pms/apache-tomcat-6.0.44
+Using CATALINA_HOME:   /home/pms/apache-tomcat-6.0.44
+Using CATALINA_TMPDIR: /home/pms/apache-tomcat-6.0.44/temp
+Using JRE_HOME:        /home/pms/jdk1.7.0_65
+Using CLASSPATH:       /home/pms/apache-tomcat-6.0.44/bin/bootstrap.jar
+[root@test conf]# netstat -ntlup | grep -e "80\|443"
+tcp        0      0 0.0.0.0:80         0.0.0.0:*          LISTEN      21960/java
+tcp        0      0 0.0.0.0:443        0.0.0.0:*          LISTEN      21960/java
+tcp        0      0 127.0.0.1:8005     0.0.0.0:*          LISTEN      21960/java
+tcp        0      0 0.0.0.0:8009       0.0.0.0:*          LISTEN      21960/java
+[root@test conf]#
+</code></pre></div></div>
+
+<p>OK !</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-09-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/09/HowTo-Install-a-Tomcat-Server-7.html">HowTo Install a Tomcat Server 7</a></h1>
-    <div class="post_at_index">
-      <p>       本文件是采用的模板是CentOS 6，同样适用于CentOS 系列其他发行版本。</p>
-
-<h4 id="1-测试环境">1. 测试环境</h4>
-<ul>
-  <li>VMware Fushion 8 Pro # windows Use <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></li>
-  <li><a href="http://mirrors.aliyun.com/centos/6.8/isos/x86_64/CentOS-6.8-x86_64-minimal.iso">CentOS-6.8-x86_64-minimal.iso</a></li>
-  <li><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">JDK 7</a></li>
-  <li><a href="http://ftp.riken.jp/net/apache/tomcat/tomcat-7/">Tomcat 7</a></li>
-</ul>
-
-<h4 id="2-install-java-se-development-kit-7-jdk7">2. Install Java SE Development Kit 7 (JDK7)</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# curl -LO -H "Cookie: oraclelicense=accept-securebackup-cookie" \
-"http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-linux-x64.rpm"
-[root@ultraera ~]# rpm -Uvh jdk-7u75-linux-x64.rpm
-Preparing...                ########################################### [100%]
-   1:jdk                    ########################################### [100%]
-Unpacking JAR files...
-        rt.jar...
-        jsse.jar...
-        charsets.jar...
-        tools.jar...
-        localedata.jar...
-        jfxrt.jar...
-</code></pre></div></div>
-<h4 id="3-build-java-environment">3. Build Java Environment.</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# vi /etc/profile
-# add follows to the end
-export JAVA_HOME=/usr/java/default
-export PATH=$PATH:$JAVA_HOME/bin
-export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
-[root@ultraera ~]# source /etc/profile
-[root@ultraera ~]# java -version
-java version "1.7.0_75"
-Java(TM) SE Runtime Environment (build 1.7.0_75-b13)
-Java HotSpot(TM) 64-Bit Server VM (build 24.75-b04, mixed mode)
-</code></pre></div></div>
-<h4 id="4-download-tomcat7">4. Download Tomcat7</h4>
-<p>Make sure the latest one and download it from the site below.
-=》 http://ftp.riken.jp/net/apache/tomcat/tomcat-7/</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# wget http://ftp.riken.jp/net/apache/tomcat/tomcat-7/v7.0.70/bin/apache-tomcat-7.0.70.tar.gz
-[root@ultraera ~]# tar zxvf apache-tomcat-7.0.70.tar.gz
-[root@ultraera ~]# mv apache-tomcat-7.0.70 /usr/tomcat7
-[root@ultraera ~]# useradd -M -d /usr/tomcat7 tomcat7
-[root@ultraera ~]# chown -R tomcat7. /usr/tomcat7
-</code></pre></div></div>
-<h4 id="5-create-a-script--use-service-manage-tomcat7">5. create a script , use service manage tomcat7</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# cat /etc/rc.d/init.d/tomcat7
- #!/bin/bash
-
-# Tomcat7: Start/Stop Tomcat 7
-#
-# chkconfig: - 90 10
-# description: Tomcat is a Java application Server.
-
-. /etc/init.d/functions
-. /etc/sysconfig/network
-
-CATALINA_HOME=/usr/tomcat7
-TOMCAT_USER=tomcat7
-
-LOCKFILE=/var/lock/subsys/tomcat7
-
-RETVAL=0
-start(){
-    echo "Starting Tomcat7: "
-    su - $TOMCAT_USER -c "$CATALINA_HOME/bin/startup.sh"
-    RETVAL=$?
-    echo
-    [ $RETVAL -eq 0 ] &amp;&amp; touch $LOCKFILE
-    return $RETVAL
-}
-
-stop(){
-    echo "Shutting down Tomcat7: "
-    $CATALINA_HOME/bin/shutdown.sh
-    RETVAL=$?
-    echo
-    [ $RETVAL -eq 0 ] &amp;&amp; rm -f $LOCKFILE
-    return $RETVAL
-}
-
-case "$1" in
-    start)
-        start
-        ;;
-    stop)
-        stop
-        ;;
-    restart)
-        stop
-        start
-        ;;
-    *)
-        echo $"Usage: $0 {start|stop|restart}"
-        exit 1
-        ;;
-esac
-exit $?
-</code></pre></div></div>
-<h4 id="6-add-tomcat7-to-system-service">6. Add tomcat7 to system service</h4>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# <span class="nb">chmod </span>755 /etc/rc.d/init.d/tomcat7
-<span class="o">[</span>root@ultraera ~]# /etc/rc.d/init.d/tomcat7 start
-Starting Tomcat7:
-Using CATALINA_BASE:   /usr/tomcat7
-Using CATALINA_HOME:   /usr/tomcat7
-Using CATALINA_TMPDIR: /usr/tomcat7/temp
-Using JRE_HOME:        /usr/java/default
-Using CLASSPATH:       /usr/tomcat7/bin/bootstrap.jar:/usr/tomcat7/bin/tomcat-juli.jar
-Tomcat started.
-<span class="o">[</span>root@ultraera ~]# netstat <span class="nt">-ntlp</span> | <span class="nb">grep </span>java
-tcp        0      0 ::ffff:127.0.0.1:8005       :::<span class="k">*</span>                        LISTEN      6326/java
-tcp        0      0 :::8009                     :::<span class="k">*</span>                        LISTEN      6326/java
-tcp        0      0 :::8080                    :::<span class="k">*</span>                        LISTEN      6326/java
-<span class="o">[</span>root@ultraera ~]# ps axu | <span class="nb">grep </span>java
-tomcat7       6326  8.3 85.6 5229768 2910176 ?     Sl   Aug22 3216:38 /usr/bin/java <span class="nt">-Djava</span>.util.logging.config.file<span class="o">=</span>/usr/tomcat7/conf/logging.properties <span class="nt">-Djava</span>.util.logging.manager<span class="o">=</span>org.apache.juli.ClassLoaderLogManager <span class="nt">-server</span> <span class="nt">-Djava</span>.endorsed.dirs<span class="o">=</span>/usr/tomcat7/endorsed <span class="nt">-classpath</span> /usr/tomcat7/bin/bootstrap.jar:/usr/tomcat7/bin/tomcat-juli.jar <span class="nt">-Dcatalina</span>.base<span class="o">=</span>/usr/tomcat7 <span class="nt">-Dcatalina</span>.home<span class="o">=</span>/usr/tomcat7 <span class="nt">-Djava</span>.io.tmpdir<span class="o">=</span>/usr/tomcat7/temp org.apache.catalina.startup.Bootstrap start
-<span class="o">[</span>root@ultraera ~]# chkconfig <span class="nt">--add</span> tomcat7
-<span class="o">[</span>root@ultraera ~]# chkconfig tomcat7 on
-</code></pre></div></div>
-<h4 id="7-打开浏览器测试tomcat-server搭建完成默认页面如下">7. 打开浏览器测试Tomcat Server搭建完成，默认页面如下</h4>
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/09/tomcat7.jpg" alt="" /></p>
-
-<h4 id="8-使用curl-测试">8. 使用curl 测试</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# curl -I http://localhost:8080
-HTTP/1.1 200 OK
-Server: Apache-Coyote/1.1
-Content-Type: text/html;charset=ISO-8859-1
-Transfer-Encoding: chunked
-Date: Sun, 18 Sep 2016 11:14:06 GMT
-</code></pre></div></div>
-
-<h4 id="9-tomcat-文件树">9. Tomcat 文件树</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera /usr/tomcat7]# tree
-.
-├── bin
-│   ├── bootstrap.jar
-│   ├── catalina.bat
-│   ├── catalina.sh
-│   ├── catalina-tasks.xml
-│   ├── commons-daemon.jar
-│   ├── commons-daemon-native.tar.gz
-│   ├── configtest.bat
-│   ├── configtest.sh
-│   ├── daemon.sh
-│   ├── digest.bat
-│   ├── digest.sh
-│   ├── setclasspath.bat
-│   ├── setclasspath.sh
-│   ├── shutdown.bat
-│   ├── shutdown.sh
-│   ├── startup.bat
-│   ├── startup.sh
-│   ├── tomcat-juli.jar
-│   ├── tomcat-native.tar.gz
-│   ├── tool-wrapper.bat
-│   ├── tool-wrapper.sh
-│   ├── version.bat
-│   └── version.sh
-├── conf
-│   ├── catalina.policy
-│   ├── catalina.properties
-│   ├── context.xml
-│   ├── logging.properties
-│   ├── server.xml
-│   ├── tomcat-users.xml
-│   └── web.xml
-├── lib
-├── LICENSE
-├── logs
-│   ├── catalina.2016-09-18.log
-│   ├── catalina.out
-│   ├── host-manager.2016-09-18.log
-│   ├── localhost.2016-09-18.log
-│   └── manager.2016-09-18.log
-├── NOTICE
-├── RELEASE-NOTES
-├── RUNNING.txt
-├── temp
-├── webapps
-│   └── ROOT
-└── work
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-09-19</cite> <i class="icon-tag"></i>
+      <cite>2016-12-03</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Tomcat">Tomcat</a>
       
       
@@ -748,26 +637,186 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/08/%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%B2%81.html">二十四岁</a></h1>
+    <h1><a class="title" href="/post/2016/11/AWS-Use-s3cmd%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86S3%E5%AD%98%E5%82%A8.html">AWS Use s3cmd命令行管理S3存储</a></h1>
     <div class="post_at_index">
-      <p>现在时间凌晨2点多，已经记不得这是第几个凌晨2点还没睡觉了，好像早睡已经是很久远的事情了，看书学习，刷视频，发呆，玩手机平板，总之不想睡觉；花在睡觉上的时间越来越少，感觉，其实挺累的，生活在大都市里啊，忙碌工作生活奔波，总感觉时间不够用，要做的事情太多，你总要面对很多事情和责任，与人相处；我很努力么，也不那么见得，一旦你成为这个社会一员，总有人或事再推着你前进，在你耳边脑海嚷嚷着不要停，不要停啊！</p>
+      <p>S3 是AWS公有云服务提供的云存储服务，提供海量数据存储服务，同时基于AWS S3提供的一系列网络服务接口，也有大量已经开发完成的工具供我们使用，以利用起AWS庞大的存储资源，这篇文章的目录选取了其中一个用Linux命令行工具<a href="http://s3tools.org">s3cmd</a>来管理AWS S3云存储其中的数据。</p>
 
-<p>每年生日的时候，都会给自己写点东西，回首曾经的岁月又多了一年，我不知道这个习惯会坚持到什么时候，或许写着写着就不想写了，或者自己落入庸俗的圈套，不敢回首过往岁月；我一直坚持的，就是希望在将来回望曾经岁月时不会面带羞愧，我没想过自己会有怎么牛逼的人生，如果回想起今天能觉得，哎哟，不错哦，那就很好了啊；我会坚持去自己想做的事，年岁在增长，不忘初心；就像，这个我喜欢啊，嗯，那就坚持下去咯。</p>
+<p>s3cmd 是非常优秀的S3命令行管理工具，用python编写，支持python 2.6 &amp; 2.7 ，但是尚不支持python3，但是目前绝大多数的Linux发行版默认都是python2.x 系列。</p>
 
-<p>早上醒来的时候，收到前女友的“生日快乐”，挺意外的，然后感动；中午收到爸妈姐姐姐夫外甥的祝福，觉得自己好幸福啊，感恩这些在乎我的人，我爱他们，我想这些会是我生活的动力；今年的生日和往常一样，没有庆祝，我性格不太喜欢仪式感很强烈的事情，没有太多的心思，过的开心就好了，费那么大劲折腾犯不着，生活就是这样。</p>
+<blockquote>
+  <p>Demo CentOS 6.x</p>
+</blockquote>
 
-<p>今年好像没什么好说的，工作没换，现在单位还不错，有自己努力的方向，领导也重视，比之去年也有提升，唯一的感觉就是时间不够用，要学习的东西太多了，但是还学的进去，这一点我很满足，接下来的一年要坚持下去；学业学习上来说，去年报的上外英本，今年上半年都没去上课了，虽然不是翘课，但是关心的力度不够，抽个时间要去趟学校，跟班主任聊聊接下来的学习规划，毕竟还是要考试的；生活上呢，终于感觉到我是爸妈亲生的了啊喂，超幸福美满，这个没得说，还有一个优秀的妹妹，作为谈心的伙伴和学习的榜样也是十分满足；不过，与朋友相处这块近期有些糟糕，这个要好好检讨，以后在这方面要更加成熟；总之目标啊就是努力挣钱啊挣钱啊，上海买房啊买房啊，虽然这座城市生活着挺辛苦的，但是我爱它，所以我要留在这里；至于恋爱结婚什么的，没什么进展也没什么打算，总之先努力工作，努力生活咯。</p>
+<h2 id="install-s3cmd"><strong>Install s3cmd</strong></h2>
+<h3 id="1-无论是denbian系还是rehat系列软件仓库内已经加入了s3cmd">1. 无论是Denbian系还是Rehat系列，软件仓库内已经加入了s3cmd：</h3>
 
-<p>还是和往年一样，自从奶奶去世，我一直不喜欢过节，还是会想念她，不愿意听别人提及她，工作累了，与人相处不融洽的时候，很多时候，我都会想起她，想起小时候，为我遮风挡雨，是我最温暖最踏实的依靠，生活虽然艰辛，但那是我一生最快乐的时光，教我做人做事，让我努力，支持我鼓励我教训我，可是我却未能报答这份恩情，每次清明节回去，望着那座坟墓，总是还想听听您喊我的名字；所以呢，我要努力过好自己的人生，才能对得起奶奶的期望，人生的努力，终有一个理由。</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 1.1 Ubuntu &amp; Debian
+$ sudo apt-get install -y s3cmd
 
-<p>好了，接下来要开始走向25岁了。</p>
+# 1.2 RHEL &amp; CentOS
+$ sudo yum install s3cmd
+</code></pre></div></div>
+
+<h3 id="2-如果您的系统比较特殊软件仓库内找不到s3cmd还有s3cmd的github上去获取相关安装信息链接">2. 如果您的系统比较特殊，软件仓库内找不到s3cmd，还有s3cmd的Github上去获取相关安装信息：<a href="https://github.com/s3tools/s3cmd">链接</a></h3>
+
+<h2 id="configure-s3cmd"><strong>Configure s3cmd</strong></h2>
+<h3 id="1-第一次运行s3cmd-需要首先预配置相关s3信息">1. 第一次运行s3cmd 需要首先预配置相关s3信息:</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd --configure
+</code></pre></div></div>
+<p>它会问你一系列问题：</p>
+<ul>
+  <li>AWS S3 中IAM账户的Access Key以及Secret Key (建议单独创建IAM)</li>
+  <li>对AWS S3双向传输的加密密码 （自行设定不要忘记）</li>
+  <li>为加密数据设定GPG程序的路径（默认即可）</li>
+  <li>是否使用https协议 （默认即可）</li>
+  <li>如果不是https协议，需要设定名字和端口
+  配置完成之后，配置信息以普通文本保存在~/.s3cfg
+    <h3 id="2-china-与global-的区别">2. China 与Global 的区别</h3>
+  </li>
+</ul>
+
+<p>笔者在第一次运行时，始终无法添加成功，报错信息如下：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ERROR: Test failed: 403 (InvalidAccessKeyId): The AWS Accecc Key Id you provided does not exist in our records.
+</code></pre></div></div>
+<p>起初以为是Access Key 不对，在经过多次测试之后，才发现问题，这是因为s3cmd 内置s3的Domain为Global的信息，而中国与Global是独立存在的所以查找不到我们的Access Key。所以，如果你使用的Global AWS那么上面一步应该已经配置好了你的s3cmd，如果你是AWS China的用户，那么你要做以下操作。</p>
+
+<ul>
+  <li>在Retry configuration? [Y/n]选择“n”</li>
+  <li>Save settings? [y/N] 选择“y”</li>
+  <li>保存设置之后，编辑配置文件（~/.s3cfg ) 修改其中的如下字段，并将其中%(bucket)s用您实际的某一个存储桶名字代替掉</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bucket_location = %(location)
+host_base = s3.cn-north-1.amazonaws.com.cn
+host_bucket = %(bucket)s.s3.cn-north-1.amazonaws.com.cn
+website_endpoint = http://%(bucket)s.s3-website-%(location)s.amazonaws.com.cn/
+</code></pre></div></div>
+
+<p>例如，你的存储桶的名字为s3chinatest: 地域为北京。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bucket_location = cn-north-1
+host_base = s3.cn-north-1.amazonaws.com.cn
+host_bucket = s3chinatest.s3.cn-north-1.amazonaws.com.cn
+website_endpoint = http://s3chinatest.s3-website.amazonaws.com.cn/
+</code></pre></div></div>
+<h3 id="3-保存配置文件然后用命令测试一下确认s3cmd可以正常工作">3. 保存配置文件，然后用命令测试一下，确认s3cmd可以正常工作</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd ls
+2016-11-18 22:30 s3://s3chinatest
+2016-10-29 00:14 s3://bucket2
+</code></pre></div></div>
+<h2 id="s3cmd-的基本使用"><strong>s3cmd 的基本使用</strong></h2>
+<h3 id="1-查看当前账户下所有现有的桶bucket">1. 查看当前账户下所有现有的桶(bucket)：</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd ls
+2016-11-18 22:30 s3://s3chinatest
+2016-10-29 00:14 s3://bucket2
+</code></pre></div></div>
+<h3 id="2-创建新的bucket">2. 创建新的bucket</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd mb s3://s3chinatest2
+
+Bucket ’s3://s3chinatest2/’ created
+</code></pre></div></div>
+<h3 id="3-上传文件到bucket">3. 上传文件到bucket</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd put file1.txt file2.txt file3.txt s3://s3chinatest2
+upload: 'file1.txt' -&gt; 's3://s3chinatest2/file1.txt'  [1 of 3]
+ 2432 of 2432   100% in    0s    43.27 kB/s  done
+upload: 'file2.txt' -&gt; 's3://s3chinatest2/file2.txt'  [2 of 3]
+ 2432 of 2432   100% in    0s    59.83 kB/s  done
+upload: 'file3.txt' -&gt; 's3://s3chinatest2/file3.txt'  [3 of 3]
+ 2432 of 2432   100% in    0s    58.93 kB/s  done
+
+ $ s3cmd ls s3://s3chinatest2
+ 2016-11-18 15:11      2432   s3://s3chinatest2/file1.txt
+2016-11-18 15:11      2432   s3://s3chinatest2/file2.txt
+2016-11-18 15:11      2432   s3://s3chinatest2/file3.txt
+</code></pre></div></div>
+<p>上传的文件默认访问权限为私有(private)，只能用户自己可以访问，使用正确的访问和安全密码即可。<br />
+如果要上传公开访问权限的文件，需要添加 –acl-public 参数.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd put  --acl-public file4.txt s3://s3chinatest2
+upload: 'file4.txt' -&gt; 's3://s3chinatest2/file1.txt'  [1 of 1]
+ 2432 of 2432   100% in    0s    43.27 kB/s  done
+</code></pre></div></div>
+<h3 id="4-下载bucket内的文件">4. 下载bucket内的文件</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd get s3://s3chinatest2/file1.txt
+download: 's3://s3chinatest2/file1.txt' -&gt; './file1.txt'  [1 of 1]
+ 2432 of 2432   100% in    0s    27.65 kB/s  done
+
+ # 支持 " * "匹配任意字符
+ $ s3cmd get s3://s3chinatest2/file*.txt
+download: 's3://s3chinatest2/file1.txt' -&gt; './file1.txt'  [1 of 3]
+ 2432 of 2432   100% in    0s    48.11 kB/s  done
+download: 's3://s3chinatest2/file2.txt' -&gt; './file2.txt'  [2 of 3]
+ 2432 of 2432   100% in    0s    84.76 kB/s  done
+download: 's3://s3chinatest2/file3.txt' -&gt; './file3.txt'  [3 of 3]
+ 2432 of 2432   100% in    0s    75.28 kB/s  done
+</code></pre></div></div>
+<blockquote>
+  <p>注意若当前目录有相同文件时，可以使用–skip-existing 参数跳过这些文件。</p>
+  <h3 id="5-删除bucket内的文件">5. 删除bucket内的文件</h3>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># del 与 rm 都可以使用.
+$ s3cmd del s3://s3chinatest2/file1.txt
+delete: 's3://s3chinatest2/file1.txt'
+</code></pre></div></div>
+<h3 id="6-获取当前bucket-信息">6. 获取当前bucket 信息</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># bucket的存储位置及访问权限设置
+s3cmd info s3://s3chinatest2
+s3://s3chinatest2/ (bucket):
+   Location:  cn-north-1
+   Payer:     BucketOwner
+   Expiration Rule: none
+   policy:    none
+   cors:      none
+   ACL:       2fe63da8137b85d9868d240869945287b285a58b5d7e07e21ac813b486dcabea: FULL_CONTROL
+</code></pre></div></div>
+<h3 id="7-上传文件到bucket时加密">7. 上传文件到bucket时加密</h3>
+
+<p>当用s3cmd下载一个加密过的文件时，它会自动检测加密并在下载过程解密，因此下载和访问加密文件时，就像通常所做的一样</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd -e put t_result.java s3://s3chinatest2
+upload: '/tmp/tmpfile-S9lUXERAEUdnNaz5zHba' -&gt; 's3://s3chinatest2/t_result.java'  [1 of 1]
+ 3355 of 3355   100% in    0s    39.25 kB/s  done
+</code></pre></div></div>
+<h3 id="8-查看bucket使用情况">8. 查看bucket使用情况</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd du s3://s3chinatest2
+8219     3 objects s3://s3chinatest2/
+</code></pre></div></div>
+<h3 id="9-删除一个bucket">9. 删除一个bucket</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd rb s3://s3chinatest2
+ERROR: S3 error: 409 (BucketNotEmpty): The bucket you tried to delete is not empty
+# 默认不能删除非空的bucket，所以要先清空存储桶内数据
+
+$ s3cmd rm s3://s3chinatest2/*
+delete: 's3://s3chinatest2/file2.txt'
+delete: 's3://s3chinatest2/file3.txt'
+delete: 's3://s3chinatest2/t_result.java'
+
+$ s3cmd rb s3://s3chinatest2
+Bucket 's3://s3chinatest2/' removed
+</code></pre></div></div>
+
+<h2 id="other"><em>Other</em></h2>
+
+<ol>
+  <li>关于s3cmd 还有非常多的功能，这里只是列举简单的一部分，有兴趣的同学，可以使用man s3cmd 查看详细的帮助文档.</li>
+  <li>s3cmd 适用的场景主要利用脚本做cron任务，例如定时备份，然后推送到s3，降低成本，持久保存.</li>
+  <li>Windows平台也支持s3cmd哦，有兴趣的同学可以去研究下。</li>
+</ol>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-08-19</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
+      <cite>2016-11-30</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#AWS">AWS</a>
       
       
       
@@ -776,138 +825,37 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/08/Script-Install-LNMP.html">Use Script Install LNMP</a></h1>
+    <h1><a class="title" href="/post/2016/11/Tomcat-1-java-lang-OutOfMemoryError.html">Tomcat java.lang.OutOfMemoryError</a></h1>
     <div class="post_at_index">
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
+      <h3 id="1-什么是-permgen-space-">1. 什么是 <em>PermGen space</em> ?</h3>
+<p>PermGen space的全称是Permanent Generation space，是指内存的永久保存区域，这块内存主要是被JVM存放Class和Meta信息的，Class在被Loader时就会被放到PermGen space中，它和存放类实例(Instance)的Heap区域不同，GC(Garbage Collection)不会在主程序运行期对PermGen space进行清理，所以如果你的应用中有很CLASS的话，就很可能出现PermGen space错误，这种错误常见在web服务器对JSP进行pre compile的时候。如果你的WEB APP下都用了大量的第三方jar，其大小超过了jvm默认的大小(4M)那么就会产生此错误信息了。</p>
 
-#
-
-if [[ $1 == "uninstall" ]];then
-	echo "starting backup data..."
-	mkdir -p /www/backup
-	service mysqld stop
-	service nginxd stop
-	service httpd stop
-	service wdapache stop
-	service pureftpd stop
-	tar zcvf /www/backup/mysqldatdbk.tar.gz /www/wdlinux/mysql/var
-	tar zcvf /www/backup/ngconfbk.tar.gz /www/wdlinux/nginx/conf
-	tar zcvf /www/backup/apconfbk.tar.gz /www/wdlinux/apache/conf
-	rpm -e lanmp_wdcp --nodeps
-	rm -fr /www/wdlinux
-	echo
-	echo "	lanmp,wdcp remove is OK"
-	echo
-	exit 0
-fi
-
-echo "Turn off selinux..."
-setenforce 0
-sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
-sed -i 's/^exclude=/#exclude=/g' /etc/yum.conf
-yum install -y gcc gcc-c++ make autoconf libtool-ltdl-devel gd-devel freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel patch libmcrypt-devel libmhash-devel ncurses-devel sudo bzip2 iptables sendmail iptables unzip
-
-#echo "Check the network..."
-#ping -c 2 113.105.167.1
-#if [[ $? != 0 ]];then
-#	echo
-#	echo "network err"
-#	exit 1
-#fi
-ping -c 3 dl.wdlinux.cn
-if [[ $? == 2 ]];then
-	echo
-	echo "dns error"
-	exit 1
-fi
-
-if [[ ! -d /www/wdlinux ]];then
-	echo
-	echo "rpm remove..."
-	rpm -e php --nodeps
-	rpm -e httpd --nodeps
-	rpm -e mysql-server --nodeps
-	rpm -e mysql --nodeps
-fi
-
-echo "yum update..."
-yum install -y make autoconf sudo wget libtool-ltdl-devel gd-devel freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel patch libmcrypt-devel libmhash-devel ncurses-devel iptables
-
-arch=i386
-Aurl="http://dl.wdlinux.cn:5180/rpms"
-if [[ `uname -m` == "x86_64" ]];then
-	arch="x86_64"
-fi
-
-function in_finsh {
-        echo
-        echo "          configuration ,lamp or lnmp,wdcp install is finshed"
-        echo "          visit http://ip"
-        echo "          wdcp visit http://ip:8080"
-        echo "          more infomation please visit http://www.wdlinux.cn"
-        echo
-}
-
-function in_check {
-        if [[ $1 == 1 ]];then
-                echo
-                echo "============  $2 install error  ============="
-                echo
-                exit 1
-        else
-                echo
-                echo "============  $2 install OK  =============="
-                echo
-                echo
-        fi
-}
-
-grep -E 'wdOS 1|5\.' /etc/redhat-release &gt; /dev/null 2&gt;&amp;1
-v1=$?
-grep -E 'wdOS 2|6\.' /etc/redhat-release &gt; /dev/null 2&gt;&amp;1
-v2=$?
-if [ $v1 == 0 ];then
-	RF="lanmp_wdcp-2-5.$arch.rpm";
-elif [ $v2 == 0 ];then
-	RF="lanmp_wdcp-2-5.el6.$arch.rpm";
-	if [ $arch == "x86_64" ];then
-		wget -c http://dl.wdlinux.cn:5180/soft/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
-		rpm -ivh rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
-	else
-		wget -c http://dl.wdlinux.cn:5180/soft/rpmforge-release-0.5.2-2.el6.rf.i686.rpm
-		rpm -ivh rpmforge-release-0.5.2-2.el6.rf.i686.rpm
-	fi
-	yum install -y mhash-devel libmcrypt-devel
-else
-	echo
-	echo "The current system does not support"
-	echo
-	exit
-fi
-wget -c http://dl.wdlinux.cn:5180/rpms/$RF
-rpm -ivh $RF --nodeps
-I_F=$?
-if [ $I_F == 0 ];then
-	echo
-fi
-in_check $I_F lanmp_wdcp
-
-rm -f wdcp_v*
-wget -c http://down.wdlinux.cn/down/wdcp_v2.5.tar.gz &gt; /dev/null 2&gt;&amp;1
-tar zxvf wdcp_v2.5.tar.gz -C / &gt; /dev/null 2&gt;&amp;1
-
-in_finsh
-
+<h3 id="2-解决方法">2. 解决方法</h3>
+<h5 id="21-手动设置maxpermsize大小">2.1 手动设置MaxPermSize大小</h5>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 修改$TOMCAT_HOME/bin/catalina.sh，在“echo "Using CATALINA_BASE:   $CATALINA_BASE"”上面加入以下行：
+JAVA_OPTS="-server -Xms256m -Xmx512m -XX:PermSize=64M -XX:MaxPermSize=128m"
 </code></pre></div></div>
+
+<h3 id="3-java-heap-space">3. Java heap space</h3>
+<h4 id="解释">解释：</h4>
+<p>Heap size 设置
+JVM堆的设置是指java程序运行过程中JVM可以调配使用的内存空间的设置.JVM在启动的时候会自动设置Heap size的值，其初始空间(即-Xms)是物理内存的1/64，最大空间(-Xmx)是物理内存的1/4。可以利用JVM提供的-Xmn -Xms -Xmx等选项可进行设置。Heap size 的大小是Young Generation 和Tenured Generaion 之和。</p>
+
+<ul>
+  <li>提示：在JVM中如果98％的时间是用于GC且可用的Heap size 不足2％的时候将抛出此异常信息。</li>
+  <li>提示：Heap Size 最大不要超过可用物理内存的80％，一般的要将-Xms和-Xmx选项设置为相同，而-Xmn为1/4的-Xmx值。</li>
+</ul>
+
+<blockquote>
+  <p>修改设置方法如PermGen space</p>
+</blockquote>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-08-13</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Shell">Shell</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
+      <cite>2016-11-28</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Tomcat">Tomcat</a>
       
       
       
@@ -916,224 +864,251 @@ in_finsh
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/08/HowTo-Setup-MariaDB-Galera-Cluster-10-On-CentOS-6-x.html">HowTo Setup MariaDB Galera Cluster 10 On CentOS 6.x</a></h1>
+    <h1><a class="title" href="/post/2016/11/HowTo-Install-LNMP-on-CentOS-6-x.html">HowTo Install LNMP on CentOS 6.x</a></h1>
     <div class="post_at_index">
-      <h4 id="介绍">介绍</h4>
-<p>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MariaDB Galera Cluster 是一套在MySQL InnoDB存储引擎上面实现multi-master及数据实时同步的系统架构，业务层面无需做读写分离工作，数据库读写压力都能按照既定的规则分发到 各个节点上去。在数据方面完全兼容 MariaDB 和 MySQL。使用MariaDB Galera的解决方案，可以方便快速的搭建出高可用的数据库Cluster，不是主备模式，而是双活模式，也就是说，没有主节点和备份节点，每个节点都可以看做是主节点，都可以进行读写，由Galera来实现底层的数据同步。
-</p>
-
-<ul>
-  <li>真正的多主架构，任何节点都可以进行读写</li>
-  <li>同步复制，各节点间无延迟且节点宕机不会导致数据丢失</li>
-  <li>紧密耦合，所有节点均保持相同状态</li>
-  <li>自动节点配置，无需手工备份当前数据库并拷贝至新节点</li>
-</ul>
-
-<h4 id="实验环境">实验环境</h4>
-
-<ul>
-  <li>Cluster node4 IP address 172.16.102.168</li>
-  <li>Cluster node5 IP address 172.16.102.165</li>
-  <li>Cluster node6 IP address 172.16.102.164</li>
-  <li>setenforce 0；sed -i ‘s/SELINUX=enforcing/SELINUX=disabled/’ /etc/selinux/config</li>
-  <li>/etc/init.d/iptables stop;chkconfig iptables off</li>
-</ul>
-
-<blockquote>
-  <p>使用vmware 测试需注意:克隆机器需要删除 <code>/etc/udev/rules.d/70-persistent-net.rules</code> 以及<code>/etc/sysconfig/network-scripts/ifcfg-eth0</code>中的网卡mac地址选项，不然网卡起不来</p>
+      <blockquote>
+  <table>
+    <tbody>
+      <tr>
+        <td>egrep -v “^ *#</td>
+        <td>^ *$”     去除所有以#号开头的文件</td>
+      </tr>
+    </tbody>
+  </table>
 </blockquote>
 
-<h4 id="环境检测">环境检测</h4>
-<ul>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>检查iptables状态：/etc/init.d/iptables status;chkconfig –list</td>
-          <td>grep iptables</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
-  <li>检查selinux状态：getenforce</li>
-  <li>检查openssh-client包是否安装：系统中是否有ssh命令</li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>检查是否系统中含有mysql相关的包：rpm -qa</td>
-          <td>grep mysql，有的话都需要卸载掉</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
-  <li>检查网络是否通畅：ping www.baidu.com</li>
-</ul>
-
-<h4 id="安装">安装</h4>
-<h5 id="1-在所有节点编辑etchosts">1. 在所有节点编辑/etc/hosts</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# vi /etc/hosts
-
-127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-
-# add follows
-172.16.102.164 node6
-172.16.102.165 node5
-172.16.102.168 node4
-
-[root@node4 ~]#
-
-# 依次在node5和node6上编辑/etc/hosts
+<h4 id="demo-system">Demo system</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]$ uname -a
+Linux Test01 2.6.32-504.el6.x86_64 #1 SMP Wed Oct 15 04:27:16 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
+[Alex@Test01 ~]$ ip addr | grep eth0
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    inet 10.0.2.128/24 brd 10.0.2.255 scope global eth0
 </code></pre></div></div>
 
-<h5 id="2-在所有node上安装-mariadb-galera">2. 在所有node上安装 MariaDB Galera</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# vi /etc/yum.repos.d/mariadb.repo
- # MariaDB 10.0 CentOS repository list
-# http://mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.0/centos6-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-enabled=0
+<h4 id="install-httpd">Install httpd</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 yum.repos.d]$ sudo yum install -y httpd
+[Alex@Test01 ~]$ rpm -qa | grep httpd
+httpd-2.2.15-39.el6.centos.x86_64
+httpd-tools-2.2.15-39.el6.centos.x86_64
 
-[root@node4 ~]# yum --enablerepo=mariadb -y install MariaDB-Galera-server
-
-# 依次在node5和node6上安装 MariaDB-Galera-server
+# remove welcome page
+[Alex@Test01 yum.repos.d]$ sudo rm -f /etc/httpd/conf.d/welcome.conf
+# remove default error page
+[Alex@Test01 yum.repos.d]$ sudo rm -f /var/www/error/noindex.html
 </code></pre></div></div>
 
-<blockquote>
-  <p><i>注意安装完成之后，不要启动mysql</i></p>
-</blockquote>
+<h4 id="configure-httpd--replace-the-server-name-to-you-own-one">Configure httpd . Replace the server name to you own one.</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]# sudo vi /etc/httpd/conf/httpd.conf
+# line 44: change
+ ServerTokens Prod
+# line 76: change to ON
+ KeepAlive On
+# line 262: Admin's address
+ ServerAdmin luchuanjia@msn.com
+# line 338: change
+ AllowOverride All
+# line 276: change to your server's name
+ ServerName www.ultraera.org:80
+# line 402: add file name that it can access only with directory's name
+ DirectoryIndex index.html index.htm
+# line 536: change
+ ServerSignature Off
+# line 759: comment out
+# AddDefaultCharset UTF-8
+[Alex@Test01 ~]# sudo /etc/init.d/httpd start
+ Starting httpd:[  OK  ]
+[Alex@Test01 ~]# sudo chkconfig httpd on     # set httpd start with system.
+</code></pre></div></div>
+<h4 id="create-a-html-test-page">create a HTML test page</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]# sudo vi /var/www/html/index.html
+it's ok.
+</code></pre></div></div>
+<p><img src="http://s3.51cto.com/wyfs02/M00/70/DE/wKioL1XAUfuQoFfwAACC5LJWQgg039.jpg" alt="" /></p>
 
-<h5 id="3-在其中一个节点上编辑etcmycnfdservercnf配置文件">3. 在其中一个节点上编辑/etc/my.cnf.d/server.cnf配置文件</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# vi /etc/my.cnf.d/server.cnf
-# 19 行，取消下面的注释，并修改为需求
-[galera]
-wsrep_provider=/usr/lib64/galera/libgalera_smm.so
-# 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。
-wsrep_cluster_address="gcomm://node4,node5,node6"
-binlog_format=row
-default_storage_engine=InnoDB
-innodb_autoinc_lock_mode=2
-bind-address=0.0.0.0
+<h4 id="install-php">Install PHP.</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]$ sudo yum install -y php php-mbstring php-pear
+[Alex@Test01 ~]$ rpm -qa | grep php
+php-common-5.3.3-46.el6_6.x86_64
+php-5.3.3-46.el6_6.x86_64
+php-mbstring-5.3.3-46.el6_6.x86_64
+php-cli-5.3.3-46.el6_6.x86_64
+php-pear-1.9.4-4.el6.noarch
 
-# add follows
-# cluster name
-wsrep_cluster_name="Visionet_MariaDB_Cluster"
-# replication provider
-wsrep_sst_method=rsync
-# own IP address
-wsrep_node_address="172.16.102.168"
-wsrep_node_name="node4"
-
-# 启动数据库
-[root@node4 ~]# /etc/rc.d/init.d/mysql bootstrap
-Starting MySQL. SUCCESS!
-
-# 初始化你的数据库
-[root@node4 ~]# mysql_secure_installation
+[Alex@Test01 ~]$ sudo vi /etc/httpd/conf/httpd.conf
+# line 402 add file name that it can access only with directory's name
+  DirectoryIndex index.html index.htm index.php
+[Alex@Test01 ~]$ sudo vi /etc/php.ini
+# line 946 set your timezone
+date.timezone = "Asia/Shanghai"
+[Alex@Test01 ~]$ sudo /etc/init.d/httpd restart
+ Stopping httpd:[  OK  ]
+ Starting httpd:[  OK  ]
 </code></pre></div></div>
 
-<h5 id="4-在其它节点上编辑etcmycnfdservercnf配置文件">4. 在其它节点上编辑/etc/my.cnf.d/server.cnf配置文件</h5>
+<h4 id="create-a-php-test-page">create a php test page.</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]# sudo vi /var/www/html/index.php
 
-<h5 id="node5">node5</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node5 ~]# vi /etc/my.cnf.d/server.cnf
-# 19 行，取消下面的注释，并修改为需求
-[galera]
-wsrep_provider=/usr/lib64/galera/libgalera_smm.so
-# 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。
-wsrep_cluster_address="gcomm://node4,node5,node6"
-binlog_format=row
-default_storage_engine=InnoDB
-innodb_autoinc_lock_mode=2
-bind-address=0.0.0.0
+&lt;?php
+    phpinfo();
+?&gt;
+</code></pre></div></div>
+<p><img src="http://s3.51cto.com/wyfs02/M02/70/DE/wKioL1XAUguwJCl2AARE16t4hyw682.jpg" alt="" /></p>
 
-# add follows
-# cluster name
-wsrep_cluster_name="Visionet_MariaDB_Cluster"
-# replication provider
-wsrep_sst_method=rsync
+<h4 id="install-mysql">Install MySQL</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]$ sudo -y install mysql-server
+[Alex@Test01 ~]$ rpm -qa | grep mysql-server
+mysql-server-5.1.73-5.el6_6.x86_64
 
-# 以下内容注意，注意应设置为当前服务器信息
-wsrep_node_address="172.16.102.165"
-wsrep_node_name="node5"
+[Alex@Test01 ~]$ sudo vi /etc/my.cnf
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+user=mysql
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+# add
+character-set-server=utf8
 
-# 启动数据库
-[root@node5 ~]# /etc/rc.d/init.d/mysql start
-Starting MySQL...SST in progress, setting sleep higher. SUCCESS!
+[Alex@Test01 ~]$ sudo /etc/rc.d/init.d/mysqld start
+
+Initializing MySQL database:  WARNING: The host 'www.ultraera.org' could not be looked up with resolveip.
+This probably means that your libc libraries are not 100 % compatible
+with this binary MySQL version. The MySQL daemon, mysqld, should work
+normally with the exception that host name resolving will not work.
+This means that you should use IP addresses instead of hostnames
+when specifying MySQL privileges !
+Installing MySQL system tables...
+OK
+Filling help tables...
+OK
+...
+...
+...
+You can test the MySQL daemon with mysql-test-run.pl
+cd /usr/mysql-test ; perl mysql-test-run.pl
+
+Please report any problems with the /usr/bin/mysqlbug script!
+
+                                              [  OK  ]
+Starting mysqld:                      [  OK  ]
+[Alex@Test01 ~]$ sudo chkconfig mysqld on
 </code></pre></div></div>
 
-<h5 id="node6">node6</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node6 ~]# vi /etc/my.cnf.d/server.cnf
-# 19 行，取消下面的注释，并修改为需求
-[galera]
-wsrep_provider=/usr/lib64/galera/libgalera_smm.so
-# 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。
-wsrep_cluster_address="gcomm://node4,node5,node6"
-binlog_format=row
-default_storage_engine=InnoDB
-innodb_autoinc_lock_mode=2
-bind-address=0.0.0.0
+<h4 id="initial-settings-for-mysql">Initial settings for MySQL</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@www ~]#mysql_secure_installation
+NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MySQL
+      SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
 
-# add follows
-# cluster name
-wsrep_cluster_name="Visionet_MariaDB_Cluster"
-# replication provider
-wsrep_sst_method=rsync
+In order to log into MySQL to secure it, we'll need the current
+password for the root user.  If you've just installed MySQL, and
+you haven't set the root password yet, the password will be blank,
+so you should just press enter here.
 
-# 以下内容注意，注意应设置为当前服务器信息
-wsrep_node_address="172.16.102.164"
-wsrep_node_name="node6"
+# Enter
+ Enter current password for root (enter for none):
+OK, successfully used password, moving on...
 
-# 启动数据库
-[root@node6 ~]# /etc/rc.d/init.d/mysql start
-Starting MySQL...SST in progress, setting sleep higher. SUCCESS!
-</code></pre></div></div>
+Setting the root password ensures that nobody can log into the MySQL
+root user without the proper authorisation.
 
-<blockquote>
-  <p>注意：只需要初始化第一个节点服务器的数据库，其他数据的配置文件会自动同步，所以你给node4设置的root可以在node5和node6直接使用，当然这是安装正确的前提。</p>
-</blockquote>
+# set root password
+ Set root password? [Y/n]y
+ New password:    # input any password
+ Re-enter new password:
+Password updated successfully!
+Reloading privilege tables..
+ ... Success!
 
-<h4 id="登陆各个节点数据库检查配置是否成功">登陆各个节点数据库检查配置是否成功</h4>
+By default, a MySQL installation has an anonymous user, allowing anyone
+to log into MySQL without having to have a user account created for
+them.  This is intended only for testing, and to make the installation
+go a bit smoother.  You should remove them before moving into a
+production environment.
 
-<p>        server.cnf的配置如果没有问题，那么wsrep_local_state_comment的状态应该是Synced。</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# mysql -u root -p
-Enter password:
-Welcome to the MariaDB monitor.  Commands end with ; or \g.
-Your MariaDB connection id is 15
-Server version: 10.0.26-MariaDB-wsrep MariaDB Server, wsrep_25.13.raf7f02e
+# remove anonymous users
+ Remove anonymous users? [Y/n]y
 
-Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+ ... Success!
+
+Normally, root should only be allowed to connect from 'localhost'.  This
+ensures that someone cannot guess at the root password from the network.
+
+# disallow root login remotely
+ Disallow root login remotely? [Y/n]y
+
+ ... Success!
+
+By default, MySQL comes with a database named 'test' that anyone can
+access.  This is also intended only for testing, and should be removed
+before moving into a production environment.
+
+# remove test database
+ Remove test database and access to it? [Y/n]y
+
+ - Dropping test database...
+ ... Success!
+ - Removing privileges on test database...
+ ... Success!
+
+Reloading the privilege tables will ensure that all changes made so far
+will take effect immediately.
+
+# reload privilege tables
+ Reload privilege tables now? [Y/n]y
+
+ ... Success!
+
+Cleaning up...
+
+All done!  If you've completed all of the above steps, your MySQL
+installation should now be secure.
+
+Thanks for using MySQL!
+
+# try to connect with root
+ [root@www ~]#mysql -u root -p
+ Enter password:# MySQL root password
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 5.1.73 Source distribution
+
+Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
 
 Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
-MariaDB [(none)]&gt; show status like 'wsrep_local_state_comment';
-+---------------------------+--------+
-| Variable_name             | Value  |
-+---------------------------+--------+
-| wsrep_local_state_comment | Synced |
-+---------------------------+--------+
-1 row in set (0.01 sec)
+# display user list
+ mysql&gt;select user,host,password from mysql.user;
++------+-----------+-------------------------------------------+
+| user | host      | password                                  |
++------+-----------+-------------------------------------------+
+| root | localhost | ***************************************** |
+| root | 127.0.0.1 | ***************************************** |
++------+-----------+-------------------------------------------+
+2 rows in set (0.00 sec)
 
-MariaDB [(none)]&gt;
+# display database list
+ mysql&gt;show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
++--------------------+
+2 rows in set (0.00 sec)
+mysql&gt;exit
+Bye
 </code></pre></div></div>
-
-<h4 id="结论">结论</h4>
-
-<p>        MariaDB Galera没有主节点和备份节点，配置成功之后，可以在任何一个node节点上操作会自动同步到其他节点，任何一个节点宕机不会影响其他节点的数据和稳定性，配置HAProxy设置VIP的方式来实现负载均衡，提高服务的高可用性，另外，当宕机节点上线之后，事务会自动同步不丢失。</p>
-
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-08-04</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MariaDB">MariaDB</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
+      <cite>2016-11-28</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#LNMP">LNMP</a>
       
       
       
@@ -1142,341 +1117,72 @@ MariaDB [(none)]&gt;
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/08/HowTo-Install-Openfire-on-CentOS.html">HowTo Install Openfire  on CentOS</a></h1>
+    <h1><a class="title" href="/post/2016/11/%E4%B8%96%E7%95%8C%E4%B8%8A%E6%9C%80%E6%B2%A1%E7%94%A8%E7%9A%84%E4%B8%9C%E8%A5%BF.html">世界上最没用的东西</a></h1>
     <div class="post_at_index">
-      <h4 id="install-centos-6x-x86_64">Install Centos 6.x x86_64</h4>
-<p><em>略.</em></p>
+      <p><a href="https://www.zhihu.com/question/21905681/answer/93684468">知乎</a></p>
 
-<h4 id="安装依赖软件">安装依赖软件</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum -y install wget java glibc.i686
-</code></pre></div></div>
+<p>@匿名用户</p>
 
-<h4 id="下载openfire-38-到本地">下载openfire 3.8 到本地</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://download.igniterealtime.org/openfire/openfire-3.8.1-1.i386.rpm
-</code></pre></div></div>
+<p>旧手机的充电器</p>
 
-<h4 id="安装openfire-38">安装openfire 3.8</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum -y install ./openfire*rpm
-</code></pre></div></div>
-<h4 id="设置服务开启自启动">设置服务开启自启动</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chkconfig openfire on
+<p>暗恋时的独角戏</p>
 
-</code></pre></div></div>
-<h4 id="yum-install-mysql-server">Yum Install mysql-server</h4>
-<p>详见： <a href="http://blog.ultraera.org/how-to-install-mysql-5-6-on-centos/">How to Install MySQL 5.5/6/7 on RHEL/CentOS 5/6/7</a></p>
+<p>情人节后的鲜花</p>
 
-<h4 id="创建openfire数据库">创建openfire数据库</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql -u root -p
+<p>单身狗的第二杯半价</p>
 
-create database openfire character set utf8;
-grant all privileges on openfire.* to 'openfire'@'127.0.0.1' identified by 'openfire' with grant option;
-</code></pre></div></div>
-<h4 id="启动openfire">启动openfire</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://Host:9090
-</code></pre></div></div>
+<p><br /></p>
 
-<h4 id="之后的初始化步骤请根据实际操作注意设定数据库地址用户名和密码时不要出错">之后的初始化步骤，请根据实际操作，注意设定数据库地址用户名和密码时不要出错</h4>
+<p>政客上任的许诺</p>
 
-<h4 id="faq">FAQ</h4>
-<p>openfire安装完毕后无法登录控制台</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>报错：Login failed:make sure your username and password are correct and that you’re an admin or moderator
+<p>渴望理解的诉说</p>
 
-解决方案如下：
-1.使用Mysql查看工具进入数据库，进入表“ofuser”，将该表清空，然后执行该SQL
-INSERT INTO ofUser (username, plainPassword, name, email, creationDate, modificationDate)
-    VALUES ('admin', 'admin', 'Administrator', 'admin@example.com', '0', '0');
+<p>花前月下的誓言</p>
 
-2.关闭openfire服务，就是从其控制台stop然后再start，再用用户名：admin,密码：admin登录即可
-</code></pre></div></div>
+<p>回忆里微笑的脸</p>
 
-<p>openfire 进程无法启动</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>报错：nohup: failed to run command `/opt/openfire/jre/bin/java': No such file or directory
+<p><br /></p>
 
-解决方案如下：
-经检查是由于openfire未能正确识别jre环境变量导致，安装时自带的jre是32位，但操作系统却是64位操作平台。
-，故在/etc/init.d/openfire的启动脚本修改，
-JAVA_HOME="/usr/lib/jvm/jre-$VERSION.x86_64"
-</code></pre></div></div>
+<p>过期的悔恨</p>
+
+<p>懦弱的容忍</p>
+
+<p>寒假前的作息表</p>
+
+<p>满街的宣传口号</p>
+
+<p><br /></p>
+
+<p>天赋不足的认真</p>
+
+<p>无疾而终的情深</p>
+
+<p>所谓寂寞空虚冷</p>
+
+<p>不可说与人知的疼</p>
+
+<p><br /></p>
+
+<p>失败后的借口</p>
+
+<p>酒桌上的朋友</p>
+
+<p>年轻时为你写的诗</p>
+
+<p>心血来潮时的雄心壮志</p>
+
+<p>收藏夹里的心灵鸡汤</p>
+
+<p>总结汇报的官样文章</p>
+
+<p>额度不够的信用卡</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-08-02</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Openfire">Openfire</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/08/HowTo-Use-Docker-create-a-Tomcat-Project.html">HowTo Use Docker create a Tomcat Project</a></h1>
-    <div class="post_at_index">
-      <h4 id="1-安装centos-7x"><strong>1. 安装CentOS 7.x</strong></h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>略。 #### **2. 安装docker** 详见： [How to Install Docker on CentOS 6.x](https://samzong.me/2016/07/07/HowTo-Install-Docker-on-CentOS-6-x/) #### **3. 基础docker命令** ``` ＃ 获取centos6 docker镜像 [root@docker ~]# docker pull centos6 Using default tag: latest latest: Pulling from library/centos:centos6
-</code></pre></div></div>
-
-<p>43db9dbdcb30: Downloading 41.14 MB/49.33 MB
-43db9dbdcb30: Pull complete
-2dc64e8f8d4f: Pull complete
-670a583e1b50: Pull complete
-183b0bfcd10e: Pull complete
-Digest: sha256:c6674c44c6439673bf56536c1a15916639c47ea04c3d6296c5df938add67b54b
-Status: Downloaded newer image for centso:centos6</p>
-
-<p>＃ 查看当前服务器上的docker镜像
-[root@docker ~]# docker images
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-centos6-visionet    latest              aeed37612ecb        6 hours ago         1.916 GB
-centos              centos6             a3c09d36ab4a        2 days ago          194.6 MB
-registry            latest              c6c14b3960bd        3 days ago          33.28 MB
-＃ 查找docker镜像
-[root@docker ~]# docker search centos:centos6
-NAME                                     DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
-imagine10255/centos6-lnmp-php56          centos6-lnmp-php56                              10                   [OK]
-lemonbar/centos6-ssh                     Installed openssh-server on centos6, defau…   7                    [OK]
-sergeyzh/centos6-nginx                                                                   2                    [OK]
-guyton/centos6                           From official centos6 container with full …   2                    [OK]
-paijp/centos6-apache-php-sqlite2         php5.3.3 with sqlite2 and apache on CentOS…   1                    [OK]
-edrans/centos6                                                                           1                    [OK]
-mohri1219/centos6.7-ruby2.2.2-mysql5.6   centos6.7-ruby2.2.2-mysql5.6                    1                    [OK]
-…
-…</p>
-
-<p>＃ 删除 centos6 docker镜像
-[root@docker ~]# docker rmi IMAGES_NAME
-[root@docker ~]# docker rmi centos:centos6</p>
-<h1 id="报错无法删除">报错无法删除</h1>
-<p>Error response from daemon: conflict: unable to remove repository reference “centos” (must force) - container 705a30cbc002 is using its referenced image 42118e3df429</p>
-<h1 id="这是因为之间的运行的进程没有清楚导致该images正在使用中使用一下命令查看占有的进程">这是因为之间的运行的进程没有清楚导致该images正在使用中，使用一下命令查看占有的进程</h1>
-<p>[root@docker ~]# docker ps -a ＃ 查看所有的docker进程
-CONTAINER ID        IMAGE               COMMAND               CREATED             STATUS                     PORTS               NAMES
-705a30cbc002        centos:centos6              “/bin/bash”           6 minutes ago       Exited (0) 6 minutes ago                       centos6
-[root@docker ~]# docker rm 705a30cbc002
-705a30cbc002
-[root@docker ~]# docker rmi centos:centos6
-Untagged: centos:centos6
-Deleted: sha256:42118e3df429f09ca581a9deb3df274601930e428e452f7e4e9f1833c56a100a
-Deleted: sha256:d72d0199021776e77ac14a764a3decd156e9f6f18b37e25b867b0f1ca42fb3d9
-Deleted: sha256:fb178c6cea1453d089ce033b96eba0efdb42274138e042517ea2d5ea7bb51665
-Deleted: sha256:8945af30572845a904adce2aeaf73402c842d86e99e8f10688b25cb27834110b
-Deleted: sha256:ea9f151abb7e06353e73172dad421235611d4f6d0560ec95db26e0dc240642c1</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-#### **4. 运行一个docker镜像**
-#### 进入交互式程序
-</code></pre></div></div>
-<p>[root@docker ~]# docker run  -it centos:centos6 /bin/bash
-[root@c1d190f95562 /]# cat /etc/redhat-release
-CentOS release 6.8 (Final)</p>
-<h1 id="install-openssh-server-and-httpd">Install openssh-server and httpd</h1>
-<p>root@d8c122dbe09d:/# yum install -y openssh-sever httpd
-root@d8c122dbe09d:/# exit</p>
-
-<h1 id="注意当你执行exit从容器之中退出时容器也会随着关闭这时如果还继续执行上条命令">注意当你执行exit，从容器之中退出时，容器也会随着关闭，这时如果还继续执行上条命令</h1>
-<h1 id="你会发现之前所有的操作都被还原因为相对于docker又是新开了一个进程">你会发现之前所有的操作都被还原，因为相对于docker，又是新开了一个进程</h1>
-<h1 id="在exit退出之后使用一下命令查看上次提交然后commit修改便可保存之前的修改">在exit退出之后，使用一下命令查看上次提交，然后commit修改，便可保存之前的修改</h1>
-
-<p>[root@docker ~]# docker ps -l
-[root@docker ~]# docker commit c1d190f95562 centos:centos6-httpd
-sha256:77eb12e36c7bbe9ef874555b1873019022b5258740aa731627e2cd6fa749c325
-[root@docker ~]# docker images
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-centos              centos6-httpd       77eb12e36c7b        3 seconds ago       290.3 MB
-centos6-visionet    latest              aeed37612ecb        6 hours ago         1.916 GB
-centos              centos6             a3c09d36ab4a        2 days ago          194.6 MB
-registry            latest              c6c14b3960bd        3 days ago          33.28 MB</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-#### **5. 编辑Dockerfile**
-</code></pre></div></div>
-<h1 id="dockfile的第一行一定是from指定了父镜像">dockfile的第一行一定是FROM，指定了父镜像</h1>
-<p>FROM centos:centos6</p>
-
-<h1 id="run-指的是运行的命令">RUN 指的是运行的命令</h1>
-<p>RUN yum install -y epel-release
-RUN yum install -y bash-completion
-RUN yum install -y openssh-server openssh-client sudo
-RUN sed -i ‘s/UsePAM yes/UsePAM no/g’ /etc/ssh/sshd_config
-RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</p>
-
-<h1 id="增加一个用户并赋予sudo权限">增加一个用户，并赋予sudo权限</h1>
-<p>RUN useradd visionet
-RUN echo “visionet:visionet” | chpasswd
-RUN echo “visionet   ALL=(ALL)       ALL” » /etc/sudoers</p>
-
-<p>＃ 注意，如果没有执行一下两个命令，sshd是无法远程登陆的
-RUN ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
-RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key</p>
-
-<p>＃ EXPOSE 22， 将22端口暴露出来，方便ssh远程连接
-RUN mkdir /var/run/sshd
-EXPOSE 22
-＃ CMD 为系统内部执行命令
-CMD [“/usr/sbin/sshd”, “-D”]</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-#### **6. 生成自定义docker镜像**
-</code></pre></div></div>
-<h1 id="build-编译镜像">build 编译镜像</h1>
-<p>[root@docker ~]# docker build -f dockerfile3 -t centos:centos6-ssh .
-Sending build context to Docker daemon 44.54 kB
-Step 1 : FROM centos:centos6
- —&gt; a3c09d36ab4a
-Step 2 : RUN yum install -y epel-release
- —&gt; Using cache
- —&gt; 04d81f280a63
-Step 3 : RUN yum install -y bash-completion
- —&gt; Using cache
- —&gt; 5ca26894dc9d
-Step 4 : RUN yum install -y openssh-server openssh-client sudo
- —&gt; Using cache
- —&gt; 42278450311e
-Step 5 : RUN sed -i ‘s/UsePAM yes/UsePAM no/g’ /etc/ssh/sshd_config
- —&gt; Using cache
- —&gt; db35bef562a2
-Step 6 : RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
- —&gt; Using cache
- —&gt; dc9f2b82e198
-Step 7 : RUN useradd visionet
- —&gt; Using cache
- —&gt; 06c574a51755
-Step 8 : RUN echo “visionet:visionet” | chpasswd
- —&gt; Using cache
- —&gt; 03412f053d04
-Step 9 : RUN echo “visionet   ALL=(ALL)       ALL” » /etc/sudoers
- —&gt; Using cache
- —&gt; bf8476812a62
-Step 10 : RUN ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
- —&gt; Using cache
- —&gt; 2314cce75171
-Step 11 : RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
- —&gt; Using cache
- —&gt; 99304cd9ac15
-Step 12 : RUN mkdir /var/run/sshd
- —&gt; Using cache
- —&gt; f87283751553
-Step 13 : EXPOSE 22
- —&gt; Using cache
- —&gt; 56c41202dcb9
-Step 14 : CMD /usr/sbin/sshd -D
- —&gt; Using cache
- —&gt; d6dccb483fa6
-Successfully built d6dccb483fa6
-[root@docker ~]# docker images
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-centos              centos6-ssh         d6dccb483fa6        2 minutes ago         363 MB
-centos              centos6-httpd       77eb12e36c7b        6 minutes ago       290.3 MB
-centos6-visionet    latest              aeed37612ecb        6 hours ago         1.916 GB
-centos              centos6             a3c09d36ab4a        2 days ago          194.6 MB
-registry            latest              c6c14b3960bd        3 days ago          33.28 MB</p>
-
-<h1 id="后台运行docker容器并指定nat端口转发">后台运行docker容器，并指定nat端口转发</h1>
-<p>[root@docker ~]# docker run -d -p 2222:22 -P –name=sshd centos:centos6-ssh
-b4211f7a304d9e34b72b510230be2c7a76b276886b488f08f3e12896a4d3c172</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-#### **7. ssh登陆到docker容器内，部署项目环境**
-</code></pre></div></div>
-<h1 id="inspect-查看docker-容器ip地址">inspect 查看docker 容器IP地址</h1>
-<p>[root@docker ~]# docker inspect sshd | grep IPAddress
-[root@docker ~]# ssh visionet@172.17.0.2
-visionet@172.17.0.2’s password:
-[visionet@b4211f7a304d ~]$</p>
-
-<h1 id="install-mysql">Install mysql</h1>
-<h1 id="install-tomcat-server">Install tomcat server</h1>
-
-<p>[visionet@b4211f7a304d ~]$ exit
-[root@docker ~]# docker stop sshd
-sshd
-[root@docker ~]# docker ps -l
-CONTAINER ID        IMAGE                COMMAND               CREATED             STATUS                       PORTS               NAMES
-b4211f7a304d        centos:centos6-ssh   “/usr/sbin/sshd -D”   6 minutes ago       Exited (255) 3 seconds ago                       sshd
-[root@docker ~]# docker commit b4211f7a304d centos:centos6-tomcat
-sha256:b4f114d5484822d9a3ddf1100b76b460985ba5e5d31e936570e8d7dbd8df282c
-[root@docker ~]# docker images
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-centos              centos6-tomcat      b4f114d54848        4 seconds ago       363.1 MB
-centos              centos6-httpd       77eb12e36c7b        15 minutes ago      290.3 MB
-centos6-visionet    latest              aeed37612ecb        7 hours ago         1.916 GB
-centos              centos6-ssh         d6dccb483fa6        9 hours ago         363 MB
-centos              centos6             a3c09d36ab4a        2 days ago          194.6 MB
-registry            latest              c6c14b3960bd        3 days ago          33.28 MB</p>
-
-<p>```</p>
-
-<h4 id="8-推送centoscentos6-tomcat到私有docker仓库"><strong>8. 推送centos:centos6-tomcat到私有docker仓库</strong></h4>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-08-02</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Docker">Docker</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/08/%E4%BD%A0%E5%A5%BD-%E5%85%AB%E6%9C%88.html">你好，八月</a></h1>
-    <div class="post_at_index">
-      <p>还剩不到1小时就要进入8月，也许写完这篇文章就已经8月，我其实不擅长写作文，自小如此，所以每次都是特别慢；时间慢慢流逝，听着音乐，随心所致，大概也是件快乐的事情吧。</p>
-
-<p>定期自省己身，所行之事，所思之虑，有则改之，无则勉之，坚守吾心，戒嗔戒躁，自打懂得事理之后，便妄以此法施加吾身，奈何小子年幼，定力不坚，常因一时欢愉便抛诸脑后，事后便懊悔不已；虽言，生而为人，便逃不过七情六欲加身，然，时时自省吾身，常思吾之过，常念德行事，方可为人；撰此文，便是警醒己身。</p>
-
-<p>犯错并不是一件可怕的事儿，从小做了不知多少混账事，也没见的把天捅破，可见，所谓捅破天也不是件容易的事儿；首先是工作上的失职，自今年年初，开始搭建自身的团队班子，虽然只有三三两两人，刚开始做小头头，我并没有正确认识到自己的责任，在完成本职工作的同时，也要照顾底下的员工，不光是工作安排，还有学习成长，很多事情吩咐下去之后，自己又要去检查，弄的比自己一人工作时还要劳累；之后，连着手下两名员工都离职了，我开始反省自己，从招聘到工作分配到培养，头大如斗，深感做领导的不易。公司因装修改造，扩展一个会议室，我自己怕麻烦，便将工作推给一个员工，却未考虑他的自身的能力，导致原本清晰简单的事，拖拖拉拉2个月才算弄完，还害得这名员工离职，对行政部门的工作也造成了影响，经此事之后，发觉自身管理能力十分不足。另一事，公司微软云资源的账单，之前一人工作时制定的账单每月资源消耗账单，但是由于后将该事务分配与他人，导致最后帐不对本，弄巧成拙，最后还是花费大量时间，重新制作了所有的账单，问题在于自身没有将事务认真贯彻执行下去，而且任务甩出手之后，缺乏关心。另有很多这样大大小小之事，十分头疼，真应该好好学学如何做一个好领导。</p>
-
-<p>我不太会写叙述的文章，前面一段文字，自己看着都揪心，也是那些复杂的事儿都过去了，才能有闲工夫来写这些东西，两个助手离职之后，拉来之前同事过来帮忙，现在事情都在往好的方向发展，一点点在建立规则，接下来的工作和学习的重心都会放在大数据上，实在的事是公司给了我很好的学习机会，在这家公司也成长了非常的多，感谢的话言之不尽，唯有努力工作方可回报。</p>
-
-<p>谈下关于博客，最近找了一个漂亮的主题，所以一直在折腾怎么弄好看，感觉有点逾越了当初创建博客的初衷；所以，接下来的时间，要整理之前的博文，对知识进行梳理，好记性不如烂笔头，用XMind做思维导图，TodoList工具计划任务清单，博客记录学习内容FAQ等，一直认为好的学习方法才能达到事半功倍的效果，要加快成长，每次参加一些培训和技术的研讨会，都恨不得自己早生十年。</p>
-
-<p>谈下关于减肥，首先这肯定是一个永恒无止尽的话题，之前这段时间因为工作上的乱七八糟导致每天下班时间都到9-10多点钟，再加上公司到家地铁要1小时，所以健身房也一直没去，再加上饮食不规律，体重又回升到了可怕85KG，8月开始，要认真去健身了，该吃吃，该练练，目标体重75KG。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-08-01</cite> <i class="icon-tag"></i>
+      <cite>2016-11-27</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/07/%E5%9C%A8%E7%BD%91%E9%A1%B5%E4%B8%AD%E6%8F%92%E5%85%A5%E6%AD%8C%E6%9B%B2.html">在网页中插入歌曲</a></h1>
-    <div class="post_at_index">
-      <p>纠正下，在下面博文中的错误，关于单曲不能生成外链的问题，现已经纠正。</p>
-
-<p>我试过百度音乐、QQ音乐、虾米音乐和网易云音乐，目前只有网易云音乐有此功能，先在网易云音乐选择歌曲即可：</p>
-<h4 id="分享单曲">分享单曲</h4>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&amp;id=101906&amp;auto=1&amp;height=66"></iframe>
-
-<h4 id="分享专辑歌单">分享专辑，歌单</h4>
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="450" src="//music.163.com/outchain/player?type=0&amp;id=26096079&amp;auto=1&amp;height=430"></iframe>
-
-<p><br />
-       <strong>选定歌单之后，在歌单页面有个生成外链播放器的按钮</strong></p>
-<div align="center">
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/1-6UcK4gXBrACw.jpg" />
-</div>
-<p><br />
-       <strong>然后，根据页面提示信息，生成你要的html代码，并嵌入到你的页面之中。</strong></p>
-<div align="center">
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/2-6UcK4gXBrACw.jpg" />
-</div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-07-31</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Ghost">Ghost</a>
       
       
       
@@ -1525,7 +1231,7 @@ registry            latest              c6c14b3960bd        3 days ago          
             <li class="active"><a>15</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page21">21</a></li>
+          <li><a href="/page23">23</a></li>
         
 
         
@@ -1737,6 +1443,11 @@ registry            latest              c6c14b3960bd        3 days ago          
     	
       <li><a href="/categories.html#随笔">
     		随笔 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#读书笔记">
+    		读书笔记 <span>16</span>
     	</a></li>
      
     	

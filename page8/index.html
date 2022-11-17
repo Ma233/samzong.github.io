@@ -225,6 +225,14 @@
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
@@ -268,36 +276,24 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2021/02/requests-post-data-%E6%97%B6%E5%AF%B9json%E9%9C%80%E8%A6%81%E7%89%B9%E6%AE%8A%E6%B3%A8%E6%84%8F.html">requests post data 时对json需要特殊注意</a></h1>
+    <h1><a class="title" href="/post/2021/04/HQL_SQL%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86.html">HQL/SQL时间处理</a></h1>
     <div class="post_at_index">
-      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">requests</span>
+      <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">--HQL ms</span>
+<span class="n">from_unixtime</span><span class="p">(</span><span class="k">CAST</span><span class="p">(</span><span class="n">obtained_ms</span><span class="o">/</span><span class="mi">1000</span> <span class="k">AS</span> <span class="nb">BIGINT</span><span class="p">),</span> <span class="s1">'yyyy-MM-dd HH:mm:ss'</span><span class="p">)</span>
 
-<span class="n">url</span> <span class="o">=</span> <span class="n">url</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span>
+<span class="c1">--SQL ms</span>
+<span class="n">from_unixtime</span><span class="p">(</span><span class="n">time_in_ms</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>
 
-<span class="c1"># 通过以下方式录入的 type(data) = dict
-</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">data</span><span class="p">[</span><span class="s">"username"</span><span class="p">]</span> <span class="o">=</span> <span class="n">username</span>
-<span class="n">data</span><span class="p">[</span><span class="s">"password"</span><span class="p">]</span> <span class="o">=</span> <span class="n">password</span>
-
-
-<span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
-
-<span class="c1"># 以上处理方式会自动把数据转为json format
-</span></code></pre></div></div>
-
-<blockquote>
-  <p>注意在方便插入数据的同时，也要关注数据类型转化的问题，研发初学者容易出的错误</p>
-</blockquote>
+<span class="c1">--SQL date</span>
+<span class="nb">date</span><span class="p">(</span><span class="n">from_unixtime</span><span class="p">(</span><span class="n">time_in_ms</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">))</span> <span class="k">as</span> <span class="n">dt</span>
+</code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-02-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
+      <cite>2021-04-16</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#SQL">SQL</a>
       
       
       
@@ -306,305 +302,135 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/02/python3-traceback.html">python3 traceback</a></h1>
+    <h1><a class="title" href="/post/2021/04/%E5%A6%82%E4%BD%95%E9%87%8D%E7%BD%AE-Mac-%E7%9A%84-SMC.html">如何重置 Mac 的 SMC</a></h1>
     <div class="post_at_index">
-      <p>打印堆栈信息，方便调试</p>
+      <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437045272-4d2c8ef2-804a-4ed7-bb53-b241152c780c.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
-<h2 id="方式一">方式一:</h2>
+<p>:::info
+MacBookPro 雷电口不可用了不着送修，尝试下一下方法；可以为您省下大几千块钱哟 ~
+:::</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">traceback</span>
+<h3 id="什么是-smc-">什么是 SMC ？</h3>
 
-<span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span>
-    <span class="k">except</span> <span class="nb">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">traceback</span><span class="p">.</span><span class="n">format_exc</span><span class="p">()</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-    <span class="k">finally</span><span class="p">:</span>
-        <span class="k">pass</span>
-</code></pre></div></div>
-
-<h3 id="方式二">方式二：</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">logging</span>
-
-<span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span>
-    <span class="k">except</span> <span class="nb">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="c1"># msg = traceback.format_exc()
-</span>        <span class="n">msg</span> <span class="o">=</span> <span class="n">logging</span><span class="p">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-    <span class="k">finally</span><span class="p">:</span>
-        <span class="k">pass</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-02-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/02/pprint-beautiful-json-format.html">pprint beautiful json format</a></h1>
-    <div class="post_at_index">
-      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pprint</span>
-
-<span class="n">pp</span> <span class="o">=</span> <span class="n">pprint</span><span class="p">.</span><span class="n">PrettyPrinter</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">pp</span><span class="p">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">json</span><span class="p">())</span>
-</code></pre></div></div>
-
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">   </span><span class="err">'data':</span><span class="w"> </span><span class="p">[</span><span class="w">   </span><span class="p">{</span><span class="w">   </span><span class="err">'_serializer':</span><span class="w"> </span><span class="err">'v</span><span class="mi">2</span><span class="err">.book'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'content_updated_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2020-10-21</span><span class="err">T</span><span class="mi">05</span><span class="err">:</span><span class="mi">17</span><span class="err">:</span><span class="mi">0</span><span class="mf">1.890</span><span class="err">Z'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'created_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2020-10-20</span><span class="err">T</span><span class="mi">15</span><span class="err">:</span><span class="mi">37</span><span class="err">:</span><span class="mf">45.000</span><span class="err">Z'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'creator_id':</span><span class="w"> </span><span class="mi">343806</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'description':</span><span class="w"> </span><span class="err">'附件和有趣的东西'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'id':</span><span class="w"> </span><span class="mi">1906752</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'items_count':</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'likes_count':</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'name':</span><span class="w"> </span><span class="err">'资源库'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'namespace':</span><span class="w"> </span><span class="err">'samzonglu/mgg</span><span class="mi">8</span><span class="err">fc'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'public':</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'slug':</span><span class="w"> </span><span class="err">'mgg</span><span class="mi">8</span><span class="err">fc'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'type':</span><span class="w"> </span><span class="err">'Resource'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'updated_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2020-10-21</span><span class="err">T</span><span class="mi">05</span><span class="err">:</span><span class="mi">17</span><span class="err">:</span><span class="mi">0</span><span class="mf">1.000</span><span class="err">Z'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'user':</span><span class="w"> </span><span class="p">{</span><span class="w">   </span><span class="err">'_serializer':</span><span class="w"> </span><span class="err">'v</span><span class="mi">2</span><span class="err">.user'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'avatar_url':</span><span class="w"> </span><span class="err">'https://cdn.nlark.com/yuque/</span><span class="mi">0</span><span class="err">/</span><span class="mi">2020</span><span class="err">/png/</span><span class="mi">343806</span><span class="err">/</span><span class="mi">1603164657666</span><span class="err">-avatar/</span><span class="mi">86</span><span class="err">b</span><span class="mi">58</span><span class="err">a</span><span class="mi">0e-7</span><span class="err">e</span><span class="mi">5</span><span class="err">a</span><span class="mi">-49</span><span class="err">ed-b</span><span class="mi">28</span><span class="err">f</span><span class="mi">-25</span><span class="err">a</span><span class="mi">11</span><span class="err">b</span><span class="mi">64</span><span class="err">c</span><span class="mi">920</span><span class="err">.png'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'created_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2019-05-11</span><span class="err">T</span><span class="mi">09</span><span class="err">:</span><span class="mi">04</span><span class="err">:</span><span class="mf">37.000</span><span class="err">Z'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'description':</span><span class="w"> </span><span class="err">'读史以明志'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'followers_count':</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'following_count':</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'id':</span><span class="w"> </span><span class="mi">343806</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'login':</span><span class="w"> </span><span class="err">'samzonglu'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'name':</span><span class="w"> </span><span class="err">'samzong.lu'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'type':</span><span class="w"> </span><span class="err">'User'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'updated_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2020-10-20</span><span class="err">T</span><span class="mi">23</span><span class="err">:</span><span class="mi">51</span><span class="err">:</span><span class="mi">0</span><span class="mf">2.000</span><span class="err">Z'</span><span class="p">},</span><span class="w">
-                    </span><span class="err">'user_id':</span><span class="w"> </span><span class="mi">343806</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'watches_count':</span><span class="w"> </span><span class="mi">1</span><span class="p">},</span><span class="w">
-                </span><span class="p">{</span><span class="w">   </span><span class="err">'_serializer':</span><span class="w"> </span><span class="err">'v</span><span class="mi">2</span><span class="err">.book'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'content_updated_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2020-10-20</span><span class="err">T</span><span class="mi">06</span><span class="err">:</span><span class="mi">31</span><span class="err">:</span><span class="mf">42.400</span><span class="err">Z'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'created_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2020-10-14</span><span class="err">T</span><span class="mi">02</span><span class="err">:</span><span class="mi">11</span><span class="err">:</span><span class="mi">0</span><span class="mf">9.000</span><span class="err">Z'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'creator_id':</span><span class="w"> </span><span class="mi">343806</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'description':</span><span class="w"> </span><span class="err">'Python</span><span class="mi">3</span><span class="err">'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'id':</span><span class="w"> </span><span class="mi">1880166</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'items_count':</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'likes_count':</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'name':</span><span class="w"> </span><span class="err">'学习笔记'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'namespace':</span><span class="w"> </span><span class="err">'samzonglu/nbasax'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'public':</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'slug':</span><span class="w"> </span><span class="err">'nbasax'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'type':</span><span class="w"> </span><span class="err">'Book'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'updated_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2020-10-21</span><span class="err">T</span><span class="mi">07</span><span class="err">:</span><span class="mi">05</span><span class="err">:</span><span class="mi">0</span><span class="mf">7.000</span><span class="err">Z'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'user':</span><span class="w"> </span><span class="p">{</span><span class="w">   </span><span class="err">'_serializer':</span><span class="w"> </span><span class="err">'v</span><span class="mi">2</span><span class="err">.user'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'avatar_url':</span><span class="w"> </span><span class="err">'https://cdn.nlark.com/yuque/</span><span class="mi">0</span><span class="err">/</span><span class="mi">2020</span><span class="err">/png/</span><span class="mi">343806</span><span class="err">/</span><span class="mi">1603164657666</span><span class="err">-avatar/</span><span class="mi">86</span><span class="err">b</span><span class="mi">58</span><span class="err">a</span><span class="mi">0e-7</span><span class="err">e</span><span class="mi">5</span><span class="err">a</span><span class="mi">-49</span><span class="err">ed-b</span><span class="mi">28</span><span class="err">f</span><span class="mi">-25</span><span class="err">a</span><span class="mi">11</span><span class="err">b</span><span class="mi">64</span><span class="err">c</span><span class="mi">920</span><span class="err">.png'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'created_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2019-05-11</span><span class="err">T</span><span class="mi">09</span><span class="err">:</span><span class="mi">04</span><span class="err">:</span><span class="mf">37.000</span><span class="err">Z'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'description':</span><span class="w"> </span><span class="err">'读史以明志'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'followers_count':</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'following_count':</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'id':</span><span class="w"> </span><span class="mi">343806</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'login':</span><span class="w"> </span><span class="err">'samzonglu'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'name':</span><span class="w"> </span><span class="err">'samzong.lu'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'type':</span><span class="w"> </span><span class="err">'User'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'updated_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2020-10-20</span><span class="err">T</span><span class="mi">23</span><span class="err">:</span><span class="mi">51</span><span class="err">:</span><span class="mi">0</span><span class="mf">2.000</span><span class="err">Z'</span><span class="p">},</span><span class="w">
-                    </span><span class="err">'user_id':</span><span class="w"> </span><span class="mi">343806</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'watches_count':</span><span class="w"> </span><span class="mi">1</span><span class="p">}]}</span><span class="w">
-</span></code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-02-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/02/macOs-Terminal-%E4%B8%89%E5%89%91%E5%AE%A2.html">macOs Terminal 三剑客</a></h1>
-    <div class="post_at_index">
-      <h3 id="安装-homebrew">安装 Homebrew</h3>
-
-<p>MacOS 首先需要安装下基础依赖:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xcode-select —-install
-</code></pre></div></div>
-
-<p>执行完成上一步之后，接下来就可以安装Homebrew</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-</code></pre></div></div>
-
-<h3 id="增加homebrew安装图形化软件库">增加Homebrew安装图形化软件库</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew tap caskroom/cask
-</code></pre></div></div>
-
-<p>安装 iTerm 2 ，当然也可以用来安装其他很多软件</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew cask install iterm2
-</code></pre></div></div>
-
-<h3 id="安装zsh">安装Zsh</h3>
-
-<p>首先使用homebrew 安装新版本的zsh，Mac自带了zsh但是使用体验不好</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew install zsh
-</code></pre></div></div>
-
-<p>Mac的默认shell还是bash，所以需要将其修改为zsh</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chsh -s /usr/local/bin/zsh
-</code></pre></div></div>
-
-<h3 id="安装oh-my-zsh">安装oh-my-zsh</h3>
-
-<p>执行以下命令即可，耐心等待</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-</code></pre></div></div>
-
-<h3 id="结语">结语</h3>
-
-<p>iTerm 是一个非常优秀和方便的终端工具，可以实现非常多的功能，配合Google Search 可以发掘出非常多的用法</p>
-
-<p>Ohmyzsh 是增加Mac终端的丰富的指令，有很多优秀的功能等等</p>
-
-<p>Homebrew 是MacOS是一个强大的命令行软件管理工具，可以做到很多图形化应用不一定能实现的功能</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-02-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/02/dingtalk-orgBot-sign-generate.html">dingtalk orgBot sign generate</a></h1>
-    <div class="post_at_index">
-      <p>需要使用到 hmac 以及 time 库</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#/usr/bin/env python3
-# -*- coding: UTF-8 -*-
-</span>
-
-<span class="kn">import</span> <span class="nn">hmac</span>
-<span class="kn">import</span> <span class="nn">hashlib</span>
-<span class="kn">import</span> <span class="nn">base64</span>
-<span class="kn">import</span> <span class="nn">time</span>
-
-<span class="n">timestamp</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))</span>
-
-<span class="n">timestamp</span> <span class="o">=</span> <span class="s">''</span>
-
-<span class="n">app_secret</span> <span class="o">=</span> <span class="s">'BvuHQ-bTB2PiChlyCD3rgdNgHfMSYb0m4iQ_T1mEmG8ImBPQ1DSN3qwRU2-GblxR'</span>
-<span class="n">app_secret_enc</span> <span class="o">=</span> <span class="n">app_secret</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">)</span>
-<span class="n">string_to_sign</span> <span class="o">=</span> <span class="s">'{}</span><span class="se">\n</span><span class="s">{}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">)</span>
-<span class="n">string_to_sign_enc</span> <span class="o">=</span> <span class="n">string_to_sign</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">)</span>
-<span class="n">hmac_code</span> <span class="o">=</span> <span class="n">hmac</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="n">app_secret_enc</span><span class="p">,</span> <span class="n">string_to_sign_enc</span><span class="p">,</span> <span class="n">digestmod</span><span class="o">=</span><span class="n">hashlib</span><span class="p">.</span><span class="n">sha256</span><span class="p">).</span><span class="n">digest</span><span class="p">()</span>
-<span class="n">sign</span> <span class="o">=</span> <span class="n">base64</span><span class="p">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">hmac_code</span><span class="p">).</span><span class="n">decode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">)</span>
-
-<span class="k">print</span><span class="p">(</span><span class="n">sign</span><span class="p">)</span>
-
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-02-09</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/02/python-django-%E7%BC%96%E5%86%99%E5%85%AC%E5%85%B1%E6%A8%A1%E5%9D%97%E5%9C%A8app%E4%B8%AD%E5%BC%95%E7%94%A8.html">python django 编写公共模块在app中引用</a></h1>
-    <div class="post_at_index">
-      <h2 id="使用方法一">使用方法一</h2>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-<span class="n">sys</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">'../dingtalk'</span><span class="p">)</span>
-
-<span class="kn">from</span> <span class="nn">dingtalk</span> <span class="kn">import</span> <span class="n">DingTalk</span>
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="n">sys</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">(</span><span class="s">'../dingtalk'</span><span class="p">))</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-02-07</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/01/year-the-new-start.html">2021年-全新出发</a></h1>
-    <div class="post_at_index">
-      <h2 id="写在开始之前的话">写在开始之前的话</h2>
-
-<p>已经停更了接近3年的博客，感觉像是走了另一个方向的路，有点迷失方向的感觉；这三年算是人生中变化很多的地方吧。</p>
-
-<p>不过也有不少地方其实没变化，比如：</p>
+<p>SMC 全称 系统管理控制器负责管理与以下功能相关的行为：</p>
 
 <ul>
-  <li><del>报名学车 到现在还是没有学成</del> , 过去了半年的时间，驾照到手，车子也到手了，日子在好转 ~</li>
-  <li><del>转职安心做一名研发，可水平还是吊儿郎当</del>, 拜托了前半年的工作焦虑状态，现在算是进到了一个新的环境</li>
+  <li>电源，包括电源按钮和 USB 端口的电源</li>
+  <li>电池和充电</li>
+  <li>风扇和其他热能管理功能</li>
+  <li>指示灯或感应器，例如状态指示灯（睡眠状态、电池充电状态等）、突发移动感应器、环境光传感器和键盘背光</li>
+  <li>打开和合上笔记本电脑盖时的行为</li>
 </ul>
-
-<p><code class="language-plaintext highlighter-rouge">现在忙了点，不过还好，有时候觉得糟糕透了，坚持过去也就没什么大不了</code></p>
-
-<p>这三年，也是有了很大的变化，最大的变化可能是：成为了一名全职的产品经理，而竟然我有一半的时间还在纠结是不是要回去。</p>
-
-<blockquote>
-  <p>思绪有点乱，后面再继续写吧</p>
-</blockquote>
-
-<h2 id="关于hexo">关于hexo</h2>
-
-<p>博客这边的确有很长时间没有更新，接下来应该会做些优化。</p>
 
 <hr />
 
-<h2 id="最后">最后</h2>
+<h3 id="smc-常见问题">SMC 常见问题</h3>
 
-<p>好多话想要说，一地鸡毛。</p>
+<p>由于Mac的雷电接口经常需要插拔外接设备，而外接设备的接口电流电压不一致，Mac在遇到异常电涌时会触发  SMC 的自我保护机制，通常意义是雷电口不可用。</p>
+
+<p>通过重置系统管理控制器 (SMC) 可以解决某些与电源、电池、风扇和其他功能相关的问题。</p>
+
+<hr />
+
+<h3 id="注意事项">注意事项</h3>
+
+<p>:::danger
+新款 Apple M1 设备的重置步骤本文不一致，后续会补充更新</p>
+
+<p>:::</p>
+
+<hr />
+
+<h3 id="配备-t2-芯片的笔记本电脑">配备 T2 芯片的笔记本电脑</h3>
+
+<ol>
+  <li>将 Mac 关机</li>
+  <li>在内建键盘上，按住以下所有按键。Mac 可能会开机。
+    <ul>
+      <li>键盘左侧的 <strong>Control</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437210613-0f478f9a-1f5b-4b51-8060-6f9af28a4ae0.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
+      <li>键盘左侧的 <strong>Option</strong> (Alt) <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437216356-d0ba8e9e-ebb9-4756-8459-124876d0c332.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
+      <li>键盘右侧的 <strong>Shift</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437210667-cdfb2059-1d3d-4cb4-bb6c-88e38c1c3054.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
+    </ul>
+  </li>
+  <li>按住<strong>全部三个按键</strong> 7 秒钟，然后在不松开按键的情况下按住<strong>电源按钮</strong>。如果 Mac 处于开机状态，它将在您按住这些按键时关机。</li>
+</ol>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437286162-81a557b7-7f54-49b2-9ad6-32716f0b8488.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<ol>
+  <li>继续按住<strong>全部四个按键</strong> 7 秒钟，然后松开这些按键。</li>
+  <li>等待几秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
+</ol>
+
+<hr />
+
+<h3 id="配备-t2-芯片的台式电脑">配备 T2 芯片的台式电脑</h3>
+
+<ol>
+  <li>将 Mac 关机，然后拔下电源线。</li>
+  <li>等待 15 秒钟，然后重新接回电源线。</li>
+  <li>等待 5 秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
+</ol>
+
+<hr />
+
+<h3 id="在其他电脑上重置-smc">在其他电脑上重置 SMC</h3>
+
+<p>:::info
+如果您的 Mac 没有配备 Apple T2 安全芯片，请按照以下步骤操作。
+:::</p>
+
+<h4 id="装有不可拆卸电池的笔记本电脑">装有不可拆卸电池的笔记本电脑</h4>
+
+<p>这类电脑包括 2009 年中至 2017 年推出的 MacBook Pro 机型、2017 年或之前推出的 MacBook Air 机型，以及所有 MacBook 机型，但 MacBook（13 英寸，2009 年中）除外。</p>
+
+<ol>
+  <li>将 Mac 关机。</li>
+  <li>在内建键盘上，按住以下所有按键：
+    <ul>
+      <li>键盘左侧的 <strong>Shift</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437453096-c4dd55c9-dea8-4ece-810d-d0a6bf880b5a.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
+      <li>键盘左侧的 <strong>Control</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437452982-7bdab59b-e4d2-4aa0-863d-59d224b081a9.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
+      <li>键盘左侧的 <strong>Option</strong> (Alt) <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437453069-12f401d8-bfbf-4657-9323-67169460f2fa.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
+    </ul>
+  </li>
+  <li>在按住<strong>全部三个按键</strong>的情况下，按住<strong>电源按钮</strong>。</li>
+</ol>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437452835-44611990-1f9b-49c4-a49b-446cef022d56.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+
+<ol>
+  <li>按住<strong>全部四个按键</strong> 10 秒钟。</li>
+  <li>松开所有按键，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
+</ol>
+
+<h4 id="装有可拆卸电池的笔记本电脑">装有可拆卸电池的笔记本电脑</h4>
+
+<p>这类电脑包括 2009 年初或之前推出的所有 MacBook Pro 和 MacBook 机型，以及 MacBook（13 英寸，2009 年中）。 </p>
+
+<ol>
+  <li>将 Mac 关机。</li>
+  <li>
+    <p>拆下电池。</p>
+  </li>
+  <li>按住<strong>电源按钮</strong> 5 秒钟。</li>
+  <li>重新安装电池。</li>
+  <li>按下<strong>电源按钮</strong>以将 Mac 开机。</li>
+</ol>
+
+<h4 id="台式电脑">台式电脑</h4>
+
+<ol>
+  <li>将 Mac 关机，然后拔下电源线。</li>
+  <li>等待 15 秒钟，然后重新接回电源线。</li>
+  <li>等待 5 秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
+</ol>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-01-01</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#随笔">随笔</a>
+      <cite>2021-04-03</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
       
       
       
@@ -613,76 +439,32 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2020/12/%E6%A3%80%E6%9F%A5%E6%82%A8%E7%9A%84App%E6%98%AF%E5%90%A6%E5%B7%B2%E6%94%AF%E6%8C%81AppleSilicon.html">检查您的App是否已支持AppleSilicon</a></h1>
+    <h1><a class="title" href="/post/2021/03/%E7%9F%A5%E4%B9%8E%E5%91%A8%E5%88%8A-%E4%B9%94%E5%B8%83%E6%96%AF%E5%BE%80%E4%BA%8B.html">知乎周刊·乔布斯往事</a></h1>
     <div class="post_at_index">
-      <p><img src="assets/check-you-favorites-app-is-ready-on-applesilicon" alt="" />这里带来2个网站，方便大家来检查您所使用和关注的App是否已经支持了最新的Apple M1 芯片</p>
-
-<blockquote>
-  <p><strong>目前支持的形式有：</strong></p>
-</blockquote>
+      <p><a href="https://www.amazon.cn/s/ref=as_li_ss_tl?_encoding=UTF8\&amp;camp=536\&amp;creative=3132\&amp;field-keywords=%E7%9F%A5%E4%B9%8E%E5%91%A8%E5%88%8A%C2%B7%E4%B9%94%E5%B8%83%E6%96%AF%E5%BE%80%E4%BA%8B\&amp;linkCode=ur2\&amp;tag=llll1-23\&amp;url=search-alias%3Dbooks">知乎</a>
+4 highlights</p>
 
 <ul>
-  <li>已原生支持</li>
-  <li>使用Rosetta 2 支持运行的 适配 Intel 引用</li>
-  <li>完全不支持 (包括崩溃、无法启动等各种症状)</li>
+  <li>
+    <p>那些凡是搞不清楚自己所享受的器物的来历、奥妙、作用、差异、价值、韵味等等，但偏偏就是享受得起，并且还要拼命享受＋拼命炫耀的行为，都是土鳖。</p>
+  </li>
+  <li>
+    <p>格言：故事本身并不重要，怎么讲才更重要。所以有两株枣树这个事实并不重要，怎么来告诉读者有两株枣树比较重要。</p>
+  </li>
+  <li>
+    <p>唯真名士自风流，</p>
+  </li>
+  <li>
+    <p>在众人的眼中，悲伤只有得到外化的表现才是真实的，合理的；没有人去思考这样的悲伤是否为伪造的结果。人们关心的不是他到底悲不悲伤，而是有没有呈现出悲伤的状态来。</p>
+  </li>
 </ul>
 
-<h2 id="网友整理-games-on-apple-sillicon">网友整理 Games on Apple Sillicon</h2>
-
-<p><a href="https://docs.google.com/spreadsheets/d/1er-NivvuIheDmIKBVRu3S_BzA_lZT5z3Z-CxQZ-uPVs/">https://docs.google.com/spreadsheets/d/1er-NivvuIheDmIKBVRu3S_BzA_lZT5z3Z-CxQZ-uPVs/</a></p>
-
-<blockquote>
-  <p>目前已补充了 App 清单</p>
-</blockquote>
-
-<hr />
-
-<h2 id="httpsisapplesiliconreadycom"><a href="https://isapplesiliconready.com/">https://isapplesiliconready.com/</a></h2>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/2020-11-24-142803.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
-
-<p>如果你有希望给关注的软件，可以提交给站点维护者，点击页面右上角的 <code class="language-plaintext highlighter-rouge">REQUEST AN APP</code> </p>
-
-<blockquote>
-  <p><a href="https://isapplesiliconready.com/request/">https://isapplesiliconready.com/request/</a></p>
-</blockquote>
-
-<hr />
-
-<h2 id="httpsdoesitarmcom"><a href="https://doesitarm.com/">https://doesitarm.com/</a></h2>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/2020-11-24-143231.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
-
-<p>如果你想要关注某一个软件的适配进度，可以在  <code class="language-plaintext highlighter-rouge">Tell me with this changes </code>输入你的邮箱，这样当软件有适配变更时，会第一时间邮件通知你</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/2020-11-24-143450.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
-
-<h2 id="如何在命令行使用-rosseta-2">如何在命令行使用 <code class="language-plaintext highlighter-rouge">rosseta 2</code> </h2>
-
-<p><code class="language-plaintext highlighter-rouge">arch -x86_64</code> 后面追加你需要执行的命令，注意每一个都需要哦</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 安装 Homebrew</span>
-<span class="nb">arch</span> <span class="nt">-x86_64</span> /bin/bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install.sh<span class="si">)</span><span class="s2">"</span>
-
-
-<span class="c"># brew update </span>
-<span class="nb">arch</span> <span class="nt">-86_64</span> brew update
-
-
-<span class="c"># 安装 htop</span>
-<span class="nb">arch</span> <span class="nt">-x86_64</span> brew <span class="nb">install </span>htop
-
-
-<span class="c"># 安装 cask app</span>
-<span class="nb">arch</span> <span class="nt">-x86_64</span> brew cask <span class="nb">install </span>virtualbox
-</code></pre></div></div>
-
       
     </div>
     <br/>
     <div>
-      <cite>2020-12-25</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
+      <cite>2021-03-27</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
       
       
       
@@ -691,31 +473,22 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2020/12/Mac-%E8%B0%83%E6%95%B4Launchpad%E5%9B%BE%E6%A0%87%E5%A4%A7%E5%B0%8F.html">Mac 调整Launchpad图标大小</a></h1>
+    <h1><a class="title" href="/post/2021/03/how-to-set-container-auto-restarting-with-docker.html">how to set container auto-restarting with docker</a></h1>
     <div class="post_at_index">
-      <p><img src="assets/mac-1-diao-zhenglaunchpad-tu-biao-da-xiao" alt="" />  很多人觉得默认 Launchpad 的应用程序图标很大, 空间比较拥挤, 不过这个其实是可以通过调整 Launchpad 每一行和每一列图标的数量, 来调整 Launchpad 图标大小.</p>
+      <p>auto-restarting with docker 
+docker run –restart=always my-container
+========================================</p>
 
-<p>默认如下图：
-<img src="/Users/samzonglu/deploy/yuque/yuque-exporter/storage/果粉日记/assets/mac-1-diao-zhenglaunchpad-tu-biao-da-xiao/2016%2F04%2FQQ20160408-1.jpg" alt="" /></p>
-
-<p>代码块:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 调整每一行显示数量为8个。
-➜ defaults write com.apple.dock springboard-columns -int 10
-
-＃ 重启Launchpad
-➜ defaults write com.apple.dock ResetLaunchPad -bool TRUE;killall Dock
-</code></pre></div></div>
-
-<p>修改后如下：
-<img src="assets/mac-1-diao-zhenglaunchpad-tu-biao-da-xiao/2016%2F04%2FQQ20160408-2.jpg" alt="" /></p>
+<p>disable auto-restarting with docker
+docker update –restart=no my-container
+=======================================</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2020-12-25</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
+      <cite>2021-03-12</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Docker">Docker</a>
       
       
       
@@ -724,19 +497,202 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2020/12/covert-timestamp2datetime.html">covert timestamp2datetime</a></h1>
+    <h1><a class="title" href="/post/2021/03/%E7%88%B1%E4%BD%A0%E5%B0%B1%E5%83%8F%E7%88%B1%E7%94%9F%E5%91%BD.html">爱你就像爱生命</a></h1>
     <div class="post_at_index">
-      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+      <p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;</p>
 
-<span class="n">datetime</span><span class="p">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">json</span><span class="p">()[</span><span class="s">"updated_at"</span><span class="p">]</span> <span class="o">/</span><span class="mi">1000</span><span class="p">)).</span><span class="n">strftime</span><span class="p">(</span><span class="s">'%Y-%m-%d %H:%M:%S'</span><span class="p">)</span>
-</code></pre></div></div>
+<p>&lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd”&gt;</p>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="exporter-version" content="Evernote Mac 9.4.3 (461087)" /><meta name="created" content="2016-08-15 08:10:27 +0000" /><meta name="updated" content="2016-08-15 08:10:27 +0000" /><meta name="content-class" content="net.toolinbox.iKindle.evernote" /><title>爱你就像爱生命</title></head><body>
+<div style="text-align: right;"><span style="color: rgb(153, 153, 153);"><a href="https://www.amazon.cn/s/ref=as_li_ss_tl?_encoding=UTF8&amp;camp=536&amp;creative=3132&amp;field-keywords=%E7%88%B1%E4%BD%A0%E5%B0%B1%E5%83%8F%E7%88%B1%E7%94%9F%E5%91%BD&amp;linkCode=ur2&amp;tag=llll1-23&amp;url=search-alias%3Dbooks"><span style="color: rgb(153, 153, 153);">王小波、李银河</span></a></span></div>
+<div style="text-align: right;"><span style="color: rgb(153, 153, 153);">1 highlight</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 我的灵魂里有很多地方玩世不恭，对人傲慢无礼，但是它有一个核心，这个核心害怕黑暗，柔弱得像绵羊一样。只有顶平等的友爱才能使它得到安慰。你对我是属于这个核心的。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+</body></html>
 
       
     </div>
     <br/>
     <div>
-      <cite>2020-12-09</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
+      <cite>2021-03-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/03/%E6%9C%AA%E7%A9%BF%E7%9A%84%E7%BA%A2%E5%AB%81%E8%A1%A3-%E6%B2%89%E6%B5%AE.html">未穿的红嫁衣·沉浮</a></h1>
+    <div class="post_at_index">
+      <p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;</p>
+
+<p>&lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd”&gt;</p>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="exporter-version" content="Evernote Mac 9.4.3 (461087)" /><meta name="created" content="2016-02-18 23:13:41 +0000" /><meta name="updated" content="2016-02-18 23:13:41 +0000" /><meta name="content-class" content="net.toolinbox.iKindle.evernote" /><title>未穿的红嫁衣·沉浮</title></head><body>
+<div style="text-align: right;"><span style="color: rgb(153, 153, 153);"><a href="https://www.amazon.cn/gp/product/B009PG71D4/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=536&amp;creative=3200&amp;creativeASIN=B009PG71D4&amp;linkCode=as2&amp;tag=llll1-23"><span style="color: rgb(153, 153, 153);">霍达</span></a></span></div>
+<div style="text-align: right;"><span style="color: rgb(153, 153, 153);">8 highlights</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 历史学家是一群古怪的动物，吃饱了饭没事儿干，没完没了地咀嚼那逝去的岁月，犹如牛之&ldquo;&ldquo;反刍&rdquo;&rdquo;。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 木秀于林，风必摧之；堆出于岸，流必湍之；行高于人，众必非之。风生于地，起于青萍之末；侵淫溪谷，盛怒于土囊之口。无边落木萧萧下，不尽长江滚滚来。尔曹身与名俱灭，不废江河万古流。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 历史本身是残酷的，以无数人的鲜血写成的，惨不忍睹。而芸芸众生所看到的，只不过是历史的表层：戏剧！&rdquo;&rdquo;</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 人情有所不能忍者，匹夫见辱，拔剑而起，挺身而斗，此不足为勇也。天下有大勇者，卒然临之而不惊，无故加之而不怒。此其所挟持者甚大，而其志甚远也！&rdquo;&rdquo;东坡先生曾如此谆谆教导。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 一切优秀的文学作品都是在写&lsquo;&lsquo;史&rsquo;&rsquo;，忠实地记录历史，鲜活地复原历史，为未来保留历史。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 天涯孤旅，最需要的是一位理想的旅伴，攀登时互相扶持，跋涉中彼此激励，危难处相濡以沫。朝夕相处，耳鬓厮磨，可以使本来不同的爱好和志趣趋于一致；</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 一个女人的美一半是先天造就的，另一半是由修养和气质酿成的。她的任何一件衣服，穿上去都好像世界上只此一件，是专门为她而做的。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 生、熟、冷、热、荤、素、煎、烤、爆、炒、炸、涮、烩、炖、煨、焗，皆可</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+</body></html>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-03-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/03/%E6%9C%80%E5%90%8E%E7%9A%84%E8%80%8D%E7%8C%B4%E4%BA%BA.html">最后的耍猴人</a></h1>
+    <div class="post_at_index">
+      <p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;</p>
+
+<p>&lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd”&gt;</p>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="exporter-version" content="Evernote Mac 9.4.3 (461087)" /><meta name="created" content="2016-02-11 18:34:19 +0000" /><meta name="updated" content="2016-02-11 18:34:19 +0000" /><meta name="content-class" content="net.toolinbox.iKindle.evernote" /><title>最后的耍猴人</title></head><body>
+<div style="text-align: right;"><span style="color: rgb(153, 153, 153);"><a href="https://www.amazon.cn/gp/product/B00SR215IY/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=536&amp;creative=3200&amp;creativeASIN=B00SR215IY&amp;linkCode=as2&amp;tag=llll1-23"><span style="color: rgb(153, 153, 153);">马宏杰</span></a></span></div>
+<div style="text-align: right;"><span style="color: rgb(153, 153, 153);">7 highlights</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 这些耍猴的人这么苦是为什么？他们虽然用的是最底层、最辛苦的方式赚钱，但其中透露出一种骨气，这是河南新野耍猴人的人格力量。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 在景德镇，一个16岁的女孩看完猴戏，对他说：&ldquo;&ldquo;老爷爷，你这一生给多少人带来了快乐啊！&rdquo;&rdquo;杨林贵听后，那天一路上都很开心。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 花卷馍。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 法律要是缺失了良知作为基础，那么可怕的冷漠就会占据上风，取而代之的就是权力的滥用。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 中国是一个地域广阔的国家，地区贫富差异至今还很大，我们每个人不能以自己生活的地区的生活方式去理解另一个地区人的生活方式。他们的很多生活方式是我们所看不到的。在一个贫穷的地方，一个人能找到一种不违反法律和伦理的方式生存下来，能自食其力，就很不容易了。这就像生活在当下的我们，不能去评价、指责古代人的生活方式和文明程度一样。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 英国大法官培根说过：&ldquo;&ldquo;一次不公正裁判的罪恶甚于十次犯罪，因为犯罪污染的只是水流，而枉法裁判污染的却是水源。&rdquo;&rdquo;</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 人处在世俗之中，不可避免地有高低贵贱之分，对于那些善良弱势的人，我们只有通过宽容、理解、帮扶，才能给他们带来改变的希望。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+</body></html>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-03-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/03/%E6%88%91%E6%89%80%E7%90%86%E8%A7%A3%E7%9A%84%E7%94%9F%E6%B4%BB.html">我所理解的生活</a></h1>
+    <div class="post_at_index">
+      <p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;</p>
+
+<p>&lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd”&gt;</p>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="exporter-version" content="Evernote Mac 9.4.3 (461087)" /><meta name="created" content="2016-03-20 15:35:55 +0000" /><meta name="updated" content="2016-03-20 15:35:55 +0000" /><meta name="content-class" content="net.toolinbox.iKindle.evernote" /><title>我所理解的生活</title></head><body>
+<div style="text-align: right;"><span style="color: rgb(153, 153, 153);"><a href="https://www.amazon.cn/gp/product/B00B1Z65LQ/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=536&amp;creative=3200&amp;creativeASIN=B00B1Z65LQ&amp;linkCode=as2&amp;tag=llll1-23"><span style="color: rgb(153, 153, 153);">韩寒</span></a></span></div>
+<div style="text-align: right;"><span style="color: rgb(153, 153, 153);">5 highlights</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 前程&mdash;&mdash;&mdash;&mdash;红灯永远不能照亮你的前程，照亮你前程的，是你的才能。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 但关注现实的电影也容易因为审查的原因妥协或者被修改得面目全非，哎，你们想怎样。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- Some of us get dipped in flat, some in satin, some in gloss...But every once in a while you find someone who's iridescent, and when you do, nothing will ever compare. 有人住高楼，有人在深沟，有人光万丈，有人一身锈，世人万千种，浮云莫去求，斯人若彩虹，遇上方知有。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 当然，我还想要更多小孩，如果有男孩，那就活该要受苦了，他得扎到这个现实里，奋力拼搏，养活自己并尽力改变社会，争取给天下的小女儿们创造更温良的环境。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 展露光芒，就不应该怪别人没有眼光。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+</body></html>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-03-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/03/%E6%88%91%E4%BB%AC%E7%94%9F%E6%B4%BB%E5%9C%A8%E5%B7%A8%E5%A4%A7%E7%9A%84%E5%B7%AE%E8%B7%9D%E9%87%8C.html">我们生活在巨大的差距里</a></h1>
+    <div class="post_at_index">
+      <p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;</p>
+
+<p>&lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd”&gt;</p>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="exporter-version" content="Evernote Mac 9.4.3 (461087)" /><meta name="created" content="2016-03-29 10:52:25 +0000" /><meta name="updated" content="2016-03-29 10:52:25 +0000" /><meta name="content-class" content="net.toolinbox.iKindle.evernote" /><title>我们生活在巨大的差距里</title></head><body>
+<div style="text-align: right;"><span style="color: rgb(153, 153, 153);"><a href="https://www.amazon.cn/s/ref=as_li_ss_tl?_encoding=UTF8&amp;camp=536&amp;creative=3132&amp;field-keywords=%E6%88%91%E4%BB%AC%E7%94%9F%E6%B4%BB%E5%9C%A8%E5%B7%A8%E5%A4%A7%E7%9A%84%E5%B7%AE%E8%B7%9D%E9%87%8C&amp;linkCode=ur2&amp;tag=llll1-23&amp;url=search-alias%3Dbooks"><span style="color: rgb(153, 153, 153);">余华</span></a></span></div>
+<div style="text-align: right;"><span style="color: rgb(153, 153, 153);">1 highlight</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 知道自己无知不是完全的无知，完全的无知是不知道自己无知的无知。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+</body></html>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-03-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/03/%E6%84%BF%E6%9C%89%E4%BA%BA%E9%99%AA%E4%BD%A0%E9%A2%A0%E6%B2%9B%E6%B5%81%E7%A6%BB.html">愿有人陪你颠沛流离</a></h1>
+    <div class="post_at_index">
+      <p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;</p>
+
+<p>&lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd”&gt;</p>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="exporter-version" content="Evernote Mac 9.4.3 (461087)" /><meta name="created" content="2016-10-01 23:26:36 +0000" /><meta name="updated" content="2016-10-01 23:26:36 +0000" /><meta name="content-class" content="net.toolinbox.iKindle.evernote" /><title>愿有人陪你颠沛流离</title></head><body>
+<div style="text-align: right;"><span style="color: rgb(153, 153, 153);"><a href="https://www.amazon.cn/s/ref=as_li_ss_tl?_encoding=UTF8&amp;camp=536&amp;creative=3132&amp;field-keywords=%E6%84%BF%E6%9C%89%E4%BA%BA%E9%99%AA%E4%BD%A0%E9%A2%A0%E6%B2%9B%E6%B5%81%E7%A6%BB&amp;linkCode=ur2&amp;tag=llll1-23&amp;url=search-alias%3Dbooks"><span style="color: rgb(153, 153, 153);">卢思浩</span></a></span></div>
+<div style="text-align: right;"><span style="color: rgb(153, 153, 153);">2 highlights</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 不管昨夜你是多么泣不成声，早晨醒来城市依旧车水马龙。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+<div><span style="font-size: 18px;">- 原因，我们一路奋战，为的不是变成别人，为的不是改变世界，而是不让世界改变，能够用自己的力量平稳地站在大地上，并且尽可能地保护身边的人。</span></div>
+<div><span style="font-size: 18px;"><br /></span></div>
+</body></html>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-03-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
       
       
       
@@ -785,7 +741,7 @@
             <li class="active"><a>8</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page21">21</a></li>
+          <li><a href="/page23">23</a></li>
         
 
         
@@ -997,6 +953,11 @@
     	
       <li><a href="/categories.html#随笔">
     		随笔 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#读书笔记">
+    		读书笔记 <span>16</span>
     	</a></li>
      
     	

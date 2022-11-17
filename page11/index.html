@@ -225,6 +225,14 @@
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
@@ -268,519 +276,42 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2017/12/Howto-Install-Redmine-on-Ubuntu-16.04.html">Howto Install Redmine on Ubuntu 16.04</a></h1>
+    <h1><a class="title" href="/post/2020/11/Django-%E7%BB%83%E6%89%8B%E9%A1%B9%E7%9B%AE.html">Django 练手项目</a></h1>
     <div class="post_at_index">
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># base
-apt install mysql-server libmysqlclient-dev git-core subversion imagemagick libmagickwand-dev libcurl4-openssl-dev 
-apt install build-essential mysql-server ruby ruby-dev libmysqlclient-dev imagemagick libmagickwand-dev
-# install mysql
-systemctl enable mysql.service
-systemctl start mysql.service
-create database redmine character set utf8;
-grant all privileges on redmine.* to redmine@'localhost' identified by 'redmine';
-flush privileges;
-# Install ruby
-gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-curl -sSL https://get.rvm.io | bash -s stable
-source /etc/profile.d/rvm.sh
-rvm requirements
-rvm install 2.4.1
-rvm use 2.4.1 --default
-# install passenger and nginx 
-gem install passenger --no-ri --no-rdoc
-passenger-install-nginx-module
-# 1. auto install nginx.
-curl https://raw.githubusercontent.com/makevoid/nginx-passenger-ubuntu/master/nginx/nginx.service &gt; /lib/systemd/system/nginx.service
-systemctl daemon-reload
-systemctl enable nginx
-vim /opt/nginx/conf/nginx.conf # 注销 location / {} 的配置
-server {
-  listen  80;
-  server_name [your_server_domain_name] # redmine.com;
-  root /var/data/redmine/public;
-  passenger_enabled on;
-  client_max_body_size      10m; # Max attachemnt size
-}
-
-systemctl start nginx
-# install redmine
-mkdir /var/data
-cd /var/data
-svn co http://svn.redmine.org/redmine/branches/3.4-stable redmine
-cd /var/data/redmine
-cp -pR /var/data/redmine/config/database.yml.example /var/data/redmine/config/database.yml
-vim config/database.yml  # set redmine db user and password
-# Install Plugins
-cd /var/data/redmine
-gem install bundler --no-ri --no-rdoc
-bundle install
-# configure redmine
-cd /var/data/redmine
-mkdir public/plugin_assets
-chown -R www-data:www-data files log tmp public/plugin_assets config.ru
-chmod -R 755 files log tmp public/plugin_assets
-# input database and base file.
-RAILS_ENV=production bundle exec rake db:migrate
-RAILS_ENV=production bundle exec rake redmine:load_default_data
-bundle exec rake generate_secret_token
-# restart nginx, install ok.
-systemctl restart nginx
-# restart redmine
-touch /var/data/redmine/tmp/restart.txt
-# configure email service
-vim /var/data/redmine/config/configuration.yml
-</code></pre></div></div>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-12-02</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Redmine">Redmine</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2017/10/iPhone-iPad%E4%B8%8D%E8%B6%8A%E7%8B%B1%E5%AE%89%E8%A3%85%E6%97%A7%E7%89%88%E7%A8%8B%E5%BA%8F.html">iPhone/iPad 不越狱安装旧版程序</a></h1>
-    <div class="post_at_index">
-      <h4 id="前言">前言</h4>
-
-<p>软件版本迭代是会带来新的功能和 BUG 修复，为给用户带来更好的使用体验，我也是乐于尝鲜的性格，所以在软件推出发布新版本时都会及时更新，但用户体验其实是一个玄学的话题，有时并不能给你带来更好的体验，在 iOS 上，由于苹果商店严格的管理机制导致我们在升级后，想要回退到之前版本变得十分困难。</p>
-
-<p>虾米音乐升级到 6.0 版本之后，改变很大，作为一位老虾米非常不适应，所以就瞄准了 6.0 之前的最后一个版本：5.9.4。</p>
-
-<p>解决办法是在 iTunes 下载程序时，使用抓包工具对与苹果应用商店服务器之间的请求进行分析，通过修改下载请求中程序版本识别序列号来下载旧版本。</p>
-
-<h4 id="准备">准备</h4>
-
-<p>网上较多的解决办法是使用 Fiddler+iTunes 是在 Windows 平台，因为我只有 Mac ，所以用Charles 代替 Fiddler，这里需要注意的是iTunes的版本，在笔者写这篇教程的前一天 iTunes 更新到12.7，在 12.7 中有一个很大的变化移除了 App store ，所以请使用低于 12.7 版本的 iTunes 。</p>
-
-<h5 id="charles-安装">Charles 安装</h5>
-
-<p>对于 Charles 版本并没有特殊要求，我这边是通过brew安装，你也可以到 Charles 官网下载安装， Charles 是需要付费的软件，但是有30天免费使用期限，如果你有长期使用打算，建议购买正版授权。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/x4dkc.jpg" alt="" /></p>
-
-<h5 id="charles-ssl证书导入系统">Charles SSL证书导入系统</h5>
-
-<p>从 Charles 中导出证书文件</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/v815e.jpg" alt="" /></p>
-
-<p>在 KeyChain Access 中导入证书</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/883p7.jpg" alt="" /></p>
-
-<p>选中导入的证书，然后右键选择 ‘Get Info’ ，设置证书信任状态</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/xoalz.jpg" alt="" /></p>
-
-<h4 id="虾米音乐-的三次下载">“虾米音乐” 的三次下载</h4>
-
-<h5 id="第一次下载">第一次下载</h5>
-
-<p>打开 Charles ，开启监听，然后使用搜索虾米音乐，点击 Downloads 按钮。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/6dt52.jpg" alt="" /></p>
-
-<p>点击下载后，在 Charles 会出现监听到信息，找到一条 ‘p[xx]-buy.itunes.apple.com’ ，其中 xx 是一个随机的数字，选中它，然后右键菜单栏中勾选 ‘Enable SSL Proxying’ 和 ‘Breakpoints’ 。设置完成后，在 iTunes 下载中，清理下载记录。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/ea85i.jpg" alt="" /></p>
-
-<h5 id="第二次下载">第二次下载</h5>
-
-<p>重新搜索虾米音乐，并点击下载按钮，这时 Charles 会弹出窗口，然后在弹出窗口的右下三个按钮中选择 ‘Execute’ ，这一步是我们请求服务器，紧接着出现的就是服务器给我们的响应，然后选择 ‘Edit Response’ - ‘XML Text’ ，然后向下滚动找到下图中的部分，这里是所有虾米音乐的版本的序列数字，但是这里没有办法直接看到版本号，越大的数字版本号越新。这里可以通过在手机 App store 中查看软件的版本记录，找到大概要回退多少个版本，然后数字从大到小找个半个序列数字记录下来，然后在下面三个按钮中选择 ‘Abort’ ，这时 iTunes 会弹出一个报错窗口，关掉即可。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/27nit.jpg" alt="" /></p>
-
-<h5 id="第三次下载">第三次下载</h5>
-
-<p>再次重新搜索虾米音乐，并点击下载，在这次Charles弹出窗口中我们需要直接修改 ‘Edit Requset’ - ‘XML Text’ ，将如下图中的 ‘appExtVrsid’ 对应的值修改为，我们上一步中记录的序列数字，然后就一直在每次弹出选择时，选择 ‘Execute’ ，直到下载完成记录。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/h7zzu.jpg" alt="" /></p>
-
-<h4 id="验证">验证</h4>
-
-<p>下载完成后，你的 iTunes App Library 中已经有了一个虾米音乐，连接上你的手机，将其安装到手机上即可，下图是我安装后的版本截图。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/ppy2m.jpg" alt="" /></p>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-10-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#iPhone">iPhone</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2017/08/blazemeter_recoding_jmx.html">Jmeter 使用BlazeMeter为Jmeter录制脚本</a></h1>
-    <div class="post_at_index">
-      <p>之前一直使用阿里云的PTS服务作为测试，但是今天发现阿里云的PTS服务正在升级无法使用，所以打算用Jmeter来做压力测试，并使用Chrome插件BlazeMeter来录制.jmx脚本。</p>
-
-<h4 id="安装blazemeter插件">安装BlazeMeter插件</h4>
-
-<p><a href="https://chrome.google.com/webstore/search/blazemeter">插件安装</a> , 需要能登录到Chrome应用商店，如果不能登录的话，可以在网上搜索下载crx包，手动加载到Chrome中即可。</p>
-
-<p>安装成功之后，在Chrome插件栏可以看到程序入口，<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/r0ps7.jpg" alt="" /></p>
-
-<p>BlazeMeter限制需要登录才能导出jmx脚本，所以首先需要注册账号。成功登陆后，完整界面如图所示：</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/oamv4.png" alt="" /></p>
-
-<h4 id="录制过程">录制过程</h4>
-
-<p>填写测试脚本名称后，点击开始录制，执行一系列操作后，点停止录制，然后到处jmx文件到本地。</p>
-
-<h4 id="导入脚本到jmeter">导入脚本到Jmeter</h4>
-
-<p>在Jmeter中”File-Open”导入你jmx脚本，为了方便观察结果，我们需要增加一些察看报告。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/uxe75.jpg" alt="" /></p>
-
-<h5 id="聚合报告aggregate-report">聚合报告(Aggregate Report)</h5>
-
-<p>我们可以在聚合报告中一些非常有用的信息，这有助于对性能测试的分析。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/j93gs.png" alt="" /></p>
-
-<ul>
-  <li>Samples ： 一共完成了多少事务</li>
-  <li>Averge ： 平均响应时间</li>
-  <li>Median ： 统计意义上的响应时间的中值</li>
-  <li>90% Line ：90%的事务响应时间都小于xx ms</li>
-  <li>Min ：最小响应时间 ms</li>
-  <li>Max :  最大响应时间 ms</li>
-  <li>Eror %  : 出错率</li>
-  <li>Throughput ： 吞吐量，事务/秒</li>
-  <li>KB/sec ： 用流量来衡量的吞吐量</li>
-</ul>
-
-<blockquote>
-  <p>吞吐量=完成的事务数/完成这些事务数所需要的时间；</p>
-
-  <p>平均响应时间=所有响应时间的总和/完成的事务数；</p>
-
-  <p>失败率=失败的个数/事务数。</p>
+      <blockquote>
+  <p>started_at 2020-11.17</p>
 </blockquote>
 
-<h5 id="查看结果树view-results-tree">查看结果树(View Results Tree)</h5>
-
-<p>通过查看结果树，可以看到每个事务的返回结果，其中红色是出错，绿色则为正常。建议在测试开始前将log/Display Only中Errors打上勾即可，不然会输出很多东西，不方便查看。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/moo9h.png" alt="" /></p>
+<ul>
+  <li>[ ] 建立统一的dingtalk_webhook 发送钉群机器人通知</li>
+  <li>[x] 支持多种消息类型</li>
+  <li>[x] text</li>
+  <li>[x] markdown</li>
+  <li>[x] link</li>
+  <li>[ ] 支持@</li>
+  <li>[ ] @个人</li>
+  <li>[x] @所有</li>
+  <li>[ ] 支持在任意Djang App内调用</li>
+  <li>
+    <p>[ ] </p>
+  </li>
+  <li>[ ] 增加定时任务能力</li>
+  <li>[ ] 拆分任务 分钟/小时/天级别，自动执行</li>
+  <li>[ ] 使用request 访问各种API，并获取对应的信息</li>
+  <li>[ ] douyin 检测智能机器人类目上线</li>
+  <li>[ ] pdd.version 检查新版本更新并发出通知</li>
+  <li>[ ] 增加mysql数据库相关能力，丰富后续数据库存储相关的能力</li>
+  <li>[ ] 提供rest_framework_api 能力</li>
+  <li>[ ] 接收固定参数内容，请求第三方API返回相应的内容</li>
+  <li>[ ] 接口固定参数，并存储对应的查询结果</li>
+</ul>
 
 
       
     </div>
     <br/>
     <div>
-      <cite>2017-08-12</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Jmeter">Jmeter</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2017/06/%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98Python%E5%AE%A2%E6%88%B7%E7%AB%AF.html">bypy 百度网盘Python客户端</a></h1>
-    <div class="post_at_index">
-      <p>最近在GitHub上发现一个有趣的项目，<a href="https://github.com/houtianze/bypy">百度网盘Python客户端</a>(bypy)，主要使用在Linux命令行下，这样很大的一个好处是可以利用到百度云盘2TB的存储空间(如果你是会员有6TB)；你可以在任何服务器上，利用自动化脚本实现一些数据文件、日志文件等等备份操作，同时也提供丰富的文件列表、上传、下载、对比、同步以及批量操作等。</p>
-
-<blockquote>
-  <p>虽然百度网盘Python客户端提供很大的便利，但是我强烈不建议将一些重要数据放到百度云盘</p>
-</blockquote>
-
-<h2 id="实验目的">实验目的</h2>
-
-<p>数据库备份文件自动上传到百度网盘</p>
-
-<h2 id="环境依赖">环境依赖</h2>
-
-<ul>
-  <li>Python 2.7 or 3.0 以上</li>
-  <li>Encoding UTF-8</li>
-</ul>
-
-<h2 id="python-环境">Python 环境</h2>
-
-<p>首先使用<code class="language-plaintext highlighter-rouge">python -V</code>检查你的Python版本，如果你的版本是2.7或以上，那么就不需要做任何操作，可以直接安装bypy，但是如果你像我一样多数是CentOS 6.x 那么就需要先升级Python版本。我这里是将Python升级到2.7。</p>
-
-<h3 id="install-python-27">Install Python 2.7</h3>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check current Python version</span>
-➜  ~ python <span class="nt">-V</span>
-Python 2.6.6
-
-<span class="c"># Download python 2.7.13 or new packge.</span>
-➜  ~ wget http://www.python.org/ftp/python/2.7.13/Python-2.7.13.tar.xz
-
-<span class="c"># Extract and change in</span>
-➜  ~ <span class="nb">tar </span>xf Python-2.7.13.tar.xz
-➜  ~ <span class="nb">cd </span>Python-2.7.13
-
-<span class="c"># Run the configure:</span>
-➜  Python-2.7.13 ./configure <span class="nt">--prefix</span><span class="o">=</span>/usr/local
-
-<span class="c"># Compile and install it:</span>
-➜  Python-2.7.13 make <span class="o">&amp;&amp;</span> make altinstall
-
-<span class="c"># Check Python Version</span>
-➜  Python-2.7.13 python2.7 <span class="nt">-V</span>
-Python 2.7.13
-</code></pre></div></div>
-
-<p>虽然Python2.7已经安装成功了，但是默认的Python仍然是2.6版本，所以我们要替换默认Python命令指到2.7</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update bin python to python2.7</span>
-➜  ~ ll /usr/bin/python /usr/local/bin/python2.7
-➜  ~ ll /usr/bin/python-config /usr/local/bin/python2.7-config
-➜  ~ python <span class="nt">-V</span>
-Python 2.7.13
-</code></pre></div></div>
-
-<h3 id="can-not-use-yum-">Can not use Yum ?</h3>
-
-<p>因为<code class="language-plaintext highlighter-rouge">yum</code>必须要使用Python2.6 ，所以当升级成功之后，发现yum无法使用，这时我们要稍微修改下：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ which-command yum
-/usr/bin/yum
-
-<span class="c">#Update frist line "#!/usr/bin/python" to "#!/usr/bin/python2.6"</span>
-➜  ~ vim /usr/bin/yum
-</code></pre></div></div>
-
-<h2 id="安装bypy">安装<code class="language-plaintext highlighter-rouge">bypy</code></h2>
-
-<h5 id="install-setuptools--requests">Install Setuptools &amp; requests</h5>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ wget <span class="nt">--no-check-certificate</span> https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz
-<span class="nb">tar </span>xf setuptools-1.4.2.tar.gz
-➜  ~ python setup.py <span class="nb">install</span>
-
-➜  ~ pip2.7 <span class="nb">install </span>requests
-</code></pre></div></div>
-
-<h3 id="clone---install">Clone &amp;  Install</h3>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ git clone https://github.com/houtianze/bypy.git
-➜  ~ <span class="nb">cd </span>bypy
-➜  bypy git:<span class="o">(</span>master<span class="o">)</span> python setup.py <span class="nb">install</span>
-</code></pre></div></div>
-
-<p>如果安装失败，注意看报错，是否缺少Python依赖包，或者版本不对</p>
-
-<h3 id="基本操作">基本操作</h3>
-
-<p>在成功安装完成之后，以下需要注意：</p>
-
-<h4 id="授权">授权</h4>
-
-<p>首次安装之后，需要进行授权，只需要运行任何一个命令都可以，例如<code class="language-plaintext highlighter-rouge">bypy info</code>，然后根据提示，打开网页登录你的百度网盘账号，取得授权码，即可。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/2grhz.png" alt="" /></p>
-
-<p>复制上图中的链接到你的浏览器中，打开可以看到百度API授权页面，如下图，将授权码粘贴到命令行，然后回车等待验证通过即可。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/9zhdm.png" alt="" /></p>
-
-<p>然后再次运行命令时，就不需要进行身份验证了</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost bypy]# bypy info
-Quota: 6.103TB
-Used: 180.074GB
-</code></pre></div></div>
-
-<p>你可以看到我的百度网盘有6.103TB的空间，已经使用了180.074GB</p>
-
-<h4 id="常用操作">常用操作</h4>
-
-<p>由于百度PCS API权限限制，程序只能存取百度云端/apps/bypy目录下面的文件和目录。通过以下链接可以打开你的bypy默认路径：</p>
-
-<p>https://pan.baidu.com/disk/home#list/vmode=list&amp;path=%2Fapps%2Fbypy</p>
-
-<h4 id="查看">查看</h4>
-
-<p>我在百度网盘内增加了一个v6的文件夹，对应我服务器名称，这是我在服务器内利用命令即可看到。</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost bypy]# bypy list
-/apps/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
-D v6 0 2017-06-02, 10:28:41
-</code></pre></div></div>
-
-<h4 id="创建文件夹">创建文件夹</h4>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy <span class="nb">mkdir </span>v6/bypy
-<span class="o">[</span>root@localhost ~]# bypy list v6
-/apps/bypy/v6 <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
-D bypy 0 2017-06-02, 10:35:53
-</code></pre></div></div>
-
-<h4 id="上传">上传</h4>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy upload bypy.tgz
-<span class="o">[</span>root@localhost ~]# bypy list
-/apps/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
-D v6 0 2017-06-02, 10:28:41
-D v6_1 0 2017-06-02, 10:34:52
-F bypy.tgz 2867963 2017-06-02, 10:37:30 aa4160cdbf2f4eca9baf0fcd395241fe
-</code></pre></div></div>
-
-<h4 id="本地同步到百度网盘">本地同步到百度网盘</h4>
-
-<p>使用<code class="language-plaintext highlighter-rouge">syncup</code>参数将本地目录文件同步到百度网盘</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy syncup ./bypy v6/bypy
-<span class="o">[</span>root@localhost ~]# bypy list v6/bypy
-/apps/bypy/v6/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
-D .git 0 2017-06-02, 10:45:31
-D baidudoc 0 2017-06-02, 10:44:50
-D build 0 2017-06-02, 10:45:11
-D bypy 0 2017-06-02, 10:45:54
-D bypy.egg-info 0 2017-06-02, 10:45:00
-D dist 0 2017-06-02, 10:44:54
-D update 0 2017-06-02, 10:45:08
-F .editorconfig 277 2017-06-02, 10:45:08 d9f71b00f908626ae68da571ca47cbe2
-F .gitignore 484 2017-06-02, 10:45:00 833d8511a69044a1f1c6e0fe4b3c3117
-F .travis.yml 628 2017-06-02, 10:44:58 9f377251309ced0a55548c18896ebd7a
-F CONTRIBUTING.md 683 2017-06-02, 10:44:52 f5e8a568937039e5853613ff0fe296ee
-F genrst.py 129 2017-06-02, 10:45:30 4565eddf226c2e8bed73d2c30dfae9f3
-F HISTORY.md 2542 2017-06-02, 10:45:11 16605670a55a3dd9768d4c862543eac4
-F HISTORY.rst 2639 2017-06-02, 10:44:57 7215fbd0a3be667fd7f9fda14f06c1a9
-F LICENSE 1078 2017-06-02, 10:44:59 ebd1a0c53ea3046f505b995629faf8fb
-F MANIFEST.in 116 2017-06-02, 10:44:50 c98e18e65329b318f13abd031a4397c4
-F README.md 6276 2017-06-02, 10:46:15 d4b88fd543d93c6b63863d28f5c4e716
-F release.sh 1795 2017-06-02, 10:45:53 c086eb283e9554bbcd23daf0888e2819
-F requirements.txt 42 2017-06-02, 10:44:54 28b314f2f2d2ed79957a7a7e6d3f7c17
-F setup.cfg 70 2017-06-02, 10:45:11 b23579970dcedbcaeaaa00636d601335
-F setup.py 2377 2017-06-02, 10:44:58 34d63d5143ab02d3db7808321a7f9df4
-<span class="o">[</span>root@localhost ~]# bypy syncup ./bypy v6/bypy
-<span class="o">[</span>root@localhost ~]#
-</code></pre></div></div>
-
-<h4 id="搜索">搜索</h4>
-
-<p><code class="language-plaintext highlighter-rouge">bypy</code> 同样支持搜索，根据文件名检索，自动递归所有目录</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy search release.sh
-Found:
-F /apps/bypy/v6/bypy/release.sh 1795 2017-06-02, 10:45:53 2017-06-02, 10:45:53 c086eb283e9554bbcd23daf0888e2819
-</code></pre></div></div>
-
-<h4 id="比较本地与百度网盘">比较本地与百度网盘</h4>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 先删除本地一个文件</span>
-<span class="o">[</span>root@localhost ~]# <span class="nb">rm</span> ./bypy/release.sh
-
-<span class="c"># 对比</span>
-<span class="o">[</span>root@localhost ~]# bypy compare v6/bypy ./bypy
-<span class="o">====</span> Same files <span class="o">===</span>
-F - MANIFEST.in
-... omit ...
-F - bypy/monkey.py
-F - README.md
-<span class="o">====</span> Different files <span class="o">===</span>
-<span class="o">====</span> Local only <span class="o">====</span>
-<span class="o">====</span> Remote only <span class="o">====</span>
-F - release.sh
-
-Statistics:
-<span class="nt">--------------------------------</span>
-Same: 131
-Different: 0
-Local only: 0
-Remote only: 1
-</code></pre></div></div>
-
-<p>通过以上可以看到，相同文件131，远程目录多了一个文件。</p>
-
-<h4 id="其他">其他</h4>
-
-<p><code class="language-plaintext highlighter-rouge">bypy</code>支持的操作很多，使用<code class="language-plaintext highlighter-rouge">bypy help</code>即可以看到，若要调试，使用以下参数可以打开对应调试信息：</p>
-
-<ul>
-  <li>运行时添加<code class="language-plaintext highlighter-rouge">-v</code>参数，会显示进度详情。</li>
-  <li>运行时添加<code class="language-plaintext highlighter-rouge">-d</code>，会显示一些调试信息。</li>
-  <li>运行时添加<code class="language-plaintext highlighter-rouge">-ddd</code>，还会会显示HTTP通讯信息（<strong>警告：非常多</strong>）</li>
-</ul>
-
-<h2 id="数据库备份自动上传到百度网盘">数据库备份自动上传到百度网盘</h2>
-
-<p>之前也写过很多关于Mysql备份的文章，如果要详细查看，请打开以下链接：<a href="https://samzong.me/categories/MySQL/">分类MySQL</a></p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># create back script.</span>
-<span class="o">[</span>root@localhost ~]# <span class="nb">touch </span>mysql_back.sh
-
-<span class="c"># add executable permissions</span>
-<span class="o">[</span>root@localhost ~]# <span class="nb">chmod</span> +x mysql_back.sh
-
-<span class="o">[</span>root@localhost ~]# vim mysql_back.sh
-<span class="c">#!/bin/bash</span>
-<span class="c">#  </span>
-<span class="c"># backup mysqldump file to baidu yunPan</span>
-<span class="c"># filepath: /usr/local/bin/mysql_back.sh</span>
-<span class="c"># Author: samzong</span>
-<span class="c">#</span>
-
-<span class="k">function </span>upload_file<span class="o">(){</span>
-        <span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H%M%S"</span><span class="sb">`</span>
-        <span class="nv">folder</span><span class="o">=</span><span class="s2">"/mysqlbak"</span>
-        <span class="nv">filename</span><span class="o">=</span><span class="s2">"db_</span><span class="nv">$TIME</span><span class="s2">.sql"</span>
-        <span class="nv">filePath</span><span class="o">=</span><span class="nv">$folder</span>/<span class="nv">$filename</span>
-
-        <span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="nv">$filePath</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
-                </span><span class="nb">echo</span> <span class="s2">"[ERROR]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] </span><span class="nv">$folder</span><span class="s2">/</span><span class="nv">$filename</span><span class="s2"> not found."</span>
-        <span class="k">else
-                </span><span class="nb">echo</span> <span class="s2">"[INFO]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] </span><span class="nv">$folder</span><span class="s2">/</span><span class="nv">$filename</span><span class="s2"> has been found. Start uploading ......"</span>
-                bypy upload <span class="s2">"</span><span class="nv">$filePath</span><span class="s2">"</span> <span class="s2">"v6/mysql_backup/</span><span class="nv">$filename</span><span class="s2">"</span>
-                <span class="nb">echo</span> <span class="s2">"[INFO]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] Uploading end."</span>
-        <span class="k">fi</span>
-<span class="o">}</span>
-
-<span class="c">#  set TIME variable</span>
-<span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H%M%S"</span><span class="sb">`</span>
-
-<span class="c"># backup db ghost to /mysqlbak/</span>
-mysqldump <span class="nt">--single-transaction</span> <span class="nt">-h</span> localhost <span class="nt">-u</span> ghost_backuser <span class="nt">-pbackupPass</span> ghost  <span class="o">&gt;</span> /mysqlbak/db_<span class="nv">$TIME</span>.sql
-
-<span class="c"># tar sql file</span>
-<span class="nb">tar </span>czvf /mysqlbak/ghost_<span class="nv">$TIME</span>.sql.tgz /mysqlbak/ghost_<span class="nv">$TIME</span>.sql <span class="nt">--remove-files</span>
-
-<span class="c"># upload sql file to baidu yunPan.</span>
-upload_file<span class="p">;</span>
-
-<span class="c"># send mial to admin'mial</span>
-<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span><span class="p">;</span> <span class="k">then
-    </span><span class="nb">echo</span> <span class="s2">"ghost SQL dump is successfully. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-successfully  samzong.lu@gmail.com
-<span class="k">else
-    </span><span class="nb">echo</span> <span class="s2">" Error Error ghost SQL dump is Error. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-error samzong.lu@gmail.com
-<span class="k">fi</span>
-</code></pre></div></div>
-
-<h2 id="添加计划任务">添加计划任务</h2>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ~ crontab <span class="nt">-e</span>
-00 00 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> sh /usr/local/bin/mysql_back.sh
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-06-02</cite> <i class="icon-tag"></i>
+      <cite>2020-11-18</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Python">Python</a>
       
       
@@ -790,65 +321,47 @@ upload_file<span class="p">;</span>
     <hr/>
     
     
-    <h1><a class="title" href="/post/2017/05/%E6%88%91%E6%9D%A5%E5%88%B0%E8%BF%99%E4%B8%96%E4%B8%8A.html">我来到这世上</a></h1>
+    <h1><a class="title" href="/post/2020/11/autoscraper-%E7%88%AC%E8%99%AB-%E6%89%80%E8%A7%81%E5%8D%B3%E6%89%80%E5%BE%97.html">autoscraper 爬虫 所见即所得</a></h1>
     <div class="post_at_index">
-      <hr />
+      <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install</span>
 
-<p>我也没有等你，只是还没找不到一个比你还让我更喜欢的人。</p>
+<span class="nv">$ </span>pip3 <span class="nb">install </span>autoscraper
+</code></pre></div></div>
 
-<hr />
+<h3 id="一分钟上手">一分钟上手</h3>
 
-<p><a href="https://www.zhihu.com/question/25401683/answer/157581428">知乎</a> @七万</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">autoscraper</span> <span class="kn">import</span> <span class="n">AutoScraper</span>
 
-<p>苦涩困在胸中，日夜锥心刺骨，却如鲠在喉。</p>
+<span class="n">url</span> <span class="o">=</span> <span class="s">'https://stackoverflow.com/questions/2081586/web-scraping-with-python'</span>
 
-<p>有人说：“你不必等我。”</p>
+<span class="c1"># We can add one or multiple candidates here.
+# You can also put urls here to retrieve urls.
+</span><span class="n">wanted_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">"How to call an external command?"</span><span class="p">]</span>
 
-<p>我觉得话已经说的很明白了，
-再多问一句，都是作践自己。</p>
+<span class="n">scraper</span> <span class="o">=</span> <span class="n">AutoScraper</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">scraper</span><span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">wanted_list</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div></div>
 
-<p>我到底还是喜欢的，可是喜欢的情绪从心里涌出嘴的时候，自尊就会死死的掐着脖子，根本不能说话，能好好呼吸都是享受。</p>
+<ul>
+  <li>url 是你需要爬取的网页</li>
+  <li>wanted_list 是一个list，其中有你需要的元素目标，注意会爬取相同tag和范围的数据</li>
+</ul>
 
-<p>我得自己走了，谢谢你带我来山顶看烟花。</p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1605241399644-c035e6f7-8096-438b-806d-7a9da7bee65f.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
-<p>你说，这事儿得怪谁呢？</p>
+<h1 id="更多使用技巧">更多使用技巧</h1>
 
-<p>该怨你吗？怨字说不口。
-终究是我一个人的梦，没理由非得拽你一起圆。</p>
-
-<p>该怨我吗？实在是不忍心。
-我心里住了两个小人儿。
-一个跪在地上，涕零如雨，边哭边求。
-另一个站他旁边，气冲斗牛，边骂边羞。
-它们撕扯着我，片刻不停。</p>
-
-<p>真他妈难受。</p>
-
-<p>最后还是得走啊。来生，要是有来生。
-我就做你的影子吧，你不必一定爱我，你也赶不走我。
-或者做你手边的一本书，咱们能心平气和的聊聊天。
-再不济就做你床头柜里的成人玩具，你知我长短，我知你深浅……
-这辈子，是什么都不行了。</p>
-
-<p>小的时候，觉得女儿国国王就是个小贱婊，
-妈的，勾搭大和尚！各种挽留，留你妈哔啊，赶紧让人办正事去得了。</p>
-
-<p>长大后才知道，
-这个电视剧里最可怜的不是历尽艰险的唐僧，
-不是一次又一次被赶走的孙猴儿，
-不是被傲娇玉帝罚的一脸懵逼的凤仙郡百姓，
-不是那群刚出场就被孙悟空打死的智障炮灰，
-是女儿国王啊，
-这娘们把能给的都给出去了，那和尚瞅都没瞅，一句女施主请自重，断绝了她所有的念想。</p>
-
-<p>唉，你没来之前我也是个要脸的人啊。</p>
+<blockquote>
+  <p>请关注Github仓库： <a href="https://github.com/alirezamika/autoscraper">https://github.com/alirezamika/autoscraper</a></p>
+</blockquote>
 
       
     </div>
     <br/>
     <div>
-      <cite>2017-05-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
+      <cite>2020-11-16</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -857,126 +370,85 @@ upload_file<span class="p">;</span>
     <hr/>
     
     
-    <h1><a class="title" href="/post/2017/05/Wannacry%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E4%BA%8B%E4%BB%B6%E5%8F%8A%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%A1%88.html">Wannacry蠕虫病毒事件及修复方案</a></h1>
+    <h1><a class="title" href="/post/2020/11/Django-%E5%88%9D%E5%A7%8B%E5%8C%96project.html">Django 初始化project</a></h1>
     <div class="post_at_index">
-      <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/3d0jo.png" alt="" /></p>
+      <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 初始化 mysite 项目</span>
 
-<h3 id="事件背景">事件背景</h3>
+django-admin startproject mysite
 
-<p>5月12日晚， WannaCry 蠕虫病毒在全球大肆爆发。据BBC、CNN等媒体报道，恶意攻击者利用 NSA（美国国家安全局）泄露的 Windows 0day 利用工具对99个国家实施了超过75000次攻击，主要影响SMB和RDP服务，主要影响了137、138、139、445端口。</p>
 
-<p>目前已知已知的Windows版本包括但不限于一下都受影响：</p>
-
-<ul>
-  <li>Windows NT</li>
-  <li>Windows 2000</li>
-  <li>Windows XP</li>
-  <li>Windows 2003</li>
-  <li>Windows Vista</li>
-  <li>Windows 7</li>
-  <li>Windows 8</li>
-  <li>Windows 10</li>
-  <li>Windows 2008</li>
-  <li>Windows 2008 R2</li>
-  <li>Windows Server 2012 SP0</li>
-</ul>
-
-<p>勒索者源头来自暗网，攻击具备兼容性、多语言支持，多个行业受到影响，国内高校网络系统沦为感染重灾区。据有关机构统计，目前国内每天有数万台机器遭到该蠕虫病毒袭击，国内的ATM机、火车站、自助终端、邮政、医院、政府办事终端、视频监控都可能遭受攻击。据报道，今日全国多地的中石油加油站无法进行网络支付，只能进行现金支付。中石油有关负责人表示，怀疑受到病毒攻击，具体情况还在核查。而截至目前，一些公安系统已经遭到入侵。</p>
-
-<p>如果你也遇到了这样的问题，请不要担心，我在下面给出了如何修复这个漏洞的建议。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/9y7cc.jpg" alt="" /></p>
-
-<h3 id="什么是比特币蠕虫病毒">什么是比特币蠕虫病毒？</h3>
-
-<p>这次攻击的始作俑者是一款名为“WannaCry”（中文名：想哭）的勒索病毒，带有加密功能，它利用 Windows 在 445 端口的安全漏洞潜入电脑并对多种文件类型加密并添加后缀(.onion)使用户无法打开，用户电脑存在文档被加密的情况，攻击者称需支付比特币解锁。(比特币是一种全球通用的互联网加密货币)</p>
-
-<h3 id="漏洞验证">漏洞验证</h3>
-
-<ol>
-  <li>
-    <p>使用<code>Win</code>+<code>R</code>按键打开运行窗口，输入cmd，进入命令行工具，然后输入<code>netstat -an</code> 查看是否开放了对应的端口。</p>
-
-    <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/3m1jm.png" alt="" /></p>
-
-    <p>上图中的服务器就是开放了445端口，这有很大的风险可能会WannaCry 蠕虫病毒被攻击到，所以我们应该关掉对应端口，并修复漏洞。</p>
-
-    <h3 id="漏洞修复">漏洞修复</h3>
-
-    <ol>
-      <li>目前微软已发布补丁MS17-010修复了“永恒之蓝”攻击的系统漏洞，请尽快为电脑安装此补丁，网址为<a href="https://laod.cn/go.php?url=https://technet.microsoft.com/zh-cn/library/security/MS17-010">https://technet.microsoft.com/zh-cn/library/security/MS17-010</a></li>
-      <li>对于XP、2003等微软已不再提供安全更新的机器，推荐使用360“NSA武器库免疫工具”检测系统是否存在漏洞，并关闭受到漏洞影响的端口，可以避免遭到勒索软件等病毒的侵害，可以在360电脑安全管家中找到。</li>
-      <li>开启系统防火墙，利用系统防火墙的“高级设置”阻止外部对 445 端口进的访问（存在一定影响，该操作会影响使用 445 端口的服务）。</li>
-    </ol>
-  </li>
-</ol>
-
-<h3 id="修复脚本">修复脚本</h3>
-
-<p>如果以上方式都不能修复漏洞，大家可以使用我以下的批处理脚本文件来尝试关闭端口及服务，批处理禁用该漏洞可能利用到的端口，全版本通用，右键管理员启动即可，注意这需要打开Windows的防火墙。</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>net stop SCardSvr
-net stop SCPolicySvc
-sc config SCardSvr <span class="nv">start</span><span class="o">=</span>disabled
-sc config SCPolicySvc <span class="nv">start</span><span class="o">=</span>disabled
-net start MpsSvc
-sc config MpsSvc <span class="nv">start</span><span class="o">=</span>auto
-netsh advfirewall <span class="nb">set </span>allprofiles state on
-netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny udp 137"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>udp <span class="nv">localport</span><span class="o">=</span>137 <span class="nv">action</span><span class="o">=</span>block
-netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny tcp 137"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>tcp <span class="nv">localport</span><span class="o">=</span>137 <span class="nv">action</span><span class="o">=</span>block
-netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny udp 138"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>udp <span class="nv">localport</span><span class="o">=</span>138 <span class="nv">action</span><span class="o">=</span>block
-netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny tcp 138"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>tcp <span class="nv">localport</span><span class="o">=</span>138 <span class="nv">action</span><span class="o">=</span>block
-netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny udp 139"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>udp <span class="nv">localport</span><span class="o">=</span>139 <span class="nv">action</span><span class="o">=</span>block
-netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny tcp 139"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>tcp <span class="nv">localport</span><span class="o">=</span>139 <span class="nv">action</span><span class="o">=</span>block
-netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny udp 445"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>udp <span class="nv">localport</span><span class="o">=</span>445 <span class="nv">action</span><span class="o">=</span>block
-netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny tcp 445"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>tcp <span class="nv">localport</span><span class="o">=</span>445 <span class="nv">action</span><span class="o">=</span>block
-pause
+- manage.py
+- mysite
+  - settings.py
+  - urls.py
+  - wsgi.py
 </code></pre></div></div>
 
-<p>我已经将脚本上传到百度云盘中，大家可以自行下载运行，注意解压缩Zip包之后的fix_WannaCry.bat</p>
+<h3 id="项目初始化">项目初始化</h3>
 
-<p>下载链接：https://pan.baidu.com/s/1gfceNRH</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 manage.py <span class="nt">--help</span> <span class="c"># 用于管理项目以及服务</span>
+python3 manage.py runserver  <span class="c"># 启动服务</span>
+python3 manage.py startapp <span class="s1">'blog'</span>  <span class="c"># 用于在项目下创建一个app</span>
 
-<h3 id="添加防火规则">添加防火规则</h3>
 
-<ol>
-  <li>
-    <p>打开控制面板中的Windows防火墙，并保证防火墙处于启用状态；</p>
-  </li>
-  <li>
-    <p>打开防火墙的高级设置；</p>
-  </li>
-  <li>
-    <p>在“入站规则”中新建一条规则，本地端口号选择445，操作选择阻止连接。</p>
+<span class="c"># 新项目初始化步骤</span>
 
-    <p><img src="https://pic3.zhimg.com/v2-85f14330cdba1fbf89369b26b9e48f52_b.png" alt="" /></p>
+django-admin startproject mysite  <span class="c"># 创建项目</span>
+<span class="nb">cd </span>mysite
+python3 manage.py migrate  <span class="c"># 初始化数据库</span>
+python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号</span>
+</code></pre></div></div>
 
-    <p><img src="https://pic2.zhimg.com/v2-1bbe08395ec8ef8d0e2028cbccb01055_b.png" alt="" /></p>
-  </li>
-</ol>
+<h3 id="常见项目配置">常见项目配置</h3>
 
-<h3 id="手动导入安全策略">手动导入安全策略</h3>
+<blockquote>
+  <p>settings.py</p>
+</blockquote>
 
-<p>下载策略文件</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 切换数据库为 MySQL , Default = sqlite
+</span>
+<span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'default'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">'ENGINE'</span><span class="p">:</span> <span class="s">'django.db.backends.mysql'</span><span class="p">,</span>
+        <span class="s">'NAME'</span><span class="p">:</span> <span class="s">'mysite'</span><span class="p">,</span>
+        <span class="s">'USER'</span><span class="p">:</span> <span class="s">'root'</span><span class="p">,</span>
+        <span class="s">'PASSWORD'</span><span class="p">:</span> <span class="s">'luchuanjia'</span><span class="p">,</span>
+        <span class="s">'HOST'</span><span class="p">:</span> <span class="s">'127.0.0.1'</span><span class="p">,</span>
+        <span class="s">'PORT'</span><span class="p">:</span> <span class="s">'3306'</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-<p>https://share.weiyun.com/15b7bbd3f86c493a66721dd948a81c54</p>
+<span class="c1"># !需要安装插件 pip install mysql
+</span>
+<span class="o">---</span>
 
-<p>打开控制面板–管理工具-本地安全策略–IP安全策略 –&gt;所有任务–&gt;导入策略：</p>
+<span class="c1"># 修改项目时区
+</span><span class="n">TIME_ZONE</span> <span class="o">=</span> <span class="s">'Asia/Shanghai'</span>  <span class="c1"># Default UTC
+</span>
+<span class="c1"># 修改语言
+</span><span class="n">LANGUAGE_CODE</span> <span class="o">=</span> <span class="s">'zh-Hans'</span>  <span class="c1"># 简体中文
+</span></code></pre></div></div>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/hj9f4.jpg" alt="" /></p>
+<h3 id="导出项目的依赖库">导出项目的依赖库</h3>
 
-<p>或者，通过<code>Win</code>+<code>R</code>，输入<code>gpedit.msc</code></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span> <span class="n">freeze</span> <span class="o">&gt;</span> <span class="n">requirements</span><span class="p">.</span><span class="n">txt</span>   <span class="c1"># 将目前虚拟环境的 依赖库，导出到文件中
+</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="p">.</span><span class="n">txt</span> <span class="c1"># 从 requirements.txt 中读取依赖库，并进行安装
+</span></code></pre></div></div>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/9vsqx.jpg" alt="" /></p>
+<h3 id="modules-变更后需要同步变更数据库表">modules 变更后，需要同步变更数据库表</h3>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/tosjk.jpg" alt="" /></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 修改module.py后，需要执行以下命令，将变更同步到数据库，否则不生效
+</span><span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">makemigrations</span>
+<span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">migrate</span>
+</code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2017-05-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Windows">Windows</a>
+      <cite>2020-11-09</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -985,602 +457,653 @@ pause
     <hr/>
     
     
-    <h1><a class="title" href="/post/2017/04/CentOS%E5%A2%9E%E5%8A%A0%E6%96%B0%E7%A1%AC%E7%9B%98%E7%BB%99%E6%A0%B9%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%89%A9%E5%AE%B9.html">CentOS增加新硬盘给根文件系统扩容</a></h1>
+    <h1><a class="title" href="/post/2020/11/join-%E4%B8%8E-format-%E4%B8%8D%E5%90%8C%E7%9A%84%E7%94%A8%E6%B3%95.html">join 与 format 不同的用法</a></h1>
     <div class="post_at_index">
-      <p>由于刚开始做磁盘空间规划时，失误给根分区分配磁盘较小，导致后续实验环境无法进行，所以在经过研究后，决定尝试增加根分区的磁盘空间，注意这仅适用于创建在LVM上的文件系统。</p>
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Join
+</span><span class="k">print</span><span class="p">(</span><span class="s">"and"</span><span class="p">.</span><span class="n">join</span><span class="p">([</span><span class="s">"Jack"</span><span class="p">,</span> <span class="s">"Tom"</span><span class="p">]))</span>
+<span class="o">&gt;</span> <span class="n">Jack</span> <span class="ow">and</span> <span class="n">Tom</span>
 
-<h3 id="实验环境">实验环境</h3>
+<span class="k">print</span><span class="p">(</span><span class="s">"and"</span><span class="p">.</span><span class="n">join</span><span class="p">([</span><span class="s">"Jack"</span><span class="p">,</span> <span class="s">"Tom"</span><span class="p">,</span> <span class="s">"Jessica"</span><span class="p">]))</span>
+<span class="o">&gt;</span> <span class="n">Jack</span> <span class="ow">and</span> <span class="n">Tom</span> <span class="ow">and</span> <span class="n">Jessica</span>
 
-<ul>
-  <li>Parallels Desktop 12</li>
-  <li>CentOS 6.9</li>
-  <li>根分区空间 6.5GB</li>
-  <li>已使用 5.8GB</li>
-  <li>预计 增加12G 磁盘空间</li>
-</ul>
+<span class="c1"># Format
+</span><span class="k">print</span><span class="p">(</span><span class="s">"你和{}"</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">"我"</span><span class="p">))</span>
+<span class="o">&gt;</span> <span class="n">你和我</span>
 
-<!-- more -->
-
-<h3 id="增加一块物理磁盘">增加一块物理磁盘</h3>
-
-<p>Parallels Desktop 不能在线增加磁盘，所以要先将VM关闭，然后添加：
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/m5e1d.jpg" alt="" />
-增加12G的磁盘
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/prgyd.jpg" alt="" /></p>
-
-<p>然后启动VM，这时可以通过<code>fdisk -l</code>查看当前已经增加了一块12G的磁盘</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/tat9r.jpg" alt="" /></p>
-
-<h3 id="格式化磁盘并加入到vgroup组内">格式化磁盘并加入到VGroup组内</h3>
-
-<h4 id="查看当前pvdisplay磁盘列表将devsdb创建pv块">查看当前<code>pvdisplay</code>磁盘列表，将<code>/dev/sdb</code>创建pv块</h4>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# pvdisplay
-  <span class="nt">---</span> Physical volume <span class="nt">---</span>
-  PV Name               /dev/sda2
-  VG Name               vg_hadoop01
-  PV Size               7.51 GiB / not usable 3.00 MiB
-  Allocatable           <span class="nb">yes</span> <span class="o">(</span>but full<span class="o">)</span>
-  PE Size               4.00 MiB
-  Total PE              1922
-  Free PE               0
-  Allocated PE          1922
-  PV UUID               MUCrDa-eJpZ-EXwE-YwwM-S2Az-p2m7-K9q3Fo
-
-<span class="o">[</span>root@centos ~]# pvcreate /dev/sdb
-  Physical volume <span class="s2">"/dev/sdb"</span> successfully created
-<span class="o">[</span>root@centos ~]# pvdisplay
-  <span class="nt">---</span> Physical volume <span class="nt">---</span>
-  PV Name               /dev/sda2
-  VG Name               vg_hadoop01
-  PV Size               7.51 GiB / not usable 3.00 MiB
-  Allocatable           <span class="nb">yes</span> <span class="o">(</span>but full<span class="o">)</span>
-  PE Size               4.00 MiB
-  Total PE              1922
-  Free PE               0
-  Allocated PE          1922
-  PV UUID               MUCrDa-eJpZ-EXwE-YwwM-S2Az-p2m7-K9q3Fo
-
-  <span class="nt">---</span> Physical volume <span class="nt">---</span>
-  PV Name               /dev/sdb
-  VG Name               vg_hadoop01
-  PV Size               12.00 GiB / not usable 4.00 MiB
-  Allocatable           <span class="nb">yes
-  </span>PE Size               4.00 MiB
-  Total PE              3071
-  Free PE               3071
-  Allocated PE          0
-  PV UUID               XTpaBR-512W-vQIV-fwwz-So7L-ZCa3-yjDccQ
-</code></pre></div></div>
-
-<h4 id="查看当前vgdisplayvgroup组将devsdb加入根目录所在vgroup">查看当前<code>vgdisplay</code>VGroup组，将<code>/dev/sdb</code>加入根目录所在VGroup</h4>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# vgdisplay
-  <span class="nt">---</span> Volume group <span class="nt">---</span>
-  VG Name               vg_hadoop01
-  System ID
-  Format                lvm2
-  Metadata Areas        1
-  Metadata Sequence No  3
-  VG Access             <span class="nb">read</span>/write
-  VG Status             resizable
-  MAX LV                0
-  Cur LV                2
-  Open LV               2
-  Max PV                0
-  Cur PV                1
-  Act PV                1
-  VG Size               7.51 GiB
-  PE Size               4.00 MiB
-  Total PE              1922
-  Alloc PE / Size       1922 / 7.51 GiB
-  Free  PE / Size       0 / 0
-  VG UUID               szQ4fH-Sr1Z-V6c2-KVMp-ZUik-oUDP-rU8dQS
-
-<span class="o">[</span>root@centos ~]# vgextend vg_hadoop01 /dev/sdb
-  Volume group <span class="s2">"vg_hadoop01"</span> successfully extended
-<span class="o">[</span>root@centos ~]# vgdisplay
-  <span class="nt">---</span> Volume group <span class="nt">---</span>
-  VG Name               vg_hadoop01
-  System ID
-  Format                lvm2
-  Metadata Areas        2
-  Metadata Sequence No  4
-  VG Access             <span class="nb">read</span>/write
-  VG Status             resizable
-  MAX LV                0
-  Cur LV                2
-  Open LV               2
-  Max PV                0
-  Cur PV                2
-  Act PV                2
-  VG Size               19.50 GiB
-  PE Size               4.00 MiB
-  Total PE              4993
-  Alloc PE / Size       1922 / 7.51 GiB
-  Free  PE / Size       3071 / 12.00 GiB
-  VG UUID               szQ4fH-Sr1Z-V6c2-KVMp-ZUik-oUDP-rU8dQS
-</code></pre></div></div>
-
-<h4 id="查看lvdisplay根卷的名称将磁盘加入根卷的lv">查看<code>lvdisplay</code>根卷的名称，将磁盘加入根卷的LV</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@centos ~]# lvdisplay
-  --- Logical volume ---
-  LV Path                /dev/vg_hadoop01/lv_root
-  LV Name                lv_root
-  VG Name                vg_hadoop01
-  LV UUID                tJDetu-Theq-BQ5g-3ZFe-Gan7-1SSv-OHeYrH
-  LV Write Access        read/write
-  LV Creation host, time hadoop01, 2017-04-18 07:09:58 +0800
-  LV Status              available
-  # open                 1
-  LV Size                6.71 GiB
-  Current LE             1718
-  Segments               1
-  Allocation             inherit
-  Read ahead sectors     auto
-  - currently set to     256
-  Block device           253:0
-
-  --- Logical volume ---
-  LV Path                /dev/vg_hadoop01/lv_swap
-  LV Name                lv_swap
-  VG Name                vg_hadoop01
-  LV UUID                D4K7I6-tPO0-HMbC-VWkR-2HV4-WjAe-M82wYq
-  LV Write Access        read/write
-  LV Creation host, time hadoop01, 2017-04-18 07:09:59 +0800
-  LV Status              available
-  # open                 1
-  LV Size                816.00 MiB
-  Current LE             204
-  Segments               1
-  Allocation             inherit
-  Read ahead sectors     auto
-  - currently set to     256
-  Block device           253:1
-
-[root@centos ~]# lvextend -l +100%FREE /dev/vg_hadoop01/lv_root
-  Size of logical volume vg_hadoop01/lv_root changed from 6.71 GiB (1718 extents) to 18.71 GiB (4789 extents).
-  Logical volume lv_root successfully resized.
-[root@centos ~]# lvdisplay
-  --- Logical volume ---
-  LV Path                /dev/vg_hadoop01/lv_root
-  LV Name                lv_root
-  VG Name                vg_hadoop01
-  LV UUID                tJDetu-Theq-BQ5g-3ZFe-Gan7-1SSv-OHeYrH
-  LV Write Access        read/write
-  LV Creation host, time hadoop01, 2017-04-18 07:09:58 +0800
-  LV Status              available
-  # open                 1
-  LV Size                18.71 GiB
-  Current LE             4789
-  Segments               2
-  Allocation             inherit
-  Read ahead sectors     auto
-  - currently set to     256
-  Block device           253:0
-
-  --- Logical volume ---
-  LV Path                /dev/vg_hadoop01/lv_swap
-  LV Name                lv_swap
-  VG Name                vg_hadoop01
-  LV UUID                D4K7I6-tPO0-HMbC-VWkR-2HV4-WjAe-M82wYq
-  LV Write Access        read/write
-  LV Creation host, time hadoop01, 2017-04-18 07:09:59 +0800
-  LV Status              available
-  # open                 1
-  LV Size                816.00 MiB
-  Current LE             204
-  Segments               1
-  Allocation             inherit
-  Read ahead sectors     auto
-  - currently set to     256
-  Block device           253:1
-</code></pre></div></div>
-
-<h3 id="更新磁盘分区表">更新磁盘分区表</h3>
-
-<p>当你增加完成之后，这时使用<code>df -h</code>查看的磁盘空间仍然没有变化，因为我们还需要将根卷的分区表刷新。</p>
-
-<h4 id="使用resize2fs刷新根卷信息">使用<code>resize2fs</code>刷新根卷信息</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@centos ~]# resize2fs /dev/vg_hadoop01/lv_root
-resize2fs 1.41.12 (17-May-2010)
-Filesystem at /dev/vg_hadoop01/lv_root is mounted on /; on-line resizing required
-old desc_blocks = 1, new_desc_blocks = 2
-Performing an on-line resize of /dev/vg_hadoop01/lv_root to 4903936 (4k) blocks.
-The filesystem on /dev/vg_hadoop01/lv_root is now 4903936 blocks long.
-
-[root@centos ~]# df -h
-Filesystem            Size  Used Avail Use% Mounted on
-/dev/mapper/vg_hadoop01-lv_root
-                       19G  5.8G   12G  33% /
-tmpfs                 244M     0  244M   0% /dev/shm
-/dev/sda1             477M   52M  400M  12% /boot
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-04-18</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#LVM">LVM</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2017/04/HowTo-Install-GitLab.html">HowTo Install GitLab</a></h1>
-    <div class="post_at_index">
-      <p>目前最为主流的在线Git版本控制系统可以说是非GitHub莫属，对于个人开发者和开源项目可以直接选择GitHub作为Git版本控制系统即可，但是，对于企业内部开发管理的Git版本控制系统，在对保密性有高要求时GitHub就不合适了，这时GitLab作为一个可以完全搭建在企业内部的Git版本控制系统，而且基本囊括了GitHub的所有功能。</p>
-
-<h4 id="目前gitlab已经整合的功能">目前GitLab已经整合的功能</h4>
-
-<ol>
-  <li>Repository access</li>
-  <li>Administration</li>
-  <li>Issues</li>
-  <li>Forks</li>
-  <li>Code review</li>
-  <li>Wiki</li>
-  <li>Merge Requests</li>
-  <li>Web Editor</li>
-</ol>
-
-<h4 id="测试环境">测试环境</h4>
-
-<ul>
-  <li>2 core 4GB</li>
-  <li>50GB HDD</li>
-  <li>CentOS 6.8</li>
-  <li>Gitlab</li>
-</ul>
-
-<h4 id="安装需求">安装需求</h4>
-
-<p>关于GitLab的安装需求，主要是针对用户量然后评估出服务器及相关资源的配置，<a href="https://docs.gitlab.com.cn/ce/install/requirements.html">查看</a></p>
-
-<h3 id="gitlab-安装"><strong>GitLab 安装</strong></h3>
-
-<h4 id="安装配置依赖项">安装配置依赖项</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install curl openssh-server openssh-clients postfix cronie
-sudo service postfix start
-sudo chkconfig postfix on
-sudo lokkit -s http -s ssh
-</code></pre></div></div>
-
-<h4 id="添加gitlab仓库并安装到服务器上">添加GitLab仓库,并安装到服务器上</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -sS http://packages.gitlab.cc/install/gitlab-ce/script.rpm.sh | sudo bash
-sudo yum install gitlab-ce
-</code></pre></div></div>
-
-<h4 id="启动gitlab并初始化">启动GitLab并初始化</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo gitlab-ctl reconfigure
-</code></pre></div></div>
-
-<p>默认登录账号是：<strong>root</strong> ，你可以在首次打开时设置密码。</p>
-
-<h3 id="gitlab-初始化"><strong>GitLab 初始化</strong></h3>
-
-<h4 id="开机自启动">开机自启动</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> vi /etc/rc.local
- /opt/gitlab/bin/gitlab-ctl start
-</code></pre></div></div>
-
-<h4 id="gitlab-配置文件">GitLab 配置文件</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/gitlab/gitlab.rb
-</code></pre></div></div>
-
-<h4 id="smtp-邮箱配置">SMTP 邮箱配置</h4>
-
-<p>如果想使用SMTP代替sendmail来发送邮件，应该在gitlab.rb中启用对应的配置，然后运行<code class="language-plaintext highlighter-rouge">gitlab-ctl reconfigure</code>使修改生效。</p>
-
-<h5 id="qq企业邮箱配置示例">QQ企业邮箱配置示例</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails['smtp_enable'] = true
-gitlab_rails['smtp_address'] = "smtp.exmail.qq.com"
-gitlab_rails['smtp_port'] = 465
-gitlab_rails['smtp_user_name'] = "xxxx@xx.com"
-gitlab_rails['smtp_password'] = "password"
-gitlab_rails['smtp_authentication'] = "login"
-gitlab_rails['smtp_enable_starttls_auto'] = true
-gitlab_rails['smtp_tls'] = true
-gitlab_rails['gitlab_email_from'] = 'xxxx@xx.com'
-</code></pre></div></div>
-
-<h5 id="gmail邮箱配置示例">Gmail邮箱配置示例</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails['smtp_enable'] = true
-gitlab_rails['smtp_address'] = "smtp.gmail.com"
-gitlab_rails['smtp_port'] = 587
-gitlab_rails['smtp_user_name'] = "my.email@gmail.com"
-gitlab_rails['smtp_password'] = "my-gmail-password"
-gitlab_rails['smtp_domain'] = "smtp.gmail.com"
-gitlab_rails['smtp_authentication'] = "login"
-gitlab_rails['smtp_enable_starttls_auto'] = true
-gitlab_rails['smtp_tls'] = false
-gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
-</code></pre></div></div>
-
-<h5 id="outlook邮箱配置示例">Outlook邮箱配置示例</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails['smtp_enable'] = true
-gitlab_rails['smtp_address'] = "smtp-mail.outlook.com"
-gitlab_rails['smtp_port'] = 587
-gitlab_rails['smtp_user_name'] = "username@outlook.com"
-gitlab_rails['smtp_password'] = "password"
-gitlab_rails['smtp_domain'] = "smtp-mail.outlook.com"
-gitlab_rails['smtp_authentication'] = "login"
-gitlab_rails['smtp_enable_starttls_auto'] = true
-gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+<span class="k">print</span><span class="p">(</span><span class="s">"{}你和"</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">"我"</span><span class="p">))</span>
+<span class="o">&gt;</span><span class="n">我你和</span>
 </code></pre></div></div>
 
 <blockquote>
-  <p>​:warning: ‘smtp_password’字段不应包含任何 Ruby或者YAML语法中的分隔符 (如<code class="language-plaintext highlighter-rouge">'</code>),以避免处理配置文件的过程中发生不必要的意外。</p>
+  <p>当然还有 <code class="language-plaintext highlighter-rouge">%s</code> ，但更推荐使用format，任何在设计到字符替换的都可使用到</p>
 </blockquote>
 
-<h4 id="gitlab-日常维护">GitLab 日常维护</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"{}_name.txt"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">api</span><span class="p">),</span> <span class="s">"a+"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">"{}, {}</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">uid</span><span class="p">[</span><span class="s">"user-id"</span><span class="p">],</span> <span class="n">uid</span><span class="p">.</span><span class="n">string</span><span class="p">))</span>
+    <span class="n">f</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+    
+<span class="n">string_to_sign</span> <span class="o">=</span> <span class="s">'{}</span><span class="se">\n</span><span class="s">{}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">)</span>
 
-<h5 id="1-查看服务状态">1. 查看服务状态</h5>
-
-<p>使用 gitlab-ctl status 查看服务状态</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@6 ~]# sudo gitlab-ctl status
-run: gitaly: (pid 15055) 23089s; run: log: (pid 3142) 55379s
-run: gitlab-monitor: (pid 15060) 23088s; run: log: (pid 3325) 55357s
-run: gitlab-workhorse: (pid 15063) 23088s; run: log: (pid 3156) 55377s
-run: logrotate: (pid 17867) 1487s; run: log: (pid 3197) 55369s
-run: nginx: (pid 15077) 23087s; run: log: (pid 3169) 55375s
-run: node-exporter: (pid 15083) 23087s; run: log: (pid 3247) 55366s
-run: postgres-exporter: (pid 15088) 23086s; run: log: (pid 3311) 55358s
-run: postgresql: (pid 15093) 23086s; run: log: (pid 2988) 55412s
-run: prometheus: (pid 15101) 23085s; run: log: (pid 3230) 55368s
-run: redis: (pid 15109) 23085s; run: log: (pid 2931) 55419s
-run: redis-exporter: (pid 15113) 23085s; run: log: (pid 3290) 55364s
-run: sidekiq: (pid 17029) 22450s; run: log: (pid 3131) 55380s
-run: unicorn: (pid 17001) 22460s; run: log: (pid 3100) 55386s
+<span class="n">msg</span> <span class="o">=</span> <span class="s">"You get a new version. {}</span><span class="se">\n</span><span class="s">The download link : {}</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">get_version</span><span class="p">,</span> <span class="n">get_url</span><span class="p">)</span>
 </code></pre></div></div>
 
-<h5 id="2-启动关闭重启">2. 启动、关闭、重启</h5>
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-11-06</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2020/11/Django-%E4%BF%AE%E6%94%B9modules%E6%97%B6%E5%87%BA%E9%94%99.html">Django 修改modules时出错</a></h1>
+    <div class="post_at_index">
+      <h1 id="djangodbutilsintegrityerror-not-null-constraint-failed">django.db.utils.IntegrityError: NOT NULL constraint failed</h1>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 启动Gitlab所有组件
-sudo gitlab-ctl start
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">migrate</span> 
+<span class="n">错误</span><span class="err">：</span><span class="n">django</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">IntegrityError</span><span class="p">:</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">constraint</span> <span class="n">failed</span>
 
-# 停止Gitlab所有组件
-sudo gitlab-ctl stop
+<span class="c1"># 在执行 migrate 遇到了以上错误，但实际上已经把错误添加的字段给移除后重新 makemigrations
+</span>
+<span class="c1"># 解决办法
+</span>
+<span class="n">删除</span> <span class="n">migrations</span> <span class="n">中对应生成的</span> <span class="sb">`0006`</span> <span class="n">文件</span>
 
-# 重启Gitlab所有组件
-sudo gitlab-ctl restart
+<span class="n">然后</span><span class="err">，</span><span class="n">再次运行2个命令</span>
 
-# 重启单个组件
-sudo gitlab-ctl restart sidekiq
+<span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">makemigrations</span>
+<span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">migrate</span>
 </code></pre></div></div>
 
-<h5 id="3-控制台实时查看日志">3. 控制台实时查看日志</h5>
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-11-06</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2020/11/beautiful-soup-4-%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7.html">beautiful soup 4 使用技巧</a></h1>
+    <div class="post_at_index">
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># import module
+</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 查看所有的logs; 按 Ctrl-C 退出
-sudo gitlab-ctl tail
-
-# 拉取/var/log/gitlab下子目录的日志
-sudo gitlab-ctl tail gitlab-rails
-
-# 拉取某个指定的日志文件
-sudo gitlab-ctl tail nginx/gitlab_error.log
+<span class="c1"># with requests.request
+</span><span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">content</span><span class="p">,</span> <span class="s">'lxml'</span><span class="p">)</span>
 </code></pre></div></div>
 
-<h3 id="gitlab-安装后优化"><strong>GitLab 安装后优化</strong></h3>
+<p><code class="language-plaintext highlighter-rouge">select</code> 使用技巧</p>
 
-<h4 id="启用https">启用HTTPS</h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 查询某一个特定的 HTML Tag 的方法
+</span><span class="n">soup</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"a"</span><span class="p">)</span>
 
-<p>首先，你需要提供一个有可信任CA证书，默认情况下GitLab是没有启用HTTPS的，如果要启用HTTPS时，首先要修改<code>/etc/gitlab/gitlab.rb</code>中的<code>external_url</code>:</p>
+<span class="c1"># 查询某个特定的 class 的方法
+</span><span class="n">soup</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="n">class</span><span class="o">=</span><span class="s">"class_name"</span><span class="p">)</span>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 修改为https
-external_url "https://git.ultraera.org"
+<span class="c1"># 查询某个特定的 id 的方法，查询条件前加上#
+</span><span class="n">soup</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"#id_name"</span><span class="p">)</span>
 
-# 设置默认将http重定向到https
-nginx['redirect_http_to_https'] = true
+<span class="c1"># 通过使用类名来进行查找，查询条件前加上.
+</span><span class="n">soup</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">".class_name"</span><span class="p">)</span>
+
+
+<span class="o">---</span> <span class="n">组合条件查询</span><span class="err">，</span><span class="n">用于缩小范围</span> <span class="o">---</span>
+
+<span class="c1"># 仅在Head内查询p标签
+</span><span class="n">soup</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"head p"</span><span class="p">)</span>
+
+<span class="c1"># 仅在body中的h6标签中查找a标签
+</span><span class="n">soup</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">"body h6 a"</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p>如果你暂时没有https证书，那么你可以临时自己颁发一个证书，注意这个证书是不受信任的。</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir -p /etc/nginx/ssl/
-cd /etc/nginx/ssl/
-sudo openssl req -newkey rsa:2048 -x509 -nodes -days 3560 -out gitlab.crt -keyout gitlab.key
-sudo chmod o-r gitlab.key
-sudo mv gitlab.key gitlab.crt /etc/ssl/
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"top-nav"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;ul&gt;</span>
+        ...
+        <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"cur"</span><span class="nt">&gt;&lt;span&gt;</span>网页<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
+        href="http://zhihu.sogou.com/" uigs-id="nav_zhihu" id="zhihu"&gt;知乎<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">onclick=</span><span class="s">"st(this,'40030500','pic')"</span> <span class="na">href=</span><span class="s">"http://pic.sogou.com"</span> <span class="na">uigs-id=</span><span class="s">"nav_pic"</span> <span class="na">id=</span><span class="s">"pic"</span><span class="nt">&gt;</span>图片<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        ...
+    <span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
 </code></pre></div></div>
 
-<p>另外，还需要在gitlab-shell中的config.yml中将self_signed_cert 修改为启用:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>self_signed_cert = true
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">li</span> <span class="o">=</span> <span class="n">bs</span><span class="p">.</span><span class="n">select</span><span class="p">(</span><span class="s">'.top-nav ul li'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"result len is"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">li</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">li</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
 </code></pre></div></div>
 
-<h4 id="设置延迟启动">设置延迟启动</h4>
+<h1 id="select返回的是一个-list"><code class="language-plaintext highlighter-rouge">select</code> 返回的是一个 <code class="language-plaintext highlighter-rouge">list</code> </h1>
 
-<p>为保证服务质量，我们可以设置让omnibus-gitlab的服务(Nginx, Redis, Unicorn等) 在指定的文件系统挂载成功后再启动，在<code>/etc/gitlab/gitlab.rb</code> 文件中添加如下内容：</p>
+<p>通过过下标，可以获取到对应的内容</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 等待/var/opt/gitlab 先被挂载
-high_availability['mountpoint'] = '/var/opt/gitlab'
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">=&lt;</span><span class="n">a</span> <span class="n">title</span><span class="o">=</span><span class="s">"郭大侠"</span> <span class="n">user</span><span class="o">-</span><span class="nb">id</span><span class="o">=</span><span class="s">"1802863164"</span> <span class="n">class</span><span class="o">=</span><span class="s">"J_card"</span> <span class="n">href</span><span class="o">=</span><span class="s">"/member/1802863164"</span><span class="o">&gt;</span><span class="n">郭大侠</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>比如要打印出上述的user-id，可以使用  <code class="language-plaintext highlighter-rouge">print(user['user-id'])</code> </li>
+  <li>比如要打印出上述的title，可以使用  <code class="language-plaintext highlighter-rouge">print(user['title'])</code></li>
+</ul>
+
+<h1 id="打印html-tag-内的文本">打印HTML Tag 内的文本</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># .string   在获取到的tag后面增加
+</span>
+<span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">=&lt;</span><span class="n">a</span> <span class="n">title</span><span class="o">=</span><span class="s">"郭大侠"</span> <span class="n">user</span><span class="o">-</span><span class="nb">id</span><span class="o">=</span><span class="s">"1802863164"</span> <span class="n">class</span><span class="o">=</span><span class="s">"J_card"</span> <span class="n">href</span><span class="o">=</span><span class="s">"/member/1802863164"</span><span class="o">&gt;</span><span class="n">郭大侠</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="n">string</span><span class="p">)</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-11-05</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2020/10/Use-devtools-encodeurl-&-decodeurl.html">Use devtools encodeurl & decodeurl</a></h1>
+    <div class="post_at_index">
+      <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="dl">"</span><span class="s2">&amp;goods_url=https%3A%2F%2Fwww.ys7.com%2Fitem%2F9079.html&amp;goods_title=%E3%80%90%E7%9B%B4%E9%99%8D50%E5%85%83%E3%80%91C6CN%E9%AB%98%E6%B8%85%E4%BA%92%E8%81%94%E7%BD%91%E4%BA%91%E5%8F%B0%E6%91%84%E5%83%8F%E6%9C%BA%2F1080P%2FH.265&amp;goods_picture=https%3A%2F%2Fmfs.ys7.com%2Fmall%2F537a11e9693bab3daf50b515bb0bb196.png</span><span class="dl">"</span><span class="p">)</span>
+
+<span class="o">&gt;</span> <span class="dl">"</span><span class="s2">&amp;goods_url=https://www.ys7.com/item/9079.html&amp;goods_title=【直降50元】C6CN高清互联网云台摄像机/1080P/H.265&amp;goods_picture=https://mfs.ys7.com/mall/537a11e9693bab3daf50b515bb0bb196.png</span><span class="dl">"</span>
+
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-10-23</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2020/10/Mac_%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E5%85%B3%E9%97%AD%E5%92%8C%E5%90%AF%E5%8A%A8AirPort.html">Mac:使用命令关闭和启动AirPort</a></h1>
+    <div class="post_at_index">
+      <p>在调试新的MacBookAir 13’时遇到一个问题，无法检测到她家的WiFi，一开始怀疑是不是无线路由器长时间未重启导致，所以重启了路由器，但是问题依然没有解决，于是我们将问题转向排查设备，因我们基本正好有iPad，iPhone，MacBook这些设备，发现唯独他的这个Macbook无法识别WiFi，后来在Google的帮助下，发现多个版本的Mac OS X都出现了类似的问题，可以通过重启AirPort解决问题，但是AirPort在System Preferences找不到选项，所以需要使用命令行来重启。</p>
+
+<h5 id="查看网络接口"><strong>查看网络接口</strong></h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ifconfig
+en0: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
+	ether 60:f8:1d:ad:85:76
+	inet6 fe80::18a9:fa23:b02f:5d8a%en0 prefixlen 64 secured scopeid 0x4
+	inet 192.168.199.200 netmask 0xffffff00 broadcast 192.168.199.255
+	nd6 options=201&lt;PERFORMNUD,DAD&gt;
+	media: autoselect
+	status: active
+</code></pre></div></div>
+
+<h5 id="关闭airport"><strong>关闭AirPort</strong></h5>
+
+<p>有时候设备的名称是en0、en1这样，所以，可以用过设备名称来重启airport，例如en0</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup -setairportpower en0 off
+</code></pre></div></div>
+
+<h5 id="查看状态"><strong>查看状态</strong></h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup -getairportpower en0
+</code></pre></div></div>
+
+<h5 id="关闭airport-1"><strong>关闭AirPort</strong></h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup -setairportpower en0 on
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-10-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2019/11/Mac(2)-%E8%A7%A3%E5%86%B3oh-my-zsh%E5%9C%A8%E7%BB%88%E7%AB%AF%E4%B8%8B%E6%89%93%E5%BC%80%E7%BC%93%E6%85%A2.html">Mac 下解决oh-my-zsh在终端下打开缓慢</a></h1>
+    <div class="post_at_index">
+      <p>升级Mac OS X 10.11 之后，使用CleanMyMac 3清理9GB的垃圾文件，之后导致打开iTerm时加载主机名特别的慢，Mac的命令行工具我使用的是iTerm＋ohmyzsh，这个问题困扰了我快两个月，工作比较忙，所以一直用Zoc 代替，也没有认真的研究，最近有需求用到它，实在不行，研究一下，发现，是因为我清理系统的时候把终端日志的索引文件清理掉了，所以每次打开的时候都要先加载索引导致了首次开启非常慢，解决办法是，只要把终端缓存的日志文件删除即可：</p>
+
+<p>代码块：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 日志文件路径
+# /private/var/log/asl/*.asl
+
+➜  ~ sudo du -sh /private/var/log/asl/
+Password:
+2.7G	/private/var/log/asl/
+
+➜  ~ sudo rm -rf /private/var/log/asl/*.asl
+➜  ~ sudo du -sh /private/var/log/asl/
+208M	/private/var/log/asl/
+</code></pre></div></div>
+
+<p>关闭终端，再次打开，问题解决。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2019-11-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2019/07/Mac%E4%B8%8Bhomebrew%E7%9A%84%E4%BD%BF%E7%94%A8.html">Mac 下 Homebrew 的使用</a></h1>
+    <div class="post_at_index">
+      <p>mac系统也是基于unix的系统，所以也继承类很多unix的特性，包括软件的编译，安装等。ubuntu下有快捷命令<code class="language-plaintext highlighter-rouge">apt install</code>来快速安装软件。centos下有<code class="language-plaintext highlighter-rouge">yum install</code>来快速安装。所以，mac下也有一种方式，就是使用<code class="language-plaintext highlighter-rouge">brew</code>。</p>
+
+<p>并且，在 Homebrew 和 Cask 的支持下，基本可以全面接待 MacOS 的所有软件安装和更新功能。</p>
+
+<p><code class="language-plaintext highlighter-rouge">brew</code>是Mac下的一个包管理工具，它从下载源码解压然后 <code class="language-plaintext highlighter-rouge">./configure &amp;&amp; make install</code> ，同时会包含相关依存库。并自动配置好各种环境变量，而且非常易于卸载。 这个对程序员来说简直是福音，简单的指令，就能快速安装和升级本地的各种开发环境。</p>
+
+<p>home brew 官网是 http://brew.sh/index_zh-cn.html</p>
+
+<h2 id="安装-brew">安装 brew</h2>
+
+<p>打开 itrem 。输入一条命令即可安装好 brew。</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>这样一个简单的命令，我们就安装好来brew 。来验证一下，输入brew命令：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew
+Example usage:
+  brew search TEXT|/REGEX/
+  brew info <span class="o">[</span>FORMULA|CASK...]
+  brew <span class="nb">install </span>FORMULA|CASK...
+  brew update
+  brew upgrade <span class="o">[</span>FORMULA|CASK...]
+  brew uninstall FORMULA|CASK...
+  brew list <span class="o">[</span>FORMULA|CASK...]
+
+Troubleshooting:
+  brew config
+  brew doctor
+  brew <span class="nb">install</span> <span class="nt">--verbose</span> <span class="nt">--debug</span> FORMULA|CASK
+
+Contributing:
+  brew create URL <span class="o">[</span><span class="nt">--no-fetch</span><span class="o">]</span>
+  brew edit <span class="o">[</span>FORMULA|CASK...]
+
+Further <span class="nb">help</span>:
+  brew commands
+  brew <span class="nb">help</span> <span class="o">[</span>COMMAND]
+  man brew
+  https://docs.brew.sh
+</code></pre></div></div>
+
+<p>出现了很多帮助命令，说明我们已经安装成功了。</p>
+
+<h2 id="用-brew-安装程序">用 brew 安装程序</h2>
+
+<p>安装好了brew之后，我们就可以用这个命令安装各种源码了。比如安装一下<code class="language-plaintext highlighter-rouge">wget</code>工具。这个工具能在命令行中帮我们下载各种数据。</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>git
+</code></pre></div></div>
+
+<p>这样一个简单的命令就可以了。它会帮我们下载好 git ，并且编译执行安装，还会下载各种依赖包，设置好各种配置和参数。</p>
+
+<p>安装好的 <code class="language-plaintext highlighter-rouge">git</code> 会被安装到<code class="language-plaintext highlighter-rouge">/usr/local/Cellar/git/</code>下。并且将<code class="language-plaintext highlighter-rouge">wget</code>命令软链接至 <code class="language-plaintext highlighter-rouge">/usr/local/bin</code> 目录下。这样全局就都可以使用<code class="language-plaintext highlighter-rouge">git</code>命令了。</p>
+
+<blockquote>
+  <p>Homebrew 在 MacOS 10.11 之后 修改了 安装的路径为 <code class="language-plaintext highlighter-rouge">/opt/Homebrew</code>，通过 <code class="language-plaintext highlighter-rouge">brew config</code> 可以看到</p>
+</blockquote>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew config
+HOMEBREW_VERSION: 3.4.10-7-ga4545e5
+ORIGIN: https://github.com/Homebrew/brew
+HEAD: a4545e52315ceedf2deb97ac17d7234708d16e5b
+HOMEBREW_PREFIX: /opt/homebrew
+HOMEBREW_CASK_OPTS: <span class="o">[]</span>
+CPU: 10-core 64-bit arm_firestorm_icestorm
+Clang: 13.1.6 build 1316
+Git: 2.36.0 <span class="o">=&gt;</span> /opt/homebrew/bin/git
+Curl: 7.79.1 <span class="o">=&gt;</span> /usr/bin/curl
+macOS: 12.3.1-arm64
+CLT: 13.3.1.0.1.1648687083
+Xcode: 13.3.1
+Rosetta 2: <span class="nb">false</span>
+</code></pre></div></div>
+
+<h2 id="brew-的常用命令">brew 的常用命令</h2>
+
+<p>常用的命令没几个：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew <span class="nb">install </span>git 	<span class="c"># 安装</span>
+➜  ~ brew info git 		<span class="c"># 显示软件的各种信息</span>
+➜  ~ brew uninstall git <span class="c"># 卸载</span>
+➜  ~ brew search git <span class="c"># 模糊搜索 brew 支持的软件</span>
+➜  ~ brew list <span class="c"># 列出本机通过 brew 安装的所有软件</span>
+➜  ~ brew update <span class="c"># 更新 brew repo 信息，每次 Install 前也会自动更新</span>
+➜  ~ brew upgrade git <span class="c"># 更新软件 [如果不加软件名，就更新所有可以更新的软件]</span>
+➜  ~ brew cleanup <span class="c"># 清除下载的各种缓存</span>
+➜  ~ brew doctor <span class="c"># 诊断当前 brew 的配置是否有问题，并给出建议</span>
+</code></pre></div></div>
+
+<h2 id="brew-cask">brew cask</h2>
+
+<p><img src="https://camo.githubusercontent.com/f8b75a5e461338a90db6acf4db8f5bc9cf620bfba65a5a490ed10bd08f457b52/68747470733a2f2f692e696d6775722e636f6d2f464e4e4d36574c2e676966" alt="" /></p>
+
+<p>brew cask 是在 brew 的基础上一个增强的工具，用来安装Mac上的Gui程序应用包（.dmg/.pkg）, 比如 Chrome 、WeChat 等。它先下载解压到统一的目录中（<code class="language-plaintext highlighter-rouge">/opt/homebrew-cask/Caskroom</code>），省掉了自己去下载、解压、拖拽（安装）等蛋疼步骤，同样，卸载相当容易与干净。然后再软链到<code class="language-plaintext highlighter-rouge">~/Applications/</code>目录下, 一气呵成。非常方便，而且还包含很多在 AppStore 里没有的常用软件。</p>
+
+<ul>
+  <li>brew cask的官网是：<a href="http://caskroom.io/">http://caskroom.io</a></li>
+  <li>github地址是：https://github.com/caskroom/homebrew-cask</li>
+</ul>
+
+<p>:::information_desk_person: Cask 目前已经内置到 brew 官方安装包内了，无需单独安装；并且官方集成的非常好，大部分情况下，不需要特殊标记就可以看到到对应的软件了</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew search git <span class="nt">--cask</span>   <span class="c"># 在 brew 后 --cask 可指定查询 GUI 类型</span>
+<span class="o">==&gt;</span> Casks
+adobe-digital-editions                   gitscout
+caldigit-docking-utility                 gitter ✔
+caldigit-thunderbolt-charging            gitup
+deepgit                                  gitx
+digital                                  logitech-camera-settings
+font-digital-numbers                     logitech-control-center
+git-it                                   logitech-firmwareupdatetool
+gitahead                                 logitech-g-hub
+gitblade                                 logitech-gaming-software
+gitdock                                  logitech-myharmony
+gitee                                    logitech-options ✔
+giteye                                   logitech-presentation
+gitfiend                                 logitech-unifying
+gitfinder                                plotdigitizer
+gitfox                                   rowanj-gitx
+github                                   smartgit
+github-beta                              snagit
+githubpulse                              snagit4
+gitify                                   subgit
+gitkraken                                webplotdigitizer
+gitnote                                  xit
+gitpigeon
+</code></pre></div></div>
+
+<p>举个简单的例子，iTerm 是我们经常使用的软件：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew <span class="nb">install </span>iTerm <span class="nt">--cask</span>  <span class="c"># 大部分情况下 --cask 是可以省略的，除非在出现同名的情况下</span>
 </code></pre></div></div>
 
 <blockquote>
-  <p>注意在修改配置之后，要使用重新reconfigure配置</p>
+  <p>使用小技巧</p>
 </blockquote>
 
-<h4 id="backups-备份还原">Backups 备份还原</h4>
+<p>如果不清楚这个软件是否符合我们的要求，可以在安装前通过 <code class="language-plaintext highlighter-rouge">brew seach</code> 模糊查询下 具体的软件名称：</p>
 
-<h5 id="备份">备份</h5>
-
-<p>Gitlab的配置也非常简单,使用一条命令即可创建完整的Gitlab备份:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab-rake gitlab:backup:create
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew search iterm <span class="nt">--cask</span>
+<span class="o">==&gt;</span> Casks
+font-ia-writer-mono        iterm2-legacy              zterm
+iterm2 ✔                   iterm2-nightly
+iterm2-beta                therm
 </code></pre></div></div>
 
-<p>该命令会在<code class="language-plaintext highlighter-rouge">/var/opt/gitlab/backups</code>目录下创建一个名称类似为<code class="language-plaintext highlighter-rouge">1491989249_2017_04_12_gitlab_backup.tar</code>的压缩包, 这个压缩包就是Gitlab整个的完整部分，其中开头的<code class="language-plaintext highlighter-rouge">1491989249_2017_04_12</code>是备份创建的日期，这也是我们等下恢复是要用的字段。</p>
+<p>在确认了具体的软件名称后，可以通过 <code class="language-plaintext highlighter-rouge">brew info</code> 查看更为详细的软件信息，在这里会告诉软件的具体名称和介绍</p>
 
-<h5 id="修改默认备份路径">修改默认备份路径</h5>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew info iterm2
+iterm2: 3.4.15 <span class="o">(</span>auto_updates<span class="o">)</span>
+https://www.iterm2.com/
+/opt/homebrew/Caskroom/iterm2/3.4.15 <span class="o">(</span>119B<span class="o">)</span>
+From: https://github.com/Homebrew/homebrew-cask/blob/HEAD/Casks/iterm2.rb
+<span class="o">==&gt;</span> Name
+iTerm2
+<span class="o">==&gt;</span> Description
+Terminal emulator as alternative to Apple<span class="s1">'s Terminal app
+==&gt; Artifacts
+iTerm.app (App)
+==&gt; Analytics
+install: 25,001 (30 days), 91,481 (90 days), 335,711 (365 days)
+</span></code></pre></div></div>
 
-<p>如果你像我一样，是使用yum安装的，那么GitLab默认的备份目录应该在<code class="language-plaintext highlighter-rouge">/var/opt/gitlab/backups</code>，我建议将备份目录修改为其他位置，并添加定时自动备份脚本，可以通过修改<code class="language-plaintext highlighter-rouge">/etc/gitlab/gitlab.rb</code>来修改默认位置：</p>
+<p>OK，以上确认后，就可以正常安装了</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails['backup_path'] = '/mnt/backups'
+<h2 id="brew-cu">brew cu</h2>
+
+<p><code class="language-plaintext highlighter-rouge">cu</code> 是 Cask 软件下的另一个优质的辅助工具，全称 <code class="language-plaintext highlighter-rouge">brew-cask-upgrade</code> 可以帮您检测全部 <code class="language-plaintext highlighter-rouge">brew install --cask</code> 的软件的版本更新情况</p>
+
+<h3 id="cu-的安装">cu 的安装</h3>
+
+<ul>
+  <li>Github https://github.com/buo/homebrew-cask-upgrade</li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew tap buo/cask-upgrade
 </code></pre></div></div>
 
-<h5 id="使用crontab-添加自动备份">使用crontab 添加自动备份</h5>
+<h3 id="使用说明">使用说明</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 每天凌晨00:00 自动备份
-00 00 * * * /opt/gitlab/bin/gitlab-rake gitlab:backup:create
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew cu <span class="c"># 简单即可检测所有软件的更新情况</span>
+<span class="o">==&gt;</span> Options
+Include auto-update <span class="o">(</span><span class="nt">-a</span><span class="o">)</span>: <span class="nb">false
+</span>Include latest <span class="o">(</span><span class="nt">-f</span><span class="o">)</span>: <span class="nb">false</span>
+<span class="o">==&gt;</span> Updating Homebrew
+Already up-to-date.
+<span class="o">==&gt;</span> Finding outdated apps
+       Cask                           Current       Latest        A/U    Result
+ 1/62  another-redis-desktop-manager  1.5.2         1.5.5              <span class="o">[</span>OUTDATED]
+ 2/62  anydesk                        6.3.3         6.5.0              <span class="o">[</span>OUTDATED]
+ 3/62  authy                          1.9.0         2.1.0          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+ 4/62  betterdummy                    1.0.13        1.1.12         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+ 5/62  bob                            0.7.0         0.8.1          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+ 6/62  cakebrew                       1.3           1.3            Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+ 7/62  clipy                          1.2.1         1.2.1              <span class="o">[</span>   OK   <span class="o">]</span>
+ 8/62  dash                           6.2.0         6.2.3          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+ 9/62  devtoys                        0.0.10        0.0.10             <span class="o">[</span>   OK   <span class="o">]</span>
+10/62  feishu                         5.1.5         5.11.5         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+11/62  figma                          112.2.0       114.3.0        Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+12/62  firefox                        94.0.2        99.0.1         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+13/62  folx                           5.25          5.26           Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+14/62  font-fira-code                 6.2           6.2                <span class="o">[</span>   OK   <span class="o">]</span>
+15/62  forticlient-vpn                7.0           7.0                <span class="o">[</span>   OK   <span class="o">]</span>
+16/62  gitter                         1.177         1.177              <span class="o">[</span>   OK   <span class="o">]</span>
+17/62  iina                           1.2.0         1.2.0          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+18/62  iina-plus                      0.6.5         0.6.6              <span class="o">[</span>OUTDATED]
+19/62  imazing                        2.14.6        2.14.8         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+20/62  iterm2                         3.4.15        3.4.15         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+21/62  jellybeansoup-netflix          1.0.5         1.0.5              <span class="o">[</span>   OK   <span class="o">]</span>
+22/62  jetbrains-toolbox              1.22          1.23           Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+23/62  kap                            3.4.2         3.5.4          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+24/62  keyboardholder                 1.5.5         1.6.1              <span class="o">[</span>OUTDATED]
+25/62  kite                           0.20210610.0  0.20210610.0   Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+26/62  logitech-options               9.40.75       9.50.122       Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+27/62  maccy                          0.22.0        0.22.2         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+28/62  microsoft-remote-desktop       10.7.0        10.7.6         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+29/62  netnewswire                    6.1           6.1            Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+30/62  notable                        1.8.4         1.8.4          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+31/62  notion                         2.0.18        2.0.20         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+32/62  obsidian                       0.14.6        0.14.6         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+33/62  one-switch                     1.23          1.25               <span class="o">[</span>OUTDATED]
+34/62  openconnect-gui                1.5.3         1.5.3              <span class="o">[</span>   OK   <span class="o">]</span>
+35/62  openvpn-connect                3.3.2         3.3.5              <span class="o">[</span>OUTDATED]
+36/62  oss-browser                    1.16.0        1.16.0             <span class="o">[</span>   OK   <span class="o">]</span>
+37/62  picgo                          2.3.0         2.3.0              <span class="o">[</span>   OK   <span class="o">]</span>
+38/62  playcover                      0.9.2         1.0.0              <span class="o">[</span>OUTDATED]
+39/62  postman                        9.1.3         9.16.0         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+40/62  proxyman                       3.3.0         3.4.0          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+41/62  resilio-sync                   2.7.3         2.7.3          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+42/62  sensei                         1.5.1         1.5.2          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+43/62  shimo                          5.0.4         5.0.4          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+44/62  shuttle                        1.2.9         1.2.9              <span class="o">[</span>   OK   <span class="o">]</span>
+45/62  skype                          8.79.0.92     8.83.0.408     Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+46/62  slack-beta                     4.23.0        4.26.0         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+47/62  sourcetree                     4.1.7         4.1.8          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+48/62  spotify                        1.1.73.517    1.1.84.716     Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+49/62  steam                          4.0           4.0            Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+50/62  sunloginclient                 11.0.1.39931  12.5.0.45236       <span class="o">[</span>OUTDATED]
+51/62  switchkey                      1.1.3         1.1.3              <span class="o">[</span>   OK   <span class="o">]</span>
+52/62  telegram                       8.3           8.7            Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+53/62  tencent-lemon                  5.0.7         5.0.7          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+54/62  tencent-meeting                2.20.2.413    3.7.7.457      Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+55/62  typora                         1.0.2         1.2.4          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+56/62  upic                           0.21.1        0.21.1             <span class="o">[</span>   OK   <span class="o">]</span>
+57/62  utm-beta                       3.1.5         3.2.0              <span class="o">[</span>OUTDATED]
+58/62  visual-studio-code-insiders    1.63.0        latest             <span class="o">[</span>   OK   <span class="o">]</span>
+59/62  whatsapp                       2.2204.13     2.2214.12      Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+60/62  wireshark                      3.4.9         3.6.3          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+61/62  yesplaymusic                   0.4.3         0.4.3              <span class="o">[</span>   OK   <span class="o">]</span>
+62/62  zoom                           5.8.4.2421    5.10.4.6592    Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+
+<span class="o">==&gt;</span> Found outdated apps
+     Cask                           Current       Latest        A/U    Result
+1/9  another-redis-desktop-manager  1.5.2         1.5.5              <span class="o">[</span>OUTDATED]
+2/9  anydesk                        6.3.3         6.5.0              <span class="o">[</span>OUTDATED]
+3/9  iina-plus                      0.6.5         0.6.6              <span class="o">[</span>OUTDATED]
+4/9  keyboardholder                 1.5.5         1.6.1              <span class="o">[</span>OUTDATED]
+5/9  one-switch                     1.23          1.25               <span class="o">[</span>OUTDATED]
+6/9  openvpn-connect                3.3.2         3.3.5              <span class="o">[</span>OUTDATED]
+7/9  playcover                      0.9.2         1.0.0              <span class="o">[</span>OUTDATED]
+8/9  sunloginclient                 11.0.1.39931  12.5.0.45236       <span class="o">[</span>OUTDATED]
+9/9  utm-beta                       3.1.5         3.2.0              <span class="o">[</span>OUTDATED]
+
+Do you want to upgrade 9 apps or enter <span class="o">[</span>i]nteractive mode <span class="o">[</span>y/i/N]?
 </code></pre></div></div>
 
-<h5 id="备份恢复">备份恢复</h5>
+<p>可以根据提示输入然后选择是否更新：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 停止相关数据连接服务
-gitlab-ctl stop unicorn
-gitlab-ctl stop sidekiq
+<ul>
+  <li>y 全部更新，后续不再确认</li>
+  <li>i 依次咨询是否要更新</li>
+  <li>N 全部不更新，退出</li>
+</ul>
 
-# 从1491989249_2017_04_12编号备份中恢复
-gitlab-rake gitlab:backup:restore BACKUP=1491989249_2017_04_12
+<h2 id="brew-mas">brew mas</h2>
 
-# 启动Gitlab
-sudo gitlab-ctl start unicorn
-sudo gitlab-ctl start sidekiq
+<p>mas 是一个帮助在命令行下完成 Mac App Store 软件安装和查询的工具，使用起来也是非常的简单，但相对于 cask 低了很多，可以作为了解， 安装方式如下：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew <span class="nb">install </span>mas
 </code></pre></div></div>
 
-<h3 id="gitlab-迁移"><strong>GitLab 迁移</strong></h3>
+<p>支持的命令也基本覆盖了常用需求</p>
 
-<p>只需将原服务器<code class="language-plaintext highlighter-rouge">/var/opt/gitlab/backups</code>目录下的备份文件拷贝到新服务器上的<code class="language-plaintext highlighter-rouge">/var/opt/gitlab/backups</code>上即可(如果你没修改过默认备份目录的话)， 但是需要注意的是新服务器上的Gitlab的版本必须与创建备份时的Gitlab版本号相同， 比如新服务器安装的是最新的9.0.5版本的Gitlab, 那么迁移之前，最好将老服务器的Gitlab 升级为9.0.5在进行备份。</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ mas list
+➜  ~ mas search xcode
+➜  ~ mas <span class="nb">install </span>407963104
+➜  ~ mas outdated
+➜  ~ mas upgrade
+</code></pre></div></div>
 
-<p>/Users/Alex/Documents/Hexo/source/_posts/</p>
+<p>当然，mas 也支持了 appstore 的账号登录；不过目前看到 mas 的社区更新不怎么积极，目前仍旧未适配 最新的系统，谨慎选择。</p>
+
+<h2 id="brew-软件的备份和恢复">brew 软件的备份和恢复</h2>
+
+<p>随着对系统使用的不断加深，我们已经在一台电脑上建立一套对自己来说的软件生态，所以在更换电脑时，需要安装那些软件是非常头疼的一个事情； 如果都是 GUI 软件还好，但研发同学的电脑其实会有大量的 forumal 软件，重装起来还是非常麻烦的。</p>
+
+<p>所以，这里给大家推荐 <code class="language-plaintext highlighter-rouge">homebrew-bundle</code> 来帮助迁移电脑时，快速备份和恢复你的软件环境；整个使用的过程也是非常的便捷。</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 执行 bundle dump 备份软件清单到 Brewfile</span>
+brew bundle dump <span class="nt">--describe</span> <span class="nt">--force</span> <span class="nt">--file</span><span class="o">=</span><span class="s2">"~/Desktop/Brewfile"</span>
+
+<span class="c"># --describe：为列表中的命令行工具加上说明性文字，可以参照 brew info package</span>
+</code></pre></div></div>
+
+<p>根据你电脑的软件多少，这大概会花费几十秒的时间，然后你会得到一份你的电脑软件清单，这里也分享下我的清单</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">cat </span>Desktop/Brewfile
+tap <span class="s2">"bigwig-club/brew"</span>
+tap <span class="s2">"buo/cask-upgrade"</span>
+tap <span class="s2">"heroku/brew"</span>
+...
+<span class="c"># Mozilla CA certificate store</span>
+brew <span class="s2">"ca-certificates"</span>
+<span class="c"># GNU database manager</span>
+brew <span class="s2">"gdbm"</span>
+<span class="c"># Automate deployment, configuration, and upgrading</span>
+brew <span class="s2">"ansible"</span>
+<span class="c"># Library and utilities for processing GIFs</span>
+brew <span class="s2">"giflib"</span>
+...
+<span class="c"># Redis desktop manager</span>
+cask <span class="s2">"another-redis-desktop-manager"</span>
+<span class="c"># Allows connection to a computer remotely</span>
+cask <span class="s2">"anydesk"</span>
+<span class="c"># Two-factor authentication software</span>
+cask <span class="s2">"authy"</span>
+<span class="c"># Dummy Display for Apple Silicon Macs to achieve custom resolutions</span>
+cask <span class="s2">"betterdummy"</span>
+...
+mas <span class="s2">"AngryBirdsReloaded"</span>, <span class="nb">id</span>: 1539172625
+mas <span class="s2">"Asphalt 8+"</span>, <span class="nb">id</span>: 1563005359
+mas <span class="s2">"BombSquad"</span>, <span class="nb">id</span>: 416482767
+mas <span class="s2">"Bridge Constructor+"</span>, <span class="nb">id</span>: 1587908263
+...
+</code></pre></div></div>
+
+<p>整个备份的内容包含  4 个部分，也正好包含了，我上面讲到的所有 brew 命令</p>
+
+<ul>
+  <li>brew tap 中的软件库</li>
+  <li>brew 安装的命令行工具</li>
+  <li>brew cask 安装的 App</li>
+  <li>Mac App Store 安装的 App  <code class="language-plaintext highlighter-rouge">这里也就是用上面的 mas</code></li>
+</ul>
+
+<h3 id="快速恢复软件">快速恢复软件</h3>
+
+<p>以下是你的新 Mac 上要做的事情，你需要把自己的 <code class="language-plaintext highlighter-rouge">Brewfile</code> 转移到新的 Mac 上，软件需要安装基础的工具:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 安装 Homebrew</span>
+➜  ~ /usr/bin/ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
+<span class="c"># 安装 mas</span>
+➜  ~ brew <span class="nb">install </span>mas
+</code></pre></div></div>
+
+<p>基础环境安装好了，之后，就可以进行软件恢复啦</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 批量安装软件 </span>
+➜  ~ brew bundle <span class="nt">--file</span><span class="o">=</span><span class="s2">"~/Desktop/Brewfile"</span>
+</code></pre></div></div>
+
+<p>软件实际恢复的速度取决于你的网络状态，不过 brew bundle 可以重复执行，你是可以中断恢复的。</p>
+
+<h2 id="结语">结语</h2>
+
+<p>好了，以上就是我关于 Mac 下软件安装神器 <code class="language-plaintext highlighter-rouge">brew</code>  的使用分享啦，这里大概涵盖了你 95% 的使用需求，如果你发现仍有疑问，欢迎与我取得联系，或者使用 Google 解决剩下的问题。</p>
+
+<p>文档内容，可能会随着时间推移有不适用的情况，若遇到冲突以官方说明为准。</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2017-04-13</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Gitlab">Gitlab</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2017/04/%E5%85%B3%E4%BA%8E%E8%80%83%E8%AF%95.html">关于考试</a></h1>
-    <div class="post_at_index">
-      <blockquote>
-  <p>时光飞逝，那大概是世界上最糟糕的一种感觉了吧。</p>
-</blockquote>
-
-<p>有点记不大清楚，上一次为了考试是什么时间了。</p>
-
-<p>我说的考试不是各种面试等无形的考试，而是，你坐在四四方方的台子前，给你纸笔，限定时间，那种紧张的感觉，那种备考的心态。</p>
-
-<p>所以时光会消磨人的斗志，让你不大能聚精会神的准备考试，让你变得懒散，让你变得不再有血性；所以，时间这种东西，不仅会在你的身上刻下斑驳印记，还会磨去你内心的棱角，一旦这样，你就会停下了脚步，大家的生活成了日复一日的重复，日子也过得索然无味，好像很多很多你想做的事，最后都是选择plan B。</p>
-
-<p>促使我写这篇的动力来自于，最近AWS助理级系统架构师的考试，而就在年前的时候，第一次去参加考试，没有通过，而且我一直在想到底是哪里出了问题，尽管我不愿意承认，问题根本是，我根本没有静下心来去准备考试，其实是，现在真的很难去静下心来去做考试这种事情，心气浮躁，要做的事情很多堆积在面前，你可能会被这些事情唬到，所以你很焦虑，光顾着去焦虑了，却没想着去解决这些问题，所以难道你的不是这些看起来很困难的问题，而是，你丧失了解决这些问题的勇气很血性；一方面反映在这里，另一方面也反映在你生活的各个方面，你好像没有动力去处理这些事情，总是在最后关头，勉勉强强叫上一份拼拼凑凑的答卷，这不会是你想要的样子，这是一种病，拖延。</p>
-
-<p><a href="https://www.youtube.com/watch?v=Q6ZgU7KyQsM">每個人的遺憾，都大抵相似</a></p>
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Q6ZgU7KyQsM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
-
-<p>之前看到过的一个视频，讲述的是在New York的街头方一块黑板，让你写下最后悔的事，很多都是自己真正想要做的，却未曾努力去做的事，“最后总是选择plan B”，“未曾跳出自己的舒适圈”，人生总是带有遗憾，总是想象着自己会多么的闪耀，却没有勇气付出真心努力，对我是这样，学习，考试，减肥，很多自己想做的事，如果不能够鼓足勇气去做，人生过着便没有意义。</p>
-
-<p>所以，很多事情，并非要你一定做到，而是，你是否真的努力去付出过，还是假意的敷衍，拖延妥协，这种感觉只有你自己真的知道，最后的遗憾，也只有自己知道，为什么要放手自己想要的。</p>
-
-<p>不要怀疑，不要犹豫，努力去做自己想做的事，努力成为那个，你想要成为的人，永远怀揣着梦想，永远热泪盈眶。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-04-11</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2017/04/HowTo-set-Tomcat-7-automatic-startup-with-CentOS-7.html">HowTo set Tomcat 7 automatic startup with CentOS 7</a></h1>
-    <div class="post_at_index">
-      <p>因CentOS7与6在系统上，变化较大，所以在之前的文章中讲到的使用Tomcat7开机自启动的方式在CentOS7是是无法使用的，所以这篇文章的目的是如何在CentOS7上将Tomcat7设置为开机自启动。</p>
-
-<h4 id="安装java环境">安装JAVA环境</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-[root@7 ~]# curl -LO -H "Cookie: oraclelicense=accept-securebackup-cookie" \
-"http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-linux-x64.rpm"
-
-[root@7 ~]# rpm -Uvh jdk-7u75-linux-x64.rpm
-Preparing...                ########################################### [100%]
-   1:jdk                    ########################################### [100%]
-Unpacking JAR files...
-        rt.jar...
-        jsse.jar...
-        charsets.jar...
-        tools.jar...
-        localedata.jar...
-        jfxrt.jar...
-
-[root@7 ~]# vi /etc/profile
-# add follows to the end
-export JAVA_HOME=/usr/java/default
-export PATH=$PATH:$JAVA_HOME/bin
-export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
-[root@7 ~]# source /etc/profile
-</code></pre></div></div>
-
-<h4 id="安装tomcat7">安装Tomcat7</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-[root@7 ~]# wget http://ftp.riken.jp/net/apache/tomcat/tomcat-7/v7.0.77/bin/apache-tomcat-7.0.77.tar.gz
-[root@7 ~]# tar zxvf apache-tomcat-7.0.77.tar.gz
-[root@7 ~]# mv apache-tomcat-7.0.77 /usr/tomcat7
-[root@7 ~]# useradd -M -d /usr/tomcat7 tomcat7
-[root@7 ~]# chown -R tomcat7. /usr/tomcat7
-</code></pre></div></div>
-
-<h4 id="创建开机自启动脚本">创建开机自启动脚本</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@7 ~]# cat /usr/lib/systemd/system/tomcat7.service
-# create new
- [Unit]
-Description=Apache Tomcat 7
-After=network.target
-
-[Service]
-Type=oneshot
-ExecStart=/usr/tomcat7/bin/startup.sh
-ExecStop=/usr/tomcat7/bin/shutdown.sh
-RemainAfterExit=yes
-User=tomcat7
-Group=tomcat7
-
-[Install]
-WantedBy=multi-user.target
-</code></pre></div></div>
-
-<h4 id="启动tomcat7">启动Tomcat7</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@7 ~]# systemctl start tomcat7.service
-[root@7 ~]# systemctl enable tomcat7.service
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-04-05</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Tomcat">Tomcat</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
+      <cite>2019-07-22</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
       
       
       
@@ -1629,7 +1152,7 @@ WantedBy=multi-user.target
             <li class="active"><a>11</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page21">21</a></li>
+          <li><a href="/page23">23</a></li>
         
 
         
@@ -1841,6 +1364,11 @@ WantedBy=multi-user.target
     	
       <li><a href="/categories.html#随笔">
     		随笔 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#读书笔记">
+    		读书笔记 <span>16</span>
     	</a></li>
      
     	

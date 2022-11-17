@@ -221,6 +221,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -262,6 +266,215 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a></h1>
+    <div class="post_at_index">
+      <h2 id="背景">背景</h2>
+
+<p>除了在 Hexo 维护个人博客之外，目前经常用到的 2 个文档工具： 语雀和 Mkdocs 都是支持 admonition样式，所以也在考虑如何给 Hexo 博客文章也增加这样的能力。</p>
+
+<p>保证写作习惯的一致性，好在有人开发出对应的插件，感谢.</p>
+
+<ul>
+  <li>https://github.com/lxl80/hexo-admonition</li>
+</ul>
+
+<h2 id="安装方式">安装方式</h2>
+
+<p>简单通过 2 个步骤即可，</p>
+
+<h3 id="安装插件">安装插件</h3>
+
+<p>采用 npm 安装，如下：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>hexo-admonition <span class="nt">--save</span>
+</code></pre></div></div>
+
+<h3 id="样式配置">样式配置</h3>
+
+<p>你的 hexo 可能会使用不同主题，所以需要自己增加样式，将如下样式放入 hexo 主题的自定义样式文件中（如：<code class="language-plaintext highlighter-rouge">ext.css</code>），并按自己喜好修改：</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">.admonition</span> <span class="p">{</span>
+  <span class="nl">margin</span><span class="p">:</span> <span class="m">1.5625em</span> <span class="m">0</span><span class="p">;</span>
+  <span class="nl">padding</span><span class="p">:</span> <span class="m">.6rem</span><span class="p">;</span>
+  <span class="nl">overflow</span><span class="p">:</span> <span class="nb">hidden</span><span class="p">;</span>
+  <span class="nl">font-size</span><span class="p">:</span> <span class="m">.64rem</span><span class="p">;</span>
+  <span class="nl">page-break-inside</span><span class="p">:</span> <span class="nb">avoid</span><span class="p">;</span>
+  <span class="nl">border-left</span><span class="p">:</span> <span class="m">.3rem</span> <span class="nb">solid</span> <span class="m">#42b983</span><span class="p">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">.3rem</span><span class="p">;</span>
+  <span class="nl">box-shadow</span><span class="p">:</span> <span class="m">0</span> <span class="m">0.1rem</span> <span class="m">0.4rem</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">.05</span><span class="p">),</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0.05rem</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">.1</span><span class="p">);</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#fafafa</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">p</span><span class="nc">.admonition-title</span> <span class="p">{</span>
+  <span class="nl">position</span><span class="p">:</span> <span class="nb">relative</span><span class="p">;</span>
+  <span class="nl">margin</span><span class="p">:</span> <span class="m">-.6rem</span> <span class="m">-.6rem</span> <span class="m">.8em</span> <span class="m">-.6rem</span> <span class="cp">!important</span><span class="p">;</span>
+  <span class="nl">padding</span><span class="p">:</span> <span class="m">.4rem</span> <span class="m">.6rem</span> <span class="m">.4rem</span> <span class="m">2.5rem</span><span class="p">;</span>
+  <span class="nl">font-weight</span><span class="p">:</span> <span class="m">700</span><span class="p">;</span>
+  <span class="nl">background-color</span><span class="p">:</span><span class="n">rgba</span><span class="p">(</span><span class="m">66</span><span class="p">,</span> <span class="m">185</span><span class="p">,</span> <span class="m">131</span><span class="p">,</span> <span class="m">.1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nc">.admonition-title</span><span class="nd">::before</span> <span class="p">{</span>
+  <span class="nl">position</span><span class="p">:</span> <span class="nb">absolute</span><span class="p">;</span>
+  <span class="nl">top</span><span class="p">:</span> <span class="m">.9rem</span><span class="p">;</span>
+  <span class="nl">left</span><span class="p">:</span> <span class="m">1rem</span><span class="p">;</span>
+  <span class="nl">width</span><span class="p">:</span> <span class="m">12px</span><span class="p">;</span>
+  <span class="nl">height</span><span class="p">:</span> <span class="m">12px</span><span class="p">;</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#42b983</span><span class="p">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">50%</span><span class="p">;</span>
+  <span class="nl">content</span><span class="p">:</span> <span class="s2">' '</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.info</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.todo</span><span class="o">&gt;</span><span class="nc">.admonition-title</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">184</span><span class="p">,</span><span class="m">212</span><span class="p">,</span><span class="m">.1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nc">.warning</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.attention</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.caution</span><span class="o">&gt;</span><span class="nc">.admonition-title</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="n">rgba</span><span class="p">(</span><span class="m">255</span><span class="p">,</span><span class="m">145</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">.1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nc">.failure</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.missing</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.fail</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.error</span><span class="o">&gt;</span><span class="nc">.admonition-title</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="n">rgba</span><span class="p">(</span><span class="m">255</span><span class="p">,</span><span class="m">82</span><span class="p">,</span><span class="m">82</span><span class="p">,</span><span class="m">.1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nc">.admonition.info</span><span class="o">,</span> <span class="nc">.admonition.todo</span> <span class="p">{</span>
+  <span class="nl">border-color</span><span class="p">:</span> <span class="m">#00b8d4</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.admonition.warning</span><span class="o">,</span> <span class="nc">.admonition.attention</span><span class="o">,</span> <span class="nc">.admonition.caution</span> <span class="p">{</span>
+  <span class="nl">border-color</span><span class="p">:</span> <span class="m">#ff9100</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.admonition.failure</span><span class="o">,</span> <span class="nc">.admonition.missing</span><span class="o">,</span> <span class="nc">.admonition.fail</span><span class="o">,</span> <span class="nc">.admonition.error</span> <span class="p">{</span>
+  <span class="nl">border-color</span><span class="p">:</span> <span class="m">#ff5252</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.info</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span> <span class="nc">.todo</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#00b8d4</span><span class="p">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">50%</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.success</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#00c853</span><span class="p">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">50%</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.warning</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span> <span class="nc">.attention</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span> <span class="nc">.caution</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#ff9100</span><span class="p">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">50%</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.failure</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span><span class="nc">.missing</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span><span class="nc">.fail</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span><span class="nc">.error</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#ff5252</span><span class="p">;</span><span class="err">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">50%</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.admonition</span><span class="o">&gt;</span><span class="nd">:last-child</span> <span class="p">{</span>
+  <span class="nl">margin-bottom</span><span class="p">:</span> <span class="m">0</span> <span class="cp">!important</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="使用说明">使用说明</h2>
+
+<p>Hexo-admonition 遵循一种简单的语法：每个块都以 <code class="language-plaintext highlighter-rouge">!!!</code> 开头，然后是代表提示类型的关键字（<code class="language-plaintext highlighter-rouge">type</code>）及标题（<code class="language-plaintext highlighter-rouge">title</code>）。例如:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>!!! note Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 note，并设置了自定义标题。
+    提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+</code></pre></div></div>
+
+<p>在 Hexo 渲染前，将被转换成如下内容：</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"admonition note "</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"admonition-title"</span><span class="nt">&gt;</span>Hexo-admonition 插件使用示例<span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;p&gt;</span>这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 note，并设置了自定义标题。<span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;p&gt;</span>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<p>最终呈现效果如下：</p>
+
+<p>!!! note Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 note，并设置了自定义标题。
+    提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。</p>
+
+<h3 id="支持的类型">支持的类型</h3>
+
+<p>提示类型 <code class="language-plaintext highlighter-rouge">type</code> 将用作 CSS 类名称，暂支持如下类型：</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">note</code></li>
+  <li><code class="language-plaintext highlighter-rouge">info, todo</code></li>
+  <li><code class="language-plaintext highlighter-rouge">warning, attention, caution</code></li>
+  <li><code class="language-plaintext highlighter-rouge">error, failure, missing, fail</code></li>
+</ul>
+
+<h3 id="设置隐藏标题">设置/隐藏标题</h3>
+
+<p>标题 <code class="language-plaintext highlighter-rouge">title</code> 是可选的，当未设置时，将以 <code class="language-plaintext highlighter-rouge">type</code> 作为默认值:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>!!! warning
+    这是一条采用默认标题的警告信息。
+</code></pre></div></div>
+
+<p>效果如下：</p>
+
+<p>!!! warning
+    这是一条采用默认标题的警告信息。</p>
+
+<p>如果不想显示标题，可以将 <code class="language-plaintext highlighter-rouge">title</code> 设置为 <code class="language-plaintext highlighter-rouge">""</code>：</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>!!! Warning ""
+    这是一条不带标题的警告信息。
+</code></pre></div></div>
+
+<p>效果如下：</p>
+
+<p>!!! Warning “”
+    这是一条不带标题的警告信息。</p>
+
+<h2 id="卡片演示">卡片演示</h2>
+
+<blockquote>
+  <p>主要四种类型：info, warning, error, note</p>
+</blockquote>
+
+<p>!!! note Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 note，并设置了自定义标题。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+</code></pre></div></div>
+
+<p>!!! warning Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 warning，并设置了自定义标题。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+</code></pre></div></div>
+
+<p>!!! error Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 error，并设置了自定义标题。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+</code></pre></div></div>
+
+<p>!!! info Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 info，并设置了自定义标题。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+</code></pre></div></div>
+
+<p>!!! todo Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 todo，并设置了自定义标题。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+</code></pre></div></div>
+
+<p>!!! attention Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 attention，并设置了自定义标题。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-05-28</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Hexo">Hexo</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2022/05/Gitlab-%E5%8F%91%E9%80%81%E4%BC%81%E5%BE%AE%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%B6%88%E6%81%AF.html">Gitlab 发送企微机器人消息</a></h1>
@@ -1074,138 +1287,6 @@ git push origin gh-pages
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/04/CKA-%E8%80%83%E8%AF%95%E5%87%86%E5%A4%87.html">CKA 考试准备</a></h1>
-    <div class="post_at_index">
-      <h2 id="汇总">汇总</h2>
-
-<p>本来预计 4 月 10 号左右，可以开始准备 CKA 的考试了，因为疫情在家办公，再加上报名去做志愿者，所以这个时间耽搁到了现在才开始</p>
-
-<h3 id="时间成本">时间成本</h3>
-
-<p>在这里记录下整个学习过程，也给大家预估下，不走培训机构，自学大概需要多久的时间</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>时间</th>
-      <th>事项</th>
-      <th>耗费时间</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>2022-04-16</td>
-      <td>了解什么是 CKA 和考试内容,捡起来 Docker 的知识, 个人项目转为 Docker Image 并推送到 dockerhub</td>
-      <td>1d</td>
-    </tr>
-    <tr>
-      <td>2022-04-17</td>
-      <td>在个人电脑上成功运行起来 K8s 的环境，并完成个人项目部署</td>
-      <td>1d</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="体会">体会</h3>
-
-<ul>
-  <li>有段时间没回过头来弄代码了，平时写比较多是项目上的小脚本，系统化把一个项目改造为 Docker image，再来了一遍，整个优化过程的感觉还是很舒服的</li>
-</ul>
-
-<h2 id="学习资料">学习资料</h2>
-
-<h3 id="培训机构的大纲">培训机构的大纲</h3>
-
-<p>大致培训时间是 3 天，给自己预估的学习时间大概是 一周左右的时间</p>
-
-<ul>
-  <li>CKA最新考纲解读与Kubernetes入门（Day 1/上午）
-    <ul>
-      <li>CKA考试大纲解读</li>
-      <li>Kubernetes基本概念与应用场景</li>
-      <li>Kubernetes主要功能特性、集群架构与组件</li>
-      <li>使用kubeadm安装集群与版本升级</li>
-      <li>etcd数据备份与还原</li>
-      <li>kubectl使用、shell自动补</li>
-    </ul>
-  </li>
-  <li>Kubernetes工作负载、调度与Helm（Day 1/下午）
-    <ul>
-      <li>Pod基本操作、生命周期、回调与探针</li>
-      <li>初始化与临时容器</li>
-      <li>使用Deployment部署自修复无状态服务</li>
-      <li>使用Deployment滚动更新/回滚/扩缩无状态服务</li>
-      <li>使用StatefulSet部署有状态服务</li>
-      <li>使用DaemonSet部署守护进程</li>
-      <li>深入理解控制器工作原理</li>
-      <li>使用ConfigMaps和Secrets配置应用程序</li>
-      <li>Kubernetes调度策略实践</li>
-      <li>资源限制如何影响Pod调度</li>
-      <li>理解调度器工作原理</li>
-      <li>各种调度策略使用场景总结</li>
-      <li>使用Helm部署/升级/回滚/下线服务</li>
-      <li>Helm回调与Chart编写</li>
-    </ul>
-  </li>
-  <li>Kubernetes服务与网络（Day 2/上午）
-    <ul>
-      <li>定义Service与Endpoint</li>
-      <li>Service Iptables与IPVS代理模式</li>
-      <li>通过Service名称与ClusterIP集群内互访</li>
-      <li>通过NodePort、Ingress、LoadBalancer集群外访问</li>
-      <li>CoreDNS原理介绍</li>
-      <li>配置和使用CoreDNS</li>
-      <li>同Pod/同Node/跨Node/跨集群互通性</li>
-      <li>常见网络接口插件工作原理与适用场景</li>
-      <li>常见网络故障排查</li>
-    </ul>
-  </li>
-  <li>Kubernetes存储与安全（Day 2/下午）
-    <ul>
-      <li>Volume、PV、PVC、StorageClass</li>
-      <li>卷模式、访问模式和卷回收策略</li>
-      <li>理解持久容量声明原语</li>
-      <li>了解如何配置具有持久性存储的应用程序</li>
-      <li>认证、授权与鉴权</li>
-      <li>管理基于角色的访问控制（RBAC）</li>
-      <li>Pod和容器操作权限安全策略</li>
-      <li>Network Policy</li>
-    </ul>
-  </li>
-  <li>Kubernetes监控日志、故障排查（Day 3/上午）
-    <ul>
-      <li>如何监控一个Kubenetes应用</li>
-      <li>查看与管理集群和节点日志</li>
-      <li>管理容器标准输出和标准错误日志</li>
-      <li>如何解决应用程序故障</li>
-      <li>对群集组件故障进行故障排除</li>
-      <li>Kubernetes其他常见问题定位</li>
-    </ul>
-  </li>
-  <li>CKA考试注意事项与模拟演练（Day 3/下午）
-    <ul>
-      <li>CKA真题演练与解析【重点】</li>
-      <li>CKA考试注意事项及应试答疑</li>
-    </ul>
-  </li>
-</ul>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-18</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Docker">Docker</a>
-      , 
-      <a href="/tags.html#K8s">K8s</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1245,7 +1326,7 @@ git push origin gh-pages
             
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page20">20</a></li>
+          <li><a href="/page21">21</a></li>
         
 
         
@@ -1336,7 +1417,7 @@ git push origin gh-pages
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>6</span>
+    		Mac <span>17</span>
     	</a></li>
      
     	

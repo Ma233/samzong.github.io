@@ -221,6 +221,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -262,6 +266,95 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2022/03/Python-%E5%A4%9A%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7.html">Pyenv Python多版本管理利器</a></h1>
+    <div class="post_at_index">
+      <blockquote>
+  <p>to_url : <a href="http://pyenv.run/">http://pyenv.run/</a>
+github offical site <a href="https://github.com/pyenv/pyenv">https://github.com/pyenv/pyenv</a></p>
+</blockquote>
+
+<p>在 MacOS 的使用方式：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>pyenv
+</code></pre></div></div>
+
+<hr />
+
+<p>使用 pyenv 还是挺方便的，但是在Linux云服务器上配置网络的话就比较麻烦了，比如我在用的阿里云ECS，中间有些曲折，所以编写下文档记录下来，以防后续使用遇到问题</p>
+
+<h2 id="安装-pyenv">安装 <code class="language-plaintext highlighter-rouge">pyenv</code></h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 官方推荐</span>
+curl https://pyenv.run | bash
+</code></pre></div></div>
+
+<p>上面一个简单的命令就好了，安装后 pyenv 文件 会在你的 <code class="language-plaintext highlighter-rouge">$HOME/.pyenv</code> ，可以尝试看下脚本文件的内容，这里简单贴出来了；可以看到实际执行的脚本文件是下面这个</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 建议看下脚本</span>
+curl <span class="nt">-L</span> https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+
+<span class="c"># 下载脚本文件</span>
+wget https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer <span class="nt">-O</span> ~/pyenv-installer
+</code></pre></div></div>
+
+<p>如果你的服务器环境比较悲催，访问GitHub也是比较麻烦，那么可以看下这个网站  <a href="https://gitclone.com/">https://gitclone.com/</a> ； 只需要对 <code class="language-plaintext highlighter-rouge">pyenv-installer</code> 进行简单的修改就可以实现加速下载了</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ......</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-n</span> <span class="s2">"</span><span class="k">${</span><span class="nv">USE_GIT_URI</span><span class="k">}</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+  </span><span class="nv">GITHUB</span><span class="o">=</span><span class="s2">"git://github.com"</span>
+<span class="k">else
+  </span><span class="nv">GITHUB</span><span class="o">=</span><span class="s2">"https://gitclone.com/github.com"</span>
+<span class="k">fi</span>
+
+<span class="c"># .....</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>先通过，<code class="language-plaintext highlighter-rouge">wget</code> 下载脚本文件，然后对脚本中的 <code class="language-plaintext highlighter-rouge">github.com</code> 的域名进行下修改，我试了下修改<code class="language-plaintext highlighter-rouge">https</code>就行了，然后就可以飞快的下载了</p>
+</blockquote>
+
+<p>最后，将 <code class="language-plaintext highlighter-rouge">pyenv</code> 的初始化增加到系统的环境变量中</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s1">'export PATH="$HOME/.pyenv/bin:$PATH"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">echo</span> <span class="s1">'eval "$(pyenv init -)"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">echo</span> <span class="s1">'eval "$(pyenv virtualenv-init -)"'</span>  <span class="o">&gt;&gt;</span> ~/.bashrc
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="使用-pyenv-安装特定版本的python">使用 <code class="language-plaintext highlighter-rouge">pyenv</code> 安装特定版本的python</h2>
+
+<p>在网络好的情况下，可以直接通过 <code class="language-plaintext highlighter-rouge">pyenv install 3.9.6</code> 安装对应的版本了，但是因为网络的问题，你会发现一直在下载 Python 包这一步，问题就是 www.python.org/ftp 网络的访问问题</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711398-96703bab-2e76-4f74-8b6d-1dfa212d39b1.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+
+<p>遇到这个问题，可以尝试 先下载对应版本的安装包；可以使用国内的镜像站进行下载，或者在网络访问正常的地方进行下载包，然后上传到服务器中，这里推荐使用 淘宝的镜像站，把域名中 <a href="https://www.python.org/ftp">https://www.python.org/ftp</a> 替换为 <a href="https://npm.taobao.org/mirrors/">https://npm.taobao.org/mirrors/</a> ，下载到指定的目录</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># v = 你想要安装的python版本，比如 3.8.6</span>
+<span class="nb">export </span><span class="nv">v</span><span class="o">=</span>3.8.6<span class="p">;</span>  <span class="nb">mkdir</span> <span class="nt">-p</span> ~/.pyenv/sources/<span class="nv">$v</span><span class="p">;</span> wget https://npm.taobao.org/mirrors/python/<span class="nv">$v</span>/Python-<span class="nv">$v</span>.tar.xz <span class="nt">-P</span> ~/.pyenv/sources/<span class="nv">$v</span><span class="p">;</span> pyenv <span class="nb">install</span> <span class="nv">$v</span> <span class="nt">-k</span>
+</code></pre></div></div>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711423-9636d877-a9a2-4c9e-8cac-f82aaa3ff5b6.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+
+<blockquote>
+  <p>在 pyenv 命令的最后增加一个 -k  会在安装时，优先检测本地的文件</p>
+</blockquote>
+
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-03-27</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2022/03/Poetry-%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0.html">Poetry 使用笔记</a></h1>
@@ -892,53 +985,6 @@ git config <span class="nt">--global</span> https.https://github.com.proxy https
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2021/11/%E9%92%89%E9%92%89%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%B7%A5%E5%85%B7.html">钉钉内网穿透工具</a></h1>
-    <div class="post_at_index">
-      <blockquote>
-  <p><a href="https://developers.dingtalk.com/document/resourcedownload/http-intranet-penetration?pnamespace=tutorial">https://developers.dingtalk.com/document/resourcedownload/http-intranet-penetration?pnamespace=tutorial</a></p>
-</blockquote>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630637171967-d3907c05-e99f-4b27-b4ca-3047423021f8.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
-
-<h2 id="使用方法">使用方法</h2>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">dingtalk</span><span class="o">/</span><span class="n">pierced</span><span class="p">.</span><span class="n">git</span>
-
-<span class="n">cd</span>  <span class="n">pierced</span><span class="o">/</span><span class="n">mac_64</span>
-<span class="p">.</span><span class="o">/</span><span class="n">ding</span> <span class="o">-</span><span class="n">config</span><span class="o">=</span><span class="p">.</span><span class="o">/</span><span class="n">ding</span><span class="p">.</span><span class="n">cfg</span> <span class="o">-</span><span class="n">subdomain</span><span class="o">=</span><span class="n">abcde</span> <span class="mi">5000</span>
-
-<span class="c1"># usage:  命令 -config=配置文件[不需要修改] -subdomain=项目域名 Port
-# 代理主域名是 abcde.vaiwan.com 暴露的域名就是 subdomain.vaiwan.com
-</span></code></pre></div></div>
-
-<p>通过以上命令： 会将本地端口为 5000 代理到 公网域名 abcde.vaiwan.com；启动成功后会展示如下页面 ，并会打印出对应的请求记录</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630637171919-e53839a7-fc1d-4796-8f96-1235722dc38c.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
-
-<h2 id="调试辅助">调试辅助</h2>
-
-<p>在运行成功后，会看到一个 <code class="language-plaintext highlighter-rouge">Web Interface</code> 运行在本地 <code class="language-plaintext highlighter-rouge">http://127.0.0.1:4040</code> 这是一个非常友好的调试界面，可以让你这边看到每个请求的日志信息</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630637171928-a64116ae-eb01-4308-8a21-c1fe3ab30df5.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
-
-<p>细心的话，你也可以注意到，在每个接口的页面上的右侧有个 <code class="language-plaintext highlighter-rouge">Retry</code> 的按钮，这个是可以方便我们对接口进行重试</p>
-
-<h2 id="结语">结语</h2>
-
-<p>同时支持 MacOS/Windows 使用的前置成本上，要比花生壳的内网穿透简单很多；我主要使用在开发钉钉bot阶段，大大减少的发布到服务端和查看日志的时间；感谢钉钉团队提供了这么友好的工具</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-11-19</cite> <i class="icon-tag"></i>
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -978,7 +1024,7 @@ git config <span class="nt">--global</span> https.https://github.com.proxy https
             
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page20">20</a></li>
+          <li><a href="/page21">21</a></li>
         
 
         
@@ -1069,7 +1115,7 @@ git config <span class="nt">--global</span> https.https://github.com.proxy https
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>6</span>
+    		Mac <span>17</span>
     	</a></li>
      
     	

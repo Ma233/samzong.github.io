@@ -221,6 +221,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -262,6 +266,585 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2020/12/python-%E5%AE%8C%E6%88%90%E6%8A%96%E5%BA%97API%E6%8E%88%E6%9D%83.html">python 完成抖店API授权</a></h1>
+    <div class="post_at_index">
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="c1"># 替换 app_key, app_secret
+</span><span class="n">app_key</span> <span class="o">=</span> <span class="s">"1122233333444555"</span>
+<span class="n">app_secret</span> <span class="o">=</span> <span class="s">"beddee55a0-reerw2452ff4-5deeweec2d7faf1"</span>
+
+<span class="n">current_time</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()))</span>
+<span class="n">timestamp</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="p">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">current_time</span><span class="p">()))</span>
+<span class="n">param_json</span> <span class="o">=</span> <span class="s">"{</span><span class="se">\"</span><span class="s">page</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">0</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">size</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">10</span><span class="se">\"</span><span class="s">}"</span>
+<span class="n">method</span> <span class="o">=</span> <span class="s">"product.list"</span>
+<span class="n">v</span> <span class="o">=</span> <span class="s">"2"</span>
+
+
+<span class="k">def</span> <span class="nf">access_token</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">"https://openapi-fxg.jinritemai.com/oauth2/access_token?app_id="</span> <span class="o">+</span> <span class="n">app_key</span> <span class="o">+</span> <span class="s">"&amp;app_secret="</span> <span class="o">+</span> <span class="n">app_secret</span> <span class="o">+</span> <span class="s">"&amp;grant_type=authorization_self"</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">req</span><span class="p">.</span><span class="n">json</span><span class="p">()[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'access_token'</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">sign</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">):</span>
+    <span class="c1"># 请按照顺序拼装 app_secret,app_key,method,param_json,timestamp,v,app_secret
+</span>    <span class="nb">str</span> <span class="o">=</span> <span class="n">app_secret</span> <span class="o">+</span> <span class="s">"app_key"</span> <span class="o">+</span> <span class="n">app_key</span> <span class="o">+</span> <span class="s">"method"</span> <span class="o">+</span> <span class="n">method</span> <span class="o">+</span> <span class="s">"param_json"</span> <span class="o">+</span> <span class="n">param_json</span> <span class="o">+</span> <span class="s">"timestamp"</span> <span class="o">+</span> <span class="n">timestamp</span> <span class="o">+</span> <span class="s">"v"</span> <span class="o">+</span> <span class="n">v</span> <span class="o">+</span> <span class="n">app_secret</span>
+
+    <span class="c1"># sha256
+</span>    <span class="n">code</span> <span class="o">=</span> <span class="n">hashlib</span><span class="p">.</span><span class="n">sha256</span><span class="p">(</span><span class="nb">str</span><span class="p">.</span><span class="n">encode</span><span class="p">()).</span><span class="n">hexdigest</span><span class="p">()</span>
+
+    <span class="c1"># md5
+</span>    <span class="c1"># code = hashlib.md5(str.encode()).hexdigest()
+</span>
+    <span class="k">return</span> <span class="n">code</span>
+
+
+<span class="k">def</span> <span class="nf">testItem</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">"https://openapi-fxg.jinritemai.com/product/list"</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">access_token</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">)</span>
+    <span class="n">sign_code</span> <span class="o">=</span> <span class="n">sign</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
+
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"method"</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span>
+        <span class="s">"app_key"</span><span class="p">:</span> <span class="n">app_key</span><span class="p">,</span>
+        <span class="s">"access_token"</span><span class="p">:</span> <span class="n">token</span><span class="p">,</span>
+        <span class="s">"param_json"</span><span class="p">:</span> <span class="n">param_json</span><span class="p">,</span>
+        <span class="s">"timestamp"</span><span class="p">:</span> <span class="n">timestamp</span><span class="p">,</span>
+        <span class="s">"v"</span><span class="p">:</span> <span class="n">v</span><span class="p">,</span>
+        <span class="s">"sign"</span><span class="p">:</span> <span class="n">sign_code</span><span class="p">,</span>
+        <span class="s">"sign_method"</span><span class="p">:</span> <span class="s">"hmac-sha256"</span>  <span class="c1"># 如果 sign 算法类型是 md5, 这里需要输入 md5
+</span>    <span class="p">}</span>
+
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">req</span><span class="p">.</span><span class="n">status_code</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"access_token: '{}'"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">access_token</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"sign: '{}'"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">sign</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"sign test status: '{}'"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">testItem</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">)))</span>
+
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-12-08</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2020/11/Check-You-Favorites-App-Is-Ready-Apple-Silicon.html">Check You App readyOnAppleSilicon</a></h1>
+    <div class="post_at_index">
+      <h2 id="1-httpsisapplesiliconreadycom">1. https://isapplesiliconready.com/</h2>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/ipic/2020-11-24-142803.png" alt="image-20201124222803150" /></p>
+
+<h4 id="if-you-have-any-apps-want-and-to-here-please-click-request-an-app--or-use-this-link">If you have any apps want and to here. Please click <code class="language-plaintext highlighter-rouge">REQUEST AN APP</code>  or use this link：</h4>
+
+<blockquote>
+  <p>https://isapplesiliconready.com/request/</p>
+</blockquote>
+
+<hr />
+
+<h2 id="2-httpsdoesitarmcom">2. https://doesitarm.com/</h2>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/ipic/2020-11-24-143231.png" alt="" /></p>
+
+<h4 id="if-you-want-watching-any-apps-change-input--you-email-at--tell-me-with-this-changes">If you want watching any apps change? Input  you email at  <code class="language-plaintext highlighter-rouge">Tell me with this changes</code></h4>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/ipic/2020-11-24-143450.png" alt="image-20201124223449695" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-11-23</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2020/11/%E5%A6%82%E4%BD%95%E9%87%8D%E7%BD%AE-Mac-%E7%9A%84-SMC.html">如何重置 Mac 的 SMC</a></h1>
+    <div class="post_at_index">
+      <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437045272-4d2c8ef2-804a-4ed7-bb53-b241152c780c.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></p>
+
+<p>MacBookPro 雷电口不可用了不着送修，尝试下一下方法；可以为您省下大几千块钱哟 ~</p>
+
+<h2 id="什么是-smc-">什么是 SMC ？</h2>
+
+<p>SMC 全称 系统管理控制器负责管理与以下功能相关的行为：</p>
+
+<ul>
+  <li>电源，包括电源按钮和 USB 端口的电源</li>
+  <li>电池和充电</li>
+  <li>风扇和其他热能管理功能</li>
+  <li>指示灯或感应器，例如状态指示灯（睡眠状态、电池充电状态等）、突发移动感应器、环境光传感器和键盘背光</li>
+  <li>打开和合上笔记本电脑盖时的行为</li>
+</ul>
+
+<hr />
+
+<h2 id="smc-常见问题">SMC 常见问题</h2>
+
+<p>由于Mac的雷电接口经常需要插拔外接设备，而外接设备的接口电流电压不一致，Mac在遇到异常电涌时会触发  SMC 的自我保护机制，通常意义是雷电口不可用。</p>
+
+<p>通过重置系统管理控制器 (SMC) 可以解决某些与电源、电池、风扇和其他功能相关的问题。</p>
+
+<hr />
+
+<h2 id="注意事项">注意事项</h2>
+
+<p>新款 Apple M1 设备的重置步骤本文不一致，后续会补充更新</p>
+
+<hr />
+
+<h2 id="配备-t2-芯片的笔记本电脑">配备 T2 芯片的笔记本电脑</h2>
+
+<ol>
+  <li>将 Mac 关机</li>
+  <li>在内建键盘上，按住以下所有按键。Mac 可能会开机。</li>
+</ol>
+
+<ul>
+  <li>
+    <ul>
+      <li>键盘左侧的 <strong>Control</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437210613-0f478f9a-1f5b-4b51-8060-6f9af28a4ae0.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
+      <li>键盘左侧的 <strong>Option</strong> (Alt) <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437216356-d0ba8e9e-ebb9-4756-8459-124876d0c332.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
+      <li>键盘右侧的 <strong>Shift</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437210667-cdfb2059-1d3d-4cb4-bb6c-88e38c1c3054.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>按住<strong>全部三个按键</strong> 7 秒钟，然后在不松开按键的情况下按住<strong>电源按钮</strong>。如果 Mac 处于开机状态，它将在您按住这些按键时关机。</li>
+</ol>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437286162-81a557b7-7f54-49b2-9ad6-32716f0b8488.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></p>
+
+<ol>
+  <li>继续按住<strong>全部四个按键</strong> 7 秒钟，然后松开这些按键。</li>
+  <li>等待几秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
+</ol>
+
+<hr />
+
+<h2 id="配备-t2-芯片的台式电脑">配备 T2 芯片的台式电脑</h2>
+
+<ol>
+  <li>将 Mac 关机，然后拔下电源线。</li>
+  <li>等待 15 秒钟，然后重新接回电源线。</li>
+  <li>等待 5 秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
+</ol>
+
+<hr />
+
+<h2 id="在其他电脑上重置-smc">在其他电脑上重置 SMC</h2>
+
+<p>如果您的 Mac 没有配备 Apple T2 安全芯片，请按照以下步骤操作。</p>
+
+<h3 id="装有不可拆卸电池的笔记本电脑">装有不可拆卸电池的笔记本电脑</h3>
+
+<p>这类电脑包括 2009 年中至 2017 年推出的 MacBook Pro 机型、2017 年或之前推出的 MacBook Air 机型，以及所有 MacBook 机型，但 MacBook（13 英寸，2009 年中）除外。</p>
+
+<ol>
+  <li>将 Mac 关机。</li>
+  <li>在内建键盘上，按住以下所有按键：</li>
+</ol>
+
+<ul>
+  <li>
+    <ul>
+      <li>键盘左侧的 <strong>Shift</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437453096-c4dd55c9-dea8-4ece-810d-d0a6bf880b5a.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
+      <li>键盘左侧的 <strong>Control</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437452982-7bdab59b-e4d2-4aa0-863d-59d224b081a9.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
+      <li>键盘左侧的 <strong>Option</strong> (Alt) <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437453069-12f401d8-bfbf-4657-9323-67169460f2fa.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
+    </ul>
+  </li>
+</ul>
+
+<ol>
+  <li>在按住<strong>全部三个按键</strong>的情况下，按住<strong>电源按钮</strong>。</li>
+</ol>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437452835-44611990-1f9b-49c4-a49b-446cef022d56.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></p>
+
+<ol>
+  <li>按住<strong>全部四个按键</strong> 10 秒钟。</li>
+  <li>松开所有按键，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
+</ol>
+
+<h3 id="装有可拆卸电池的笔记本电脑">装有可拆卸电池的笔记本电脑</h3>
+
+<p>这类电脑包括 2009 年初或之前推出的所有 MacBook Pro 和 MacBook 机型，以及 MacBook（13 英寸，2009 年中）。</p>
+
+<ol>
+  <li>将 Mac 关机。</li>
+  <li>拆下电池。</li>
+  <li>按住<strong>电源按钮</strong> 5 秒钟。</li>
+  <li>重新安装电池。</li>
+  <li>按下<strong>电源按钮</strong>以将 Mac 开机。</li>
+</ol>
+
+<h3 id="台式电脑">台式电脑</h3>
+
+<ol>
+  <li>将 Mac 关机，然后拔下电源线。</li>
+  <li>等待 15 秒钟，然后重新接回电源线。</li>
+  <li>等待 5 秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
+</ol>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-11-23</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2020/11/%E4%BB%A3%E7%A0%81%E6%A0%BC%E5%BC%8F%E7%9B%B8%E5%85%B3.html">代码格式相关</a></h1>
+    <div class="post_at_index">
+      <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/** Java 单行 **/</span>
+
+<span class="cm">/** one line comment in Avro IDL */</span>
+
+<span class="cm">/**
+
+Java 多行
+
+multiple lines
+comment in Avro IDL
+
+**/</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 单行
+# one line comment in Avro IDL
+</span>
+
+<span class="s">"""
+
+多行
+
+multiple lines
+comment in Avro IDL
+
+"""</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">##</span> <span class="n">时间命名</span>
+
+<span class="n">时间字段名称请以</span> <span class="n">in_TIMEUNIT</span> <span class="n">结尾</span><span class="o">,</span> <span class="nl">如:</span>
+
+  <span class="n">time_in_ms</span>
+  <span class="n">time_in_s</span>
+  <span class="n">time_in_min</span>
+  <span class="n">time_in_hour</span>
+
+ 
+ <span class="n">一些字段的统一命名请保持一致</span><span class="o">,</span> <span class="nl">如:</span>
+ 
+  <span class="n">store_id</span>  <span class="c1">// 店铺 ID</span>
+  <span class="n">seller_nick</span> <span class="c1">// 店铺主账号</span>
+  <span class="n">store_name</span> <span class="c1">// 店铺名称</span>
+  <span class="n">assistant_nick</span> <span class="c1">// 客服账号</span>
+  <span class="n">buyer_nick</span> <span class="c1">// 买家账号</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-11-18</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2020/11/Django-%E7%BB%83%E6%89%8B%E9%A1%B9%E7%9B%AE.html">Django 练手项目</a></h1>
+    <div class="post_at_index">
+      <blockquote>
+  <p>started_at 2020-11.17</p>
+</blockquote>
+
+<ul>
+  <li>[ ] 建立统一的dingtalk_webhook 发送钉群机器人通知</li>
+  <li>[x] 支持多种消息类型</li>
+  <li>[x] text</li>
+  <li>[x] markdown</li>
+  <li>[x] link</li>
+  <li>[ ] 支持@</li>
+  <li>[ ] @个人</li>
+  <li>[x] @所有</li>
+  <li>[ ] 支持在任意Djang App内调用</li>
+  <li>
+    <p>[ ] </p>
+  </li>
+  <li>[ ] 增加定时任务能力</li>
+  <li>[ ] 拆分任务 分钟/小时/天级别，自动执行</li>
+  <li>[ ] 使用request 访问各种API，并获取对应的信息</li>
+  <li>[ ] douyin 检测智能机器人类目上线</li>
+  <li>[ ] pdd.version 检查新版本更新并发出通知</li>
+  <li>[ ] 增加mysql数据库相关能力，丰富后续数据库存储相关的能力</li>
+  <li>[ ] 提供rest_framework_api 能力</li>
+  <li>[ ] 接收固定参数内容，请求第三方API返回相应的内容</li>
+  <li>[ ] 接口固定参数，并存储对应的查询结果</li>
+</ul>
+
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-11-18</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2020/11/autoscraper-%E7%88%AC%E8%99%AB-%E6%89%80%E8%A7%81%E5%8D%B3%E6%89%80%E5%BE%97.html">autoscraper 爬虫 所见即所得</a></h1>
+    <div class="post_at_index">
+      <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install</span>
+
+<span class="nv">$ </span>pip3 <span class="nb">install </span>autoscraper
+</code></pre></div></div>
+
+<h3 id="一分钟上手">一分钟上手</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">autoscraper</span> <span class="kn">import</span> <span class="n">AutoScraper</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'https://stackoverflow.com/questions/2081586/web-scraping-with-python'</span>
+
+<span class="c1"># We can add one or multiple candidates here.
+# You can also put urls here to retrieve urls.
+</span><span class="n">wanted_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">"How to call an external command?"</span><span class="p">]</span>
+
+<span class="n">scraper</span> <span class="o">=</span> <span class="n">AutoScraper</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">scraper</span><span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">wanted_list</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>url 是你需要爬取的网页</li>
+  <li>wanted_list 是一个list，其中有你需要的元素目标，注意会爬取相同tag和范围的数据</li>
+</ul>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1605241399644-c035e6f7-8096-438b-806d-7a9da7bee65f.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<h1 id="更多使用技巧">更多使用技巧</h1>
+
+<blockquote>
+  <p>请关注Github仓库： <a href="https://github.com/alirezamika/autoscraper">https://github.com/alirezamika/autoscraper</a></p>
+</blockquote>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-11-16</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2020/11/Django-%E5%88%9D%E5%A7%8B%E5%8C%96project.html">Django 初始化project</a></h1>
+    <div class="post_at_index">
+      <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 初始化 mysite 项目</span>
+
+django-admin startproject mysite
+
+
+- manage.py
+- mysite
+  - settings.py
+  - urls.py
+  - wsgi.py
+</code></pre></div></div>
+
+<h3 id="项目初始化">项目初始化</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 manage.py <span class="nt">--help</span> <span class="c"># 用于管理项目以及服务</span>
+python3 manage.py runserver  <span class="c"># 启动服务</span>
+python3 manage.py startapp <span class="s1">'blog'</span>  <span class="c"># 用于在项目下创建一个app</span>
+
+
+<span class="c"># 新项目初始化步骤</span>
+
+django-admin startproject mysite  <span class="c"># 创建项目</span>
+<span class="nb">cd </span>mysite
+python3 manage.py migrate  <span class="c"># 初始化数据库</span>
+python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号</span>
+</code></pre></div></div>
+
+<h3 id="常见项目配置">常见项目配置</h3>
+
+<blockquote>
+  <p>settings.py</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 切换数据库为 MySQL , Default = sqlite
+</span>
+<span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'default'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">'ENGINE'</span><span class="p">:</span> <span class="s">'django.db.backends.mysql'</span><span class="p">,</span>
+        <span class="s">'NAME'</span><span class="p">:</span> <span class="s">'mysite'</span><span class="p">,</span>
+        <span class="s">'USER'</span><span class="p">:</span> <span class="s">'root'</span><span class="p">,</span>
+        <span class="s">'PASSWORD'</span><span class="p">:</span> <span class="s">'luchuanjia'</span><span class="p">,</span>
+        <span class="s">'HOST'</span><span class="p">:</span> <span class="s">'127.0.0.1'</span><span class="p">,</span>
+        <span class="s">'PORT'</span><span class="p">:</span> <span class="s">'3306'</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1"># !需要安装插件 pip install mysql
+</span>
+<span class="o">---</span>
+
+<span class="c1"># 修改项目时区
+</span><span class="n">TIME_ZONE</span> <span class="o">=</span> <span class="s">'Asia/Shanghai'</span>  <span class="c1"># Default UTC
+</span>
+<span class="c1"># 修改语言
+</span><span class="n">LANGUAGE_CODE</span> <span class="o">=</span> <span class="s">'zh-Hans'</span>  <span class="c1"># 简体中文
+</span></code></pre></div></div>
+
+<h3 id="导出项目的依赖库">导出项目的依赖库</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span> <span class="n">freeze</span> <span class="o">&gt;</span> <span class="n">requirements</span><span class="p">.</span><span class="n">txt</span>   <span class="c1"># 将目前虚拟环境的 依赖库，导出到文件中
+</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="p">.</span><span class="n">txt</span> <span class="c1"># 从 requirements.txt 中读取依赖库，并进行安装
+</span></code></pre></div></div>
+
+<h3 id="modules-变更后需要同步变更数据库表">modules 变更后，需要同步变更数据库表</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 修改module.py后，需要执行以下命令，将变更同步到数据库，否则不生效
+</span><span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">makemigrations</span>
+<span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">migrate</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-11-09</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2020/11/join-%E4%B8%8E-format-%E4%B8%8D%E5%90%8C%E7%9A%84%E7%94%A8%E6%B3%95.html">join 与 format 不同的用法</a></h1>
+    <div class="post_at_index">
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Join
+</span><span class="k">print</span><span class="p">(</span><span class="s">"and"</span><span class="p">.</span><span class="n">join</span><span class="p">([</span><span class="s">"Jack"</span><span class="p">,</span> <span class="s">"Tom"</span><span class="p">]))</span>
+<span class="o">&gt;</span> <span class="n">Jack</span> <span class="ow">and</span> <span class="n">Tom</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"and"</span><span class="p">.</span><span class="n">join</span><span class="p">([</span><span class="s">"Jack"</span><span class="p">,</span> <span class="s">"Tom"</span><span class="p">,</span> <span class="s">"Jessica"</span><span class="p">]))</span>
+<span class="o">&gt;</span> <span class="n">Jack</span> <span class="ow">and</span> <span class="n">Tom</span> <span class="ow">and</span> <span class="n">Jessica</span>
+
+<span class="c1"># Format
+</span><span class="k">print</span><span class="p">(</span><span class="s">"你和{}"</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">"我"</span><span class="p">))</span>
+<span class="o">&gt;</span> <span class="n">你和我</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"{}你和"</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">"我"</span><span class="p">))</span>
+<span class="o">&gt;</span><span class="n">我你和</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>当然还有 <code class="language-plaintext highlighter-rouge">%s</code> ，但更推荐使用format，任何在设计到字符替换的都可使用到</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"{}_name.txt"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">api</span><span class="p">),</span> <span class="s">"a+"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">"{}, {}</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">uid</span><span class="p">[</span><span class="s">"user-id"</span><span class="p">],</span> <span class="n">uid</span><span class="p">.</span><span class="n">string</span><span class="p">))</span>
+    <span class="n">f</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+    
+<span class="n">string_to_sign</span> <span class="o">=</span> <span class="s">'{}</span><span class="se">\n</span><span class="s">{}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">)</span>
+
+<span class="n">msg</span> <span class="o">=</span> <span class="s">"You get a new version. {}</span><span class="se">\n</span><span class="s">The download link : {}</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">get_version</span><span class="p">,</span> <span class="n">get_url</span><span class="p">)</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-11-06</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2020/11/Django-%E4%BF%AE%E6%94%B9modules%E6%97%B6%E5%87%BA%E9%94%99.html">Django 修改modules时出错</a></h1>
+    <div class="post_at_index">
+      <h1 id="djangodbutilsintegrityerror-not-null-constraint-failed">django.db.utils.IntegrityError: NOT NULL constraint failed</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">migrate</span> 
+<span class="n">错误</span><span class="err">：</span><span class="n">django</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">IntegrityError</span><span class="p">:</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">constraint</span> <span class="n">failed</span>
+
+<span class="c1"># 在执行 migrate 遇到了以上错误，但实际上已经把错误添加的字段给移除后重新 makemigrations
+</span>
+<span class="c1"># 解决办法
+</span>
+<span class="n">删除</span> <span class="n">migrations</span> <span class="n">中对应生成的</span> <span class="sb">`0006`</span> <span class="n">文件</span>
+
+<span class="n">然后</span><span class="err">，</span><span class="n">再次运行2个命令</span>
+
+<span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">makemigrations</span>
+<span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">migrate</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-11-06</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2020/11/beautiful-soup-4-%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7.html">beautiful soup 4 使用技巧</a></h1>
@@ -351,912 +934,6 @@
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2020/10/Use-devtools-encodeurl-&-decodeurl.html">Use devtools encodeurl & decodeurl</a></h1>
-    <div class="post_at_index">
-      <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="dl">"</span><span class="s2">&amp;goods_url=https%3A%2F%2Fwww.ys7.com%2Fitem%2F9079.html&amp;goods_title=%E3%80%90%E7%9B%B4%E9%99%8D50%E5%85%83%E3%80%91C6CN%E9%AB%98%E6%B8%85%E4%BA%92%E8%81%94%E7%BD%91%E4%BA%91%E5%8F%B0%E6%91%84%E5%83%8F%E6%9C%BA%2F1080P%2FH.265&amp;goods_picture=https%3A%2F%2Fmfs.ys7.com%2Fmall%2F537a11e9693bab3daf50b515bb0bb196.png</span><span class="dl">"</span><span class="p">)</span>
-
-<span class="o">&gt;</span> <span class="dl">"</span><span class="s2">&amp;goods_url=https://www.ys7.com/item/9079.html&amp;goods_title=【直降50元】C6CN高清互联网云台摄像机/1080P/H.265&amp;goods_picture=https://mfs.ys7.com/mall/537a11e9693bab3daf50b515bb0bb196.png</span><span class="dl">"</span>
-
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2020-10-23</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2019/07/Mac%E4%B8%8Bhomebrew%E7%9A%84%E4%BD%BF%E7%94%A8.html">Mac 下 Homebrew 的使用</a></h1>
-    <div class="post_at_index">
-      <p>mac系统也是基于unix的系统，所以也继承类很多unix的特性，包括软件的编译，安装等。ubuntu下有快捷命令<code class="language-plaintext highlighter-rouge">apt install</code>来快速安装软件。centos下有<code class="language-plaintext highlighter-rouge">yum install</code>来快速安装。所以，mac下也有一种方式，就是使用<code class="language-plaintext highlighter-rouge">brew</code>。</p>
-
-<p>并且，在 Homebrew 和 Cask 的支持下，基本可以全面接待 MacOS 的所有软件安装和更新功能。</p>
-
-<p><code class="language-plaintext highlighter-rouge">brew</code>是Mac下的一个包管理工具，它从下载源码解压然后 <code class="language-plaintext highlighter-rouge">./configure &amp;&amp; make install</code> ，同时会包含相关依存库。并自动配置好各种环境变量，而且非常易于卸载。 这个对程序员来说简直是福音，简单的指令，就能快速安装和升级本地的各种开发环境。</p>
-
-<p>home brew 官网是 http://brew.sh/index_zh-cn.html</p>
-
-<h2 id="安装-brew">安装 brew</h2>
-
-<p>打开 itrem 。输入一条命令即可安装好 brew。</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
-</code></pre></div></div>
-
-<p>这样一个简单的命令，我们就安装好来brew 。来验证一下，输入brew命令：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew
-Example usage:
-  brew search TEXT|/REGEX/
-  brew info <span class="o">[</span>FORMULA|CASK...]
-  brew <span class="nb">install </span>FORMULA|CASK...
-  brew update
-  brew upgrade <span class="o">[</span>FORMULA|CASK...]
-  brew uninstall FORMULA|CASK...
-  brew list <span class="o">[</span>FORMULA|CASK...]
-
-Troubleshooting:
-  brew config
-  brew doctor
-  brew <span class="nb">install</span> <span class="nt">--verbose</span> <span class="nt">--debug</span> FORMULA|CASK
-
-Contributing:
-  brew create URL <span class="o">[</span><span class="nt">--no-fetch</span><span class="o">]</span>
-  brew edit <span class="o">[</span>FORMULA|CASK...]
-
-Further <span class="nb">help</span>:
-  brew commands
-  brew <span class="nb">help</span> <span class="o">[</span>COMMAND]
-  man brew
-  https://docs.brew.sh
-</code></pre></div></div>
-
-<p>出现了很多帮助命令，说明我们已经安装成功了。</p>
-
-<h2 id="用-brew-安装程序">用 brew 安装程序</h2>
-
-<p>安装好了brew之后，我们就可以用这个命令安装各种源码了。比如安装一下<code class="language-plaintext highlighter-rouge">wget</code>工具。这个工具能在命令行中帮我们下载各种数据。</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>git
-</code></pre></div></div>
-
-<p>这样一个简单的命令就可以了。它会帮我们下载好 git ，并且编译执行安装，还会下载各种依赖包，设置好各种配置和参数。</p>
-
-<p>安装好的 <code class="language-plaintext highlighter-rouge">git</code> 会被安装到<code class="language-plaintext highlighter-rouge">/usr/local/Cellar/git/</code>下。并且将<code class="language-plaintext highlighter-rouge">wget</code>命令软链接至 <code class="language-plaintext highlighter-rouge">/usr/local/bin</code> 目录下。这样全局就都可以使用<code class="language-plaintext highlighter-rouge">git</code>命令了。</p>
-
-<blockquote>
-  <p>Homebrew 在 MacOS 10.11 之后 修改了 安装的路径为 <code class="language-plaintext highlighter-rouge">/opt/Homebrew</code>，通过 <code class="language-plaintext highlighter-rouge">brew config</code> 可以看到</p>
-</blockquote>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew config
-HOMEBREW_VERSION: 3.4.10-7-ga4545e5
-ORIGIN: https://github.com/Homebrew/brew
-HEAD: a4545e52315ceedf2deb97ac17d7234708d16e5b
-HOMEBREW_PREFIX: /opt/homebrew
-HOMEBREW_CASK_OPTS: <span class="o">[]</span>
-CPU: 10-core 64-bit arm_firestorm_icestorm
-Clang: 13.1.6 build 1316
-Git: 2.36.0 <span class="o">=&gt;</span> /opt/homebrew/bin/git
-Curl: 7.79.1 <span class="o">=&gt;</span> /usr/bin/curl
-macOS: 12.3.1-arm64
-CLT: 13.3.1.0.1.1648687083
-Xcode: 13.3.1
-Rosetta 2: <span class="nb">false</span>
-</code></pre></div></div>
-
-<h2 id="brew-的常用命令">brew 的常用命令</h2>
-
-<p>常用的命令没几个：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew <span class="nb">install </span>git 	<span class="c"># 安装</span>
-➜  ~ brew info git 		<span class="c"># 显示软件的各种信息</span>
-➜  ~ brew uninstall git <span class="c"># 卸载</span>
-➜  ~ brew search git <span class="c"># 模糊搜索 brew 支持的软件</span>
-➜  ~ brew list <span class="c"># 列出本机通过 brew 安装的所有软件</span>
-➜  ~ brew update <span class="c"># 更新 brew repo 信息，每次 Install 前也会自动更新</span>
-➜  ~ brew upgrade git <span class="c"># 更新软件 [如果不加软件名，就更新所有可以更新的软件]</span>
-➜  ~ brew cleanup <span class="c"># 清除下载的各种缓存</span>
-➜  ~ brew doctor <span class="c"># 诊断当前 brew 的配置是否有问题，并给出建议</span>
-</code></pre></div></div>
-
-<h2 id="brew-cask">brew cask</h2>
-
-<p><img src="https://camo.githubusercontent.com/f8b75a5e461338a90db6acf4db8f5bc9cf620bfba65a5a490ed10bd08f457b52/68747470733a2f2f692e696d6775722e636f6d2f464e4e4d36574c2e676966" alt="" /></p>
-
-<p>brew cask 是在 brew 的基础上一个增强的工具，用来安装Mac上的Gui程序应用包（.dmg/.pkg）, 比如 Chrome 、WeChat 等。它先下载解压到统一的目录中（<code class="language-plaintext highlighter-rouge">/opt/homebrew-cask/Caskroom</code>），省掉了自己去下载、解压、拖拽（安装）等蛋疼步骤，同样，卸载相当容易与干净。然后再软链到<code class="language-plaintext highlighter-rouge">~/Applications/</code>目录下, 一气呵成。非常方便，而且还包含很多在 AppStore 里没有的常用软件。</p>
-
-<ul>
-  <li>brew cask的官网是：<a href="http://caskroom.io/">http://caskroom.io</a></li>
-  <li>github地址是：https://github.com/caskroom/homebrew-cask</li>
-</ul>
-
-<p>:::information_desk_person: Cask 目前已经内置到 brew 官方安装包内了，无需单独安装；并且官方集成的非常好，大部分情况下，不需要特殊标记就可以看到到对应的软件了</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew search git <span class="nt">--cask</span>   <span class="c"># 在 brew 后 --cask 可指定查询 GUI 类型</span>
-<span class="o">==&gt;</span> Casks
-adobe-digital-editions                   gitscout
-caldigit-docking-utility                 gitter ✔
-caldigit-thunderbolt-charging            gitup
-deepgit                                  gitx
-digital                                  logitech-camera-settings
-font-digital-numbers                     logitech-control-center
-git-it                                   logitech-firmwareupdatetool
-gitahead                                 logitech-g-hub
-gitblade                                 logitech-gaming-software
-gitdock                                  logitech-myharmony
-gitee                                    logitech-options ✔
-giteye                                   logitech-presentation
-gitfiend                                 logitech-unifying
-gitfinder                                plotdigitizer
-gitfox                                   rowanj-gitx
-github                                   smartgit
-github-beta                              snagit
-githubpulse                              snagit4
-gitify                                   subgit
-gitkraken                                webplotdigitizer
-gitnote                                  xit
-gitpigeon
-</code></pre></div></div>
-
-<p>举个简单的例子，iTerm 是我们经常使用的软件：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew <span class="nb">install </span>iTerm <span class="nt">--cask</span>  <span class="c"># 大部分情况下 --cask 是可以省略的，除非在出现同名的情况下</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>使用小技巧</p>
-</blockquote>
-
-<p>如果不清楚这个软件是否符合我们的要求，可以在安装前通过 <code class="language-plaintext highlighter-rouge">brew seach</code> 模糊查询下 具体的软件名称：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew search iterm <span class="nt">--cask</span>
-<span class="o">==&gt;</span> Casks
-font-ia-writer-mono        iterm2-legacy              zterm
-iterm2 ✔                   iterm2-nightly
-iterm2-beta                therm
-</code></pre></div></div>
-
-<p>在确认了具体的软件名称后，可以通过 <code class="language-plaintext highlighter-rouge">brew info</code> 查看更为详细的软件信息，在这里会告诉软件的具体名称和介绍</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew info iterm2
-iterm2: 3.4.15 <span class="o">(</span>auto_updates<span class="o">)</span>
-https://www.iterm2.com/
-/opt/homebrew/Caskroom/iterm2/3.4.15 <span class="o">(</span>119B<span class="o">)</span>
-From: https://github.com/Homebrew/homebrew-cask/blob/HEAD/Casks/iterm2.rb
-<span class="o">==&gt;</span> Name
-iTerm2
-<span class="o">==&gt;</span> Description
-Terminal emulator as alternative to Apple<span class="s1">'s Terminal app
-==&gt; Artifacts
-iTerm.app (App)
-==&gt; Analytics
-install: 25,001 (30 days), 91,481 (90 days), 335,711 (365 days)
-</span></code></pre></div></div>
-
-<p>OK，以上确认后，就可以正常安装了</p>
-
-<h2 id="brew-cu">brew cu</h2>
-
-<p><code class="language-plaintext highlighter-rouge">cu</code> 是 Cask 软件下的另一个优质的辅助工具，全称 <code class="language-plaintext highlighter-rouge">brew-cask-upgrade</code> 可以帮您检测全部 <code class="language-plaintext highlighter-rouge">brew install --cask</code> 的软件的版本更新情况</p>
-
-<h3 id="cu-的安装">cu 的安装</h3>
-
-<ul>
-  <li>Github https://github.com/buo/homebrew-cask-upgrade</li>
-</ul>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew tap buo/cask-upgrade
-</code></pre></div></div>
-
-<h3 id="使用说明">使用说明</h3>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew cu <span class="c"># 简单即可检测所有软件的更新情况</span>
-<span class="o">==&gt;</span> Options
-Include auto-update <span class="o">(</span><span class="nt">-a</span><span class="o">)</span>: <span class="nb">false
-</span>Include latest <span class="o">(</span><span class="nt">-f</span><span class="o">)</span>: <span class="nb">false</span>
-<span class="o">==&gt;</span> Updating Homebrew
-Already up-to-date.
-<span class="o">==&gt;</span> Finding outdated apps
-       Cask                           Current       Latest        A/U    Result
- 1/62  another-redis-desktop-manager  1.5.2         1.5.5              <span class="o">[</span>OUTDATED]
- 2/62  anydesk                        6.3.3         6.5.0              <span class="o">[</span>OUTDATED]
- 3/62  authy                          1.9.0         2.1.0          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
- 4/62  betterdummy                    1.0.13        1.1.12         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
- 5/62  bob                            0.7.0         0.8.1          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
- 6/62  cakebrew                       1.3           1.3            Y   <span class="o">[</span>  PASS  <span class="o">]</span>
- 7/62  clipy                          1.2.1         1.2.1              <span class="o">[</span>   OK   <span class="o">]</span>
- 8/62  dash                           6.2.0         6.2.3          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
- 9/62  devtoys                        0.0.10        0.0.10             <span class="o">[</span>   OK   <span class="o">]</span>
-10/62  feishu                         5.1.5         5.11.5         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-11/62  figma                          112.2.0       114.3.0        Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-12/62  firefox                        94.0.2        99.0.1         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-13/62  folx                           5.25          5.26           Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-14/62  font-fira-code                 6.2           6.2                <span class="o">[</span>   OK   <span class="o">]</span>
-15/62  forticlient-vpn                7.0           7.0                <span class="o">[</span>   OK   <span class="o">]</span>
-16/62  gitter                         1.177         1.177              <span class="o">[</span>   OK   <span class="o">]</span>
-17/62  iina                           1.2.0         1.2.0          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-18/62  iina-plus                      0.6.5         0.6.6              <span class="o">[</span>OUTDATED]
-19/62  imazing                        2.14.6        2.14.8         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-20/62  iterm2                         3.4.15        3.4.15         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-21/62  jellybeansoup-netflix          1.0.5         1.0.5              <span class="o">[</span>   OK   <span class="o">]</span>
-22/62  jetbrains-toolbox              1.22          1.23           Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-23/62  kap                            3.4.2         3.5.4          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-24/62  keyboardholder                 1.5.5         1.6.1              <span class="o">[</span>OUTDATED]
-25/62  kite                           0.20210610.0  0.20210610.0   Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-26/62  logitech-options               9.40.75       9.50.122       Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-27/62  maccy                          0.22.0        0.22.2         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-28/62  microsoft-remote-desktop       10.7.0        10.7.6         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-29/62  netnewswire                    6.1           6.1            Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-30/62  notable                        1.8.4         1.8.4          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-31/62  notion                         2.0.18        2.0.20         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-32/62  obsidian                       0.14.6        0.14.6         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-33/62  one-switch                     1.23          1.25               <span class="o">[</span>OUTDATED]
-34/62  openconnect-gui                1.5.3         1.5.3              <span class="o">[</span>   OK   <span class="o">]</span>
-35/62  openvpn-connect                3.3.2         3.3.5              <span class="o">[</span>OUTDATED]
-36/62  oss-browser                    1.16.0        1.16.0             <span class="o">[</span>   OK   <span class="o">]</span>
-37/62  picgo                          2.3.0         2.3.0              <span class="o">[</span>   OK   <span class="o">]</span>
-38/62  playcover                      0.9.2         1.0.0              <span class="o">[</span>OUTDATED]
-39/62  postman                        9.1.3         9.16.0         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-40/62  proxyman                       3.3.0         3.4.0          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-41/62  resilio-sync                   2.7.3         2.7.3          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-42/62  sensei                         1.5.1         1.5.2          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-43/62  shimo                          5.0.4         5.0.4          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-44/62  shuttle                        1.2.9         1.2.9              <span class="o">[</span>   OK   <span class="o">]</span>
-45/62  skype                          8.79.0.92     8.83.0.408     Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-46/62  slack-beta                     4.23.0        4.26.0         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-47/62  sourcetree                     4.1.7         4.1.8          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-48/62  spotify                        1.1.73.517    1.1.84.716     Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-49/62  steam                          4.0           4.0            Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-50/62  sunloginclient                 11.0.1.39931  12.5.0.45236       <span class="o">[</span>OUTDATED]
-51/62  switchkey                      1.1.3         1.1.3              <span class="o">[</span>   OK   <span class="o">]</span>
-52/62  telegram                       8.3           8.7            Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-53/62  tencent-lemon                  5.0.7         5.0.7          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-54/62  tencent-meeting                2.20.2.413    3.7.7.457      Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-55/62  typora                         1.0.2         1.2.4          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-56/62  upic                           0.21.1        0.21.1             <span class="o">[</span>   OK   <span class="o">]</span>
-57/62  utm-beta                       3.1.5         3.2.0              <span class="o">[</span>OUTDATED]
-58/62  visual-studio-code-insiders    1.63.0        latest             <span class="o">[</span>   OK   <span class="o">]</span>
-59/62  whatsapp                       2.2204.13     2.2214.12      Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-60/62  wireshark                      3.4.9         3.6.3          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-61/62  yesplaymusic                   0.4.3         0.4.3              <span class="o">[</span>   OK   <span class="o">]</span>
-62/62  zoom                           5.8.4.2421    5.10.4.6592    Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-
-<span class="o">==&gt;</span> Found outdated apps
-     Cask                           Current       Latest        A/U    Result
-1/9  another-redis-desktop-manager  1.5.2         1.5.5              <span class="o">[</span>OUTDATED]
-2/9  anydesk                        6.3.3         6.5.0              <span class="o">[</span>OUTDATED]
-3/9  iina-plus                      0.6.5         0.6.6              <span class="o">[</span>OUTDATED]
-4/9  keyboardholder                 1.5.5         1.6.1              <span class="o">[</span>OUTDATED]
-5/9  one-switch                     1.23          1.25               <span class="o">[</span>OUTDATED]
-6/9  openvpn-connect                3.3.2         3.3.5              <span class="o">[</span>OUTDATED]
-7/9  playcover                      0.9.2         1.0.0              <span class="o">[</span>OUTDATED]
-8/9  sunloginclient                 11.0.1.39931  12.5.0.45236       <span class="o">[</span>OUTDATED]
-9/9  utm-beta                       3.1.5         3.2.0              <span class="o">[</span>OUTDATED]
-
-Do you want to upgrade 9 apps or enter <span class="o">[</span>i]nteractive mode <span class="o">[</span>y/i/N]?
-</code></pre></div></div>
-
-<p>可以根据提示输入然后选择是否更新：</p>
-
-<ul>
-  <li>y 全部更新，后续不再确认</li>
-  <li>i 依次咨询是否要更新</li>
-  <li>N 全部不更新，退出</li>
-</ul>
-
-<h2 id="brew-mas">brew mas</h2>
-
-<p>mas 是一个帮助在命令行下完成 Mac App Store 软件安装和查询的工具，使用起来也是非常的简单，但相对于 cask 低了很多，可以作为了解， 安装方式如下：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew <span class="nb">install </span>mas
-</code></pre></div></div>
-
-<p>支持的命令也基本覆盖了常用需求</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ mas list
-➜  ~ mas search xcode
-➜  ~ mas <span class="nb">install </span>407963104
-➜  ~ mas outdated
-➜  ~ mas upgrade
-</code></pre></div></div>
-
-<p>当然，mas 也支持了 appstore 的账号登录；不过目前看到 mas 的社区更新不怎么积极，目前仍旧未适配 最新的系统，谨慎选择。</p>
-
-<h2 id="brew-软件的备份和恢复">brew 软件的备份和恢复</h2>
-
-<p>随着对系统使用的不断加深，我们已经在一台电脑上建立一套对自己来说的软件生态，所以在更换电脑时，需要安装那些软件是非常头疼的一个事情； 如果都是 GUI 软件还好，但研发同学的电脑其实会有大量的 forumal 软件，重装起来还是非常麻烦的。</p>
-
-<p>所以，这里给大家推荐 <code class="language-plaintext highlighter-rouge">homebrew-bundle</code> 来帮助迁移电脑时，快速备份和恢复你的软件环境；整个使用的过程也是非常的便捷。</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 执行 bundle dump 备份软件清单到 Brewfile</span>
-brew bundle dump <span class="nt">--describe</span> <span class="nt">--force</span> <span class="nt">--file</span><span class="o">=</span><span class="s2">"~/Desktop/Brewfile"</span>
-
-<span class="c"># --describe：为列表中的命令行工具加上说明性文字，可以参照 brew info package</span>
-</code></pre></div></div>
-
-<p>根据你电脑的软件多少，这大概会花费几十秒的时间，然后你会得到一份你的电脑软件清单，这里也分享下我的清单</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">cat </span>Desktop/Brewfile
-tap <span class="s2">"bigwig-club/brew"</span>
-tap <span class="s2">"buo/cask-upgrade"</span>
-tap <span class="s2">"heroku/brew"</span>
-...
-<span class="c"># Mozilla CA certificate store</span>
-brew <span class="s2">"ca-certificates"</span>
-<span class="c"># GNU database manager</span>
-brew <span class="s2">"gdbm"</span>
-<span class="c"># Automate deployment, configuration, and upgrading</span>
-brew <span class="s2">"ansible"</span>
-<span class="c"># Library and utilities for processing GIFs</span>
-brew <span class="s2">"giflib"</span>
-...
-<span class="c"># Redis desktop manager</span>
-cask <span class="s2">"another-redis-desktop-manager"</span>
-<span class="c"># Allows connection to a computer remotely</span>
-cask <span class="s2">"anydesk"</span>
-<span class="c"># Two-factor authentication software</span>
-cask <span class="s2">"authy"</span>
-<span class="c"># Dummy Display for Apple Silicon Macs to achieve custom resolutions</span>
-cask <span class="s2">"betterdummy"</span>
-...
-mas <span class="s2">"AngryBirdsReloaded"</span>, <span class="nb">id</span>: 1539172625
-mas <span class="s2">"Asphalt 8+"</span>, <span class="nb">id</span>: 1563005359
-mas <span class="s2">"BombSquad"</span>, <span class="nb">id</span>: 416482767
-mas <span class="s2">"Bridge Constructor+"</span>, <span class="nb">id</span>: 1587908263
-...
-</code></pre></div></div>
-
-<p>整个备份的内容包含  4 个部分，也正好包含了，我上面讲到的所有 brew 命令</p>
-
-<ul>
-  <li>brew tap 中的软件库</li>
-  <li>brew 安装的命令行工具</li>
-  <li>brew cask 安装的 App</li>
-  <li>Mac App Store 安装的 App  <code class="language-plaintext highlighter-rouge">这里也就是用上面的 mas</code></li>
-</ul>
-
-<h3 id="快速恢复软件">快速恢复软件</h3>
-
-<p>以下是你的新 Mac 上要做的事情，你需要把自己的 <code class="language-plaintext highlighter-rouge">Brewfile</code> 转移到新的 Mac 上，软件需要安装基础的工具:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 安装 Homebrew</span>
-➜  ~ /usr/bin/ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
-<span class="c"># 安装 mas</span>
-➜  ~ brew <span class="nb">install </span>mas
-</code></pre></div></div>
-
-<p>基础环境安装好了，之后，就可以进行软件恢复啦</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 批量安装软件 </span>
-➜  ~ brew bundle <span class="nt">--file</span><span class="o">=</span><span class="s2">"~/Desktop/Brewfile"</span>
-</code></pre></div></div>
-
-<p>软件实际恢复的速度取决于你的网络状态，不过 brew bundle 可以重复执行，你是可以中断恢复的。</p>
-
-<h2 id="结语">结语</h2>
-
-<p>好了，以上就是我关于 Mac 下软件安装神器 <code class="language-plaintext highlighter-rouge">brew</code>  的使用分享啦，这里大概涵盖了你 95% 的使用需求，如果你发现仍有疑问，欢迎与我取得联系，或者使用 Google 解决剩下的问题。</p>
-
-<p>文档内容，可能会随着时间推移有不适用的情况，若遇到冲突以官方说明为准。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2019-07-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2019/07/MySQL-%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BE%85%E5%8A%A9-mycli.html">MySQL 命令行辅助 mycli</a></h1>
-    <div class="post_at_index">
-      <h5 id="install">Install</h5>
-
-<p>Mycli is tested on macOS and Linux. It runs on Python 2.7 and 3.4+.</p>
-
-<blockquote>
-  <p>NOTE: Python 2.6 support was dropped in mycli 1.9.0. If you’re running Python 2.6, you’ll want to install mycli 1.8.1.</p>
-</blockquote>
-
-<p>######Python Package:</p>
-
-<p>If you already know how to install python packages, then you can do:</p>
-
-<ul>
-  <li>You might need sudo.</li>
-</ul>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>pip <span class="nb">install </span>mycli
-or
-<span class="nv">$ </span>easy_install mycli
-
-<span class="c"># Windows:</span>
-<span class="c"># Follow the instructions on this blogpost to install mycli on Windows:  https://www.codewall.co.uk/installing-using-mycli-on-windows/</span>
-
-<span class="c"># macOS:</span>
-<span class="c">#The easiest way install mycli on a Mac is to use Homebrew.</span>
-<span class="nv">$ </span>brew <span class="nb">install </span>mycli
-
-
-<span class="c"># Linux:</span>
-<span class="c"># Debian/Ubuntu Package:</span>
-<span class="c"># https://packages.debian.org/search?keywords=mycli</span>
-<span class="nv">$ </span><span class="nb">sudo </span>apt-get update
-<span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install </span>mycli
-
-<span class="c"># Fedora</span>
-<span class="nv">$ </span><span class="nb">sudo </span>dnf <span class="nb">install </span>mycli
-
-
-<span class="c"># RHEL, Centos:</span>
-<span class="c"># We don't have packages for RHEL or Centos, yet. Instead, use pip to install mycli. You can install pip on your system using:</span>
-<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>python-pip python-devel
-<span class="c"># Once that is installed, you can install mycli:</span>
-<span class="nv">$ </span><span class="nb">sudo </span>pip <span class="nb">install </span>mycli
-</code></pre></div></div>
-
-<h5 id="install-error-qa">Install Error QA.</h5>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cannot uninstall <span class="s1">'configobj'</span><span class="nb">.</span> It is a distutils installed project and thus we cannot accurately determine which files belong to it which would lead to only a partial uninstall.
-</code></pre></div></div>
-
-<h6 id="fix-code">Fix code</h6>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="nt">--ignore-installed</span> mycli
-</code></pre></div></div>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2019-07-03</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2019/01/Mac%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%BD%95%E5%88%B6GiF%E5%B0%8F%E8%A7%86%E9%A2%91.html">MacTips 如何快速录制GiF小视频</a></h1>
-    <div class="post_at_index">
-      <p>在平时的沟通中经常有需要用到分享一个连续的操作等，在很多时候截图不能满足我的需求，录制视频文件的话呢，文件过大，不同平台限制过多是一个很麻烦的视频，所以录制GIF是一个非常好的解决办法，今天给大家推荐两款软件，关于录制GIF和GIF编辑。</p>
-
-<h4 id="录制工具1-kap">录制工具(1) Kap</h4>
-
-<p>Kap是一款轻量级开源的GIF录制工具，这意味它是免费简单易用；你可以从官网下载。<a href="https://getkap.co/">官网</a></p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/sbuwo.gif" alt="" /></p>
-
-<p>安装完成，启动Kap，它是以一个圆环的形式显示在状态栏上，所有的界面都在这里，你可以点击红框直接开始录制，点击后你的屏幕上会出现一个虚线框，你可以通过拖动四角调整大小。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/vcaug.gif" alt="" /></p>
-
-<p>确定好录制范围之后，这时你发现Kap上红色录制按钮一个变成一个红色实心圆，再次单击即可开始录制。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/9txw3.gif" alt="" /></p>
-
-<p>在你操作完成之后，再次单击，即可结束录制。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/lws2b.gif" alt="" /></p>
-
-<h4 id="录制工具2-macappquicktime-player">录制工具(2) MacApp：QuickTime Player</h4>
-
-<p>以上管理Kap的使用GIF录制我是用过Mac自带的QuickTime Player录制，教程可以直接看 @JasonZone 的教程 <a href="https://mp.weixin.qq.com/s/lgHOrpZ2PE8hJWU3O_IDUA">链接</a></p>
-
-<h4 id="gif编辑">GIF编辑</h4>
-
-<p>在@JasonZone 最后使用的是一个网站进行了从mov转换为gif格式的操作，这里推荐一个Mac应用 <a href="http://www.aiseesoft.com/app-store/video-to-gif-maker/">Video to Gif Maker</a>，可以批量进行多个GIF文件转换，也支持在GIF增加文字或图片，这很实用。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/5yogy.gif" alt="" /></p>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2019-01-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2018/08/HowTo-Skip-Atlassian-Auth-for-SourceTree.html">HowTo Skip Atlassian Auth for SourceTree</a></h1>
-    <div class="post_at_index">
-      <h4 id="问题">问题</h4>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/eaxem.png" alt="" /></p>
-
-<p>因为国内的网络的原因，导致我们在首次打开SourceTree时需要验证Atlassian账号，但是Atlassian的注册页面使用requirejs是用了Google的CDN服务，所以无法正常通过验证，如果你有翻墙工具，那么这就没有问题，下面我要讲的方法是在不翻墙的情况下跳过初始化验证。</p>
-
-<blockquote>
-  <p>目前我解决的是在Windows平台上的问题，关于Mac平台，我稍后会更新到文档中。</p>
-</blockquote>
-
-<h4 id="解决思路">解决思路</h4>
-
-<p>我的想法是通过增加<code class="language-plaintext highlighter-rouge">account</code>信息，让<code class="language-plaintext highlighter-rouge">SourceTree</code>跳过验证；经过测试<code class="language-plaintext highlighter-rouge">2.0.19</code>及以下版本都支持，但是SourceTree在最新版本2.0.20时可能修订验证方式，所以导致我的这个方式不适用，大家可以在我的百度云盘共享中下载2.0.19，功能上并没发生多少变化。</p>
-
-<p>链接: https://pan.baidu.com/s/1qYsHKWs 密码: wnc3</p>
-
-<h4 id="解决步骤">解决步骤</h4>
-
-<h5 id="net-452">.NET 4.5.2</h5>
-
-<p>SourceTree 依赖的.NET环境最低是4.5.2，当然在你安装的过程中，会提示你下载安装，你只需要确认即可，不过这样下载会比较慢，所以建议你使用Offline的形式安装，下面是微软官方下载地址：</p>
-
-<p>https://www.microsoft.com/en-us/download/confirmation.aspx?id=42642</p>
-
-<h5 id="sourcetree">SourceTree</h5>
-
-<p>安装过程中，默认一路“Next”即可，在安装完成之后，我们需要找到SourceTree在LocalAppData中的路径，请打开资源管理窗口，然后输入以下地址：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%LocalAppData%<span class="se">\A</span>tlassian<span class="se">\S</span>ourceTree<span class="se">\</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>如果路径不存在，创建目录即可</p>
-</blockquote>
-
-<p>然后将之前百度云盘的文件<code>accounts.json</code>复制到这个位置，它的路径应该是：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%LocalAppData%<span class="se">\A</span>tlassian<span class="se">\S</span>ourceTree<span class="se">\a</span>ccounts.json
-</code></pre></div></div>
-
-<p>文件内容：</p>
-
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"$id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"$type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SourceTree.Api.Host.Identity.Model.IdentityAccount, SourceTree.Api.Host.Identity"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"HostInstance"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"$id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"$type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SourceTree.Host.Atlassianaccount.AtlassianAccountInstance, SourceTree.Host.AtlassianAccount"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"Host"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"$id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"$type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SourceTree.Host.Atlassianaccount.AtlassianAccountHost, SourceTree.Host.AtlassianAccount"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"atlassian account"</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="nl">"BaseUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://id.atlassian.com/"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"Credentials"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"$id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"$type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SourceTree.Model.BasicAuthCredentials, SourceTree.Api.Account"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"Username"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"IsDefault"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre></div></div>
-
-<p>添加完成之后，启动SourceTree即可发现已经跳过了验证界面。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2018-08-04</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SourceTree">SourceTree</a>
-      , 
-      <a href="/tags.html#Git">Git</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2018/02/%E4%BD%BF%E7%94%A8%E5%9B%BD%E5%86%85pypi%E6%BA%90%E5%8A%A0%E9%80%9Fpip%E5%AE%89%E8%A3%85.html">使用国内pypi源加速pip安装</a></h1>
-    <div class="post_at_index">
-      <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/mxb19.png" alt="" /></p>
-
-<p>在解决将AWS Cloudwatch的监控信息展示在Zabbix上时，需要安装AWS的一个python 工具包boto3，但是在安装过程中，碰到了如上图的错误信息；问题是由于国内网络问题导致连接python库超时，所以将库改为国内</p>
-
-<h4 id="国内pypi源站点">国内pypi源站点</h4>
-
-<ul>
-  <li>http://pypi.douban.com/simple  豆瓣</li>
-  <li>http://pypi.hustunique.com/simple  华中理工大学</li>
-  <li>http://pypi.sdutlinux.org/simple  山东理工大学</li>
-  <li>http://pypi.mirrors.ustc.edu.cn/simple  中国科学技术大学</li>
-</ul>
-
-<h4 id="windows-修改">Windows 修改</h4>
-
-<p>编辑 %HOMEPATH%\pip\pip.ini</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>global]
-index-url <span class="o">=</span> http://pypi.douban.com/simple
-</code></pre></div></div>
-
-<h4 id="linux-修改">Linux 修改</h4>
-<p>编辑 ~/.pip/pip.conf ， 如果文件不存在，可以先创建</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>global]
-index-url <span class="o">=</span> http://pypi.douban.com/simple
-</code></pre></div></div>
-
-<h4 id="修改easy_install-源">修改easy_install 源</h4>
-<p>编辑 ~/.pydistutils.cfg</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>global]
-index-url <span class="o">=</span> http://pypi.douban.com/simple
-</code></pre></div></div>
-
-<h4 id="临时使用">临时使用</h4>
-<p>如果你不想修改源，只是临时使用的话，可以在pip安装时使用-i参数临时指定源站点</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nt">-i</span> http://pypi.douban.com/simple <span class="nb">install </span>boto3
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2018-02-28</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2018/01/MacTips-choose-apps-defaults-language.html">MacTips 单独设置程序语言</a></h1>
-    <div class="post_at_index">
-      <p>Mac 上系统语言设置成英文查看起来是最舒适的，所以我很早就将系统语言改成英文，但是在自身英语水平有限，应对基本的单词没有问题，但是在查看例如Word、PowerPoint这类应用时，有大量的选项大脑转化速度较慢，影响工作效率，所以有时在做PPT时，不得已要将系统切换到中文，这对我来说是一件很麻烦的事情，但是今天在网上找到一个帖子<a href="http://www.viblue.com/wiki/469264501.html">原文</a>，其实一个命令就可以搞定我的问题，修改某一软件的默认语言。</p>
-
-<h5 id="command">Command</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults write '{AppName}' AppleLanguages '("Your choose language")'
-</code></pre></div></div>
-
-<p>这不会影响到我们其他软件的使用。</p>
-
-<h5 id="tips">Tips:</h5>
-
-<p>我在一次切换Outlook语言时使用上面的命令不能生效，经过研究稍微改造了一下命令：</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults write com.microsoft.Outlook AppleLanguages -array zh
-</code></pre></div></div>
-
-<h5 id="例子">例子</h5>
-
-<ol>
-  <li>修改Microsoft Office Applocation.</li>
-</ol>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults write com.microsoft.Word AppleLanguages '("zh-CN")'
-</code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults write com.microsoft.Excel AppleLanguages '("zh-CN")'
-</code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults write com.microsoft.Powerpoint AppleLanguages '("zh-CN")'
-</code></pre></div></div>
-
-<ol>
-  <li>Mac 自带地图应</li>
-</ol>
-
-<p>Mac 自带地图非常的好用，但是中文会更适合我们的查看和标记</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults write com.apple.Maps AppleLanguages '("zh-CN")'
-</code></pre></div></div>
-
-<blockquote>
-  <p>Tip：如果不知道程序名称时，可以在<code class="language-plaintext highlighter-rouge">com.</code>使用三次<code class="language-plaintext highlighter-rouge">Tab</code>键来查找程序名称.</p>
-</blockquote>
-
-<h5 id="结语">结语</h5>
-
-<p>如上操作，仅适合本身支持中英文的应用程序，如果程序本身不带有中文或者英文是无法使用的，当然有些应用也内置了语言切换按钮，可以优先使用程序自带的设置选项。</p>
-
-<h5 id="去除设置">去除设置</h5>
-
-<p>ok，在我们增加了特定程序语言环境之后，如果手动切换系统语言之后，已设置的程序语言环境仍保留我们的手动设置情境，如若不需要，可以采用以下命令去除。</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults delete '{AppName}' AppleLanguages
-</code></pre></div></div>
-
-<ul>
-  <li>参考链接：http://www.viblue.com/wiki/469264501.html</li>
-</ul>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2018-01-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2018/01/Git%E4%BD%BF%E7%94%A8%E8%A7%84%E8%8C%83%E6%B5%81%E7%A8%8B.html">Git 使用规范流程</a></h1>
-    <div class="post_at_index">
-      <p>团队开发中，遵循一个合理、清晰的Git使用流程，是非常重要的。否则，每个人都提交一堆杂乱无章的commit，项目很快就会变得难以协调和维护。下图是比较常规的Git使用规范流程，这能适合绝大多数团队开发的需求，推荐你们也这样使用。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/j4ndi.png" alt="" /></p>
-
-<h4 id="1--分支管理">1.  分支管理</h4>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/naweu.jpg" alt="" /></p>
-
-<ol>
-  <li>
-    <p>主分支Master：首先，代码库应该有一个、且仅有一个主分支。所有提供给用户使用的正式版本，都在这个主分支上发布。</p>
-  </li>
-  <li>
-    <p>开发分支Develop：主分支只用来分布重大版本，日常开发应该在另一条分支上完成。我们把开发用的分支，叫做Develop。</p>
-  </li>
-  <li>
-    <p>临时性分支</p>
-
-    <ol>
-      <li>
-        <p>功能分支 : 为了开发某种特定功能，从Develop分支上面分出来的。开发完成后，要再并入Develop，功能分支的名字，可以采用feature-*的形式命名。</p>
-      </li>
-      <li>
-        <p>预发布分支 : 指发布正式版本之前（即合并到Master分支之前），我们可能需要有一个预发布的版本进行测试,预发布分支是从Develop分支上面分出来的，预发布结束以后，必须合并进Develop和Master分支。它的命名，可以采用release-*的形式。</p>
-      </li>
-      <li>
-        <p>修补bug分支：软件正式发布以后，难免会出现bug。这时就需要创建一个分支，进行bug修补。修补bug分支是从Master分支上面分出来的。修补结束以后，再合并进Master和Develop分支。它的命名，可以采用fixbug-*的形式</p>
-      </li>
-    </ol>
-  </li>
-</ol>
-
-<p>​</p>
-
-<h5 id="2-新建分支">2. 新建分支</h5>
-
-<p>Master分支不允许进行开发，所有的开发相关操作都必须基于develop分支.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 获取主分支最新代码
-git chekcout master
-
-# 新建develop分支进行开发
-git checkout -b develop
-</code></pre></div></div>
-
-<h5 id="3-提交分支">3. 提交分支</h5>
-
-<p>分支修改后，使用commit提交修改。</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># add 所有新增的文件
-git add --all
-
-# 提交更新， 每次提交必须写增加的东西和修改内容，保证协同开发是其他看到代码就能知道你做了什么
-gti commit -m "first commit"
-</code></pre></div></div>
-
-<h5 id="4-推送到远程仓库">4. 推送到远程仓库</h5>
-
-<p>commit 之后，其实代码还在本地仓库，这时我们需要将本地版本与git远端仓库进行同步</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 推送到远程develop分支
-git push origin develop
-</code></pre></div></div>
-
-<h5 id="5-合并分支">5. 合并分支</h5>
-
-<p>当代码提交到远端develop分支后，应该让别人进行代码review和测试，确认无误后，合并到Master分支，完成开发。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2018-01-09</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Git">Git</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2017/12/Howto-Install-Redmine-on-Ubuntu-16.04.html">Howto Install Redmine on Ubuntu 16.04</a></h1>
-    <div class="post_at_index">
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># base
-apt install mysql-server libmysqlclient-dev git-core subversion imagemagick libmagickwand-dev libcurl4-openssl-dev 
-apt install build-essential mysql-server ruby ruby-dev libmysqlclient-dev imagemagick libmagickwand-dev
-# install mysql
-systemctl enable mysql.service
-systemctl start mysql.service
-create database redmine character set utf8;
-grant all privileges on redmine.* to redmine@'localhost' identified by 'redmine';
-flush privileges;
-# Install ruby
-gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-curl -sSL https://get.rvm.io | bash -s stable
-source /etc/profile.d/rvm.sh
-rvm requirements
-rvm install 2.4.1
-rvm use 2.4.1 --default
-# install passenger and nginx 
-gem install passenger --no-ri --no-rdoc
-passenger-install-nginx-module
-# 1. auto install nginx.
-curl https://raw.githubusercontent.com/makevoid/nginx-passenger-ubuntu/master/nginx/nginx.service &gt; /lib/systemd/system/nginx.service
-systemctl daemon-reload
-systemctl enable nginx
-vim /opt/nginx/conf/nginx.conf # 注销 location / {} 的配置
-server {
-  listen  80;
-  server_name [your_server_domain_name] # redmine.com;
-  root /var/data/redmine/public;
-  passenger_enabled on;
-  client_max_body_size      10m; # Max attachemnt size
-}
-
-systemctl start nginx
-# install redmine
-mkdir /var/data
-cd /var/data
-svn co http://svn.redmine.org/redmine/branches/3.4-stable redmine
-cd /var/data/redmine
-cp -pR /var/data/redmine/config/database.yml.example /var/data/redmine/config/database.yml
-vim config/database.yml  # set redmine db user and password
-# Install Plugins
-cd /var/data/redmine
-gem install bundler --no-ri --no-rdoc
-bundle install
-# configure redmine
-cd /var/data/redmine
-mkdir public/plugin_assets
-chown -R www-data:www-data files log tmp public/plugin_assets config.ru
-chmod -R 755 files log tmp public/plugin_assets
-# input database and base file.
-RAILS_ENV=production bundle exec rake db:migrate
-RAILS_ENV=production bundle exec rake redmine:load_default_data
-bundle exec rake generate_secret_token
-# restart nginx, install ok.
-systemctl restart nginx
-# restart redmine
-touch /var/data/redmine/tmp/restart.txt
-# configure email service
-vim /var/data/redmine/config/configuration.yml
-</code></pre></div></div>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-12-02</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Redmine">Redmine</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1298,7 +975,7 @@ vim /var/data/redmine/config/configuration.yml
             <li class="active"><a>9</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page20">20</a></li>
+          <li><a href="/page21">21</a></li>
         
 
         
@@ -1389,7 +1066,7 @@ vim /var/data/redmine/config/configuration.yml
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>6</span>
+    		Mac <span>17</span>
     	</a></li>
      
     	

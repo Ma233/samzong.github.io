@@ -221,6 +221,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -262,6 +266,53 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2021/11/%E9%92%89%E9%92%89%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%B7%A5%E5%85%B7.html">钉钉内网穿透工具</a></h1>
+    <div class="post_at_index">
+      <blockquote>
+  <p><a href="https://developers.dingtalk.com/document/resourcedownload/http-intranet-penetration?pnamespace=tutorial">https://developers.dingtalk.com/document/resourcedownload/http-intranet-penetration?pnamespace=tutorial</a></p>
+</blockquote>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630637171967-d3907c05-e99f-4b27-b4ca-3047423021f8.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+
+<h2 id="使用方法">使用方法</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">dingtalk</span><span class="o">/</span><span class="n">pierced</span><span class="p">.</span><span class="n">git</span>
+
+<span class="n">cd</span>  <span class="n">pierced</span><span class="o">/</span><span class="n">mac_64</span>
+<span class="p">.</span><span class="o">/</span><span class="n">ding</span> <span class="o">-</span><span class="n">config</span><span class="o">=</span><span class="p">.</span><span class="o">/</span><span class="n">ding</span><span class="p">.</span><span class="n">cfg</span> <span class="o">-</span><span class="n">subdomain</span><span class="o">=</span><span class="n">abcde</span> <span class="mi">5000</span>
+
+<span class="c1"># usage:  命令 -config=配置文件[不需要修改] -subdomain=项目域名 Port
+# 代理主域名是 abcde.vaiwan.com 暴露的域名就是 subdomain.vaiwan.com
+</span></code></pre></div></div>
+
+<p>通过以上命令： 会将本地端口为 5000 代理到 公网域名 abcde.vaiwan.com；启动成功后会展示如下页面 ，并会打印出对应的请求记录</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630637171919-e53839a7-fc1d-4796-8f96-1235722dc38c.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+
+<h2 id="调试辅助">调试辅助</h2>
+
+<p>在运行成功后，会看到一个 <code class="language-plaintext highlighter-rouge">Web Interface</code> 运行在本地 <code class="language-plaintext highlighter-rouge">http://127.0.0.1:4040</code> 这是一个非常友好的调试界面，可以让你这边看到每个请求的日志信息</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630637171928-a64116ae-eb01-4308-8a21-c1fe3ab30df5.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+
+<p>细心的话，你也可以注意到，在每个接口的页面上的右侧有个 <code class="language-plaintext highlighter-rouge">Retry</code> 的按钮，这个是可以方便我们对接口进行重试</p>
+
+<h2 id="结语">结语</h2>
+
+<p>同时支持 MacOS/Windows 使用的前置成本上，要比花生壳的内网穿透简单很多；我主要使用在开发钉钉bot阶段，大大减少的发布到服务端和查看日志的时间；感谢钉钉团队提供了这么友好的工具</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-11-19</cite> <i class="icon-tag"></i>
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2021/11/%E5%BE%85%E5%AE%8C%E6%88%90-%E4%BD%BF%E7%94%A8%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%8E%88%E6%9D%83%E7%99%BB%E5%BD%95.html">[待完成] 使用钉钉三方授权登录</a></h1>
@@ -887,51 +938,6 @@ Usage::
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2021/08/MySQL-REGEXP-%E6%B4%BB%E5%AD%A6%E6%B4%BB%E7%94%A8.html">MySQL REGEXP 活学活用</a></h1>
-    <div class="post_at_index">
-      <p><code class="language-plaintext highlighter-rouge">REGEXP</code> 在 MySQL中使用的正则表达式标识符，有着非常丰富的使用路径，代替<code class="language-plaintext highlighter-rouge">like</code>将有非常大的使用空间</p>
-
-<h2 id="梅里埃强制增加定位域名备案">梅里埃强制增加定位域名备案</h2>
-
-<blockquote>
-  <p>增加域名备案到页脚</p>
-</blockquote>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">"width: 100%; text-align: center; position:absolute; bottom:0; margin: auto;"</span><span class="nt">&gt;</span>
-   <span class="nt">&lt;p&gt;</span>
-       Copyright 2021 © 上海微企信息技术股份有限公司. <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://beian.miit.gov.cn"</span><span class="nt">&gt;</span>沪ICP备12042952号-18<span class="nt">&lt;/a&gt;</span>  All Rights Reserved
-   <span class="nt">&lt;/p&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
-</code></pre></div></div>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626796098224-66dfb621-323e-4e68-b1e2-fedfa40b43d9.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<blockquote>
-  <p>修改页面height 默认展示底部 footer</p>
-</blockquote>
-
-<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">body</span><span class="o">,</span><span class="nt">body</span><span class="o">&gt;[</span><span class="nt">ui-view</span><span class="o">],</span><span class="nt">html</span><span class="o">,</span><span class="nt">html</span><span class="o">&gt;[</span><span class="nt">ui-view</span><span class="o">]</span> <span class="p">{</span>
-    <span class="nl">width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
-    <span class="nl">height</span><span class="p">:</span> <span class="m">99%</span>  <span class="err">#</span> <span class="n">原100</span><span class="err">%</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626796019003-27d5c0b3-dfe4-4c26-ae28-a334a5ed8039.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-08-09</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SQL">SQL</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -973,7 +979,7 @@ Usage::
             <li class="active"><a>6</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page20">20</a></li>
+          <li><a href="/page21">21</a></li>
         
 
         
@@ -1064,7 +1070,7 @@ Usage::
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>6</span>
+    		Mac <span>17</span>
     	</a></li>
      
     	

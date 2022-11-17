@@ -1,0 +1,1216 @@
+
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Blog">
+  <head>
+    <meta charset="utf-8">
+	<link rel="manifest" href="/static/pwa/manifest.json">
+	<title> Metabase 踩坑：跳转链接的浏览器缓存 | 船长的课记 </title>
+    
+		
+    <meta name="author" content="船长">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#2196F3">
+	<meta name="google-site-verification" content="puZt0ZyqB-t67BYdYAgLUyIPBeismG68J0dmEc01QeY" />
+
+	
+    <script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function () {
+				navigator.serviceWorker
+										.register('/sw.js')
+										.then(function(registration) {
+											console.log("Successfully registered service worker", registration.scope);
+										}).catch(function(err) {
+											console.log("Service worker registration failed: ", err);
+										});
+				//navigator.serviceWorker.ready always resolve
+				navigator.serviceWorker.ready.then(function (registration) {
+					console.log('Service worker successfully registered on scope', registration.scope);
+				});
+			});
+		}
+    </script>
+	<script type="text/javascript" src="/assets/themes/evjekylltheme/jquery-3.6.0.slim.min.js"></script>
+
+	<link href="/assets/themes/evjekylltheme/google-code-prettify/desert.css" type="text/css" rel="stylesheet" />
+
+    <!-- Le styles -->
+    <link href="/assets/themes/evjekylltheme/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/evjekylltheme/css/style.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/static/images/favicon.ico">
+
+    <!-- atom & rss feed -->
+    <link href="" type="application/atom+xml" rel="alternate" title="Jekyll auto generate ATOM Feed">
+    <link href="" type="application/atom+xml" rel="alternate" title="Site ATOM Feed">
+    <link href="" type="application/rss+xml" rel="alternate" title="Site RSS Feed">
+	<link rel="stylesheet" href="/assets/themes/evjekylltheme/font-awesome-4.4.0/css/font-awesome.min.css">
+	<!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-W2LDG64');</script> -->
+		<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8529425670069509"
+						crossorigin="anonymous"></script> -->
+	<!-- <script async src="https://cdn.splitbee.io/sb.js"></script> -->
+  </head>
+
+  <body>
+	<!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2LDG64"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
+    <div class="navbar navbar-default navbar-fixed-top">
+				<div class="container">
+          <div class="row mobilepadding">
+					<!-- <a class="navbar-brand" href="/">船长的课记</a> -->
+					<a class="navbar-brand" href="/">SAMZONG</a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mNavbar">
+  					<ul class="nav navbar-nav">
+  						
+  						
+  						
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/friends.html">Friends</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+						  <li class="dropdown">
+							  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other</a>
+							  <ul class="dropdown-menu">
+									<li><a href="/about.html">About</a></li>
+									<li><a href="https://yuque.com/samzong/note" target="_blank">船长的课记</a></li>
+									<li><a href="https://yuque.com/samzong/ap" target="_blank">果粉日记</a></li>
+									<li><a href="https://yuque.com/samzong/code" target="_blank">Code Snippet</a></li>
+									<li><a href="https://www.yuque.com/samzong/mcx" target="_blank">集</a></li>
+									<li><a href="https://www.yuque.com/zooka" target="_blank">藏金阁</a></li>
+								</ul>
+						  </li>
+  					</ul>
+  					<form id="search-form" class="navbar-form navbar-right" role="search">
+  						<div class="form-group">
+  						<input type="text" class="form-control input-sm" placeholder="Search's Bad" id="query">
+  						</div>
+  					</form>
+  					<div class="nav-icon">
+  						<a href="/feed.xml"><i class="fa fa-rss fa-2x"></i></a>
+  					</div>
+          </div>
+				</div>
+      </div>
+    </div>
+
+    <div class="container">
+			<div class="row mobilepadding">
+        <div class="row">
+					<div class="col-md-12">
+						<div class="searchresult">
+						</div>
+						<div id="search-loader" class="img-wrap">
+						</div>
+					</div>
+        </div>
+				
+<div class="row" itemscope itemtype="http://schema.org/Article">
+    <div class="col-xs-12 col-md-8">
+        <div class="page-header" itemprop="name">
+            <h1>Metabase 踩坑：跳转链接的浏览器缓存 
+            </h1>
+        </div>
+        <div class="post-meta">
+            
+            <span class="entry-date" itemprop="datePublished">Posted on 11/03/2021</span>
+            
+            
+            <span class="entry-author" itemprop="author">by 船长</span>
+            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/main/_posts/2021-11-03-Metabase 踩坑：跳转链接的浏览器缓存.md"
+                 target="_blank">View revision history</a>
+        </div>
+        <div class="post-content" itemprop="articleBody">
+            <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635955971186-4f85ab8d-9d1e-46ab-bd20-ee914c91fade.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<h3 id="背景说明">背景说明</h3>
+
+<p>最近在使用Metabase做一个内部工具的跳转传送门，大概实现的方式是这样：
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635956694248-79aec951-9e6d-4360-b4e9-37bd2cefd740.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<ul>
+  <li>通过Metabase带有的字段支持链接跳转的功能，拼接上查询结果的部分</li>
+  <li>后端服务完成对用户行为的校验，并且完成身份预认证，生成验证token</li>
+  <li>然后带着预认证的信息跳转到对应的系统内</li>
+</ul>
+
+<h3 id="问题分析">问题分析</h3>
+
+<p>起初用的时候发现还好，不过陆续有同学反馈有些行数的结果不能够进入后台去，而让其他人使用又是没问题；</p>
+
+<p>简单分析了下服务端日志，发现不能正常登录情况是请求根本没有到后端服务器，浏览器直接进行了跳转，而之前签发的token是有时效的，超过时间就过期了，所以导致跳转后校验不通过</p>
+
+<p><a href="https://juejin.cn/post/6844904130482274318"><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635957317795-60317ecd-b550-42d6-ab25-3f0b7d9247d9.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></a></p>
+
+<blockquote>
+  <p>有兴趣的同学，可以点击上方的图片链接，去详细介绍的原文看看</p>
+</blockquote>
+
+<h3 id="解决思路">解决思路
+
+</h3>
+
+<p>靠着对前端和浏览器一知半解+Google出来的结果，<strong>只要欺骗浏览器每次请求的路径不一样，就可以解决这个问题。</strong></p>
+
+<p>所以解铃还须系铃人，当然还是靠着Metabase来解决这个问题</p>
+
+<p>:::success
+在SQL查询结果中增加一个每次都是不一样的结果字段 <strong>取unixtimestamp时间</strong>，然后将结果拼接到url中
+:::</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span>
+	<span class="n">UNIX_TIMESTAMP</span><span class="p">(</span><span class="n">now</span><span class="p">())</span> <span class="k">AS</span> <span class="nv">`ts`</span> <span class="o">//</span><span class="err">每次取值当前时间</span>
+<span class="k">FROM</span>
+	<span class="k">table_name</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>解决之后对比</p>
+</blockquote>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635957781278-bd41df03-24be-4640-b77f-54ba77774bea.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<p>🎆🎆🎆  完毕，问题得以解决</p>
+
+<h3 id="其他">其他</h3>
+
+<p>注意在后端服务上去除对时间参数的过滤，因为我是只处理了我想要的字段，所以这样的调整 服务端代码都不用改</p>
+
+        </div>
+
+        <div id="related">
+            <h2>Related Posts</h2>
+            <ul class="posts"><!--当一篇文章有两个tag一样时显示-->
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li><a href="/post/2021/11/Metabase-%E8%B8%A9%E5%9D%91-%E8%B7%B3%E8%BD%AC%E9%93%BE%E6%8E%A5%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98.html">Metabase 踩坑：跳转链接的浏览器缓存</a> - <span>11/03/2021</span></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+
+        <hr>
+        <nav>
+            <ul class="pager">
+                
+                <li class="previous"><a href="/post/2021/10/Python-Version-Manage-pyenv.html" title="Python Version Manage `pyenv`">&larr;
+                    Previous（前一篇）</a></li>
+                
+                <!-- <li><a href="/static/archive.html">Archive（目录）</a></li> -->
+                <li><a href="/archive.html">Archive（目录）</a></li>
+                
+                <li class="next"><a href="/post/2021/11/Creating-DataFrame-using-list.html" title="Creating DataFrame using list">Next（后一篇） &rarr;</a></li>
+                
+            </ul>
+        </nav>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	
+      <li><a href="/categories.html#BI">
+    		BI <span>2</span>
+    	</a></li>
+    
+  
+
+
+
+        </ul>
+        
+
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-tag" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	
+    	<li><a href="/tags.html#BI">BI <span>2</span></a></li>
+     
+    	
+    	<li><a href="/tags.html#Metabase">Metabase <span>2</span></a></li>
+    
+  
+
+
+
+        </ul>
+        
+        <div id="floatbox">
+            <div id="post-directory-module">
+                <div id="toc"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/assets/themes/evjekylltheme/toc.js"></script>
+<script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
+
+
+			</div>
+
+		</div>
+
+    <footer>
+      <div class="container">
+        <div class="row mobilepadding">
+          			<hr>
+      &copy; 2022 船长. Powered by <a href="http://jekyllrb.com" target="_blank" title="The simple, blog-aware, static site generator.">Jekyll</a>. Theme Creator <a href="https://github.com/einverne" target="_blank" title="Ein Verne's GitHub Repos">Ein Verne</a> . Host on <a href="https://github.com/samzong/samzong.me" target="_blank" title="Samzong's GitHub Repos">Github</a> .
+      <br><br>
+      </div>
+    </div>
+    </footer>
+
+    
+
+
+
+
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/webcore.js"></script>
+
+ </body>
+</html>
+

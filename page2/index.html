@@ -201,6 +201,26 @@
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
@@ -244,252 +264,36 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2022/04/GitHub-Pages-%E7%9A%84%E5%A6%99%E7%94%A8.html">GitHub Pages 的妙用</a></h1>
+    <h1><a class="title" href="/post/2022/11/Docker-for-Mac-%E7%BD%91%E7%BB%9C%E6%8A%80%E5%B7%A7.html">Docker for Mac 网络技巧</a></h1>
     <div class="post_at_index">
-      <h2 id="本来是想好好工作的">本来是想好好工作的</h2>
+      <p>在 Windows 和 Linux 中使用 Docker ，可以通过 docker0 这个网络 IP，在容器内访问宿主机的端口及服务</p>
 
-<p>最近换了新工作（后面找个时间好好说说），大量接触 k8s &amp; docker，开始写了比较多的 yaml 和 Dockerfile；散落在电脑上的话，还是很不方便，有个仓库管理起来的话，就会很方便了，于是有了这个项目 <a href="https://github.com/SAMZONG/k8s-yaml">samzong/k8s-yaml</a></p>
-
-<p>k8s-yaml 一开始的定义就是 public ，希望给更多其他的人提供帮助，索性就再增加了一个网页吧</p>
-
-<h2 id="一分钟快速搭建网站">一分钟快速搭建网站</h2>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch gh-pages
-<span class="nb">echo</span> <span class="s2">"## Hello gh-pages"</span> <span class="o">&gt;</span> index.md
-git push origin gh-pages
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ ifconfig
+docker0: <span class="nv">flags</span><span class="o">=</span>4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
+        ether 02:42:65:e2:82:de  txqueuelen 0  <span class="o">(</span>Ethernet<span class="o">)</span>
+        RX packets 19240  bytes 9107695 <span class="o">(</span>8.6 MiB<span class="o">)</span>
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 16989  bytes 9952021 <span class="o">(</span>9.4 MiB<span class="o">)</span>
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 </code></pre></div></div>
 
-<p>eeen…. 这样就 ok ！</p>
-
-<p><code class="language-plaintext highlighter-rouge">gh-pages</code> 是每个 GitHub 仓库的默认 github pages 分支，当你创建这个分支并推动到 GitHub 时，会自动触发 Pages 的构建任务，大约30s 左右，你就会得到一个网站</p>
+<p>但以上在 macOS 中无 docker0 端口，那我们如何在 Docker for Mac 中访问宿主机的服务呢？</p>
 
 <blockquote>
-  <p>http://[github_username].github.io/[github_repo_name]</p>
+  <p>docker.for.mac.host.internal</p>
 </blockquote>
 
-<h2 id="简单的配置">简单的配置</h2>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/X4tbDt.png?x-oss-process=image/resize,w_960,m_lfit" alt="X4tbDt" /></p>
-
-<p>上图简单指引了如何打开 GitHub Pages 的配置路径，下面对主要的几个模块进行说明:</p>
-
-<ol>
-  <li>Source  - 指定的 以那个分支作为 built 源和文件夹，默认是 gh-pages, 建议不动，统一认知</li>
-  <li>Theme Chooser - 选择对应的博客主题，大概有 10 个，都比较普通，根据自己喜好来，可以自定义，这里不展开 (Google Jekyll themes 一大堆</li>
-  <li>Custom Domain - 可以指定默认的特定的域名，需要配置 <code class="language-plaintext highlighter-rouge">/CNAME</code>，需要和这里的域名一致，同时域名解析需要配置好 CNAME</li>
-  <li>Enforce HTTPS - 启用 HTTPS，默认不启动，建议启用</li>
-</ol>
-
-<blockquote>
-  <p>CNAME 配置，将指定的域名指向到 <code class="language-plaintext highlighter-rouge">[github_username].github.io</code></p>
-</blockquote>
-
-<p>经过简单的配置，这个仓库的网站，已经完成了你想要的； 在 <code class="language-plaintext highlighter-rouge">index.md</code> 内修改为你想要的内容。</p>
-
-<h2 id="高级功能结合-github-issue-的评论功能">高级功能：结合 GitHub issue 的评论功能</h2>
-
-<p>这里采用的 评论组件是 <a href="https://utteranc.es/">utterances</a>, 提供轻量级的博客评论功能，并且评论是直接创建 GitHub issue，方便管理</p>
-
-<p>这里不赘述安装细节的，比较简单，直接去看下面几个网站即可</p>
-
-<ul>
-  <li>https://utteranc.es/</li>
-  <li>https://roife.github.io/2021/02/12/use-utterances-for-comment/</li>
-  <li>https://www.evanlin.com/jekyll-remove-disqus/</li>
-</ul>
-
-<blockquote>
-  <p>注意需要增加的文件</p>
-</blockquote>
-
-<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir _layouts
-wget https://raw.githubusercontent.com/SAMZONG/k8s-yaml/gh-pages/_layouts/post.html -o _layouts/post.html
-</code></pre></div></div>
-
-<p>index.md 增加 layout 参数，追加在最顶部</p>
-
-<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
-<span class="na">layout</span><span class="pi">:</span> <span class="s">post</span>
-<span class="nn">---</span>
-</code></pre></div></div>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add _layouts/post.html
-git add index.md
-
-git commit <span class="nt">-m</span> <span class="s2">"add comment module with utterances"</span>
-git push origin gh-pages
-</code></pre></div></div>
-
-<h2 id="end">End</h2>
-
-<p>以上就是全部的部署内容了，可以去看下我的网站和项目</p>
-
-<ul>
-  <li>https://k8s-yaml.samzong.me</li>
-</ul>
-
-<p>如果你觉得喜欢，求 fork，求 star</p>
+<p>可以采用以上本地域名内实现在容器内访问 宿主机的服务</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-04-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Github">Github</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/04/%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E7%AB%9E%E5%93%81.html">需要了解的 K8s 发行版本</a></h1>
-    <div class="post_at_index">
-      <h2 id="k8s-的发行版本">K8s 的发行版本</h2>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/6ngC8v.png" alt="6ngC8v" /></p>
-
-<p>开始学习喜欢的东西，上面的每一个都要了解</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-19</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#K8s">K8s</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/04/CKA-%E8%80%83%E8%AF%95%E5%87%86%E5%A4%87.html">CKA 考试准备</a></h1>
-    <div class="post_at_index">
-      <h2 id="汇总">汇总</h2>
-
-<p>本来预计 4 月 10 号左右，可以开始准备 CKA 的考试了，因为疫情在家办公，再加上报名去做志愿者，所以这个时间耽搁到了现在才开始</p>
-
-<h3 id="时间成本">时间成本</h3>
-
-<p>在这里记录下整个学习过程，也给大家预估下，不走培训机构，自学大概需要多久的时间</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>时间</th>
-      <th>事项</th>
-      <th>耗费时间</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>2022-04-16</td>
-      <td>了解什么是 CKA 和考试内容,捡起来 Docker 的知识, 个人项目转为 Docker Image 并推送到 dockerhub</td>
-      <td>1d</td>
-    </tr>
-    <tr>
-      <td>2022-04-17</td>
-      <td>在个人电脑上成功运行起来 K8s 的环境，并完成个人项目部署</td>
-      <td>1d</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="体会">体会</h3>
-
-<ul>
-  <li>有段时间没回过头来弄代码了，平时写比较多是项目上的小脚本，系统化把一个项目改造为 Docker image，再来了一遍，整个优化过程的感觉还是很舒服的</li>
-</ul>
-
-<h2 id="学习资料">学习资料</h2>
-
-<h3 id="培训机构的大纲">培训机构的大纲</h3>
-
-<p>大致培训时间是 3 天，给自己预估的学习时间大概是 一周左右的时间</p>
-
-<ul>
-  <li>CKA最新考纲解读与Kubernetes入门（Day 1/上午）
-    <ul>
-      <li>CKA考试大纲解读</li>
-      <li>Kubernetes基本概念与应用场景</li>
-      <li>Kubernetes主要功能特性、集群架构与组件</li>
-      <li>使用kubeadm安装集群与版本升级</li>
-      <li>etcd数据备份与还原</li>
-      <li>kubectl使用、shell自动补</li>
-    </ul>
-  </li>
-  <li>Kubernetes工作负载、调度与Helm（Day 1/下午）
-    <ul>
-      <li>Pod基本操作、生命周期、回调与探针</li>
-      <li>初始化与临时容器</li>
-      <li>使用Deployment部署自修复无状态服务</li>
-      <li>使用Deployment滚动更新/回滚/扩缩无状态服务</li>
-      <li>使用StatefulSet部署有状态服务</li>
-      <li>使用DaemonSet部署守护进程</li>
-      <li>深入理解控制器工作原理</li>
-      <li>使用ConfigMaps和Secrets配置应用程序</li>
-      <li>Kubernetes调度策略实践</li>
-      <li>资源限制如何影响Pod调度</li>
-      <li>理解调度器工作原理</li>
-      <li>各种调度策略使用场景总结</li>
-      <li>使用Helm部署/升级/回滚/下线服务</li>
-      <li>Helm回调与Chart编写</li>
-    </ul>
-  </li>
-  <li>Kubernetes服务与网络（Day 2/上午）
-    <ul>
-      <li>定义Service与Endpoint</li>
-      <li>Service Iptables与IPVS代理模式</li>
-      <li>通过Service名称与ClusterIP集群内互访</li>
-      <li>通过NodePort、Ingress、LoadBalancer集群外访问</li>
-      <li>CoreDNS原理介绍</li>
-      <li>配置和使用CoreDNS</li>
-      <li>同Pod/同Node/跨Node/跨集群互通性</li>
-      <li>常见网络接口插件工作原理与适用场景</li>
-      <li>常见网络故障排查</li>
-    </ul>
-  </li>
-  <li>Kubernetes存储与安全（Day 2/下午）
-    <ul>
-      <li>Volume、PV、PVC、StorageClass</li>
-      <li>卷模式、访问模式和卷回收策略</li>
-      <li>理解持久容量声明原语</li>
-      <li>了解如何配置具有持久性存储的应用程序</li>
-      <li>认证、授权与鉴权</li>
-      <li>管理基于角色的访问控制（RBAC）</li>
-      <li>Pod和容器操作权限安全策略</li>
-      <li>Network Policy</li>
-    </ul>
-  </li>
-  <li>Kubernetes监控日志、故障排查（Day 3/上午）
-    <ul>
-      <li>如何监控一个Kubenetes应用</li>
-      <li>查看与管理集群和节点日志</li>
-      <li>管理容器标准输出和标准错误日志</li>
-      <li>如何解决应用程序故障</li>
-      <li>对群集组件故障进行故障排除</li>
-      <li>Kubernetes其他常见问题定位</li>
-    </ul>
-  </li>
-  <li>CKA考试注意事项与模拟演练（Day 3/下午）
-    <ul>
-      <li>CKA真题演练与解析【重点】</li>
-      <li>CKA考试注意事项及应试答疑</li>
-    </ul>
-  </li>
-</ul>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-18</cite> <i class="icon-tag"></i>
+      <cite>2022-11-17</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Docker">Docker</a>
       , 
-      <a href="/tags.html#K8s">K8s</a>
+      <a href="/tags.html#Mac">Mac</a>
       
       
       
@@ -498,488 +302,150 @@ git push origin gh-pages
     <hr/>
     
     
-    <h1><a class="title" href="/post/2022/04/Docker-Run-at-Apple-Silicon-M1.html">Dockerfile Run at M1 processor build failed</a></h1>
+    <h1><a class="title" href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a></h1>
     <div class="post_at_index">
-      <h2 id="apple-m1-processor">Apple M1 processor</h2>
-
-<p>在使用了 Apple M1 的笔记本后，在 docker 使用遇到了一些问题，这里做些笔记记录下来</p>
-
-<h2 id="pull-image-error">pull image error</h2>
-
-<blockquote>
-  <p>Error “no matching manifest for linux/arm64/v8 in the manifest list entries”</p>
+      <blockquote>
+  <p>参考资料：</p>
 </blockquote>
 
-<p>在我尝试想要 pull 下来时，得到上面的一个错误；同样的问题，我在编写 Dockerfile 和 docker-compose.yml 都遇到这样的问题</p>
+<ul>
+  <li><a href="https://juejin.cn/post/7128953614403371015#heading-5">https://juejin.cn/post/7128953614403371015#heading-5</a></li>
+  <li><a href="https://dubbo.apache.org/zh/docs/">https://dubbo.apache.org/zh/docs/</a></li>
+</ul>
 
-<h3 id="docker-composeyml">docker-compose.yml</h3>
+<h2 id="简介">简介</h2>
 
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">3.9'</span>
+<ul>
+  <li>Apache Dubbo 一款基于RPC服务开发的云原生微服务框架，与 SpringCloud 类似</li>
+  <li>使用 Dubbo 开发的微服务原生具备相互之间远程地址发现(注册中心)和通信的能力</li>
+  <li>Dubbo 支持丰富的服务治理特性，包含 服务发现、负载均衡、流量调度 等，高度可扩展</li>
+  <li>Dubbo 由 阿里巴巴 开发，并贡献给 Apache</li>
+</ul>
 
-<span class="na">services</span><span class="pi">:</span>
-  <span class="c1"># Database</span>
-  <span class="na">db</span><span class="pi">:</span>
-    <span class="na">image</span><span class="pi">:</span> <span class="s">mysql-server:5.7</span>
-    <span class="na">volumes</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">db_data:/var/lib/mysql</span>
-    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
-    <span class="na">environment</span><span class="pi">:</span>
-      <span class="na">MYSQL_ROOT_PASSWORD</span><span class="pi">:</span> <span class="s">pass</span>
-      <span class="na">MYSQL_DATABASE</span><span class="pi">:</span> <span class="s">wp</span>
-      <span class="na">MYSQL_USER</span><span class="pi">:</span> <span class="s">wp</span>
-      <span class="na">MYSQL_PASSWORD</span><span class="pi">:</span> <span class="s">wp</span>
-    <span class="na">networks</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">wpsite</span>    
-</code></pre></div></div>
+<h2 id="发展历程">发展历程</h2>
 
-<h3 id="解决思路">解决思路</h3>
+<h3 id="版本迭代">版本迭代</h3>
 
-<p>需要指定下 <code class="language-plaintext highlighter-rouge">plaform</code> ，当我运行在 Apple M1上，变更部分如下：</p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/20221117023215.png?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>services:
-  # Database
-  db:
-    platform: linux/x86_64  # set platform
-    image: mysql-server:5.7
-    ...
-</code></pre></div></div>
+<h3 id="软件生态的活跃度">软件生态的活跃度</h3>
 
-<p>如果只是在 docker pull 时，增加指定参数即可：</p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/8G8hZG.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull <span class="nt">--plaform</span> linux/x84_64 mysql-server:5.7
-</code></pre></div></div>
+<h2 id="与-springcloud-相比的优势">与 SpringCloud 相比的优势</h2>
+
+<ul>
+  <li>功能丰富，基于原生库即可完成大部分的微服务治理能力</li>
+  <li>支持超大规模的微服务机器设计，高性能 RPC 通信协议实现</li>
+  <li>高度可扩展性，支持在调用过程中对流量及协议进行拦截扩展，如 Filter、Router、LB 等</li>
+  <li>支持微服务治理的扩展组件
+    <ul>
+      <li>Registry 注册中心： Zookeeper、Nacos</li>
+      <li>Config Center 配置中心： Zookeeper、Nacos</li>
+      <li>Metadata Center 元数据中心 (Dubbo3支持)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="dubbo-的基础概念介绍">Dubbo 的基础概念介绍</h2>
+
+<ul>
+  <li>RPC 通信</li>
+  <li>服务发现</li>
+  <li>流量治理</li>
+</ul>
+
+<h3 id="rpc-通信">RPC 通信</h3>
+
+<ul>
+  <li>Dubbo3之中， RPC 通信主要使用 Triple 协议，构建在 HTTP/2 协议之上，兼容 gRPC</li>
+  <li>提供 Request Response、Request Streaming、Response Streaming、Bi-directional Streaming 通信模型</li>
+  <li>支持 IDL ，基于 Triple 协议</li>
+</ul>
+
+<h3 id="服务发现">服务发现</h3>
+
+<p>服务发现，是消费端自动发现服务地址列表的能力，是微服务框架需要具备的关键能力，借助于自动化的服务发现，微服务之间在无需感知对端部署位置与IP地址的情况下实现通信。</p>
+
+<p>Dubbo提供的Client-Based服务发现机制，同时也需要第三方注册中心来协调服务发现过程，比如Nacos/Zookeeper等。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/oaqyGX.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<h3 id="流量治理">流量治理</h3>
+
+<ul>
+  <li>Dubbo2开始，Dubbo就提供了丰富的服务治理规则，包括路由规则/动态配置等</li>
+  <li>Dubbo3之中的实现
+    <ul>
+      <li>Dubbo Mesh : 通过对接 xDS 对接到时下流行的 Mesh 产品如 Istio 中所使用的以 VirtualService、DestinationRule 为代表的治理规则</li>
+      <li>另一方面 Dubbo 正寻求设计一套自有规则以实现在不通部署场景下的流量治理，以及灵活的治理能力。</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="dubbo-mesh">Dubbo Mesh</h2>
+
+<p>Dubbo Mesh 的目标是提供适应 Dubbo 体系的完整 Mesh 解决方案，包含定制化控制面（Control Plane）、定制化数据面解决方案。Dubbo 控制面基于业界主流 Istio 扩展，支持更丰富的流量治理规则、Dubbo应用级服务发现模型等，Dubbo 数据面可以采用 Envoy Sidecar，即实现 Dubbo SDK + Envoy 的部署方案，也可以采用 Dubbo Proxyless 模式，直接实现 Dubbo 与控制面的通信。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/vMniiR.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<h2 id="dubbo3">Dubbo3</h2>
+
+<p>Dubbo 3.0 提供的新特性包括：</p>
+
+<ul>
+  <li><strong>新的地址发现模型（应用级服务发现）</strong>
+    <ul>
+      <li>查看<a href="https://dubbo.apache.org/zh/docs/migration/migration-service-discovery">应用级服务发现的迁移步骤</a></li>
+      <li>查看应用级服务发现的使用方式</li>
+      <li>查看应用级服务发现设计与实现</li>
+    </ul>
+  </li>
+  <li><strong>下一代基于 HTTP/2 的 Triple 协议</strong>
+    <ul>
+      <li>查看<a href="https://dubbo.apache.org/zh/docs/migration/migration-triple">Triple 协议迁移步骤</a></li>
+      <li>查看 <a href="https://dubbo.apache.org/zh/docs/references/protocols/tri">Triple 协议使用方式</a></li>
+      <li>查看 Triple 协议设计与实现</li>
+    </ul>
+  </li>
+  <li><strong>统一的路由规则。</strong>
+    <ul>
+      <li>查看<a href="https://dubbo.apache.org/zh/docs/migration/migration-routingrule/">统一路由规则的迁移步骤</a></li>
+      <li>查看<a href="https://dubbo.apache.org/zh/docs/references/routers/">统一路由规则使用方式</a></li>
+      <li>查看统一路由规则设计与实现</li>
+    </ul>
+  </li>
+</ul>
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-04-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Docker">Docker</a>
+      <cite>2022-11-16</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Dubbo">Dubbo</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a></h1>
+    <div class="post_at_index">
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'somefile.txt'</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div></div>
+
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-11-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Pandas">Pandas</a>
       , 
-      <a href="/tags.html#Apple M1">Apple M1</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/04/Metabase-%E4%B8%8A%E6%89%8B-%E4%BD%BF%E7%94%A8Jar.html">Metabase 上手 - 使用 Jar 运行</a></h1>
-    <div class="post_at_index">
-      <h2 id="metabase-documentation">Metabase Documentation</h2>
-
-<p>这里主要是 metabase 的部署和使用方法，以及相关的组件的使用方法。</p>
-
-<p>我正在打造一个中文环境下 Metabase 交互的社群，如果你有任何关于 Metabase 的问题，请联系我们：</p>
-
-<blockquote>
-  <p>Metabase 中文交流 <strong>https://t.me/metabase_zh</strong></p>
-</blockquote>
-
-<h2 id="installation">Installation</h2>
-
-<p>Metabase 的安装方式有三种：</p>
-
-<ul>
-  <li>以Jar包的形式，在本地运行，只需要简单的步骤即可 <strong>(本文)</strong></li>
-  <li>以 Docker 容器的形式，部署到服务器上</li>
-</ul>
-
-<p>以Jar的方式来运行相对简单，对环境依赖也是比较少，只要的电脑上有 JDK 就可以了。</p>
-
-<h3 id="检查-java-环境">检查 Java 环境</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java <span class="nt">-version</span>
-
-<span class="o">=&gt;</span> java version <span class="s2">"1.8.0_311"</span>
-<span class="o">=&gt;</span> Java<span class="o">(</span>TM<span class="o">)</span> SE Runtime Environment <span class="o">(</span>build 1.8.0_311-b11<span class="o">)</span>
-<span class="o">=&gt;</span> Java HotSpot<span class="o">(</span>TM<span class="o">)</span> 64-Bit Server VM <span class="o">(</span>build 25.311-b11, mixed mode<span class="o">)</span>
-</code></pre></div></div>
-
-<p>Metabase 要求 Java 8 及以上，如果你的环境不支持，请先升级</p>
-
-<h3 id="获取-metabase-的-jar-包">获取 Metabase 的 Jar 包</h3>
-
-<blockquote>
-  <p>https://metabase.com/start/jar.html</p>
-</blockquote>
-
-<p>通过上方这个链接，可以很快的获取到 Metabase 的最新版本的 Jar 包</p>
-
-<h3 id="启动-metabase">启动 Metabase</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java <span class="nt">-jar</span> metabase.jar
-</code></pre></div></div>
-
-<p>通过一个简单的命令，就可以启动 Metabase 了，这个命令会自动检查环境，如果环境没问题，就会自动启动 Metabase 了。</p>
-
-<blockquote>
-  <p>生产环境的 MetaBase 路径是 /data/product/metabase/</p>
-</blockquote>
-
-<p>成功启动后，Metabase 会运行在 3000 端口</p>
-
-<blockquote>
-  <p>http://localhost:3000/</p>
-</blockquote>
-
-<h3 id="以后台方式运行-metabase">以后台方式运行 Metabase</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">nohup </span>java <span class="nt">-jar</span> metabase.jar <span class="o">&gt;</span> metabase.log 2&gt;&amp;1 &amp;
-</code></pre></div></div>
-
-<p>日志文件会保存在本地的 metabase.log 文件中，如果你想查看 Metabase 的日志，可以使用 tail -f metabase.log 来查看。</p>
-
-<h2 id="configuration">Configuration</h2>
-
-<h3 id="配置-metabase-的数据库">配置 Metabase 的数据库</h3>
-
-<p>Metabase 默认的采用的是H2的作为数据库存储，会存放在程序运行目录下的 <code class="language-plaintext highlighter-rouge">data</code> 目录下；但对于在正式环境中启用 Metabase，我们建议使用 MySQL 来作为数据库存储。</p>
-
-<p>而指定 Metabase 的数据库配置，可以很方便的加载到系统的默认环境中:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-vim ~/.bashrc
-
-<span class="c"># update metabase config at .bashrc</span>
-<span class="nb">export </span><span class="nv">MB_DB_TYPE</span><span class="o">=</span>mysql
-<span class="nb">export </span><span class="nv">MB_DB_DBNAME</span><span class="o">=</span>metabase
-<span class="nb">export </span><span class="nv">MB_DB_PORT</span><span class="o">=</span>3306
-<span class="nb">export </span><span class="nv">MB_DB_USER</span><span class="o">=</span>
-<span class="nb">export </span><span class="nv">MB_DB_PASS</span><span class="o">=</span>
-<span class="nb">export </span><span class="nv">MB_DB_HOST</span><span class="o">=</span>
-<span class="nb">export </span><span class="nv">MB_DB_CONNECTION_URI</span><span class="o">=</span><span class="s2">"mysql://MB_DB_HOST:MB_DB_PORT/MB_DB_DBNAME?user=MB_DB_USER&amp;password=MB_DB_PASS"</span>
-<span class="nb">export </span><span class="nv">JAVA_TIMEZONE</span><span class="o">=</span>Asia/Shanghai
-</code></pre></div></div>
-
-<h3 id="配置-metabase-的-nginx">配置 Metabase 的 Nginx</h3>
-
-<p>通过配置 Metabase 的 Nginx，可以让 Metabase 在网站上运行，这样可以开放外部服务给使用者</p>
-
-<p>对 Nginx 的配置，比较简单，可以参考这个文档：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server <span class="o">{</span>
-	listen 443 ssl<span class="p">;</span>
-	server_name example.com<span class="p">;</span>
-	root /var/www/example.com/public<span class="p">;</span>
-
-	<span class="c"># reverse proxy</span>
-	location /mb/ <span class="o">{</span>
-		proxy_pass http://127.0.0.1:3000<span class="p">;</span>
-		proxy_set_header Host <span class="nv">$Host</span><span class="p">;</span>
-	<span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>overseas-metabase 的 配置文件放在 /etc/nginx/config.d/leyan.core 下，在 80.conf 内 引用</p>
-</blockquote>
-
-<h3 id="配置-metabase-的-clickhouse-插件">配置 Metabase 的 ClickHouse 插件</h3>
-
-<blockquote>
-  <p>Metabase 官方支持数据库 https://www.metabase.com/docs/latest/administration-guide/01-managing-databases.html#officially-supported-databases</p>
-</blockquote>
-
-<p>Metabase 默认支持非常丰富数据库驱动，这些都会预置在 Jar 内，例如 MySQL、Oracle、SQL Server；但是 ClickHouse 不在其中，所以我们需要独立进行安装。</p>
-
-<p>ClickHouse 驱动: https://github.com/enqueue/metabase-clickhouse-driver#readme=</p>
-
-<ul>
-  <li>下载 <strong>合适的</strong> 驱动版本，放在 Metabase 的目录下的 plugin 文件夹下</li>
-  <li>重新启动 Metabase 即可</li>
-  <li>在 Metabase 的数据库管理中新增数据库，选择类型为 ClickHouse</li>
-</ul>
-
-<blockquote>
-  <p>更多三方驱动: https://www.metabase.com/docs/latest/developers-guide-drivers.html#how-to-use-a-community-built-driver</p>
-</blockquote>
-
-<h2 id="tips">Tips</h2>
-
-<h3 id="1-如何重启-metabase-">1. 如何重启 Metabase ?</h3>
-
-<p>直接杀掉进程即可，如果为了以后方便，可以将下述命令保存为 stop.sh 放在目录下，后续直接执行</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">APP_NAME</span><span class="o">=</span><span class="s2">"metabase"</span>
-
-ps aux | <span class="nb">grep </span>python | <span class="nb">grep</span> <span class="k">${</span><span class="nv">APP_NAME</span><span class="k">}</span> | <span class="nb">awk</span> <span class="s1">'{print $2}'</span> | xargs <span class="nb">kill</span> <span class="nt">-9</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Metabase">Metabase</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/04/SQL-%E5%AF%B9%E6%97%B6%E9%97%B4%E6%95%B4%E7%82%B9%E7%9A%84%E5%A4%84%E7%90%86.html">SQL 对时间整点的处理</a></h1>
-    <div class="post_at_index">
-      <h2 id="需要取值整点时间">需要取值整点时间</h2>
-
-<p>项目上需要取值上一个整点的数据查询处理，落表，然后实现按小时更新</p>
-
-<blockquote>
-  <p>ClickHouse</p>
-</blockquote>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">subtractHours</span><span class="p">(</span><span class="n">date_trunc</span><span class="p">(</span><span class="s1">'hour'</span><span class="p">,</span><span class="n">now</span><span class="p">()),</span><span class="mi">1</span><span class="p">)</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>MySQL</p>
-</blockquote>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">and</span> <span class="n">auth_time</span> <span class="o">&gt;=</span> <span class="n">DATE_SUB</span><span class="p">(</span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="s1">'%Y-%m-%d %H:00:00'</span><span class="p">),</span><span class="n">interval</span> <span class="mi">1</span> <span class="n">hour</span><span class="p">)</span>
-<span class="k">and</span> <span class="n">auth_time</span> <span class="o">&lt;</span> <span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="s1">'%Y-%m-%d %H:00:00'</span><span class="p">)</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
-      , 
-      <a href="/tags.html#ClickHouse">ClickHouse</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/04/%E6%B7%98%E5%AE%9DPython-SDK%E4%BC%98%E5%8C%96%E6%94%AF%E6%8C%81Python3.html">淘宝Python SDK 优化支持 Python3</a></h1>
-    <div class="post_at_index">
-      <p>淘宝开放平台的SDK，Python的 SDK 是在2012年，仅支持Python2.7 及以上，但不支持Python3；二现在是2102年了，像我这样的新手都是直接从Python3开始的</p>
-
-<ul>
-  <li>我已经把这个项目开放在 GitHub https://github.com/SAMZONG/taobao-openapi</li>
-  <li>同时放在了 Python pypi 软件仓库 https://pypi.org/project/taobao-openapi/</li>
-</ul>
-
-<h2 id="install--usage">Install &amp; Usage</h2>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>taobao-openapi
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="kn">import</span> <span class="nn">taobao</span><span class="o">-</span><span class="n">openapi</span> <span class="k">as</span> <span class="n">tbapi</span>
-
-</code></pre></div></div>
-
-<h2 id="持续补充sdk能力">持续补充SDK能力</h2>
-
-<p>淘宝开放平台后台下载获取到的SDK文件，会根据应用的权限生产对应的SDK包，所以你可能获取到的是几十个或者上百个</p>
-
-<p>NOTE: <strong>如果你有其他的SDK没有在文档中找到，可以反馈给我或者提 <code class="language-plaintext highlighter-rouge">Pull requests</code>，大家一起扩充SDK</strong></p>
-
-<ul>
-  <li>v1.0.6 fix 文档错误</li>
-  <li>v1.0.4 增加更多接口</li>
-  <li>v1.0.3 增加更多接口</li>
-  <li>v1.0.2 添加 Wdt QimenCloud-openapi</li>
-  <li>v1.0.1 适配 taobao-openapi</li>
-</ul>
-
-<h2 id="使用说明">使用说明</h2>
-
-<pre><code class="language-python3">
-import top.api
-import json
-
-app_key = 
-app_secret = 
-session_key = 
-
-def trade_rates_get_request():
-	req = top.api.TraderatesGetRequest()
-	req.set_app_info(top.appinfo(app_key, app_secret))
-	
-	req.fields = "tid,oid,role,nick,result,created,rated_nick,item_title,item_price,content,reply,num_iid"
-	req.rate_type = "get"
-	req.role = "buyer"
-	
-	try:
-		resp = req.getResponse(session_key)
-	except Exception as e:
-		print(e)
-
-
-if __name__ == '__main__':
-	result = trade_rates_get_request()
-	print(result)
-
-</code></pre>
-
-<h2 id="适配部分介绍">适配部分介绍</h2>
-
-<blockquote>
-  <p>以下为了省时间，基本引用了 https://blog.csdn.net/starryhwj/article/details/103026402 补充了8
-同时感谢 <a href="https://github.com/ymj4023">@ymj4023</a></p>
-</blockquote>
-
-<h3 id="1-python3-int替代了long">1. Python3 int替代了long</h3>
-
-<pre><code class="language-python3">FROM: str(long(time.time() * 1000))
-
-TO: P_TIMESTAMP: str(int(time.time() * 1000))
-</code></pre>
-
-<h3 id="2-用items替代iteritems">2. 用items替代iteritems</h3>
-
-<pre><code class="language-python3">FROM: for key, value in application_parameter.iteritems():
-
-TO: for key, value in application_parameter.items():
-</code></pre>
-
-<h3 id="3-dict方法优化">3. dict方法优化</h3>
-
-<p>查阅资料，发现有人说到dict methods dict.keys(), dict.items() and dict.values() return “views” instead of lists.这样就显而易见知道怎么改了：</p>
-
-<pre><code class="language-python3">FROM: keys = keys.sort()
-
-TO: keys = sorted(keys)
-</code></pre>
-
-<h3 id="4-unicode-对象需要编码">4. unicode 对象需要编码</h3>
-
-<p>英文意思很明确，unicode对象在哈希之前必须进行编码转换，想起之前又看到过中文字符在python中是以unicode存在的，所以：</p>
-
-<pre><code class="language-python3">FROM: sign = hashlib.md5(parameters)).hexdigest().upper()
-
-TO: sign = hashlib.md5(parameters.encode("utf-8")).hexdigest().upper()
-</code></pre>
-
-<h3 id="5-soketpy-httpconnection">5. soket.py HttpConnection</h3>
-
-<p>这是花费时间最长的一个错误。首先，直接看最后，错误在soket.py里，心凉了半截，难道这里的调用都不一样了,再网上看又是python 3.X的http模块，去百度了半天也没有发现类似的错误，只能自己硬着头皮去看模块，功夫不负有心人，其实也很简单，在类HTTPConnection的初始化函数是这样定义的:</p>
-
-<pre><code class="language-python3">FROM: connection = httplib.HTTPConnection(self.__domain, self.__port, False, timeout)
-
-TO: connection = httplib.HTTPConnection(self.__domain, self.__port, timeout)
-</code></pre>
-
-<blockquote>
-  <p>比较下参数发现，python 2比3多了一个参数，去掉即可，这个错误主要是是报错的地方和修改的地方不在一起，所以很难插出原因。</p>
-</blockquote>
-
-<h3 id="6-urllib方法升级">6. urllib方法升级</h3>
-
-<p>官方文档是这样解释的：urllib has been split up in Python 3. The urllib.urlencode() function is now urllib.parse.urlencode(), and the urllib.urlopen() function is now urllib.request.urlopen()</p>
-
-<pre><code class="language-python3">FROM: url = N_REST + "?" + urllib.parse.urlencode(sys_parameters)
-
-TO: url = N_REST + "?" + urllib.urlencode(sys_parameters)
-</code></pre>
-
-<h3 id="7-jsonobj-异常抛出">7. jsonobj 异常抛出</h3>
-
-<p>这个错误是在API调用出异常的时候暴露出来的。原因前面已经提到了，稍微查了下替代的方法：</p>
-
-<pre><code class="language-python3">if "error_response" in jsonobj:
-
-if P_CODE in jsonobj["error_response"]:
-</code></pre>
-
-<h3 id="8-is-not-修改为-">8. is not 修改为 !=</h3>
-
-<p>在if 需要使用反向时，应该是 != ，而不是使用  is not ；这个也是 PyCharm 给的建议，所以在使用时，所以简单调整下就好了</p>
-
-<pre><code class="language-python3">FROM: if respone.status is not 200:
-
-TO: if response.status != 200:
-</code></pre>
-
-<hr />
-
-<p>以上调整之后，基本就可以正常跑起来了，基本是可以支持Python3的使用，我试过了Python3.6-3.9，都是OK的。</p>
-
-<h2 id="pypi-howto">pypi HowTo</h2>
-
-<p>把你的库上传到pypi 之前，主要依赖的是 setup.py，下方是对应的demo</p>
-
-<ul>
-  <li>打包 python3 steup.py sdist</li>
-  <li>twine upload dist/*</li>
-</ul>
-
-<blockquote>
-  <p>注意： 需要先安装 setuptools twine</p>
-</blockquote>
-
-<pre><code class="language-python3"># /usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-import setuptools
-from distutils.core import setup
-import codecs
-import os
-import sys
-
-try:
-	from setuptools import setup, find_packages
-except:
-	from distutils import setup
-
-with open('README.md', 'r', encoding="utf-8") as fp:
-	readme = fp.read()
-
-VERSION = "1.0.0"
-LICENSE = "MIT"
-
-setup(
-	name='taobao-openapi',
-	version=VERSION,
-	description=(
-		'集合了淘宝开放平台的商铺OPEN API，并适配了Python3'
-	),
-	long_description=readme,
-	long_description_content_type='text/markdown',
-	author='samzong.lu',
-	author_email='samzong.lu@gmail.com',
-	maintainer='samzong.lu',
-	maintainer_email='samzong.lu@gmail.com',
-	license=LICENSE,
-	packages=find_packages(),
-	platforms=["all"],
-	url='https://github.com/SAMZONG/taobao-sdk-python3',
-	install_requires=[
-		"requests"
-		],
-	classifiers=[
-		'Development Status :: 4 - Beta',
-		'Operating System :: OS Independent',
-		'Intended Audience :: Developers',
-		'License :: OSI Approved :: BSD License',
-		'Programming Language :: Python',
-		'Programming Language :: Python :: Implementation',
-		'Programming Language :: Python :: 3',
-		'Programming Language :: Python :: 3.4',
-		'Programming Language :: Python :: 3.5',
-		'Programming Language :: Python :: 3.6',
-		'Programming Language :: Python :: 3.7',
-		'Programming Language :: Python :: 3.8',
-		'Programming Language :: Python :: 3.9',
-		'Topic :: Software Development :: Libraries'
-		],
-	)
-</code></pre>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-14</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Python">Python</a>
       
       
@@ -989,118 +455,234 @@ setup(
     <hr/>
     
     
-    <h1><a class="title" href="/post/2022/04/Git-%E4%BF%AE%E5%A4%8D%E5%8E%86%E5%8F%B2%E9%94%99%E8%AF%AF%E7%9A%84Author%E4%BF%A1%E6%81%AF.html">Git 修复历史错误的 Author 信息</a></h1>
+    <h1><a class="title" href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a></h1>
     <div class="post_at_index">
-      <h2 id="git-author-的作用">git author 的作用</h2>
+      <p><strong>暗坑很多</strong></p>
 
-<p>一般情况下 git 仓库，都是通过 author 中的 <code class="language-plaintext highlighter-rouge">user.email</code> 的判定提交者的身份；而这个配置一般在新电脑上需要初始化配置，否则还是容易出错。</p>
+<h2 id="部署过程">部署过程</h2>
+
+<ol>
+  <li>需要自行维护一个 env 作为配置文件.</li>
+</ol>
+
+<!---->
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>REDASH_COOKIE_SECRET=a07cca441ab9f28b66c589f3118e0de48469b1bc6a5036eade7badbed305d96e
+POSTGRES_HOST_AUTH_METHOD=trust
+REDASH_REDIS_URL=redis://redis:6379/0
+REDASH_DATABASE_URL=postgresql://postgres
+</code></pre></div></div>
+
+<ol>
+  <li>需要创建一个 postgres-data 并配置 docker-compose.yml 的路径，数据库持久化</li>
+  <li>需要给 postgres 容器增加 sudo 命令
+    <ol>
+      <li>apk add sudo</li>
+    </ol>
+  </li>
+  <li>需要手工进入到 postgresql 容器内创建 role 和 database
+    <ol>
+      <li>createuser -U postgres redash</li>
+      <li>createdb -U postgres redash</li>
+    </ol>
+  </li>
+  <li>执行数据库初始化动作</li>
+  <li>docker-compose run –rm server create_db</li>
+  <li>然后重启 redash 全部服务即可 docker-compose down 后重启</li>
+</ol>
+
+<blockquote>
+  <p>postgresql 在执行 psql 命令时，默认会读取当前系统用户作为执行 role；但 psql 默认用户是 postgres</p>
+</blockquote>
+
+<p><a href="https://redash.io/help/open-source/setup">https://redash.io/help/open-source/setup</a>
+<a href="https://redash.io/help/open-source/dev-guide/docker">https://redash.io/help/open-source/dev-guide/docker</a>
+<a href="https://docs.victoriametrics.com/url-examples.html#apiv1exportcsv">https://docs.victoriametrics.com/url-examples.html#apiv1exportcsv</a></p>
+
+<p><a href="https://mp.weixin.qq.com/s?src=11\&amp;timestamp=1660629444\&amp;ver=3985\&amp;signature=verv70veamW*Ez2Sgc8e89yMJGwANIOzz4lfwbezyVV3wpWNT2d9SnGrDecUOwrbTJBR2o-Ax6ZS4Fpu2UxfX7Sy9xsk1LCXfY1wNr42ucl3tFePfJ7c536c8z*L-HOy\&amp;new=1">https://mp.weixin.qq.com/s?src=11\&amp;timestamp=1660629444\&amp;ver=3985\&amp;signature=verv70veamW<em>Ez2Sgc8e89yMJGwANIOzz4lfwbezyVV3wpWNT2d9SnGrDecUOwrbTJBR2o-Ax6ZS4Fpu2UxfX7Sy9xsk1LCXfY1wNr42ucl3tFePfJ7c536c8z</em>L-HOy\&amp;new=1</a></p>
+
+<p><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1660682601&amp;ver=3986&amp;signature=h8m0RzEX3qWsKcUo6Ee3azdsnzLQqUf3N8FdLhyWNa52U4vAvlbEaBFUCrTZnh54tT-YS2mODfkp-6Hemmzt3n*hzGHlEmXP-HO5830W0Fzmn4MMfnsOPBKLrcjaiU0h&amp;new=1">https://mp.weixin.qq.com/s?src=11&amp;timestamp=1660682601&amp;ver=3986&amp;signature=h8m0RzEX3qWsKcUo6Ee3azdsnzLQqUf3N8FdLhyWNa52U4vAvlbEaBFUCrTZnh54tT-YS2mODfkp-6Hemmzt3n*hzGHlEmXP-HO5830W0Fzmn4MMfnsOPBKLrcjaiU0h&amp;new=1</a></p>
 
 <ul>
-  <li>个人软件仓库使用了公司的 author 信息 [信息泄漏的风险]</li>
-  <li>和其他开发者使用了相同的 author 信息 [影响commit追踪]</li>
+  <li>redash env 配置: <a href="https://redash.io/help/open-source/admin-guide/env-vars-settings">https://redash.io/help/open-source/admin-guide/env-vars-settings</a></li>
+  <li>postgres 权限问题 <a href="https://stackoverflow.com/a/25051632/5067657">https://stackoverflow.com/a/25051632/5067657</a></li>
+  <li><a href="https://techoverflow.net/2021/05/07/how-to-fix-alpine-linux-ash-sudo-not-found/">https://techoverflow.net/2021/05/07/how-to-fix-alpine-linux-ash-sudo-not-found/</a></li>
+  <li><a href="https://discuss.redash.io/t/error-99-connecting-to-localhost-6379-cannot-assign-requested-address/9716/7">https://discuss.redash.io/t/error-99-connecting-to-localhost-6379-cannot-assign-requested-address/9716/7</a></li>
 </ul>
 
-<h2 id="-修改为正确的-author-信息">✅ 修改为正确的 author 信息</h2>
+<h2 id="启动的服务介绍">启动的服务介绍</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>v10-redashio_adhoc_worker_1					# 执行查询任务的 worker
+v10-redashio_postgres_1							# 数据库
+v10-redashio_redis_1								# 缓存
+v10-redashio_scheduled_worker_1			# 执行计划任务的 worker
+v10-redashio_scheduler_1						# 计划任务管理 server
+v10-redashio_server_1								# 主体 server
+</code></pre></div></div>
+
+<p>以上主要会设计到 3 个镜像，redis、pgsql、redash，其中核心是 redash，所以关注镜像版本也是这个</p>
+
+<h2 id="版本升级">版本升级</h2>
+
+<p>redash 的版本升级较为方便，更换 server 的镜像；然后升级数据库即可。</p>
 
 <blockquote>
-  <p>注意修改全局需要增加 <code class="language-plaintext highlighter-rouge">--global</code> 参数</p>
+  <p>测试过从 v8 升级到 v10 , 和 v9 升级到 v10 ，都是 ok 的.</p>
 </blockquote>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 修改系统默认（影响全部项目）谨慎使用
-git config <span class="nt">--global</span> user.name <span class="s2">"samzong"</span>
-git config <span class="nt">--global</span> user.email <span class="s2">"samzong.lu@gmail.com"</span>
+<ol>
+  <li>关闭 Redash 服务
+    <ol>
+      <li><code class="language-plaintext highlighter-rouge">docker-compose stop server scheduler scheduled_worker adhoc_worker</code></li>
+    </ol>
+  </li>
+  <li>更新 docker-compose.yml
+    <ol>
+      <li>基本上这一步，只需要更新 redash 的镜像版本即可</li>
+      <li>然后执行 <code class="language-plaintext highlighter-rouge">docker-compose pull</code> 拉取新镜像版本</li>
+    </ol>
+  </li>
+  <li>执行数据库升级
+    <ol>
+      <li><code class="language-plaintext highlighter-rouge">docker-compose run --rm server manage db upgrade</code></li>
+    </ol>
+  </li>
+  <li>启动全部服务即可
+    <ol>
+      <li><code class="language-plaintext highlighter-rouge">docker-compse up -d</code></li>
+    </ol>
+  </li>
+</ol>
 
-// 修改单个项目
-git config user.name <span class="s2">"samzong"</span>
-git config user.email <span class="s2">"samzong.lu@gmail.com"</span>
-</code></pre></div></div>
+<h2 id="解决-es-的https问题">解决 ES 的HTTPS问题</h2>
 
-<p>但是，通过以上的变更后，仅对后续的操作生效；所以这样可以帮助你回到正确的轨道上，但无法解决历史遗留的错误问题！</p>
-
-<p>下面我将演示如何解决这个问题</p>
-
-<h2 id="修订最近一次提交-amend">修订最近一次提交 (–amend)</h2>
-
-<p><code class="language-plaintext highlighter-rouge">git commit</code> 提供了 –amend 的参数，作用是对commit进行修正，如果你是最近一次提交出错，那么可以直接使用下方命令完成补救。</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 📢 注意替换 user.name &amp; user.email 为正确的选项</span>
-git commit <span class="nt">--amend</span> <span class="nt">--author</span><span class="o">=</span><span class="s2">"{user.name} &lt;{user.email}&gt;"</span>
-</code></pre></div></div>
-
-<p>以上变更完成后，你会发现最近一次的提交被修正成功了，可以使用 <code class="language-plaintext highlighter-rouge">git log -1</code> 来对比前后的 author 信息的变更；确认无误后，将你的修改推送到目标仓库中即可；</p>
+<p>由于我们的 es 地址访问地址采用 https，但为自签证书，所以在 request 之中会有些问题， 所以我在这里更新了 elasticsearch 的插件，然后将其上传到我个人的 docker hub.
+<a href="https://hub.docker.com/r/samzong/redash">https://hub.docker.com/r/samzong/redash</a></p>
 
 <blockquote>
-  <p>如果修改后的结果不满意，是可以再次修订</p>
+  <p>带来的问题，页面上无法选择到 Elasticsearch 作为数据源，没时间去研究了</p>
 </blockquote>
 
-<h2 id="修改更早之前的提交-谨慎使用">修改更早之前的提交 (谨慎使用)</h2>
+<p>看了下还是可以使用 redash 的 API 去创建的 <code class="language-plaintext highlighter-rouge">/api/data_sources</code></p>
 
-<p>写在前面的话，如果你知道rebase的作用，请谨慎使用的同时记住，可以在任何过程中终止你的操作，这非常重要，使用如下命令</p>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"options"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"basic_auth_password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"basic_auth_user"</span><span class="p">:</span><span class="w"> </span><span class="s2">"elastic"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"server"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://10.6.51.101:31001/"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"skip_tls_verification"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"elasticsearch"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test-es"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
 
-<pre><code class="language-bashe">git rebase --abort
-</code></pre>
-
-<p>如果需要修改更早之前的提交，那就需要结合 <code class="language-plaintext highlighter-rouge">git rebase</code> 的能力，来实现了</p>
-
-<blockquote>
-  <p>rebase 是个危险的操作，其产生的风险也就是目前我们要做的修改历史；<strong>仅建议在测试项目或者个人项目中使用，涉及到多人协作的开源、商业化项目谨慎使用</strong></p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## 使用 git log 找到你想要修改的提交</span>
-git log
-</code></pre></div></div>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>commit 145a3eb180c3f45fd99c2d61cad6439177cbc319
-Author: samzong.lu &lt;samzong.lu@gmail.com&gt;
-Date:   Sun Mar 20 22:22:58 2022 +0800
-
-commit 7e04c7ebaf06b2eea1951a29b79a571090cd1d8b  <span class="o">{</span>commit_id<span class="o">}</span>
-Author: samzong.lu &lt;samzong.lu@gmail.com&gt;
-Date:   Sun Mar 20 22:19:48 2022 +0800
-</code></pre></div></div>
-
-<p>找到你想要更新的commit_id, 然后使用rebase 命令来进行处理</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git rebase <span class="nt">-i</span> <span class="o">{</span>commit_id<span class="o">}</span>
-</code></pre></div></div>
-
-<p>然后继续使用 <code class="language-plaintext highlighter-rouge">git commit --amend</code> 来修改 author 信息，可以增加 –no-edit 来提效，表示无需弹出修改 commit info 的窗口</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit <span class="nt">--amend</span> <span class="nt">--author</span><span class="o">=</span><span class="s2">"{user.name} &lt;{user.email}&gt;"</span>
-</code></pre></div></div>
-
-<p>最后使用 <code class="language-plaintext highlighter-rouge">git rebase --coutine</code> 继续完成剩余的提交</p>
-
-<h2 id="更高级做法-filter-branch">更高级做法 <code class="language-plaintext highlighter-rouge">filter-branch</code></h2>
-
-<p><code class="language-plaintext highlighter-rouge">filter-branch</code> 虽然被官方推荐，但也不是可以轻易使用的工具；本次的目的只是修改 author 中邮箱，所以一定要加上 <code class="language-plaintext highlighter-rouge">--commit-filter</code>，官方的脚本实例我直接copy在下方了</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git filter-branch <span class="nt">--commit-filter</span> <span class="s1">'
-        if [ "$GIT_AUTHOR_EMAIL" = "schacon@localhost" ];
-        then
-                GIT_AUTHOR_NAME="Scott Chacon";
-                GIT_AUTHOR_EMAIL="schacon@example.com";
-                git commit-tree "$@";
-        else
-                git commit-tree "$@";
-        fi'</span> HEAD
-</code></pre></div></div>
-
-<h2 id="push-到-repo-的注意事项">push 到 repo 的注意事项</h2>
-
-<p>注意以上的消息会导致提交包含了 “它们父提交的SHA-1校验” 和 “这个命令修改历史中的每一个提交的SHA-1校验”， 再加上修改后的 author 信息，所以在push时会遇到警告，可以使用下方命令强制提交</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push <span class="nt">--force</span> origin <span class="o">{</span>branch_name<span class="o">}</span>
-</code></pre></div></div>
-
-<p>在多人协作的场景可能会出现覆盖他人代码的情况，请注意协商并 fetch 分支的变更，确保最新状态</p>
-
+<p>创建完成后，就可以在页面上更新了。</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-04-11</cite> <i class="icon-tag"></i>
+      <cite>2022-10-22</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Redash">Redash</a>
+      , 
+      <a href="/tags.html#BI">BI</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/09/GitLab-Forked-%E5%A6%82%E4%BD%95%E8%B7%9F%E9%9A%8Fupstream%E4%B8%BB%E5%BA%93.html">GitLab Forked 如何跟随upstream主库</a></h1>
+    <div class="post_at_index">
+      <p>:::info
+通过 PR 的方式共同对主仓库进行贡献的方式，是开源项目协作的非常有效的方法；通常我们不会直接对主仓库直接提交代码。
+:::</p>
+
+<p>一般情况下，我们的操作是，在需要贡献时，Fork 一份项目，然后自己修改以 PR 的方式提交贡献请求。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1664330743895-9b2e0dc6-527e-4bcd-8b63-c223aa634b8f.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" title="一份完整的 Github贡献指南" /></p>
+
+<h2 id="github-的实现方式">Github 的实现方式</h2>
+
+<p>熟悉 Github 的同学会发现，在 Github 上最近更新了 <code class="language-plaintext highlighter-rouge">Sync fork</code>的功能，通过简单的点击操作，即可完成对源库(upstream) 的更新同步。
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1664330528512-563a5536-1734-4fd0-b41c-9c5d121327e0.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="CleanShot 2022-09-28 at 10.01.33.jpg" title="当 upstream 超前时，提示 update branch" />
+通过以上方式，我们可以方便在跟随主库的更新</p>
+
+<blockquote>
+  <p>Tips Github 的方式，仅在 Web端 和 Github CLI 官方提供的 GH 才可以使用这样的功能</p>
+</blockquote>
+
+<h2 id="no-github-when-gitlab-">No Github, When Gitlab ?</h2>
+
+<p>Github 更多在开源项目时贡献，实际上，在我们日常的工作当中，更多会有自建的Gitlab或者其他的代码 Hub，这里以 Gitlab 为例</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1664331575915-853554f5-c047-4f14-8e79-67e2214429bc.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="CleanShot 2022-09-28 at 10.19.20.jpg" title="gitlab 默认项目首页" />
+Gitlab 并未提供 Sync fork 的功能，所以我们需要自行解决同步的需求</p>
+
+<h2 id="为仓库添加-upstream-源仓库">为仓库添加 upstream 源仓库</h2>
+
+<p>:::success
+以下方式会在终端或本地使用<code class="language-plaintext highlighter-rouge">Sourcetree</code>更加自由，仅使用 Git 的方式协作，自由度很大
+:::
+基于这个方式我们可以实现，有关联的 主库到从库的同步；也可以完成跨 Hub 的同步，比如：</p>
+
+<ul>
+  <li>Github -&gt;  Gitlab</li>
+  <li>Github -&gt; Github</li>
+  <li>Gitlab  -&gt; Gitlab</li>
+  <li>Gitlab  -&gt;  Github</li>
+  <li>Gitee  -&gt;  Gitlab</li>
+  <li>Gitee -&gt; Github</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>samzonglu at samzongs-MacBook-Pro <span class="k">in</span> ~/Git/daocloud/DaoCloud-docs<span class="o">(</span>main✔<span class="o">)</span>
+± git remote add upstream https://github.com/DaoCloud/DaoCloud-docs.git
+Alias tip: gra upstream https://github.com/DaoCloud/DaoCloud-docs.git
+
+samzonglu at samzongs-MacBook-Pro <span class="k">in</span> ~/Git/daocloud/DaoCloud-docs<span class="o">(</span>main✔<span class="o">)</span>
+± git remote
+Alias tip: gr
+origin
+upstream
+
+samzonglu at samzongs-MacBook-Pro <span class="k">in</span> ~/Git/daocloud/DaoCloud-docs<span class="o">(</span>main✔<span class="o">)</span>
+± git fetch upstream
+Alias tip: gf upstream
+remote: Enumerating objects: 1268, <span class="k">done</span><span class="nb">.</span>
+remote: Counting objects: 100% <span class="o">(</span>182/182<span class="o">)</span>, <span class="k">done</span><span class="nb">.</span>
+remote: Compressing objects: 100% <span class="o">(</span>5/5<span class="o">)</span>, <span class="k">done</span><span class="nb">.</span>
+remote: Total 1268 <span class="o">(</span>delta 177<span class="o">)</span>, reused 182 <span class="o">(</span>delta 177<span class="o">)</span>, pack-reused 1086
+Receiving objects: 100% <span class="o">(</span>1268/1268<span class="o">)</span>, 1.87 MiB | 2.74 MiB/s, <span class="k">done</span><span class="nb">.</span>
+Resolving deltas: 100% <span class="o">(</span>637/637<span class="o">)</span>, completed with 119 <span class="nb">local </span>objects.
+From https://github.com/DaoCloud/DaoCloud-docs
+ <span class="k">*</span> <span class="o">[</span>new branch]      feature/theme                            -&gt; upstream/feature/theme
+ <span class="k">*</span> <span class="o">[</span>new branch]      fix-typo                                 -&gt; upstream/fix-typo
+ <span class="k">*</span> <span class="o">[</span>new branch]      gh-pages                                 -&gt; upstream/gh-pages
+ <span class="k">*</span> <span class="o">[</span>new branch]      main                                     -&gt; upstream/main
+ <span class="k">*</span> <span class="o">[</span>new branch]      patch-new-gh-pages-01                    -&gt; upstream/patch-new-gh-pages-01
+ <span class="k">*</span> <span class="o">[</span>new branch]      stash/bug-codes                          -&gt; upstream/stash/bug-codes
+
+samzonglu at samzongs-MacBook-Pro <span class="k">in</span> ~/Git/daocloud/DaoCloud-docs<span class="o">(</span>main✔<span class="o">)</span>
+± git pull upstream main
+Alias tip: gl upstream main
+From https://github.com/DaoCloud/DaoCloud-docs
+ <span class="k">*</span> branch            main       -&gt; FETCH_HEAD
+Already up to date.
+
+samzonglu at samzongs-MacBook-Pro <span class="k">in</span> ~/Git/daocloud/DaoCloud-docs<span class="o">(</span>main✔<span class="o">)</span>
+± git push origin main
+Alias tip: gp origin main
+Everything up-to-date
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-09-28</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Git">Git</a>
       
       
@@ -1110,60 +692,289 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
     <hr/>
     
     
-    <h1><a class="title" href="/post/2022/04/awsome-telegram-bot.html">Awsome Telegram Bot</a></h1>
+    <h1><a class="title" href="/post/2022/09/Poetry-%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0.html">Poetry 使用笔记</a></h1>
     <div class="post_at_index">
-      <h2 id="关于电报群">关于电报群</h2>
-
-<p>从2014年开始使用电报群，在这个不存在的通讯工具中，结识不少有趣的朋友，也发现了大量有价值的群组或BOT，可以很方便你的生活</p>
+      <p>poetry 是目前比较流行的 Python 环境管理工具 和 包管理工具，对多项目开发时的环境隔离有非常大的帮助，同时集成了包管理能力。</p>
 
 <blockquote>
-  <p>P.S. 不要过分关注那些黑产、广告和色情信息，它们虽然利用了这个工具，但是也只是其中一小部分</p>
+  <p>官方网站  <a href="https://python-poetry.org/">https://python-poetry.org/</a>   集成了所有 Poetry 最新的使用文档，以下仅在我的环境上经过验证</p>
 </blockquote>
 
-<h3 id="我在电报做的事情">我在电报做的事情</h3>
+<h3 id="安装方式">安装方式</h3>
 
-<ul>
-  <li>美剧、电影和图书，所以最新的资源基本在电报群出现了，远比各种关注微信公众号套娃的营销号好很多</li>
-  <li>技术群，感谢技术群里的各位大佬给的帮助，尤其感谢 Taiwan 的几个技术社群，会有人认真解答你的问题
-    <ul>
-      <li>Go/Php 各类开发群</li>
-      <li>开源软件的沟通群， 在这里你可以和开发者们进行沟通，并且提供你的建议，甚至讨论 PR</li>
-    </ul>
-  </li>
-  <li>各类BOT
-    <ul>
-      <li>Temp Mail 生成临时邮箱</li>
-      <li>资料查询</li>
-      <li>GitHub 助手</li>
-      <li>短连接</li>
-      <li>网站服务监控</li>
-    </ul>
-  </li>
-  <li>羊毛群/合租群/VPN群，这里不用详细说明</li>
-</ul>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In Pip
+</span><span class="o">-</span> <span class="n">安装</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">poetry</span> <span class="c1"># pip3
+</span><span class="o">-</span> <span class="n">更新</span> <span class="n">poetry</span> <span class="bp">self</span> <span class="n">update</span>
 
-<h3 id="使用的一些技巧">使用的一些技巧</h3>
+<span class="c1"># In my Mac
+</span><span class="o">-</span> <span class="n">安装</span> <span class="n">brew</span> <span class="n">install</span> <span class="n">poetry</span>
+<span class="o">-</span> <span class="n">更新</span> <span class="n">brew</span> <span class="n">upgrade</span> <span class="n">poetry</span>
 
-<ul>
-  <li>你需要一个 !+86 的手机号，保障你与所有的网友的友好交流，可以考虑使用 G家Voice 买个美区号方便</li>
-  <li>DO NOT USE CHINESE ! 这会让你发现不一样的 Telegram</li>
-</ul>
+<span class="c1"># In my CentOS
+</span><span class="o">-</span> <span class="n">安装</span> <span class="n">curl</span> <span class="o">-</span><span class="n">sSL</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="p">.</span><span class="n">githubusercontent</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">python</span><span class="o">-</span><span class="n">poetry</span><span class="o">/</span><span class="n">poetry</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">get</span><span class="o">-</span><span class="n">poetry</span><span class="p">.</span><span class="n">py</span> <span class="o">|</span> <span class="n">python</span> <span class="o">-</span>
+<span class="o">-</span> <span class="n">更新</span> <span class="n">poetry</span> <span class="bp">self</span> <span class="n">update</span>
+</code></pre></div></div>
 
-<h3 id="develop-in-telegram">Develop in Telegram</h3>
+<h3 id="配置技巧相关">配置技巧相关</h3>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/7a0Bjv.png" alt="7a0Bjv" /></p>
+<p>在开始使用前，建议先对poetry 的配置有些了解，并调整为适合你的方式，主要是调整一下虚拟环境的安装位置
+:::info
+<code class="language-plaintext highlighter-rouge">poetry config</code> poetry 相关的查看和编辑的命令
+:::</p>
 
-<ul>
-  <li><a href="https://telegra.ph/">telegra.ph</a> 匿名博客， Writing is Sharing ~</li>
-  <li><a href="https://core.telegram.org/bots/api">telegram.bot_api</a> 定制开发你的webhook</li>
-</ul>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">~</span> <span class="n">poetry</span> <span class="n">config</span> <span class="o">--</span><span class="nb">list</span>  <span class="c1"># 获取当前 poetry 的配置情况
+</span>
+<span class="n">cache</span><span class="o">-</span><span class="nb">dir</span> <span class="o">=</span> <span class="s">"/Users/$username/Library/Caches/pypoetry"</span>
+<span class="n">experimental</span><span class="p">.</span><span class="n">new</span><span class="o">-</span><span class="n">installer</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">installer</span><span class="p">.</span><span class="n">parallel</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">virtualenvs</span><span class="p">.</span><span class="n">create</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">virtualenvs</span><span class="p">.</span><span class="ow">in</span><span class="o">-</span><span class="n">project</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">virtualenvs</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="s">"{cache-dir}/virtualenvs"</span>  <span class="c1"># /Users/$username/Library/Caches/pypoetry/virtualenvs
+</span>
+</code></pre></div></div>
+
+<p>| <strong>配置项目</strong> | <strong>配置内容</strong> | <strong>配置项说明</strong> | <strong>建议配置</strong> |
+| — | — | — | — |
+| cache-dir | String | 缓存目录配置，使用 poetry 安装的包源文件都会缓存到这个目录。 | 不建议更改 |
+| installer.parallel | boolean | 此配置会被忽略 |  |
+| virtualenvs.create | boolean | 默认为true，如果当前工程的虚拟环境不存在，就创建一个 | 不建议更改 |
+| virtualenvs.in-project | boolean | None：poetry 会在系统特定目录创建一个.venv目录，由下面的 path 参数指定
+true： poetry 会在项目根目录创建一个.venv目录
+false： poetry 将会忽略已存在的.venv目录 | <strong>《建议修改》</strong></p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>推荐这种方式，在项目根目录创建虚拟环境，这样就算移动目录位置也不影响虚拟环境的使用</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>virtualenvs.path</td>
+      <td>string</td>
+      <td>默认是{cache-dir}/virtualenvs，虚拟环境创建的目录，如果上面的 in-project 为 true，此配置就无效</td>
+      <td>不建议更改</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>:::danger
+建议 在使用前 启用 virtualenvs.in-project ，这样会在每个项目下有一个.venv 方便隔离管理
+:::</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># poetry 配置说明
+</span><span class="n">poetry</span> <span class="n">config</span> <span class="n">virtualenvs</span><span class="p">.</span><span class="ow">in</span><span class="o">-</span><span class="n">project</span> <span class="n">true</span>
+</code></pre></div></div>
+
+<h3 id="poetry-常用指令说明">poetry 常用指令说明</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>Poetry Command</strong></th>
+      <th><strong>解释</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$ poetry –version</td>
+      <td>显示您的 Poetry 安装版本。</td>
+    </tr>
+    <tr>
+      <td>$ poetry new</td>
+      <td>创建一个新的Poetry项目。</td>
+    </tr>
+    <tr>
+      <td>$ poetry init</td>
+      <td>将 Poetry 添加到现有项目中。</td>
+    </tr>
+    <tr>
+      <td>$ poetry run</td>
+      <td>使用 Poetry 执行给定的命令。</td>
+    </tr>
+    <tr>
+      <td>$ poetry add</td>
+      <td>添加一个包pyproject.toml并安装它。</td>
+    </tr>
+    <tr>
+      <td>$ poetry update</td>
+      <td>更新项目的依赖项。</td>
+    </tr>
+    <tr>
+      <td>$ poetry install</td>
+      <td>安装依赖项。</td>
+    </tr>
+    <tr>
+      <td>$ poetry show</td>
+      <td>列出已安装的软件包。</td>
+    </tr>
+    <tr>
+      <td>$ poetry lock</td>
+      <td>将最新版本的依赖项固定到poetry.lock.</td>
+    </tr>
+    <tr>
+      <td>$ poetry lock –no-update</td>
+      <td>刷新poetry.lock文件而不更新任何依赖版本。</td>
+    </tr>
+    <tr>
+      <td>$ poetry check</td>
+      <td>验证pyproject.toml。</td>
+    </tr>
+    <tr>
+      <td>$ poetry config –list</td>
+      <td>显示 Poetry 配置。</td>
+    </tr>
+    <tr>
+      <td>$ poetry env list</td>
+      <td>列出项目的虚拟环境。</td>
+    </tr>
+    <tr>
+      <td>$ poetry export</td>
+      <td>导出poetry.lock为其他格式。</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="新项目初始化流程">新项目初始化流程</h3>
+
+<blockquote>
+  <p>这里以 初始化一个  FastAPI 项目作为 实例</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  fastapi poetry new fastapi-demo
+Created package fastapi_demo <span class="k">in </span>fastapi-demo
+➜  fastapi <span class="nb">ls</span> <span class="nt">-lh</span> fastapi-demo
+total 8
+<span class="nt">-rw-r--r--</span>  1 samzonglu  staff     0B  2 15 14:28 README.rst
+drwxr-xr-x  3 samzonglu  staff    96B  2 15 14:28 fastapi_demo
+<span class="nt">-rw-r--r--</span>  1 samzonglu  staff   304B  2 15 14:28 pyproject.toml
+drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
+
+➜  fastapi <span class="nb">cd </span>fastapi-demo
+➜  fastapi-demo poetry <span class="nb">env </span>use 3.10.2  <span class="c"># 配置项目的虚拟环境</span>
+
+</code></pre></div></div>
+
+<h3 id="requirementstxt-已存在项目使用poetry">requirements.txt 已存在项目使用poetry</h3>
+
+<p>这里会遇到一个问题，已存在的项目基本都已经有了 requirements.txt， 所以 poetry 最好可以直接读取它</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry add <span class="sb">`</span><span class="nb">cat </span>requirements.txt<span class="sb">`</span>
+</code></pre></div></div>
+
+<p>将项目依赖导出为  requirements.txt</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry <span class="nb">export</span> <span class="nt">--output</span> requirements.txt
+</code></pre></div></div>
+
+<h2 id="更新内容">更新内容</h2>
+
+<p>如何把项目移交给一个 not use Poetry 的人运行，对于 Python 的 环境包 依赖，上述的 ouput/input 的方式，会存在一些问题，这里进行纠正。</p>
+
+<h3 id="问题-pip-freeze-不能用了">问题 pip freeze 不能用了</h3>
+
+<p>:::warning
+pip freeze &gt; requirements.txt
+:::</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>anyio @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/cd/3f/ae/baff749ce6cb4d7985e4142650605d2d30cb92eb418e2d121868e4413d/anyio-3.6.1-py3-none-any.whl
+certifi @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/b1/9b/6f/cd63ce97294ee9a1fb57e5cebf02f251fbb8f9ac48353a27ceeddc410b/certifi-2022.6.15-py3-none-any.whl
+charset-normalizer @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/86/c8/3e/d878881698fbd2b72f484e4fca340588d633102920a002b66a293f9480/charset_normalizer-2.1.0-py3-none-any.whl
+click @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/63/f3/4c/2270b95f4d37b9ea73cd401abe68b6e9ede30380533cd4e7118a8e3aa3/click-8.1.3-py3-none-any.whl
+fastapi @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/f9/37/53/c998e9ffd7ace66218174711f5c3ef1026a0bd3cd72f5fe2908e9b949b/fastapi-0.78.0-py3-none-any.whl
+h11 @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/ef/5c/a2/a6d556bc5e3493616e52726df9c880b2da2fbf9c3be5e8351c84fbfafd/h11-0.13.0-py3-none-any.whl
+idna @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/90/36/8c/81eabf6ac88608721ab27f439c9a6b9a8e6a21cc58c59ebb1a42720199/idna-3.3-py3-none-any.whl
+pydantic @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/c2/13/d4/b9f7dbf75702d85504b4a5f36545ff903c7e2264d4889e94ce02637276/pydantic-1.9.1-cp310-cp310-macosx_11_0_arm64.whl
+requests @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/14/1f/4d/1b93db6513b8ab38db841e4ce62691288ba549a5c1b6f3ca7274a1c9fd/requests-2.28.1-py3-none-any.whl
+sniffio @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/2b/1b/93/9c34d727e29f7bb11ce5b2ca7f43e77cb4e96a81ee5e07a92763951416/sniffio-1.2.0-py3-none-any.whl
+starlette @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/3d/fc/74/569a1206737284325f5bb2e4f34689632c159dafbe8b7ff30bf2893c2d/starlette-0.19.1-py3-none-any.whl
+typing_extensions @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/4a/aa/fe/e4680f3423fbdb5ac89a6fb2f83d9e7ff7fb48173b0fa1604786182558/typing_extensions-4.3.0-py3-none-any.whl
+urllib3 @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/8a/87/ce/4a44bf6bb59a745f4af7082c6977ab23a478fca039ad4d631dfdc0185b/urllib3-1.26.10-py2.py3-none-any.whl
+uvicorn @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/62/76/ec/dcafe6bae872839618dbf982c87eb314eee97784f7df74895e07bd198a/uvicorn-0.18.2-py3-none-any.whl
+</code></pre></div></div>
+
+<p>可以看到，默认情况下<code class="language-plaintext highlighter-rouge">pip freeze</code>在输出时，携带里对应的安装路径；如果这个时候，我们把项目移交给其他人运行时，会遇到以下问题</p>
+
+<blockquote>
+  <p>ERROR: Could not install packages due to an EnvironmentError: [Errno 2] No such</p>
+</blockquote>
+
+<p>这是 pip 安装软件包的一种特殊语法（自19.1开始受支持）<a href="https://www.python.org/dev/peps/pep-0440/#direct-references">PEP404</a>，
+但是该此种路径取决于环境，file:///URL 仅在本地文件系统上可用，你不能将生成的 requirements.txt 文件提供给其他人使用</p>
+
+<h3 id="先说解决方法-01-poetry-style">先说解决方法 01 [poetry style]</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry <span class="nb">export</span> <span class="nt">--without-hashes</span> <span class="nt">--format</span><span class="o">=</span>requirements.txt <span class="o">&gt;</span> requirements.txt
+</code></pre></div></div>
+
+<p>通过 poetry 自带的导出能力，会携带更多的一些信息：对于环境中python版本的依赖，虽然更加友好一些。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">anyio</span><span class="o">==</span>3.6.1<span class="p">;</span> python_full_version <span class="o">&gt;=</span> <span class="s2">"3.6.2"</span>
+<span class="nv">certifi</span><span class="o">==</span>2022.6.15<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.6"</span>
+charset-normalizer<span class="o">==</span>2.1.0<span class="p">;</span> python_full_version <span class="o">&gt;=</span> <span class="s2">"3.6.0"</span>
+<span class="nv">click</span><span class="o">==</span>8.1.3<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span>
+<span class="nv">colorama</span><span class="o">==</span>0.4.5<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span> and python_full_version &lt; <span class="s2">"3.0.0"</span> and platform_system <span class="o">==</span> <span class="s2">"Windows"</span> or platform_system <span class="o">==</span> <span class="s2">"Windows"</span> and python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span> and python_full_version <span class="o">&gt;=</span> <span class="s2">"3.5.0"</span>
+<span class="nv">fastapi</span><span class="o">==</span>0.78.0<span class="p">;</span> python_full_version <span class="o">&gt;=</span> <span class="s2">"3.6.1"</span>
+<span class="nv">h11</span><span class="o">==</span>0.13.0<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.6"</span>
+<span class="nv">idna</span><span class="o">==</span>3.3<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.5"</span>
+<span class="nv">pydantic</span><span class="o">==</span>1.9.1<span class="p">;</span> python_full_version <span class="o">&gt;=</span> <span class="s2">"3.6.1"</span>
+<span class="nv">requests</span><span class="o">==</span>2.28.1<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span> and python_version &lt; <span class="s2">"4"</span>
+<span class="nv">sniffio</span><span class="o">==</span>1.2.0<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.5"</span>
+<span class="nv">starlette</span><span class="o">==</span>0.19.1<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.6"</span>
+typing-extensions<span class="o">==</span>4.3.0<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span>
+<span class="nv">urllib3</span><span class="o">==</span>1.26.10<span class="p">;</span> <span class="o">(</span>python_version <span class="o">&gt;=</span> <span class="s2">"2.7"</span> and python_full_version &lt; <span class="s2">"3.0.0"</span><span class="o">)</span> or <span class="o">(</span>python_full_version <span class="o">&gt;=</span> <span class="s2">"3.6.0"</span> and python_version &lt; <span class="s2">"4"</span><span class="o">)</span>
+<span class="nv">uvicorn</span><span class="o">==</span>0.18.2<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span>
+</code></pre></div></div>
+
+<h3 id="再说解决方法-02">再说解决方法 02</h3>
+
+<p>在新版的 python 中，推荐采用另外一个命令方式，<code class="language-plaintext highlighter-rouge">pip list --format=freeze</code> 这样会输出一份干净的依赖清单，我们可以通过这个方式，快速导出一份 <code class="language-plaintext highlighter-rouge">原汁原味</code> 的 requirements.txt</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry run pip list <span class="nt">--format</span><span class="o">=</span>freeze
+<span class="nv">anyio</span><span class="o">==</span>3.6.1
+<span class="nv">certifi</span><span class="o">==</span>2022.6.15
+charset-normalizer<span class="o">==</span>2.1.0
+<span class="nv">click</span><span class="o">==</span>8.1.3
+<span class="nv">fastapi</span><span class="o">==</span>0.78.0
+<span class="nv">h11</span><span class="o">==</span>0.13.0
+<span class="nv">idna</span><span class="o">==</span>3.3
+<span class="nv">pip</span><span class="o">==</span>22.2
+<span class="nv">pydantic</span><span class="o">==</span>1.9.1
+<span class="nv">requests</span><span class="o">==</span>2.28.1
+<span class="nv">setuptools</span><span class="o">==</span>62.6.0
+<span class="nv">sniffio</span><span class="o">==</span>1.2.0
+<span class="nv">starlette</span><span class="o">==</span>0.19.1
+<span class="nv">typing_extensions</span><span class="o">==</span>4.3.0
+<span class="nv">urllib3</span><span class="o">==</span>1.26.10
+<span class="nv">uvicorn</span><span class="o">==</span>0.18.2
+<span class="nv">wheel</span><span class="o">==</span>0.37.1
+</code></pre></div></div>
+
+<h3 id="补充安装来自于requirementstxt的方式">补充安装来自于requirements.txt的方式</h3>
+
+<blockquote>
+  <p>with poetry</p>
+</blockquote>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat </span>requirements.txt | xargs poetry add
+</code></pre></div></div>
+
+<blockquote>
+  <p>without poetry</p>
+</blockquote>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
+</code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-04-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Telegram">Telegram</a>
+      <cite>2022-09-22</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -1172,328 +983,491 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
     <hr/>
     
     
-    <h1><a class="title" href="/post/2022/03/Javascript-Tips.html">Javascript Tips</a></h1>
+    <h1><a class="title" href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s系列 南北流量和东西流量</a></h1>
     <div class="post_at_index">
-      <ul>
-  <li>alert 弹窗提醒一段文本</li>
-  <li>a = prompt(“input desc”)  接收输入，并把内容赋值给a</li>
-  <li>confirm 弹出确认窗口，让用户确认，这是给出的结果就是 yes/no</li>
-  <li>console.log(‘AAS’) 输出一段日志</li>
-  <li>let a = 1  声明 变量 a=1， number 类型</li>
-  <li>const ABB = 123 声明一个常量 ABB, 不可以重新赋值</li>
-  <li>undefined 和 null 都是空的意思，但是这两个又不相同</li>
-  <li>a ?? “hello” ;  <code class="language-plaintext highlighter-rouge">??</code> 叫做 空值运算符，指当a 未被赋值时，将hello赋值给a，如果a已经被赋值了，则不变 ; a 需要被声明，在JavaScript中 声明 和 赋值 是两件事情</li>
-</ul>
+      <h2 id="南北流量和东西流量-是什么意思">南北流量和东西流量 是什么意思？</h2>
 
-<h3 id="js的数据类型">js的数据类型</h3>
+<p>在Service Mesh微服务架构中，我们常常会听到东西流量和南北流量两个术语。</p>
 
-<ul>
-  <li>js 是弱类型语言， 1 == ‘1’ =&gt; true; 但是  1 === ‘1’ =&gt; false；   6 / “2” =&gt; 3, typeof is number</li>
-</ul>
+<p>南北流量（NORTH-SOUTH traffic）和东西流量（EAST-WEST traffic）是数据中心环境中的网络流量模式。下面我们通过一个例子来理解这两个术语。</p>
 
-<h3 id="支持判断">支持判断</h3>
+<p>假设我们尝试通过浏览器访问某些Web应用。Web应用部署在位于某个数据中心的应用服务器中。在多层体系结构中，典型的数据中心不仅包含应用服务器，还包含其他服务器，如负载均衡器、数据库等，以及路由器和交换机等网络组件。假设应用服务器是负载均衡器的前端。</p>
 
-<p>if  /elif else</p>
+<p>当我们访问web应用时，会发生以下类型的网络流量：</p>
 
-<h3 id="支持的循环方式">支持的循环方式</h3>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/f9c10a68e23f6955cc25c176d2ea98f7.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" style="zoom:80%;" /></p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="k">do</span> <span class="p">{</span>
-    <span class="c1">// Hello</span>
-<span class="p">}</span> <span class="nx">whIle</span> <span class="p">()</span>
+<p>数据中心树型拓扑图是一个典型的包含接入层、汇聚层、核心层三层的网络结构。这种结构诞生之初就是为了将外部流量引流到内部应用。</p>
 
-<span class="k">for</span> <span class="p">(</span><span class="nx">a</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="nx">a</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span><span class="nx">a</span><span class="o">+=</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
- <span class="c1">// Hello</span>
-<span class="p">}</span>
+<p>流量从外部穿过防火墙或者数据中心其它外围网络设备进来，对应到上⾯这张图里，流动方向为从上到下，称为南向流量（和地图一样，上北下南），而与之对应的，数据中心内部产生的，离开数据中心的流量，从下到上故称为北向流量。合起来称为南北流量。</p>
 
-<span class="nx">a</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
-<span class="k">switch</span> <span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="p">(</span><span class="nx">a</span> <span class="o">=</span> <span class="mi">100</span><span class="p">):{</span>
-        <span class="c1">//Hello</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="nl">default</span><span class="p">:</span>
-        <span class="nx">alert</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
+<p>在微服务化流行之前，以巨石系统（monolithic）这种单体应用为单位部署的方式，产生的是典型的南北流量。一个单体应用配有一个专门的服务器（或虚拟机），一个外部请求通常在单体应用内独立完成，除了访问数据库等必须依赖服务之外，很少会发生横向的流量。</p>
 
-<h3 id="函数声明">函数声明</h3>
+<p>但云计算机、大数据、微服务、云原生等技术的发展催生了大量的从左到右以及从右到左的流量，也被称为东西流量。</p>
 
-<p>必须要使用 function</p>
+<p>数据中心内部南北流量的削弱，而东西流量的井喷在硬件上要求数据中心要横向扩展以提供更宽的大二层以及容纳更多的服务器，而在软件上则要求一种新的服务编排方式以便能充分挖掘、利用现有的计算能力，从这个角度看 K8s 的出现是一种必然。</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="kd">function</span> <span class="nx">showMessage</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">alert</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello Javascript !</span><span class="dl">'</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
+<p>举两个例子：</p>
 
 <ul>
-  <li>函数中变量的作用域：这部分与Python和C一致， 分别为 内部变量 和 外部变量； 关系存在在继承的概念</li>
-  <li>函数的参数， 入参定义在 () 内，当函数声明了入参后，在对应调用时，就需要传递符合条件的参数
-    <ul>
-      <li>支持函数的默认值的设定</li>
-    </ul>
-  </li>
-  <li>函数的返回值，同样使用 return 作为返回值处理</li>
-  <li>函数 function is  an action, 所以函数的命名通常是 使用动词； javascipt 的命名方式 官方建议为 驼峰的方式</li>
-</ul>
-
-<blockquote>
-  <p>函数的特殊部分</p>
-</blockquote>
-
-<ul>
-  <li>函数表达式   let  sayHi = function () { alert(‘Hi’)}  利用声明 <code class="language-plaintext highlighter-rouge">let</code> 创建了一个函数，并把他赋值给了变量 sayHi</li>
-  <li>回调函数</li>
-</ul>
-
-<hr />
-
-<p>[ ] 今天学习的内容到此 回调函数  <a href="https://zh.javascript.info/function-expressions">https://zh.javascript.info/function-expressions</a></p>
-
-<h3 id="严格模式">严格模式</h3>
-
-<ul>
-  <li>三连表达式     cond ? resultA : resultB   //  1 &gt; 0 ? alert(true) : alert(false)   cond 为真展示resultA, 反之展示resultB</li>
-  <li>空值运算符     a ?? b       =&gt;  a ?? b 的结果是 a，除非 a 为 null/undefined，这时结果是 b</li>
-</ul>
-
-<h3 id="开发行为规范">开发行为规范</h3>
-
-<blockquote>
-  <p>BDD</p>
-</blockquote>
-
-<p>在 BDD 中，规范先行，实现在后。最后我们同时拥有了规范和代码。</p>
-
-<p>规范有三种使用方式：</p>
-
-<ul>
-  <li>作为 测试 —— 保证代码正确工作。</li>
-  <li>作为 文档 —— describe 和 it 的标题告诉我们函数做了什么。</li>
-  <li>作为 案例 —— 测试实际工作的例子展示了一个函数可以被怎样使用。</li>
-</ul>
-
-<p>有了规范，我们可以安全地改进、修改甚至重写函数，并确保它仍然正确地工作。</p>
-
-<p>这在一个函数会被用在多个地方的大型项目中尤其重要。当我们改变这样一个函数时，没有办法手动检查每个使用它们的地方是否仍旧正确。</p>
-
-<p>如果没有测试，一般有两个办法：</p>
-
-<ul>
-  <li>展示修改，无论修改了什么。然后我们的用户遇到了 bug，这应该是我们没有手动完成某些检查。</li>
-  <li>如果对出错的惩罚比较严重，并且没有测试，那么大家会很害怕修改这样的函数，然后这些代码就会越来越陈旧，没有人会想接触它。这很不利于发展。自动化测试则有助于避免这样的问题！</li>
-</ul>
-
-<p>如果这个项目被测试代码覆盖了，就不会出现这种问题。在任何修改之后，我们都可以运行测试，并在几秒钟内看到大量的检查。</p>
-
-<p>另外，一个经过良好测试的代码通常都有更好的架构。</p>
-
-<p>当然，这是因为覆盖了自动化测试的代码更容易修改和改进。但还有另一个原因。</p>
-
-<p>要编写测试，代码的组织方式应确保每个函数都有一个清晰描述的任务、定义良好的输入和输出。这意味着从一开始就有一个好的架构。</p>
-
-<p>在实际开发中有时候可能并不容易，有时很难在写实际代码之前编写规范，因为还不清楚它应该如何表现。但一般来说，编写测试使得开发更快更稳定。</p>
-
-<h3 id="object-对象的基础知识">Object 对象的基础知识</h3>
-
-<p>在js中 对象可以说非常常见的用到，所以相对来讲 定义一个对象也是非常的方便</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>   <span class="nx">构造函数</span> <span class="nx">的语法</span>
-<span class="kd">let</span> <span class="nx">user</span> <span class="o">=</span> <span class="p">{}</span>     <span class="nx">构造</span> <span class="dl">"</span><span class="s2">字面量的语法</span><span class="dl">"</span>
-</code></pre></div></div>
-
-<p>在对象中，包含的是 一个个属性， 这些属性又以 键值对 的形式出现在 {} 中</p>
-
-<ul>
-  <li>定义一个有属性的对象  let user = {name:’alex’, age: 18}
-    <ul>
-      <li>增加属性 user.city = ‘Shanghai’  =&gt;   user[‘love package’] = ‘Apple’</li>
-      <li>删除一个属性 delete user.age</li>
-    </ul>
-  </li>
-  <li>计算属性  ： 当创建一个对象时，我可以在对象字面量中使用方括号，这叫做计算属性；计算属性的含义是 [fruit] 是从 变量 fruit 中获取的</li>
-  <li>判断一个 属性是否在对象中    ”key” in Object  ，这里的 key 需要时一个值，否则会被认为一个变量</li>
-  <li>遍历一个对象采用的方式是  for  (let key in Object) : 这里的做法是 声明[let] 变量key ，并且把Object 中的每一个key的值遍历赋予key</li>
-  <li>取出对象中一个key的值可以采用的方式 Object[key] 或者 Object.key；但是Object.key 会出现对 <code class="language-plaintext highlighter-rouge">多词属性</code>
-    <ul>
-      <li>单词属性   name , age</li>
-      <li>多词属性   “like birds” ， 这时使用 Object.key 的方式就不可行了</li>
-    </ul>
-  </li>
-</ul>
-
-<blockquote>
-  <p>JavaScirpt 中的垃圾回收机制</p>
-</blockquote>
-
-<p>当一个对象中的属性被建立后，如果这些属性被多个对象引用时，其他一个对象被重新赋值了，那么这些属性还是可以被访问的；但是当所有对象被重置后，这些无法被访问的属性 就变得不可以，这也会占用我们内存，而这类也会被 回收。</p>
-
-<h4 id="对象的方法-this">对象的方法 <code class="language-plaintext highlighter-rouge">this</code></h4>
-
-<p>this 是用来标识当前对象的，这个对象可以是个函数 ; 为了访问该对象，方法中可以使用 this 关键字。</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>this 设计到编程的一种形式 ： **面向对象编程** OOP ; 当我们在代码中用对象表示实体时，就是所谓的 面向对象编程，简称为 “OOP”。
-</code></pre></div></div>
-
-<ul>
-  <li>this 的优势 ： 在 JavaScript 中，this 关键字与其他大多数编程语言中的不同。JavaScript 中的 this 可以用于任何函数，即使它不是对象的方法。</li>
-  <li>this 的值是在代码运行时计算出来的，它取决于代码上下文。 不用函数调用this时的到结果不一致的</li>
-  <li>箭头函数   function sum (a,b) =&gt; a*b ； 这类箭头函数是没有自己的 this，如果在箭头函数中使用 this，会把this当成一个真正的对象去处理，这不好</li>
-</ul>
-
-<p>在 JavaScript 中，this 是“自由”的，它的值是在调用时计算出来的，它的值并不取决于方法声明的位置，而是取决于在“点符号前”的是什么对象。在运行时对 this 求值的这个概念既有优点也有缺点。一方面，函数可以被重用于不同的对象。另一方面，更大的灵活性造成了更大的出错的可能。这里我们的立场并不是要评判编程语言的这个设计是好是坏。而是要了解怎样使用它，如何趋利避害。</p>
-
-<h4 id="对象的-构造和操作符-new">对象的 构造和操作符 <code class="language-plaintext highlighter-rouge">new</code></h4>
-
-<ul>
-  <li>构造函数在技术上，也是属于常规函数，不过有2个约定：
-    <ul>
-      <li>命名以大写字母开头， 这是一个共同的约定，用来标明一个函数将被使用 <code class="language-plaintext highlighter-rouge">new</code> 来运行</li>
-      <li>他们只能有 <code class="language-plaintext highlighter-rouge">new</code> 操作符来执行</li>
-    </ul>
-  </li>
-</ul>
-
-<p>构造器不能被再次调用，因为他保存在任何地址，知识被创建后 后续 调用使用；所以 构造函数的封装一个 单一对象的代码，而无需将来重用</p>
-
-<h4 id="javascript--可选链">JavaScript  <code class="language-plaintext highlighter-rouge">?.</code> 可选链</h4>
-
-<p>可选链 ?. 语法有三种形式：</p>
-
-<ul>
-  <li>obj?.prop —— 如果 obj 存在则返回 obj.prop，否则返回 undefined。</li>
-  <li>obj?.[prop] —— 如果 obj 存在则返回 obj[prop]，否则返回 undefined。</li>
-  <li>obj.method?.() —— 如果 obj.method 存在则调用 obj.method()，否则返回 undefined。</li>
-</ul>
-
-<p>正如我们所看到的，这些语法形式用起来都很简单直接。?. 检查左边部分是否为 null/undefined，如果不是则继续运算。 ?. 链使我们能够安全地访问嵌套属性。 但是，我们应该谨慎地使用 ?.，仅在当左边部分不存在也没问题的情况下使用为宜。以保证在代码中有编程上的错误出现时，也不会对我们隐藏。</p>
-
-<h3 id="symbol-类型">Symbol  类型</h3>
-
-<p>根据规范，Obj的属性键 只能是 字符串类型或者 Symbol 类型；不能是Number，也不能是Boolean。</p>
-
-<p>Symbol 值 表示 唯一的标识符，现在可以通过 Symbol() 来创建这种类型的值；Symbol的特性是唯一，即使我们创建了相同描述的Symbol，他们的值不相同的；比如以下：</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">id1</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">(</span><span class="dl">'</span><span class="s1">id</span><span class="dl">'</span><span class="p">)</span>
-<span class="kd">let</span> <span class="nx">id2</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">(</span><span class="dl">'</span><span class="s1">id</span><span class="dl">'</span><span class="p">)</span>
-
-<span class="nx">id1</span> <span class="o">==</span> <span class="nx">id2</span>   <span class="c1">// 结果是 false</span>
-</code></pre></div></div>
-
-<p>Symbol 的另外一个特性是不会被自动转化为字符串；其实在javascript中大多数的数值都是可以进行字符串的 <code class="language-plaintext highlighter-rouge">隐式转换</code> ，但是使用 Symbol() 定义的一个字符，是不能够直接转化为 字符串的， 可以使用 <code class="language-plaintext highlighter-rouge">Symbol('id').toString()</code> 来输出字符串。</p>
-
-<h3 id="原始类型的方法">原始类型的方法</h3>
-
-<p>在 JavaScript 中有 7 种原始类型：string，number，bigint，boolean，symbol，null 和 undefined。</p>
-
-<ul>
-  <li>字符串处理方法</li>
-  <li>Number的处理方法</li>
-</ul>
-
-<h3 id="数组方法的备忘笔记">数组方法的备忘笔记</h3>
-
-<p>数组方法备忘单：</p>
-
-<ul>
-  <li>添加/删除元素：
-    <ul>
-      <li><strong>push(…items) —— 向尾端添加元素</strong></li>
-      <li><strong>pop() —— 从尾端提取一个元素</strong></li>
-      <li><strong>shift() —— 从首端提取一个元素</strong></li>
-      <li><strong>unshift(…items) —— 向首端添加元素</strong></li>
-      <li>splice(pos, deleteCount, …items) 从 pos 开始删除 deleteCount 个元素，并插入 items。 <code class="language-plaintext highlighter-rouge">用来控制数组的增删改查</code></li>
-      <li>slice(start, end) —— 创建一个新数组，将从索引 start 到索引 end（但不包括 end）的元素复制进去 <code class="language-plaintext highlighter-rouge">取出部分数组的内容产生新数组</code></li>
-      <li>concat(…items) —— 返回一个新数组：复制当前数组的所有元素，并向其中添加 items。如果 items 中的任意一项是一个数组，那么就取其元素。 <code class="language-plaintext highlighter-rouge">拼接多个数组，产生一个新的数组</code></li>
-    </ul>
-  </li>
-</ul>
-
-<p>*搜索元素：</p>
-<ul>
-  <li>indexOf/lastIndexOf(item, pos) —— 从索引 pos 开始搜索 item，搜索到则返回该项的索引，否则返回 -1。</li>
-  <li>includes(value) —— 如果数组有 value，则返回 true，否则返回 false。</li>
-  <li>find/filter(func) —— 通过 func 过滤元素，返回使 func 返回 true 的第一个值/所有值。</li>
   <li>
-    <p>findIndex 和 find 类似，但返回索引而不是值。</p>
+    <p>客户端（位于数据中心一侧的浏览器）与负载均衡器（位于数据中心）之间的网络流量</p>
   </li>
-  <li>遍历元素：
-    <ul>
-      <li>forEach(func) —— 对每个元素都调用 func，不返回任何内容。</li>
-    </ul>
+  <li>
+    <p>负载均衡器、应用服务器、数据库等之间的网络流量，它们都位于数据中心。</p>
   </li>
 </ul>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="kd">let</span> <span class="nx">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">Apple</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Orage</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">Prism</span><span class="dl">'</span><span class="p">]</span>
+<p>在这个例子中，前者即即客户端和服务器之间的流量被称为南北流量。简而言之，南北流量是server-client流量。</p>
 
-<span class="k">for</span> <span class="p">(</span> <span class="kd">let</span> <span class="nx">fruit</span> <span class="k">of</span> <span class="nx">fruits</span> <span class="p">)</span> <span class="p">{</span><span class="nx">alert</span><span class="p">(</span><span class="nx">fruit</span><span class="p">);</span> <span class="p">}</span>
-<span class="c1">// 遍历数组 使用 for .. of 不能获取到当前元素的索引，知识获取到元素的值；但是大多数情况下是够用的，而且这样些代码更短，质量会高一些</span>
+<p>第二种流量即不同服务器之间的流量与数据中心或不同数据中心之间的网络流被称为东西流量。简而言之，东西流量是 service-service 流量。</p>
 
-<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="nx">fruits</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span><span class="nx">alert</span><span class="p">(</span><span class="nx">fruits</span><span class="p">[</span><span class="nx">i</span><span class="p">])}</span>
-<span class="c1">// 这个方式就是标准的通过遍历元素的索引，然后通过索引获取到对应的数组元素的值</span>
-</code></pre></div></div>
+<p>当下，东西流量远超南北流量，尤其是在当今的大数据生态系统中，比如Hadoop生态系统（大量server驻留在数据中心中，用map reduce处理），server-server流量远大于server-client流量。</p>
 
-<ul>
-  <li>转换数组：
-    <ul>
-      <li>map(func) —— 根据对每个元素调用 func 的结果创建一个新数组。</li>
-      <li>sort(func) —— 对数组进行原位（in-place）排序，然后返回它。</li>
-      <li>reverse() —— 原位（in-place）反转数组，然后返回它。</li>
-      <li>split/join —— 将字符串转换为数组并返回。</li>
-      <li>reduce/reduceRight(func, initial) —— 通过对每个元素调用 func 计算数组上的单个值，并在调用之间传递中间结果。</li>
-    </ul>
-  </li>
-  <li>其他：
-    <ul>
-      <li>Array.isArray(arr) 检查 arr 是否是一个数组。</li>
-    </ul>
-  </li>
-</ul>
+<p>大家可能会好奇，东西南北，为什么这么命名 ？</p>
 
-<p>请注意，sort，reverse 和 splice 方法修改的是数组本身； 这些是最常用的方法，它们覆盖 99％ 的用例。但是还有其他几个：</p>
+<p>该命名来自于绘制典型network diagrams的习惯。在图表中，通常核心网络组件绘制在顶部（NORTH），客户端绘制在底部（SOUTH），而数据中心内的不同服务器水平（EAST-WEST）</p>
 
-<ul>
-  <li>arr.some(fn)/arr.every(fn) 检查数组。</li>
-</ul>
-
-<p>与 map 类似，对数组的每个元素调用函数 fn。如果任何/所有结果为 true，则返回 true，否则返回 false。</p>
-
-<table>
-  <tbody>
-    <tr>
-      <td>这两个方法的行为类似于</td>
-      <td> </td>
-      <td>和 &amp;&amp; 运算符：如果 fn 返回一个真值，arr.some() 立即返回 true 并停止迭代其余数组项；如果 fn 返回一个假值，arr.every() 立即返回 false 并停止对其余数组项的迭代。</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>我们可以使用 every 来比较数组：</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">arraysEqual</span><span class="p">(</span><span class="nx">arr1</span><span class="p">,</span> <span class="nx">arr2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">arr1</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="nx">arr2</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span> <span class="nx">arr1</span><span class="p">.</span><span class="nx">every</span><span class="p">((</span><span class="nx">value</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">value</span> <span class="o">===</span> <span class="nx">arr2</span><span class="p">[</span><span class="nx">index</span><span class="p">]);</span>
-<span class="p">}</span>
-
-<span class="nx">alert</span><span class="p">(</span> <span class="nx">arraysEqual</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]));</span> <span class="c1">// true</span>
-</code></pre></div></div>
-
-<ul>
-  <li>arr.fill(value, start, end) —— 从索引 start 到 end，用重复的 value 填充数组。</li>
-  <li>arr.copyWithin(target, start, end) —— 将从位置 start 到 end 的所有元素复制到 自身 的 target 位置（覆盖现有元素）。</li>
-  <li>arr.flat(depth)/arr.flatMap(fn) 从多维数组创建一个新的扁平数组。</li>
-  <li>Array.of(element0[, element1[, …[, elementN]]]) 基于可变数量的参数创建一个新的 Array 实例，而不需要考虑参数的数量或类型。</li>
-</ul>
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-03-28</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Javascript">Javascript</a>
-      , 
-      <a href="/tags.html#HTML">HTML</a>
+      <cite>2022-09-12</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#K8s">K8s</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8.html">jq 命令行 Json 处理神器</a></h1>
+    <div class="post_at_index">
+      <ul>
+  <li>
+    <p><a href="https://mozillazg.com/2018/01/jq-use-examples-cookbook.html">https://mozillazg.com/2018/01/jq-use-examples-cookbook.htm</a>-</p>
+  </li>
+  <li>
+    <p>jq 命令日常练习 https://jqplay.org/s/KhRuUFCP2h</p>
+  </li>
+</ul>
+
+<p>一个灵活的轻量级命令行JSON处理器</p>
+
+<h2 id="说明">说明</h2>
+
+<p>jq 是 stedolan 开发的一个轻量级的和灵活的命令行JSON处理器，源码请参考 <a href="https://github.com/stedolan/jq">jq 项目主页</a> 。jq 用于处理JSON输入，将给定过滤器应用于其JSON文本输入并在标准输出上将过滤器的结果生成为JSON；最简单的过滤器是<code class="language-plaintext highlighter-rouge">.</code>，它将jq的输入未经修改地复制到其输出中（格式设置除外）； 请注意，jq 当前仅支持64位双精度浮点数（IEEE754）。</p>
+
+<h2 id="安装">安装</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Debian系，如 Ubuntu</span>
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>jq
+
+<span class="c"># RedHat系, 如 CentOS</span>
+yum <span class="nb">install </span>jq
+
+<span class="c"># MacOS</span>
+brew <span class="nb">install </span>jq
+</code></pre></div></div>
+
+<h2 id="语法">语法</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jq <span class="o">[</span>options] &lt;jq filter&gt; <span class="o">[</span>file...]
+jq <span class="o">[</span>options] <span class="nt">--args</span> &lt;jq filter&gt; <span class="o">[</span>strings...]
+jq <span class="o">[</span>options] <span class="nt">--jsonargs</span> &lt;jq filter&gt; <span class="o">[</span>JSON_TEXTS...]
+</code></pre></div></div>
+
+<h2 id="选项">选项</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-c</span>               紧凑而不是漂亮的输出<span class="p">;</span>
+<span class="nt">-n</span>               使用<span class="sb">`</span>null<span class="sb">`</span>作为单个输入值<span class="p">;</span>
+<span class="nt">-e</span>               根据输出设置退出状态代码<span class="p">;</span>
+<span class="nt">-s</span>               将所有输入读取（吸取）到数组中；应用过滤器<span class="p">;</span>
+<span class="nt">-r</span>               输出原始字符串，而不是JSON文本<span class="p">;</span>
+<span class="nt">-R</span>               读取原始字符串，而不是JSON文本<span class="p">;</span>
+<span class="nt">-C</span>               为JSON着色<span class="p">;</span>
+<span class="nt">-M</span>               单色（不要为JSON着色）<span class="p">;</span>
+<span class="nt">-S</span>               在输出上排序对象的键<span class="p">;</span>
+<span class="nt">--tab</span>            使用制表符进行缩进<span class="p">;</span>
+<span class="nt">--arg</span> a v        将变量<span class="nv">$a</span>设置为value&lt;v&gt;<span class="p">;</span>
+<span class="nt">--argjson</span> a v    将变量<span class="nv">$a</span>设置为JSON value&lt;v&gt;<span class="p">;</span>
+<span class="nt">--slurpfile</span> a f  将变量<span class="nv">$a</span>设置为从&lt;f&gt;读取的JSON文本数组<span class="p">;</span>
+<span class="nt">--rawfile</span> a f    将变量<span class="nv">$a</span>设置为包含&lt;f&gt;内容的字符串<span class="p">;</span>
+<span class="nt">--args</span>           其余参数是字符串参数，而不是文件<span class="p">;</span>
+<span class="nt">--jsonargs</span>       其余的参数是JSON参数，而不是文件<span class="p">;</span>
+<span class="nt">--</span>               终止参数处理<span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="例子">例子</h2>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">.</code>: 以漂亮的方式输出</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{ "foo": { "bar": { "baz": 123 } } }'</span> | jq <span class="s1">'.'</span>
+<span class="o">{</span>
+  <span class="s2">"foo"</span>: <span class="o">{</span>
+    <span class="s2">"bar"</span>: <span class="o">{</span>
+      <span class="s2">"baz"</span>: 123
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">.foo, .foo.bar, .foo?</code>: 获取一个键的值</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{"foo": 42, "bar": "less interesting data"}'</span> | jq <span class="s1">'.foo'</span>
+42
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">.[], .[]?, .[2], .[10:15]</code>: 数组运算</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[{"name":"JSON", "good":true}, {"name":"XML", "good":false}]'</span> | jq <span class="s1">'.[1]'</span>
+<span class="o">{</span>
+  <span class="s2">"name"</span>: <span class="s2">"XML"</span>,
+  <span class="s2">"good"</span>: <span class="nb">false</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">[], {}</code>: 构造一个数组/对象</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{"user":"stedolan","titles":["JQ Primer", "More JQ"]}'</span> | jq <span class="s1">'{user, title: .titles[]}'</span>
+<span class="o">{</span>
+  <span class="s2">"user"</span>: <span class="s2">"stedolan"</span>,
+  <span class="s2">"title"</span>: <span class="s2">"JQ Primer"</span>
+<span class="o">}</span>
+<span class="o">{</span>
+  <span class="s2">"user"</span>: <span class="s2">"stedolan"</span>,
+  <span class="s2">"title"</span>: <span class="s2">"More JQ"</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">length</code>: 计算一个值的长度</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[[1,2], "string", {"a":2}, null]'</span> | jq <span class="s1">'.[] | length'</span>                                  
+2
+6
+1
+0
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">keys</code>: 取出数组中的键</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{"abc": 1, "abcd": 2, "Foo": 3}'</span> | jq <span class="s1">'keys'</span>                                        
+<span class="o">[</span>
+  <span class="s2">"Foo"</span>,
+  <span class="s2">"abc"</span>,
+  <span class="s2">"abcd"</span>
+<span class="o">]</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">,</code>: 使用多个过滤器</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{ "foo": 42, "bar": "something else", "baz": true}'</span> | jq <span class="s1">'.foo, .bar'</span> 
+42
+<span class="s2">"something else"</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">|</code>: 通过管道将一个过滤器的输出当做下一个过滤器的输入</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[{"name":"JSON", "good":true}, {"name":"XML", "good":false}]'</span> | jq <span class="s1">'.[] | .name'</span>                                                 
+<span class="s2">"JSON"</span>
+<span class="s2">"XML"</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">select(foo)</code>: 如果foo返回true，则输入保持不变</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[1,5,3,0,7]'</span> | jq <span class="s1">'map(select(. &gt;= 2))'</span>                                                    
+<span class="o">[</span>
+  5,
+  3,
+  7
+<span class="o">]</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">map(foo)</code>: 每个输入调用过滤器</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[1,2,3]'</span> | jq <span class="s1">'map(.+1)'</span>
+<span class="o">[</span>
+  2,
+  3,
+  4
+<span class="o">]</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">if-then-else-end</code>: 条件判断</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'2'</span> | jq <span class="s1">'if . == 0 then "zero" elif . == 1 then "one" else "many" end'</span>
+<span class="s2">"many"</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">\(foo)</code>: 在字符串中插入值并进行运算</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'42'</span> | jq <span class="s1">'"The input was \(.), which is one less than \(.+1)"'</span>          
+<span class="s2">"The input was 42, which is one less than 43"</span>
+</code></pre></div></div>
+
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-07-22</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#unix command">unix command</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/07/%E9%97%AD%E5%85%B3%E5%A4%87%E6%88%98-11%E6%9C%88.html">闭关备战 11月</a></h1>
+    <div class="post_at_index">
+      <h2 id="目标">目标</h2>
+
+<p>获得软考中级证书，完成落户条件准备。</p>
+
+<p>下一次考试时间是 11 月份，</p>
+
+<p>开始闭关。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-07-17</cite> <i class="icon-tag"></i>
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a></h1>
+    <div class="post_at_index">
+      <h2 id="背景">背景</h2>
+
+<p>除了在 Hexo 维护个人博客之外，目前经常用到的 2 个文档工具： 语雀和 Mkdocs 都是支持 admonition样式，所以也在考虑如何给 Hexo 博客文章也增加这样的能力。</p>
+
+<p>保证写作习惯的一致性，好在有人开发出对应的插件，感谢.</p>
+
+<ul>
+  <li>https://github.com/lxl80/hexo-admonition</li>
+</ul>
+
+<h2 id="安装方式">安装方式</h2>
+
+<p>简单通过 2 个步骤即可，</p>
+
+<h3 id="安装插件">安装插件</h3>
+
+<p>采用 npm 安装，如下：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>hexo-admonition <span class="nt">--save</span>
+</code></pre></div></div>
+
+<h3 id="样式配置">样式配置</h3>
+
+<p>你的 hexo 可能会使用不同主题，所以需要自己增加样式，将如下样式放入 hexo 主题的自定义样式文件中（如：<code class="language-plaintext highlighter-rouge">ext.css</code>），并按自己喜好修改：</p>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">.admonition</span> <span class="p">{</span>
+  <span class="nl">margin</span><span class="p">:</span> <span class="m">1.5625em</span> <span class="m">0</span><span class="p">;</span>
+  <span class="nl">padding</span><span class="p">:</span> <span class="m">.6rem</span><span class="p">;</span>
+  <span class="nl">overflow</span><span class="p">:</span> <span class="nb">hidden</span><span class="p">;</span>
+  <span class="nl">font-size</span><span class="p">:</span> <span class="m">.64rem</span><span class="p">;</span>
+  <span class="nl">page-break-inside</span><span class="p">:</span> <span class="nb">avoid</span><span class="p">;</span>
+  <span class="nl">border-left</span><span class="p">:</span> <span class="m">.3rem</span> <span class="nb">solid</span> <span class="m">#42b983</span><span class="p">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">.3rem</span><span class="p">;</span>
+  <span class="nl">box-shadow</span><span class="p">:</span> <span class="m">0</span> <span class="m">0.1rem</span> <span class="m">0.4rem</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">.05</span><span class="p">),</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0.05rem</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">.1</span><span class="p">);</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#fafafa</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">p</span><span class="nc">.admonition-title</span> <span class="p">{</span>
+  <span class="nl">position</span><span class="p">:</span> <span class="nb">relative</span><span class="p">;</span>
+  <span class="nl">margin</span><span class="p">:</span> <span class="m">-.6rem</span> <span class="m">-.6rem</span> <span class="m">.8em</span> <span class="m">-.6rem</span> <span class="cp">!important</span><span class="p">;</span>
+  <span class="nl">padding</span><span class="p">:</span> <span class="m">.4rem</span> <span class="m">.6rem</span> <span class="m">.4rem</span> <span class="m">2.5rem</span><span class="p">;</span>
+  <span class="nl">font-weight</span><span class="p">:</span> <span class="m">700</span><span class="p">;</span>
+  <span class="nl">background-color</span><span class="p">:</span><span class="n">rgba</span><span class="p">(</span><span class="m">66</span><span class="p">,</span> <span class="m">185</span><span class="p">,</span> <span class="m">131</span><span class="p">,</span> <span class="m">.1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nc">.admonition-title</span><span class="nd">::before</span> <span class="p">{</span>
+  <span class="nl">position</span><span class="p">:</span> <span class="nb">absolute</span><span class="p">;</span>
+  <span class="nl">top</span><span class="p">:</span> <span class="m">.9rem</span><span class="p">;</span>
+  <span class="nl">left</span><span class="p">:</span> <span class="m">1rem</span><span class="p">;</span>
+  <span class="nl">width</span><span class="p">:</span> <span class="m">12px</span><span class="p">;</span>
+  <span class="nl">height</span><span class="p">:</span> <span class="m">12px</span><span class="p">;</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#42b983</span><span class="p">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">50%</span><span class="p">;</span>
+  <span class="nl">content</span><span class="p">:</span> <span class="s2">' '</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.info</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.todo</span><span class="o">&gt;</span><span class="nc">.admonition-title</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">184</span><span class="p">,</span><span class="m">212</span><span class="p">,</span><span class="m">.1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nc">.warning</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.attention</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.caution</span><span class="o">&gt;</span><span class="nc">.admonition-title</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="n">rgba</span><span class="p">(</span><span class="m">255</span><span class="p">,</span><span class="m">145</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">.1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nc">.failure</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.missing</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.fail</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.error</span><span class="o">&gt;</span><span class="nc">.admonition-title</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="n">rgba</span><span class="p">(</span><span class="m">255</span><span class="p">,</span><span class="m">82</span><span class="p">,</span><span class="m">82</span><span class="p">,</span><span class="m">.1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nc">.admonition.info</span><span class="o">,</span> <span class="nc">.admonition.todo</span> <span class="p">{</span>
+  <span class="nl">border-color</span><span class="p">:</span> <span class="m">#00b8d4</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.admonition.warning</span><span class="o">,</span> <span class="nc">.admonition.attention</span><span class="o">,</span> <span class="nc">.admonition.caution</span> <span class="p">{</span>
+  <span class="nl">border-color</span><span class="p">:</span> <span class="m">#ff9100</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.admonition.failure</span><span class="o">,</span> <span class="nc">.admonition.missing</span><span class="o">,</span> <span class="nc">.admonition.fail</span><span class="o">,</span> <span class="nc">.admonition.error</span> <span class="p">{</span>
+  <span class="nl">border-color</span><span class="p">:</span> <span class="m">#ff5252</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.info</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span> <span class="nc">.todo</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#00b8d4</span><span class="p">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">50%</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.success</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#00c853</span><span class="p">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">50%</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.warning</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span> <span class="nc">.attention</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span> <span class="nc">.caution</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#ff9100</span><span class="p">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">50%</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.failure</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span><span class="nc">.missing</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span><span class="nc">.fail</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span><span class="nc">.error</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#ff5252</span><span class="p">;</span><span class="err">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">50%</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nc">.admonition</span><span class="o">&gt;</span><span class="nd">:last-child</span> <span class="p">{</span>
+  <span class="nl">margin-bottom</span><span class="p">:</span> <span class="m">0</span> <span class="cp">!important</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="使用说明">使用说明</h2>
+
+<p>Hexo-admonition 遵循一种简单的语法：每个块都以 <code class="language-plaintext highlighter-rouge">!!!</code> 开头，然后是代表提示类型的关键字（<code class="language-plaintext highlighter-rouge">type</code>）及标题（<code class="language-plaintext highlighter-rouge">title</code>）。例如:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>!!! note Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 note，并设置了自定义标题。
+    提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+</code></pre></div></div>
+
+<p>在 Hexo 渲染前，将被转换成如下内容：</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"admonition note "</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"admonition-title"</span><span class="nt">&gt;</span>Hexo-admonition 插件使用示例<span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;p&gt;</span>这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 note，并设置了自定义标题。<span class="nt">&lt;/p&gt;</span>
+  <span class="nt">&lt;p&gt;</span>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。<span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<p>最终呈现效果如下：</p>
+
+<p>!!! note Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 note，并设置了自定义标题。
+    提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。</p>
+
+<h3 id="支持的类型">支持的类型</h3>
+
+<p>提示类型 <code class="language-plaintext highlighter-rouge">type</code> 将用作 CSS 类名称，暂支持如下类型：</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">note</code></li>
+  <li><code class="language-plaintext highlighter-rouge">info, todo</code></li>
+  <li><code class="language-plaintext highlighter-rouge">warning, attention, caution</code></li>
+  <li><code class="language-plaintext highlighter-rouge">error, failure, missing, fail</code></li>
+</ul>
+
+<h3 id="设置隐藏标题">设置/隐藏标题</h3>
+
+<p>标题 <code class="language-plaintext highlighter-rouge">title</code> 是可选的，当未设置时，将以 <code class="language-plaintext highlighter-rouge">type</code> 作为默认值:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>!!! warning
+    这是一条采用默认标题的警告信息。
+</code></pre></div></div>
+
+<p>效果如下：</p>
+
+<p>!!! warning
+    这是一条采用默认标题的警告信息。</p>
+
+<p>如果不想显示标题，可以将 <code class="language-plaintext highlighter-rouge">title</code> 设置为 <code class="language-plaintext highlighter-rouge">""</code>：</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>!!! Warning ""
+    这是一条不带标题的警告信息。
+</code></pre></div></div>
+
+<p>效果如下：</p>
+
+<p>!!! Warning “”
+    这是一条不带标题的警告信息。</p>
+
+<h2 id="卡片演示">卡片演示</h2>
+
+<blockquote>
+  <p>主要四种类型：info, warning, error, note</p>
+</blockquote>
+
+<p>!!! note Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 note，并设置了自定义标题。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+</code></pre></div></div>
+
+<p>!!! warning Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 warning，并设置了自定义标题。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+</code></pre></div></div>
+
+<p>!!! error Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 error，并设置了自定义标题。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+</code></pre></div></div>
+
+<p>!!! info Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 info，并设置了自定义标题。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+</code></pre></div></div>
+
+<p>!!! todo Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 todo，并设置了自定义标题。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+</code></pre></div></div>
+
+<p>!!! attention Hexo-admonition 插件使用示例
+    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 attention，并设置了自定义标题。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-05-28</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Hexo">Hexo</a>
       
       
       
@@ -1540,7 +1514,7 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
             
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page15">15</a></li>
+          <li><a href="/page20">20</a></li>
         
 
         
@@ -1611,7 +1585,7 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
      
     	
       <li><a href="/categories.html#Git">
-    		Git <span>5</span>
+    		Git <span>6</span>
     	</a></li>
      
     	
@@ -1651,7 +1625,7 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
      
     	
       <li><a href="/categories.html#Python">
-    		Python <span>7</span>
+    		Python <span>45</span>
     	</a></li>
      
     	
@@ -1696,7 +1670,7 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
      
     	
       <li><a href="/categories.html#Docker">
-    		Docker <span>4</span>
+    		Docker <span>6</span>
     	</a></li>
      
     	
@@ -1755,6 +1729,36 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
     	</a></li>
      
     	
+      <li><a href="/categories.html#SQL">
+    		SQL <span>5</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Node">
+    		Node <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#BI">
+    		BI <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#NaN">
+    		NaN <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#微服务">
+    		微服务 <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#ClickHouse">
+    		ClickHouse <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#闲聊">
     		闲聊 <span>3</span>
     	</a></li>
@@ -1790,13 +1794,13 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
     	</a></li>
      
     	
-      <li><a href="/categories.html#云原生">
-    		云原生 <span>1</span>
+      <li><a href="/categories.html#Gitlab">
+    		Gitlab <span>1</span>
     	</a></li>
      
     	
-      <li><a href="/categories.html#微服务">
-    		微服务 <span>1</span>
+      <li><a href="/categories.html#云原生">
+    		云原生 <span>1</span>
     	</a></li>
     
   
@@ -1810,40 +1814,41 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
       <ul>
         
         <li>
-          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
+          <a href="/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过pipreqs获取当前项目的依赖库</a>
+          如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a>
           
-  参考资料：
+  strip() 删除字符串中的内容，删除后仍旧是str
+  split() 分割字符串，根据特定的标识，分割后=list
 
 
 
         </li>
         
         <li>
-          <a href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s系列 南北流量和东西流量</a>
-          南北流量和东西流量 是什么意思？
+          <a href="/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a>
+          ```python
+import string
 
 
         </li>
         
         <li>
-          <a href="/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8.html">jq 命令行 Json 处理神器</a>
-          
-  https://mozillazg.com/2018/01/jq-use-examples-cookbook.htm-
-
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/07/%E9%97%AD%E5%85%B3%E5%A4%87%E6%88%98-11%E6%9C%88.html">闭关备战 11月</a>
-          目标
+          <a href="/post/2022/11/python3-setup.py-help-commands.html">python3 setup.py --help-commands</a>
+          ```python
+→ python3 setup.py –help-commands
 
 
         </li>
         
         <li>
-          <a href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a>
-          背景
+          <a href="/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入excel</a>
+          以下是使用的方法：
 
 
         </li>

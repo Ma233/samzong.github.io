@@ -1,0 +1,1198 @@
+
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Blog">
+  <head>
+    <meta charset="utf-8">
+	<link rel="manifest" href="/static/pwa/manifest.json">
+	<title> 淘宝Python SDK优化支持Python3 | 船长的课记 </title>
+    
+		
+    <meta name="author" content="船长">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#2196F3">
+	<meta name="google-site-verification" content="puZt0ZyqB-t67BYdYAgLUyIPBeismG68J0dmEc01QeY" />
+
+	
+    <script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function () {
+				navigator.serviceWorker
+										.register('/sw.js')
+										.then(function(registration) {
+											console.log("Successfully registered service worker", registration.scope);
+										}).catch(function(err) {
+											console.log("Service worker registration failed: ", err);
+										});
+				//navigator.serviceWorker.ready always resolve
+				navigator.serviceWorker.ready.then(function (registration) {
+					console.log('Service worker successfully registered on scope', registration.scope);
+				});
+			});
+		}
+    </script>
+	<script type="text/javascript" src="/assets/themes/evjekylltheme/jquery-3.6.0.slim.min.js"></script>
+
+	<link href="/assets/themes/evjekylltheme/google-code-prettify/desert.css" type="text/css" rel="stylesheet" />
+
+    <!-- Le styles -->
+    <link href="/assets/themes/evjekylltheme/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/evjekylltheme/css/style.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/static/images/favicon.ico">
+
+    <!-- atom & rss feed -->
+    <link href="" type="application/atom+xml" rel="alternate" title="Jekyll auto generate ATOM Feed">
+    <link href="" type="application/atom+xml" rel="alternate" title="Site ATOM Feed">
+    <link href="" type="application/rss+xml" rel="alternate" title="Site RSS Feed">
+	<link rel="stylesheet" href="/assets/themes/evjekylltheme/font-awesome-4.4.0/css/font-awesome.min.css">
+	<!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-W2LDG64');</script> -->
+		<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8529425670069509"
+						crossorigin="anonymous"></script> -->
+	<!-- <script async src="https://cdn.splitbee.io/sb.js"></script> -->
+  </head>
+
+  <body>
+	<!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2LDG64"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
+    <div class="navbar navbar-default navbar-fixed-top">
+				<div class="container">
+          <div class="row mobilepadding">
+					<!-- <a class="navbar-brand" href="/">船长的课记</a> -->
+					<a class="navbar-brand" href="/">SAMZONG</a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mNavbar">
+  					<ul class="nav navbar-nav">
+  						
+  						
+  						
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/friends.html">Friends</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+						  <li class="dropdown">
+							  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other</a>
+							  <ul class="dropdown-menu">
+									<li><a href="/about.html">About</a></li>
+									<li><a href="https://yuque.com/samzong/note" target="_blank">船长的课记</a></li>
+									<li><a href="https://yuque.com/samzong/ap" target="_blank">果粉日记</a></li>
+									<li><a href="https://yuque.com/samzong/code" target="_blank">Code Snippet</a></li>
+									<li><a href="https://www.yuque.com/samzong/mcx" target="_blank">集</a></li>
+									<li><a href="https://www.yuque.com/zooka" target="_blank">藏金阁</a></li>
+								</ul>
+						  </li>
+  					</ul>
+  					<form id="search-form" class="navbar-form navbar-right" role="search">
+  						<div class="form-group">
+  						<input type="text" class="form-control input-sm" placeholder="Search's Bad" id="query">
+  						</div>
+  					</form>
+  					<div class="nav-icon">
+  						<a href="/feed.xml"><i class="fa fa-rss fa-2x"></i></a>
+  					</div>
+          </div>
+				</div>
+      </div>
+    </div>
+
+    <div class="container">
+			<div class="row mobilepadding">
+        <div class="row">
+					<div class="col-md-12">
+						<div class="searchresult">
+						</div>
+						<div id="search-loader" class="img-wrap">
+						</div>
+					</div>
+        </div>
+				
+<div class="row" itemscope itemtype="http://schema.org/Article">
+    <div class="col-xs-12 col-md-8">
+        <div class="page-header" itemprop="name">
+            <h1>淘宝Python SDK优化支持Python3 
+            </h1>
+        </div>
+        <div class="post-meta">
+            
+            <span class="entry-date" itemprop="datePublished">Posted on 05/03/2022</span>
+            
+            
+            <span class="entry-author" itemprop="author">by 船长</span>
+            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/main/_posts/2022-05-03-淘宝Python SDK优化支持Python3.md"
+                 target="_blank">View revision history</a>
+        </div>
+        <div class="post-content" itemprop="articleBody">
+            <p>淘宝开放平台的SDK，Python的 SDK 是在2012年，仅支持Python2.7 及以上，但不支持Python3；二现在是2102年了，像我这样的新手都是直接从Python3开始的，</p>
+
+<h4 id="1-python3-int替代了long">1. Python3 int替代了long</h4>
+
+<p><code class="language-plaintext highlighter-rouge">P_TIMESTAMP: str(int(time.time() * 1000))</code></p>
+
+<h4 id="2-用items替代iteritems">2. 用items替代iteritems:</h4>
+
+<p><code class="language-plaintext highlighter-rouge">for key, value in application_parameter.items():</code></p>
+
+<h4 id="3-查阅资料发现有人说到dict-methods-dictkeys-dictitems-and-dictvalues-return-views-instead-of-lists这样就显而易见知道怎么改了">3. 查阅资料，发现有人说到dict methods dict.keys(), dict.items() and dict.values() return “views” instead of lists.这样就显而易见知道怎么改了：</h4>
+
+<p><code class="language-plaintext highlighter-rouge">keys = sorted(keys)</code></p>
+
+<h4 id="4-英文意思很明确unicode对象在哈希之前必须进行编码转换想起之前又看到过中文字符在python中是以unicode存在的所以">4. 英文意思很明确，unicode对象在哈希之前必须进行编码转换，想起之前又看到过中文字符在python中是以unicode存在的，所以：</h4>
+
+<p><code class="language-plaintext highlighter-rouge">sign = hashlib.md5(parameters.encode("utf-8")).hexdigest().upper()</code></p>
+
+<h4 id="5-这是花费时间最长的一个错误首先直接看最后错误在soketpy里心凉了半截难道这里的调用都不一样了再网上看又是python-3x的http模块去百度了半天也没有发现类似的错误只能自己硬着头皮去看模块功夫不负有心人其实也很简单在类httpconnection的初始化函数是这样定义的">5. 这是花费时间最长的一个错误。首先，直接看最后，错误在soket.py里，心凉了半截，难道这里的调用都不一样了,再网上看又是python 3.X的http模块，去百度了半天也没有发现类似的错误，只能自己硬着头皮去看模块，功夫不负有心人，其实也很简单，在类HTTPConnection的初始化函数是这样定义的:</h4>
+
+<p><code class="language-plaintext highlighter-rouge">connection = httplib.HTTPConnection(self.__domain, self.__port, timeout)</code></p>
+
+<blockquote>
+  <p>比较下参数发现，python 2比3多了一个参数，去掉即可，这个错误主要是是报错的地方和修改的地方不在一起，所以很难插出原因。</p>
+</blockquote>
+
+<h4 id="6-官方文档是这样解释的urllib-has-been-split-up-in-python-3-the-urlliburlencode-function-is-now-urllibparseurlencode-and-the-urlliburlopen-function-is-now-urllibrequesturlopen">6. 官方文档是这样解释的：urllib has been split up in Python 3. The urllib.urlencode() function is now urllib.parse.urlencode(), and the urllib.urlopen() function is now urllib.request.urlopen()</h4>
+
+<p><code class="language-plaintext highlighter-rouge">url = N_REST + "?" + urllib.parse.urlencode(sys_parameters)</code></p>
+
+<h4 id="7-这个错误是在api调用出异常的时候暴露出来的原因前面已经提到了稍微查了下替代的方法">7. 这个错误是在API调用出异常的时候暴露出来的。原因前面已经提到了，稍微查了下替代的方法：</h4>
+
+<p><code class="language-plaintext highlighter-rouge">if "error_response" in jsonobj:</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">if P_CODE in jsonobj["error_response"]:</code></p>
+
+<h4 id="8-在if-需要使用反向时应该是--而不是使用-is-not-这个也是-pycharm-给的建议所以在使用时所以简单调整下就好了">8. 在if 需要使用反向时，应该是 != ，而不是使用  is not ；这个也是 PyCharm 给的建议，所以在使用时，所以简单调整下就好了</h4>
+
+<p><code class="language-plaintext highlighter-rouge">if response.status != 200:</code></p>
+
+<p>以上调整之后，基本就可以正常跑起来了，基本是可以支持Python3的使用，我试过了Python3.6-3.9，都是OK的。</p>
+
+        </div>
+
+        <div id="related">
+            <h2>Related Posts</h2>
+            <ul class="posts"><!--当一篇文章有两个tag一样时显示-->
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+
+        <hr>
+        <nav>
+            <ul class="pager">
+                
+                <li class="previous"><a href="/post/2022/04/GitHub-Pages-%E7%9A%84%E5%A6%99%E7%94%A8.html" title="GitHub Pages 的妙用">&larr;
+                    Previous（前一篇）</a></li>
+                
+                <!-- <li><a href="/static/archive.html">Archive（目录）</a></li> -->
+                <li><a href="/archive.html">Archive（目录）</a></li>
+                
+                <li class="next"><a href="/post/2022/05/youtube-dl-%E4%B8%8B%E8%BD%BD-YouTube-%E8%A7%86%E9%A2%91.html" title="youtube-dl 下载 YouTube 视频">Next（后一篇） &rarr;</a></li>
+                
+            </ul>
+        </nav>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	
+      <li><a href="/categories.html#Python">
+    		Python <span>45</span>
+    	</a></li>
+    
+  
+
+
+
+        </ul>
+        
+
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-tag" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	
+    	<li><a href="/tags.html#Python">Python <span>46</span></a></li>
+    
+  
+
+
+
+        </ul>
+        
+        <div id="floatbox">
+            <div id="post-directory-module">
+                <div id="toc"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/assets/themes/evjekylltheme/toc.js"></script>
+<script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
+
+
+			</div>
+
+		</div>
+
+    <footer>
+      <div class="container">
+        <div class="row mobilepadding">
+          			<hr>
+      &copy; 2022 船长. Powered by <a href="http://jekyllrb.com" target="_blank" title="The simple, blog-aware, static site generator.">Jekyll</a>. Theme Creator <a href="https://github.com/einverne" target="_blank" title="Ein Verne's GitHub Repos">Ein Verne</a> . Host on <a href="https://github.com/samzong/samzong.me" target="_blank" title="Samzong's GitHub Repos">Github</a> .
+      <br><br>
+      </div>
+    </div>
+    </footer>
+
+    
+
+
+
+
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/webcore.js"></script>
+
+ </body>
+</html>
+

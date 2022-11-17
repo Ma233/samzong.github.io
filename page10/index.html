@@ -201,6 +201,26 @@
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
@@ -244,58 +264,76 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2016/07/HowTo-Play-Pokemon-GO-in-China.html">HowTo Play Pokemon GO in China</a></h1>
+    <h1><a class="title" href="/post/2017/10/iPhone-iPad%E4%B8%8D%E8%B6%8A%E7%8B%B1%E5%AE%89%E8%A3%85%E6%97%A7%E7%89%88%E7%A8%8B%E5%BA%8F.html">iPhone/iPad 不越狱安装旧版程序</a></h1>
     <div class="post_at_index">
-      <h2 id="installtions">Installtions</h2>
+      <h4 id="前言">前言</h4>
 
-<ul>
-  <li><a href="http://www.tutuapp.cn">TuTuAPP</a></li>
-  <li><a href="https://shadowsocks.biz/?ref=518">VPN</a></li>
-  <li><a href="https://accounts.google.com">Google Account ID</a></li>
-</ul>
+<p>软件版本迭代是会带来新的功能和 BUG 修复，为给用户带来更好的使用体验，我也是乐于尝鲜的性格，所以在软件推出发布新版本时都会及时更新，但用户体验其实是一个玄学的话题，有时并不能给你带来更好的体验，在 iOS 上，由于苹果商店严格的管理机制导致我们在升级后，想要回退到之前版本变得十分困难。</p>
 
-<p>&emsp;&emsp;最近看到身边朋友都在玩Pokemon GO, 心痒难耐，于是跟同事请教琢磨了，终于在自己的手机上玩起来了，由于我的手机是iPhone 5s，身边朋友也都是iPhone，所以不确定是Android是否可以玩耍，想来应该是没有问题话，Android平台做破解等操作一直以来比iPhone更加方便。
-</p>
-<div align="center">
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo1.jpg&gt;
-</div>
-<p>  1. 点击上面的TuTuAPP，可以打开兔兔助手的网站，用手机扫描首页的二维码(可以用微信等，带有二维码扫描的都可以)，注意如果你的iPhone已经越狱，请切换标签页到越狱版本。</p>
+<p>虾米音乐升级到 6.0 版本之后，改变很大，作为一位老虾米非常不适应，所以就瞄准了 6.0 之前的最后一个版本：5.9.4。</p>
 
-<p>  2. 安装时注意按照提示添加信任，等待兔兔助手安装完成之后，打开软件，在Search栏输入“精灵宝可梦GO”，请下载美区版，有两个版本：懒人版与移动版；懒人版有移动按钮，可以不需要走动躺在床上玩耍，移动版是需要人走动才能玩耍，我下载的移动版，你根据自己的喜欢选择，选择完成后，按提示按钮安装即可。</p>
+<p>解决办法是在 iTunes 下载程序时，使用抓包工具对与苹果应用商店服务器之间的请求进行分析，通过修改下载请求中程序版本识别序列号来下载旧版本。</p>
 
-<p>  3. 安装完成Pokemon GO之后也需要设定信任，请按照提示操作；好了， 到这一步，Pokemon GO已经安装在你的手机上了，下一步就是怎么登录玩耍。</p>
+<h4 id="准备">准备</h4>
 
-<p>  4. 到这里及一下的步骤能继续下去的前提是，你有一个美国的VPN节点。打开你手机App Store，搜索VPN，列表中会有很多的免费应用，因为我一直用的是付费VPN，所以对这些不是很清楚，朋友推荐<strong>ArkVPN</strong>，如果你没有付费VPN，可以试试这个，注意VPN节点要选择US，如果你也要使付费VPN的，我推荐Shadowsocks＋Potatso( App)</p>
+<p>网上较多的解决办法是使用 Fiddler+iTunes 是在 Windows 平台，因为我只有 Mac ，所以用Charles 代替 Fiddler，这里需要注意的是iTunes的版本，在笔者写这篇教程的前一天 iTunes 更新到12.7，在 12.7 中有一个很大的变化移除了 App store ，所以请使用低于 12.7 版本的 iTunes 。</p>
 
-<p>  5. 注册Google Account ID，<a href="https://account.google.com">点击</a></p>
-<div align="center">
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo2.jpg width="360" height="640"&gt;
-</div>
-<p>  6. 进入游戏，登录Google ID，然后授权，进入游戏。</p>
-<div align="center">
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo3.png width="360" height="640"&gt;
-</div>
-<p>  7. 开始捕捉你的小精灵吧，手动微笑。</p>
+<h5 id="charles-安装">Charles 安装</h5>
 
-<blockquote>
-  <p>Tips：这款游戏会大量耗电发热，因为打开摄像头捕捉小精灵；另外很容易入迷，在室外玩耍时一定要注意安全。</p>
-</blockquote>
+<p>对于 Charles 版本并没有特殊要求，我这边是通过brew安装，你也可以到 Charles 官网下载安装， Charles 是需要付费的软件，但是有30天免费使用期限，如果你有长期使用打算，建议购买正版授权。</p>
 
-<p>  8. 注意：如果看到了GPS signal not found，说明是GPS信息丢失，这是根据GPS定位的游戏，所以这很重要，记得选择美国的VPN代理。</p>
-<div align="center">
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo4.png
-width="360" height="640"&gt;
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo5.png
-width="360" height="640"&gt;
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo6.png
-width="360" height="640"&gt;
-</div>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/x4dkc.jpg" alt="" /></p>
+
+<h5 id="charles-ssl证书导入系统">Charles SSL证书导入系统</h5>
+
+<p>从 Charles 中导出证书文件</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/v815e.jpg" alt="" /></p>
+
+<p>在 KeyChain Access 中导入证书</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/883p7.jpg" alt="" /></p>
+
+<p>选中导入的证书，然后右键选择 ‘Get Info’ ，设置证书信任状态</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/xoalz.jpg" alt="" /></p>
+
+<h4 id="虾米音乐-的三次下载">“虾米音乐” 的三次下载</h4>
+
+<h5 id="第一次下载">第一次下载</h5>
+
+<p>打开 Charles ，开启监听，然后使用搜索虾米音乐，点击 Downloads 按钮。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/6dt52.jpg" alt="" /></p>
+
+<p>点击下载后，在 Charles 会出现监听到信息，找到一条 ‘p[xx]-buy.itunes.apple.com’ ，其中 xx 是一个随机的数字，选中它，然后右键菜单栏中勾选 ‘Enable SSL Proxying’ 和 ‘Breakpoints’ 。设置完成后，在 iTunes 下载中，清理下载记录。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/ea85i.jpg" alt="" /></p>
+
+<h5 id="第二次下载">第二次下载</h5>
+
+<p>重新搜索虾米音乐，并点击下载按钮，这时 Charles 会弹出窗口，然后在弹出窗口的右下三个按钮中选择 ‘Execute’ ，这一步是我们请求服务器，紧接着出现的就是服务器给我们的响应，然后选择 ‘Edit Response’ - ‘XML Text’ ，然后向下滚动找到下图中的部分，这里是所有虾米音乐的版本的序列数字，但是这里没有办法直接看到版本号，越大的数字版本号越新。这里可以通过在手机 App store 中查看软件的版本记录，找到大概要回退多少个版本，然后数字从大到小找个半个序列数字记录下来，然后在下面三个按钮中选择 ‘Abort’ ，这时 iTunes 会弹出一个报错窗口，关掉即可。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/27nit.jpg" alt="" /></p>
+
+<h5 id="第三次下载">第三次下载</h5>
+
+<p>再次重新搜索虾米音乐，并点击下载，在这次Charles弹出窗口中我们需要直接修改 ‘Edit Requset’ - ‘XML Text’ ，将如下图中的 ‘appExtVrsid’ 对应的值修改为，我们上一步中记录的序列数字，然后就一直在每次弹出选择时，选择 ‘Execute’ ，直到下载完成记录。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/h7zzu.jpg" alt="" /></p>
+
+<h4 id="验证">验证</h4>
+
+<p>下载完成后，你的 iTunes App Library 中已经有了一个虾米音乐，连接上你的手机，将其安装到手机上即可，下图是我安装后的版本截图。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/ppy2m.jpg" alt="" /></p>
+
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-07-24</cite> <i class="icon-tag"></i>
+      <cite>2017-10-22</cite> <i class="icon-tag"></i>
       <a href="/tags.html#iPhone">iPhone</a>
       
       
@@ -305,55 +343,1047 @@ width="360" height="640"&gt;
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/07/HowTo-Reset-Azure-VM-Linux-Password.html">HowTo Reset Azure VM Linux Password</a></h1>
+    <h1><a class="title" href="/post/2017/08/blazemeter_recoding_jmx.html">Jmeter 使用BlazeMeter为Jmeter录制脚本</a></h1>
     <div class="post_at_index">
-      <blockquote>
-  <p><strong>Setup1:</strong> 这种方法仅适用于已存在的用户，也就是说$Username是之前创建过的用户，否则不适用</p>
+      <p>之前一直使用阿里云的PTS服务作为测试，但是今天发现阿里云的PTS服务正在升级无法使用，所以打算用Jmeter来做压力测试，并使用Chrome插件BlazeMeter来录制.jmx脚本。</p>
+
+<h4 id="安装blazemeter插件">安装BlazeMeter插件</h4>
+
+<p><a href="https://chrome.google.com/webstore/search/blazemeter">插件安装</a> , 需要能登录到Chrome应用商店，如果不能登录的话，可以在网上搜索下载crx包，手动加载到Chrome中即可。</p>
+
+<p>安装成功之后，在Chrome插件栏可以看到程序入口，<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/r0ps7.jpg" alt="" /></p>
+
+<p>BlazeMeter限制需要登录才能导出jmx脚本，所以首先需要注册账号。成功登陆后，完整界面如图所示：</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/oamv4.png" alt="" /></p>
+
+<h4 id="录制过程">录制过程</h4>
+
+<p>填写测试脚本名称后，点击开始录制，执行一系列操作后，点停止录制，然后到处jmx文件到本地。</p>
+
+<h4 id="导入脚本到jmeter">导入脚本到Jmeter</h4>
+
+<p>在Jmeter中”File-Open”导入你jmx脚本，为了方便观察结果，我们需要增加一些察看报告。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/uxe75.jpg" alt="" /></p>
+
+<h5 id="聚合报告aggregate-report">聚合报告(Aggregate Report)</h5>
+
+<p>我们可以在聚合报告中一些非常有用的信息，这有助于对性能测试的分析。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/j93gs.png" alt="" /></p>
+
+<ul>
+  <li>Samples ： 一共完成了多少事务</li>
+  <li>Averge ： 平均响应时间</li>
+  <li>Median ： 统计意义上的响应时间的中值</li>
+  <li>90% Line ：90%的事务响应时间都小于xx ms</li>
+  <li>Min ：最小响应时间 ms</li>
+  <li>Max :  最大响应时间 ms</li>
+  <li>Eror %  : 出错率</li>
+  <li>Throughput ： 吞吐量，事务/秒</li>
+  <li>KB/sec ： 用流量来衡量的吞吐量</li>
+</ul>
+
+<blockquote>
+  <p>吞吐量=完成的事务数/完成这些事务数所需要的时间；</p>
+
+  <p>平均响应时间=所有响应时间的总和/完成的事务数；</p>
+
+  <p>失败率=失败的个数/事务数。</p>
 </blockquote>
 
-<h3 id="1-指定虚拟机"><strong>1. 指定虚拟机</strong></h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$vm = Get-AzureVM -ServiceName '云服务名称' -Name '虚拟机名称'
-$vm.GetInstance().ProvisionGuestAgent = $true
+<h5 id="查看结果树view-results-tree">查看结果树(View Results Tree)</h5>
+
+<p>通过查看结果树，可以看到每个事务的返回结果，其中红色是出错，绿色则为正常。建议在测试开始前将log/Display Only中Errors打上勾即可，不然会输出很多东西，不方便查看。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/moo9h.png" alt="" /></p>
+
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-08-12</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Jmeter">Jmeter</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2017/06/%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98Python%E5%AE%A2%E6%88%B7%E7%AB%AF.html">bypy 百度网盘Python客户端</a></h1>
+    <div class="post_at_index">
+      <p>最近在GitHub上发现一个有趣的项目，<a href="https://github.com/houtianze/bypy">百度网盘Python客户端</a>(bypy)，主要使用在Linux命令行下，这样很大的一个好处是可以利用到百度云盘2TB的存储空间(如果你是会员有6TB)；你可以在任何服务器上，利用自动化脚本实现一些数据文件、日志文件等等备份操作，同时也提供丰富的文件列表、上传、下载、对比、同步以及批量操作等。</p>
+
+<blockquote>
+  <p>虽然百度网盘Python客户端提供很大的便利，但是我强烈不建议将一些重要数据放到百度云盘</p>
+</blockquote>
+
+<h2 id="实验目的">实验目的</h2>
+
+<p>数据库备份文件自动上传到百度网盘</p>
+
+<h2 id="环境依赖">环境依赖</h2>
+
+<ul>
+  <li>Python 2.7 or 3.0 以上</li>
+  <li>Encoding UTF-8</li>
+</ul>
+
+<h2 id="python-环境">Python 环境</h2>
+
+<p>首先使用<code class="language-plaintext highlighter-rouge">python -V</code>检查你的Python版本，如果你的版本是2.7或以上，那么就不需要做任何操作，可以直接安装bypy，但是如果你像我一样多数是CentOS 6.x 那么就需要先升级Python版本。我这里是将Python升级到2.7。</p>
+
+<h3 id="install-python-27">Install Python 2.7</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check current Python version</span>
+➜  ~ python <span class="nt">-V</span>
+Python 2.6.6
+
+<span class="c"># Download python 2.7.13 or new packge.</span>
+➜  ~ wget http://www.python.org/ftp/python/2.7.13/Python-2.7.13.tar.xz
+
+<span class="c"># Extract and change in</span>
+➜  ~ <span class="nb">tar </span>xf Python-2.7.13.tar.xz
+➜  ~ <span class="nb">cd </span>Python-2.7.13
+
+<span class="c"># Run the configure:</span>
+➜  Python-2.7.13 ./configure <span class="nt">--prefix</span><span class="o">=</span>/usr/local
+
+<span class="c"># Compile and install it:</span>
+➜  Python-2.7.13 make <span class="o">&amp;&amp;</span> make altinstall
+
+<span class="c"># Check Python Version</span>
+➜  Python-2.7.13 python2.7 <span class="nt">-V</span>
+Python 2.7.13
 </code></pre></div></div>
-<h3 id="2-输入您当前的用户名和新密码"><strong>2. 输入您当前的用户名和新密码</strong></h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$UserName = "指定用户名"
-$Password = "指定密码"
 
-$PrivateConfig = '{"username":"'+ $UserName + '", "password":"' +  $Password + '"}'
+<p>虽然Python2.7已经安装成功了，但是默认的Python仍然是2.6版本，所以我们要替换默认Python命令指到2.7</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update bin python to python2.7</span>
+➜  ~ ll /usr/bin/python /usr/local/bin/python2.7
+➜  ~ ll /usr/bin/python-config /usr/local/bin/python2.7-config
+➜  ~ python <span class="nt">-V</span>
+Python 2.7.13
 </code></pre></div></div>
-<h3 id="3-开始执行"><strong>3. 开始执行</strong></h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ExtensionName = 'VMAccessForLinux'
-$Publisher = 'Microsoft.OSTCExtensions'
-$Version =  '1.0'
 
-Set-AzureVMExtension -ExtensionName $ExtensionName -VM  $vm -Publisher $Publisher -Version $Version -PrivateConfiguration $PrivateConfig | Update-AzureVM
+<h3 id="can-not-use-yum-">Can not use Yum ?</h3>
 
+<p>因为<code class="language-plaintext highlighter-rouge">yum</code>必须要使用Python2.6 ，所以当升级成功之后，发现yum无法使用，这时我们要稍微修改下：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ which-command yum
+/usr/bin/yum
+
+<span class="c">#Update frist line "#!/usr/bin/python" to "#!/usr/bin/python2.6"</span>
+➜  ~ vim /usr/bin/yum
+</code></pre></div></div>
+
+<h2 id="安装bypy">安装<code class="language-plaintext highlighter-rouge">bypy</code></h2>
+
+<h5 id="install-setuptools--requests">Install Setuptools &amp; requests</h5>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ wget <span class="nt">--no-check-certificate</span> https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz
+<span class="nb">tar </span>xf setuptools-1.4.2.tar.gz
+➜  ~ python setup.py <span class="nb">install</span>
+
+➜  ~ pip2.7 <span class="nb">install </span>requests
+</code></pre></div></div>
+
+<h3 id="clone---install">Clone &amp;  Install</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ git clone https://github.com/houtianze/bypy.git
+➜  ~ <span class="nb">cd </span>bypy
+➜  bypy git:<span class="o">(</span>master<span class="o">)</span> python setup.py <span class="nb">install</span>
+</code></pre></div></div>
+
+<p>如果安装失败，注意看报错，是否缺少Python依赖包，或者版本不对</p>
+
+<h3 id="基本操作">基本操作</h3>
+
+<p>在成功安装完成之后，以下需要注意：</p>
+
+<h4 id="授权">授权</h4>
+
+<p>首次安装之后，需要进行授权，只需要运行任何一个命令都可以，例如<code class="language-plaintext highlighter-rouge">bypy info</code>，然后根据提示，打开网页登录你的百度网盘账号，取得授权码，即可。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/2grhz.png" alt="" /></p>
+
+<p>复制上图中的链接到你的浏览器中，打开可以看到百度API授权页面，如下图，将授权码粘贴到命令行，然后回车等待验证通过即可。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/9zhdm.png" alt="" /></p>
+
+<p>然后再次运行命令时，就不需要进行身份验证了</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost bypy]# bypy info
+Quota: 6.103TB
+Used: 180.074GB
+</code></pre></div></div>
+
+<p>你可以看到我的百度网盘有6.103TB的空间，已经使用了180.074GB</p>
+
+<h4 id="常用操作">常用操作</h4>
+
+<p>由于百度PCS API权限限制，程序只能存取百度云端/apps/bypy目录下面的文件和目录。通过以下链接可以打开你的bypy默认路径：</p>
+
+<p>https://pan.baidu.com/disk/home#list/vmode=list&amp;path=%2Fapps%2Fbypy</p>
+
+<h4 id="查看">查看</h4>
+
+<p>我在百度网盘内增加了一个v6的文件夹，对应我服务器名称，这是我在服务器内利用命令即可看到。</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost bypy]# bypy list
+/apps/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
+D v6 0 2017-06-02, 10:28:41
+</code></pre></div></div>
+
+<h4 id="创建文件夹">创建文件夹</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy <span class="nb">mkdir </span>v6/bypy
+<span class="o">[</span>root@localhost ~]# bypy list v6
+/apps/bypy/v6 <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
+D bypy 0 2017-06-02, 10:35:53
+</code></pre></div></div>
+
+<h4 id="上传">上传</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy upload bypy.tgz
+<span class="o">[</span>root@localhost ~]# bypy list
+/apps/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
+D v6 0 2017-06-02, 10:28:41
+D v6_1 0 2017-06-02, 10:34:52
+F bypy.tgz 2867963 2017-06-02, 10:37:30 aa4160cdbf2f4eca9baf0fcd395241fe
+</code></pre></div></div>
+
+<h4 id="本地同步到百度网盘">本地同步到百度网盘</h4>
+
+<p>使用<code class="language-plaintext highlighter-rouge">syncup</code>参数将本地目录文件同步到百度网盘</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy syncup ./bypy v6/bypy
+<span class="o">[</span>root@localhost ~]# bypy list v6/bypy
+/apps/bypy/v6/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
+D .git 0 2017-06-02, 10:45:31
+D baidudoc 0 2017-06-02, 10:44:50
+D build 0 2017-06-02, 10:45:11
+D bypy 0 2017-06-02, 10:45:54
+D bypy.egg-info 0 2017-06-02, 10:45:00
+D dist 0 2017-06-02, 10:44:54
+D update 0 2017-06-02, 10:45:08
+F .editorconfig 277 2017-06-02, 10:45:08 d9f71b00f908626ae68da571ca47cbe2
+F .gitignore 484 2017-06-02, 10:45:00 833d8511a69044a1f1c6e0fe4b3c3117
+F .travis.yml 628 2017-06-02, 10:44:58 9f377251309ced0a55548c18896ebd7a
+F CONTRIBUTING.md 683 2017-06-02, 10:44:52 f5e8a568937039e5853613ff0fe296ee
+F genrst.py 129 2017-06-02, 10:45:30 4565eddf226c2e8bed73d2c30dfae9f3
+F HISTORY.md 2542 2017-06-02, 10:45:11 16605670a55a3dd9768d4c862543eac4
+F HISTORY.rst 2639 2017-06-02, 10:44:57 7215fbd0a3be667fd7f9fda14f06c1a9
+F LICENSE 1078 2017-06-02, 10:44:59 ebd1a0c53ea3046f505b995629faf8fb
+F MANIFEST.in 116 2017-06-02, 10:44:50 c98e18e65329b318f13abd031a4397c4
+F README.md 6276 2017-06-02, 10:46:15 d4b88fd543d93c6b63863d28f5c4e716
+F release.sh 1795 2017-06-02, 10:45:53 c086eb283e9554bbcd23daf0888e2819
+F requirements.txt 42 2017-06-02, 10:44:54 28b314f2f2d2ed79957a7a7e6d3f7c17
+F setup.cfg 70 2017-06-02, 10:45:11 b23579970dcedbcaeaaa00636d601335
+F setup.py 2377 2017-06-02, 10:44:58 34d63d5143ab02d3db7808321a7f9df4
+<span class="o">[</span>root@localhost ~]# bypy syncup ./bypy v6/bypy
+<span class="o">[</span>root@localhost ~]#
+</code></pre></div></div>
+
+<h4 id="搜索">搜索</h4>
+
+<p><code class="language-plaintext highlighter-rouge">bypy</code> 同样支持搜索，根据文件名检索，自动递归所有目录</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy search release.sh
+Found:
+F /apps/bypy/v6/bypy/release.sh 1795 2017-06-02, 10:45:53 2017-06-02, 10:45:53 c086eb283e9554bbcd23daf0888e2819
+</code></pre></div></div>
+
+<h4 id="比较本地与百度网盘">比较本地与百度网盘</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 先删除本地一个文件</span>
+<span class="o">[</span>root@localhost ~]# <span class="nb">rm</span> ./bypy/release.sh
+
+<span class="c"># 对比</span>
+<span class="o">[</span>root@localhost ~]# bypy compare v6/bypy ./bypy
+<span class="o">====</span> Same files <span class="o">===</span>
+F - MANIFEST.in
+... omit ...
+F - bypy/monkey.py
+F - README.md
+<span class="o">====</span> Different files <span class="o">===</span>
+<span class="o">====</span> Local only <span class="o">====</span>
+<span class="o">====</span> Remote only <span class="o">====</span>
+F - release.sh
+
+Statistics:
+<span class="nt">--------------------------------</span>
+Same: 131
+Different: 0
+Local only: 0
+Remote only: 1
+</code></pre></div></div>
+
+<p>通过以上可以看到，相同文件131，远程目录多了一个文件。</p>
+
+<h4 id="其他">其他</h4>
+
+<p><code class="language-plaintext highlighter-rouge">bypy</code>支持的操作很多，使用<code class="language-plaintext highlighter-rouge">bypy help</code>即可以看到，若要调试，使用以下参数可以打开对应调试信息：</p>
+
+<ul>
+  <li>运行时添加<code class="language-plaintext highlighter-rouge">-v</code>参数，会显示进度详情。</li>
+  <li>运行时添加<code class="language-plaintext highlighter-rouge">-d</code>，会显示一些调试信息。</li>
+  <li>运行时添加<code class="language-plaintext highlighter-rouge">-ddd</code>，还会会显示HTTP通讯信息（<strong>警告：非常多</strong>）</li>
+</ul>
+
+<h2 id="数据库备份自动上传到百度网盘">数据库备份自动上传到百度网盘</h2>
+
+<p>之前也写过很多关于Mysql备份的文章，如果要详细查看，请打开以下链接：<a href="https://samzong.me/categories/MySQL/">分类MySQL</a></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># create back script.</span>
+<span class="o">[</span>root@localhost ~]# <span class="nb">touch </span>mysql_back.sh
+
+<span class="c"># add executable permissions</span>
+<span class="o">[</span>root@localhost ~]# <span class="nb">chmod</span> +x mysql_back.sh
+
+<span class="o">[</span>root@localhost ~]# vim mysql_back.sh
+<span class="c">#!/bin/bash</span>
+<span class="c">#  </span>
+<span class="c"># backup mysqldump file to baidu yunPan</span>
+<span class="c"># filepath: /usr/local/bin/mysql_back.sh</span>
+<span class="c"># Author: samzong</span>
+<span class="c">#</span>
+
+<span class="k">function </span>upload_file<span class="o">(){</span>
+        <span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H%M%S"</span><span class="sb">`</span>
+        <span class="nv">folder</span><span class="o">=</span><span class="s2">"/mysqlbak"</span>
+        <span class="nv">filename</span><span class="o">=</span><span class="s2">"db_</span><span class="nv">$TIME</span><span class="s2">.sql"</span>
+        <span class="nv">filePath</span><span class="o">=</span><span class="nv">$folder</span>/<span class="nv">$filename</span>
+
+        <span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="nv">$filePath</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+                </span><span class="nb">echo</span> <span class="s2">"[ERROR]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] </span><span class="nv">$folder</span><span class="s2">/</span><span class="nv">$filename</span><span class="s2"> not found."</span>
+        <span class="k">else
+                </span><span class="nb">echo</span> <span class="s2">"[INFO]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] </span><span class="nv">$folder</span><span class="s2">/</span><span class="nv">$filename</span><span class="s2"> has been found. Start uploading ......"</span>
+                bypy upload <span class="s2">"</span><span class="nv">$filePath</span><span class="s2">"</span> <span class="s2">"v6/mysql_backup/</span><span class="nv">$filename</span><span class="s2">"</span>
+                <span class="nb">echo</span> <span class="s2">"[INFO]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] Uploading end."</span>
+        <span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="c">#  set TIME variable</span>
+<span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H%M%S"</span><span class="sb">`</span>
+
+<span class="c"># backup db ghost to /mysqlbak/</span>
+mysqldump <span class="nt">--single-transaction</span> <span class="nt">-h</span> localhost <span class="nt">-u</span> ghost_backuser <span class="nt">-pbackupPass</span> ghost  <span class="o">&gt;</span> /mysqlbak/db_<span class="nv">$TIME</span>.sql
+
+<span class="c"># tar sql file</span>
+<span class="nb">tar </span>czvf /mysqlbak/ghost_<span class="nv">$TIME</span>.sql.tgz /mysqlbak/ghost_<span class="nv">$TIME</span>.sql <span class="nt">--remove-files</span>
+
+<span class="c"># upload sql file to baidu yunPan.</span>
+upload_file<span class="p">;</span>
+
+<span class="c"># send mial to admin'mial</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"ghost SQL dump is successfully. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-successfully  samzong.lu@gmail.com
+<span class="k">else
+    </span><span class="nb">echo</span> <span class="s2">" Error Error ghost SQL dump is Error. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-error samzong.lu@gmail.com
+<span class="k">fi</span>
+</code></pre></div></div>
+
+<h2 id="添加计划任务">添加计划任务</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ~ crontab <span class="nt">-e</span>
+00 00 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> sh /usr/local/bin/mysql_back.sh
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-06-02</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2017/05/%E6%88%91%E6%9D%A5%E5%88%B0%E8%BF%99%E4%B8%96%E4%B8%8A.html">我来到这世上</a></h1>
+    <div class="post_at_index">
+      <hr />
+
+<p>我也没有等你，只是还没找不到一个比你还让我更喜欢的人。</p>
+
+<hr />
+
+<p><a href="https://www.zhihu.com/question/25401683/answer/157581428">知乎</a> @七万</p>
+
+<p>苦涩困在胸中，日夜锥心刺骨，却如鲠在喉。</p>
+
+<p>有人说：“你不必等我。”</p>
+
+<p>我觉得话已经说的很明白了，
+再多问一句，都是作践自己。</p>
+
+<p>我到底还是喜欢的，可是喜欢的情绪从心里涌出嘴的时候，自尊就会死死的掐着脖子，根本不能说话，能好好呼吸都是享受。</p>
+
+<p>我得自己走了，谢谢你带我来山顶看烟花。</p>
+
+<p>你说，这事儿得怪谁呢？</p>
+
+<p>该怨你吗？怨字说不口。
+终究是我一个人的梦，没理由非得拽你一起圆。</p>
+
+<p>该怨我吗？实在是不忍心。
+我心里住了两个小人儿。
+一个跪在地上，涕零如雨，边哭边求。
+另一个站他旁边，气冲斗牛，边骂边羞。
+它们撕扯着我，片刻不停。</p>
+
+<p>真他妈难受。</p>
+
+<p>最后还是得走啊。来生，要是有来生。
+我就做你的影子吧，你不必一定爱我，你也赶不走我。
+或者做你手边的一本书，咱们能心平气和的聊聊天。
+再不济就做你床头柜里的成人玩具，你知我长短，我知你深浅……
+这辈子，是什么都不行了。</p>
+
+<p>小的时候，觉得女儿国国王就是个小贱婊，
+妈的，勾搭大和尚！各种挽留，留你妈哔啊，赶紧让人办正事去得了。</p>
+
+<p>长大后才知道，
+这个电视剧里最可怜的不是历尽艰险的唐僧，
+不是一次又一次被赶走的孙猴儿，
+不是被傲娇玉帝罚的一脸懵逼的凤仙郡百姓，
+不是那群刚出场就被孙悟空打死的智障炮灰，
+是女儿国王啊，
+这娘们把能给的都给出去了，那和尚瞅都没瞅，一句女施主请自重，断绝了她所有的念想。</p>
+
+<p>唉，你没来之前我也是个要脸的人啊。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-05-20</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2017/05/Wannacry%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E4%BA%8B%E4%BB%B6%E5%8F%8A%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%A1%88.html">Wannacry蠕虫病毒事件及修复方案</a></h1>
+    <div class="post_at_index">
+      <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/3d0jo.png" alt="" /></p>
+
+<h3 id="事件背景">事件背景</h3>
+
+<p>5月12日晚， WannaCry 蠕虫病毒在全球大肆爆发。据BBC、CNN等媒体报道，恶意攻击者利用 NSA（美国国家安全局）泄露的 Windows 0day 利用工具对99个国家实施了超过75000次攻击，主要影响SMB和RDP服务，主要影响了137、138、139、445端口。</p>
+
+<p>目前已知已知的Windows版本包括但不限于一下都受影响：</p>
+
+<ul>
+  <li>Windows NT</li>
+  <li>Windows 2000</li>
+  <li>Windows XP</li>
+  <li>Windows 2003</li>
+  <li>Windows Vista</li>
+  <li>Windows 7</li>
+  <li>Windows 8</li>
+  <li>Windows 10</li>
+  <li>Windows 2008</li>
+  <li>Windows 2008 R2</li>
+  <li>Windows Server 2012 SP0</li>
+</ul>
+
+<p>勒索者源头来自暗网，攻击具备兼容性、多语言支持，多个行业受到影响，国内高校网络系统沦为感染重灾区。据有关机构统计，目前国内每天有数万台机器遭到该蠕虫病毒袭击，国内的ATM机、火车站、自助终端、邮政、医院、政府办事终端、视频监控都可能遭受攻击。据报道，今日全国多地的中石油加油站无法进行网络支付，只能进行现金支付。中石油有关负责人表示，怀疑受到病毒攻击，具体情况还在核查。而截至目前，一些公安系统已经遭到入侵。</p>
+
+<p>如果你也遇到了这样的问题，请不要担心，我在下面给出了如何修复这个漏洞的建议。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/9y7cc.jpg" alt="" /></p>
+
+<h3 id="什么是比特币蠕虫病毒">什么是比特币蠕虫病毒？</h3>
+
+<p>这次攻击的始作俑者是一款名为“WannaCry”（中文名：想哭）的勒索病毒，带有加密功能，它利用 Windows 在 445 端口的安全漏洞潜入电脑并对多种文件类型加密并添加后缀(.onion)使用户无法打开，用户电脑存在文档被加密的情况，攻击者称需支付比特币解锁。(比特币是一种全球通用的互联网加密货币)</p>
+
+<h3 id="漏洞验证">漏洞验证</h3>
+
+<ol>
+  <li>
+    <p>使用<code>Win</code>+<code>R</code>按键打开运行窗口，输入cmd，进入命令行工具，然后输入<code>netstat -an</code> 查看是否开放了对应的端口。</p>
+
+    <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/3m1jm.png" alt="" /></p>
+
+    <p>上图中的服务器就是开放了445端口，这有很大的风险可能会WannaCry 蠕虫病毒被攻击到，所以我们应该关掉对应端口，并修复漏洞。</p>
+
+    <h3 id="漏洞修复">漏洞修复</h3>
+
+    <ol>
+      <li>目前微软已发布补丁MS17-010修复了“永恒之蓝”攻击的系统漏洞，请尽快为电脑安装此补丁，网址为<a href="https://laod.cn/go.php?url=https://technet.microsoft.com/zh-cn/library/security/MS17-010">https://technet.microsoft.com/zh-cn/library/security/MS17-010</a></li>
+      <li>对于XP、2003等微软已不再提供安全更新的机器，推荐使用360“NSA武器库免疫工具”检测系统是否存在漏洞，并关闭受到漏洞影响的端口，可以避免遭到勒索软件等病毒的侵害，可以在360电脑安全管家中找到。</li>
+      <li>开启系统防火墙，利用系统防火墙的“高级设置”阻止外部对 445 端口进的访问（存在一定影响，该操作会影响使用 445 端口的服务）。</li>
+    </ol>
+  </li>
+</ol>
+
+<h3 id="修复脚本">修复脚本</h3>
+
+<p>如果以上方式都不能修复漏洞，大家可以使用我以下的批处理脚本文件来尝试关闭端口及服务，批处理禁用该漏洞可能利用到的端口，全版本通用，右键管理员启动即可，注意这需要打开Windows的防火墙。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>net stop SCardSvr
+net stop SCPolicySvc
+sc config SCardSvr <span class="nv">start</span><span class="o">=</span>disabled
+sc config SCPolicySvc <span class="nv">start</span><span class="o">=</span>disabled
+net start MpsSvc
+sc config MpsSvc <span class="nv">start</span><span class="o">=</span>auto
+netsh advfirewall <span class="nb">set </span>allprofiles state on
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny udp 137"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>udp <span class="nv">localport</span><span class="o">=</span>137 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny tcp 137"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>tcp <span class="nv">localport</span><span class="o">=</span>137 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny udp 138"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>udp <span class="nv">localport</span><span class="o">=</span>138 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny tcp 138"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>tcp <span class="nv">localport</span><span class="o">=</span>138 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny udp 139"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>udp <span class="nv">localport</span><span class="o">=</span>139 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny tcp 139"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>tcp <span class="nv">localport</span><span class="o">=</span>139 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny udp 445"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>udp <span class="nv">localport</span><span class="o">=</span>445 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny tcp 445"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>tcp <span class="nv">localport</span><span class="o">=</span>445 <span class="nv">action</span><span class="o">=</span>block
+pause
+</code></pre></div></div>
+
+<p>我已经将脚本上传到百度云盘中，大家可以自行下载运行，注意解压缩Zip包之后的fix_WannaCry.bat</p>
+
+<p>下载链接：https://pan.baidu.com/s/1gfceNRH</p>
+
+<h3 id="添加防火规则">添加防火规则</h3>
+
+<ol>
+  <li>
+    <p>打开控制面板中的Windows防火墙，并保证防火墙处于启用状态；</p>
+  </li>
+  <li>
+    <p>打开防火墙的高级设置；</p>
+  </li>
+  <li>
+    <p>在“入站规则”中新建一条规则，本地端口号选择445，操作选择阻止连接。</p>
+
+    <p><img src="https://pic3.zhimg.com/v2-85f14330cdba1fbf89369b26b9e48f52_b.png" alt="" /></p>
+
+    <p><img src="https://pic2.zhimg.com/v2-1bbe08395ec8ef8d0e2028cbccb01055_b.png" alt="" /></p>
+  </li>
+</ol>
+
+<h3 id="手动导入安全策略">手动导入安全策略</h3>
+
+<p>下载策略文件</p>
+
+<p>https://share.weiyun.com/15b7bbd3f86c493a66721dd948a81c54</p>
+
+<p>打开控制面板–管理工具-本地安全策略–IP安全策略 –&gt;所有任务–&gt;导入策略：</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/hj9f4.jpg" alt="" /></p>
+
+<p>或者，通过<code>Win</code>+<code>R</code>，输入<code>gpedit.msc</code></p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/9vsqx.jpg" alt="" /></p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/tosjk.jpg" alt="" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-05-15</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Windows">Windows</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2017/04/CentOS%E5%A2%9E%E5%8A%A0%E6%96%B0%E7%A1%AC%E7%9B%98%E7%BB%99%E6%A0%B9%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%89%A9%E5%AE%B9.html">CentOS增加新硬盘给根文件系统扩容</a></h1>
+    <div class="post_at_index">
+      <p>由于刚开始做磁盘空间规划时，失误给根分区分配磁盘较小，导致后续实验环境无法进行，所以在经过研究后，决定尝试增加根分区的磁盘空间，注意这仅适用于创建在LVM上的文件系统。</p>
+
+<h3 id="实验环境">实验环境</h3>
+
+<ul>
+  <li>Parallels Desktop 12</li>
+  <li>CentOS 6.9</li>
+  <li>根分区空间 6.5GB</li>
+  <li>已使用 5.8GB</li>
+  <li>预计 增加12G 磁盘空间</li>
+</ul>
+
+<!-- more -->
+
+<h3 id="增加一块物理磁盘">增加一块物理磁盘</h3>
+
+<p>Parallels Desktop 不能在线增加磁盘，所以要先将VM关闭，然后添加：
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/m5e1d.jpg" alt="" />
+增加12G的磁盘
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/prgyd.jpg" alt="" /></p>
+
+<p>然后启动VM，这时可以通过<code>fdisk -l</code>查看当前已经增加了一块12G的磁盘</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/tat9r.jpg" alt="" /></p>
+
+<h3 id="格式化磁盘并加入到vgroup组内">格式化磁盘并加入到VGroup组内</h3>
+
+<h4 id="查看当前pvdisplay磁盘列表将devsdb创建pv块">查看当前<code>pvdisplay</code>磁盘列表，将<code>/dev/sdb</code>创建pv块</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# pvdisplay
+  <span class="nt">---</span> Physical volume <span class="nt">---</span>
+  PV Name               /dev/sda2
+  VG Name               vg_hadoop01
+  PV Size               7.51 GiB / not usable 3.00 MiB
+  Allocatable           <span class="nb">yes</span> <span class="o">(</span>but full<span class="o">)</span>
+  PE Size               4.00 MiB
+  Total PE              1922
+  Free PE               0
+  Allocated PE          1922
+  PV UUID               MUCrDa-eJpZ-EXwE-YwwM-S2Az-p2m7-K9q3Fo
+
+<span class="o">[</span>root@centos ~]# pvcreate /dev/sdb
+  Physical volume <span class="s2">"/dev/sdb"</span> successfully created
+<span class="o">[</span>root@centos ~]# pvdisplay
+  <span class="nt">---</span> Physical volume <span class="nt">---</span>
+  PV Name               /dev/sda2
+  VG Name               vg_hadoop01
+  PV Size               7.51 GiB / not usable 3.00 MiB
+  Allocatable           <span class="nb">yes</span> <span class="o">(</span>but full<span class="o">)</span>
+  PE Size               4.00 MiB
+  Total PE              1922
+  Free PE               0
+  Allocated PE          1922
+  PV UUID               MUCrDa-eJpZ-EXwE-YwwM-S2Az-p2m7-K9q3Fo
+
+  <span class="nt">---</span> Physical volume <span class="nt">---</span>
+  PV Name               /dev/sdb
+  VG Name               vg_hadoop01
+  PV Size               12.00 GiB / not usable 4.00 MiB
+  Allocatable           <span class="nb">yes
+  </span>PE Size               4.00 MiB
+  Total PE              3071
+  Free PE               3071
+  Allocated PE          0
+  PV UUID               XTpaBR-512W-vQIV-fwwz-So7L-ZCa3-yjDccQ
+</code></pre></div></div>
+
+<h4 id="查看当前vgdisplayvgroup组将devsdb加入根目录所在vgroup">查看当前<code>vgdisplay</code>VGroup组，将<code>/dev/sdb</code>加入根目录所在VGroup</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# vgdisplay
+  <span class="nt">---</span> Volume group <span class="nt">---</span>
+  VG Name               vg_hadoop01
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  3
+  VG Access             <span class="nb">read</span>/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                2
+  Open LV               2
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               7.51 GiB
+  PE Size               4.00 MiB
+  Total PE              1922
+  Alloc PE / Size       1922 / 7.51 GiB
+  Free  PE / Size       0 / 0
+  VG UUID               szQ4fH-Sr1Z-V6c2-KVMp-ZUik-oUDP-rU8dQS
+
+<span class="o">[</span>root@centos ~]# vgextend vg_hadoop01 /dev/sdb
+  Volume group <span class="s2">"vg_hadoop01"</span> successfully extended
+<span class="o">[</span>root@centos ~]# vgdisplay
+  <span class="nt">---</span> Volume group <span class="nt">---</span>
+  VG Name               vg_hadoop01
+  System ID
+  Format                lvm2
+  Metadata Areas        2
+  Metadata Sequence No  4
+  VG Access             <span class="nb">read</span>/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                2
+  Open LV               2
+  Max PV                0
+  Cur PV                2
+  Act PV                2
+  VG Size               19.50 GiB
+  PE Size               4.00 MiB
+  Total PE              4993
+  Alloc PE / Size       1922 / 7.51 GiB
+  Free  PE / Size       3071 / 12.00 GiB
+  VG UUID               szQ4fH-Sr1Z-V6c2-KVMp-ZUik-oUDP-rU8dQS
+</code></pre></div></div>
+
+<h4 id="查看lvdisplay根卷的名称将磁盘加入根卷的lv">查看<code>lvdisplay</code>根卷的名称，将磁盘加入根卷的LV</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@centos ~]# lvdisplay
+  --- Logical volume ---
+  LV Path                /dev/vg_hadoop01/lv_root
+  LV Name                lv_root
+  VG Name                vg_hadoop01
+  LV UUID                tJDetu-Theq-BQ5g-3ZFe-Gan7-1SSv-OHeYrH
+  LV Write Access        read/write
+  LV Creation host, time hadoop01, 2017-04-18 07:09:58 +0800
+  LV Status              available
+  # open                 1
+  LV Size                6.71 GiB
+  Current LE             1718
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:0
+
+  --- Logical volume ---
+  LV Path                /dev/vg_hadoop01/lv_swap
+  LV Name                lv_swap
+  VG Name                vg_hadoop01
+  LV UUID                D4K7I6-tPO0-HMbC-VWkR-2HV4-WjAe-M82wYq
+  LV Write Access        read/write
+  LV Creation host, time hadoop01, 2017-04-18 07:09:59 +0800
+  LV Status              available
+  # open                 1
+  LV Size                816.00 MiB
+  Current LE             204
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:1
+
+[root@centos ~]# lvextend -l +100%FREE /dev/vg_hadoop01/lv_root
+  Size of logical volume vg_hadoop01/lv_root changed from 6.71 GiB (1718 extents) to 18.71 GiB (4789 extents).
+  Logical volume lv_root successfully resized.
+[root@centos ~]# lvdisplay
+  --- Logical volume ---
+  LV Path                /dev/vg_hadoop01/lv_root
+  LV Name                lv_root
+  VG Name                vg_hadoop01
+  LV UUID                tJDetu-Theq-BQ5g-3ZFe-Gan7-1SSv-OHeYrH
+  LV Write Access        read/write
+  LV Creation host, time hadoop01, 2017-04-18 07:09:58 +0800
+  LV Status              available
+  # open                 1
+  LV Size                18.71 GiB
+  Current LE             4789
+  Segments               2
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:0
+
+  --- Logical volume ---
+  LV Path                /dev/vg_hadoop01/lv_swap
+  LV Name                lv_swap
+  VG Name                vg_hadoop01
+  LV UUID                D4K7I6-tPO0-HMbC-VWkR-2HV4-WjAe-M82wYq
+  LV Write Access        read/write
+  LV Creation host, time hadoop01, 2017-04-18 07:09:59 +0800
+  LV Status              available
+  # open                 1
+  LV Size                816.00 MiB
+  Current LE             204
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:1
+</code></pre></div></div>
+
+<h3 id="更新磁盘分区表">更新磁盘分区表</h3>
+
+<p>当你增加完成之后，这时使用<code>df -h</code>查看的磁盘空间仍然没有变化，因为我们还需要将根卷的分区表刷新。</p>
+
+<h4 id="使用resize2fs刷新根卷信息">使用<code>resize2fs</code>刷新根卷信息</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@centos ~]# resize2fs /dev/vg_hadoop01/lv_root
+resize2fs 1.41.12 (17-May-2010)
+Filesystem at /dev/vg_hadoop01/lv_root is mounted on /; on-line resizing required
+old desc_blocks = 1, new_desc_blocks = 2
+Performing an on-line resize of /dev/vg_hadoop01/lv_root to 4903936 (4k) blocks.
+The filesystem on /dev/vg_hadoop01/lv_root is now 4903936 blocks long.
+
+[root@centos ~]# df -h
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/mapper/vg_hadoop01-lv_root
+                       19G  5.8G   12G  33% /
+tmpfs                 244M     0  244M   0% /dev/shm
+/dev/sda1             477M   52M  400M  12% /boot
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-04-18</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#LVM">LVM</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2017/04/HowTo-Install-GitLab.html">HowTo Install GitLab</a></h1>
+    <div class="post_at_index">
+      <p>目前最为主流的在线Git版本控制系统可以说是非GitHub莫属，对于个人开发者和开源项目可以直接选择GitHub作为Git版本控制系统即可，但是，对于企业内部开发管理的Git版本控制系统，在对保密性有高要求时GitHub就不合适了，这时GitLab作为一个可以完全搭建在企业内部的Git版本控制系统，而且基本囊括了GitHub的所有功能。</p>
+
+<h4 id="目前gitlab已经整合的功能">目前GitLab已经整合的功能</h4>
+
+<ol>
+  <li>Repository access</li>
+  <li>Administration</li>
+  <li>Issues</li>
+  <li>Forks</li>
+  <li>Code review</li>
+  <li>Wiki</li>
+  <li>Merge Requests</li>
+  <li>Web Editor</li>
+</ol>
+
+<h4 id="测试环境">测试环境</h4>
+
+<ul>
+  <li>2 core 4GB</li>
+  <li>50GB HDD</li>
+  <li>CentOS 6.8</li>
+  <li>Gitlab</li>
+</ul>
+
+<h4 id="安装需求">安装需求</h4>
+
+<p>关于GitLab的安装需求，主要是针对用户量然后评估出服务器及相关资源的配置，<a href="https://docs.gitlab.com.cn/ce/install/requirements.html">查看</a></p>
+
+<h3 id="gitlab-安装"><strong>GitLab 安装</strong></h3>
+
+<h4 id="安装配置依赖项">安装配置依赖项</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install curl openssh-server openssh-clients postfix cronie
+sudo service postfix start
+sudo chkconfig postfix on
+sudo lokkit -s http -s ssh
+</code></pre></div></div>
+
+<h4 id="添加gitlab仓库并安装到服务器上">添加GitLab仓库,并安装到服务器上</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -sS http://packages.gitlab.cc/install/gitlab-ce/script.rpm.sh | sudo bash
+sudo yum install gitlab-ce
+</code></pre></div></div>
+
+<h4 id="启动gitlab并初始化">启动GitLab并初始化</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo gitlab-ctl reconfigure
+</code></pre></div></div>
+
+<p>默认登录账号是：<strong>root</strong> ，你可以在首次打开时设置密码。</p>
+
+<h3 id="gitlab-初始化"><strong>GitLab 初始化</strong></h3>
+
+<h4 id="开机自启动">开机自启动</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> vi /etc/rc.local
+ /opt/gitlab/bin/gitlab-ctl start
+</code></pre></div></div>
+
+<h4 id="gitlab-配置文件">GitLab 配置文件</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/gitlab/gitlab.rb
+</code></pre></div></div>
+
+<h4 id="smtp-邮箱配置">SMTP 邮箱配置</h4>
+
+<p>如果想使用SMTP代替sendmail来发送邮件，应该在gitlab.rb中启用对应的配置，然后运行<code class="language-plaintext highlighter-rouge">gitlab-ctl reconfigure</code>使修改生效。</p>
+
+<h5 id="qq企业邮箱配置示例">QQ企业邮箱配置示例</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails['smtp_enable'] = true
+gitlab_rails['smtp_address'] = "smtp.exmail.qq.com"
+gitlab_rails['smtp_port'] = 465
+gitlab_rails['smtp_user_name'] = "xxxx@xx.com"
+gitlab_rails['smtp_password'] = "password"
+gitlab_rails['smtp_authentication'] = "login"
+gitlab_rails['smtp_enable_starttls_auto'] = true
+gitlab_rails['smtp_tls'] = true
+gitlab_rails['gitlab_email_from'] = 'xxxx@xx.com'
+</code></pre></div></div>
+
+<h5 id="gmail邮箱配置示例">Gmail邮箱配置示例</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails['smtp_enable'] = true
+gitlab_rails['smtp_address'] = "smtp.gmail.com"
+gitlab_rails['smtp_port'] = 587
+gitlab_rails['smtp_user_name'] = "my.email@gmail.com"
+gitlab_rails['smtp_password'] = "my-gmail-password"
+gitlab_rails['smtp_domain'] = "smtp.gmail.com"
+gitlab_rails['smtp_authentication'] = "login"
+gitlab_rails['smtp_enable_starttls_auto'] = true
+gitlab_rails['smtp_tls'] = false
+gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+</code></pre></div></div>
+
+<h5 id="outlook邮箱配置示例">Outlook邮箱配置示例</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails['smtp_enable'] = true
+gitlab_rails['smtp_address'] = "smtp-mail.outlook.com"
+gitlab_rails['smtp_port'] = 587
+gitlab_rails['smtp_user_name'] = "username@outlook.com"
+gitlab_rails['smtp_password'] = "password"
+gitlab_rails['smtp_domain'] = "smtp-mail.outlook.com"
+gitlab_rails['smtp_authentication'] = "login"
+gitlab_rails['smtp_enable_starttls_auto'] = true
+gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
 </code></pre></div></div>
 
 <blockquote>
-  <p><strong>Setup2:</strong> 如果是由于错误修改了SSH的配置文件导致无法登录，例如在登录时报错：This service allows sftp connections only.Connection to vm closed.这是因为错误配置了sftp导致的，那碰到这种问题需要做的是重置ssh服务。</p>
+  <p>​:warning: ‘smtp_password’字段不应包含任何 Ruby或者YAML语法中的分隔符 (如<code class="language-plaintext highlighter-rouge">'</code>),以避免处理配置文件的过程中发生不必要的意外。</p>
 </blockquote>
 
-<h3 id="1-指定虚拟机-1"><strong>1. 指定虚拟机</strong></h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$vm = Get-AzureVM -ServiceName 'MyServiceName' -Name 'MyVMName'
-$PrivateConfig = '{"reset_ssh":"True"}''
-</code></pre></div></div>
-<h3 id="2-开始执行"><strong>2. 开始执行</strong></h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ExtensionName = 'VMAccessForLinux'
-$Publisher = 'Microsoft.OSTCExtensions'
-$Version =  '1.0'
+<h4 id="gitlab-日常维护">GitLab 日常维护</h4>
 
-Set-AzureVMExtension -ExtensionName $ExtensionName -VM  $vm -Publisher $Publisher -Version $Version -PrivateConfiguration $PrivateConfig | Update-AzureVM
+<h5 id="1-查看服务状态">1. 查看服务状态</h5>
+
+<p>使用 gitlab-ctl status 查看服务状态</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@6 ~]# sudo gitlab-ctl status
+run: gitaly: (pid 15055) 23089s; run: log: (pid 3142) 55379s
+run: gitlab-monitor: (pid 15060) 23088s; run: log: (pid 3325) 55357s
+run: gitlab-workhorse: (pid 15063) 23088s; run: log: (pid 3156) 55377s
+run: logrotate: (pid 17867) 1487s; run: log: (pid 3197) 55369s
+run: nginx: (pid 15077) 23087s; run: log: (pid 3169) 55375s
+run: node-exporter: (pid 15083) 23087s; run: log: (pid 3247) 55366s
+run: postgres-exporter: (pid 15088) 23086s; run: log: (pid 3311) 55358s
+run: postgresql: (pid 15093) 23086s; run: log: (pid 2988) 55412s
+run: prometheus: (pid 15101) 23085s; run: log: (pid 3230) 55368s
+run: redis: (pid 15109) 23085s; run: log: (pid 2931) 55419s
+run: redis-exporter: (pid 15113) 23085s; run: log: (pid 3290) 55364s
+run: sidekiq: (pid 17029) 22450s; run: log: (pid 3131) 55380s
+run: unicorn: (pid 17001) 22460s; run: log: (pid 3100) 55386s
 </code></pre></div></div>
+
+<h5 id="2-启动关闭重启">2. 启动、关闭、重启</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 启动Gitlab所有组件
+sudo gitlab-ctl start
+
+# 停止Gitlab所有组件
+sudo gitlab-ctl stop
+
+# 重启Gitlab所有组件
+sudo gitlab-ctl restart
+
+# 重启单个组件
+sudo gitlab-ctl restart sidekiq
+</code></pre></div></div>
+
+<h5 id="3-控制台实时查看日志">3. 控制台实时查看日志</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 查看所有的logs; 按 Ctrl-C 退出
+sudo gitlab-ctl tail
+
+# 拉取/var/log/gitlab下子目录的日志
+sudo gitlab-ctl tail gitlab-rails
+
+# 拉取某个指定的日志文件
+sudo gitlab-ctl tail nginx/gitlab_error.log
+</code></pre></div></div>
+
+<h3 id="gitlab-安装后优化"><strong>GitLab 安装后优化</strong></h3>
+
+<h4 id="启用https">启用HTTPS</h4>
+
+<p>首先，你需要提供一个有可信任CA证书，默认情况下GitLab是没有启用HTTPS的，如果要启用HTTPS时，首先要修改<code>/etc/gitlab/gitlab.rb</code>中的<code>external_url</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 修改为https
+external_url "https://git.ultraera.org"
+
+# 设置默认将http重定向到https
+nginx['redirect_http_to_https'] = true
+</code></pre></div></div>
+
+<p>如果你暂时没有https证书，那么你可以临时自己颁发一个证书，注意这个证书是不受信任的。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir -p /etc/nginx/ssl/
+cd /etc/nginx/ssl/
+sudo openssl req -newkey rsa:2048 -x509 -nodes -days 3560 -out gitlab.crt -keyout gitlab.key
+sudo chmod o-r gitlab.key
+sudo mv gitlab.key gitlab.crt /etc/ssl/
+</code></pre></div></div>
+
+<p>另外，还需要在gitlab-shell中的config.yml中将self_signed_cert 修改为启用:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>self_signed_cert = true
+</code></pre></div></div>
+
+<h4 id="设置延迟启动">设置延迟启动</h4>
+
+<p>为保证服务质量，我们可以设置让omnibus-gitlab的服务(Nginx, Redis, Unicorn等) 在指定的文件系统挂载成功后再启动，在<code>/etc/gitlab/gitlab.rb</code> 文件中添加如下内容：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 等待/var/opt/gitlab 先被挂载
+high_availability['mountpoint'] = '/var/opt/gitlab'
+</code></pre></div></div>
+
+<blockquote>
+  <p>注意在修改配置之后，要使用重新reconfigure配置</p>
+</blockquote>
+
+<h4 id="backups-备份还原">Backups 备份还原</h4>
+
+<h5 id="备份">备份</h5>
+
+<p>Gitlab的配置也非常简单,使用一条命令即可创建完整的Gitlab备份:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab-rake gitlab:backup:create
+</code></pre></div></div>
+
+<p>该命令会在<code class="language-plaintext highlighter-rouge">/var/opt/gitlab/backups</code>目录下创建一个名称类似为<code class="language-plaintext highlighter-rouge">1491989249_2017_04_12_gitlab_backup.tar</code>的压缩包, 这个压缩包就是Gitlab整个的完整部分，其中开头的<code class="language-plaintext highlighter-rouge">1491989249_2017_04_12</code>是备份创建的日期，这也是我们等下恢复是要用的字段。</p>
+
+<h5 id="修改默认备份路径">修改默认备份路径</h5>
+
+<p>如果你像我一样，是使用yum安装的，那么GitLab默认的备份目录应该在<code class="language-plaintext highlighter-rouge">/var/opt/gitlab/backups</code>，我建议将备份目录修改为其他位置，并添加定时自动备份脚本，可以通过修改<code class="language-plaintext highlighter-rouge">/etc/gitlab/gitlab.rb</code>来修改默认位置：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails['backup_path'] = '/mnt/backups'
+</code></pre></div></div>
+
+<h5 id="使用crontab-添加自动备份">使用crontab 添加自动备份</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 每天凌晨00:00 自动备份
+00 00 * * * /opt/gitlab/bin/gitlab-rake gitlab:backup:create
+</code></pre></div></div>
+
+<h5 id="备份恢复">备份恢复</h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 停止相关数据连接服务
+gitlab-ctl stop unicorn
+gitlab-ctl stop sidekiq
+
+# 从1491989249_2017_04_12编号备份中恢复
+gitlab-rake gitlab:backup:restore BACKUP=1491989249_2017_04_12
+
+# 启动Gitlab
+sudo gitlab-ctl start unicorn
+sudo gitlab-ctl start sidekiq
+</code></pre></div></div>
+
+<h3 id="gitlab-迁移"><strong>GitLab 迁移</strong></h3>
+
+<p>只需将原服务器<code class="language-plaintext highlighter-rouge">/var/opt/gitlab/backups</code>目录下的备份文件拷贝到新服务器上的<code class="language-plaintext highlighter-rouge">/var/opt/gitlab/backups</code>上即可(如果你没修改过默认备份目录的话)， 但是需要注意的是新服务器上的Gitlab的版本必须与创建备份时的Gitlab版本号相同， 比如新服务器安装的是最新的9.0.5版本的Gitlab, 那么迁移之前，最好将老服务器的Gitlab 升级为9.0.5在进行备份。</p>
+
+<p>/Users/Alex/Documents/Hexo/source/_posts/</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-07-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Azure">Azure</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
+      <cite>2017-04-13</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Gitlab">Gitlab</a>
       
       
       
@@ -362,568 +1392,36 @@ Set-AzureVMExtension -ExtensionName $ExtensionName -VM  $vm -Publisher $Publishe
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/07/HowTo-Install-Docker-on-CentOS-6-x.html">HowTo Install Docker on CentOS 6.x</a></h1>
-    <div class="post_at_index">
-      <h3 id="1-add-the-epel-repository"><strong>1. Add the EPEL Repository</strong></h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm -iUvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-</code></pre></div></div>
-<h3 id="2-update-your-system"><strong>2. Update your system</strong></h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum update -y
-</code></pre></div></div>
-
-<h3 id="3-install"><strong>3. Install</strong></h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y docker-io
-</code></pre></div></div>
-
-<h3 id="4-configure"><strong>4. Configure</strong></h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service docker start
-chkconfig docker on
-
-docker info
-</code></pre></div></div>
-<h3 id="5-download-a-docker-container"><strong>5. Download a Docker Container</strong></h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull centos
-</code></pre></div></div>
-<h3 id="6-run-a-docker-container"><strong>6. Run a Docker Container</strong></h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -i -t centos /bin/bash
-</code></pre></div></div>
-
-<h3 id="7-find-docker-container"><strong>7. Find Docker Container</strong></h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker search ubuntu
-</code></pre></div></div>
-
-<h3 id="faq"><strong>FAQ</strong></h3>
-
-<h4 id="1-faild-to-start-docker-on-centos-6x"><strong>1. Faild to start docker on CentOS 6.x</strong></h4>
-<p><code>***/usr/bin/docker: relocation error: /usr/bin/docker: symbol dm_task_get_info_with_deferred_remove, version Base not defined in file libdevmapper.so.1.02 with link time reference***</code></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>the lib-device-mapper that you have isn't exporting a symbol ("Base") that Docker needs.
-this by upgrading lib-device-mapper to version 1.02.90.
-
-# You may have to enable the public_ol6_latest repo in order to get this package.
-sudo yum-config-manager --enable public_ol6_latest
-sudo yum install device-mapper-event-libs
-</code></pre></div></div>
-
-<h4 id="2-faild-to-use-docker"><strong>2. Faild to use docker</strong></h4>
-<p><code>***Get http:///var/run/docker.sock/v1.19/info: dial unix /var/run/docker.sock: no such file or directory. Are you trying to connect to a TLS-enabled daemon without TLS?***</code></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># this is because docker no restart ok.
-
-pkill -9 docker &amp;&amp; service docker start
-</code></pre></div></div>
-
-<h4 id="3-howto-save-docker-run--i--t-xxx-binbash"><strong>3. HowTo save ‘docker run -i -t xxx /bin/bash’</strong></h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps -l
-docker commit ID newname
-docker images
-</code></pre></div></div>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-07-07</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Docker">Docker</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/07/HowTo-Install-MySQL-5-5-6-7-on-RHEL-CentOS-5-6-7.html">HowTo Install MySQL 5.5/6/7 on RHEL/CentOS 5/6/7</a></h1>
-    <div class="post_at_index">
-      <h2 id="install-mysql-55-on-rhelcentos-567-"><font color="red">Install Mysql 5.5 on RHEL/CentOS 5/6/7 </font></h2>
-
-<h3 id="setup-1-use-repository"><strong>Setup 1. Use Repository.</strong></h3>
-
-<p>First, to set up the yum repository, install the mysql－community-server 5.5 RPM based on your CentOS/RHEL release: <br /></p>
-
-<hr />
-<h4 id="mysql-server-55repo-for-centosrhel-5x"><strong>mysql-server-5.5.repo for CentOS/RHEL 5.x</strong></h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm -Uvh http://mirror.webtatic.com/yum/el5/latest.rpm
-</code></pre></div></div>
-<h4 id="-only-install-mysql-55-on-centos-5x">* <strong>Only Install MySQL 5.5 On CentOS 5.x</strong></h4>
-<p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you can upgrade using the following method:<br /></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install mysql.`uname -i` yum-plugin-replace
-yum replace mysql --replace-with mysql55w
-</code></pre></div></div>
-
-<p>“yum install mysql” is only there to make sure yum-plugin-replace can resolve dependencies correctly if only mysql-server was installed.<br />
-Otherwise, to install MySql client and server, then run:<br /></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install mysql55w mysql55w-server
-</code></pre></div></div>
-<hr />
-
-<h4 id="mysql-server-55repo-for-centosrhel-6x"><strong>mysql-server-5.5.repo for CentOS/RHEL 6.x</strong></h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
-yum install http://repo.mysql.com/yum/mysql-5.5-community/el/6/x86_64/mysql-community-release-el6-5.noarch.rpm
-
-# For i386
-yum install http://repo.mysql.com/yum/mysql-5.5-community/el/6/i386/mysql-community-release-el6-5.noarch.rpm
-</code></pre></div></div>
-
-<h4 id="mysql-server-55repo-for-centosrhel-7x"><strong>mysql-server-5.5.repo for CentOS/RHEL 7.x</strong></h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
-yum install http://repo.mysql.com/yum/mysql-5.5-community/el/7/x86_64/mysql-community-release-el7-5.noarch.rpm
-
-# For i386
-yum install http://repo.mysql.com/yum/mysql-5.5-community/el/7/i386/mysql-community-release-el7-5.noarch.rpm
-</code></pre></div></div>
-
-<h3 id="setup-2-install-mysql-server-55"><strong>Setup 2. Install MySQL Server 5.5</strong></h3>
-<p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:<br /></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># It's RHEL/CentOS 6/7
-yum remove -y mysql-server
-yum remove -y mysql*
-</code></pre></div></div>
-
-<p>If you don’t have mysql-server was installed.<br />
-Otherwise, to install MySql client and server, then run:<br /></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y mysql-community-server
-</code></pre></div></div>
-
-<h3 id="setup-3-service-configure"><strong>Setup 3. Service Configure</strong></h3>
-<p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).<br /></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service mysqld start
-</code></pre></div></div>
-<p>This will issue a password prompt for the user. If you don’t have a root user password, remove the “-p”<br /></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql_secure_installation
-</code></pre></div></div>
-
-<h2 id="install-mysql-56-on-rhelcentos-567-"><font color="red">Install Mysql 5.6 on RHEL/CentOS 5/6/7 </font></h2>
-
-<h3 id="setup-1-use-repository-1"><strong>Setup 1. Use Repository.</strong></h3>
-
-<p>First, to set up the yum repository, install the mysql－community-server 5.6 RPM based on your CentOS/RHEL release: <br /></p>
-
-<h4 id="mysql-server-56repo-for-centosrhel-5x"><strong>mysql-server-5.6.repo for CentOS/RHEL 5.x</strong></h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
-yum install http://repo.mysql.com/yum/mysql-5.6-community/el/5/x86_64/mysql-community-release-el5-5.noarch.rpm
-
-# For i386
-yum install http://repo.mysql.com/yum/mysql-5.6-community/el/5/i386/mysql-community-release-el5-5.noarch.rpm
-</code></pre></div></div>
-
-<h4 id="mysql-server-56repo-for-centosrhel-6x"><strong>mysql-server-5.6.repo for CentOS/RHEL 6.x</strong></h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
-yum install http://repo.mysql.com/yum/mysql-5.6-community/el/6/x86_64/mysql-community-release-el6-5.noarch.rpm
-
-# For i386
-yum install http://repo.mysql.com/yum/mysql-5.6-community/el/6/i386/mysql-community-release-el6-5.noarch.rpm
-</code></pre></div></div>
-
-<h4 id="mysql-server-56repo-for-centosrhel-7x"><strong>mysql-server-5.6.repo for CentOS/RHEL 7.x</strong></h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
-yum install http://repo.mysql.com/yum/mysql-5.6-community/el/7/x86_64/mysql-community-release-el7-5.noarch.rpm
-
-# For i386
-yum install http://repo.mysql.com/yum/mysql-5.6-community/el/7/i386/mysql-community-release-el7-5.noarch.rpm
-</code></pre></div></div>
-
-<h3 id="setup-2-install-mysql-server-56"><strong>Setup 2. Install MySQL Server 5.6</strong></h3>
-<p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:<br /></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum remove -y mysql-server
-yum remove -y mysql*
-</code></pre></div></div>
-
-<p>If you don’t have mysql-server was installed.<br />
-Otherwise, to install MySql client and server, then run:<br /></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y mysql-community-server
-</code></pre></div></div>
-
-<h3 id="setup-3-service-configure-1"><strong>Setup 3. Service Configure</strong></h3>
-<p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).<br /></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service mysqld start
-</code></pre></div></div>
-<p>This will issue a password prompt for the user. If you don’t have a root user password, remove the “-p”<br /></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql_secure_installation
-</code></pre></div></div>
-
-<h2 id="install-mysql-57-on-rhelcentos-567-"><font color="red">Install Mysql 5.7 on RHEL/CentOS 5/6/7 </font></h2>
-
-<h3 id="setup-1-use-repository-2"><strong>Setup 1. Use Repository.</strong></h3>
-
-<p>First, to set up the yum repository, install the mysql－community-server 5.7 RPM based on your CentOS/RHEL release: <br /></p>
-
-<h4 id="mysql-server-57repo-for-centosrhel-5x"><strong>mysql-server-5.7.repo for CentOS/RHEL 5.x</strong></h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
-yum install http://repo.mysql.com/yum/mysql-5.7-community/el/5/x86_64/mysql-community-release-el5-7.noarch.rpm
-
-# For i386
-yum install http://repo.mysql.com/yum/mysql-5.7-community/el/5/i386/mysql-community-release-el5-7.noarch.rpm
-</code></pre></div></div>
-
-<h4 id="mysql-server-57repo-for-centosrhel-6x"><strong>mysql-server-5.7.repo for CentOS/RHEL 6.x</strong></h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
-yum install http://repo.mysql.com/yum/mysql-5.7-community/el/6/x86_64/mysql-community-release-el6-7.noarch.rpm
-
-# For i386
-yum install http://repo.mysql.com/yum/mysql-5.7-community/el/6/i386/mysql-community-release-el6-7.noarch.rpm
-</code></pre></div></div>
-
-<h4 id="mysql-server-57repo-for-centosrhel-7x"><strong>mysql-server-5.7.repo for CentOS/RHEL 7.x</strong></h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
-yum install http://repo.mysql.com/yum/mysql-5.7-community/el/7/x86_64/mysql-community-release-el7-7.noarch.rpm
-
-# For i386
-yum install http://repo.mysql.com/yum/mysql-5.7-community/el/7/i386/mysql-community-release-el7-7.noarch.rpm
-</code></pre></div></div>
-
-<h3 id="setup-2-install-mysql-server-57"><strong>Setup 2. Install MySQL Server 5.7</strong></h3>
-<p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:<br /></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum remove -y mysql-server
-yum remove -y mysql*
-</code></pre></div></div>
-
-<p>If you don’t have mysql-server was installed.<br />
-Otherwise, to install MySql client and server, then run:<br /></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y mysql-community-server
-</code></pre></div></div>
-
-<h3 id="setup-3-service-configure-2"><strong>Setup 3. Service Configure</strong></h3>
-<p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).<br /></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service mysqld start
-</code></pre></div></div>
-<p>This will issue a password prompt for the user. If you don’t have a root user password, remove the “-p”<br /></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql_secure_installation
-</code></pre></div></div>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-07-07</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/07/HowTo-Use-Remi-Install-Redis.html">HowTo Use Remi Install Redis</a></h1>
-    <div class="post_at_index">
-      <h2 id="setup-1-install"><strong>Setup 1. Install</strong></h2>
-
-<p>Frist, To install remi Repo and epel Repo.</p>
-
-<h4 id="remi-el6-for-centosrhel-6x"><strong>Remi EL6 for CentOS/RHEL 6.x</strong></h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm -Uvh https://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-</code></pre></div></div>
-<h4 id="remi-el5-for-centosrhel-5x"><strong>Remi EL5 for CentOS/RHEL 5.x</strong></h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm -Uvh https://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm
-rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
-</code></pre></div></div>
-
-<h4 id="有时间我们会碰到remirepo无法使用报错就像这样">有时间我们会碰到remi.repo无法使用报错，就像这样：</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://remi.schlundtech.de/enterprise/latest/remi/x86_64/repodata/repomd.xml: [Errno 14] PYCURL ERROR 22 - "The requested URL returned error: 404 Not Found"
-</code></pre></div></div>
-
-<h4 id="这时我们需要修改etcyumreposdremirepo像这样">这时我们需要修改/etc/yum.repos.d/remi.repo，像这样：</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>baseurl=http://rpms.famillecollet.com/enterprise/5/remi/$basearch/
-#mirrorlist=http://rpms.famillecollet.com/enterprise/5/remi/mirror/$basearch/
-</code></pre></div></div>
-
-<h4 id="如果发现安装后yum-makecache没看到相应的源站点请检查repo文件的enable参数是否为11为开启0为关闭状态">如果发现安装后yum makecache没看到相应的源站点，请检查repo文件的enable参数是否为1，1为开启，0为关闭状态。</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[repoName]
-name=repoName repo
-baseurl=http://repoPath
-gpgcheck=0                # 是否启用gpgkey检查
-enabled=0                 # 是否启用该源
-</code></pre></div></div>
-
-<h4 id="install-redis"><strong>Install Redis</strong></h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y redis
-
-[root@zabbix yum.repos.d]# rpm -qi redis
-Name        : redis
-Version     : 3.2.1
-Release     : 2.el5.remi
-Architecture: x86_64
-Install Date: Thu 28 Jul 2016 12:00:41 PM CST
-Group       : Applications/Databases
-Size        : 2113279
-License     : BSD
-Signature   : DSA/SHA1, Fri 24 Jun 2016 01:30:12 PM CST, Key ID 004e6f4700f97f56
-Source RPM  : redis-3.2.1-2.el5.remi.src.rpm
-Build Date  : Fri 24 Jun 2016 01:28:27 PM CST
-Build Host  : builder.remirepo.net
-Relocations : (not relocatable)
-Packager    : http://blog.remirepo.net/
-Vendor      : Remi Collet
-URL         : http://redis.io
-Summary     : A persistent key-value database
-</code></pre></div></div>
-
-<h2 id="setup-2-基本配置项"><strong>Setup 2. 基本配置项</strong></h2>
-
-<h4 id="redis-配置默认文件etcredisconf">Redis 配置默认文件/etc/redis.conf</h4>
-<p>＃ 设置Redis的运行模式，yes表示后台运行，no表示不开启后台运行。</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>daemonize yes
-</code></pre></div></div>
-
-<p>＃ 指定 redis 监听端口，默认为 6379</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>port 6379
-</code></pre></div></div>
-
-<p>＃ 设置bind_ip，默认监听接口，默认是监听本地，如果未配置的情况下，只有本地可以访问redis，如果取消，则默认监听所有接口</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># bind 127.0.0.1
-</code></pre></div></div>
-
-<p>＃ 指定日志记录级别</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># debug  记录很多信息，用于开发和测试
-# varbose 很多精简的有用信息，不像 debug 会记录那么多
-# notice 普通的 verbose，常用于生产环境
-# warning 只有非常重要或者严重的信息会记录到日志
-
-loglevel verbose
-</code></pre></div></div>
-
-<p>＃ 配置 log 文件名称和全路径地址，默认为stdout，即标准输出，输出到/dev/null，可以手动指定redis日志文件地址，建议级别不要太高，否则会产生大量日志，注意避免磁盘因此撑满。</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>logfile stdout
-</code></pre></div></div>
-
-<p>＃ 可用数据库数，默认值为 16，默认数据库存储在 DB 0 号 ID 库中，无特殊需求，建议仅设置一个数据库<br />
-＃ 查询数据库使用  SELECT ‘dbid’，dbid 介于 0 到 ‘databases’-1 之间。</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>database 16
-</code></pre></div></div>
-
-<p>＃ 安全限定，要求客户端在处理任何命令时都要验证身份和设置密码。<br />
-＃ 默认不启用，若要启用，需要将下行取消注释，并将foobared设置自定一的密码接即可。<br />
-＃ <strong>因为redis加密是通过配置文件进行，所以目前各大云厂家的redis PAAS 服务，都不支持redis加密，在程序开发时需要注意。</strong></p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># requirepass foobared
-
-# 如果开启了安全验证，这时通过redis-cli登录时需要首先执行auth，否则不能正常使用。
-redis-cli&gt; auth foobared
-</code></pre></div></div>
-
-<p>＃ 向redis内插入一条数据</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt;  set [key] [values]
-</code></pre></div></div>
-
-<p>＃ 获取key的值</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt; get key
-</code></pre></div></div>
-
-<p>＃ 查看redis的db信息</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt; info
-</code></pre></div></div>
-
-<h2 id="setup-3-others"><strong>Setup 3. Others</strong></h2>
-
-<ul>
-  <li>redis-dump</li>
-  <li>master/slave</li>
-  <li>slow log</li>
-</ul>
-
-<h3 id="font-colorblackmsis-size45-wait--font">&lt;font color=blackm,sis size=45 &gt;Wait … &lt;/font&gt;</h3>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-07-06</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Yum">Yum</a>
-      , 
-      <a href="/tags.html#Redis">Redis</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/07/HowTo-Use-Fuse-sshfs-to-Mount-Remote-Filesystems.html">HowTo Use Fuse-sshfs to Mount Remote Filesystems</a></h1>
-    <div class="post_at_index">
-      <p>传统我们服务器之间文件共享的方式有采用NFS、Samba等等，但是在我看来配置都有一定的复杂性，当然复杂也有它们的优势，这里推荐一个依赖于SSH的文件共享工具，Fuse-sshfs。<br />
-SSH 是一个强大且安全的工具，我们除了可以用它来远程管理主机外，还可以通过它建立 SSH tunnel 作 Proxy 用，远程传输文件等等。而这里我想要介绍另外一个功能，那就是结合 sshfs 这个工具可以把远程主机的文件系统映射到本地主机上，透过 SSH 把远程文件系统挂载到本机上，这样我们可以不必使用 scp 工具就可以做到直接复制及删除远程主机的文件了，就像操作本地磁盘一样方便。
-<br />sshfs 是基于 FUSE 构建的 SSH 文件系统客户端程序，通过它远程主机的配置无需作任何改变，就可以透过 SSH 协议来挂载远程文件系统了，非常方便及安全。
-<br /></p>
-
-<h3 id="install-fuse-sshfs">Install fuse-sshfs</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[cent@localhost ~]$ sudo yum install -y epel-relese
-[cent@localhost ~]$ sudo yum --enablerepo=epel install -y fuse-sshfs
-</code></pre></div></div>
-<h3 id="挂载远程-ssh文件系统">挂载远程 ssh文件系统</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[cent@localhost ~]$ mkdir ./mnt
-[cent@localhost ~]$ sshfs root@192.168.16.230:/home/ ./mnt
-root@192.168.16.230's password:
-[cent@localhost ~]$ mount
-root@192.168.16.230:/home/ on /home/cent/mnt type fuse.sshfs (rw,nosuid,nodev,user=cent)
-</code></pre></div></div>
-<h3 id="卸载远程-ssh文件系统">卸载远程 ssh文件系统</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[cent@localhost ~]$ fusermount -u ./mnt
-</code></pre></div></div>
-<h3 id="常用参数">常用参数</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-C 压缩，或者-o compression=yes
--o reconnect 自动重连
--o transform_symlinks 表示转换绝对链接符号为相对链接符号
--o follow_symlinks 沿用服务器上的链接符号
--o cache=yes
--o allow_other 这个参数最重要，必须写，否则任何文件都是Permission Deny
-</code></pre></div></div>
-
-<h3 id="缺点"> 缺点</h3>
-<p>当然sshfs也不尽是优点，例如远程主机失去响应后本地挂载点卡死并影响本地系统使用，需要手工找出 sshfs进程并杀死，因网速问题造成操作响应缓慢等等，不过一般在稳定快速的网络中不太会遇上，对比其强大的功能，还是可以接受的，正所谓暇不掩瑜。</p>
-
-<ol>
-  <li>所以sshfs适合内部网络比较稳定的地方</li>
-  <li>配合ssh免密登录使用会更好哦</li>
-  <li>可以看到的是sshfs默认挂载是rw的权限，但是通过sshfs –help 可以看到有非常详尽的参数配置可以选择，大家可以仔细研究下。</li>
-</ol>
-
-<h3 id="附1">附1.</h3>
-<p><a href="http://igikorn.com/sshfs-windows-8/">Link</a> 在windows下可以使用sshfs.</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-07-04</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SSH">SSH</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/06/MySQL-1-%E5%B8%B8%E7%94%A8%E4%BC%98%E5%8C%96.html">MySQL 常用配置优化</a></h1>
+    <h1><a class="title" href="/post/2017/04/%E5%85%B3%E4%BA%8E%E8%80%83%E8%AF%95.html">关于考试</a></h1>
     <div class="post_at_index">
       <blockquote>
-  <p><strong>环境：MySQL 5.5 &amp; MySQL 5.6 &amp; RHEL/CentOS 5/6/7</strong></p>
+  <p>时光飞逝，那大概是世界上最糟糕的一种感觉了吧。</p>
 </blockquote>
 
-<h3 id="1-mysql-系统配置优化">1. MySQL 系统配置优化</h3>
+<p>有点记不大清楚，上一次为了考试是什么时间了。</p>
 
-<p>网络配置方面：修改/etc/sysctl.conf</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>          # 增加tcp支持的队列数
-               net.ipv4.tcp_max_syn_backlog = 65535
-          # 减少断开时
-</code></pre></div></div>
-<p>打开文件限制 修改/etc/security/limits.conf</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>          # 增加：
-               * sort nofile 65535
-               * hard nofile 65535
-</code></pre></div></div>
+<p>我说的考试不是各种面试等无形的考试，而是，你坐在四四方方的台子前，给你纸笔，限定时间，那种紧张的感觉，那种备考的心态。</p>
 
-<h3 id="2--mysql-配置文件优化">2.  MySQL 配置文件优化</h3>
+<p>所以时光会消磨人的斗志，让你不大能聚精会神的准备考试，让你变得懒散，让你变得不再有血性；所以，时间这种东西，不仅会在你的身上刻下斑驳印记，还会磨去你内心的棱角，一旦这样，你就会停下了脚步，大家的生活成了日复一日的重复，日子也过得索然无味，好像很多很多你想做的事，最后都是选择plan B。</p>
 
-<ul>
-  <li>
-    <p>配置文件位置：/etc/my.cnf /etc/mysql/my.cnf</p>
-  </li>
-  <li>如果/etc下没有my.cnf，需要拷贝一份
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp /usr/share/mysql/my-medium.cnf /etc/my.cnf
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>配置文件查找顺序：mysql -verbose –help</td>
-          <td>grep -A 1 ‘Default options’</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
-  <li>常用配置说明:
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_buffer_pool_size
-</code></pre></div>    </div>
-    <p>设置mysql数据库innodb存储缓冲池的大小，如果是独立的mysql服务，建议设置为物理内存的75％左右，如果和apahce等服务一起运行时，则根据实际需求设定，尽可能大。</p>
-  </li>
-</ul>
+<p>促使我写这篇的动力来自于，最近AWS助理级系统架构师的考试，而就在年前的时候，第一次去参加考试，没有通过，而且我一直在想到底是哪里出了问题，尽管我不愿意承认，问题根本是，我根本没有静下心来去准备考试，其实是，现在真的很难去静下心来去做考试这种事情，心气浮躁，要做的事情很多堆积在面前，你可能会被这些事情唬到，所以你很焦虑，光顾着去焦虑了，却没想着去解决这些问题，所以难道你的不是这些看起来很困难的问题，而是，你丧失了解决这些问题的勇气很血性；一方面反映在这里，另一方面也反映在你生活的各个方面，你好像没有动力去处理这些事情，总是在最后关头，勉勉强强叫上一份拼拼凑凑的答卷，这不会是你想要的样子，这是一种病，拖延。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_buffer_pool_instances
-</code></pre></div></div>
-<p>这是mysql5.5中新增的一个参数，用于控制缓冲池的个数，默认情况下只有1个缓冲池，设置多个缓冲池可以增加并发性，提事物运算效率。</p>
+<p><a href="https://www.youtube.com/watch?v=Q6ZgU7KyQsM">每個人的遺憾，都大抵相似</a></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_log_buffer_size
-</code></pre></div></div>
-<p>设定日志缓冲区的大小，由于体制最长每秒就会刷新，不需要太大。</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Q6ZgU7KyQsM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_flush_log_at_trx_commit
-</code></pre></div></div>
-<p>关键参数，对于innodb的IO效率影响很大，默认值为1，可以取值0：不自动同步log到磁盘，由mysql每秒自动执行，1：将所有事物直接写到磁盘，可以用在保证数据绝对安全的地方，会影响效率，2：先将事物纪录保存在内存中，有mysql每秒统一写入磁盘，建议设定为2</p>
+<p>之前看到过的一个视频，讲述的是在New York的街头方一块黑板，让你写下最后悔的事，很多都是自己真正想要做的，却未曾努力去做的事，“最后总是选择plan B”，“未曾跳出自己的舒适圈”，人生总是带有遗憾，总是想象着自己会多么的闪耀，却没有勇气付出真心努力，对我是这样，学习，考试，减肥，很多自己想做的事，如果不能够鼓足勇气去做，人生过着便没有意义。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_read_io_threads;
- innodb_write_io_threadsm;
-</code></pre></div></div>
-<p>mysql5.5 新增的两个参数，决定了Innodb读写的io进程数量，默认为4，可以根据CPU的实际性能设定。</p>
+<p>所以，很多事情，并非要你一定做到，而是，你是否真的努力去付出过，还是假意的敷衍，拖延妥协，这种感觉只有你自己真的知道，最后的遗憾，也只有自己知道，为什么要放手自己想要的。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_file_per_table
-</code></pre></div></div>
-<p>关键参数，控制Innodb每一个表实用独立的表空间，默认为off，也就是所有的表都会建立在共享空间，不利于资源回收</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_stats_on_metadata
-</code></pre></div></div>
-<p>决定了mysql在什么情况下会刷新innodb表的统计信息，可以关闭，管理员选取时间手动刷新。存在的目的保证优化器正确找到索引.</p>
-
-<p>mysql最大连接数限制</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>max_connections=5000
-</code></pre></div></div>
-
-<p>不区分表名称大小写</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lower_case_table_names=1
-</code></pre></div></div>
-
-<p>修改默认字符编码</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># mysql 5.1
-default-character-set=utf8
-
-# mysql 5.5 &amp; mysql 5.6
-character-set-server=utf8
-</code></pre></div></div>
-
-<p>最大错误操作次数 : 默认是10，尽量调大，否则容易导致mysql对来访主机锁定</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>max_connect_errors = 10000
-</code></pre></div></div>
-
-<p>设置mysql时区：默认mysql使用的系统时区，其实我们也可以在mysql内设定时区</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>default-time_zone = '+8:00'
-</code></pre></div></div>
-
-<p>以上配置，如何在mysql内，检测是否生效</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>show variables like '%max_connections%'
-show variables like '%time_zone%'
-show variables like '%max_connect_errors%'
-show variables like '%character-set-server%'
-show variables like '%lower_case_table_names%'
-</code></pre></div></div>
-<p>修改/etc/my.cnf这是需要重启mysql才能生效，但是很多时候，我们不方便重启mysql，这时我们需要在mysql临时修改配置，注意并不是所有选项都可以在运行中修改，以修改时区为例：</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 修改全局设置
-set global time_zone='+8:00'
-
-# 修改当前会话
-set time_zone='+8:00'
-</code></pre></div></div>
-
-<h3 id="3--第三方工具对mysql配置进行优化">3.  第三方工具对mysql配置进行优化</h3>
-
-<ul>
-  <li>http://toolspercona.com <br />
-先回答问题，然后根据问题你给出的答案，网站会给你一个参考配置。</li>
-</ul>
+<p>不要怀疑，不要犹豫，努力去做自己想做的事，努力成为那个，你想要成为的人，永远怀揣着梦想，永远热泪盈眶。</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-06-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
+      <cite>2017-04-11</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
       
       
       
@@ -932,60 +1430,75 @@ set time_zone='+8:00'
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/06/Tomcat-3-%E4%BC%98%E5%8C%96%E8%AE%BE%E5%AE%9A.html">Tomcat 优化设定</a></h1>
+    <h1><a class="title" href="/post/2017/04/HowTo-set-Tomcat-7-automatic-startup-with-CentOS-7.html">HowTo set Tomcat 7 automatic startup with CentOS 7</a></h1>
     <div class="post_at_index">
-      <ul>
-  <li>设置JVM空间大小，Xms和Xmx一样大：JVM初始分配的内存由-Xms指定，默认是物理内存的1/64；JVM最大分配的内存由-Xmx指定，默认是物理内存的1/4。默认空余堆内存小于 40%时，JVM就会增大堆直到-Xmx的最大限制；空余堆内存大于70%时，JVM会减少堆直到-Xms的最小限制。因此服务器一般设置-Xms、 -Xmx相等以避免在每次GC 后调整堆的大小。</li>
-  <li>关闭dns查询</li>
-  <li>增加线程数量</li>
-  <li>maxThreads、acceptCount ： 增加并发，同时增加这两个的数量</li>
-  <li>
-    <p>内存优化 ： /tomcatbin/catalina.sh</p>
-  </li>
-  <li>JAVA_OPTS=”-XX:PermSize=64M -XX:MaxPermSize=128m -Xms512m -Xmx1024m -Duser.timezone=Asia/Shanghai”</li>
-  <li>缓存优化</li>
-  <li>并发优化，线程优化</li>
-  <li>&lt;Connector port=”80” protocol=”HTTP/1.1” maxThreads=”600” minSpareThreads=”100” maxSpareThreads=”500” acceptCount=”700”</li>
-  <li>connectionTimeout=”20000” redirectPort=”8443” /&gt;</li>
-  <li>关闭DNS查询 :修改server.xml文件中的Connector元素，修改属性enableLookups参数值: enableLookups=”false”</li>
-  <li>使用apr插件，提高tomcat响应时间 <br />
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(1)安装APR tomcat-native
-  apr-1.3.8.tar.gz   安装在/usr/local/apr
-  #tar zxvf apr-1.3.8.tar.gz
-  #cd apr-1.3.8
-  #./configure;make;make install
+      <p>因CentOS7与6在系统上，变化较大，所以在之前的文章中讲到的使用Tomcat7开机自启动的方式在CentOS7是是无法使用的，所以这篇文章的目的是如何在CentOS7上将Tomcat7设置为开机自启动。</p>
 
-  apr-util-1.3.9.tar.gz  安装在/usr/local/apr/lib
-  #tar zxvf apr-util-1.3.9.tar.gz
-  #cd apr-util-1.3.9
-  #./configure --with-apr=/usr/local/apr ----with-java-home=JDK;make;make install
+<h4 id="安装java环境">安装JAVA环境</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+[root@7 ~]# curl -LO -H "Cookie: oraclelicense=accept-securebackup-cookie" \
+"http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-linux-x64.rpm"
 
-  #cd apache-tomcat-6.0.20/bin
-  #tar zxvf tomcat-native.tar.gz
-  #cd tomcat-native/jni/native
-  #./configure --with-apr=/usr/local/apr;make;make install
+[root@7 ~]# rpm -Uvh jdk-7u75-linux-x64.rpm
+Preparing...                ########################################### [100%]
+   1:jdk                    ########################################### [100%]
+Unpacking JAR files...
+        rt.jar...
+        jsse.jar...
+        charsets.jar...
+        tools.jar...
+        localedata.jar...
+        jfxrt.jar...
 
-(2)设置 Tomcat 整合 APR
-  修改 tomcat 的启动 shell （startup.sh），在该文件中加入启动参数：
-    CATALINA_OPTS="$CATALINA_OPTS -Djava.library.path=/usr/local/apr/lib" 。
+[root@7 ~]# vi /etc/profile
+# add follows to the end
+export JAVA_HOME=/usr/java/default
+export PATH=$PATH:$JAVA_HOME/bin
+export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
+[root@7 ~]# source /etc/profile
+</code></pre></div></div>
 
-(3)判断安装成功:
-  如果看到下面的启动日志，表示成功。
-    2007-4-26 15:34:32 org.apache.coyote.http11.Http11AprProtocol init
-</code></pre></div>    </div>
-  </li>
-  <li>开启manager 管理</li>
-  <li>使用http://visualvm.Java.net/download.html 工具监控tomcat的性能</li>
-  <li>JAVA_OPTS=’-Dcom.sun.management.jmxremote.port=8999 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false’</li>
-  <li>设置自动更新autodeploy＝false</li>
-</ul>
+<h4 id="安装tomcat7">安装Tomcat7</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+[root@7 ~]# wget http://ftp.riken.jp/net/apache/tomcat/tomcat-7/v7.0.77/bin/apache-tomcat-7.0.77.tar.gz
+[root@7 ~]# tar zxvf apache-tomcat-7.0.77.tar.gz
+[root@7 ~]# mv apache-tomcat-7.0.77 /usr/tomcat7
+[root@7 ~]# useradd -M -d /usr/tomcat7 tomcat7
+[root@7 ~]# chown -R tomcat7. /usr/tomcat7
+</code></pre></div></div>
+
+<h4 id="创建开机自启动脚本">创建开机自启动脚本</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@7 ~]# cat /usr/lib/systemd/system/tomcat7.service
+# create new
+ [Unit]
+Description=Apache Tomcat 7
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/tomcat7/bin/startup.sh
+ExecStop=/usr/tomcat7/bin/shutdown.sh
+RemainAfterExit=yes
+User=tomcat7
+Group=tomcat7
+
+[Install]
+WantedBy=multi-user.target
+</code></pre></div></div>
+
+<h4 id="启动tomcat7">启动Tomcat7</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@7 ~]# systemctl start tomcat7.service
+[root@7 ~]# systemctl enable tomcat7.service
+</code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-06-15</cite> <i class="icon-tag"></i>
+      <cite>2017-04-05</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Tomcat">Tomcat</a>
+      , 
+      <a href="/tags.html#CentOS">CentOS</a>
       
       
       
@@ -994,86 +1507,225 @@ set time_zone='+8:00'
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/06/%E4%BD%BF%E7%94%A8mosh%E4%BB%A3%E6%9B%BFssh%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8.html">使用mosh代替ssh连接服务器</a></h1>
+    <h1><a class="title" href="/post/2017/03/%E5%9C%A8Linux%E7%BB%88%E7%AB%AF%E4%BD%BF%E7%94%A8SSR%E6%9C%8D%E5%8A%A1%E5%AE%9E%E7%8E%B0%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91.html">在Linux终端使用SSR服务实现科学上网</a></h1>
     <div class="post_at_index">
-      <p>身为一名服务器运维人员，每天打交道最多的就是服务器了，最常用的连接服务器的工具就是SSH，因为SSH是一个不可持续的连接，当网络出现波动时，SSH断开会导致当前正在运行的服务中断，对工作产生非常大的影响，无意间看到了Mosh这个东西，安装使用下，发现网络波动这种事情不会导致服务器连接断开了，特意查了下，原来Mosh使用的是UDP方式传输：虽然也支持使用SSH配置进行认证登录，但是数据传输本身是使用UDP方式的，Mosh支持在会话中断时，不会立即退出，而是启用一个计时器，当网络恢复后会自动连接，同时会延续之前的会话，不会重新开启一个。</p>
+      <p>昨天在群内看到有朋友在询问如何在Linux终端内使用SSR来实现科学上网，所以抽空研究了下在Linux中如何使用，本文参考了<a href="https://www.zfl9.com/">Otokaze</a> 和 <a href="https://www.djangoz.com">Django</a> 两位的博客，文章链接在博文最后；SSR服务提供商依然采用了<a href="http://ssglobal.co/wp">ssGlobal</a>，在Google的过程中，找了不少解决方案，这里仅做一种简单整理，实验操作系统有CentOS 7.4 &amp; Ubuntu 16.04.3。</p>
 
-<h4 id="mosh-主页">Mosh <a href="https://mosh.mit.edu/#getting">主页</a></h4>
+<h4 id="ssr-代理服务">ssr 代理服务</h4>
 
-<h4 id="1-安装配置">1. 安装配置</h4>
-<p>需要在服务端和客户端同时安装Mosh：</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>＃ 以centos 6.x 为例：
-[user@host ~]$ sudo yum install -y epel-release
-[user@host ~]$ sudo yum install -y mosh
+<h5 id="下载">下载</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 需要本地git 环境</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> git
+git clone https://github.com/SAMZONG/gfwlist2privoxy.git
+<span class="nb">cd </span>gfwlist2privoxy/
+<span class="nb">mv </span>ssr /usr/local/bin
+<span class="nb">chmod</span> +x /usr/local/bin/ssr
 </code></pre></div></div>
 
-<h4 id="2-采用ssh配置进行认证登录只需要将ssh-替换为mosh即可">2. 采用SSH配置进行认证登录，只需要将ssh 替换为mosh即可</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[user@host ~]$ mosh user@host
+<h5 id="安装配置">安装配置</h5>
 
-# 如何需要指定特定的ssh port或者使用ssh keyfile. 可以使用-ssh参数：
-[user@host ~]$ mosh -ssh="ssh -i ~/.ssh/id_rsa -p 10002" user@host
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# ssr <span class="nb">install
+</span>Cloning into <span class="s1">'/usr/local/share/shadowsocksr'</span>...
+remote: Counting objects: 5490, <span class="k">done</span><span class="nb">.</span>
+remote: Total 5490 <span class="o">(</span>delta 0<span class="o">)</span>, reused 0 <span class="o">(</span>delta 0<span class="o">)</span>, pack-reused 5490
+Receiving objects: 100% <span class="o">(</span>5490/5490<span class="o">)</span>, 1.71 MiB | 410.00 KiB/s, <span class="k">done</span><span class="nb">.</span>
+Resolving deltas: 100% <span class="o">(</span>3799/3799<span class="o">)</span>, <span class="k">done</span><span class="nb">.</span>
+
+<span class="o">[</span>root@localhost ~]# ssr config 		<span class="c"># 配置文件路径 /usr/local/share/shadowsocksr/config.json</span>
+<span class="o">{</span>
+    <span class="s2">"server"</span>: <span class="s2">"0..0.0.0"</span>,	// ssr服务器ip
+    <span class="s2">"server_ipv6"</span>: <span class="s2">"::"</span>,
+    <span class="s2">"server_port"</span>: 8080,	// ssr服务器端口
+    <span class="s2">"local_address"</span>: <span class="s2">"127.0.0.1"</span>,
+    <span class="s2">"local_port"</span>: 1080,
+
+    <span class="s2">"password"</span>: <span class="s2">"123456"</span>,		// 对应password
+    <span class="s2">"method"</span>: <span class="s2">"none"</span>,			// 这里对应SSGlobal配置中的Encryption
+    <span class="s2">"protocol"</span>: <span class="s2">"auth_chain_a"</span>,		//对应protocl
+    <span class="s2">"protocol_param"</span>: <span class="s2">""</span>,
+    <span class="s2">"obfs"</span>: <span class="s2">"http_simple"</span>,		//对应obfs
+    <span class="s2">"obfs_param"</span>: <span class="s2">"hello.world"</span>,	//对应obfs_param
+    <span class="s2">"speed_limit_per_con"</span>: 0,
+    <span class="s2">"speed_limit_per_user"</span>: 0,
+
+    <span class="s2">"additional_ports"</span> : <span class="o">{}</span>, // only works under multi-user mode
+    <span class="s2">"additional_ports_only"</span> : <span class="nb">false</span>, // only works under multi-user mode
+    <span class="s2">"timeout"</span>: 120,
+    <span class="s2">"udp_timeout"</span>: 60,
+    <span class="s2">"dns_ipv6"</span>: <span class="nb">false</span>,
+    <span class="s2">"connect_verbose_info"</span>: 0,
+    <span class="s2">"redirect"</span>: <span class="s2">""</span>,
+    <span class="s2">"fast_open"</span>: <span class="nb">false</span>
+<span class="o">}</span>
 </code></pre></div></div>
 
-<h4 id="3-other">3. Other</h4>
-<p>另外Mosh还支持使用临时key的方式认证，需要服务器端创建临时key，然后客户端通过这个key进行登录，该key在会话结束的十分钟后自动失效。</p>
+<h5 id="启动关闭">启动/关闭</h5>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 创建临时key
-[user@host ~]$ mosh-server
-MOSH CONNECT 53371 asdAADfdse234LSDSdIbow
-mosh-server (mosh 1.2.4)
-Copyright 2012 Keith Winstein &lt;mosh-devel@mit.edu&gt;
-License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;.
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-[mosh-server detached, pid = 27290]
-
-# 然后在client定义MOSH_KEY
-[user@host ~]$ export MOSH_KEY=asdAADfdse234LSDSdIbow
-# 注意mosh-client只能跟上具体的ip和临时端口，不支持主机名和域名方式
-
-# 使用临时key连接服务器
-[user@host ~]$ mosh-client 10.0.2.4 53371
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssr start
+ssr stop 
 </code></pre></div></div>
+
+<h5 id="卸载">卸载</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssr uninstall <span class="c"># 这里操作会删除/usr/local/share/shadowsocksr</span>
+</code></pre></div></div>
+
+<p>以上，本地监听服务已经配置完成了，在填写的过程中，要注意你的本地监听地址和监听端口，默认是127.0.0.1:1080，如果你修改了设置，那么在后续配置中也要配合修改。</p>
+
+<h4 id="privoxy-配置">Privoxy 配置</h4>
+
+<p>首先，需要安装privoxy</p>
+
+<h6 id="centos-74">CentOS 7.4</h6>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
+yum <span class="nb">install</span> <span class="nt">-y</span> privoxy
+</code></pre></div></div>
+
+<h6 id="ubuntu-1604">Ubuntu 16.04</h6>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt <span class="nb">install</span> <span class="nt">-y</span> privoxy
+</code></pre></div></div>
+
+<h5 id="全局模式">全局模式</h5>
+
+<p>代理模式同其他平台上方式，将所有http/https请求走代理服务，如果需要全局代理的话按照如下操作即可，如果要使用PAC模式，请跳过此部分。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 添加本地ssr服务到配置文件</span>
+<span class="nb">echo</span> <span class="s1">'forward-socks5 / 127.0.0.1:1080 .'</span> <span class="o">&gt;&gt;</span> /etc/privoxy/config
+
+<span class="c"># Privoxy 默认监听端口是是8118</span>
+<span class="nb">export </span><span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export </span><span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export </span><span class="nv">no_proxy</span><span class="o">=</span>localhost
+
+<span class="c"># 启动服务</span>
+systemctl start privoxy.service
+</code></pre></div></div>
+
+<h5 id="pac模式">PAC模式</h5>
+
+<p>使用GFWList是由AutoProxy官方维护，由众多网民收集整理的一个中国大陆防火长城的屏蔽列表，这里感谢<a href="https://www.zfl9.com/">@Otokaze</a> 为我们提供了转换shell自动转换脚本，为了方便修改，我fork了这个项目，将这篇教程所用到的资源进行了汇总，你可以在最开始<code class="language-plaintext highlighter-rouge">git clone</code>的目录中找到执行脚本。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# <span class="nb">cd </span>gfwlist2privoxy/
+<span class="o">[</span>root@localhost gfwlist2privoxy]# <span class="nb">ls
+</span>gfw.action  gfwlist2privoxy  README.md  ssr
+<span class="o">[</span>root@localhost gfwlist2privoxy]# bash gfwlist2privoxy
+proxy<span class="o">(</span>socks5<span class="o">)</span>: 127.0.0.1:1080		<span class="c"># 注意，如果你修改了ssr本地监听端口是需要设置对应的</span>
+<span class="o">{</span>+forward-override<span class="o">{</span>forward-socks5 127.0.0.1:1080 .<span class="o">}}</span>
+
+<span class="o">=================================================================</span>
+
+<span class="s2">"cp -af /root/gfwlist2privoxy/gfw.action /etc/privoxy/"</span>
+
+<span class="o">[</span>root@localhost ~]# <span class="nb">cp</span> <span class="nt">-af</span> gfw.action /etc/privoxy/
+<span class="o">[</span>root@localhost ~]# <span class="nb">echo</span> <span class="s1">'actionsfile gfw.action'</span> <span class="o">&gt;&gt;</span> /etc/privoxy/config
+
+<span class="c"># Privoxy 默认监听端口是是8118</span>
+<span class="nb">export </span><span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export </span><span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export </span><span class="nv">no_proxy</span><span class="o">=</span>localhost
+
+<span class="c"># 启动服务</span>
+systemctl start privoxy.service
+</code></pre></div></div>
+
+<h5 id="proxy-环境变量">proxy 环境变量</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># privoxy默认监听端口为8118</span>
+<span class="nb">export </span><span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export </span><span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+<span class="nb">export </span><span class="nv">no_proxy</span><span class="o">=</span>localhost
+
+<span class="c"># no_proxy是不经过privoxy代理的地址</span>
+<span class="c"># 只能填写具体的ip、域名后缀，多个条目之间使用','逗号隔开</span>
+<span class="c"># 比如: export no_proxy="localhost, 192.168.1.1, ip.cn, chinaz.com"</span>
+<span class="c"># 访问 localhost、192.168.1.1、ip.cn、*.ip.cn、chinaz.com、*.chinaz.com 将不使用代理</span>
+</code></pre></div></div>
+
+<h4 id="代理测试">代理测试</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 访问各大网站，如果都有网页源码输出说明代理没问题</span>
+curl <span class="nt">-sL</span> www.baidu.com
+curl <span class="nt">-sL</span> www.google.com
+curl <span class="nt">-sL</span> www.google.com.hk
+curl <span class="nt">-sL</span> www.google.co.jp
+curl <span class="nt">-sL</span> www.youtube.com
+curl <span class="nt">-sL</span> mail.google.com
+curl <span class="nt">-sL</span> facebook.com
+curl <span class="nt">-sL</span> twitter.com
+curl <span class="nt">-sL</span> www.wikipedia.org
+
+<span class="c"># 获取当前 IP 地址</span>
+<span class="c"># 如果使用 privoxy 全局模式，则应该显示 ss 服务器的 IP</span>
+<span class="c"># 如果使用 privoxy gfwlist模式，则应该显示本地公网 IP</span>
+curl <span class="nt">-sL</span> ip.chinaz.com/getip.aspx
+</code></pre></div></div>
+
+<h5 id="管理脚本">管理脚本</h5>
+
+<p>在以上部署操作完成后，应该已经可以正常科学上网了，但是如果需要进行管理时，需要分别管理ssr和privoxy，为了方便管理，这里写了一个shell脚本方便管理: ssr_manager</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c"># Author Samzong.lu</span>
+
+<span class="k">case</span> <span class="nv">$1</span> <span class="k">in
+	</span>start<span class="p">)</span>
+		ssr start &amp;&gt; /var/log/ssr-local.log
+		systemctl start privoxy.service
+		<span class="nb">export </span><span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+		<span class="nb">export </span><span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+		<span class="nb">export </span><span class="nv">no_proxy</span><span class="o">=</span><span class="s2">"localhost, ip.cn, chinaz.com"</span>
+		<span class="p">;;</span>
+	stop<span class="p">)</span>
+		<span class="nb">unset </span>http_proxy https_proxy no_proxy
+		systemctl stop privoxy.service
+		ssr stop &amp;&gt; /var/log/ssr-log.log
+		<span class="p">;;</span>
+	autostart<span class="p">)</span>
+		<span class="nb">echo</span> <span class="s2">"ssr start"</span> <span class="o">&gt;&gt;</span> /etc/rc.local
+		systemctl <span class="nb">enable </span>privoxy.service
+		<span class="nb">echo</span> <span class="s2">"http_proxy=http://127.0.0.1:8118"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
+		<span class="nb">echo</span> <span class="s2">"https_proxy=http://127.0.0.1:8118"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
+		<span class="nb">echo</span> <span class="s2">"no_proxy='localhost, ip.cn, chinaz.com'"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
+		<span class="p">;;</span>
+	<span class="k">*</span><span class="p">)</span>
+		<span class="nb">echo</span> <span class="s2">"usage: source </span><span class="nv">$0</span><span class="s2"> start|stop|autostart"</span>
+		<span class="nb">exit </span>1
+		<span class="p">;;</span>
+<span class="k">esac</span>
+</code></pre></div></div>
+
+<h5 id="使用">使用</h5>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv </span>gfwlist2privoxy/ssr_manager /usr/local/bin
+<span class="nb">chmod</span> +x ssr_manager
+
+<span class="c"># 启动服务</span>
+ssr_manager start
+
+<span class="c"># 关闭服务</span>
+ssr_manager stop 
+
+<span class="c"># 添加开机自启动</span>
+ssr_manager autostart
+</code></pre></div></div>
+
+<h4 id="参考链接">参考链接</h4>
+
+<ul>
+  <li>https://www.zfl9.com/ss-local.html</li>
+  <li>https://www.djangoz.com/2017/08/16/linux_setup_ssr/</li>
+</ul>
+
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-06-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SSH">SSH</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/05/Azure-HowTo-Use-Azure-CLI-on-Mac.html">HowTo Use Azure CLI on Mac</a></h1>
-    <div class="post_at_index">
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Install azure-cli on Mac and CentOS
-
-### In Mac
-1. Install brew.
-2. brew install nodejs
-3. echo “registry = https://registry.npm.taobao.org” &gt; ~/.npmrc
-4. npm install azure-cli -g
-
-
-### In CentOS
-1. Install epel
-2. yum install -y nodejs npm
-3. echo “registry = https://registry.npm.taobao.org” &gt; ~/.npmrc
-4. npm install azure-cli -g
-
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-05-24</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Azure">Azure</a>
+      <cite>2017-03-23</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#VPN">VPN</a>
       
       
       
@@ -1122,7 +1774,7 @@ There is NO WARRANTY, to the extent permitted by law.
             <li class="active"><a>10</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page15">15</a></li>
+          <li><a href="/page20">20</a></li>
         
 
         
@@ -1193,7 +1845,7 @@ There is NO WARRANTY, to the extent permitted by law.
      
     	
       <li><a href="/categories.html#Git">
-    		Git <span>5</span>
+    		Git <span>6</span>
     	</a></li>
      
     	
@@ -1233,7 +1885,7 @@ There is NO WARRANTY, to the extent permitted by law.
      
     	
       <li><a href="/categories.html#Python">
-    		Python <span>7</span>
+    		Python <span>45</span>
     	</a></li>
      
     	
@@ -1278,7 +1930,7 @@ There is NO WARRANTY, to the extent permitted by law.
      
     	
       <li><a href="/categories.html#Docker">
-    		Docker <span>4</span>
+    		Docker <span>6</span>
     	</a></li>
      
     	
@@ -1337,6 +1989,36 @@ There is NO WARRANTY, to the extent permitted by law.
     	</a></li>
      
     	
+      <li><a href="/categories.html#SQL">
+    		SQL <span>5</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Node">
+    		Node <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#BI">
+    		BI <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#NaN">
+    		NaN <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#微服务">
+    		微服务 <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#ClickHouse">
+    		ClickHouse <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#闲聊">
     		闲聊 <span>3</span>
     	</a></li>
@@ -1372,13 +2054,13 @@ There is NO WARRANTY, to the extent permitted by law.
     	</a></li>
      
     	
-      <li><a href="/categories.html#云原生">
-    		云原生 <span>1</span>
+      <li><a href="/categories.html#Gitlab">
+    		Gitlab <span>1</span>
     	</a></li>
      
     	
-      <li><a href="/categories.html#微服务">
-    		微服务 <span>1</span>
+      <li><a href="/categories.html#云原生">
+    		云原生 <span>1</span>
     	</a></li>
     
   
@@ -1392,40 +2074,41 @@ There is NO WARRANTY, to the extent permitted by law.
       <ul>
         
         <li>
-          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
+          <a href="/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过pipreqs获取当前项目的依赖库</a>
+          如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a>
           
-  参考资料：
+  strip() 删除字符串中的内容，删除后仍旧是str
+  split() 分割字符串，根据特定的标识，分割后=list
 
 
 
         </li>
         
         <li>
-          <a href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s系列 南北流量和东西流量</a>
-          南北流量和东西流量 是什么意思？
+          <a href="/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a>
+          ```python
+import string
 
 
         </li>
         
         <li>
-          <a href="/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8.html">jq 命令行 Json 处理神器</a>
-          
-  https://mozillazg.com/2018/01/jq-use-examples-cookbook.htm-
-
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/07/%E9%97%AD%E5%85%B3%E5%A4%87%E6%88%98-11%E6%9C%88.html">闭关备战 11月</a>
-          目标
+          <a href="/post/2022/11/python3-setup.py-help-commands.html">python3 setup.py --help-commands</a>
+          ```python
+→ python3 setup.py –help-commands
 
 
         </li>
         
         <li>
-          <a href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a>
-          背景
+          <a href="/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入excel</a>
+          以下是使用的方法：
 
 
         </li>

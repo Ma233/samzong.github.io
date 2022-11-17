@@ -1,0 +1,1431 @@
+
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Blog">
+  <head>
+    <meta charset="utf-8">
+	<link rel="manifest" href="/static/pwa/manifest.json">
+	<title> Poetry 使用笔记 | 船长的课记 </title>
+    
+		
+    <meta name="author" content="船长">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#2196F3">
+	<meta name="google-site-verification" content="puZt0ZyqB-t67BYdYAgLUyIPBeismG68J0dmEc01QeY" />
+
+	
+    <script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function () {
+				navigator.serviceWorker
+										.register('/sw.js')
+										.then(function(registration) {
+											console.log("Successfully registered service worker", registration.scope);
+										}).catch(function(err) {
+											console.log("Service worker registration failed: ", err);
+										});
+				//navigator.serviceWorker.ready always resolve
+				navigator.serviceWorker.ready.then(function (registration) {
+					console.log('Service worker successfully registered on scope', registration.scope);
+				});
+			});
+		}
+    </script>
+	<script type="text/javascript" src="/assets/themes/evjekylltheme/jquery-3.6.0.slim.min.js"></script>
+
+	<link href="/assets/themes/evjekylltheme/google-code-prettify/desert.css" type="text/css" rel="stylesheet" />
+
+    <!-- Le styles -->
+    <link href="/assets/themes/evjekylltheme/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/evjekylltheme/css/style.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/static/images/favicon.ico">
+
+    <!-- atom & rss feed -->
+    <link href="" type="application/atom+xml" rel="alternate" title="Jekyll auto generate ATOM Feed">
+    <link href="" type="application/atom+xml" rel="alternate" title="Site ATOM Feed">
+    <link href="" type="application/rss+xml" rel="alternate" title="Site RSS Feed">
+	<link rel="stylesheet" href="/assets/themes/evjekylltheme/font-awesome-4.4.0/css/font-awesome.min.css">
+	<!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-W2LDG64');</script> -->
+		<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8529425670069509"
+						crossorigin="anonymous"></script> -->
+	<!-- <script async src="https://cdn.splitbee.io/sb.js"></script> -->
+  </head>
+
+  <body>
+	<!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2LDG64"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
+    <div class="navbar navbar-default navbar-fixed-top">
+				<div class="container">
+          <div class="row mobilepadding">
+					<!-- <a class="navbar-brand" href="/">船长的课记</a> -->
+					<a class="navbar-brand" href="/">SAMZONG</a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mNavbar">
+  					<ul class="nav navbar-nav">
+  						
+  						
+  						
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/friends.html">Friends</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+						  <li class="dropdown">
+							  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other</a>
+							  <ul class="dropdown-menu">
+									<li><a href="/about.html">About</a></li>
+									<li><a href="https://yuque.com/samzong/note" target="_blank">船长的课记</a></li>
+									<li><a href="https://yuque.com/samzong/ap" target="_blank">果粉日记</a></li>
+									<li><a href="https://yuque.com/samzong/code" target="_blank">Code Snippet</a></li>
+									<li><a href="https://www.yuque.com/samzong/mcx" target="_blank">集</a></li>
+									<li><a href="https://www.yuque.com/zooka" target="_blank">藏金阁</a></li>
+								</ul>
+						  </li>
+  					</ul>
+  					<form id="search-form" class="navbar-form navbar-right" role="search">
+  						<div class="form-group">
+  						<input type="text" class="form-control input-sm" placeholder="Search's Bad" id="query">
+  						</div>
+  					</form>
+  					<div class="nav-icon">
+  						<a href="/feed.xml"><i class="fa fa-rss fa-2x"></i></a>
+  					</div>
+          </div>
+				</div>
+      </div>
+    </div>
+
+    <div class="container">
+			<div class="row mobilepadding">
+        <div class="row">
+					<div class="col-md-12">
+						<div class="searchresult">
+						</div>
+						<div id="search-loader" class="img-wrap">
+						</div>
+					</div>
+        </div>
+				
+<div class="row" itemscope itemtype="http://schema.org/Article">
+    <div class="col-xs-12 col-md-8">
+        <div class="page-header" itemprop="name">
+            <h1>Poetry 使用笔记 
+            </h1>
+        </div>
+        <div class="post-meta">
+            
+            <span class="entry-date" itemprop="datePublished">Posted on 09/22/2022</span>
+            
+            
+            <span class="entry-author" itemprop="author">by 船长</span>
+            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/main/_posts/2022-09-22-Poetry 使用笔记.md"
+                 target="_blank">View revision history</a>
+        </div>
+        <div class="post-content" itemprop="articleBody">
+            <p>poetry 是目前比较流行的 Python 环境管理工具 和 包管理工具，对多项目开发时的环境隔离有非常大的帮助，同时集成了包管理能力。</p>
+
+<blockquote>
+  <p>官方网站  <a href="https://python-poetry.org/">https://python-poetry.org/</a>   集成了所有 Poetry 最新的使用文档，以下仅在我的环境上经过验证</p>
+</blockquote>
+
+<h3 id="安装方式">安装方式</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In Pip
+</span><span class="o">-</span> <span class="n">安装</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">poetry</span> <span class="c1"># pip3
+</span><span class="o">-</span> <span class="n">更新</span> <span class="n">poetry</span> <span class="bp">self</span> <span class="n">update</span>
+
+<span class="c1"># In my Mac
+</span><span class="o">-</span> <span class="n">安装</span> <span class="n">brew</span> <span class="n">install</span> <span class="n">poetry</span>
+<span class="o">-</span> <span class="n">更新</span> <span class="n">brew</span> <span class="n">upgrade</span> <span class="n">poetry</span>
+
+<span class="c1"># In my CentOS
+</span><span class="o">-</span> <span class="n">安装</span> <span class="n">curl</span> <span class="o">-</span><span class="n">sSL</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="p">.</span><span class="n">githubusercontent</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">python</span><span class="o">-</span><span class="n">poetry</span><span class="o">/</span><span class="n">poetry</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">get</span><span class="o">-</span><span class="n">poetry</span><span class="p">.</span><span class="n">py</span> <span class="o">|</span> <span class="n">python</span> <span class="o">-</span>
+<span class="o">-</span> <span class="n">更新</span> <span class="n">poetry</span> <span class="bp">self</span> <span class="n">update</span>
+</code></pre></div></div>
+
+<h3 id="配置技巧相关">配置技巧相关</h3>
+
+<p>在开始使用前，建议先对poetry 的配置有些了解，并调整为适合你的方式，主要是调整一下虚拟环境的安装位置
+:::info
+<code class="language-plaintext highlighter-rouge">poetry config</code> poetry 相关的查看和编辑的命令
+:::</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">~</span> <span class="n">poetry</span> <span class="n">config</span> <span class="o">--</span><span class="nb">list</span>  <span class="c1"># 获取当前 poetry 的配置情况
+</span>
+<span class="n">cache</span><span class="o">-</span><span class="nb">dir</span> <span class="o">=</span> <span class="s">"/Users/$username/Library/Caches/pypoetry"</span>
+<span class="n">experimental</span><span class="p">.</span><span class="n">new</span><span class="o">-</span><span class="n">installer</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">installer</span><span class="p">.</span><span class="n">parallel</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">virtualenvs</span><span class="p">.</span><span class="n">create</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">virtualenvs</span><span class="p">.</span><span class="ow">in</span><span class="o">-</span><span class="n">project</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">virtualenvs</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="s">"{cache-dir}/virtualenvs"</span>  <span class="c1"># /Users/$username/Library/Caches/pypoetry/virtualenvs
+</span>
+</code></pre></div></div>
+
+<p>| <strong>配置项目</strong> | <strong>配置内容</strong> | <strong>配置项说明</strong> | <strong>建议配置</strong> |
+| — | — | — | — |
+| cache-dir | String | 缓存目录配置，使用 poetry 安装的包源文件都会缓存到这个目录。 | 不建议更改 |
+| installer.parallel | boolean | 此配置会被忽略 |  |
+| virtualenvs.create | boolean | 默认为true，如果当前工程的虚拟环境不存在，就创建一个 | 不建议更改 |
+| virtualenvs.in-project | boolean | None：poetry 会在系统特定目录创建一个.venv目录，由下面的 path 参数指定
+true： poetry 会在项目根目录创建一个.venv目录
+false： poetry 将会忽略已存在的.venv目录 | <strong>《建议修改》</strong></p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>推荐这种方式，在项目根目录创建虚拟环境，这样就算移动目录位置也不影响虚拟环境的使用</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>virtualenvs.path</td>
+      <td>string</td>
+      <td>默认是{cache-dir}/virtualenvs，虚拟环境创建的目录，如果上面的 in-project 为 true，此配置就无效</td>
+      <td>不建议更改</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>:::danger
+建议 在使用前 启用 virtualenvs.in-project ，这样会在每个项目下有一个.venv 方便隔离管理
+:::</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># poetry 配置说明
+</span><span class="n">poetry</span> <span class="n">config</span> <span class="n">virtualenvs</span><span class="p">.</span><span class="ow">in</span><span class="o">-</span><span class="n">project</span> <span class="n">true</span>
+</code></pre></div></div>
+
+<h3 id="poetry-常用指令说明">poetry 常用指令说明</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>Poetry Command</strong></th>
+      <th><strong>解释</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$ poetry –version</td>
+      <td>显示您的 Poetry 安装版本。</td>
+    </tr>
+    <tr>
+      <td>$ poetry new</td>
+      <td>创建一个新的Poetry项目。</td>
+    </tr>
+    <tr>
+      <td>$ poetry init</td>
+      <td>将 Poetry 添加到现有项目中。</td>
+    </tr>
+    <tr>
+      <td>$ poetry run</td>
+      <td>使用 Poetry 执行给定的命令。</td>
+    </tr>
+    <tr>
+      <td>$ poetry add</td>
+      <td>添加一个包pyproject.toml并安装它。</td>
+    </tr>
+    <tr>
+      <td>$ poetry update</td>
+      <td>更新项目的依赖项。</td>
+    </tr>
+    <tr>
+      <td>$ poetry install</td>
+      <td>安装依赖项。</td>
+    </tr>
+    <tr>
+      <td>$ poetry show</td>
+      <td>列出已安装的软件包。</td>
+    </tr>
+    <tr>
+      <td>$ poetry lock</td>
+      <td>将最新版本的依赖项固定到poetry.lock.</td>
+    </tr>
+    <tr>
+      <td>$ poetry lock –no-update</td>
+      <td>刷新poetry.lock文件而不更新任何依赖版本。</td>
+    </tr>
+    <tr>
+      <td>$ poetry check</td>
+      <td>验证pyproject.toml。</td>
+    </tr>
+    <tr>
+      <td>$ poetry config –list</td>
+      <td>显示 Poetry 配置。</td>
+    </tr>
+    <tr>
+      <td>$ poetry env list</td>
+      <td>列出项目的虚拟环境。</td>
+    </tr>
+    <tr>
+      <td>$ poetry export</td>
+      <td>导出poetry.lock为其他格式。</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="新项目初始化流程">新项目初始化流程</h3>
+
+<blockquote>
+  <p>这里以 初始化一个  FastAPI 项目作为 实例</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  fastapi poetry new fastapi-demo
+Created package fastapi_demo <span class="k">in </span>fastapi-demo
+➜  fastapi <span class="nb">ls</span> <span class="nt">-lh</span> fastapi-demo
+total 8
+<span class="nt">-rw-r--r--</span>  1 samzonglu  staff     0B  2 15 14:28 README.rst
+drwxr-xr-x  3 samzonglu  staff    96B  2 15 14:28 fastapi_demo
+<span class="nt">-rw-r--r--</span>  1 samzonglu  staff   304B  2 15 14:28 pyproject.toml
+drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
+
+➜  fastapi <span class="nb">cd </span>fastapi-demo
+➜  fastapi-demo poetry <span class="nb">env </span>use 3.10.2  <span class="c"># 配置项目的虚拟环境</span>
+
+</code></pre></div></div>
+
+<h3 id="requirementstxt-已存在项目使用poetry">requirements.txt 已存在项目使用poetry</h3>
+
+<p>这里会遇到一个问题，已存在的项目基本都已经有了 requirements.txt， 所以 poetry 最好可以直接读取它</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry add <span class="sb">`</span><span class="nb">cat </span>requirements.txt<span class="sb">`</span>
+</code></pre></div></div>
+
+<p>将项目依赖导出为  requirements.txt</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry <span class="nb">export</span> <span class="nt">--output</span> requirements.txt
+</code></pre></div></div>
+
+<h2 id="更新内容">更新内容</h2>
+
+<p>如何把项目移交给一个 not use Poetry 的人运行，对于 Python 的 环境包 依赖，上述的 ouput/input 的方式，会存在一些问题，这里进行纠正。</p>
+
+<h3 id="问题-pip-freeze-不能用了">问题 pip freeze 不能用了</h3>
+
+<p>:::warning
+pip freeze &gt; requirements.txt
+:::</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>anyio @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/cd/3f/ae/baff749ce6cb4d7985e4142650605d2d30cb92eb418e2d121868e4413d/anyio-3.6.1-py3-none-any.whl
+certifi @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/b1/9b/6f/cd63ce97294ee9a1fb57e5cebf02f251fbb8f9ac48353a27ceeddc410b/certifi-2022.6.15-py3-none-any.whl
+charset-normalizer @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/86/c8/3e/d878881698fbd2b72f484e4fca340588d633102920a002b66a293f9480/charset_normalizer-2.1.0-py3-none-any.whl
+click @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/63/f3/4c/2270b95f4d37b9ea73cd401abe68b6e9ede30380533cd4e7118a8e3aa3/click-8.1.3-py3-none-any.whl
+fastapi @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/f9/37/53/c998e9ffd7ace66218174711f5c3ef1026a0bd3cd72f5fe2908e9b949b/fastapi-0.78.0-py3-none-any.whl
+h11 @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/ef/5c/a2/a6d556bc5e3493616e52726df9c880b2da2fbf9c3be5e8351c84fbfafd/h11-0.13.0-py3-none-any.whl
+idna @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/90/36/8c/81eabf6ac88608721ab27f439c9a6b9a8e6a21cc58c59ebb1a42720199/idna-3.3-py3-none-any.whl
+pydantic @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/c2/13/d4/b9f7dbf75702d85504b4a5f36545ff903c7e2264d4889e94ce02637276/pydantic-1.9.1-cp310-cp310-macosx_11_0_arm64.whl
+requests @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/14/1f/4d/1b93db6513b8ab38db841e4ce62691288ba549a5c1b6f3ca7274a1c9fd/requests-2.28.1-py3-none-any.whl
+sniffio @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/2b/1b/93/9c34d727e29f7bb11ce5b2ca7f43e77cb4e96a81ee5e07a92763951416/sniffio-1.2.0-py3-none-any.whl
+starlette @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/3d/fc/74/569a1206737284325f5bb2e4f34689632c159dafbe8b7ff30bf2893c2d/starlette-0.19.1-py3-none-any.whl
+typing_extensions @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/4a/aa/fe/e4680f3423fbdb5ac89a6fb2f83d9e7ff7fb48173b0fa1604786182558/typing_extensions-4.3.0-py3-none-any.whl
+urllib3 @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/8a/87/ce/4a44bf6bb59a745f4af7082c6977ab23a478fca039ad4d631dfdc0185b/urllib3-1.26.10-py2.py3-none-any.whl
+uvicorn @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/62/76/ec/dcafe6bae872839618dbf982c87eb314eee97784f7df74895e07bd198a/uvicorn-0.18.2-py3-none-any.whl
+</code></pre></div></div>
+
+<p>可以看到，默认情况下<code class="language-plaintext highlighter-rouge">pip freeze</code>在输出时，携带里对应的安装路径；如果这个时候，我们把项目移交给其他人运行时，会遇到以下问题</p>
+
+<blockquote>
+  <p>ERROR: Could not install packages due to an EnvironmentError: [Errno 2] No such</p>
+</blockquote>
+
+<p>这是 pip 安装软件包的一种特殊语法（自19.1开始受支持）<a href="https://www.python.org/dev/peps/pep-0440/#direct-references">PEP404</a>，
+但是该此种路径取决于环境，file:///URL 仅在本地文件系统上可用，你不能将生成的 requirements.txt 文件提供给其他人使用</p>
+
+<h3 id="先说解决方法-01-poetry-style">先说解决方法 01 [poetry style]</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry <span class="nb">export</span> <span class="nt">--without-hashes</span> <span class="nt">--format</span><span class="o">=</span>requirements.txt <span class="o">&gt;</span> requirements.txt
+</code></pre></div></div>
+
+<p>通过 poetry 自带的导出能力，会携带更多的一些信息：对于环境中python版本的依赖，虽然更加友好一些。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">anyio</span><span class="o">==</span>3.6.1<span class="p">;</span> python_full_version <span class="o">&gt;=</span> <span class="s2">"3.6.2"</span>
+<span class="nv">certifi</span><span class="o">==</span>2022.6.15<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.6"</span>
+charset-normalizer<span class="o">==</span>2.1.0<span class="p">;</span> python_full_version <span class="o">&gt;=</span> <span class="s2">"3.6.0"</span>
+<span class="nv">click</span><span class="o">==</span>8.1.3<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span>
+<span class="nv">colorama</span><span class="o">==</span>0.4.5<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span> and python_full_version &lt; <span class="s2">"3.0.0"</span> and platform_system <span class="o">==</span> <span class="s2">"Windows"</span> or platform_system <span class="o">==</span> <span class="s2">"Windows"</span> and python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span> and python_full_version <span class="o">&gt;=</span> <span class="s2">"3.5.0"</span>
+<span class="nv">fastapi</span><span class="o">==</span>0.78.0<span class="p">;</span> python_full_version <span class="o">&gt;=</span> <span class="s2">"3.6.1"</span>
+<span class="nv">h11</span><span class="o">==</span>0.13.0<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.6"</span>
+<span class="nv">idna</span><span class="o">==</span>3.3<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.5"</span>
+<span class="nv">pydantic</span><span class="o">==</span>1.9.1<span class="p">;</span> python_full_version <span class="o">&gt;=</span> <span class="s2">"3.6.1"</span>
+<span class="nv">requests</span><span class="o">==</span>2.28.1<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span> and python_version &lt; <span class="s2">"4"</span>
+<span class="nv">sniffio</span><span class="o">==</span>1.2.0<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.5"</span>
+<span class="nv">starlette</span><span class="o">==</span>0.19.1<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.6"</span>
+typing-extensions<span class="o">==</span>4.3.0<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span>
+<span class="nv">urllib3</span><span class="o">==</span>1.26.10<span class="p">;</span> <span class="o">(</span>python_version <span class="o">&gt;=</span> <span class="s2">"2.7"</span> and python_full_version &lt; <span class="s2">"3.0.0"</span><span class="o">)</span> or <span class="o">(</span>python_full_version <span class="o">&gt;=</span> <span class="s2">"3.6.0"</span> and python_version &lt; <span class="s2">"4"</span><span class="o">)</span>
+<span class="nv">uvicorn</span><span class="o">==</span>0.18.2<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span>
+</code></pre></div></div>
+
+<h3 id="再说解决方法-02">再说解决方法 02</h3>
+
+<p>在新版的 python 中，推荐采用另外一个命令方式，<code class="language-plaintext highlighter-rouge">pip list --format=freeze</code> 这样会输出一份干净的依赖清单，我们可以通过这个方式，快速导出一份 <code class="language-plaintext highlighter-rouge">原汁原味</code> 的 requirements.txt</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry run pip list <span class="nt">--format</span><span class="o">=</span>freeze
+<span class="nv">anyio</span><span class="o">==</span>3.6.1
+<span class="nv">certifi</span><span class="o">==</span>2022.6.15
+charset-normalizer<span class="o">==</span>2.1.0
+<span class="nv">click</span><span class="o">==</span>8.1.3
+<span class="nv">fastapi</span><span class="o">==</span>0.78.0
+<span class="nv">h11</span><span class="o">==</span>0.13.0
+<span class="nv">idna</span><span class="o">==</span>3.3
+<span class="nv">pip</span><span class="o">==</span>22.2
+<span class="nv">pydantic</span><span class="o">==</span>1.9.1
+<span class="nv">requests</span><span class="o">==</span>2.28.1
+<span class="nv">setuptools</span><span class="o">==</span>62.6.0
+<span class="nv">sniffio</span><span class="o">==</span>1.2.0
+<span class="nv">starlette</span><span class="o">==</span>0.19.1
+<span class="nv">typing_extensions</span><span class="o">==</span>4.3.0
+<span class="nv">urllib3</span><span class="o">==</span>1.26.10
+<span class="nv">uvicorn</span><span class="o">==</span>0.18.2
+<span class="nv">wheel</span><span class="o">==</span>0.37.1
+</code></pre></div></div>
+
+<h3 id="补充安装来自于requirementstxt的方式">补充安装来自于requirements.txt的方式</h3>
+
+<blockquote>
+  <p>with poetry</p>
+</blockquote>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat </span>requirements.txt | xargs poetry add
+</code></pre></div></div>
+
+<blockquote>
+  <p>without poetry</p>
+</blockquote>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
+</code></pre></div></div>
+
+        </div>
+
+        <div id="related">
+            <h2>Related Posts</h2>
+            <ul class="posts"><!--当一篇文章有两个tag一样时显示-->
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+            </ul>
+        </div>
+
+        <hr>
+        <nav>
+            <ul class="pager">
+                
+                <li class="previous"><a href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html" title="K8s系列 南北流量和东西流量">&larr;
+                    Previous（前一篇）</a></li>
+                
+                <!-- <li><a href="/static/archive.html">Archive（目录）</a></li> -->
+                <li><a href="/archive.html">Archive（目录）</a></li>
+                
+                <li class="next"><a href="/post/2022/09/GitLab-Forked-%E5%A6%82%E4%BD%95%E8%B7%9F%E9%9A%8Fupstream%E4%B8%BB%E5%BA%93.html" title="GitLab Forked 如何跟随upstream主库">Next（后一篇） &rarr;</a></li>
+                
+            </ul>
+        </nav>
+    </div>
+
+    <div class="col-xs-12 col-md-4">
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	
+      <li><a href="/categories.html#Python">
+    		Python <span>45</span>
+    	</a></li>
+    
+  
+
+
+
+        </ul>
+        
+
+        
+        <ul class="tag_box">
+            <li><span class="glyphicon glyphicon-tag" aria-hidden="true"></span></li>
+            
+            
+
+
+  
+     
+    	
+    	<li><a href="/tags.html#Python">Python <span>46</span></a></li>
+    
+  
+
+
+
+        </ul>
+        
+        <div id="floatbox">
+            <div id="post-directory-module">
+                <div id="toc"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/assets/themes/evjekylltheme/toc.js"></script>
+<script>!function(e,n){for(var o=0;o<e.length;o++){var r=n.createElement("script"),c=".js",d=n.head||n.body;"noModule"in r?(r.type="module",c=".mjs"):r.async=!0,r.defer=!0,r.src=remark_config.host+"/web/"+e[o]+c,d.appendChild(r)}}(remark_config.components||["embed"],document);</script>
+
+
+			</div>
+
+		</div>
+
+    <footer>
+      <div class="container">
+        <div class="row mobilepadding">
+          			<hr>
+      &copy; 2022 船长. Powered by <a href="http://jekyllrb.com" target="_blank" title="The simple, blog-aware, static site generator.">Jekyll</a>. Theme Creator <a href="https://github.com/einverne" target="_blank" title="Ein Verne's GitHub Repos">Ein Verne</a> . Host on <a href="https://github.com/samzong/samzong.me" target="_blank" title="Samzong's GitHub Repos">Github</a> .
+      <br><br>
+      </div>
+    </div>
+    </footer>
+
+    
+
+
+
+
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/webcore.js"></script>
+
+ </body>
+</html>
+

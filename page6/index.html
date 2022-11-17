@@ -201,6 +201,26 @@
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
@@ -244,342 +264,16 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2017/02/HowTo-Install-NextCloud.html">HowTo Install NextCloud</a></h1>
+    <h1><a class="title" href="/post/2021/11/%E5%BE%85%E5%AE%8C%E6%88%90-%E4%BD%BF%E7%94%A8%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%8E%88%E6%9D%83%E7%99%BB%E5%BD%95.html">[待完成] 使用钉钉三方授权登录</a></h1>
     <div class="post_at_index">
-      <p>随着最近一个云盘厂家不再提供个人服务，或者开始各种收费限速，自己存放在第三方云盘厂商的数据被盗取，数据的安全性和数据的稳定性都得不到保证，而且随着智能终端的普及，我也有一些更加高质量的图片文件需要大量储存，所以我想到了自建存储服务的方式，在甄别了OwnCloud，Seafiles和NextCloud，最后选择了NextCloud作为自己今后数据存储节点，NextCloud源自OwnCloud，但是近些年来OwnCloud的发展进度几乎停滞，多数开发者也转战NextCloud，当然NextCloud也继承了搭建简单，依赖于PHP环境的特性。</p>
-
-<h4 id="运行环境"><strong>运行环境</strong></h4>
-
-<ul>
-  <li>阿里云ECS CentOS 6.x</li>
-  <li>免费SSL证书(腾讯云申请)</li>
-</ul>
-
-<h4 id="搭建lnmp环境"><strong>搭建LNMP环境</strong></h4>
-
-<h5 id="软件版本">软件版本</h5>
-
-<ul>
-  <li>PHP 5.6.30   <a href="https://samzong.me/php54-centos6/">安装教程</a></li>
-  <li>MySQL 5.6.35  <a href="https://samzong.me/how-to-install-mysql-5-6-on-centos/">安装教程</a></li>
-  <li>Nginx 1.10.2</li>
-</ul>
-
-<h5 id="基础环境安装">基础环境安装</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# yum update -y
-[root@ultraera ~]# yum groupinstall -y "Base"
-[root@ultraera ~]# yum groupinstall -y "Development tools"
-
-# Install epel
-[root@ultraera ~]# yum install -y epel-release
-
-# Install remi
-[root@ultraera ~]# yum install http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-
-# Install mysql-community
-[root@ultraera ~]# yum install http://repo.mysql.com/yum/mysql-5.6-community/el/6/x86_64/mysql-community-release-el6-7.noarch.rpm
-</code></pre></div></div>
-
-<h5 id="install-lnmp">Install LNMP</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Install MySQL
-[root@ultraera ~]# yum --enablerepo=mysql-community install -y mysql-server mysql-libs mysql-devel
-[root@ultraera ~]# service mysqld start
-[root@ultraera ~]# mysql_secure_installation
-[root@ultraera ~]# chkconfig mysqld on
-
-# Install Nginx
-[root@ultraera ~]# yum --enablerepo=epel install -y nginx
-[root@ultraera ~]# service nginx start
-[root@ultraera ~]# chkconfig nginx on
-
-# Install PHP and php-fpm
-[root@ultraera ~]# yum --enablerepo=remi-php56 install php php-fpm php-mysql php-gd php-xml php-redis php-libs php-devel php-zlib
-[root@ultraera ~]# service php-fpm start
-[root@ultraera ~]# chkconfig php-fpm on
-[root@ultraera ~]# service nginx restart
-</code></pre></div></div>
-
-<h5 id="下载nextcloud">下载NextCloud</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# wget https://download.nextcloud.com/server/releases/nextcloud-11.0.1.tar.bz2
-[root@ultraera ~]# tar xf nextcloud-11.0.1.tar.bz2
-[root@ultraera ~]# mv nextcloud-11.0.1 /opt/nextcloud
-</code></pre></div></div>
-
-<h5 id="配置nginx和php-fpm">配置Nginx和php-fpm</h5>
-
-<p>因为php-fpm默认运行的用户身份是apache，我们这里使用的环境是nginx，所有要修改php-fpm配置文件的用户和组，注意不要为了省事直接改为root，这在php-fpm中是不允许的</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# vim /etc/php-fpm.d/www.conf
-user=nginx
-group=nginx
-[root@ultraera ~]# service php-fpm restart
-</code></pre></div></div>
-
-<p>因为NextCloud默认是以Apache的身份运行的，所以我们需要单独配置NextCloud的Nginx配置文件，以下配置文件，你可以直接拿去用，注意在文件中说明了，需要修改的地方：</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# vim /etc/nginx/conf.d/nextcloud.conf
- upstream php-handler {
-  	# 这里是你php-fpm的服务端口，默认是9000
-    server 127.0.0.1:9000;
-    #server unix:/var/run/php5-fpm.sock;
-}
-
-server {
-  	# 你的域名
-    listen pan.ultraera.org:80;
-    server_name pan.ultraera.org;
-    # enforce https
-    return 301 https://$server_name$request_uri;
-}
-
-server {
-    # 你的域名
-    listen pan.ultraera.org:443 ssl;
-    server_name pan.ultraera.org;
-
-  	# 以下是你的ssl证书文件存放路径
-    ssl_certificate /etc/nginx/ssl/1_pan.ultraera.org_bundle.crt;
-    ssl_certificate_key /etc/nginx/ssl/2_pan.ultraera.org.key;
-
-    # Add headers to serve security related headers
-    # Before enabling Strict-Transport-Security headers please read into this
-    # topic first.
-    # add_header Strict-Transport-Security "max-age=15768000;
-    # includeSubDomains; preload;";
-    add_header X-Content-Type-Options nosniff;
-    add_header X-Frame-Options "SAMEORIGIN";
-    add_header X-XSS-Protection "1; mode=block";
-    add_header X-Robots-Tag none;
-    add_header X-Download-Options noopen;
-    add_header X-Permitted-Cross-Domain-Policies none;
-	add_header Strict-Transport-Security "max-age=15552000; includeSubdomains; ";
-
-    # 设定你的NextCloud的根目录，请根据实际修改
-    root /opt/nextcloud/;
-
-    location = /robots.txt {
-        allow all;
-        log_not_found off;
-        access_log off;
-    }
-
-    # The following 2 rules are only needed for the user_webfinger app.
-    # Uncomment it if you're planning to use this app.
-    #rewrite ^/.well-known/host-meta /public.php?service=host-meta last;
-    #rewrite ^/.well-known/host-meta.json /public.php?service=host-meta-json
-    # last;
-
-    location = /.well-known/carddav {
-      return 301 $scheme://$host/remote.php/dav;
-    }
-    location = /.well-known/caldav {
-      return 301 $scheme://$host/remote.php/dav;
-    }
-
-    # set max upload size
-    client_max_body_size 512M;
-    fastcgi_buffers 64 4K;
-
-    # Disable gzip to avoid the removal of the ETag header
-    gzip off;
-
-    # Uncomment if your server is build with the ngx_pagespeed module
-    # This module is currently not supported.
-    #pagespeed off;
-
-    error_page 403 /core/templates/403.php;
-    error_page 404 /core/templates/404.php;
-
-    location / {
-        rewrite ^ /index.php$uri;
-   }
-
-    location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/ {
-        deny all;
-    }
-    location ~ ^/(?:\.|autotest|occ|issue|indie|db_|console) {
-        deny all;
-    }
-
-    location ~ ^/(?:index|remote|public|cron|core/ajax/update|status|ocs/v[12]|updater/.+|ocs-provider/.+|core/templates/40[34])\.php(?:$|/) {
-        include fastcgi_params;
-        fastcgi_split_path_info ^(.+\.php)(/.*)$;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_param PATH_INFO $fastcgi_path_info;
-        fastcgi_param HTTPS on;
-        #Avoid sending the security headers twice
-        fastcgi_param modHeadersAvailable true;
-        fastcgi_param front_controller_active true;
-        fastcgi_pass php-handler;
-        fastcgi_intercept_errors on;
-        fastcgi_request_buffering off;
-    }
-
-    location ~ ^/(?:updater|ocs-provider)(?:$|/) {
-        try_files $uri/ =404;
-        index index.php;
-    }
-
-    # Adding the cache control header for js and css files
-    # Make sure it is BELOW the PHP block
-    location ~* \.(?:css|js|woff|svg|gif)$ {
-        try_files $uri /index.php$uri$is_args$args;
-        add_header Cache-Control "public, max-age=7200";
-        # Add headers to serve security related headers (It is intended to
-        # have those duplicated to the ones above)
-        # Before enabling Strict-Transport-Security headers please read into
-        # this topic first.
-        # add_header Strict-Transport-Security "max-age=15768000;
-        #  includeSubDomains; preload;";
-        add_header X-Content-Type-Options nosniff;
-        add_header X-Frame-Options "SAMEORIGIN";
-        add_header X-XSS-Protection "1; mode=block";
-        add_header X-Robots-Tag none;
-        add_header X-Download-Options noopen;
-        add_header X-Permitted-Cross-Domain-Policies none;
-        # Optional: Don't log access to assets
-        access_log off;
-    }
-
-    location ~* \.(?:png|html|ttf|ico|jpg|jpeg)$ {
-        try_files $uri /index.php$uri$is_args$args;
-        # Optional: Don't log access to other assets
-        access_log off;
-    }
-}
-[root@ultraera ~]# service nginx restart
-</code></pre></div></div>
-
-<h5 id="文件权限调整">文件权限调整</h5>
-
-<p>因为NextCloud运行是以nginx程序，注意修改目录所属用户和组为nginx</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# chown -R nginx:nginx /opt/nextcloud
-</code></pre></div></div>
-
-<h5 id="创建mysql数据库">创建MySQL数据库</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; CREATE DATABASE nextcloud CHARACTER SET UTF-8;
-mysql&gt; GRANT ALL PRIVILEGES ON nextcloud.* TO 'nextcloud'@'localhost' IDENTIFIED BY 'your_password';
-mysql&gt; FLUSH PRIVILEGES;
-</code></pre></div></div>
-
-<h4 id="初始化nextcloud">初始化NextCloud</h4>
-
-<p>在浏览器打开你在nginx中配置的域名，NextCloud初始化非常简单，设定一个管理员账户和密码，然后设定数据库即可，按照我们上一步针对MySQL的设定，你会非常清楚地知道你的数据库信息：</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/jjkqh.png" alt="" /></p>
-
-<p>登录之后的界面是这样：</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/7n28v.png" alt="" /></p>
-
-<p>你可以在登录之后，在你的右上角点击头像选择Admin进入管理界面查看和修改你的服务器设置，你还可以在浏览器上方看到你的服务器现有哪些问题，会有对应文档提醒你如何解决这些问题。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/yx34e.png" alt="" /></p>
-
-<h4 id="other"><strong>Other</strong></h4>
-
-<h5 id="修改默认data目录">修改默认data目录</h5>
-
-<p>在我们首次打开NextCloud网页时，需要我们设定datadir目录，这里有个默认目录在nextcloud项目包，这其实是不安全的，我们最后将目录路径修改为其他位置:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# mkdir /nextcloud_files/
-[root@ultraera ~]# chown -R nginx:nginx /nextcloud_files/
-
-# 修改datadirectory的路径
-[root@ultraera ~]# vim /opt/nextcloud/config/config.php
-datadirectory' =&gt; '/nextcloud/data
-</code></pre></div></div>
-
-<h5 id="无法登陆到个人用户界面">无法登陆到个人用户界面</h5>
-
-<p>我在安装时碰到这个问题，折腾了很久才解决，因为我们是使用nginx程序，但是php-fpm默认用户身份为apache，所以<code>/var/lib/php/session</code>目录的所属用户和组都是apache，导致我们没有权限去写入session，所以无法登入系统，报错信息可以在NextCloud的log文件下看到：</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# tail -n 1 /usr/nextcloud/data/nextcloud.log
-{"reqId":"NNnIwMCCPDMQtzZW5Ndc","remoteAddr":"180.166.66.226","app":"PHP","message":"session_write_close(): Failed to write session data (files). Please verify that the current setting of session.save_path is correct (\/var\/lib\/php\/session) at \/usr\/nextcloud\/lib\/private\/Session\/Internal.php#104","level":3,"time":"2017-02-24T10:46:13+00:00","method":"POST","url":"\/index.php","user":"samzong","version":"11.0.0.10"}
-
-# 修改/var/lib/php/的属组为nginx即可
-[root@ultraera ~]# chgrp -R nginx /var/lib/php
-</code></pre></div></div>
-
-<h5 id="增加redis组件提高性能">增加redis组件，提高性能</h5>
-
-<p>关于如何安装redis我在之前的文章中也有讲到，大家可以去看下 <a href="https://samzong.me/redis01/">安装教程</a></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# yum --enablerepo=remi install -y redis
-
-# 增加php的redis插件
-[root@ultraera ~]# yum --enablerepo=remi-php56 install php-redis
-
-# 配置文件增加redis
-  'memcache.local' =&gt; '\\OC\\Memcache\\Redis',
-  'memcache.locking' =&gt; '\\OC\\Memcache\\Redis',
-  'redis' =&gt;
-   array (
-    'host' =&gt; 'localhost',
-    'port' =&gt; 6379,
-   )
-
-# 重启令服务生效
-[root@ultraera ~]# service php-fpm restart
-[root@ultraera ~]# service nginx restart
-</code></pre></div></div>
-
-<p>我的NextCloud配置如下：</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?php
-$CONFIG = array (
-  'memcache.local' =&gt; '\\OC\\Memcache\\Redis',
-  'memcache.locking' =&gt; '\\OC\\Memcache\\Redis',
-  'redis' =&gt;
-  array (
-    'host' =&gt; 'localhost',
-    'port' =&gt; 6379,
-  ),
-  'enable_previews' =&gt; false,
-  'instanceid' =&gt; 'ockhup01dxbf',
-  'passwordsalt' =&gt; 'TlJgWGrE0N7vOrRfZkOojwdYh/BixL',
-  'secret' =&gt; '/IQh0LioZp5eYFQJhicY7n324Q80WQUYOzWL+8OcxcXVw3Ef',
-  'trusted_domains' =&gt;
-  array (
-    0 =&gt; 'pan.ultraera.org',
-  ),
-  'datadirectory' =&gt; '/nextcloud',
-  'overwrite.cli.url' =&gt; 'https://pan.ultraera.org',
-  'dbtype' =&gt; 'mysql',
-  'version' =&gt; '11.0.0.10',
-  'dbname' =&gt; 'nextcloud',
-  'dbhost' =&gt; 'localhost',
-  'dbport' =&gt; '',
-  'dbtableprefix' =&gt; 'oc_',
-  'dbuser' =&gt; 'nextcloud',
-  'dbpassword' =&gt; 'nextcloud',
-  'logtimezone' =&gt; 'CST',
-  'installed' =&gt; true,
-  'mail_from_address' =&gt; 'luchuanjia',
-  'mail_smtpmode' =&gt; 'php',
-  'mail_domain' =&gt; 'msn.com',
-);
-</code></pre></div></div>
-
-<h5 id="ssl证书">SSL证书</h5>
-
-<p>现国内提供免费的SSL证书的服务商很多，作为个人站点，免费SSL证书是个挺不错的选择，我在之前nginx配置时将ssl的配置方式写在了配置文件中了，注意如果不启用ssl时，不要启用https的虚拟主机，当然你可以自己生成一个ssl证书来提供服务，但这样在别人访问你的网站时，会不提示不受信任的证书，具体如何获取的证书的方式，因各个厂家方式有些区别，这里就不赘述，可以联系对应的厂商的技术人员咨询。</p>
-
-<h4 id="使用现状"><strong>使用现状</strong></h4>
-
-<p>在将服务搭建完成之后，对于存储的文件加密，现在通过jobs，每日凌晨将文件推送到oss内，保存2天的数据，避免因为服务器宕机导致文件丢失；使用端，自己的电脑和手机，还有家人的手机，都安装了应用，后台自动将拍照图片等自动上传到云盘，使用起来目前很稳定，只是iOS应用是收费的，因为NextCloud源于OwnCloud，如果你之前购买了OwnCloud的App也可以直接使用，当然NextCloud也有很多其他功能，可以根据你的实际需求发掘。</p>
+      <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1637181122961-7f2d1719-4254-429b-b61f-884b0a82aaaf.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2017-02-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#NextCloud">NextCloud</a>
+      <cite>2021-11-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -588,644 +282,65 @@ $CONFIG = array (
     <hr/>
     
     
-    <h1><a class="title" href="/post/2017/02/HowTo-Install-Redmine.html">HowTo Install Redmine</a></h1>
+    <h1><a class="title" href="/post/2021/11/Creating-DataFrame-using-list.html">Creating DataFrame using list</a></h1>
     <div class="post_at_index">
-      <h4 id="runtime-environment">Runtime environment</h4>
-
-<ul>
-  <li>CentOS 6.x</li>
-  <li>Redmine 3.3.2</li>
-  <li>Ruby 2.2.6</li>
-  <li>rails 4.2</li>
-  <li>MySQL 5.1</li>
-  <li>Nginx 1.10</li>
-</ul>
-
-<h4 id="安装rvm">安装rvm</h4>
-
-<h5 id="导入公钥">导入公钥</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# curl -sSL https://rvm.io/mpapis.asc | gpg --import
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+  
+<span class="c1"># list of strings
+</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'For'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'is'</span><span class="p">,</span> 
+            <span class="s">'portal'</span><span class="p">,</span> <span class="s">'for'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">]</span>
+  
+<span class="c1"># Calling DataFrame constructor on list
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
 </code></pre></div></div>
 
-<h5 id="安装">安装</h5>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326317905-b923391a-6135-482f-8b43-9a67e1f6245f.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# curl -L https://get.rvm.io | bash -s stable
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># import pandas as pd
+</span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="c1"># list of strings
+</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'For'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'is'</span><span class="p">,</span> <span class="s">'portal'</span><span class="p">,</span> <span class="s">'for'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">]</span>
+
+<span class="c1"># Calling DataFrame constructor on list
+# with indices and columns specified
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span><span class="p">[</span><span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">,</span> <span class="s">'d'</span><span class="p">,</span> <span class="s">'e'</span><span class="p">,</span> <span class="s">'f'</span><span class="p">,</span> <span class="s">'g'</span><span class="p">],</span>
+											<span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'Names'</span><span class="p">])</span>
 </code></pre></div></div>
 
-<h5 id="加载rvm环境并安装基础依赖包">加载rvm环境并安装基础依赖包</h5>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326330330-97380b9c-a674-479c-a4f4-074ef3128aa3.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# source /etc/profile.d/rvm.sh
-[root@localhost ~]# rvm requirements
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Creating DataFrame using multi-dimensional list
+</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+	
+<span class="c1"># List1
+</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'tom'</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> <span class="p">[</span><span class="s">'krish'</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
+	<span class="p">[</span><span class="s">'nick'</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span> <span class="p">[</span><span class="s">'juli'</span><span class="p">,</span> <span class="mi">22</span><span class="p">]]</span>
+	
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'Name'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">])</span>
 </code></pre></div></div>
 
-<h4 id="安装ruby">安装ruby</h4>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326375589-cd58c20f-3dde-4eeb-a097-19dd3bf3376a.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# rvm install 2.2.6
-...
-[root@localhost ~]# rvm use 2.2.6 --default
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Using multi-dimensional list with column name and dtype specified.
+</span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+	
+<span class="c1"># List1
+</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'tom'</span><span class="p">,</span> <span class="s">'reacher'</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> <span class="p">[</span><span class="s">'krish'</span><span class="p">,</span> <span class="s">'pete'</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
+	<span class="p">[</span><span class="s">'nick'</span><span class="p">,</span> <span class="s">'wilson'</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span> <span class="p">[</span><span class="s">'juli'</span><span class="p">,</span> <span class="s">'williams'</span><span class="p">,</span> <span class="mi">22</span><span class="p">]]</span>
+	
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'FName'</span><span class="p">,</span> <span class="s">'LName'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">],</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
 </code></pre></div></div>
-
-<h4 id="安装rails">安装rails</h4>
-
-<h5 id="更换gem源">更换gem源</h5>
-
-<p>默认gem的源站点是https://rubygems.org 由于国内的网络原因导致无法连接，所以导致无法使用gem安装，这里换成国内淘宝的gem镜像站点</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# gem sources -l
-*** CURRENT SOURCES ***
-
-https://rubygems.org/
-[root@localhost ~]# gem sources --remove https://rubygems.org/
-[root@localhost ~]# gem sources -a https://ruby.taobao.org/
-[root@localhost ~]# gem sources -l
-*** CURRENT SOURCES ***
-
-https://ruby.taobao.org/
-</code></pre></div></div>
-
-<h5 id="安装-1">安装</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# gem install rails -v=4.2
-</code></pre></div></div>
-
-<h4 id="安装mysql">安装MySQL</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# yum install -y mysql-server mysql-libs mysql-devel mysql
-[root@localhost ~]# service mysqld start
-[root@localhost ~]# mysql_secure_installation
-</code></pre></div></div>
-
-<h4 id="安装redmine">安装redmine</h4>
-
-<h5 id="下载redmine-332">下载Redmine 3.3.2</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# wget http://www.redmine.org/releases/redmine-3.3.2.tar.gz
-[root@localhost ~]# tar xf redmine-3.3.2.tar.gz
-[root@localhost ~]# mv redmine-3.3.2 /opt
-</code></pre></div></div>
-
-<h5 id="安装管理ruby的包管理工具bundler">安装管理ruby的包管理工具bundler</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 注意，一定要在redmine目录下操作
-[root@localhost ~]# cd /opt/redmine-3.3.2
-[root@localhost redmine-3.3.2]# gem install bundler
-</code></pre></div></div>
-
-<h5 id="安装redmine运行所需要的依赖包">安装redmine运行所需要的依赖包</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# bundle install --without development test rmagick
-</code></pre></div></div>
-
-<h5 id="为rails生产cookies秘钥">为rails生产cookies秘钥</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# rake generate_secret_token
-</code></pre></div></div>
-
-<h5 id="创建redmine的数据库">创建redmine的数据库</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; create database redmine character set utf8;
-mysql&gt; grant all privileges on redmine.* to 'redmine'@'localhost' identified by 'redmine_pass';
-</code></pre></div></div>
-
-<h5 id="修改redmine的databaseyml">修改redmine的database.yml</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# cp config/database.yml.example config/database.yml
-[root@localhost redmine-3.3.2]# vim config/database.yml
-production:
-  adapter: mysql2
-  database: redmine
-  host: localhost
-  username: redmine
-  password: "redmine_pass"
-  encoding: utf8
-</code></pre></div></div>
-
-<h5 id="创建数据库结构">创建数据库结构</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# RAILS_ENV=production bundle exec rake db:migrate
-</code></pre></div></div>
-
-<h5 id="生产缺省数据">生产缺省数据</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# RAILS_ENV=production bundle exec rake redmine:load_default_data
-# 选择默认语言，之后可更改，初始为en
-</code></pre></div></div>
-
-<h5 id="测试是否安装成功">测试是否安装成功</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# bundle exec rails server webrick -e production -b 0.0.0.0
-</code></pre></div></div>
-
-<blockquote>
-  <p>默认运行3000端口，默认管理员admin/admin</p>
-</blockquote>
-
-<h4 id="配置redmine在nginx上运行">配置Redmine在Nginx上运行</h4>
-
-<p>Redmine常用的解决办法是使用passenger+nginx，但是Nginx不支持装载模块，所以需要重新编译安装Nginx，安装Nginx的Passenger有两种方式</p>
-
-<ul>
-  <li>采用Passenger提供的脚本进行安装，适合新环境</li>
-  <li>手动编译安装Nginx增加Passenger模块，适合已存在Nginx环境</li>
-</ul>
-
-<h5 id="采用passenger提供脚本安装">采用Passenger提供脚本安装</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# gem install passenger
-[root@localhost redmine-3.3.2]# passenger-install-nginx-module --auto --prefix=/opt/nginx
-</code></pre></div></div>
-
-<h5 id="采用重新编译nginx增加passenger模块">采用重新编译Nginx增加Passenger模块</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 获取passenger的安装路径
-[root@localhost ~]# passenger-config --root
-/usr/local/rvm/gems/ruby-2.2.6/gems/passenger-5.1.2
-
-# 重新编译Nginx并添加模块
-[root@localhost ~]# wget http://nginx.org/download/nginx-1.10.3.tar.gz
-[root@localhost ~]# tar xf nginx-1.10.3.tar.gz
-[root@localhost ~]# cd nginx-1.10.3
-[root@localhost nginx-1.10.3]# ./configure ... -add-module=/usr/local/rvm/gems/ruby-2.2.6/gems/passenger-5.1.2
-</code></pre></div></div>
-
-<h5 id="增加http模块内以下配置">增加HTTP模块内以下配置</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>passenger_root /usr/local/rvm/gems/ruby-2.2.6/gems/passenger-5.1.2
-</code></pre></div></div>
-
-<h5 id="配置nginxconf-修改server模块中location的配置">配置nginx.conf 修改server模块中location的配置</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ...
-server	{
-  # ...
-  passenger_enabled on;
-  location / {
-    root /opt/redmine-3.3.2/public;
-    index index.html index.htm;
-  }
-}
-# ...
-</code></pre></div></div>
-
-<h5 id="启动nginx">启动Nginx</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# /root/nginx-1.10.3/sbin/nginx -c /root/nginx-1.10.3/conf/nginx.conf
-</code></pre></div></div>
-
-<h4 id="其他">其他</h4>
-
-<p>到这里，所有的安装都完成了，过程中我遇到这些问题，你也注意下：</p>
-
-<h5 id="71-could-not-find-gem-mysql2--0311-in-any-of-the-gem-sources-listed-in-your-gemfile">7.1 Could not find gem ‘mysql2 (~&gt; 0.3.11)’ in any of the gem sources listed in your Gemfile.</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# rm -f Gemfile.lock
-[root@localhost redmine-3.3.2]# bundle install
-</code></pre></div></div>
-
-<h5 id="72-curl-tools">7.2 curl-tools</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install libcurl-devel
-</code></pre></div></div>
-
 
       
     </div>
     <br/>
     <div>
-      <cite>2017-02-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Redmine">Redmine</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2017/02/HowTo-Upgrade-Your-Ghost-Version.html">HowTo Upgrade Your Ghost Version</a></h1>
-    <div class="post_at_index">
-      <p><br /></p>
-<h4 id="1-下载最新版的ghost">1. 下载最新版的Ghost</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -LOk https://ghost.org/zip/ghost-latest.zip
-</code></pre></div></div>
-
-<h4 id="2-创建临时目录并解压ghost-latestzip到此">2. 创建临时目录，并解压ghost-latest.zip到此</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir /usr/ghost-tmp
-unzip ghost-latest.zip -d /usr/ghost-tmp
-</code></pre></div></div>
-
-<h4 id="3-进入到原ghost目录删除core">3. 进入到原ghost目录，删除core</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd  /usr/ghost
-rm -rf core
-</code></pre></div></div>
-
-<h4 id="4进入到新版本的ghost临时目录">4.进入到新版本的ghost临时目录</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /usr/ghost-tmp
-</code></pre></div></div>
-
-<h4 id="5-拷贝所需文件到ghost升级目录">5. 拷贝所需文件到ghost升级目录</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp -R core /usr/ghost
-cp index.js *.json /usr/ghost
-</code></pre></div></div>
-
-<h4 id="6-可选升级casperghost默认主题">6. (可选)升级casper，ghost默认主题</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp -R content/themes/casper /usr/ghost/content/themes/
-</code></pre></div></div>
-
-<h4 id="7-切换回到ghost安装目录">7. 切换回到ghost安装目录</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /usr/ghost
-</code></pre></div></div>
-
-<h4 id="8-修改文件目录所有者和所属组为ghost">8. 修改文件目录所有者和所属组为ghost</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chown -R ghost:ghost ./*
-</code></pre></div></div>
-
-<h4 id="9-重新安装环境">9. 重新安装环境</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install --production
-</code></pre></div></div>
-
-<h4 id="10-重启ghost">10. 重启Ghost</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pm2 restart ghost
-</code></pre></div></div>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-02-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Ghost">Ghost</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2017/02/HowTo-Automatic-Updates-CENTOS-RHEL-Using-YUM.html">HowTo Automatic Updates CENTOS/RHEL Using YUM</a></h1>
-    <div class="post_at_index">
-      <p>大家若工作遇到需要管理的Linux集群机器较多时，同时我们知道系统的安全更新补丁维护这些非常重要，无论你在安装时优化维护做的再好，随着时间的推移，如果不去更新的话，系统早晚都会不安全，所以定期更新我们的系统补丁是一个运维人员的基本工作内容</p>
-
-<h3 id="install-yum-cron">Install yum-cron</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install -y yum-cron
-</code></pre></div></div>
-
-<p>因为我的服务器系统多为CentOS 6，6的配置文件在<code>/etc/sysconfig/yum-cron</code>，你可以用以下命令查看配置文件位置：</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm -ql yum-cron
-/etc/cron.daily/0yum.cron
-/etc/rc.d/init.d/yum-cron
-/etc/sysconfig/yum-cron
-/etc/yum/yum-daily.yum
-/etc/yum/yum-weekly.yum
-/usr/share/doc/yum-cron-3.2.29
-/usr/share/doc/yum-cron-3.2.29/COPYING
-/usr/share/man/man8/yum-cron.8.gz
-</code></pre></div></div>
-
-<h3 id="configure-etcsysconfigyum-cron">Configure “/etc/sysconfig/yum-cron”</h3>
-
-<p>yum-cron的默认设置是会在每天自动检查和安装系统更新包，在安装完成后有些配置需要注意下：</p>
-
-<h5 id="1-对于不需要更新的可以忽略掉">1. 对于不需要更新的可以忽略掉</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>YUM_PARAMETER="--exclude='kernel*' --exclude='php*'"
-</code></pre></div></div>
-
-<h5 id="2-设置管理员邮箱">2. 设置管理员邮箱</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>MAILTO="luchuanjia@msn.com"
-</code></pre></div></div>
-
-<h5 id="3-不自动安装仅检查通知管理邮箱">3. 不自动安装，仅检查，通知管理邮箱</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CHECK_ONLY=yes
-</code></pre></div></div>
-
-<h5 id="4-不自动安装仅下载">4. 不自动安装，仅下载</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DOWNLOAD_ONLY=yes
-</code></pre></div></div>
-
-<h3 id="automatic-starting-yum-cron">Automatic Starting yum-cron</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chkconfig yum-cron on
-</code></pre></div></div>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-02-19</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#CentOS">CentOS</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2017/02/MySQL-8-%E7%B4%A2%E5%BC%95%E5%88%9B%E5%BB%BA-%E5%88%A0%E9%99%A4%E5%92%8C%E6%9F%A5%E7%9C%8B.html">MySQL 索引创建、删除和查看</a></h1>
-    <div class="post_at_index">
-      <h4 id="1-索引的作用"><strong>1. 索引的作用</strong></h4>
-
-<p>在索引列上，数据库利用各种各样的快速定位技术，能够大大的提高查询效率，特别是当数据量非常大和查询设计到多个表时，索引的利用能够将效率提高成千上万倍，当然要合理的利用索引。</p>
-
-<h4 id="2-创建索引"><strong>2. 创建索引</strong></h4>
-
-<p>​	在执行CREATE TABLE时可以创建索引，也可以在之后单独使用CREATE INDEX或ALTER TABLE来为表增加索引。</p>
-
-<h6 id="21-alter-table">2.1 ALTER TABLE</h6>
-
-<p>​	ALTER TABLE用来创建普通索引、UNIQUE索引或PRIMARY KEY索引。</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ALTER TABLE tb_name ADD INDEX index_Name (column_list);
-ALTER TABLE tb_name ADD UNIQUE (column_list);
-ALTER TABLE tb_name ADD PRIMARY KEY (column_list);
-</code></pre></div></div>
-
-<p>​	tb_name 是要增加索引的表名，column_list 是要增加索引的列，多列用逗号隔开，index_Name 是可选，缺省为第一个索引列赋名称，ALTER TABLE允许在单个语句中更改多个表，因此可以也可以同时创建多个索引。</p>
-
-<h6 id="22-create-index">2.2 CREATE INDEX</h6>
-
-<p>​	CREATE INDEX 可对表增加普通索引或者UNIQUE索引。</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CREATE INDEX index_Name ON tb_name(column_list);
-CREATE UNIQUE INDEX index_Name ON tb_name(column_list);
-</code></pre></div></div>
-
-<p>​	tb_name、index_Name和column_list具有ALTER TABLE语句中相同的含义，索引名称不可自定义，也不能创建PRIMARY KEY。</p>
-
-<h4 id="3-索引类型"><strong>3. 索引类型</strong></h4>
-
-<p>​	在创建索引时，可以规定索引能否包含重复的值，如果不包含，则索引应该为PRIMARY KEY或UNIQUE索引，对于单列唯一索引，这能保证单列不包含重复的值，对于多列唯一索引，保证多值的组合不重复。</p>
-
-<p>​	PRIMAY KEY索引与UNIQUE索引非常类似，实际上PRIMAY KEY索引仅是一个具有名称PRIMAY的UNIQUE索引，这表示一个表只能包含一个PRIMAY KEY索引，因为一个表中不可能具有两个同名的索引。</p>
-
-<h4 id="4-删除索引"><strong>4. 删除索引</strong></h4>
-
-<p>​	可以使用ALTER TABLE或DROP INDEX语句来删除索引：</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DROP INDEX index_Name On tb_name;
-ALTER TABLE tb_Name DROP TABLE index_Name;
-ALTER TABLE tb_Name DROP PRIMAY KEY;
-</code></pre></div></div>
-
-<p>​	第一条和第二条作用是一样的，删除tb_Name中index_Name索引；第三条仅适用于删除PRIMAY KEY时，因为一个只可能有一个PRIMAY KEY索引。</p>
-
-<p>​	另外，如果在表中删除了某列，则索引会受到影响，对于多列组合的索引，如果删除其中某列，则该列也会在索引中删除，如果删除所有列，则该索引也会被删除。</p>
-
-<h4 id="5-查看索引"><strong>5. 查看索引</strong></h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show index from tb_name;
-mysql&gt; show keys from tb_name;
-</code></pre></div></div>
-
-<ul>
-  <li>Table : 表名</li>
-  <li>Non_unique： 如果索引不能包含重复值为0，如果可以为1</li>
-  <li>Key_name： 索引的名称</li>
-  <li>Seq_in_index：索引中列的序号，从1开始</li>
-  <li>Column_name： 列的名称</li>
-  <li>Collation：列以什么方式存储在索引中，在MySQL中有值‘A’(升序)和NULL(无分类)</li>
-  <li>Cardinality： 索引中唯一值的数量估计值，通过运行ANALYZE TABLE或者 myisamchk -a 可以更新，基数根据被存储的整数的统计数据来计数，所以，即使对于小型表，该值也没有必要是精确的，基数越大，当进行联合时，MySQL使用该索引的机会就越大。</li>
-  <li>Sub_part： 如果列只是被部分编入，则为编入索引的字符数目，如果整列被编入索引，则为NULL</li>
-  <li>Packed：关键字如何被压缩，没有压缩为NULL</li>
-  <li>Null： 如果列含有NULL为YES，如果没有则为NO</li>
-  <li>Index_type： 用过的索引方法，BTREE，FULLTEXT，HASH，RTREE</li>
-  <li>Comment： 备注</li>
-</ul>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-02-09</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2017/01/HowTo-Monitor-Tomcat-Head-Memory-for-Zabbix.html">HowTo Monitor Tomcat HeadMemory for Zabbix</a></h1>
-    <div class="post_at_index">
-      <p>最近项目上由于BUG问题导致Tomcat程序在运行过程中经常内存泄漏,而本身监控系统之中没有更好的检测到Tomcat堆空间(Head Memory)的使用情况导致报警频发，这篇文章主要讲述，如何在Zabbix之中调用jmx监控服务器上Tomcat堆空间的使用情况并增加对应报警功能。</p>
-
-<blockquote>
-  <p>测试环境: <br />
-CentOS 6.8 <br />
-Zabbix 2.4 <br />
-Tomcat 7.0 <br /></p>
-</blockquote>
-
-<p>实验前提默认是各位已经安装Zabbix Server服务器，并且至少有一台Zabbix agent服务器正常监控。关于如何搭建Zabbix监控集群，会有专门文章描述。</p>
-
-<h4 id="zabbix-java-gateway的工作机制">zabbix-java-gateway的工作机制</h4>
-<ul>
-  <li>首先我们需要配置我们的Tomcat服务启用监控服务，这个是默认不启用的</li>
-  <li>之后需要在Zabbix的管理页面添加对应Tomcat服务器的jmx监控接口</li>
-  <li>最后zabbix端会自动获取zabbix-java-gateway的数据并根据相应模板进行展
-示</li>
-  <li>工作流: [Zabbix-Server]–&gt;(port:10053 on zabbix server)–&gt; [zabbix-java-gateway] –(port:12345 on tomcatserver)–&gt; [JMX enabled]</li>
-</ul>
-
-<h4 id="1-install-zabbix-java-gateway-on-zabbix-server">1. Install zabbix-java-gateway on Zabbix Server</h4>
-<p>因为我的zabbix是使用zabbix 2.4官方源安装，所以只需要用yum在安装即可:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@6 ~]# sudo  yum install -y zabbix-java-gateway
-</code></pre></div></div>
-<p>如果你没有官方源可能先安装该源，注意我的服务器zabbix版本是2.4 如果你是不同的版本，请到[<a href="http://repo.zabbix.com/zabbix/">这里</a>]查找对应版本。</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 查看zabbix server版本
-[root@6 ~]# zabbix_server --version
-Zabbix server v2.4.8 (revision 59539) (20 April 2016)
-Compilation time: May  4 2016 01:32:12
-</code></pre></div></div>
-
-<p>在使用yum安装zabbix-java-gateway源时,会自动关联安装openjdk，尽管这段程序没多大影响，如果你想保证系统JAVA环境不受到改变的话，可以在/etc/profile文件最后，增加如下内容:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># add follows to the end
-export JAVA_HOME=/usr/java/default
-export PATH=$PATH:$JAVA_HOME/bin
-export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
-</code></pre></div></div>
-
-<h4 id="2-confiure-tomcat-host-with-enable-jmx">2. Confiure Tomcat host with enable jmx</h4>
-<p>首先在$tomcatdir/bin/catalina.sh文件开头处增加如下：</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/sh
-
-CATALINA_OPTS="-Dcom.sun.management.jmxremote \
--Dcom.sun.management.jmxremote.authenticate=false \
--Dcom.sun.management.jmxremote.ssl=false \
--Dcom.sun.management.jmxremote.port=12345"
-</code></pre></div></div>
-<p>然后,启动Tomcat，你会发现多了一个12345端口，这就是jmx的监听端口，请保证zabbix-java-gateway可以访问到这台服务器。</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@6 ~]# /tomcat7/bin/startup.sh
-Starting Tomcat7:
-Using CATALINA_BASE:   /tomcat7
-Using CATALINA_HOME:   /tomcat7
-Using CATALINA_TMPDIR: /tomcat7/temp
-Using JRE_HOME:        /usr
-Using CLASSPATH:       /tomcat7/bin/bootstrap.jar:/tomcat7/bin/tomcat-juli.jar
-Tomcat started.
-
-[root@6 ~]# netstat -ntlp | grep 12345
-tcp  0      0 :::12345   :::*     LISTEN      8793/java
-[root@6 ~]#
-</code></pre></div></div>
-<hr />
-
-<h4 id="fix-1---zabbix-agent与server存在复杂网络环境">==<em>fix 1</em> == : zabbix agent与server存在复杂网络环境</h4>
-
-<p>这里疏忽了1个问题，如果您的zabbix server与agent端之间有防火墙规则，而按照我上面的所述只是增加了12345这个端口，那么很可能，您在/var/log/zabbix/zabbix_java_gateway.log 中会看到“No route to host”的报错，这是因为JMX不光开启了12345端口，还开启了另外两个随机端口，而在获取监控数据时会使用到其中一个，这就导致了无法通过固定的防火墙规则来开放该端口。其实有另外一个替代方式来使该监听端口固定下来——使用Tomcat提供的额外组件 catalina-jmx-remote.jar，这个组件是需要另外下载的：</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 查看当前Tomcat版本.
-[root@6 bin]# ./catalina.sh version
-Using CATALINA_BASE:   /tomcat7
-Using CATALINA_HOME:   /tomcat7
-Using CATALINA_TMPDIR: /tomcat7/temp
-Using JRE_HOME:        /usr
-Using CLASSPATH:       /tomcat7/bin/bootstrap.jar:/tomcat7/bin/tomcat-juli.jar
-Server version: Apache Tomcat/7.0.64
-Server built:   Aug 19 2015 17:18:06 UTC
-Server number:  7.0.64.0
-OS Name:        Linux
-OS Version:     2.6.32-642.11.1.el6.x86_64
-Architecture:   amd64
-JVM Version:    1.8.0_111-b15
-JVM Vendor:     Oracle Corporation
-
-# 下载 catalina-jmx-remote.jar # 请注意下载版本不要高于当前tomcat版本.
-wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-7/v7.0.57/bin/extras/catalina-jmx-remote.jar -O lib/catalina-jmx-remote.jar
-</code></pre></div></div>
-
-<p>增加如下内容，在conf/server.xml中：</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Listener className="org.apache.catalina.mbeans.JmxRemoteLifecycleListener"
-          rmiRegistryPortPlatform="12345" rmiServerPortPlatform="12346" /&gt;
-</code></pre></div></div>
-
-<p>因为我们已经在conf/server.xml定义了rmiRegistryPortPlatform，所以要将bin/catalina.sh中CATALINA_OPTS的com.sun.management.jmxremote.port去掉，否则会因为jmxremote.port配置有优先级更高而导致配置失效。</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CATALINA_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
-</code></pre></div></div>
-
-<p>完成之后，重启tomcat这时会发现jmx默认端口已经固定为12345何12346，而server依然可以正常获取监控数据.</p>
-
-<hr />
-
-<h4 id="3-configure-zabbix-server">3. Configure Zabbix Server</h4>
-<p>首先需要修改zabbix_server.conf启用zabbix-java-gateway，让zabbix可以检测到服务,修改如下:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Option: JavaGateway
- #       IP address (or hostname) of Zabbix Java gateway.
- #       Only required if Java pollers are started.
- #
- # Mandatory: no
- # Default:
-JavaGateway=10.211.55.4 # 设置为你的zabbixsever IP
-
- ### Option: JavaGatewayPort
- #       Port that Zabbix Java gateway listens on.
- #
- # Mandatory: no
- # Range: 1024-32767
- # Default:
- JavaGatewayPort=10053 # 设置服务端监听接口
-
- ### Option: StartJavaPollers
- #       Number of pre-forked instances of Java pollers.
- #
- # Mandatory: no
- # Range: 0-1000
- # Default:
- StartJavaPollers=5 # 设置多线程启动
-</code></pre></div></div>
-<p>然后修改zabbix_java_gateway.conf 配置如下:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ### Option: zabbix.listenIP
- #       IP address to listen on.
- #
- # Mandatory: no
- # Default:
- LISTEN_IP="10.211.55.4" # 配置监听IP
-
- ### Option: zabbix.listenPort
- #       Port to listen on.
- #
- # Mandatory: no
- # Range: 1024-32767
- # Default:
- LISTEN_PORT=10053 # 配置监听端口
-
- ### Option: zabbix.pidFile
- #       Name of PID file.
- #       If omitted, Zabbix Java Gateway is started as a console application.
- #
- # Mandatory: no
- # Default:
- # PID_FILE=
-
- PID_FILE="/var/run/zabbix/zabbix_java.pid"
-
- ### Option: zabbix.startPollers
- #       Number of worker threads to start.
- #
- # Mandatory: no
- # Range: 1-1000
- # Default:
-# 不能大于zabbix_server.conf的值，否则可能导致当连接Java gateway时没有多余的线程进行处理
- START_POLLERS=5
-</code></pre></div></div>
-
-<p>最后启动启动zabbix-java-gateway，并重启zabbix-server</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@6 ~]# service zabbix-java-gateway start
-Starting zabbix java gateway:              [  OK  ]
-[root@6 ~]# service zabbix-server restart
-Stopping zabbix server:              [  OK  ]
-Starting zabbix server:              [  OK  ]
-</code></pre></div></div>
-
-<p>我在尝试重启发现一问题，zabbix-java-gateway通过service命令管理stop不能删除pid文件导致服务无法启动，如果你也碰到，解决办法如下:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@6 zabbix]# vim /etc/rc.d/init.d/zabbix-java-gateway
-# line 97, 注释修改为如下：
-#       kill `cat $PID_FILE` &amp;&amp; rm $PID_FILE
-        rm -f $PID_FILE
-</code></pre></div></div>
-
-<h4 id="4-adding-jmx-host-on-zabbix-web-consloe">4. Adding jmx host on Zabbix Web consloe</h4>
-<p>首先，上传Template Tomcat Head Memory模板，这个我做了一个简单的模板，只针对了堆内存空间的监控，并针对使用率超过60%以及80%，不同的警报。需要的同学可以直接从我这里下载，然后在Configuration-Templates导入到zabbix模板库内。<br />
-下载请点击:<a href="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zbx_template_app_tomcat_head_memory.xml">Template App Tomcat Head Memory</a></p>
-
-<p>然后，增加服务器的jmx监控<br />
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-jmx-settings.png" alt="" />
-<br />
-关联模板<br />
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-host-select-template.png" alt="" /></p>
-
-<h4 id="5-view-the-head-memory-monitoring">5. View the Head Memory Monitoring.</h4>
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-view-monitor.png" alt="" /></p>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-01-18</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zabbix">Zabbix</a>
+      <cite>2021-11-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Pandas">Pandas</a>
       , 
-      <a href="/tags.html#Tomcat">Tomcat</a>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -1234,132 +349,71 @@ Starting zabbix server:              [  OK  ]
     <hr/>
     
     
-    <h1><a class="title" href="/post/2017/01/%E6%AF%8F%E6%97%A5%E5%A4%87%E4%BB%BDMySQL%E5%8D%95%E8%A1%A8%E6%95%B0%E6%8D%AE.html">每日备份MySQL单表数据</a></h1>
+    <h1><a class="title" href="/post/2021/11/Metabase-%E8%B8%A9%E5%9D%91-%E8%B7%B3%E8%BD%AC%E9%93%BE%E6%8E%A5%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98.html">Metabase 踩坑：跳转链接的浏览器缓存</a></h1>
     <div class="post_at_index">
-      <p>最近愈近年底，客户业务涉及对账操作，所以同事提出需求需要单独备份某张表数据，并且每日备份；思考之后解决办法如下：</p>
+      <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635955971186-4f85ab8d-9d1e-46ab-bd20-ee914c91fade.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
-<ol>
-  <li>mysqldump导出单张表的表结构及数据</li>
-  <li>新增数据库，专做临时每日数据备份库</li>
-  <li>导入该表数据到新增数据库内</li>
-  <li>重命名导入的表名（预防计划任务下次导入时数据覆盖）</li>
-  <li>编写脚本，添加Linux计划任务</li>
-</ol>
+<h3 id="背景说明">背景说明</h3>
 
-<h4 id="1-mysqldump导出但张表的表结构及数据">1. mysqldump导出但张表的表结构及数据</h4>
+<p>最近在使用Metabase做一个内部工具的跳转传送门，大概实现的方式是这样：
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635956694248-79aec951-9e6d-4360-b4e9-37bd2cefd740.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump -h dbServer -PdbServerPort -u db_user -p -d dbName tbName &gt; tbName.sql
-</code></pre></div></div>
+<ul>
+  <li>通过Metabase带有的字段支持链接跳转的功能，拼接上查询结果的部分</li>
+  <li>后端服务完成对用户行为的校验，并且完成身份预认证，生成验证token</li>
+  <li>然后带着预认证的信息跳转到对应的系统内</li>
+</ul>
 
-<h4 id="2-新增数据库专做临时每日数据备份库">2. 新增数据库，专做临时每日数据备份库</h4>
+<h3 id="问题分析">问题分析</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># loginTo your DBserver
-mysql&gt; create database bakdbName character set utf8;
-</code></pre></div></div>
+<p>起初用的时候发现还好，不过陆续有同学反馈有些行数的结果不能够进入后台去，而让其他人使用又是没问题；</p>
 
-<h4 id="3-导入该表数据到新增数据库内">3. 导入该表数据到新增数据库内</h4>
+<p>简单分析了下服务端日志，发现不能正常登录情况是请求根本没有到后端服务器，浏览器直接进行了跳转，而之前签发的token是有时效的，超过时间就过期了，所以导致跳转后校验不通过</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql -h dbServer -P dbServerPort -u db_user -p bakdbName &lt; tbName.sql
-</code></pre></div></div>
-
-<h4 id="4--重命名导入的表名">4 . 重命名导入的表名</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql -u db_user -p -e "rename table bakdbName.tbName to bakdbName.tbName_$DATE"
-</code></pre></div></div>
-
-<h4 id="5-编写脚本">5. 编写脚本</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@testServer01 ~]# cat /usr/local/bin/bakTable.sh
-#!/bin/bash
-
-#Create by SAMZONG
-
-DATE=`date +%Y%m%d`
-TMPDIR=/tmp/baksql
-
-# modify your DB configure
-DBSERVER1=localhost
-DBSERVER1_PORT=3306
-DBSERVER1_USER=root
-DBSERVER1_PASSWORD=password
-MASTER_DBNAME=zabbix
-MASTER_TBNAME=users
-
-DBSERVER2=localhost
-DBSERVER2_PORT=3306
-DBSERVER2_USER=root
-DBSERVER2_PASSWORD=password
-BAKDBNAME=z3
-
-# creat tmp folder
-if [ ! -d $TMPDIR ]; then
-	mkdir $TMPDIR
-fi
-
-# dump tbName
-mysqldump -h $DBSERVER1 -P $DBSERVER1_PORT -u $DBSERVER1_USER -p"$DBSERVER1_PASSWORD" -d $MASTER_DBNAME  $MASTER_TBNAME &gt; $TMPDIR/$MASTER_TBNAME.sql
-
-
-# insert tbNAME to bakdbName
-if [ $? -eq 0  ]; then
-	mysql -h $DBSERVER2 -P $DBSERVER2_PORT -u $DBSERVER2_USER -p"$DBSERVER2_PASSWORD" $BAKDBNAME &lt; $TMPDIR/$MASTER_TBNAME.sql
-
-	if [ $? -eq 0 ]; then
-		# rename tbName
-		mysql -h $DBSERVER2 -P $DBSERVER2_PORT -u $DBSERVER2_USER -p"$DBSERVER2_PASSWORD" -e "rename table "$BAKDBNAME"."$MASTER_TBNAME" to "$BAKDBNAME"."$MASTER_TBNAME"_"$DATE";"
-	fi
-
-fi
-</code></pre></div></div>
-
-<h4 id="6-添加到linux计划任务">6. 添加到Linux计划任务</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>00 00 * * * /usr/local/bin/bakTable.sh
-</code></pre></div></div>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-01-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
-      , 
-      <a href="/tags.html#Shell">Shell</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2017/01/%E7%94%9F%E6%B4%BB%E5%9C%A8%E5%88%AB%E5%A4%84.html">生活在别处</a></h1>
-    <div class="post_at_index">
-      <p>生活在别处，第一次看到这句话的时候是初中，便在之后的许多年间未曾忘记。</p>
-
-<p>第一我不懂为何“生活在别处”，生活如何在别处？生活不应再当下？生活如影随行，在你忙忙碌碌烦烦烦烦时，生活就在这里，在你快快乐乐时，生活还在这里，我一直以为所见所行就是生活；可是，随着生长，你依旧在这里，而生活早已飘落别处。</p>
-
-<p>“生活在别处”是法国诗人兰波的一句名言，而他用一生践行了这句话，他一生都在出走，从法国到英国而后非洲，兰波一生都在出走，直到最后死去；他是一位无法被归类的诗人，放荡不羁，与魏尔伦的爱情，新世界的开创者，兰波一生都在尝试不同的人生，就像他说的：“我愿成为任何人”。</p>
+<p><a href="https://juejin.cn/post/6844904130482274318"><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635957317795-60317ecd-b550-42d6-ab25-3f0b7d9247d9.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></a></p>
 
 <blockquote>
-  <p><em>《全蝕狂愛》 1995 ，描述了兰波的故事，与魏尔伦的爱情。由李奥纳多扮演。</em></p>
+  <p>有兴趣的同学，可以点击上方的图片链接，去详细介绍的原文看看</p>
 </blockquote>
 
-<p>我不会写故事，更多的用来记录我的生活，本来今天晚上准备写些什么，如何关于整理笔记之类，下班日常刷知乎，看到《这个杀手不太冷》中一句话，“生活一直是那么艰难吗？还是只有小时候是这样？” “一直是。”脑海里就浮现了“生活在别处”这句话，随着人生阅历的成长，对这几句话的理解，也是不断加深； 所以，回来写下这段文字。</p>
+<h3 id="解决思路">解决思路
 
-<p>我一直试着找出自身的问题，我一直努力和生活更好地相处，我其实并不知道如何规划，我能感受到生命中特别重要的东西，要拼尽所有力气去抓住；我不喜欢去做承诺，我所能做的就是一直努力去做；在我们的人生中肯定会存在一些望不到顶的大山，可能我穷尽一生也无法看到山顶的景色和山的那边的一切，这的确是一件想想就很难过的事情，并且这一切无法逃避，听起来是那么地令人绝望，但是，亲爱的，我们总要去面对，或是大步向前，冲向那满是荆棘望不到顶的大山，要打败可以吃掉我们的大老虎，一次又一次，我们会经常失败，摔倒，伤痕累累，可是我总要爬起来，一次又一次，每次都像是用尽整个生命的力量，也许我们真的最后跌倒爬不起来了，也许我们最后真的无法凝聚一丝力量，那至少，我们明白我是真的做不到，而不是说从一开始就放弃，努力让自己变更好；嗯，方向也很重要。</p>
+</h3>
 
-<p>好了，我还要去整理笔记，然后早点睡觉，今天心情不太好，可身边总有些美丽的人，谢谢！</p>
+<p>靠着对前端和浏览器一知半解+Google出来的结果，<strong>只要欺骗浏览器每次请求的路径不一样，就可以解决这个问题。</strong></p>
 
-<p>最后，生活一直是那么艰难吗？</p>
+<p>所以解铃还须系铃人，当然还是靠着Metabase来解决这个问题</p>
+
+<p>:::success
+在SQL查询结果中增加一个每次都是不一样的结果字段 <strong>取unixtimestamp时间</strong>，然后将结果拼接到url中
+:::</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span>
+	<span class="n">UNIX_TIMESTAMP</span><span class="p">(</span><span class="n">now</span><span class="p">())</span> <span class="k">AS</span> <span class="nv">`ts`</span> <span class="o">//</span><span class="err">每次取值当前时间</span>
+<span class="k">FROM</span>
+	<span class="k">table_name</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>解决之后对比</p>
+</blockquote>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635957781278-bd41df03-24be-4640-b77f-54ba77774bea.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<p>🎆🎆🎆  完毕，问题得以解决</p>
+
+<h3 id="其他">其他</h3>
+
+<p>注意在后端服务上去除对时间参数的过滤，因为我是只处理了我想要的字段，所以这样的调整 服务端代码都不用改</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2017-01-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
+      <cite>2021-11-03</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#BI">BI</a>
+      , 
+      <a href="/tags.html#Metabase">Metabase</a>
       
       
       
@@ -1368,135 +422,509 @@ fi
     <hr/>
     
     
-    <h1><a class="title" href="/post/2017/01/Docker-Hub-%E5%9B%BD%E5%86%85%E5%8A%A0%E9%80%9F.html">Docker Hub 国内加速</a></h1>
-    <div class="post_at_index">
-      <p>因为Docker Hub没有在国内部署站点或者增加了国内的CDN，这导致国内的开发者在使用docker pull 获取images的时候速度非常的慢，甚至于因为网络的原因会失败。</p>
-
-<p>但是Docker Hub有着非常丰富的镜像资源，所以我这一直是个问题困扰着我，一次偶然机会发现了<a href="https://www.daocloud.io">DaoCloud</a>提供了国内镜像加速服务，并且提供的Docker Hub Mirror详细的文档。</p>
-
-<h4 id="1-注册daocloud账号">1. 注册DaoCloud账号</h4>
-<p>首先，你需要到一DaoCloud账号，注册很方便，点击地址：<a href="https://account.daocloud.io/signup">signup</a>
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/o6wh3.jpg" alt="" /></p>
-
-<h4 id="2-登录到你的daocloud账号内然后入下图操作">2. 登录到你的DaoCloud账号内，然后入下图操作</h4>
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/n9mt7.jpg" alt="" /></p>
-
-<h4 id="3-查看你的daocloud加速器地址">3. 查看你的DaoCloud加速器地址</h4>
-<p><a href="https://www.daocloud.io/mirror#accelerator-doc">链接</a></p>
-
-<p>选择你相对应平台的的加速器设置
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/4wuea.jpg" alt="" /></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-01-07</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Docker">Docker</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/12/HowTo-Mount-OSS-Bucket-On-ECS.html">HowTo Mount OSS Bucket On ECS</a></h1>
+    <h1><a class="title" href="/post/2021/10/Python-Version-Manage-pyenv.html">Python Version Manage `pyenv`</a></h1>
     <div class="post_at_index">
       <blockquote>
-  <p>From <a href="https://github.com/aliyun/ossfs">阿里云官方Github</a></p>
+  <p>to_url : <a href="http://pyenv.run/">http://pyenv.run/</a>
+github offical site <a href="https://github.com/pyenv/pyenv">https://github.com/pyenv/pyenv</a></p>
 </blockquote>
 
+<p>在 MacOS 的使用方式： brew install pyenv</p>
+
+<p>使用 pyenv 还是挺方便的，但是在Linux云服务器上配置网络的话就比较麻烦了，比如我在用的阿里云ECS，中间有些曲折，所以编写下文档记录下来，以防后续使用遇到问题</p>
+
+<h2 id="安装-pyenv">安装 <code class="language-plaintext highlighter-rouge">pyenv</code></h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 官方推荐</span>
+curl https://pyenv.run | bash
+</code></pre></div></div>
+
+<p>上面一个简单的命令就好了，安装后 pyenv 文件 会在你的 <code class="language-plaintext highlighter-rouge">$HOME/.pyenv</code> ，可以尝试看下脚本文件的内容，这里简单贴出来了；可以看到实际执行的脚本文件是下面这个</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 建议看下脚本</span>
+curl <span class="nt">-L</span> https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+
+<span class="c"># 下载脚本文件</span>
+wget https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer <span class="nt">-O</span> ~/pyenv-installer
+</code></pre></div></div>
+
+<p>如果你的服务器环境比较悲催，访问GitHub也是比较麻烦，那么可以看下这个网站  <a href="https://gitclone.com/">https://gitclone.com/</a> ； 只需要对 <code class="language-plaintext highlighter-rouge">pyenv-installer</code> 进行简单的修改就可以实现加速下载了</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ......</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-n</span> <span class="s2">"</span><span class="k">${</span><span class="nv">USE_GIT_URI</span><span class="k">}</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+  </span><span class="nv">GITHUB</span><span class="o">=</span><span class="s2">"git://github.com"</span>
+<span class="k">else
+  </span><span class="nv">GITHUB</span><span class="o">=</span><span class="s2">"https://gitclone.com/github.com"</span>
+<span class="k">fi</span>
+
+<span class="c"># .....</span>
+</code></pre></div></div>
+
 <blockquote>
-  <p>Demo: CentOS 6.8 on ECS</p>
+  <p>先通过，<code class="language-plaintext highlighter-rouge">wget</code> 下载脚本文件，然后对脚本中的 <code class="language-plaintext highlighter-rouge">github.com</code> 的域名进行下修改，我试了下修改<code class="language-plaintext highlighter-rouge">https</code>就行了，然后就可以飞快的下载了</p>
 </blockquote>
 
-<p>ossfs 是通过磁盘挂载的形式，将oss存储挂载到linux、类unix等操作系统，而且不仅仅可以挂载阿里云内的ECS上，理论上所有网络能到达oss的都可以挂载，但还是要以实际问题为准。</p>
+<p>最后，将 <code class="language-plaintext highlighter-rouge">pyenv</code> 的初始化增加到系统的环境变量中</p>
 
-<h5 id="1download--install">1.Download &amp; Install</h5>
-<p><a href="https://github.com/aliyun/ossfs/releases">官方版本发布页面</a>，请根据你的系统类型进行选择，我这演示的环境是CentOS 6.8；ossfs目前最新的版本是v1.79.9，您可以根据自己当时版本进行选择，建议选择最新版本。</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 请先将包上传到服务器上
- sudo yum localinstall ossfs_1.79.9_centos6.5_x86_64.rpm
-</code></pre></div></div>
-<blockquote>
-  <p>注意使用localinstall，因为在安装过程，yum 可以很好的解决依赖关系，会节省我们很多时间</p>
-</blockquote>
-
-<h5 id="2-oss--bucket">2. OSS &amp; Bucket</h5>
-
-<p>需要获取以下信息，在后面我们都会用到的：<br /></p>
-<ol>
-  <li>Bucket 名称
-  <img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/QQ20161111-0.jpg" alt="" />
-  <br /></li>
-  <li>Access Key ID</li>
-  <li>Access Key Secret
-  <img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/0256A9CB-A0FA-43BC-82AF-4DE17D4852B6.png" alt="" /></li>
-</ol>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/QQ20161111-2.jpg" alt="" />
-<br /></p>
-<ol>
-  <li>Location，这需要注意点，不要加上Bucket的名字，区域对应表如下，注意你的Bucket所在区域:</li>
-</ol>
-<div><table><thead><tr><th style="color:green">Region中文名称</th><th style="text-align:left;color: green;">Region英文表示</th><th style="text-align:left;color: green;">外网Endpoint</th><th style="text-align:left;color: green;">ECS访问的内网Endpoint</th></tr></thead><tbody><tr><td>华东 1</td><td style="text-align:left">oss-cn-hangzhou</td><td style="text-align:left">oss-cn-hangzhou.aliyuncs.com</td><td style="text-align:left">oss-cn-hangzhou-internal.aliyuncs.com</td></tr><tr><td>华东 2</td><td style="text-align:left">oss-cn-shanghai</td><td style="text-align:left">oss-cn-shanghai.aliyuncs.com</td><td style="text-align:left">oss-cn-shanghai-internal.aliyuncs.com</td></tr><tr><td>华北 1</td><td style="text-align:left">oss-cn-qingdao</td><td style="text-align:left">oss-cn-qingdao.aliyuncs.com</td><td style="text-align:left">oss-cn-qingdao-internal.aliyuncs.com</td></tr><tr><td>华北 2</td><td style="text-align:left">oss-cn-beijing</td><td style="text-align:left">oss-cn-beijing.aliyuncs.com</td><td style="text-align:left">oss-cn-beijing-internal.aliyuncs.com</td></tr><tr><td>华南 1</td><td style="text-align:left">oss-cn-shenzhen</td><td style="text-align:left">oss-cn-shenzhen.aliyuncs.com</td><td style="text-align:left">oss-cn-shenzhen-internal.aliyuncs.com</td></tr><tr><td>香港数据中心</td><td style="text-align:left">oss-cn-hongkong</td><td style="text-align:left">oss-cn-hongkong.aliyuncs.com</td><td style="text-align:left">oss-cn-hongkong-internal.aliyuncs.com</td></tr><tr><td>美国硅谷数据中心</td><td style="text-align:left">oss-us-west-1</td><td style="text-align:left">oss-us-west-1.aliyuncs.com</td><td style="text-align:left">oss-us-west-1-internal.aliyuncs.com</td></tr><tr><td>美国弗吉尼亚数据中心</td><td style="text-align:left">oss-us-east-1</td><td style="text-align:left">oss-us-east-1.aliyuncs.com</td><td style="text-align:left">oss-us-east-1-internal.aliyuncs.com</td></tr><tr><td>亚太（新加坡）数据中心</td><td style="text-align:left">oss-ap-southeast-1</td><td style="text-align:left">oss-ap-southeast-1.aliyuncs.com</td><td style="text-align:left">oss-ap-southeast-1-internal.aliyuncs.com</td></tr><tr><td>亚太东北 1（日本）数据中心</td><td style="text-align:left">oss-ap-northeast-1</td><td style="text-align:left">oss-ap-northeast-1.aliyuncs.com</td><td style="text-align:left">oss-ap-northeast-1-internal.aliyuncs.com</td></tr></tbody></table></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 设置bucket/access key/id的信息，将其存放在/etc/passwd-ossfs 文件中
-# 注意这个文件的权限必须正确设置，建议设为640
-sudo echo my-bucket:my-access-key-id:my-access-key-secret &gt; /etc/passwd-ossfs
-sudo chmod 640 /etc/passwd-ossfs
-</code></pre></div></div>
-<p><br /></p>
-<h5 id="3-mount--uasge">3. Mount &amp; Uasge</h5>
-<p>将oss bucket mount到指定目录:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 我碰到安装后找不到ossfs命令，查看下因为ossfs没有x权限，目录路径为/usr/local/bin，如果您也碰到这个问题，可以增加x权限后再测试
-sudo ossfs my-bucket /mnt/ossdir -ourl=http://oss-location.aliyuncs.com
-
-# 如果使用ossfs的机器是阿里云ECS，可以使用内网域名来避免流量收费和 提高速度：
-sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com
-</code></pre></div></div>
-<p>磁盘空间达到上百T：
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/0B78E099-5488-4839-AE48-09A074E7415D.png" alt="" />
-<br /></p>
-
-<p>umount：</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 注意用户身份
-umount /tmp/ossfs # root user
-sudo fusermount -u /tmp/ossfs # non-root user
-</code></pre></div></div>
-<p><br /></p>
-<h5 id="4-debug--faq">4. Debug &amp; FAQ</h5>
-<p>当遇到错误的时候，可以试着打开Debug日志信息，然后分析问题原因：</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 使用 -o dbglevel=debug -f -d参数打印日志信息
-sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com -o dbglevel=debug -f -d &gt; /mnt/ossfs.log 2&gt;&amp;1
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s1">'export PATH="$HOME/.pyenv/bin:$PATH"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">echo</span> <span class="s1">'eval "$(pyenv init -)"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">echo</span> <span class="s1">'eval "$(pyenv virtualenv-init -)"'</span>  <span class="o">&gt;&gt;</span> ~/.bashrc
 </code></pre></div></div>
 
-<p>更多的问题，请移步查看<a href="https://github.com/aliyun/ossfs/wiki/FAQ">官方的FAQ文档</a>。</p>
+<h2 id="使用-pyenv-安装特定版本的python">使用 <code class="language-plaintext highlighter-rouge">pyenv</code> 安装特定版本的python</h2>
 
-<p><br /></p>
-<h5 id="5-about">5. About</h5>
-<p>ossfs提供的功能和性能和本地文件系统相比，具有一些局限性。具体包括：</p>
+<p>在网络好的情况下，可以直接通过 <code class="language-plaintext highlighter-rouge">pyenv install 3.9.6</code> 安装对应的版本了，但是因为网络的问题，你会发现一直在下载 Python 包这一步，问题就是 www.python.org/ftp 网络的访问问题</p>
 
-<ul>
-  <li>随机或者追加写文件会导致整个文件的重写。</li>
-  <li>元数据操作，例如list directory，性能较差，因为需要远程访问oss服务器。</li>
-  <li>文件/文件夹的rename操作不是原子的。</li>
-  <li>多个客户端挂载同一个oss bucket时，依赖用户自行协调各个客户端的行为。例如避免多个客户端写同一个文件等等。</li>
-  <li>不支持hard link。</li>
-  <li>不适合用在高并发读/写的场景，这样会让系统的load升高</li>
-</ul>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711398-96703bab-2e76-4f74-8b6d-1dfa212d39b1.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+
+<p>遇到这个问题，可以尝试 先下载对应版本的安装包；可以使用国内的镜像站进行下载，或者在网络访问正常的地方进行下载包，然后上传到服务器中，这里推荐使用 淘宝的镜像站，把域名中 <a href="https://www.python.org/ftp">https://www.python.org/ftp</a> 替换为 <a href="https://npm.taobao.org/mirrors/">https://npm.taobao.org/mirrors/</a> ，下载到指定的目录</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># v = 你想要安装的python版本，比如 3.8.6</span>
+<span class="nb">export </span><span class="nv">v</span><span class="o">=</span>3.8.6<span class="p">;</span>  <span class="nb">mkdir</span> <span class="nt">-p</span> ~/.pyenv/sources/<span class="nv">$v</span><span class="p">;</span> wget https://npm.taobao.org/mirrors/python/<span class="nv">$v</span>/Python-<span class="nv">$v</span>.tar.xz <span class="nt">-P</span> ~/.pyenv/sources/<span class="nv">$v</span><span class="p">;</span> pyenv <span class="nb">install</span> <span class="nv">$v</span> <span class="nt">-k</span>
+</code></pre></div></div>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711423-9636d877-a9a2-4c9e-8cac-f82aaa3ff5b6.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
 
 <blockquote>
-  <p>另外，ossfs的稳定性很大一部分依赖于网络环境，建议的使用场景更多是作为临时数据迁移或定期备份，虽然ossfs挂载到系统中会有着几百TB的空间，但是稳定性并不高。</p>
+  <p>在 pyenv 命令的最后增加一个 -k  会在安装时，优先检测本地的文件</p>
 </blockquote>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-12-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Aliyun">Aliyun</a>
+      <cite>2021-10-19</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/10/MacOS-10.15-%E5%BC%80%E5%90%AF-HiDPI.html">MacOS 10.15 开启 HiDPI</a></h1>
+    <div class="post_at_index">
+      <p>以前手抖买了台 HKC 32 寸 2K 显示器, 接上 MacBook 发现原生的分辨率设置在 2K 显示器上字体很小, 换成 1080P 分辨率显示效果又特别模糊. 上网查了一下发现可以为 MacBook 强行开启 HiDPI.</p>
+
+<p>下文的教程结合了 Github 上用户 ZeRo° Xu 在 一键开启 HiDPI 脚本 里的 Github Issue 和一篇博文 《为 Mac 连接的 2k 显示器开启 HiDPI》.</p>
+
+<h2 id="什么是-hidpi">什么是 HiDPI</h2>
+
+<blockquote>
+  <p>引用自 Github 用户 ZeRo° Xu :</p>
+</blockquote>
+
+<p>它使用横纵 2 个物理像素也就是 4 个物理像素来显示 1 个像素区域, 结果就是图像的–细节得到翻倍, 更清晰, 边缘更平滑–. 拿 13 寸的 MacBook Pro 举例, 它的屏幕物理分辨率是 2560 x 1600, 所以原生的 HiDPI 分辨率就是 1280x800. 更高的一档 1440x900 HiDPI 缩放分辨率, 则是虚拟出一个 2880x1800 的分辨率, 再进行软缩放输入. 所以你能发现苹果的电脑总是有很高的分辨率. 好了, 既然你的屏幕是 1080p, 本身就没有那么多像素去合成 HiDPI, 如果以原生的显示计算, 你这屏幕的 1080p 分辨率应该是 960x540, 这么低的分辨率你是没法用的. 这个脚本的功能就是虚拟出比你的屏幕物理分辨率更高的假分辨率……如果你要开启 1080p 的 HiDPI 分辨率, 就虚拟一个 3840 x 2160 的假分辨率, 然后 macOS 会使用 4 个像素来显示 1 个像素区域, 也就是和你物理分辨率一样的 1080p 分辨率.</p>
+
+<h2 id="自动配置-hidpi">自动配置 HiDPI</h2>
+
+<blockquote>
+  <p>上文 链接 里提到一键配置脚本, 你不妨先按照脚本的步骤开启 HiDPI 试试.</p>
+</blockquote>
+
+<p>但是脚本并没有适配所有显示器的情况 (至少我的 Dell P2416D 使用后无效) , 所以就有了下面的步骤.</p>
+
+<h2 id="手动配置-hidpi">手动配置 HiDPI</h2>
+
+<blockquote>
+  <p>本教程测试环境:</p>
+</blockquote>
+
+<ul>
+  <li>笔记本：MacBook Pro (Retina, 15-inch, Mid 2018)</li>
+  <li>显示器：HKC 32寸2K</li>
+  <li>操作系统：MacOS Catalina (Version 10.15.3)</li>
+</ul>
+
+<h2 id="0-安装-rdm">0. 安装 RDM</h2>
+
+<p>相信很多人已经装过这个工具了, 它是用来修改显示分辨率的, 如果没装, 请在 RDM 下载页面 安装它.</p>
+
+<h2 id="1-关闭-macos-的-sip">1. 关闭 macOS 的 SIP</h2>
+
+<p>SIP 全称为「System Integrity Protection」即「系统完整性保护」, 是苹果公司为防止你胡乱篡改系统文件用的保护机制, 请先按照下面步骤把它关闭, 以便后续操作:</p>
+
+<ol>
+  <li>关机（最好先手机拍个照把这 4 步记录下来）</li>
+  <li>按<code class="language-plaintext highlighter-rouge">command（⌘）+ R+电源键</code>开机，自动进入恢复模式</li>
+  <li>选择上边菜单栏的<code class="language-plaintext highlighter-rouge">实用工具</code>中的<code class="language-plaintext highlighter-rouge">终端</code></li>
+  <li>输入命令<code class="language-plaintext highlighter-rouge">csrutil disable</code></li>
+</ol>
+
+<p>最后终端显示 「Successfully……」 等一大堆文字就说明你成功了. 你可以输入 reboot 重启. 等下文的全部设置都完成后, 你如果想恢复 SIP, 就重复步骤 1 到 3, 在第 4 步输入 csrutil enable 就好了.</p>
+
+<h2 id="2-开启-macos-的-hidpi-选项">2. 开启 macOS 的 HiDPI 选项</h2>
+
+<p>再次重启后进入系统, 打开终端输入</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>defaults write /Library/Preferences/com.apple.windowserver.plist DisplayResolutionEnabled <span class="nt">-bool</span> <span class="nb">true</span>
+</code></pre></div></div>
+
+<h2 id="3-查询你的外接显示器的编号">3. 查询你的外接显示器的编号</h2>
+
+<blockquote>
+  <p>这一步相当重要, 先介绍两个命令</p>
+</blockquote>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ioreg <span class="nt">-l</span> | <span class="nb">grep</span> <span class="s2">"DisplayVendorID"</span>
+ioreg <span class="nt">-l</span> | <span class="nb">grep</span> <span class="s2">"DisplayProductID"</span>
+</code></pre></div></div>
+
+<p>这两条命令用来查询你的显示器供应商 ID DisplayVendorID 和产品 ID DisplayProductID. 接下来你要找到你的显示器对应的 DisplayVendorID 和 DisplayProductID:</p>
+
+<ol>
+  <li>
+    <p>拔掉显示器的 HDMI 或者 DP 线</p>
+  </li>
+  <li>
+    <p>分别输入上面两个命令之后<code class="language-plaintext highlighter-rouge">return(↩)</code>，每个命令会返回一个带有数字的结果。那个数字就是 MacBook 默认的<code class="language-plaintext highlighter-rouge">DisplayVendorID</code>和<code class="language-plaintext highlighter-rouge">DisplayProductID</code>了</p>
+  </li>
+  <li>
+    <p>接入显示器</p>
+  </li>
+  <li>
+    <p>再分别输入那两个命令，每个命令会分别返回两条带有数字的结果。对比刚才 MacBook 默认的结果，另一个数字就是你显示器的<code class="language-plaintext highlighter-rouge">DisplayVendorID</code>和<code class="language-plaintext highlighter-rouge">DisplayProductID</code>了</p>
+  </li>
+  <li>
+    <p>把这两个数字分别转成对应的 16 进制数，用这个 <a href="https://tool.oschina.net/hexconvert">进制转换工具</a>。</p>
+  </li>
+</ol>
+
+<p>现在, 回到桌面, 新建一个文件夹命名为 DisplayVendorID-[你刚才查到的 DisplayVendorID 的 16 进制数], 例如 DisplayVendorID-10ac.</p>
+
+<p>之后在这个刚建好的文件夹下增加一个文件, 命名为 DisplayProductID-[你刚才查到的 DisplayProductID 的 16 进制数], 例如 DisplayProductID-a0c3.</p>
+
+<h3 id="4-为你的显示器生成-plist-文件">4. 为你的显示器生成 plist 文件</h3>
+
+<p>到 这个网站 , 在左侧的空里分别输入显示器型号, DisplayProductID 和 DisplayVendorID, 注意填 16 进制的数字, 并且检查下后边 10 进制的数字是不是和你刚才命令查到的一致. 如果需要添加自己额外的分辨率, 直接在下边新建一条分辨率配置就行. 最后, 复制右边生成 XML 格式文本, 粘贴到刚才新建的文件里.  (也可以直接从网站下载文件, 去掉文件名后缀 .plist )</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1606281680751-9a99cf5c-3e0d-4028-af33-ebac7e889ff8.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></p>
+
+<p>XML 文本类似下边这样:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span> <span class="nv">encoding</span><span class="o">=</span><span class="s2">"UTF-8"</span>?&gt;
+&lt;<span class="o">!</span>DOCTYPE plist PUBLIC <span class="s2">"-//Apple//DTD PLIST 1.0//EN"</span> <span class="s2">"http://www.apple.com/DTDs/PropertyList-1.0.dtd"</span><span class="o">&gt;</span>
+&lt;plist <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span><span class="o">&gt;</span>
+&lt;dict&gt;
+    &lt;key&gt;DisplayProductID&lt;/key&gt;
+    &lt;integer&gt;41155&lt;/integer&gt;
+    &lt;key&gt;DisplayVendorID&lt;/key&gt;
+    &lt;integer&gt;4268&lt;/integer&gt;
+    &lt;key&gt;scale-resolutions&lt;/key&gt;
+    &lt;array&gt;
+        &lt;data&gt;AAAKAAAABaAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+        &lt;data&gt;AAAFAAAAAtAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+        &lt;data&gt;AAAPAAAACHAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+        &lt;data&gt;AAAHgAAABDgAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+        &lt;data&gt;AAAMgAAABwgAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+        &lt;data&gt;AAAGQAAAA4QAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+        &lt;data&gt;AAAKAgAABaAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+        &lt;data&gt;AAAKrAAABgAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+        &lt;data&gt;AAAFVgAAAwAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+    &lt;/array&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre></div></div>
+
+<h3 id="4-复制-plist-配置文件到系统配置目录">4. 复制 plist 配置文件到系统配置目录</h3>
+
+<p>这一步就是把刚才新建的配置文件复制到你系统目录里, 你直接复制通常会提示你系统目录是「只读」的, 不允许你胡作非为. 所以你先要在终端执行下面的命令:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>mount <span class="nt">-uw</span> /
+</code></pre></div></div>
+
+<p>这样, 你就可以复制到系统的文件夹了.  (这个命令重启后失效)</p>
+
+<p>接下来打开系统文件夹/System/Library/Displays/Contents/Resources/Overrides/, 你会发现一大堆跟你刚才文件夹命名相似的目录. 把你新建的文件夹丢进去, 和它们混在一起, 假装它原来就是其中一员. 重启.</p>
+
+<h3 id="5-修改分辨率">5. 修改分辨率</h3>
+
+<p>重启之后又进入系统, 首先打开 RDM, 你会在菜单栏看见它:</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1606281680731-6c912092-1a63-4298-bfbe-54e98f27b67a.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></p>
+
+<p>Main Display 和 Display 2 就分别是你的外接显示器和 MacBook 的显示器分辨率设置 (位置有可能对调, 自己尝试一下) . 带有 ⚡️ 符号的分辨率设置项就是开启 HiDPI 后新增出来的. 如果你像我一样是 24 寸 2K 显示器, 可以给显示器选择 1920x1080⚡️那个配置.</p>
+
+<blockquote>
+  <p>是不是比原生分辨率的 UI 和字体更大更清晰了?</p>
+</blockquote>
+
+<h2 id="小结">小结</h2>
+
+<p>本文教你强行开启 MacBook 的 HiDPI 设置, 并针对 2K 显示器新增了配置文件到系统配置目录里, 最后用  RDM 自由设置适合你显示器的分辨率. 附带问题</p>
+
+<blockquote>
+  <p>用本文的方式开启 HiDPI, 合上 Mac 屏幕, 外接显示器黑屏. 将外接显示器分辨率切换到屏幕原始分辨率后可以正常地仅使用外接显示器, 原因未知. 因对我的工作方式没有影响, 没有继续研究下去.</p>
+</blockquote>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-10-12</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/09/node-nvm.html">node nvm</a></h1>
+    <div class="post_at_index">
+      <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="err">安装</span><span class="n">nvm</span>
+<span class="n">wget</span> <span class="o">-</span><span class="n">qO</span><span class="o">-</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="p">.</span><span class="n">githubusercontent</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">nvm</span><span class="o">-</span><span class="n">sh</span><span class="o">/</span><span class="n">nvm</span><span class="o">/</span><span class="n">v0</span><span class="p">.</span><span class="mi">35</span><span class="p">.</span><span class="mi">1</span><span class="o">/</span><span class="n">install</span><span class="p">.</span><span class="n">sh</span> <span class="o">|</span> <span class="n">bash</span>
+
+<span class="o">#</span> <span class="err">修改</span><span class="n">npm</span> <span class="n">registry</span>
+<span class="n">npm</span> <span class="n">config</span> <span class="k">set</span> <span class="n">registry</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">registry</span><span class="p">.</span><span class="n">npm</span><span class="p">.</span><span class="n">taobao</span><span class="p">.</span><span class="n">org</span>
+</code></pre></div></div>
+
+<p>:::info
+nvm 在中国国内使用
+:::</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 安装</span>
+bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://gitee.com/RubyKids/nvm-cn/raw/master/install.sh<span class="si">)</span><span class="s2">"</span>
+
+<span class="c"># 卸载</span>
+bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://gitee.com/RubyKids/nvm-cn/raw/master/uninstall.sh<span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-09-24</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Node">Node</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/09/01-%E5%BF%AB%E9%80%9F%E4%BA%86%E8%A7%A3%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93.html">01 快速了解连接数据库</a></h1>
+    <div class="post_at_index">
+      <p>SQLAlchemy 是 ORM 框架 ，目前主流且比较通用，在程序中用来处理数据库相关的能力，本文是用于学习和理解 SQLAlchemy 的记录，主要使用的编程语言是Python</p>
+
+<blockquote>
+  <p>Python3 AND MySQL 5.6</p>
+</blockquote>
+
+<h2 id="安装">安装</h2>
+
+<p>目前较为场景的关系型数据库是 MySQL ，这里介绍 在Python 中安装和MySQL的链接方式</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip3 <span class="nb">install </span>sqlalchemy pymysql
+</code></pre></div></div>
+
+<blockquote>
+  <p>快速连接数据库</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># easy script.
+</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+<span class="k">from</span> <span class="n">sqlalchemy</span> <span class="n">impory</span> <span class="n">text</span>
+
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s">'mysql+pymysql://root:pass@localhost/dbName'</span><span class="p">)</span>
+
+<span class="n">conn</span> <span class="o">=</span> <span class="n">engine</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+
+<span class="n">sql</span> <span class="o">=</span> <span class="n">text</span><span class="p">(</span><span class="s">"select version();"</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">sql</span><span class="p">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="简单的查询">简单的查询</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">from</span> <span class="n">sqlalchemy</span> <span class="n">impory</span> <span class="n">text</span>
+
+<span class="n">sql</span> <span class="o">=</span> <span class="n">text</span><span class="p">(</span><span class="s">"select * from userTable where create_date&gt;=:start_time AND login_cnt=:times"</span><span class="p">)</span>
+<span class="c1"># start_time 开始时间
+# times 登录次数
+</span>
+<span class="c1"># sql 执行时动态入参
+</span>
+<span class="n">start_time</span><span class="p">,</span><span class="n">times</span> <span class="o">=</span> <span class="s">'2021-06-01 00:00:00'</span><span class="p">,</span> <span class="mi">3</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">create_date</span> <span class="o">=</span> <span class="n">start_time</span><span class="p">.</span><span class="n">pydatetime</span><span class="p">(),</span> <span class="n">loign_cnt</span><span class="o">=</span><span class="n">times</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="对于查询结果的说明">对于查询结果的说明</h2>
+
+<p>获取所有的查询结果，返回的数据为 tuple 的列表 <code class="language-plaintext highlighter-rouge">data = res.fetachAll()</code> </p>
+
+<blockquote>
+  <p>使用 pandas 将查询结果保存到 csv 中</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">'user_id'</span><span class="p">,],)</span>  <span class="c1"># data 是要写入的数据, columns 是列头，List
+</span>
+
+<span class="n">df</span><span class="p">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">'~/export_filepath.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-09-24</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/09/%E4%BD%BF%E7%94%A8Python3%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%A4%A7%E5%9E%8Bjson%E6%96%87%E4%BB%B6.html">使用Python3格式化大型json文件</a></h1>
+    <div class="post_at_index">
+      <p>当单个甚至单行Json文件大小超过100M时，无论是哪个文本编辑器在处理时都会显得吃力，接下来介绍一种非常方便的方式，快速格式化大型Json文件。</p>
+
+<p>:::info
+Python 自带json-tool 在转换是会导致中文乱码，以下在原有基础上进行了优化，并增加中文支持
+:::</p>
+
+<h3 id="no-bb-show-code">No BB, Show Code</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"""
+Command-line tool to validate and pretty-print JSON
+
+Usage::
+
+    $ python3 json-tool.json import.json  output.json
+
+    Need Python 3.
+
+"""</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">prog</span> <span class="o">=</span> <span class="s">'python -m json.tool'</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="s">'A simple command line interface for json module '</span>
+                   <span class="s">'to validate and pretty-print JSON objects.'</span><span class="p">)</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="p">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="n">prog</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">'infile'</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s">'?'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="p">.</span><span class="n">FileType</span><span class="p">(),</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s">'a JSON file to be validated or pretty-printed'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">'outfile'</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s">'?'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="p">.</span><span class="n">FileType</span><span class="p">(</span><span class="s">'w'</span><span class="p">),</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s">'write the output of infile to outfile'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">'--sort-keys'</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">'store_true'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s">'sort the output of dictionaries alphabetically by key'</span><span class="p">)</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">parser</span><span class="p">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">infile</span> <span class="o">=</span> <span class="n">options</span><span class="p">.</span><span class="n">infile</span> <span class="ow">or</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span>
+    <span class="n">outfile</span> <span class="o">=</span> <span class="n">options</span><span class="p">.</span><span class="n">outfile</span> <span class="ow">or</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdout</span>
+    <span class="n">sort_keys</span> <span class="o">=</span> <span class="n">options</span><span class="p">.</span><span class="n">sort_keys</span>
+    <span class="k">with</span> <span class="n">infile</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sort_keys</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span>
+                                <span class="n">object_pairs_hook</span><span class="o">=</span><span class="n">collections</span><span class="p">.</span><span class="n">OrderedDict</span><span class="p">)</span>
+        <span class="k">except</span> <span class="nb">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="nb">SystemExit</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">outfile</span><span class="p">:</span>
+        <span class="n">json</span><span class="p">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="n">sort_keys</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">outfile</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h3 id="running">RUNNING</h3>
+
+<p>将以上代码文件保存为 json-tool.json，然后使用 Python3 运行即可</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 json-tool.json 190720_190730.json 06.json
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-09-05</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/09/dataframe-Pandas.html">dataframe - Pandas</a></h1>
+    <div class="post_at_index">
+      <p><a href="https://www.cnblogs.com/timotong/p/9678490.html">https://www.cnblogs.com/timotong/p/9678490.html</a></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-09-05</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       , 
-      <a href="/tags.html#CentOS">CentOS</a>
+      <a href="/tags.html#Pandas">Pandas</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/08/MySQL-REGEXP-%E6%B4%BB%E5%AD%A6%E6%B4%BB%E7%94%A8.html">MySQL REGEXP 活学活用</a></h1>
+    <div class="post_at_index">
+      <p><code class="language-plaintext highlighter-rouge">REGEXP</code> 在 MySQL中使用的正则表达式标识符，有着非常丰富的使用路径，代替<code class="language-plaintext highlighter-rouge">like</code>将有非常大的使用空间</p>
+
+<h2 id="梅里埃强制增加定位域名备案">梅里埃强制增加定位域名备案</h2>
+
+<blockquote>
+  <p>增加域名备案到页脚</p>
+</blockquote>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">"width: 100%; text-align: center; position:absolute; bottom:0; margin: auto;"</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;p&gt;</span>
+       Copyright 2021 © 上海微企信息技术股份有限公司. <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://beian.miit.gov.cn"</span><span class="nt">&gt;</span>沪ICP备12042952号-18<span class="nt">&lt;/a&gt;</span>  All Rights Reserved
+   <span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626796098224-66dfb621-323e-4e68-b1e2-fedfa40b43d9.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<blockquote>
+  <p>修改页面height 默认展示底部 footer</p>
+</blockquote>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">body</span><span class="o">,</span><span class="nt">body</span><span class="o">&gt;[</span><span class="nt">ui-view</span><span class="o">],</span><span class="nt">html</span><span class="o">,</span><span class="nt">html</span><span class="o">&gt;[</span><span class="nt">ui-view</span><span class="o">]</span> <span class="p">{</span>
+    <span class="nl">width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
+    <span class="nl">height</span><span class="p">:</span> <span class="m">99%</span>  <span class="err">#</span> <span class="n">原100</span><span class="err">%</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626796019003-27d5c0b3-dfe4-4c26-ae28-a334a5ed8039.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-08-09</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#SQL">SQL</a>
       
       
       
@@ -1545,7 +973,7 @@ sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com 
             <li class="active"><a>6</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page15">15</a></li>
+          <li><a href="/page20">20</a></li>
         
 
         
@@ -1616,7 +1044,7 @@ sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com 
      
     	
       <li><a href="/categories.html#Git">
-    		Git <span>5</span>
+    		Git <span>6</span>
     	</a></li>
      
     	
@@ -1656,7 +1084,7 @@ sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com 
      
     	
       <li><a href="/categories.html#Python">
-    		Python <span>7</span>
+    		Python <span>45</span>
     	</a></li>
      
     	
@@ -1701,7 +1129,7 @@ sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com 
      
     	
       <li><a href="/categories.html#Docker">
-    		Docker <span>4</span>
+    		Docker <span>6</span>
     	</a></li>
      
     	
@@ -1760,6 +1188,36 @@ sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com 
     	</a></li>
      
     	
+      <li><a href="/categories.html#SQL">
+    		SQL <span>5</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Node">
+    		Node <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#BI">
+    		BI <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#NaN">
+    		NaN <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#微服务">
+    		微服务 <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#ClickHouse">
+    		ClickHouse <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#闲聊">
     		闲聊 <span>3</span>
     	</a></li>
@@ -1795,13 +1253,13 @@ sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com 
     	</a></li>
      
     	
-      <li><a href="/categories.html#云原生">
-    		云原生 <span>1</span>
+      <li><a href="/categories.html#Gitlab">
+    		Gitlab <span>1</span>
     	</a></li>
      
     	
-      <li><a href="/categories.html#微服务">
-    		微服务 <span>1</span>
+      <li><a href="/categories.html#云原生">
+    		云原生 <span>1</span>
     	</a></li>
     
   
@@ -1815,40 +1273,41 @@ sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com 
       <ul>
         
         <li>
-          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
+          <a href="/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过pipreqs获取当前项目的依赖库</a>
+          如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a>
           
-  参考资料：
+  strip() 删除字符串中的内容，删除后仍旧是str
+  split() 分割字符串，根据特定的标识，分割后=list
 
 
 
         </li>
         
         <li>
-          <a href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s系列 南北流量和东西流量</a>
-          南北流量和东西流量 是什么意思？
+          <a href="/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a>
+          ```python
+import string
 
 
         </li>
         
         <li>
-          <a href="/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8.html">jq 命令行 Json 处理神器</a>
-          
-  https://mozillazg.com/2018/01/jq-use-examples-cookbook.htm-
-
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/07/%E9%97%AD%E5%85%B3%E5%A4%87%E6%88%98-11%E6%9C%88.html">闭关备战 11月</a>
-          目标
+          <a href="/post/2022/11/python3-setup.py-help-commands.html">python3 setup.py --help-commands</a>
+          ```python
+→ python3 setup.py –help-commands
 
 
         </li>
         
         <li>
-          <a href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a>
-          背景
+          <a href="/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入excel</a>
+          以下是使用的方法：
 
 
         </li>

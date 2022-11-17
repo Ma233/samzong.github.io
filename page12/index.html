@@ -201,6 +201,26 @@
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
@@ -244,45 +264,32 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2016/04/HowTo-Add-Piwik-Tracking-to-Ghost.html">HowTo Add Piwik Tracking to Ghost</a></h1>
+    <h1><a class="title" href="/post/2017/01/%E7%94%9F%E6%B4%BB%E5%9C%A8%E5%88%AB%E5%A4%84.html">生活在别处</a></h1>
     <div class="post_at_index">
-      <p>This is what about piwik on wiki. <a href="https://en.wikipedia.org/wiki/Piwik">goto</a></p>
+      <p>生活在别处，第一次看到这句话的时候是初中，便在之后的许多年间未曾忘记。</p>
 
-<h2 id="step-1---getting-your-piwik-tracking-code">Step 1 - Getting your Piwik Tracking code</h2>
-<p>The first step to having Piwik tracking your Ghost blog will be to add a new website in Piwik, if you are unfamiliar with this process you can checkout the Piwik documention on Managing Websites. With your Ghost blog added into Piwik you will end up with tracking code that will look similar to the following:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;!-- Piwik --&gt;
-&lt;script type="text/javascript"&gt;
-    var _paq = _paq || [];
-    (function(){ var u=(("https:" == document.location.protocol) ? "https://{$PIWIK_URL}/" : "http://{$PIWIK_URL}/");
-    _paq.push(['setSiteId', {$IDSITE}]);
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript'; g.defer=true; g.async=true; g.src=u+'piwik.js';
-    s.parentNode.insertBefore(g,s); })();
-&lt;/script&gt;
-&lt;!-- End Piwik Code --&gt;
-</code></pre></div></div>
+<p>第一我不懂为何“生活在别处”，生活如何在别处？生活不应再当下？生活如影随行，在你忙忙碌碌烦烦烦烦时，生活就在这里，在你快快乐乐时，生活还在这里，我一直以为所见所行就是生活；可是，随着生长，你依旧在这里，而生活早已飘落别处。</p>
+
+<p>“生活在别处”是法国诗人兰波的一句名言，而他用一生践行了这句话，他一生都在出走，从法国到英国而后非洲，兰波一生都在出走，直到最后死去；他是一位无法被归类的诗人，放荡不羁，与魏尔伦的爱情，新世界的开创者，兰波一生都在尝试不同的人生，就像他说的：“我愿成为任何人”。</p>
+
 <blockquote>
-  <p>Where <code>$PIWIK_URL</code> will be the domain name you have setup for Piwik.</p>
+  <p><em>《全蝕狂愛》 1995 ，描述了兰波的故事，与魏尔伦的爱情。由李奥纳多扮演。</em></p>
 </blockquote>
 
-<h2 id="step-2---adding-piwik-tracking-code-to-ghost-theme-file">Step 2 - Adding Piwik Tracking Code To Ghost Theme File</h2>
+<p>我不会写故事，更多的用来记录我的生活，本来今天晚上准备写些什么，如何关于整理笔记之类，下班日常刷知乎，看到《这个杀手不太冷》中一句话，“生活一直是那么艰难吗？还是只有小时候是这样？” “一直是。”脑海里就浮现了“生活在别处”这句话，随着人生阅历的成长，对这几句话的理解，也是不断加深； 所以，回来写下这段文字。</p>
 
-<p>Piwik recommends that you add the tracking code right above the <code>&#60;/body&#62;</code> tag, which you can find in your Ghost’s <code>default.hbs</code> theme file. You will find the <code>default.hbs</code> file in <code>/path/to/ghost/content/themes/your-theme/default.hbs</code>
-How you add the tracking code to your <code>default.hbs</code> will depend on if you are editing the file on your local computer or directly on the server. If you are editing your theme locally you can edit this file in any text editor and when you are finished upload this file to your server. Otherwise if you are editing this file directly on the server you can use the command line editor, <code>vim</code>, to add the tracking code.</p>
+<p>我一直试着找出自身的问题，我一直努力和生活更好地相处，我其实并不知道如何规划，我能感受到生命中特别重要的东西，要拼尽所有力气去抓住；我不喜欢去做承诺，我所能做的就是一直努力去做；在我们的人生中肯定会存在一些望不到顶的大山，可能我穷尽一生也无法看到山顶的景色和山的那边的一切，这的确是一件想想就很难过的事情，并且这一切无法逃避，听起来是那么地令人绝望，但是，亲爱的，我们总要去面对，或是大步向前，冲向那满是荆棘望不到顶的大山，要打败可以吃掉我们的大老虎，一次又一次，我们会经常失败，摔倒，伤痕累累，可是我总要爬起来，一次又一次，每次都像是用尽整个生命的力量，也许我们真的最后跌倒爬不起来了，也许我们最后真的无法凝聚一丝力量，那至少，我们明白我是真的做不到，而不是说从一开始就放弃，努力让自己变更好；嗯，方向也很重要。</p>
 
-<h2 id="step-3---restart-ghost">Step 3 - Restart Ghost</h2>
-<p>For the changes in your theme to take effect you will need to restart Ghost. Restarting Ghost will load up a fresh copy of your theme files, with your Piwik tracking code. How you restart Ghost depends on how you started Ghost. If you followed our <a href="https://www.howtoinstallghost.com/how-to-start-ghost-with-forever/">Keep Ghost Running with forever</a>, then you can restart Ghost with <code>forever restart ghost</code>.
-Within a few moments you will start to see data coming in for your Ghost blog!
-If you have any questions about setting this up or run into any issues please leave us a comment below and we will do what we can to help.</p>
+<p>好了，我还要去整理笔记，然后早点睡觉，今天心情不太好，可身边总有些美丽的人，谢谢！</p>
+
+<p>最后，生活一直是那么艰难吗？</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-04-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Piwik">Piwik</a>
+      <cite>2017-01-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
       
       
       
@@ -291,453 +298,135 @@ If you have any questions about setting this up or run into any issues please le
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/04/HowTo-Install-piwik-with-nginx-on-centos-6-x.html">HowTo Install piwik with nginx on centos 6.x</a></h1>
+    <h1><a class="title" href="/post/2017/01/Docker-Hub-%E5%9B%BD%E5%86%85%E5%8A%A0%E9%80%9F.html">Docker Hub 国内加速</a></h1>
     <div class="post_at_index">
-      <h3 id="this-is-my-nginx-config">This is my nginx config.</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server {
-	listen blog.ultraera.org:80;
-	server_name blog.ultraera.org;
+      <p>因为Docker Hub没有在国内部署站点或者增加了国内的CDN，这导致国内的开发者在使用docker pull 获取images的时候速度非常的慢，甚至于因为网络的原因会失败。</p>
 
-	location / {
-		proxy_set_header	X-Real-IP $remote_addr;
-		proxy_set_header	Host	$http_host;
-		proxy_pass			http://127.0.0.1:2368;
-	}
-}
+<p>但是Docker Hub有着非常丰富的镜像资源，所以我这一直是个问题困扰着我，一次偶然机会发现了<a href="https://www.daocloud.io">DaoCloud</a>提供了国内镜像加速服务，并且提供的Docker Hub Mirror详细的文档。</p>
 
-server {
-	listen piwik.ultraera.org:80;
-	server_name piwik.ultraera.org;
+<h4 id="1-注册daocloud账号">1. 注册DaoCloud账号</h4>
+<p>首先，你需要到一DaoCloud账号，注册很方便，点击地址：<a href="https://account.daocloud.io/signup">signup</a>
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/o6wh3.jpg" alt="" /></p>
 
-	location / {
-		proxy_set_header	X-Real-IP $remote_addr;
-		proxy_set_header	Host	$http_host;
-		proxy_pass			http://127.0.0.1:2080;
-	}
-}
+<h4 id="2-登录到你的daocloud账号内然后入下图操作">2. 登录到你的DaoCloud账号内，然后入下图操作</h4>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/n9mt7.jpg" alt="" /></p>
 
+<h4 id="3-查看你的daocloud加速器地址">3. 查看你的DaoCloud加速器地址</h4>
+<p><a href="https://www.daocloud.io/mirror#accelerator-doc">链接</a></p>
+
+<p>选择你相对应平台的的加速器设置
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/4wuea.jpg" alt="" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-01-07</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Docker">Docker</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/12/HowTo-Mount-OSS-Bucket-On-ECS.html">HowTo Mount OSS Bucket On ECS</a></h1>
+    <div class="post_at_index">
+      <blockquote>
+  <p>From <a href="https://github.com/aliyun/ossfs">阿里云官方Github</a></p>
+</blockquote>
+
+<blockquote>
+  <p>Demo: CentOS 6.8 on ECS</p>
+</blockquote>
+
+<p>ossfs 是通过磁盘挂载的形式，将oss存储挂载到linux、类unix等操作系统，而且不仅仅可以挂载阿里云内的ECS上，理论上所有网络能到达oss的都可以挂载，但还是要以实际问题为准。</p>
+
+<h5 id="1download--install">1.Download &amp; Install</h5>
+<p><a href="https://github.com/aliyun/ossfs/releases">官方版本发布页面</a>，请根据你的系统类型进行选择，我这演示的环境是CentOS 6.8；ossfs目前最新的版本是v1.79.9，您可以根据自己当时版本进行选择，建议选择最新版本。</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 请先将包上传到服务器上
+ sudo yum localinstall ossfs_1.79.9_centos6.5_x86_64.rpm
+</code></pre></div></div>
+<blockquote>
+  <p>注意使用localinstall，因为在安装过程，yum 可以很好的解决依赖关系，会节省我们很多时间</p>
+</blockquote>
+
+<h5 id="2-oss--bucket">2. OSS &amp; Bucket</h5>
+
+<p>需要获取以下信息，在后面我们都会用到的：<br /></p>
+<ol>
+  <li>Bucket 名称
+  <img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/QQ20161111-0.jpg" alt="" />
+  <br /></li>
+  <li>Access Key ID</li>
+  <li>Access Key Secret
+  <img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/0256A9CB-A0FA-43BC-82AF-4DE17D4852B6.png" alt="" /></li>
+</ol>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/QQ20161111-2.jpg" alt="" />
+<br /></p>
+<ol>
+  <li>Location，这需要注意点，不要加上Bucket的名字，区域对应表如下，注意你的Bucket所在区域:</li>
+</ol>
+<div><table><thead><tr><th style="color:green">Region中文名称</th><th style="text-align:left;color: green;">Region英文表示</th><th style="text-align:left;color: green;">外网Endpoint</th><th style="text-align:left;color: green;">ECS访问的内网Endpoint</th></tr></thead><tbody><tr><td>华东 1</td><td style="text-align:left">oss-cn-hangzhou</td><td style="text-align:left">oss-cn-hangzhou.aliyuncs.com</td><td style="text-align:left">oss-cn-hangzhou-internal.aliyuncs.com</td></tr><tr><td>华东 2</td><td style="text-align:left">oss-cn-shanghai</td><td style="text-align:left">oss-cn-shanghai.aliyuncs.com</td><td style="text-align:left">oss-cn-shanghai-internal.aliyuncs.com</td></tr><tr><td>华北 1</td><td style="text-align:left">oss-cn-qingdao</td><td style="text-align:left">oss-cn-qingdao.aliyuncs.com</td><td style="text-align:left">oss-cn-qingdao-internal.aliyuncs.com</td></tr><tr><td>华北 2</td><td style="text-align:left">oss-cn-beijing</td><td style="text-align:left">oss-cn-beijing.aliyuncs.com</td><td style="text-align:left">oss-cn-beijing-internal.aliyuncs.com</td></tr><tr><td>华南 1</td><td style="text-align:left">oss-cn-shenzhen</td><td style="text-align:left">oss-cn-shenzhen.aliyuncs.com</td><td style="text-align:left">oss-cn-shenzhen-internal.aliyuncs.com</td></tr><tr><td>香港数据中心</td><td style="text-align:left">oss-cn-hongkong</td><td style="text-align:left">oss-cn-hongkong.aliyuncs.com</td><td style="text-align:left">oss-cn-hongkong-internal.aliyuncs.com</td></tr><tr><td>美国硅谷数据中心</td><td style="text-align:left">oss-us-west-1</td><td style="text-align:left">oss-us-west-1.aliyuncs.com</td><td style="text-align:left">oss-us-west-1-internal.aliyuncs.com</td></tr><tr><td>美国弗吉尼亚数据中心</td><td style="text-align:left">oss-us-east-1</td><td style="text-align:left">oss-us-east-1.aliyuncs.com</td><td style="text-align:left">oss-us-east-1-internal.aliyuncs.com</td></tr><tr><td>亚太（新加坡）数据中心</td><td style="text-align:left">oss-ap-southeast-1</td><td style="text-align:left">oss-ap-southeast-1.aliyuncs.com</td><td style="text-align:left">oss-ap-southeast-1-internal.aliyuncs.com</td></tr><tr><td>亚太东北 1（日本）数据中心</td><td style="text-align:left">oss-ap-northeast-1</td><td style="text-align:left">oss-ap-northeast-1.aliyuncs.com</td><td style="text-align:left">oss-ap-northeast-1-internal.aliyuncs.com</td></tr></tbody></table></div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 设置bucket/access key/id的信息，将其存放在/etc/passwd-ossfs 文件中
+# 注意这个文件的权限必须正确设置，建议设为640
+sudo echo my-bucket:my-access-key-id:my-access-key-secret &gt; /etc/passwd-ossfs
+sudo chmod 640 /etc/passwd-ossfs
+</code></pre></div></div>
+<p><br /></p>
+<h5 id="3-mount--uasge">3. Mount &amp; Uasge</h5>
+<p>将oss bucket mount到指定目录:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 我碰到安装后找不到ossfs命令，查看下因为ossfs没有x权限，目录路径为/usr/local/bin，如果您也碰到这个问题，可以增加x权限后再测试
+sudo ossfs my-bucket /mnt/ossdir -ourl=http://oss-location.aliyuncs.com
+
+# 如果使用ossfs的机器是阿里云ECS，可以使用内网域名来避免流量收费和 提高速度：
+sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com
+</code></pre></div></div>
+<p>磁盘空间达到上百T：
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/0B78E099-5488-4839-AE48-09A074E7415D.png" alt="" />
+<br /></p>
+
+<p>umount：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 注意用户身份
+umount /tmp/ossfs # root user
+sudo fusermount -u /tmp/ossfs # non-root user
+</code></pre></div></div>
+<p><br /></p>
+<h5 id="4-debug--faq">4. Debug &amp; FAQ</h5>
+<p>当遇到错误的时候，可以试着打开Debug日志信息，然后分析问题原因：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 使用 -o dbglevel=debug -f -d参数打印日志信息
+sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com -o dbglevel=debug -f -d &gt; /mnt/ossfs.log 2&gt;&amp;1
 </code></pre></div></div>
 
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-04-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Piwik">Piwik</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/04/%E4%BD%BF%E7%94%A8SoureceTree%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84git%E9%A1%B9%E7%9B%AE.html">使用SoureceTree管理你的git项目</a></h1>
-    <div class="post_at_index">
-      <h6 id="update">Update</h6>
-<ul>
-  <li>
-    <font color="red">update: Windows用户在初始化Souretree工具时，需要用到Atlassian ID，新建用户时需要加载google 验证码，这一步需要VPN的支持，请注意。</font>
-  </li>
-  <li>找到一个版本的SourceTree工具可以不需要以上验证也能使用，下载链接：<a href="http://pan.baidu.com/s/1eRDMgEY">SourceTreeSetup_1.6.14.exe</a> 密码：c5l4</li>
-</ul>
+<p>更多的问题，请移步查看<a href="https://github.com/aliyun/ossfs/wiki/FAQ">官方的FAQ文档</a>。</p>
 
 <p><br /></p>
+<h5 id="5-about">5. About</h5>
+<p>ossfs提供的功能和性能和本地文件系统相比，具有一些局限性。具体包括：</p>
 
-<h5 id="补充1-git学习网站">补充1 ：Git学习网站</h5>
-<ol>
-  <li><a href="http://backlogtool.com/git-guide/cn/">猴子都能学会的git教程</a></li>
-  <li><a href="http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html">常用 Git 命令清单</a></li>
-  <li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">廖雪峰的git教程</a></li>
-  <li><a href="http://zoomq.qiniudn.com/ZQScrapBook/ZqFLOSS/data/20081210180347/">Why Git is Better than X</a></li>
-</ol>
-
-<h5 id="补充2-利用git协同开发">补充2 ：利用Git协同开发</h5>
-<ol>
-  <li><a href="https://ourai.ws/posts/working-with-git-in-team/">团队中的Git实践</a></li>
-  <li><a href="http://www.ruanyifeng.com/blog/2015/08/git-use-process.html">Git 使用规范流程</a></li>
-  <li><a href="http://nvie.com/files/Git-branching-model.pdf">Git分支管理模型</a></li>
-  <li><a href="http://marklodato.github.io/visual-git-guide/index-zh-cn.html">图解Git</a></li>
-</ol>
-
-<hr />
-
-<h2 id="1-关于-sourcetree">1. 关于 SourceTree</h2>
-<h4 id="sourcetree-是一款免费且同时支持windows-和mac-的git项目管理软件本文旨在给大家介绍这款应用的基础使用并用它来管理你的项目">SourceTree 是一款免费且同时支持Windows 和Mac 的git项目管理软件，本文旨在给大家介绍这款应用的基础使用，并用它来管理你的项目。</h4>
-<blockquote>
-  <p>官网： https://www.sourcetreeapp.com/</p>
-</blockquote>
-
-<h2 id="2-git帐号建立">2. git帐号建立</h2>
-<h3 id="1-新员工入职之后你的公司邮箱内会收到一封来自gitlab的邮件如下图">1. 新员工入职之后，你的公司邮箱内会收到一封来自Gitlab的邮件，如下图：</h3>
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree02.jpg" alt="image" /></p>
-
-<h3 id="2-点击邮件中的-click-here-to-set-your-password设置gitlab登陆密码">2. 点击邮件中的 “Click here to set your password”，设置gitlab登陆密码。</h3>
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsouretree03.jpg" alt="image" /></p>
-
-<h3 id="3-登陆gitlab帐号将会出现这个界面">3. 登陆gitlab帐号，将会出现这个界面：</h3>
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree05.jpg" alt="image" /></p>
-
-<h3 id="4-设定个人信息">4. 设定个人信息：</h3>
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsouretree06.jpg" alt="image" /></p>
-
-<h3 id="5-sshkey">5. sshKey</h3>
-<h4 id="51-在linux和mac上生成sshkey">5.1 在Linux和Mac上生成sshkey：</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ ssh-keygen -t rsa
-Generating public/private rsa key pair.
-Enter file in which to save the key (/Users/Alex/.ssh/id_rsa):
-Enter passphrase (empty for no passphrase):
-Enter same passphrase again:
-Your identification has been saved in /Users/Alex/.ssh/id_rsa.
-Your public key has been saved in /Users/Alex/.ssh/id_rsa.pub.
-The key fingerprint is:
-SHA256:98jE3jhBhFT5nQlZRj34a3WOk1t6XF+Dbf/hliXl4WQ Alex@Alex-Mac
-The key's randomart image is:
-+---[RSA 2048]----+
-|       ..oo. +=. |
-|        ... oo ..|
-|          .. o.o.|
-|         o  . +E+|
-|        S =   **=|
-|         = * .=BB|
-|          * o oOO|
-|           .  +o*|
-|              .oo|
-+----[SHA256]-----+
-➜  ~ cat ~/.ssh/id_rsa.pub
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VIEkDvxKLFGcHsT7Ur4zXwEi9YiW2tVRrBSjcMALxuBjVm2IxYV6Lk8SLuGadyYy5telWGJmHsQ3VIPRuKwpzTkLN643kjqc6JFSlnZG/XoP9SPtCOsp2ql4u0s7Auc2bZay4RaTDXbcpJVU9OA0xM8Zy4oTTNYdZ4tvGittVmn+wLrhN255J7clORF5126dmDYxV3E8ZboaDdQpdLGIWmDNcBJQvl0CLwpKUCi7EUDqDVtm4bNgwIX9fEIkTxGdaWjBW1iXBk8TGXWkgB+Qp8B1IwaJ4GHUwUhQrefWvw9XeJ Alex@Alex-Mac
-➜  ~
-</code></pre></div></div>
-
-<h4 id="52-在windows上生成sshkey">5.2 在Windows上生成sshkey：</h4>
-<h4 id="因为windows没有自带openssl模块所以在windows环境中使用第三方工具puttygenexe生成sshkey-下载地址">因为windows没有自带openssl模块，所以在Windows环境中使用第三方工具puttygen.exe生成sshkey <a href="http://the.earth.li/~sgtatham/putty/0.67/x86/puttygen.exe">下载地址</a></h4>
-
-<h4 id="步骤如下">步骤如下：</h4>
-
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree13.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree14.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree15.jpg" alt="image" /></p>
-
-<h4 id="当sourcetree首次启动时会弹出加载sshkey的提示按提示操作找到之前保存的privateppk文件">当sourcetree首次启动时，会弹出加载sshkey的提示，按提示操作，找到之前保存的private.ppk文件</h4>
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree12.jpg" alt="image" /></p>
-
-<h4 id="53-上传sshkey">5.3 上传sshkey：</h4>
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree07.jpg" alt="image" /></p>
-
-<h3 id="6-回到-dashboard-点击项目名称进入详情">6. 回到 dashboard ，点击项目名称进入详情：</h3>
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree08.jpg" alt="image" /></p>
-
-<h3 id="7-使用souretree将项目从git服务器clone到本地">7. 使用souretree将项目从git服务器clone到本地</h3>
-
-<h4 id="71-安装souretree-软件-略">7.1 安装souretree 软件 ［略］</h4>
-
-<h4 id="72-clone项目到本地">7.2 clone项目到本地</h4>
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree09.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree10.jpg" alt="image" /></p>
-
-<h3 id="8-进入项目工作台">8. 进入项目工作台：</h3>
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree11.jpg" alt="image" /></p>
-
-<h4 id="9-关于sourcetree工具的使用下面是一些git操作的释疑">9. 关于sourcetree工具的使用，下面是一些git操作的释疑。</h4>
 <ul>
-  <li>检出仓库: 将在本地创建一个git仓库的克隆版本</li>
-  <li>工作流: 本地仓库由 git 维护的三棵“树”组成。第一个是 工作目录，它持有实际文件；第二个是 缓存区（Index），它像个缓存区域，临时保存改动；最后是 HEAD，指向最近一次提交后的结果。</li>
-  <li>提交：可以计划改动（把它们添加到缓存区),将改动提交到了 HEAD，但是还没到提交到远端仓库。</li>
-  <li>拉取：从远端仓库拉取最新版本状态，特别是在其他人员有所改动之后。</li>
-  <li>推送：改动现在已经在本地仓库的 HEAD 中了。这时可以使用它将这些改动提交到远端仓库。</li>
-  <li>分支：分支是用来将特性开发分离出来的。在创建仓库的时候，master 是“默认的”。创建分支将可以从主线开发上分离开来，然后在不影响主线的同时继续工作，完成后再将它们合并到主分支上。</li>
-  <li>合并： 将分支功能并入主分支。</li>
+  <li>随机或者追加写文件会导致整个文件的重写。</li>
+  <li>元数据操作，例如list directory，性能较差，因为需要远程访问oss服务器。</li>
+  <li>文件/文件夹的rename操作不是原子的。</li>
+  <li>多个客户端挂载同一个oss bucket时，依赖用户自行协调各个客户端的行为。例如避免多个客户端写同一个文件等等。</li>
+  <li>不支持hard link。</li>
+  <li>不适合用在高并发读/写的场景，这样会让系统的load升高</li>
 </ul>
 
+<blockquote>
+  <p>另外，ossfs的稳定性很大一部分依赖于网络环境，建议的使用场景更多是作为临时数据迁移或定期备份，虽然ossfs挂载到系统中会有着几百TB的空间，但是稳定性并不高。</p>
+</blockquote>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-04-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SourceTree">SourceTree</a>
+      <cite>2016-12-20</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Aliyun">Aliyun</a>
       , 
-      <a href="/tags.html#Git">Git</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/04/Mac-1-%E8%B0%83%E6%95%B4Launchpad%E5%9B%BE%E6%A0%87%E5%A4%A7%E5%B0%8F.html">MacTips 调整Launchpad图标大小</a></h1>
-    <div class="post_at_index">
-      <p>很多人觉得默认Launchpad的应用程序图标很大，空间比较拥挤，不过这个其实是可以通过调整Launchpad每一行和每一列图标的数量，来调整Launchpad图标大小。</p>
-
-<p>默认如下图：
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2FQQ20160408-1.jpg" alt="" /></p>
-
-<p>代码块：</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 调整每一行显示数量为8个。
-➜ defaults write com.apple.dock springboard-columns -int 10
-
-＃ 重启Launchpad
-➜ defaults write com.apple.dock ResetLaunchPad -bool TRUE;killall Dock
-</code></pre></div></div>
-
-<p>修改后如下：
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2FQQ20160408-2.jpg" alt="" /></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-04-09</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/04/Mac-2-%E8%A7%A3%E5%86%B3oh-my-zsh%E5%9C%A8%E7%BB%88%E7%AB%AF%E4%B8%8B%E6%89%93%E5%BC%80%E7%BC%93%E6%85%A2.html">MacTips 解决 oh-my-zsh 在 Terminal 下打开缓慢</a></h1>
-    <div class="post_at_index">
-      <p>升级Mac OS X 10.11 之后，使用CleanMyMac 3清理9GB的垃圾文件，之后导致打开iTerm时加载主机名特别的慢，Mac的命令行工具我使用的是iTerm＋ohmyzsh，这个问题困扰了我快两个月，工作比较忙，所以一直用Zoc 代替，也没有认真的研究，最近有需求用到它，实在不行，研究一下，发现，是因为我清理系统的时候把终端日志的索引文件清理掉了，所以每次打开的时候都要先加载索引导致了首次开启非常慢，解决办法是，只要把终端缓存的日志文件删除即可：</p>
-
-<p>代码块：</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 日志文件路径
-# /private/var/log/asl/*.asl
-
-➜  ~ sudo du -sh /private/var/log/asl/
-Password:
-2.7G	/private/var/log/asl/
-
-➜  ~ sudo rm -rf /private/var/log/asl/*.asl
-➜  ~ sudo du -sh /private/var/log/asl/
-208M	/private/var/log/asl/
-
-</code></pre></div></div>
-
-<p>关闭终端，再次打开，问题解决。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-04-08</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/04/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS-6-%E5%AE%89%E8%A3%85%E6%9B%B4%E9%AB%98%E7%89%88%E6%9C%AC%E7%9A%84PHP.html">如何在CentOS 6 安装更高版本的PHP</a></h1>
-    <div class="post_at_index">
-      <p>
-CentOS 6 默认安装的PHP 版本是5.3， 但现在很多应用对于LAMP中，PHP的版本最低5.4，所以本篇文章的主要内容是，如何升级PHP5.3到5.4以及更高版本
- </p>
-
-<h2 id="实验环境centos-64">实验环境：CentOS 6.4</h2>
-
-<p>解决办法是采用了remi源仓库已经适配的相应php版本</p>
-
-<blockquote>
-  <p>经过测试，该升级办法同样适用目前CentOS 6.x 所有版本</p>
-</blockquote>
-
-<h4 id="1-安装remi源">1. 安装Remi源</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 因为remi依赖epel源仓库，所有我们要先安装它。
-[root@visionet8 ~]# yum install -y epel-release
-
-[root@visionet8 ~]# wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-[root@visionet8 ~]# rpm -Uvh remi-release-6.rpm
-</code></pre></div></div>
-
-<h4 id="2-我们看下remi的的yum配置文件">2. 我们看下Remi的的yum配置文件</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Repository: http://rpms.remirepo.net/
-# Blog:       http://blog.remirepo.net/
-# Forum:      http://forum.remirepo.net/
-
-[remi]
-name=Remi's RPM repository for Enterprise Linux 6 - $basearch
-baseurl=http://rpms.remirepo.net/enterprise/6/remi/$basearch/
-#mirrorlist=http://rpms.remirepo.net/enterprise/6/remi/mirror
-enabled=1
-gpgcheck=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
-
-[remi-php55]
-name=Remi's PHP 5.5 RPM repository for Enterprise Linux 6 - $basearch
-#baseurl=http://rpms.remirepo.net/enterprise/6/php55/$basearch/
-mirrorlist=http://rpms.remirepo.net/enterprise/6/php55/mirror
-# NOTICE: common dependencies are in "remi-safe"
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
-
-[remi-php56]
-name=Remi's PHP 5.6 RPM repository for Enterprise Linux 6 - $basearch
-#baseurl=http://rpms.remirepo.net/enterprise/6/php56/$basearch/
-mirrorlist=http://rpms.remirepo.net/enterprise/6/php56/mirror
-# NOTICE: common dependencies are in "remi-safe"
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
-</code></pre></div></div>
-
-<p>经过测试，启用remi源之后，默认情况下php版本为5.4,这时我们只需要升级php即可。</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@visionet8 html]# yum update -y php*
-Failed to set locale, defaulting to C
-Loaded plugins: fastestmirror, refresh-packagekit, security
-Loading mirror speeds from cached hostfile
- * base: mirrors.163.com
- * epel: mirrors.ustc.edu.cn
- * extras: mirrors.aliyun.com
- * remi-safe: mirrors.tuna.tsinghua.edu.cn
- * updates: mirrors.cn99.com
-remi                                                                               | 2.9 kB     00:00
-remi/primary_db                                                                    | 1.6 MB     00:05
-Setting up Update Process
-Resolving Dependencies
---&gt; Running transaction check
----&gt; Package php.x86_64 0:5.3.3-48.el6_8 will be updated
----&gt; Package php.x86_64 0:5.4.45-12.el6.remi will be an update
----&gt; Package php-cli.x86_64 0:5.3.3-48.el6_8 will be updated
----&gt; Package php-cli.x86_64 0:5.4.45-12.el6.remi will be an update
----&gt; Package php-common.x86_64 0:5.3.3-48.el6_8 will be updated
----&gt; Package php-common.x86_64 0:5.4.45-12.el6.remi will be an update
----&gt; Package php-gd.x86_64 0:5.3.3-48.el6_8 will be updated
----&gt; Package php-gd.x86_64 0:5.4.45-12.el6.remi will be an update
---&gt; Processing Dependency: libt1.so.5()(64bit) for package: php-gd-5.4.45-12.el6.remi.x86_64
----&gt; Package php-mcrypt.x86_64 0:5.3.3-4.el6 will be updated
----&gt; Package php-mcrypt.x86_64 0:5.4.45-12.el6.remi will be an update
----&gt; Package php-mysql.x86_64 0:5.3.3-48.el6_8 will be updated
----&gt; Package php-mysql.x86_64 0:5.4.45-12.el6.remi will be an update
----&gt; Package php-pdo.x86_64 0:5.3.3-48.el6_8 will be updated
----&gt; Package php-pdo.x86_64 0:5.4.45-12.el6.remi will be an update
---&gt; Running transaction check
----&gt; Package t1lib.x86_64 0:5.1.2-6.el6_2.1 will be installed
---&gt; Finished Dependency Resolution
-
-Dependencies Resolved
-
-==========================================================================================================
- Package                  Arch                 Version                           Repository          Size
-==========================================================================================================
-Updating:
- php                      x86_64               5.4.45-12.el6.remi                remi               2.8 M
- php-cli                  x86_64               5.4.45-12.el6.remi                remi               4.1 M
- php-common               x86_64               5.4.45-12.el6.remi                remi               968 k
- php-gd                   x86_64               5.4.45-12.el6.remi                remi               152 k
- php-mcrypt               x86_64               5.4.45-12.el6.remi                remi                60 k
- php-mysql                x86_64               5.4.45-12.el6.remi                remi               145 k
- php-pdo                  x86_64               5.4.45-12.el6.remi                remi               129 k
-Installing for dependencies:
- t1lib                    x86_64               5.1.2-6.el6_2.1                   base               160 k
-
-Transaction Summary
-==========================================================================================================
-Install       1 Package(s)
-Upgrade       7 Package(s)
-
-Total download size: 8.5 M
-Downloading Packages:
-(1/8): php-5.4.45-12.el6.remi.x86_64.rpm                                           | 2.8 MB     00:07
-(2/8): php-cli-5.4.45-12.el6.remi.x86_64.rpm                                       | 4.1 MB     00:06
-(3/8): php-common-5.4.45-12.el6.remi.x86_64.rpm                                    | 968 kB     00:02
-(4/8): php-gd-5.4.45-12.el6.remi.x86_64.rpm                                        | 152 kB     00:01
-(5/8): php-mcrypt-5.4.45-12.el6.remi.x86_64.rpm                                    |  60 kB     00:00
-(6/8): php-mysql-5.4.45-12.el6.remi.x86_64.rpm                                     | 145 kB     00:00
-(7/8): php-pdo-5.4.45-12.el6.remi.x86_64.rpm                                       | 129 kB     00:01
-(8/8): t1lib-5.1.2-6.el6_2.1.x86_64.rpm                                            | 160 kB     00:00
-----------------------------------------------------------------------------------------------------------
-Total                                                                     338 kB/s | 8.5 MB     00:25
-Running rpm_check_debug
-Running Transaction Test
-Transaction Test Succeeded
-Running Transaction
-Warning: RPMDB altered outside of yum.
-  Updating   : php-common-5.4.45-12.el6.remi.x86_64                                                  1/15
-  Updating   : php-cli-5.4.45-12.el6.remi.x86_64                                                     2/15
-  Updating   : php-pdo-5.4.45-12.el6.remi.x86_64                                                     3/15
-  Installing : t1lib-5.1.2-6.el6_2.1.x86_64                                                          4/15
-  Updating   : php-gd-5.4.45-12.el6.remi.x86_64                                                      5/15
-  Updating   : php-mysql-5.4.45-12.el6.remi.x86_64                                                   6/15
-  Updating   : php-5.4.45-12.el6.remi.x86_64                                                         7/15
-  Updating   : php-mcrypt-5.4.45-12.el6.remi.x86_64                                                  8/15
-  Cleanup    : php-5.3.3-48.el6_8.x86_64                                                             9/15
-  Cleanup    : php-mysql-5.3.3-48.el6_8.x86_64                                                      10/15
-  Cleanup    : php-pdo-5.3.3-48.el6_8.x86_64                                                        11/15
-  Cleanup    : php-cli-5.3.3-48.el6_8.x86_64                                                        12/15
-  Cleanup    : php-gd-5.3.3-48.el6_8.x86_64                                                         13/15
-  Cleanup    : php-mcrypt-5.3.3-4.el6.x86_64                                                        14/15
-  Cleanup    : php-common-5.3.3-48.el6_8.x86_64                                                     15/15
-  Verifying  : php-mcrypt-5.4.45-12.el6.remi.x86_64                                                  1/15
-  Verifying  : t1lib-5.1.2-6.el6_2.1.x86_64                                                          2/15
-  Verifying  : php-common-5.4.45-12.el6.remi.x86_64                                                  3/15
-  Verifying  : php-gd-5.4.45-12.el6.remi.x86_64                                                      4/15
-  Verifying  : php-cli-5.4.45-12.el6.remi.x86_64                                                     5/15
-  Verifying  : php-pdo-5.4.45-12.el6.remi.x86_64                                                     6/15
-  Verifying  : php-mysql-5.4.45-12.el6.remi.x86_64                                                   7/15
-  Verifying  : php-5.4.45-12.el6.remi.x86_64                                                         8/15
-  Verifying  : php-5.3.3-48.el6_8.x86_64                                                             9/15
-  Verifying  : php-gd-5.3.3-48.el6_8.x86_64                                                         10/15
-  Verifying  : php-cli-5.3.3-48.el6_8.x86_64                                                        11/15
-  Verifying  : php-pdo-5.3.3-48.el6_8.x86_64                                                        12/15
-  Verifying  : php-common-5.3.3-48.el6_8.x86_64                                                     13/15
-  Verifying  : php-mysql-5.3.3-48.el6_8.x86_64                                                      14/15
-  Verifying  : php-mcrypt-5.3.3-4.el6.x86_64                                                        15/15
-
-Dependency Installed:
-  t1lib.x86_64 0:5.1.2-6.el6_2.1
-
-Updated:
-  php.x86_64 0:5.4.45-12.el6.remi                      php-cli.x86_64 0:5.4.45-12.el6.remi
-  php-common.x86_64 0:5.4.45-12.el6.remi               php-gd.x86_64 0:5.4.45-12.el6.remi
-  php-mcrypt.x86_64 0:5.4.45-12.el6.remi               php-mysql.x86_64 0:5.4.45-12.el6.remi
-  php-pdo.x86_64 0:5.4.45-12.el6.remi
-
-Complete!
-</code></pre></div></div>
-
-<h4 id="3-测试">3. 测试：</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@visionet8 html]# php -v
-PHP 5.4.45 (cli) (built: Sep 19 2016 15:31:07)
-Copyright (c) 1997-2014 The PHP Group
-Zend Engine v2.4.0, Copyright (c) 1998-2014 Zend Technologies
-</code></pre></div></div>
-
-<h4 id="4-php-55-和php56">4. php 5.5 和php5.6</h4>
-
-<blockquote>
-  <p>若要升级到5.5 或 5.6，根据remi源的配置文件，将php5.5的enable参数设置为1，并将默认enable修改为0,然后<code>yum update php*</code>即可。</p>
-</blockquote>
-<hr />
-
-<h4 id="5-php-7">5. php 7</h4>
-<blockquote>
-  <p>安装完成之后发现, 在安装remi源之后，在<code>/etc/yum.repos.d</code>除了<code>remi.repo</code>之外，还有<code>remi-php70.repo</code>和<code>remi-php71.repo</code>，测试下，如果要升级到php7，可以打开相应源仓库的配置文件，之后升级即可。</p>
-</blockquote>
-
-<p><br /></p>
-
-<blockquote>
-  <p><b>以上功能在升级时，要考虑其他组件的版本兼容性，不要盲目升级。</b></p>
-</blockquote>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-04-01</cite> <i class="icon-tag"></i>
       <a href="/tags.html#CentOS">CentOS</a>
-      , 
-      <a href="/tags.html#PHP">PHP</a>
       
       
       
@@ -746,239 +435,253 @@ Zend Engine v2.4.0, Copyright (c) 1998-2014 Zend Technologies
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/03/MySQL-4-MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80.html">MySQL数据库使用基础</a></h1>
+    <h1><a class="title" href="/post/2016/12/%E4%B8%8A%E6%B5%B7%E5%A4%A9%E5%86%B7%E4%BA%86.html">上海天冷了</a></h1>
     <div class="post_at_index">
-      <p>       </p>
+      <p>上海天冷了啊！上海天冷了啊啊！！上海天冷了啊啊！！！</p>
 
-<h2 id="1-测试环境">1. 测试环境</h2>
-<ul>
-  <li>MacBook Pro 15‘ i7 16GB</li>
-  <li>VMware Fushion 8 Pro</li>
-  <li>MySQL Version 5.1</li>
-  <li>CentOS Linux 6.x</li>
-</ul>
+<p>重要的事情说三遍，这是一个好习惯，有了冬天的感觉，早上起床的时候有感觉，下班路上有感觉，现在坐在键盘前打字也很有感觉；前几天在微博上写了几句话:如今算是最好的季节，褪去夏日的燥热与汗渍，又不像冬日那么干冷凛冽，穿的衣服也是刚刚好，单条牛仔裤加个风衣或冲锋衣既藏住身上的赘肉，又不失潇洒，正是装逼好时节，而最最好的是这个季节的女子，美丽更胜其它季节。朋友嘲笑说其实想看黑丝，哈哈！谁知才过几天，就感受到了那种“干冷凛冽”。但是，我喜欢这种感觉，就像我喜欢这座城市，我说我喜欢冬天，自小就喜欢，我说我喜欢这座城市，就像自小就喜欢；我说不出来为什么喜欢，就像很多说不出来为什么喜欢，就像有些人，就像有些事，就像有些讨厌，人终是要顺了自己的心意，不然不会开心，但是要懂事，不懂事就不可爱了。</p>
 
-<h2 id="2-实验步骤">2. 实验步骤</h2>
+<!-- more -->
 
-<h3 id="21安装mysql">2.1 安装mysql</h3>
+<p>最近一直比较忙，弄得心烦意乱。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera  ~]#  yum  install  mysql  mysql-server  mysql-devel
+<p>生活上，最近外公有生病，母亲十分挂念，原本外公外婆年岁已高且身体不好，家里几位舅父却又不有作为，也令母亲十分苦恼，本来她身体也有不好，我却不能帮上她一二，内心也是颇为着急挂念，只能尽力安慰。说起外公外婆，也是难过不已，近两年，因些事每年都要回去两三趟，而又匆忙，故无多时间陪陪他们，外婆已多年卧病在床，起居生活全有外公照顾，我一次尝试想搀扶外婆起床，是异常艰难，可外公80多岁老人一扶就是8年多。有时，自己也想，若是自己到了这般年纪，该如何处置，想想也难过不已，想二位老人，到了这个年纪，早已不在乎吃穿用度如何如何，多年孤苦在家，更想要的子女多多陪伴，所以每次母亲打电话回去都哭泣不止；最怕“子欲养而亲不待”的事，我也劝说母亲有空就多多回老家陪陪，而母亲却担心我的婚娶生活，更令我难过不已，暗恨自己无用；昨今两日，父母又相继回老家，也希望外公身体早日恢复。</p>
 
-</code></pre></div></div>
+<p>工作上，自从去年与领导夸下豪言便一直不敢懈怠，但实际做下来的确是要比想象中困难许多，本来自己就不是聪明，这段时间做项目需求，改了许多稿总算通过，开心，感叹领导是好性格，如此耐心指导我；而前段时间，这个项目好几处也是几近失控，和其他公司的人沟通协调处理等一团糟，还好如今都渐回正轨；第一项目还未做完，就打退堂鼓，幸亏领导的指导，同事的帮助，当然还有我的好妹妹，每次感觉扛不住的找她聊聊发发牢骚，都能耐心听并给我加油打气。感谢这些人，当然也感谢自己，总有各种办法给自己恢复元气，今早，用思维导图把最近的烦心事要做的事全部写出来，然后一条一条的分析处理，最后恢复了好心情，又一如既往的工作生活。</p>
 
-<h3 id="22-启动mysql并设置开机自启动">2.2 启动mysql，并设置开机自启动</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera  ~]#  service  mysqld  start
-[root@ultraera  ~]#  chkconfig  mysqld  on
-[root@ultraera  ~]#  chkconfig  --list  |  grep  mysqld
-mysqld	0:off  1:off  2:on  3:on  4:on  5:on  6:off
-
-</code></pre></div></div>
-
-<h3 id="23-相关配置">2.3 相关配置</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/my.cnf         mysql配置文件
-/var/lib/mysql      mysql数据库文件
-port:3306           mysql默认端口
-
-# Tips : MySQL 绝大对数语句都是以分号结尾，注意是英文模式下的分号。字符和字符串用 '' 引起；
-</code></pre></div></div>
-
-<h3 id="24-mysql初始化及登录">2.4 mysql初始化及登录</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-[root@ultraera ~]# mysql_secure_installation
-
-NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MySQL
-      SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
-
-In order to log into MySQL to secure it, we'll need the current
-password for the root user.  If you've just installed MySQL, and
-you haven't set the root password yet, the password will be blank,
-so you should just press enter here.
-
-Enter current password for root (enter for none):        # 首次登陆默认为空
-
-Setting the root password ensures that nobody can log into the MySQL
-root user without the proper authorisation.
-
-You already have a root password set, so you can safely answer 'n'.
-
-Set the root password? [Y/n] y            # 设置root用户密码
-New password:
-Re-enter new password:
-Password updated successfully!
-Reloading privilege tables..
- ... Success!
-
-
-By default, a MySQL installation has an anonymous user, allowing anyone
-to log into MySQL without having to have a user account created for
-them.  This is intended only for testing, and to make the installation
-go a bit smoother.  You should remove them before moving into a
-production environment.
-
-Remove anonymous users? [Y/n] y        # 删除匿名用户
- ... Success!
-
-Normally, root should only be allowed to connect from 'localhost'.  This
-ensures that someone cannot guess at the root password from the network.
-
-Disallow root login remotely? [Y/n] y        # 关闭root远程登陆
- ... Success!
-
-By default, MySQL comes with a database named 'test' that anyone can
-access.  This is also intended only for testing, and should be removed
-before moving into a production environment.
-
-Remove test database and access to it? [Y/n] y    # 删除 test 数据库
- - Dropping test database...
-ERROR 1008 (HY000) at line 1: Can't drop database 'test'; database doesn't exist
- ... Failed!  Not critical, keep moving...
- - Removing privileges on test database...
- ... Success!
-
-Reloading the privilege tables will ensure that all changes made so far
-will take effect immediately.
-
-Reload privilege tables now? [Y/n] y    # 保存这些设置
- ... Success!
-
-
-All done!  If you've completed all of the above steps, your MySQL
-installation should now be secure.
-
-Thanks for using MySQL!
-
-Cleaning up...
-[root@ultraera ~]#
-
-[root@ultraera  ~]# 
-[root@ultraera  ~]# mysql  -u  root  -p  '123456'
-[root@ultraera  ~]# mysql  -u  root  -p  -h  localhost “-h” 指定服务器地址
-</code></pre></div></div>
-
-<h3 id="25-创建查看及删除当前数据库">2.5 创建、查看及删除当前数据库</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt;  CREATE  DATABASE  ultraera;
-Query  OK,  1  row  affected  (0.00  sec)
-mysql&gt;  SHOW  DATABASES;
-+--------------------+
-|  Database	|
-+--------------------+
-|  information_schema  |
-|  mysql	|
-|  test	|
-|  ultraera	|
-+--------------------+
-4  rows  in  set  (0.00  sec)
-mysql&gt;  DROP  DATABASE  ultraera;
-Query  OK,  0  rows  affected  (0.00  sec)
-
-</code></pre></div></div>
-
-<h3 id="26-创建查看及删除当前表格">2.6 创建、查看及删除当前表格</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#创建表格之前要先选择数据库
-mysql&gt;  use  ultraera;
-Database  changed
-mysql&gt;  CREATE  TABLE  ultraera(	#create 创建表格，至少1列
--&gt;  id  int  NOT  NULL,	#NOT  NULL	不为空,int 整型
--&gt;  name  char(20)  NOT  NULL,	#char() 字符型  ,()内定义字符长度
--&gt;  age  int  NOT  NULL
--&gt;  );
-Query  OK,  0  rows  affected  (0.01  sec)
-mysql&gt;  DESC  ultraera;
-+-------+----------+------+-----+---------+----------------+
-|  Field  |  Type	|  Null  |  Key  |  Default  |  Extra	|
-+-------+----------+------+-----+---------+----------------+
-|  id	|  int(11)  |  NO  |	|  NULL	|	|
-|  name  |  char(20)  |  NO  |	|  NULL	|	|
-|  age	|  int(11)  |  NO  |	|  NULL	|	|
-+-------+----------+------+-----+---------+----------------+
-3  rows  in  set  (0.00  sec)
-mysql&gt;  DROP  TABLE  ultraera  ;
-Query  OK,  0  rows  affected  (0.00  sec)
-
-</code></pre></div></div>
-<h3 id="27-修改表格信息">2.7 修改表格信息</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a.重命名表格
-mysql&gt;  alter  table  ultraera  rename  ultraera_org;
-b.新增列
-alter  table  ultraera  add  address  varchar(200);
-c.删除列
-mysql&gt;  alter  table  ultraera  drop  column  address;
-d.修改一个列的数据类型
-mysql&gt;  alter  table  ultraera  modify  name  varchar(200);
-e.重命名一个列
-mysql&gt;  alter  table  ultraera  change  column  NAME  name  varchar(200);
-</code></pre></div></div>
-
-<h3 id="28-向表格中插入数据">2.8 向表格中插入数据</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a.  全局插入
-mysql&gt;  insert  into  ultraera  values(1,'name',18);
-b.  根据列插入
-mysql&gt;  insert  into  ultraera(id,name,age)  values(2,'john',19);
-### 2.9 查看表格中的数据：
-mysql&gt;  select  *  from  ultraera;	#  *匹配所有列，也可以只查询单个列，
-mysql&gt;  select  name  from  ultraera;
-
-</code></pre></div></div>
-
-<h3 id="210-where运算符条件判断查询查询使用方法where列运算符值">2.10 where运算符：条件判断查询，查询使用方法：where  列  运算符  值；</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>where支持的运算符：=等于；&gt;大于；&lt;小于；&lt;&gt;不等于；&gt;=大于等于；&lt;=小于等于；BETWEEN在某范围之内；
-mysql&gt; select * from ultraera where id&gt;1;
-mysql&gt; select * from ultraera where id=2;
-mysql&gt; select * from ultraera where id&gt;=1;
-mysql&gt; select * from ultraera where id&lt;1;
-mysql&gt; select * from ultraera where id&lt;=1;
-mysql&gt; select * from ultraera where id  between  1  and  4;
-
-</code></pre></div></div>
-
-<h3 id="211-删除表格中的一条记录同样可以匹配where运算符">2.11 删除表格中的一条记录（同样可以匹配where运算符）</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt;  delete  from  ultraera  where  id  =  4;
-mysql&gt;  delete  *  from  ultraera ；	#清空一个表格的数据；
-
-</code></pre></div></div>
-<h3 id="212-更新表中的一个数据">2.12 更新表中的一个数据</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt;  update  ultraera  set  age=30  where  id=3;
-
-</code></pre></div></div>
-
-<h3 id="213-mysql增加删除一个用户">2.13 MySQL增加删除一个用户</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt;  create  user  user1  identified  by  '123456';	#user1，密码123456，新用户没有权限，无法登录数据库
-mysql&gt;  drop  user  user1;	#删除用户user1
-
-</code></pre></div></div>
-
-<h3 id="214-给用户添加删除权限">2.14 给用户添加、删除权限</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt;  grant  all  privileges  on  *.*  to  'user1'@'localhost'  identified  by  '123456';
-mysql&gt;  revoke  all  privileges  from  user1;
-
-</code></pre></div></div>
-
-<h3 id="215-使用mysqldump进行数据库备份">2.15 使用mysqldump进行数据库备份</h3>
-
-<p>数据库重命名：mysql不能直接对数据库重命名，所以如果想要重名数据库的话，要先导出，接着创建一个新的数据库，然后将导出的sql文件再导入到新的数据库中</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[adam@ultraera  ~]$  mysqldump  -u  root  -p  ultraera  &gt;  ultraera.sql     #备份
-[adam@ultraera  ~]$  mysql  -u  root  -p  new_ultraera  &lt;  ultraera.sql     #恢复到指定数据库
-
-</code></pre></div></div>
+<p>又23点过半了，要抓紧早睡了，调整正常作息才能更充沛的工作生活，记录走出了这一段不好的日子，恢复元气的自己，但是不能懈怠，毕竟“革命尚未成功，同志仍需努力”。</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-03-29</cite> <i class="icon-tag"></i>
+      <cite>2016-12-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/12/%E5%91%8A%E5%88%AB.html">告别</a></h1>
+    <div class="post_at_index">
+      <p>你们一起看过很多风景</p>
+
+<p>走过很多路</p>
+
+<p>因为小事争吵</p>
+
+<p>为了让对方委曲求全过</p>
+
+<p>你们花光了所有力气</p>
+
+<p>竟还是没有逃过分开的命运</p>
+
+<p>于是从此以后</p>
+
+<p>你走那条路都会想起当时的嬉笑怒骂</p>
+
+<p>你经过街角的那间咖啡馆会记得甜得发腻的糖霜</p>
+
+<p>可是人啊</p>
+
+<p>总要学会告别</p>
+
+<p>无论如何</p>
+
+<p>我们的生命中</p>
+
+<p>都逃脱不了</p>
+
+<p>永无休止的告别</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/pk6qu.JPG" alt="img" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-12-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/12/%E8%A1%80%E6%88%98%E9%92%A2%E9%94%AF%E5%B2%AD.html">血战钢锯岭</a></h1>
+    <div class="post_at_index">
+      <p>历史才是最好的教科书，我们从一段又一段历史中汲取经验和教训，尽量让人生走得不去更加艰难，而这毫无疑问战争是最好的老师，最残酷的史实，人类从千百的历史中依然没能学会和平，战争，让这个世界变得满目疮痍。</p>
+
+<p>今天去看了《血战钢锯岭》，有多久没有感动到流下眼泪，很好，前半段在讲述道斯如何与军队抗争，坚守自己的信仰，信仰是个好东西，但愿你我都有。后半段战争的场面极其的血腥暴力，电影尚是如此，真实又怎样想象，人生从来没有NG，因为真实，才最有力量；我们都喜欢甜美的故事，我也为了道斯的爱情而感动，也因战争的残酷而愤怒。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/gjt1b.jpg" alt="道斯和妻子吻别" />
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/w4nzi.jpg" alt="道斯冒着枪林弹雨拯救受伤的士兵" /></p>
+
+<p>这是我最喜欢的电影了，最让我感动的话是在军事法庭上道斯说：世界已经分崩离析，我要把它拼成原来的样子。看到这里心都碎了，这个世界上总有些人，哪怕与所有人为敌，所有人不信任，经受磨难羞辱，也坚持自己的信仰，这才是英雄；放下枪的人才是勇敢，他教会我们，我们应该成为怎样的人，不能忘记历史带给我们的伤痛，不能忘记而不是去恨，珍惜美好生活，不要战争。</p>
+
+<p>在这段时期，同样想起的是南京大屠杀，同样是二战时期日军留下的暴行，他们是魔鬼，他们终将会受到应有的惩罚；首先，我们都不能忘记，这是我们的伤痛，真实的历史远比想象的更加残酷，哪些被迫害的人，哪些南京大屠杀纪念馆的人名册，这些人是多么的绝望啊，数以千万计的道斯奋战的美好世界，怎能让战争败类去迫害，我不喜欢战争，任何一个国家。</p>
+
+<p>同样的选择给我，我会选择拿起枪，鲁迅先生说过：学医是救不了中国的，我终于不是道斯，看到咫尺近前的战友被日本人用刺刀刺死，却选择不拿起枪，我做不到；实际上，我也是一个有信仰的人，我的信仰的是我在乎的人，我愿意为了他们奋不顾身直到死亡，因为，他们是我的逆鳞啊！</p>
+
+<p>小时候，常听老人家说，要忆苦思甜，实际上应该是要铭记战争带给我们的伤痛，要铭记那段时期，勇敢的坚持的信仰，更加重要的是珍惜现在的美好。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-12-11</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/12/HowTo-Install-Python3-on-CentOS-6-x.html">HowTo Install Python3 on CentOS 6.x</a></h1>
+    <div class="post_at_index">
+      <p>接触过Python2.x与Python3.x的应该知道，它们二者的区别也是蛮大的，而随着Python3.x的盛行，越来越多的应用运行与Python3.x的环境之上，但是我们的CentOS的系列，目前都默认安装时Python2.x（CentOS 7.x也是），所以不得不我们需要自己行动手安装Python 3.x的环境。</p>
+
+<p>Mirosoft平台与Mac平台，不在考虑范围，他们都有相应的软件包与图形化安装工具，可以很好的解决这个问题，所以今天我们的环境是在CentOS 6.x系列上进行。</p>
+
+<blockquote>
+  <p>Demo ：CentOS 6.8</p>
+</blockquote>
+
+<h4 id="method-1-build--install-from-source-file">Method 1. Build &amp; Install From Source-File</h4>
+
+<ol>
+  <li>Python3.x 源码文件下载，请选择适合的版本。 <a href="https://www.python.org/ftp/python/">下载页面</a></li>
+  <li>我这里使用版本 Python 3.5
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[cent@demo ~]$ wget https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tgz
+</code></pre></div>    </div>
+  </li>
+  <li>安装系统基本工具：
+```
+    <h1 id="yum-utils">yum-utils</h1>
+    <p>[cent@demo ~]$ sudo yum install -y yum-utils</p>
+  </li>
+</ol>
+
+<h1 id="构建python-编译环境">构建python 编译环境</h1>
+<p>[cent@demo ~]$ sudo yum-builddep python</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4. 开始编译 &amp; 安装
+并且源码安装的同时，会将pip3与setuptools一同安装.
+</code></pre></div></div>
+<p>[cent@demo ~]$ tar xf Python-3.5.0.tgz
+[cent@demo ~]$ cd Python-3.5.0
+[cent@demo ~]$ ./configure
+[cent@demo ~]$ make
+[cent@demo ~]$ sudo make install</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>5. 检查版本
+</code></pre></div></div>
+<p>[cent@demo ~]$ python3 -V
+Python 3.5.0</p>
+
+<h1 id="如果希望系统默认为python3">如果希望系统默认为Python3</h1>
+<p>[cent@demo ~]$ alias python=’usr/bin/python3.5’</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+#### Method 2. Install From EPEL repos
+也许有的同学会说，编译安装，那是上古时期的做法了，yum在线安装才是王道，当然这种说法也有可取之处，所以接下来讲下如何使用yum安装，需要注意的是yum安装是需要时间测试和增加到相应的源仓库，一般会稍慢于源码安装的方式，这里采用EPEL源，这是一个非常棒的第三方源仓库，之前的文章中也多次提到，这里就不做过多描述，请看下面的命令：
+</code></pre></div></div>
+<p>[cent@demo ~]$ sudo yum install -y epel-release
+[cent@demo ~]$ sudo yum install -y python34</p>
+
+<h1 id="因为yum安装时没能同时安装pip与setuptools所以我们要手动安装这里采用拿第三方包解决问题">因为yum安装时没能同时安装pip与setuptools，所以我们要手动安装，这里采用拿第三方包解决问题</h1>
+
+<p>[cent@demo ~]$ curl -O https://bootstrap.pypa.io/get-pip.py
+[cent@demo ~]$ sudo python3 get-pip.py</p>
+
+<p>[cent@demo ~]$  python3 -V
+Python 3.4.3
+```</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-12-08</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      , 
+      <a href="/tags.html#CentOS">CentOS</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/12/HowTo-Reset-MySQL-Root-Password.html">HowTo Reset MySQL Root Password</a></h1>
+    <div class="post_at_index">
+      <h4 id="1-处理的状态">1. 处理的状态</h4>
+<p>首先确认服务器出于安全的状态，也就是没有人能够任意地连接MySQL数据库。
+因为在重新设置MySQL的root密码的期间，MySQL数据库完全出于没有密码保护的
+状态下，其他的用户也可以任意地登录和修改MySQL的信息。可以采用将MySQL对
+外的端口封闭，并且停止Apache以及所有的用户进程的方法实现服务器的准安全
+状态。最安全的状态是到服务器的Console上面操作，并且拔掉网线。</p>
+
+<h4 id="2-重置密码">2. 重置密码</h4>
+
+<ol>
+  <li>修改mysql配置文件，增加skip-grant-tables
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@demo ~]# vim /etc/my.cnf
+[mysqld]
+skip-grant-tables
+</code></pre></div>    </div>
+  </li>
+  <li>重启mysqld
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@demo ~]# service mysqld restart
+Stopping mysqld:                                           [  OK  ]
+Starting mysqld:                                           [  OK  ]
+</code></pre></div>    </div>
+  </li>
+  <li>登录mysql，并修改root密码.
+```
+[root@demo ~]# mysql -u root
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.5.53 MySQL Community Server (GPL)</li>
+</ol>
+
+<p>Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.</p>
+
+<p>Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.</p>
+
+<p>Type ‘help;’ or ‘\h’ for help. Type ‘\c’ to clear the current input statement.</p>
+
+<p>mysql&gt; use mysql
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A</p>
+
+<p>Database changed
+mysql&gt; update user set password=password(‘new-pass’) where user=’root’;
+Query OK, 5 rows affected (0.00 sec)
+Rows matched: 5  Changed: 5  Warnings: 0</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+4. 配置文件去除skip-grant-tables，并重启服务器.
+</code></pre></div></div>
+<p>[root@demo ~]# vim /etc/my.cnf
+[root@demo ~]# service mysqld restart</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+5. 使用新密码登录到mysql
+</code></pre></div></div>
+<p>[root@demo ~]# mysql -h localhost -u root -p
+```</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-12-04</cite> <i class="icon-tag"></i>
       <a href="/tags.html#MySQL">MySQL</a>
       
       
@@ -988,401 +691,291 @@ mysql&gt;  revoke  all  privileges  from  user1;
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/03/Linux-%E4%B8%AD%E7%9A%84%E4%B8%89%E4%B8%AA%E7%89%B9%E6%AE%8A%E6%9D%83%E9%99%90.html">Linux 中的三个特殊权限</a></h1>
+    <h1><a class="title" href="/post/2016/12/Tomcat-2-%E5%88%A9%E7%94%A8JDK%E8%87%AA%E8%BA%ABkeytool%E5%AE%9E%E7%8E%B0HTTPS.html">Tomcat 利用JDK自身keytool实现HTTPS</a></h1>
     <div class="post_at_index">
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Linux中除了普通权限之外，还有三个特殊权限。
-SUID:：以文件的所属用户执行，而非执行文件的用户，多用于可执行文件，设置suid后，在权限位中，所属用户的  最后一个权
-限为变为s，添加SUID权限可用“+s”表示。
-例如：passwd
-[adam@ultraera  ~]$  which  passwd
-/usr/bin/passwd
-[adam@ultraera  ~]$  ls  -l  /usr/bin/passwd
--rwsr-xr-x.  1  root  root  25980  Feb  22  2012  /usr/bin/passwd
-[adam@ultraera  ~]$
-SGID：主要针对文件夹，在设置了SGID的文件夹中创建任何新文件都继承该文件的所属组，设置sgid后，在权限位中，所属
-组的最后一个权限位变为s，添加SGID权限可用“+s”表示。
-例如：
-[adam@ultraera  ~]$  mkdir  ultraera
-[adam@ultraera  ~]$  ls  -l
-total  4
-drwxrwxr-x  2  adam  adam  4096  Nov  27  21:09  ultraera
-[adam@ultraera  ~]$  chmod  g+s  ultraera/
-[adam@ultraera  ~]$  ls  -l
-total  4
-drwxrwsr-x  2  adam  adam  4096  Nov  27  21:09  ultraera
-[adam@ultraera  ~]$  su
-Password:
-[root@ultraera  adam]#  mkdir  -p  ultraera/test
-[root@ultraera  adam]#  ls  -l  ultraera/
-total  4
-drwxr-sr-x  2  root  adam  4096  Nov  27  21:09  test
-[root@ultraera  adam]#
-sticky：针对文件夹，对目录拥有写权限的用户，仅可以删除其所拥有的文件，无法删除其他用户所拥有的文件，设置了sticky
-之后，在权限位，other的最后一个权限位变为t,添加SGID权限可用“+t”表示。
-例如：
-[root@ultraera  tmp]#  mkdir  ultraera
-[root@ultraera  tmp]#  chmod  a=rwx,o+t  ultraera/
-[root@ultraera  tmp]#  ls  -ld  ultraera/
-drwxrwxrwt  2  root  root  4096  Nov  27  21:29  ultraera/
-[root@ultraera  tmp]#  useradd  user1
-[root@ultraera  tmp]#  useradd  user2
-[root@ultraera  tmp]#  su  user1
-[user1@ultraera  tmp]$  touch  ./ultraera/test
-[user1@ultraera  tmp]$  ls  -l  ultraera/
-total  0
--rw-rw-r--  1  user1  user1  0  Nov  27  21:31  test
-[user1@ultraera  tmp]$  exit
-exit
-[root@ultraera  tmp]#  su  user2
-[user2@ultraera  tmp]$  rm  -f  ./ultraera/test
-rm:  cannot  remove  `./ultraera/test':  Operation  not  permitted
-[user2@ultraera  tmp]$
+      <p>因为一个偶然机会，想把自己的webserver通过https加密访问，这里就采用JDK自带的keytool工具实现，tomcat官方也推荐这种方式，英文好的同学走这里：<a href="https://tomcat.apache.org/tomcat-7.0-doc/ssl-howto.html">官方配置</a></p>
 
-
-同样使用chmod来设定特殊权限，与普通权限一样，特殊权限也可以用数字表示：
-suid  ：  4
-sgid  ：  2
-sticky ：  1
-chmod  4644  filename	#设置文件suid权限
-chmod  2755  flodername	#设置文件夹sgid权限
-chmod  1755  flodername	#设置文件夹sticky权限
-
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-03-29</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Linux">Linux</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/03/CentOS-6-1-%E4%BD%BF%E7%94%A8createrepo%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E6%BA%90.html">CentOS 使用createrepo搭建本地源</a></h1>
-    <div class="post_at_index">
-      <blockquote>
-  <p>Tips: 本地搭建本地yum源采用的rpm全部来自CentOS-6.7-bin-DVD1&amp;DVD2</p>
+<blockquote>
+  <p>demo: CentOS 6.6 &amp; Tomcat 7 &amp; JDK 1.7</p>
 </blockquote>
 
-<h3 id="1-测试环境">1. 测试环境</h3>
+<h4 id="1-生成-keystore">1. 生成 keystore</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test conf]# keytool -genkey -v -alias tomcat -keyalg RSA -keystore mykeystore
+Enter keystore password:              #设置密码
+Re-enter new password:                #重复一次
+What is your first and last name?
+  [Unknown]:  Alex Lu                #随便填
+What is the name of your organizational unit?
+  [Unknown]:  visionet                #随便填
+What is the name of your organization?
+  [Unknown]:  visionet                #随便填
+What is the name of your City or Locality?
+  [Unknown]:  SH                #随便填
+What is the name of your State or Province?
+  [Unknown]:  SH                #随便填
+What is the two-letter country code for this unit?
+  [Unknown]:  ZH                #随便填
+Is CN=Alex Lu, OU=visionet, O=visionet, L=SH, ST=SH, C=ZH correct?
+  [no]:  Y                    #这里要Y，确认前面信息。
 
-<ul>
-  <li>MacBook Pro 15-inch i7 16GB</li>
-  <li>VMware Fushion 8 Pro</li>
-  <li>CentOS-6.7-i686-minimal.iso</li>
-</ul>
-
-<p>因为配置本地yum源需要修改/目录下的文件及/etc下面的配置文件，建议更换到root用户。</p>
-
-<h3 id="2-实验步骤">2. 实验步骤</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 2.1 因为配置本地yum源需要修改/目录下的文件及/etc下面的配置文件，建议更换到root用户。
-[adam@ultraera ~]$ su -
-Password:
-[root@ultraera ~]#
-
-# 2.2 首先在本地创建一个存放rpm包的目录，我这里选择直接在/下创建，你可以自定义：
-[root@ultraera ~]# mkdir /yumload
-[root@ultraera ~]# cd /yumload/
-[root@ultraera yumload]# pwd
-/yumload
-# 2.3 接下来把两张DVD中的Packages中的rpm包全部拷贝到/yumload:
-[root@ultraera yumload]# cp /media/CentOS_6.5_Final/Packages/* ./
-[root@ultraera yumload]# ll ./*.rpm | wc -l
-
-#两张DVD一共有的rpm包的数量:
-4802
-
-
-# 2.4 然后使用createrepo指令创建本地repo，CentOS6默认不安装createrepo，需要手动安装，没关系，在我们的DVD光盘中已经集成了createrepo的包，如果报需要依赖安装其他包的使用，依次安装即可。
-
-[root@ultraera yumload]# rpm -ivh createrepo-0.9.9-18.el6.noarch.rpm
-
-# 2.5 创建yum仓库，耐心等待，可以加-v参数列出执行信息
-[root@ultraera yumload]# createrepo /yumload/
-Spawning worker 0 with 4802 pkgs
-Workers Finished
-Gathering worker results
-Saving Primary metadata
-Saving file lists metadata
-Saving other metadata
-Generating sqlite DBs
-Sqlite DBs complete
-[root@ultraera yumload]#
-
-# 2.6 在/etc/yum.repo.d/下创建一个repo文件，文件名可以自定义，但一定要以repo结尾，并添加一下内容：
-[ultraera.org]	#仓库名称可以自定义
-name=This is a local repo	#描述信息
-baseurl=file:///yumload/	#这里填写仓库的url，注意 有三个正斜线
-enabled=1	#是否开启仓库，1为开启，0为关闭
-gpgcheck=0	#是否检查gpgkey，1为开启，0为关闭
-
-# 2.7 另外如果想要添加软件包group的信息，可以把DVD1中的repodata文件中的*-comps.xml文件，使用ceraterepo -g 加载本地仓库即可，代码如下：
-[root@ultraera repodata]# createrepo -g [字符可能不一样，后缀正确就行]c6-i386-comps.xml /yumload/
-
-
-# 2.8 到这里本地yum源就已经搭建完成了，接下来重新初始化yum缓存：
-[root@ultraera repodata]# yum clean all
-Loaded plugins: fastestmirror, refresh-packagekit, security
-Cleaning repos: ultraera.org
-Cleaning up Everything
-Cleaning up list of fastest mirrors
-[root@ultraera repodata]# yum makecache
-Loaded plugins: fastestmirror, refresh-packagekit, security
-Determining fastest mirrors
-ultraera.org	| 2.9 kB	00:00 ...
-ultraera.org/filelists_db	| 4.9 MB	00:00 ...
-ultraera.org/primary_db	| 3.5 MB	00:00 ...
-ultraera.org/other_db	| 2.1 MB	00:00 ...
-Metadata Cache Created
-
-# 2.9 测试group信息是否添加正确可以用如下代码，只要有正确输出信息就表示成功了
-[root@ultraera ~]# yum grouplist
-
-
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-03-28</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Yum">Yum</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/03/HowTo-Install-MongoDB-on-CentOS-6-x.html">HowTo Install MongoDB  on CentOS 6.x</a></h1>
-    <div class="post_at_index">
-      <h2 id="1-overiew">1. Overiew</h2>
-
-<p>       在CentOS Linux 中安装软件的方式有很多种，我会在后续的文章中整理给大家，我比较喜欢的方式是尽量用Yum 安装，不用自己动手去解决软件包之间的依赖关系，“能Yum 就Yum ，不能Yum 想着法Yum 。”  – 这是我遵循的真理；今天给大家整理的就是如何使用Yum 来安装Mongodb ，在本文中会给出在32位与64位系统的区别，以及Mongodb 的版本，本文适用于CentOS 6/7 的Linux发行版本，所以同样适用于红帽体系的OS，如 RedHat Enterprise Linux 6/7 、 Fedora 。</p>
-
-<h2 id="2-packages">2. Packages</h2>
-
-<p>       业内常用的Mongodb 的Yum 仓库有Mongodb-org 与 Mongodb-10gen ,这里提供的Mongodb-org 的repository 仓库，支持以下软件包列表：</p>
-
-<ul>
-  <li>
-    <p>2.1 mongodb-org</p>
-
-    <p>       这个是源数据包，主要是用来组织自动安装下面的4个软件包.</p>
-  </li>
-  <li>
-    <p>2.2 mongodb-org-sever</p>
-
-    <p>        这个Mongodb Server端，包含了相关的配置和初始化脚本。</p>
-  </li>
-  <li>
-    <p>2.3 mongodb-org-mongos</p>
-
-    <p>        这个是Mongodb的守护进程。</p>
-  </li>
-  <li>
-    <p>2.4 mongodb-org-shell</p>
-
-    <p>       这个是mongodb 的shell环境。</p>
-  </li>
-  <li>
-    <p>2.5 mongodb-org-tools</p>
-
-    <p>        这个包里包含了下列mongodb 的工具：mongoimport bsondump, mongodump, mongoexport, mongofiles, mongooplog, mongoperf, mongorestore, mongostat, and mongotop 。</p>
-  </li>
-</ul>
-
-<h2 id="3-添加相对应版本的mongodb-repo-file">3. 添加相对应版本的Mongodb repo file.</h2>
-
-<h3 id="31-mongodb-26--os-x64">3.1 Mongodb 2.6 + OS x64</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-2.6.repo
-
-[mongodb-org-2.6]
-name=MongoDB 2.6 Repository
-baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/
-gpgcheck=0
-enabled=1
-
-</code></pre></div></div>
-
-<h3 id="32-mongodb-26--os-i686">3.2 Mongodb 2.6 + OS i686</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-2.6.repo
-
-[mongodb-org-2.6]
-name=MongoDB 2.6 Repository
-baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/i686/
-gpgcheck=0
-enabled=1
-
-</code></pre></div></div>
-
-<h3 id="33-mongodb-32---os-x64">3.3 Mongodb 3.2  + OS x64</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-3.2.repo
-
-[mongodb-org-3.2]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.2/x86_64/
-gpgcheck=0
-enabled=1
-
-</code></pre></div></div>
-
-<h3 id="34-mongodb-32---os-i686">3.4 Mongodb 3.2  + OS i686</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-3.2.repo
-
-[mongodb-org-3.2]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.2/i686/
-gpgcheck=0
-enabled=1
-
-</code></pre></div></div>
-
-<h2 id="4-install-mongodb">4. Install MongoDB</h2>
-
-<p>       安装最新版本的 Mongodb ，安装都方式一样，请注意安装相对应的源保证正确安装Mongodb，请使用如下命令：</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum clean all
-[root@vm02 ~]# yum makecache
-[root@vm02 ~]# yum install mongodb-org
-
-</code></pre></div></div>
-
-<h2 id="5-run-mongodb">5. Run MongoDB</h2>
-
-<h3 id="51-配置selinux">5.1 配置SELinux</h3>
-
-<p>       SELinux 默认为开启状态，会导致我们的Mongodb 无法使用，解决方式有两种：</p>
-
-<ol>
-  <li><a href="http://blog.ultraera.org/centos6-x-base-settings/">关闭SELinux</a></li>
-  <li>添加Mongodb 通过SELinux 设定，指令如下：</li>
-</ol>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>semanage port -a -t mongod_port_t -p tcp 27017
-
+Generating 2,048 bit RSA key pair and self-signed certificate (SHA256withRSA) with a validity of 90 days
+    for: CN=Alex Lu, OU=visionet, O=visionet, L=SH, ST=SH, C=ZH
+Enter key password for &lt;tomcat&gt;
+    (RETURN if same as keystore password):        #默认回车即可，不需要设置太多密码
+[Storing mykeystore]
+[root@test conf]# ls
+Catalina  catalina.policy  catalina.properties  context.xml  logging.properties  mykeystore  server.xml  tomcat-users.xml  web.xml
 </code></pre></div></div>
 <blockquote>
-  <p>Tips: 在CentOS 7 ，SELinux 会限定你去修改Mongodb的data目录及lib目录。</p>
+  <p>注意：-keystore是用来指定keystore保存位置，如果不加参数默认保存的当前用户家目录为~/.keystore
+       -validity 可以用来指定证书有效期，单位为天，缺省值为90天。</p>
 </blockquote>
 
-<h3 id="52-start-mongodb">5.2 Start MongoDB</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# sudo service mongod start
-Starting mongod:                                           [  OK  ]
-[root@vm02 ~]#
-
-</code></pre></div></div>
-<h3 id="53-检查mongodb日志文件验证服务正常启动-varlogmongodbmongodblog">5.3 检查MongoDB日志文件验证服务正常启动， /var/log/mongodb/mongodb.log</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# cat /var/log/mongodb/mongod.log  # 看到如下内容表示mongodb启动成功了。
-2016-03-24T04:09:28.582+0800 I NETWORK  [initandlisten] waiting for connections on port 27017
-
+<h4 id="2-备份tomcatdirconfserverxml">2. 备份$tomcatdir/conf/server.xml</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp $tomcatdir/conf/server.xml $tomcatdir/conf/server.xml
 </code></pre></div></div>
 
-<h3 id="54-设置mongodb-开机自启动">5.4 设置MongoDB 开机自启动</h3>
+<h4 id="3-修改serverxml">3. 修改server.xml</h4>
+<h6 id="a-注释以下tomcat注释用---xxxx----如何也想保留http访问可以不注释">a. 注释以下：（tomcat注释用：&lt;!-- XXXX --&gt; ）,如何也想保留http访问，可以不注释</h6>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;!--
+&lt;Connector executor="tomcatThreadPool"
+                port="80" protocol="HTTP/1.1"
+                connectionTimeout="20000"
+                redirectPort="8443" /&gt;
+--&gt;
+</code></pre></div></div>
+<h6 id="b-取消下面注释">b. 取消下面注释</h6>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Connector port="443" protocol="HTTP/1.1" SSLEnabled="true"
+                maxThreads="150" scheme="https" secure="true"
+                clientAuth="false" sslProtocol="TLS" /&gt;
+</code></pre></div></div>
+<h6 id="c-增加keystorefile和keystorepass">c. 增加keystoreFile和keystorePass</h6>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Connector port="443" protocol="HTTP/1.1" SSLEnabled="true"
+               maxThreads="150" scheme="https" secure="true"
+               clientAuth="false" sslProtocol="TLS"
+               keystoreFile="conf/mykeystore" keystorePass="123456"/&gt;
+</code></pre></div></div>
+<blockquote>
+  <p>keystoreFile=跟keystore文件位置
+keystorePass=跟当时keytool命令执行时输入的密码</p>
+</blockquote>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# chkconfig mongod on
-
+<h4 id="4-重启tomcat">4. 重启tomcat</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test conf]# ../bin/catalina.sh stop &amp;&amp; ../bin/catalina.sh start
+Using CATALINA_BASE:   /home/pms/apache-tomcat-6.0.44
+Using CATALINA_HOME:   /home/pms/apache-tomcat-6.0.44
+Using CATALINA_TMPDIR: /home/pms/apache-tomcat-6.0.44/temp
+Using JRE_HOME:        /home/pms/jdk1.7.0_65
+Using CLASSPATH:       /home/pms/apache-tomcat-6.0.44/bin/bootstrap.jar
+Using CATALINA_BASE:   /home/pms/apache-tomcat-6.0.44
+Using CATALINA_HOME:   /home/pms/apache-tomcat-6.0.44
+Using CATALINA_TMPDIR: /home/pms/apache-tomcat-6.0.44/temp
+Using JRE_HOME:        /home/pms/jdk1.7.0_65
+Using CLASSPATH:       /home/pms/apache-tomcat-6.0.44/bin/bootstrap.jar
+[root@test conf]# netstat -ntlup | grep -e "80\|443"
+tcp        0      0 0.0.0.0:80         0.0.0.0:*          LISTEN      21960/java
+tcp        0      0 0.0.0.0:443        0.0.0.0:*          LISTEN      21960/java
+tcp        0      0 127.0.0.1:8005     0.0.0.0:*          LISTEN      21960/java
+tcp        0      0 0.0.0.0:8009       0.0.0.0:*          LISTEN      21960/java
+[root@test conf]#
 </code></pre></div></div>
 
-<h3 id="55-设置mongodb-允许其他服务器访问">5.5 设置MongoDB 允许其他服务器访问</h3>
-
-<p>       默认情况下，mongodb 只监听 127.0.0.1 ，但是实际生产环境中可能需要其他服务器访问，所以这里添加监听其他网络端口，修改mongodb的配置文件：/etc/mongodb.conf</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/mongodb.conf
-
-# line 29 增加一行：
-    bindIp: 172.16.102.129
-
-# 注意不要把1270.0.1 去除，这会导致本地无法使用MongoDB .
-
-</code></pre></div></div>
-
-<h2 id="6-use-mongodb">6. Use MongoDB</h2>
-
-<h3 id="61-检查mongodb-状态">6.1 检查mongodb 状态</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# service mongod status
-mongod (pid 6502) is running...
-[root@vm02 ~]#
-
-</code></pre></div></div>
-
-<h3 id="62-mongodb-自带检测工具">6.2 mongodb 自带检测工具</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# mongostat
-insert query update delete getmore command % dirty % used flushes  vsize   res qr|qw ar|aw netIn netOut conn                      time
-    *0    *0     *0     *0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:09+08:00
-    *0    *0     *0     *0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:10+08:00
-    *0    *0     *0     *0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:11+08:00
-
-</code></pre></div></div>
-
-<h3 id="63-进入mongodb-命令行模式">6.3 进入mongodb 命令行模式</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# mongo
-MongoDB shell version: 3.2.4
-connecting to: test
-Server has startup warnings:
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/enabled is 'always'.
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] **        We suggest setting it to 'never'
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/defrag is 'always'.
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] **        We suggest setting it to 'never'
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. rlimits set to 1024 processes, 64000 files. Number of processes should be at least 32000 : 0.5 times number of files.
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
-&gt;
-
-</code></pre></div></div>
-
-<h2 id="7-uninstall-mongodb">7. Uninstall MongoDB</h2>
-
-<h3 id="71-关闭mongodb">7.1 关闭mongodb</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# service mongod stop
-
-</code></pre></div></div>
-
-<h3 id="72-卸载mongodb-软件包">7.2 卸载mongodb 软件包</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum erase $(rpm -qa | grep mongodb-org)
-
-</code></pre></div></div>
-
-<h3 id="73-删除mongodb文件数据库文件和日志文件">7.3 删除mongodb文件：数据库文件和日志文件</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# rm -rf /var/log/mongodb
-[root@vm02 ~]# rm -rf /var/lib/mongo
-
-</code></pre></div></div>
-
-<h2 id="8-faq">8. FAQ</h2>
-
-<p>       Q : Mongodb 占用99%CPU并且查询速度很慢?</p>
-
-<p>       A : 数据库需要首先建立索引，类似图书的目录文件，否则当你在数据库内查找数据的时候，就类似于在整本字典一页页翻查一个字如此。</p>
-
+<p>OK !</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-03-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MongoDB">MongoDB</a>
+      <cite>2016-12-03</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Tomcat">Tomcat</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/11/AWS-Use-s3cmd%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86S3%E5%AD%98%E5%82%A8.html">AWS Use s3cmd命令行管理S3存储</a></h1>
+    <div class="post_at_index">
+      <p>S3 是AWS公有云服务提供的云存储服务，提供海量数据存储服务，同时基于AWS S3提供的一系列网络服务接口，也有大量已经开发完成的工具供我们使用，以利用起AWS庞大的存储资源，这篇文章的目录选取了其中一个用Linux命令行工具<a href="http://s3tools.org">s3cmd</a>来管理AWS S3云存储其中的数据。</p>
+
+<p>s3cmd 是非常优秀的S3命令行管理工具，用python编写，支持python 2.6 &amp; 2.7 ，但是尚不支持python3，但是目前绝大多数的Linux发行版默认都是python2.x 系列。</p>
+
+<blockquote>
+  <p>Demo CentOS 6.x</p>
+</blockquote>
+
+<h2 id="install-s3cmd"><strong>Install s3cmd</strong></h2>
+<h3 id="1-无论是denbian系还是rehat系列软件仓库内已经加入了s3cmd">1. 无论是Denbian系还是Rehat系列，软件仓库内已经加入了s3cmd：</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 1.1 Ubuntu &amp; Debian
+$ sudo apt-get install -y s3cmd
+
+# 1.2 RHEL &amp; CentOS
+$ sudo yum install s3cmd
+</code></pre></div></div>
+
+<h3 id="2-如果您的系统比较特殊软件仓库内找不到s3cmd还有s3cmd的github上去获取相关安装信息链接">2. 如果您的系统比较特殊，软件仓库内找不到s3cmd，还有s3cmd的Github上去获取相关安装信息：<a href="https://github.com/s3tools/s3cmd">链接</a></h3>
+
+<h2 id="configure-s3cmd"><strong>Configure s3cmd</strong></h2>
+<h3 id="1-第一次运行s3cmd-需要首先预配置相关s3信息">1. 第一次运行s3cmd 需要首先预配置相关s3信息:</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd --configure
+</code></pre></div></div>
+<p>它会问你一系列问题：</p>
+<ul>
+  <li>AWS S3 中IAM账户的Access Key以及Secret Key (建议单独创建IAM)</li>
+  <li>对AWS S3双向传输的加密密码 （自行设定不要忘记）</li>
+  <li>为加密数据设定GPG程序的路径（默认即可）</li>
+  <li>是否使用https协议 （默认即可）</li>
+  <li>如果不是https协议，需要设定名字和端口
+  配置完成之后，配置信息以普通文本保存在~/.s3cfg
+    <h3 id="2-china-与global-的区别">2. China 与Global 的区别</h3>
+  </li>
+</ul>
+
+<p>笔者在第一次运行时，始终无法添加成功，报错信息如下：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ERROR: Test failed: 403 (InvalidAccessKeyId): The AWS Accecc Key Id you provided does not exist in our records.
+</code></pre></div></div>
+<p>起初以为是Access Key 不对，在经过多次测试之后，才发现问题，这是因为s3cmd 内置s3的Domain为Global的信息，而中国与Global是独立存在的所以查找不到我们的Access Key。所以，如果你使用的Global AWS那么上面一步应该已经配置好了你的s3cmd，如果你是AWS China的用户，那么你要做以下操作。</p>
+
+<ul>
+  <li>在Retry configuration? [Y/n]选择“n”</li>
+  <li>Save settings? [y/N] 选择“y”</li>
+  <li>保存设置之后，编辑配置文件（~/.s3cfg ) 修改其中的如下字段，并将其中%(bucket)s用您实际的某一个存储桶名字代替掉</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bucket_location = %(location)
+host_base = s3.cn-north-1.amazonaws.com.cn
+host_bucket = %(bucket)s.s3.cn-north-1.amazonaws.com.cn
+website_endpoint = http://%(bucket)s.s3-website-%(location)s.amazonaws.com.cn/
+</code></pre></div></div>
+
+<p>例如，你的存储桶的名字为s3chinatest: 地域为北京。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bucket_location = cn-north-1
+host_base = s3.cn-north-1.amazonaws.com.cn
+host_bucket = s3chinatest.s3.cn-north-1.amazonaws.com.cn
+website_endpoint = http://s3chinatest.s3-website.amazonaws.com.cn/
+</code></pre></div></div>
+<h3 id="3-保存配置文件然后用命令测试一下确认s3cmd可以正常工作">3. 保存配置文件，然后用命令测试一下，确认s3cmd可以正常工作</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd ls
+2016-11-18 22:30 s3://s3chinatest
+2016-10-29 00:14 s3://bucket2
+</code></pre></div></div>
+<h2 id="s3cmd-的基本使用"><strong>s3cmd 的基本使用</strong></h2>
+<h3 id="1-查看当前账户下所有现有的桶bucket">1. 查看当前账户下所有现有的桶(bucket)：</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd ls
+2016-11-18 22:30 s3://s3chinatest
+2016-10-29 00:14 s3://bucket2
+</code></pre></div></div>
+<h3 id="2-创建新的bucket">2. 创建新的bucket</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd mb s3://s3chinatest2
+
+Bucket ’s3://s3chinatest2/’ created
+</code></pre></div></div>
+<h3 id="3-上传文件到bucket">3. 上传文件到bucket</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd put file1.txt file2.txt file3.txt s3://s3chinatest2
+upload: 'file1.txt' -&gt; 's3://s3chinatest2/file1.txt'  [1 of 3]
+ 2432 of 2432   100% in    0s    43.27 kB/s  done
+upload: 'file2.txt' -&gt; 's3://s3chinatest2/file2.txt'  [2 of 3]
+ 2432 of 2432   100% in    0s    59.83 kB/s  done
+upload: 'file3.txt' -&gt; 's3://s3chinatest2/file3.txt'  [3 of 3]
+ 2432 of 2432   100% in    0s    58.93 kB/s  done
+
+ $ s3cmd ls s3://s3chinatest2
+ 2016-11-18 15:11      2432   s3://s3chinatest2/file1.txt
+2016-11-18 15:11      2432   s3://s3chinatest2/file2.txt
+2016-11-18 15:11      2432   s3://s3chinatest2/file3.txt
+</code></pre></div></div>
+<p>上传的文件默认访问权限为私有(private)，只能用户自己可以访问，使用正确的访问和安全密码即可。<br />
+如果要上传公开访问权限的文件，需要添加 –acl-public 参数.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd put  --acl-public file4.txt s3://s3chinatest2
+upload: 'file4.txt' -&gt; 's3://s3chinatest2/file1.txt'  [1 of 1]
+ 2432 of 2432   100% in    0s    43.27 kB/s  done
+</code></pre></div></div>
+<h3 id="4-下载bucket内的文件">4. 下载bucket内的文件</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd get s3://s3chinatest2/file1.txt
+download: 's3://s3chinatest2/file1.txt' -&gt; './file1.txt'  [1 of 1]
+ 2432 of 2432   100% in    0s    27.65 kB/s  done
+
+ # 支持 " * "匹配任意字符
+ $ s3cmd get s3://s3chinatest2/file*.txt
+download: 's3://s3chinatest2/file1.txt' -&gt; './file1.txt'  [1 of 3]
+ 2432 of 2432   100% in    0s    48.11 kB/s  done
+download: 's3://s3chinatest2/file2.txt' -&gt; './file2.txt'  [2 of 3]
+ 2432 of 2432   100% in    0s    84.76 kB/s  done
+download: 's3://s3chinatest2/file3.txt' -&gt; './file3.txt'  [3 of 3]
+ 2432 of 2432   100% in    0s    75.28 kB/s  done
+</code></pre></div></div>
+<blockquote>
+  <p>注意若当前目录有相同文件时，可以使用–skip-existing 参数跳过这些文件。</p>
+  <h3 id="5-删除bucket内的文件">5. 删除bucket内的文件</h3>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># del 与 rm 都可以使用.
+$ s3cmd del s3://s3chinatest2/file1.txt
+delete: 's3://s3chinatest2/file1.txt'
+</code></pre></div></div>
+<h3 id="6-获取当前bucket-信息">6. 获取当前bucket 信息</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># bucket的存储位置及访问权限设置
+s3cmd info s3://s3chinatest2
+s3://s3chinatest2/ (bucket):
+   Location:  cn-north-1
+   Payer:     BucketOwner
+   Expiration Rule: none
+   policy:    none
+   cors:      none
+   ACL:       2fe63da8137b85d9868d240869945287b285a58b5d7e07e21ac813b486dcabea: FULL_CONTROL
+</code></pre></div></div>
+<h3 id="7-上传文件到bucket时加密">7. 上传文件到bucket时加密</h3>
+
+<p>当用s3cmd下载一个加密过的文件时，它会自动检测加密并在下载过程解密，因此下载和访问加密文件时，就像通常所做的一样</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd -e put t_result.java s3://s3chinatest2
+upload: '/tmp/tmpfile-S9lUXERAEUdnNaz5zHba' -&gt; 's3://s3chinatest2/t_result.java'  [1 of 1]
+ 3355 of 3355   100% in    0s    39.25 kB/s  done
+</code></pre></div></div>
+<h3 id="8-查看bucket使用情况">8. 查看bucket使用情况</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd du s3://s3chinatest2
+8219     3 objects s3://s3chinatest2/
+</code></pre></div></div>
+<h3 id="9-删除一个bucket">9. 删除一个bucket</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd rb s3://s3chinatest2
+ERROR: S3 error: 409 (BucketNotEmpty): The bucket you tried to delete is not empty
+# 默认不能删除非空的bucket，所以要先清空存储桶内数据
+
+$ s3cmd rm s3://s3chinatest2/*
+delete: 's3://s3chinatest2/file2.txt'
+delete: 's3://s3chinatest2/file3.txt'
+delete: 's3://s3chinatest2/t_result.java'
+
+$ s3cmd rb s3://s3chinatest2
+Bucket 's3://s3chinatest2/' removed
+</code></pre></div></div>
+
+<h2 id="other"><em>Other</em></h2>
+
+<ol>
+  <li>关于s3cmd 还有非常多的功能，这里只是列举简单的一部分，有兴趣的同学，可以使用man s3cmd 查看详细的帮助文档.</li>
+  <li>s3cmd 适用的场景主要利用脚本做cron任务，例如定时备份，然后推送到s3，降低成本，持久保存.</li>
+  <li>Windows平台也支持s3cmd哦，有兴趣的同学可以去研究下。</li>
+</ol>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-11-30</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#AWS">AWS</a>
       
       
       
@@ -1431,7 +1024,7 @@ Server has startup warnings:
             <li class="active"><a>12</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page15">15</a></li>
+          <li><a href="/page20">20</a></li>
         
 
         
@@ -1502,7 +1095,7 @@ Server has startup warnings:
      
     	
       <li><a href="/categories.html#Git">
-    		Git <span>5</span>
+    		Git <span>6</span>
     	</a></li>
      
     	
@@ -1542,7 +1135,7 @@ Server has startup warnings:
      
     	
       <li><a href="/categories.html#Python">
-    		Python <span>7</span>
+    		Python <span>45</span>
     	</a></li>
      
     	
@@ -1587,7 +1180,7 @@ Server has startup warnings:
      
     	
       <li><a href="/categories.html#Docker">
-    		Docker <span>4</span>
+    		Docker <span>6</span>
     	</a></li>
      
     	
@@ -1646,6 +1239,36 @@ Server has startup warnings:
     	</a></li>
      
     	
+      <li><a href="/categories.html#SQL">
+    		SQL <span>5</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Node">
+    		Node <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#BI">
+    		BI <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#NaN">
+    		NaN <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#微服务">
+    		微服务 <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#ClickHouse">
+    		ClickHouse <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#闲聊">
     		闲聊 <span>3</span>
     	</a></li>
@@ -1681,13 +1304,13 @@ Server has startup warnings:
     	</a></li>
      
     	
-      <li><a href="/categories.html#云原生">
-    		云原生 <span>1</span>
+      <li><a href="/categories.html#Gitlab">
+    		Gitlab <span>1</span>
     	</a></li>
      
     	
-      <li><a href="/categories.html#微服务">
-    		微服务 <span>1</span>
+      <li><a href="/categories.html#云原生">
+    		云原生 <span>1</span>
     	</a></li>
     
   
@@ -1701,40 +1324,41 @@ Server has startup warnings:
       <ul>
         
         <li>
-          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
+          <a href="/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过pipreqs获取当前项目的依赖库</a>
+          如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a>
           
-  参考资料：
+  strip() 删除字符串中的内容，删除后仍旧是str
+  split() 分割字符串，根据特定的标识，分割后=list
 
 
 
         </li>
         
         <li>
-          <a href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s系列 南北流量和东西流量</a>
-          南北流量和东西流量 是什么意思？
+          <a href="/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a>
+          ```python
+import string
 
 
         </li>
         
         <li>
-          <a href="/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8.html">jq 命令行 Json 处理神器</a>
-          
-  https://mozillazg.com/2018/01/jq-use-examples-cookbook.htm-
-
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/07/%E9%97%AD%E5%85%B3%E5%A4%87%E6%88%98-11%E6%9C%88.html">闭关备战 11月</a>
-          目标
+          <a href="/post/2022/11/python3-setup.py-help-commands.html">python3 setup.py --help-commands</a>
+          ```python
+→ python3 setup.py –help-commands
 
 
         </li>
         
         <li>
-          <a href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a>
-          背景
+          <a href="/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入excel</a>
+          以下是使用的方法：
 
 
         </li>

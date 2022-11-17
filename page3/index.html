@@ -201,6 +201,26 @@
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
@@ -244,549 +264,153 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2022/03/awesome-hexo-plugins.html">Awesome Hexo Plugin</a></h1>
+    <h1><a class="title" href="/post/2022/05/Gitlab-%E5%8F%91%E9%80%81%E4%BC%81%E5%BE%AE%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%B6%88%E6%81%AF.html">Gitlab 发送企微机器人消息</a></h1>
     <div class="post_at_index">
-      <p>About my blog use hexo plugin</p>
-
-<h2 id="hexo-hide-posts">hexo-hide-posts</h2>
-
-<p><a href="https://github.com/prinsss/hexo-hide-posts">hexo-hide-posts</a> is A plugin to hide specific posts from your Hexo blog and make them only accessible by links</p>
-
-<h3 id="installation">Installation</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">install </span>hexo-hide-posts <span class="nt">--save</span>
-</code></pre></div></div>
-
-<p>Usage</p>
-
-<p>Add <code class="language-plaintext highlighter-rouge">hidden: true</code> to the <a href="https://hexo.io/docs/front-matter">front-matter</a> of posts which you want to hide.</p>
-
-<p>e.g. Edit <code class="language-plaintext highlighter-rouge">source/_posts/lorem-ipsum.md</code>:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
-layout: post
-title: 'Lorem Ipsum'
-date: '2019/8/10 11:45:14'
-hidden: true
----
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-</code></pre></div></div>
-
-<p>This post will not be shown anywhere, but you can still access it by <code class="language-plaintext highlighter-rouge">https://hexo.test/lorem-ipsum/</code>. (If you want to completely prevent a post from rendering, just set it as a <a href="https://hexo.io/docs/writing.html#Drafts">draft</a>.)</p>
-
-<p>To get a list of hidden posts, you can run <code class="language-plaintext highlighter-rouge">hexo hidden:list</code> from command line.</p>
-
-<p>For developers, <code class="language-plaintext highlighter-rouge">all_posts</code> and <code class="language-plaintext highlighter-rouge">hidden_posts</code> added to <a href="https://hexo.io/api/locals">Local Variables</a> may be useful.</p>
-
-<h3 id="config">Config</h3>
-
-<p>In your site’s <code class="language-plaintext highlighter-rouge">_config.yml</code>:</p>
-
-<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># hexo-hide-posts</span>
-<span class="na">hide_posts</span><span class="pi">:</span>
-  <span class="na">enable</span><span class="pi">:</span> <span class="no">true</span>
-  <span class="c1"># Change the filter name to fit your need</span>
-  <span class="na">filter</span><span class="pi">:</span> <span class="s">hidden</span>
-  <span class="c1"># Generators which you want to expose all posts (include hidden ones) to.</span>
-  <span class="c1"># Common generators: index, tag, category, archive, sitemap, feed, etc.</span>
-  <span class="na">public_generators</span><span class="pi">:</span> <span class="pi">[]</span>
-  <span class="c1"># Add "noindex" meta tag to prevent hidden posts from being indexed by search engines</span>
-  <span class="na">noindex</span><span class="pi">:</span> <span class="no">true</span>
-</code></pre></div></div>
-
-<h2 id="hexo-generator-restful">hexo-generator-restful</h2>
-
-<p><a href="https://github.com/yscoder/hexo-generator-restful">hexo-generator-restful</a> is generate restful json data for Hexo plugins.</p>
-
-<h3 id="install">Install</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>hexo-generator-restful <span class="nt">--save</span>
-</code></pre></div></div>
-
-<h3 id="config-1">Config</h3>
-
-<p>以下为默认配置，属性值为 <code class="language-plaintext highlighter-rouge">false</code> 表示不生成。</p>
-
-<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">restful</span><span class="pi">:</span>
-  <span class="c1"># site 可配置为数组选择性生成某些属性</span>
-  <span class="c1"># site: ['title', 'subtitle', 'description', 'author', 'since', email', 'favicon', 'avatar']</span>
-  <span class="na">site</span><span class="pi">:</span> <span class="no">true</span>        <span class="c1"># hexo.config mix theme.config</span>
-  <span class="na">posts_size</span><span class="pi">:</span> <span class="m">10</span>    <span class="c1"># 文章列表分页，0 表示不分页</span>
-  <span class="na">posts_props</span><span class="pi">:</span>      <span class="c1"># 文章列表项的需要生成的属性</span>
-    <span class="na">title</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">slug</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">date</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">updated</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">comments</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">path</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">excerpt</span><span class="pi">:</span> <span class="no">false</span>
-    <span class="na">cover</span><span class="pi">:</span> <span class="no">true</span>      <span class="c1"># 封面图，取文章第一张图片</span>
-    <span class="na">content</span><span class="pi">:</span> <span class="no">false</span>
-    <span class="na">keywords</span><span class="pi">:</span> <span class="no">false</span>
-    <span class="na">categories</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">tags</span><span class="pi">:</span> <span class="no">true</span>
-  <span class="na">categories</span><span class="pi">:</span> <span class="no">true</span>         <span class="c1"># 分类数据</span>
-  <span class="na">use_category_slug</span><span class="pi">:</span> <span class="no">false</span> <span class="c1"># Use slug for filename of category data</span>
-  <span class="na">tags</span><span class="pi">:</span> <span class="no">true</span>               <span class="c1"># 标签数据</span>
-  <span class="na">use_tag_slug</span><span class="pi">:</span> <span class="no">false</span>      <span class="c1"># Use slug for filename of tag data</span>
-  <span class="na">post</span><span class="pi">:</span> <span class="no">true</span>               <span class="c1"># 文章数据</span>
-  <span class="na">pages</span><span class="pi">:</span> <span class="no">false</span>             <span class="c1"># 额外的 Hexo 页面数据, 如 About</span>
-</code></pre></div></div>
-
-<h3 id="get-hexo-config">Get Hexo Config</h3>
-
-<p>获取所有 Hexo 配置（站点配置和主题配置）。</p>
-
-<blockquote>
-  <p>Request</p>
-</blockquote>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api/site.json
-</code></pre></div></div>
-
-<blockquote>
-  <p>Response</p>
-</blockquote>
-
-<p><a href="https://samzong.me/api/site.json">/api/site.json</a></p>
-
-<h3 id="get-posts">Get Posts</h3>
-
-<p>如果配置 <code class="language-plaintext highlighter-rouge">posts_size: 0</code> 则不分页，以下请求会获取全部文章。</p>
-
-<blockquote>
-  <p>Request</p>
-</blockquote>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api/posts.json
-</code></pre></div></div>
-
-<blockquote>
-  <p>Response</p>
-</blockquote>
-
-<p>示例为分页配置下的数据，会包含分页属性 <code class="language-plaintext highlighter-rouge">total</code>、<code class="language-plaintext highlighter-rouge">pageSize</code>、<code class="language-plaintext highlighter-rouge">pageCount</code>，不分页的数据不包含这三项。</p>
-
-<p><a href="https://samzong.me/api/posts.json">/api/posts.json</a></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-03-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Hexo">Hexo</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/03/Python-%E5%A4%9A%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7.html">Pyenv Python多版本管理利器</a></h1>
-    <div class="post_at_index">
-      <blockquote>
-  <p>to_url : <a href="http://pyenv.run/">http://pyenv.run/</a>
-github offical site <a href="https://github.com/pyenv/pyenv">https://github.com/pyenv/pyenv</a></p>
-</blockquote>
-
-<p>在 MacOS 的使用方式：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>pyenv
-</code></pre></div></div>
-
-<hr />
-
-<p>使用 pyenv 还是挺方便的，但是在Linux云服务器上配置网络的话就比较麻烦了，比如我在用的阿里云ECS，中间有些曲折，所以编写下文档记录下来，以防后续使用遇到问题</p>
-
-<h2 id="安装-pyenv">安装 <code class="language-plaintext highlighter-rouge">pyenv</code></h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 官方推荐</span>
-curl https://pyenv.run | bash
-</code></pre></div></div>
-
-<p>上面一个简单的命令就好了，安装后 pyenv 文件 会在你的 <code class="language-plaintext highlighter-rouge">$HOME/.pyenv</code> ，可以尝试看下脚本文件的内容，这里简单贴出来了；可以看到实际执行的脚本文件是下面这个</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 建议看下脚本</span>
-curl <span class="nt">-L</span> https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-
-<span class="c"># 下载脚本文件</span>
-wget https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer <span class="nt">-O</span> ~/pyenv-installer
-</code></pre></div></div>
-
-<p>如果你的服务器环境比较悲催，访问GitHub也是比较麻烦，那么可以看下这个网站  <a href="https://gitclone.com/">https://gitclone.com/</a> ； 只需要对 <code class="language-plaintext highlighter-rouge">pyenv-installer</code> 进行简单的修改就可以实现加速下载了</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ......</span>
-<span class="k">if</span> <span class="o">[</span> <span class="nt">-n</span> <span class="s2">"</span><span class="k">${</span><span class="nv">USE_GIT_URI</span><span class="k">}</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
-  </span><span class="nv">GITHUB</span><span class="o">=</span><span class="s2">"git://github.com"</span>
-<span class="k">else
-  </span><span class="nv">GITHUB</span><span class="o">=</span><span class="s2">"https://gitclone.com/github.com"</span>
-<span class="k">fi</span>
-
-<span class="c"># .....</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>先通过，<code class="language-plaintext highlighter-rouge">wget</code> 下载脚本文件，然后对脚本中的 <code class="language-plaintext highlighter-rouge">github.com</code> 的域名进行下修改，我试了下修改<code class="language-plaintext highlighter-rouge">https</code>就行了，然后就可以飞快的下载了</p>
-</blockquote>
-
-<p>最后，将 <code class="language-plaintext highlighter-rouge">pyenv</code> 的初始化增加到系统的环境变量中</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s1">'export PATH="$HOME/.pyenv/bin:$PATH"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
-<span class="nb">echo</span> <span class="s1">'eval "$(pyenv init -)"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
-<span class="nb">echo</span> <span class="s1">'eval "$(pyenv virtualenv-init -)"'</span>  <span class="o">&gt;&gt;</span> ~/.bashrc
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="使用-pyenv-安装特定版本的python">使用 <code class="language-plaintext highlighter-rouge">pyenv</code> 安装特定版本的python</h2>
-
-<p>在网络好的情况下，可以直接通过 <code class="language-plaintext highlighter-rouge">pyenv install 3.9.6</code> 安装对应的版本了，但是因为网络的问题，你会发现一直在下载 Python 包这一步，问题就是 www.python.org/ftp 网络的访问问题</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711398-96703bab-2e76-4f74-8b6d-1dfa212d39b1.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
-
-<p>遇到这个问题，可以尝试 先下载对应版本的安装包；可以使用国内的镜像站进行下载，或者在网络访问正常的地方进行下载包，然后上传到服务器中，这里推荐使用 淘宝的镜像站，把域名中 <a href="https://www.python.org/ftp">https://www.python.org/ftp</a> 替换为 <a href="https://npm.taobao.org/mirrors/">https://npm.taobao.org/mirrors/</a> ，下载到指定的目录</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># v = 你想要安装的python版本，比如 3.8.6</span>
-<span class="nb">export </span><span class="nv">v</span><span class="o">=</span>3.8.6<span class="p">;</span>  <span class="nb">mkdir</span> <span class="nt">-p</span> ~/.pyenv/sources/<span class="nv">$v</span><span class="p">;</span> wget https://npm.taobao.org/mirrors/python/<span class="nv">$v</span>/Python-<span class="nv">$v</span>.tar.xz <span class="nt">-P</span> ~/.pyenv/sources/<span class="nv">$v</span><span class="p">;</span> pyenv <span class="nb">install</span> <span class="nv">$v</span> <span class="nt">-k</span>
-</code></pre></div></div>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711423-9636d877-a9a2-4c9e-8cac-f82aaa3ff5b6.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
-
-<blockquote>
-  <p>在 pyenv 命令的最后增加一个 -k  会在安装时，优先检测本地的文件</p>
-</blockquote>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-03-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/03/Poetry-%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0.html">Poetry 使用笔记</a></h1>
-    <div class="post_at_index">
-      <p>poetry 是目前比较流行的 Python 环境管理工具 和 包管理工具，对多项目开发时的环境隔离有非常大的帮助，同时集成了包管理能力。</p>
-
-<blockquote>
-  <p>官方网站  <a href="https://python-poetry.org/">https://python-poetry.org/</a>   集成了所有 Poetry 最新的使用文档，以下仅在我的环境上经过验证</p>
-</blockquote>
-
-<h2 id="安装方式">安装方式</h2>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In Pip
-</span><span class="o">-</span> <span class="n">安装</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">poetry</span> <span class="c1"># pip3
-</span><span class="o">-</span> <span class="n">更新</span> <span class="n">poetry</span> <span class="bp">self</span> <span class="n">update</span>
-
-<span class="c1"># In my Mac
-</span><span class="o">-</span> <span class="n">安装</span> <span class="n">brew</span> <span class="n">install</span> <span class="n">poetry</span>
-<span class="o">-</span> <span class="n">更新</span> <span class="n">brew</span> <span class="n">upgrade</span> <span class="n">poetry</span>
-
-<span class="c1"># In my CentOS
-</span><span class="o">-</span> <span class="n">安装</span> <span class="n">curl</span> <span class="o">-</span><span class="n">sSL</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="p">.</span><span class="n">githubusercontent</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">python</span><span class="o">-</span><span class="n">poetry</span><span class="o">/</span><span class="n">poetry</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">get</span><span class="o">-</span><span class="n">poetry</span><span class="p">.</span><span class="n">py</span> <span class="o">|</span> <span class="n">python</span> <span class="o">-</span>
-<span class="o">-</span> <span class="n">更新</span> <span class="n">poetry</span> <span class="bp">self</span> <span class="n">update</span>
-</code></pre></div></div>
-
-<h2 id="配置技巧相关">配置技巧相关</h2>
-
-<p>在开始使用前，建议先对poetry 的配置有些了解，并调整为适合你的方式，主要是调整一下虚拟环境的安装位置</p>
-
-<blockquote>
-  <p><code class="language-plaintext highlighter-rouge">poetry config</code> poetry 相关的查看和编辑的命令</p>
-</blockquote>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">~</span> <span class="n">poetry</span> <span class="n">config</span> <span class="o">--</span><span class="nb">list</span>  <span class="c1"># 获取当前 poetry 的配置情况
-</span>
-<span class="n">cache</span><span class="o">-</span><span class="nb">dir</span> <span class="o">=</span> <span class="s">"/Users/$username/Library/Caches/pypoetry"</span>
-<span class="n">experimental</span><span class="p">.</span><span class="n">new</span><span class="o">-</span><span class="n">installer</span> <span class="o">=</span> <span class="n">true</span>
-<span class="n">installer</span><span class="p">.</span><span class="n">parallel</span> <span class="o">=</span> <span class="n">true</span>
-<span class="n">virtualenvs</span><span class="p">.</span><span class="n">create</span> <span class="o">=</span> <span class="n">true</span>
-<span class="n">virtualenvs</span><span class="p">.</span><span class="ow">in</span><span class="o">-</span><span class="n">project</span> <span class="o">=</span> <span class="n">true</span>
-<span class="n">virtualenvs</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="s">"{cache-dir}/virtualenvs"</span>  <span class="c1"># /Users/$username/Library/Caches/pypoetry/virtualenvs
-</span>
-</code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th><strong>配置项目</strong></th>
-      <th><strong>配置内容</strong></th>
-      <th><strong>配置项说明</strong></th>
-      <th><strong>建议配置</strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>cache-dir</td>
-      <td>String</td>
-      <td>缓存目录配置，使用 poetry 安装的包源文件都会缓存到这个目录。</td>
-      <td>不建议更改</td>
-    </tr>
-    <tr>
-      <td>installer.parallel</td>
-      <td>boolean</td>
-      <td>此配置会被忽略</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>virtualenvs.create</td>
-      <td>boolean</td>
-      <td>默认为true，如果当前工程的虚拟环境不存在，就创建一个</td>
-      <td>不建议更改</td>
-    </tr>
-    <tr>
-      <td>virtualenvs.in-project</td>
-      <td>boolean</td>
-      <td>None：poetry 会在系统特定目录创建一个.venv目录，由下面的 path 参数指定<br />true： poetry 会在项目根目录创建一个.venv目录<br />false： poetry 将会忽略已存在的.venv目录</td>
-      <td><strong>《建议修改》</strong><br /><br />推荐这种方式，在项目根目录创建虚拟环境，这样就算移动目录位置也不影响虚拟环境的使用</td>
-    </tr>
-    <tr>
-      <td>virtualenvs.path</td>
-      <td>string</td>
-      <td>默认是{cache-dir}/virtualenvs，虚拟环境创建的目录，如果上面的 in-project 为 true，此配置就无效</td>
-      <td>不建议更改</td>
-    </tr>
-  </tbody>
-</table>
-
-<blockquote>
-  <p>建议 在使用前 启用 virtualenvs.in-project ，这样会在每个项目下有一个.venv 方便隔离管理</p>
-</blockquote>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># poetry 配置说明
-</span><span class="n">poetry</span> <span class="n">config</span> <span class="n">virtualenvs</span><span class="p">.</span><span class="ow">in</span><span class="o">-</span><span class="n">project</span> <span class="n">true</span>
-</code></pre></div></div>
-
-<h2 id="poetry-常用指令说明">poetry 常用指令说明</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th><strong>Poetry Command</strong></th>
-      <th><strong>解释</strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>$ poetry –version</td>
-      <td>显示您的 Poetry 安装版本。</td>
-    </tr>
-    <tr>
-      <td>$ poetry new</td>
-      <td>创建一个新的Poetry项目。</td>
-    </tr>
-    <tr>
-      <td>$ poetry init</td>
-      <td>将 Poetry 添加到现有项目中。</td>
-    </tr>
-    <tr>
-      <td>$ poetry run</td>
-      <td>使用 Poetry 执行给定的命令。</td>
-    </tr>
-    <tr>
-      <td>$ poetry add</td>
-      <td>添加一个包pyproject.toml并安装它。</td>
-    </tr>
-    <tr>
-      <td>$ poetry update</td>
-      <td>更新项目的依赖项。</td>
-    </tr>
-    <tr>
-      <td>$ poetry install</td>
-      <td>安装依赖项。</td>
-    </tr>
-    <tr>
-      <td>$ poetry show</td>
-      <td>列出已安装的软件包。</td>
-    </tr>
-    <tr>
-      <td>$ poetry lock</td>
-      <td>将最新版本的依赖项固定到poetry.lock.</td>
-    </tr>
-    <tr>
-      <td>$ poetry lock –no-update</td>
-      <td>刷新poetry.lock文件而不更新任何依赖版本。</td>
-    </tr>
-    <tr>
-      <td>$ poetry check</td>
-      <td>验证pyproject.toml。</td>
-    </tr>
-    <tr>
-      <td>$ poetry config –list</td>
-      <td>显示 Poetry 配置。</td>
-    </tr>
-    <tr>
-      <td>$ poetry env list</td>
-      <td>列出项目的虚拟环境。</td>
-    </tr>
-    <tr>
-      <td>$ poetry export</td>
-      <td>导出poetry.lock为其他格式。</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="新项目初始化流程">新项目初始化流程</h2>
-
-<blockquote>
-  <p>这里以 初始化一个  FastAPI 项目作为 实例</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  fastapi poetry new fastapi-demo
-Created package fastapi_demo <span class="k">in </span>fastapi-demo
-➜  fastapi <span class="nb">ls</span> <span class="nt">-lh</span> fastapi-demo
-total 8
-<span class="nt">-rw-r--r--</span>  1 samzonglu  staff     0B  2 15 14:28 README.rst
-drwxr-xr-x  3 samzonglu  staff    96B  2 15 14:28 fastapi_demo
-<span class="nt">-rw-r--r--</span>  1 samzonglu  staff   304B  2 15 14:28 pyproject.toml
-drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
-
-➜  fastapi <span class="nb">cd </span>fastapi-demo
-➜  fastapi-demo poetry <span class="nb">env </span>use 3.10.2  <span class="c"># 配置项目的虚拟环境</span>
-
-</code></pre></div></div>
-
-<h2 id="requirementstxt-已存在项目使用poetry">requirements.txt 已存在项目使用poetry</h2>
-
-<p>这里会遇到一个问题，已存在的项目基本都已经有了 requirements.txt， 所以 poetry 最好可以直接读取它</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry add <span class="sb">`</span><span class="nb">cat </span>requirements.txt<span class="sb">`</span>
-</code></pre></div></div>
-
-<p>将项目依赖导出为  requirements.txt</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry <span class="nb">export</span> <span class="nt">--output</span> requirements.txt
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-03-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      , 
-      <a href="/tags.html#Poetry">Poetry</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/03/%E6%96%B0%E7%9A%84%E7%9B%AE%E6%A0%87.html">2022 新的目标</a></h1>
-    <div class="post_at_index">
-      <p>年轻的人儿啊！ 要记得星空多美丽 ~</p>
-
-<blockquote>
-  <p>岁月如歌，大肠包小肠</p>
-</blockquote>
-
-<hr />
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/4817FA7F-3FF7-43C0-A6DE-96F1568C4259_1_105_c.jpeg" alt="" /></p>
-
-<h2 id="终局">终局</h2>
-
-<p>新年结束，已经走完了3个月了，瞎忙碌碌无为，内心的焦灼，不断在每个独处时拷问心神，久久回响不息</p>
-
-<p>迷惘和挫败的情绪，积累了好久。</p>
-
-<p>最近重读了 柏拉图的理想国，耐着性子，花了接近一个月的时间才断断续续的看完。</p>
-
-<p>终于有个好消息，终于想清楚了，今年的目标。</p>
-
-<h2 id="新开始">新开始</h2>
-
-<blockquote>
-  <p>要做的是两件事</p>
-</blockquote>
-
-<ul>
-  <li>回归产品的初心，不负自己</li>
-  <li>确认真正想做的事情；既然想好了，就有大量的准备工作要开展，先留在心里</li>
+      <ul>
+  <li>企业微信机器人消息说明： <a href="https://developer.work.weixin.qq.com/document/path/91770">https://developer.work.weixin.qq.com/document/path/91770</a></li>
+  <li>GitLab Webhook Event：   <a href="https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html">https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html</a></li>
 </ul>
 
-<h2 id="人生不如戏">人生不如戏</h2>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652838666817-16490352-2dcb-4e6f-a4d6-0e060090287a.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
 
-<p>回想了下，找不到方向时，的确需要花很长的时间来走弯路。</p>
+<h2 id="gitlab-配置">Gitlab 配置</h2>
 
-<p>可是，不能放弃啊！</p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652837377264-dc310e99-bcbc-4495-a4f0-f507c6f54f1e.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" title="Gitlab 项目配置" />
+:::info
+=&gt; 高级用法 开启鉴权
+:::</p>
 
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-03-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#随笔">随笔</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/11/git%E7%BB%88%E7%AB%AFclone%E5%8A%A0%E9%80%9F.html">Github使用 SSH拉取代码加速</a></h1>
-    <div class="post_at_index">
-      <p>如果你本地也有代理服务比如：<code class="language-plaintext highlighter-rouge">Clash</code>、<code class="language-plaintext highlighter-rouge">Surge</code> 并已完成科学上网，这对访问 Github 起到一定的加速作用，但如果在终端使用，可以还需要一些额外配置，这里以 <code class="language-plaintext highlighter-rouge">Clash</code> 作为示例。</p>
-
-<h2 id="1-加速你的浏览器">1. 加速你的浏览器</h2>
-
-<p>默认情形下，你可能不需要做什么（在代理工作正常的情况下），浏览器的加速通过访问 <a href="https://github.com">Github</a> 最为直接。</p>
-
-<h2 id="2-加速你的终端-clone">2. 加速你的终端 clone</h2>
-
-<p>如果你需要在终端 clone 一个托管在 Github 的项目，默认情形下你可能会发现 终端内并未得到加速，还是一如既往的慢。</p>
-
-<p>这是因为终端在默认情况下不会走代理，这里需要你进行一配置</p>
-
-<blockquote>
-  <p>这里使用 iTerm2 为例</p>
-</blockquote>
-
-<h3 id="21-获取你的代理终端配置">2.1 获取你的代理终端配置</h3>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/CleanShot%202022-08-08%20at%2018.35.56.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
-
-<h3 id="22-使用-https-作为-clone-链接">2.2 使用 HTTPS 作为 clone 链接</h3>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/CleanShot%202022-08-08%20at%2018.37.08.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
-
-<p>这时将 <code class="language-plaintext highlighter-rouge">2.1</code> 剪切板获取的命名，放到终端中执行即可。</p>
-
-<blockquote>
-  <p>这样的方式适合拉取一个公开的仓库，或者对隐私仓库不使用 sshkey 进行代码的 <code class="language-plaintext highlighter-rouge">pull&amp;push</code></p>
-</blockquote>
-
-<h3 id="23-使用-git-作为-clone-的方式">2.3 使用 git 作为 clone 的方式</h3>
-
-<p>此时我们需要特殊处理下，给 git 配置上全局代理部分，这里配置下仅对 <code class="language-plaintext highlighter-rouge">github.com</code> 这个域名生效</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c"># 注意将 https://127.0.0.1:7890 后缀端口替换为</span>
-git config <span class="nt">--global</span> http.https://github.com.proxy https://127.0.0.1:7890
-git config <span class="nt">--global</span> https.https://github.com.proxy https://127.0.0.1:7890
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">-</span> 在 Gitlab 配置好之后 Secret token
+<span class="p">-</span> 在服务端接收推送时验证
 </code></pre></div></div>
 
-<blockquote>
-  <p>clashx pro 默认情况下是 7890; 早期 ss 默认配置为 10086</p>
-</blockquote>
+<h2 id="实现中转站服务">实现中转站服务</h2>
+
+<p>:::warning
+<strong>基本需求说明：</strong></p>
+
+<ul>
+  <li>可以 接受  gitlab 的 event 推送</li>
+  <li>可以 发送 消息到微信服务器</li>
+  <li>稳定
+:::</li>
+</ul>
+
+<p>我采用的方式， 腾讯云函数；薅羊毛的方式</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">url_for</span><span class="p">,</span> <span class="n">send_from_directory</span>
+<span class="kn">from</span> <span class="nn">werkzeug.utils</span> <span class="kn">import</span> <span class="n">secure_filename</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">IS_SERVERLESS</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'SERVERLESS'</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">IS_SERVERLESS</span><span class="p">)</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="c1"># send_msg_wecom
+</span><span class="k">def</span> <span class="nf">msg_send_wecom</span><span class="p">(</span><span class="n">md_content</span><span class="p">):</span>
+    <span class="s">"""msg_send_wecom
+    {
+        "msgtype": "markdown",
+        "markdown": {
+            "content": "实时新增用户反馈&lt;font color=</span><span class="se">\"</span><span class="s">warning</span><span class="se">\"</span><span class="s">&gt;132例&lt;/font&gt;，请相关同事注意。</span><span class="se">\n</span><span class="s">
+             &gt;类型:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;用户反馈&lt;/font&gt;
+             &gt;普通用户反馈:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;117例&lt;/font&gt;
+             &gt;VIP用户反馈:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;15例&lt;/font&gt;"
+        }
+    }
+    """</span>
+
+    <span class="n">url</span> <span class="o">=</span> <span class="s">"https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key="</span>
+
+    <span class="n">webhooks</span> <span class="o">=</span> <span class="p">[</span><span class="s">"xxxxxxxxxxxxxxxxxxxxxxxxxxx"</span><span class="p">]</span> <span class="c1"># 多个 webhook 需要推送时
+</span>    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Content-Type'</span><span class="p">:</span> <span class="s">'application/json'</span><span class="p">}</span>
+
+    <span class="n">message</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"msgtype"</span><span class="p">:</span> <span class="s">"markdown"</span><span class="p">,</span>
+        <span class="s">"markdown"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">"content"</span><span class="p">:</span> <span class="n">md_content</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">webhook</span> <span class="ow">in</span> <span class="n">webhooks</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="o">+</span><span class="n">webhook</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span> 
+            <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+
+<span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/from_gitlab_webhook"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">'POST'</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">say_hello</span><span class="p">():</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">get_json</span><span class="p">()</span>
+    <span class="n">event_type</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'object_kind'</span><span class="p">]</span>
+
+    <span class="n">resp</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'event'</span><span class="p">:</span> <span class="n">event_type</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="n">md_content</span> <span class="o">=</span> <span class="s">""</span>
+
+    <span class="k">if</span> <span class="n">event_type</span> <span class="o">==</span> <span class="s">'push'</span><span class="p">:</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'commits'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'message'</span><span class="p">].</span><span class="n">replace</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="s">""</span><span class="p">)</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'user_username'</span><span class="p">]</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'project'</span><span class="p">][</span><span class="s">'name'</span><span class="p">]</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'project'</span><span class="p">][</span><span class="s">'web_url'</span><span class="p">]</span>
+
+        <span class="c1"># fit md_content
+</span>        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"## 文档站 &lt;font color=</span><span class="se">\"</span><span class="s">info</span><span class="se">\"</span><span class="s">&gt;{}&lt;/font&gt; 通知: </span><span class="se">\n\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'event'</span><span class="p">])</span>
+        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 项目: [{}]({}) </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">],</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">])</span>
+        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 更新人: *{}* </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">])</span>
+        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 提交信息: {} </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">])</span>
+
+    <span class="k">elif</span> <span class="n">event_type</span> <span class="o">==</span> <span class="s">'build'</span><span class="p">:</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'user'</span><span class="p">][</span><span class="s">'username'</span><span class="p">]</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'repository'</span><span class="p">][</span><span class="s">'name'</span><span class="p">]</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'repository'</span><span class="p">][</span><span class="s">'homepage'</span><span class="p">]</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'commit'</span><span class="p">][</span><span class="s">'message'</span><span class="p">].</span><span class="n">replace</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="s">""</span><span class="p">)</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">]</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'build_duration'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'build_duration'</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'failed'</span><span class="p">:</span>
+            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"## 文档站 {} &lt;font color=</span><span class="se">\"</span><span class="s">warning</span><span class="se">\"</span><span class="s">&gt;{}&lt;/font&gt; 通知: </span><span class="se">\n\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'event'</span><span class="p">],</span> <span class="n">resp</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">])</span>
+            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 项目: [{}]({}) </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">],</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">])</span>
+            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 请 **{}** 关注最近提交的内容 </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">])</span>
+            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 提交信息: {} </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">])</span>
+
+    <span class="n">msg_send_wecom</span><span class="p">(</span><span class="n">md_content</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">"INFO: "</span> <span class="o">+</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">resp</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+
+<span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">"code"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="s">"msg"</span><span class="p">:</span> <span class="s">"it's ok!"</span><span class="p">}</span>
+
+<span class="c1"># 启动服务，监听 9000 端口，监听地址为 0.0.0.0
+</span><span class="n">app</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="n">IS_SERVERLESS</span> <span class="o">!=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">9000</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">'0.0.0.0'</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h2 id="创建企微群机器人">创建企微群机器人</h2>
+
+<p>成功创建机器人后，会获取到一个 用于推送消息的 webhook Key
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652837537654-e5be191b-d8c6-4752-ae0b-76118ec55ac4.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" />
+:::info
+=&gt; 高级用法 针对推送来源进行 IP 限制
+:::
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652837738144-f9f88da1-eae9-44e3-8a8b-ad9e98247ffd.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<h2 id="消息呈现展示">消息呈现展示</h2>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652838264735-b525d863-e8a9-4041-9b11-d349a3df7420.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-11-29</cite> <i class="icon-tag"></i>
+      <cite>2022-05-18</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Git">Git</a>
       
       
@@ -796,166 +420,137 @@ git config <span class="nt">--global</span> https.https://github.com.proxy https
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/10/MacOS-10.15-%E5%BC%80%E5%90%AF-HiDPI.html">MacOS 10.15 开启 HiDPI</a></h1>
+    <h1><a class="title" href="/post/2022/05/%E5%9B%BD%E5%86%85%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA-MacOS-K8s-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.html">国内环境搭建 MacOS K8s 开发环境</a></h1>
     <div class="post_at_index">
-      <p>以前手抖买了台 HKC 32 寸 2K 显示器, 接上 MacBook 发现原生的分辨率设置在 2K 显示器上字体很小, 换成 1080P 分辨率显示效果又特别模糊. 上网查了一下发现可以为 MacBook 强行开启 HiDPI.</p>
+      <h2 id="minikube">Minikube</h2>
 
-<p>下文的教程结合了 Github 上用户 ZeRo° Xu 在 一键开启 HiDPI 脚本 里的 Github Issue 和一篇博文 《为 Mac 连接的 2k 显示器开启 HiDPI》.</p>
+<p>在 Mac 上搭建开发环境，这里主要使用了 Kubernetes 官方推荐的 minikube 和 docker-for-desktop 环境</p>
 
-<h2 id="什么是-hidpi">什么是 HiDPI</h2>
-
-<blockquote>
-  <p>引用自 Github 用户 ZeRo° Xu :</p>
-</blockquote>
-
-<p>它使用横纵 2 个物理像素也就是 4 个物理像素来显示 1 个像素区域, 结果就是图像的–细节得到翻倍, 更清晰, 边缘更平滑–. 拿 13 寸的 MacBook Pro 举例, 它的屏幕物理分辨率是 2560 x 1600, 所以原生的 HiDPI 分辨率就是 1280x800. 更高的一档 1440x900 HiDPI 缩放分辨率, 则是虚拟出一个 2880x1800 的分辨率, 再进行软缩放输入. 所以你能发现苹果的电脑总是有很高的分辨率. 好了, 既然你的屏幕是 1080p, 本身就没有那么多像素去合成 HiDPI, 如果以原生的显示计算, 你这屏幕的 1080p 分辨率应该是 960x540, 这么低的分辨率你是没法用的. 这个脚本的功能就是虚拟出比你的屏幕物理分辨率更高的假分辨率……如果你要开启 1080p 的 HiDPI 分辨率, 就虚拟一个 3840 x 2160 的假分辨率, 然后 macOS 会使用 4 个像素来显示 1 个像素区域, 也就是和你物理分辨率一样的 1080p 分辨率.</p>
-
-<h2 id="自动配置-hidpi">自动配置 HiDPI</h2>
-
-<blockquote>
-  <p>上文 链接 里提到一键配置脚本, 你不妨先按照脚本的步骤开启 HiDPI 试试.</p>
-</blockquote>
-
-<p>但是脚本并没有适配所有显示器的情况 (至少我的 Dell P2416D 使用后无效) , 所以就有了下面的步骤.</p>
-
-<h2 id="手动配置-hidpi">手动配置 HiDPI</h2>
-
-<blockquote>
-  <p>本教程测试环境:</p>
-</blockquote>
-
-<ul>
-  <li>笔记本：MacBook Pro (Retina, 15-inch, Mid 2018)</li>
-  <li>显示器：HKC 32寸2K</li>
-  <li>操作系统：MacOS Catalina (Version 10.15.3)</li>
-</ul>
-
-<h2 id="0-安装-rdm">0. 安装 RDM</h2>
-
-<p>相信很多人已经装过这个工具了, 它是用来修改显示分辨率的, 如果没装, 请在 RDM 下载页面 安装它.</p>
-
-<h2 id="1-关闭-macos-的-sip">1. 关闭 macOS 的 SIP</h2>
-
-<p>SIP 全称为「System Integrity Protection」即「系统完整性保护」, 是苹果公司为防止你胡乱篡改系统文件用的保护机制, 请先按照下面步骤把它关闭, 以便后续操作:</p>
-
-<ol>
-  <li>关机（最好先手机拍个照把这 4 步记录下来）</li>
-  <li>按<code class="language-plaintext highlighter-rouge">command（⌘）+ R+电源键</code>开机，自动进入恢复模式</li>
-  <li>选择上边菜单栏的<code class="language-plaintext highlighter-rouge">实用工具</code>中的<code class="language-plaintext highlighter-rouge">终端</code></li>
-  <li>输入命令<code class="language-plaintext highlighter-rouge">csrutil disable</code></li>
-</ol>
-
-<p>最后终端显示 「Successfully……」 等一大堆文字就说明你成功了. 你可以输入 reboot 重启. 等下文的全部设置都完成后, 你如果想恢复 SIP, 就重复步骤 1 到 3, 在第 4 步输入 csrutil enable 就好了.</p>
-
-<h2 id="2-开启-macos-的-hidpi-选项">2. 开启 macOS 的 HiDPI 选项</h2>
-
-<p>再次重启后进入系统, 打开终端输入</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>defaults write /Library/Preferences/com.apple.windowserver.plist DisplayResolutionEnabled <span class="nt">-bool</span> <span class="nb">true</span>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>minikube start <span class="nt">--image-mirror-country</span> cn <span class="se">\</span>
+    <span class="nt">--registry-mirror</span><span class="o">=</span>https://vbj8usl3.mirror.aliyuncs.com
 </code></pre></div></div>
-
-<h2 id="3-查询你的外接显示器的编号">3. 查询你的外接显示器的编号</h2>
-
-<blockquote>
-  <p>这一步相当重要, 先介绍两个命令</p>
-</blockquote>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ioreg <span class="nt">-l</span> | <span class="nb">grep</span> <span class="s2">"DisplayVendorID"</span>
-ioreg <span class="nt">-l</span> | <span class="nb">grep</span> <span class="s2">"DisplayProductID"</span>
-</code></pre></div></div>
-
-<p>这两条命令用来查询你的显示器供应商 ID DisplayVendorID 和产品 ID DisplayProductID. 接下来你要找到你的显示器对应的 DisplayVendorID 和 DisplayProductID:</p>
-
-<ol>
-  <li>
-    <p>拔掉显示器的 HDMI 或者 DP 线</p>
-  </li>
-  <li>
-    <p>分别输入上面两个命令之后<code class="language-plaintext highlighter-rouge">return(↩)</code>，每个命令会返回一个带有数字的结果。那个数字就是 MacBook 默认的<code class="language-plaintext highlighter-rouge">DisplayVendorID</code>和<code class="language-plaintext highlighter-rouge">DisplayProductID</code>了</p>
-  </li>
-  <li>
-    <p>接入显示器</p>
-  </li>
-  <li>
-    <p>再分别输入那两个命令，每个命令会分别返回两条带有数字的结果。对比刚才 MacBook 默认的结果，另一个数字就是你显示器的<code class="language-plaintext highlighter-rouge">DisplayVendorID</code>和<code class="language-plaintext highlighter-rouge">DisplayProductID</code>了</p>
-  </li>
-  <li>
-    <p>把这两个数字分别转成对应的 16 进制数，用这个 <a href="https://tool.oschina.net/hexconvert">进制转换工具</a>。</p>
-  </li>
-</ol>
-
-<p>现在, 回到桌面, 新建一个文件夹命名为 DisplayVendorID-[你刚才查到的 DisplayVendorID 的 16 进制数], 例如 DisplayVendorID-10ac.</p>
-
-<p>之后在这个刚建好的文件夹下增加一个文件, 命名为 DisplayProductID-[你刚才查到的 DisplayProductID 的 16 进制数], 例如 DisplayProductID-a0c3.</p>
-
-<h3 id="4-为你的显示器生成-plist-文件">4. 为你的显示器生成 plist 文件</h3>
-
-<p>到 这个网站 , 在左侧的空里分别输入显示器型号, DisplayProductID 和 DisplayVendorID, 注意填 16 进制的数字, 并且检查下后边 10 进制的数字是不是和你刚才命令查到的一致. 如果需要添加自己额外的分辨率, 直接在下边新建一条分辨率配置就行. 最后, 复制右边生成 XML 格式文本, 粘贴到刚才新建的文件里.  (也可以直接从网站下载文件, 去掉文件名后缀 .plist )</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1606281680751-9a99cf5c-3e0d-4028-af33-ebac7e889ff8.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></p>
-
-<p>XML 文本类似下边这样:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span> <span class="nv">encoding</span><span class="o">=</span><span class="s2">"UTF-8"</span>?&gt;
-&lt;<span class="o">!</span>DOCTYPE plist PUBLIC <span class="s2">"-//Apple//DTD PLIST 1.0//EN"</span> <span class="s2">"http://www.apple.com/DTDs/PropertyList-1.0.dtd"</span><span class="o">&gt;</span>
-&lt;plist <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span><span class="o">&gt;</span>
-&lt;dict&gt;
-    &lt;key&gt;DisplayProductID&lt;/key&gt;
-    &lt;integer&gt;41155&lt;/integer&gt;
-    &lt;key&gt;DisplayVendorID&lt;/key&gt;
-    &lt;integer&gt;4268&lt;/integer&gt;
-    &lt;key&gt;scale-resolutions&lt;/key&gt;
-    &lt;array&gt;
-        &lt;data&gt;AAAKAAAABaAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-        &lt;data&gt;AAAFAAAAAtAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-        &lt;data&gt;AAAPAAAACHAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-        &lt;data&gt;AAAHgAAABDgAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-        &lt;data&gt;AAAMgAAABwgAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-        &lt;data&gt;AAAGQAAAA4QAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-        &lt;data&gt;AAAKAgAABaAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-        &lt;data&gt;AAAKrAAABgAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-        &lt;data&gt;AAAFVgAAAwAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-    &lt;/array&gt;
-&lt;/dict&gt;
-&lt;/plist&gt;
-</code></pre></div></div>
-
-<h3 id="4-复制-plist-配置文件到系统配置目录">4. 复制 plist 配置文件到系统配置目录</h3>
-
-<p>这一步就是把刚才新建的配置文件复制到你系统目录里, 你直接复制通常会提示你系统目录是「只读」的, 不允许你胡作非为. 所以你先要在终端执行下面的命令:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>mount <span class="nt">-uw</span> /
-</code></pre></div></div>
-
-<p>这样, 你就可以复制到系统的文件夹了.  (这个命令重启后失效)</p>
-
-<p>接下来打开系统文件夹/System/Library/Displays/Contents/Resources/Overrides/, 你会发现一大堆跟你刚才文件夹命名相似的目录. 把你新建的文件夹丢进去, 和它们混在一起, 假装它原来就是其中一员. 重启.</p>
-
-<h3 id="5-修改分辨率">5. 修改分辨率</h3>
-
-<p>重启之后又进入系统, 首先打开 RDM, 你会在菜单栏看见它:</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1606281680731-6c912092-1a63-4298-bfbe-54e98f27b67a.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></p>
-
-<p>Main Display 和 Display 2 就分别是你的外接显示器和 MacBook 的显示器分辨率设置 (位置有可能对调, 自己尝试一下) . 带有 ⚡️ 符号的分辨率设置项就是开启 HiDPI 后新增出来的. 如果你像我一样是 24 寸 2K 显示器, 可以给显示器选择 1920x1080⚡️那个配置.</p>
-
-<blockquote>
-  <p>是不是比原生分辨率的 UI 和字体更大更清晰了?</p>
-</blockquote>
-
-<h2 id="小结">小结</h2>
-
-<p>本文教你强行开启 MacBook 的 HiDPI 设置, 并针对 2K 显示器新增了配置文件到系统配置目录里, 最后用  RDM 自由设置适合你显示器的分辨率. 附带问题</p>
-
-<blockquote>
-  <p>用本文的方式开启 HiDPI, 合上 Mac 屏幕, 外接显示器黑屏. 将外接显示器分辨率切换到屏幕原始分辨率后可以正常地仅使用外接显示器, 原因未知. 因对我的工作方式没有影响, 没有继续研究下去.</p>
-</blockquote>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-10-12</cite> <i class="icon-tag"></i>
+      <cite>2022-05-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#K8s">K8s</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/05/MacOS%E9%9A%90%E8%97%8FDock%E6%A0%8F%E4%B8%AD%E7%89%B9%E5%AE%9A%E5%BA%94%E7%94%A8.html">MacOS隐藏Dock栏中特定应用</a></h1>
+    <div class="post_at_index">
+      <h2 id="背景说明">背景说明</h2>
+
+<p>MacOS Dock 栏的空间是有限的，而且绝大部分应用都会占用一个 Dock 的槽位；但并不是所有软件都提供了 <code class="language-plaintext highlighter-rouge">Hidden  in Dock</code> 的能力，所以从来不点击，但一直存在，挺痛苦的。</p>
+
+<p style="color:red;font-size=16px">为不具备隐藏 Dock Icon 的应用附加隐藏能力</p>
+
+<blockquote>
+  <p>符合这类特征的软件： a. 常驻应用，开机自启动，基本不会打开； b. 像我这样的 Alfred 爱好者</p>
+</blockquote>
+
+<p>之前了解到一些软件对系统的影响都比较大，基本上都是要接管 整个<code class="language-plaintext highlighter-rouge">Dock</code>，要关闭 <code class="language-plaintext highlighter-rouge">SIP</code>，使用成本太好，基本不值得采用。</p>
+
+<h2 id="全球同性交友网站">全球同性交友网站</h2>
+
+<p>下午在闲逛的时候，发现了这个仓库： https://github.com/FirePanther/MacOS-Hide-Dock-Icon ，一个非常简单的 PHP 脚本，貌似可以提供这个能力，于是我就简单的 Download ，按照 README.md 的方法执行了一下。</p>
+
+<p>很神奇的！ 满足了我的需求！ 所以，我在这里记录和分享给大家，如果你也需要的话。</p>
+
+<h2 id="操作步骤">操作步骤</h2>
+
+<blockquote>
+  <p>当然，你也可以直接 从这切换到 官方仓库的 <code class="language-plaintext highlighter-rouge">README.md</code> 去操作</p>
+</blockquote>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 下载 脚本文件</span>
+➜  ~ wget https://raw.githubusercontent.com/FirePanther/MacOS-Hide-Dock-Icon/master/hideDockIcon.php <span class="nt">-O</span> hideDockIcon.php
+
+<span class="c"># 备份地址</span>
+➜  ~ wget https://raw.githubusercontent.com/SAMZONG/MacOS-Hide-Dock-Icon/master/hideDockIcon.php <span class="nt">-O</span> hideDockIcon.php
+</code></pre></div></div>
+
+<p>确保你的 Mac 内装有 PHP</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>php   <span class="c"># just one command</span>
+</code></pre></div></div>
+
+<p>接下就是操作步骤了： 在此之前，你需要完全退出被隐藏的软件**</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20220507152104232.png?x-oss-process=image/resize,w_960,m_lfit" alt="image-20220507152104232" /></p>
+
+<p>下方是脚本的执行过程：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">sudo </span>php hideDockIcon.php
+App name: BaiduNetdisk_mac
+Cracking app BaiduNetdisk_mac
+Info.plist successfully injected
+Signing <span class="nt">------</span>
+/Applications/BaiduNetdisk_mac.app: replacing existing signature
+<span class="nt">------</span>
+
+Finished  <span class="c"># 看到这个就是成功了</span>
+</code></pre></div></div>
+
+<p>执行成功后，再次打开App，App会先在Dock栏跳动加载，加载完后图标自动消失，但App依旧在运行。</p>
+
+<p>以上，你就成功的隐藏这个需要的软件，经过在测试，脚本的健壮性很好:</p>
+
+<p>支持的 PC : <strong>2022 年 M1 Max MacOS12.3.1</strong></p>
+
+<h2 id="注意事项">注意事项</h2>
+
+<h3 id="确认对的-app-name">确认对的 App Name</h3>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20220507153226027.png?x-oss-process=image/resize,w_960,m_lfit" alt="image-20220507153226027" /></p>
+
+<h3 id="恢复被隐藏的应用">恢复被隐藏的应用</h3>
+
+<p><strong>首先 &gt;</strong> 还是要退出App，这时Dock栏也不显示了，菜单栏也没有，所以不好使用 <code class="language-plaintext highlighter-rouge">邮件退出的方式</code>，那么接下来我们要找到下方这个软件：</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20220507153525040.png?x-oss-process=image/resize,w_960,m_lfit" alt="image-20220507153525040" /></p>
+
+<p>打开软件后，等待加载完成，通过搜索窗口利用 App name 找到被隐藏的软件</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20220507154000558.png?x-oss-process=image/resize,w_960,m_lfit" alt="image-20220507154000558" /></p>
+
+<p>然后使用上方的，<code class="language-plaintext highlighter-rouge">X</code> 关闭按钮，在弹窗中，选择 <code class="language-plaintext highlighter-rouge">Quit</code></p>
+
+<p>然后 &gt; 再去执行下 <code class="language-plaintext highlighter-rouge">hideDockIcon.php</code> 这个脚本:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  <span class="nb">sudo </span>php hideDockIcon.php
+Password:
+App name: BaiduNetDisk_mac
+Cracking app BaiduNetDisk_mac
+This app should be invisible <span class="k">in </span>the Dock
+Would you like to show it? <span class="o">(</span>y/n<span class="o">)</span> y
+Info.plist successfully injected
+Signing <span class="nt">------</span>
+/Applications/BaiduNetDisk_mac.app: replacing existing signature
+<span class="nt">------</span>
+
+Finished
+</code></pre></div></div>
+
+<p>然后再次启动 App，那么就会出现在 Dock 栏并且不再隐藏</p>
+
+<h2 id="结语">结语</h2>
+
+<p>没事儿还是要逛逛 Github</p>
+
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-05-07</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Mac">Mac</a>
       
       
@@ -965,42 +560,91 @@ ioreg <span class="nt">-l</span> | <span class="nb">grep</span> <span class="s2"
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/01/year-the-new-start.html">2021年-全新出发</a></h1>
+    <h1><a class="title" href="/post/2022/05/%E6%BB%A1%E8%B6%B3%E9%A2%84%E6%9C%9F%E7%9A%84%E6%96%87%E6%A1%A3%E7%AB%99-Mkdocs.html">满足预期的文档站 Mkdocs</a></h1>
     <div class="post_at_index">
-      <h2 id="写在开始之前的话">写在开始之前的话</h2>
-
-<p>已经停更了接近3年的博客，感觉像是走了另一个方向的路，有点迷失方向的感觉；这三年算是人生中变化很多的地方吧。</p>
-
-<p>不过也有不少地方其实没变化，比如：</p>
+      <h2 id="组合三件套">组合三件套</h2>
 
 <ul>
-  <li><del>报名学车 到现在还是没有学成</del> , 过去了半年的时间，驾照到手，车子也到手了，日子在好转 ~</li>
-  <li><del>转职安心做一名研发，可水平还是吊儿郎当</del>, 拜托了前半年的工作焦虑状态，现在算是进到了一个新的环境</li>
+  <li>Mkdocs	# 热门的静态博客框架</li>
+  <li>Mkdocs-material	# Mkdocs 颜值担当的主题</li>
+  <li>MkDocs Awesome Pages Plugin   # Mkdocs 动态的 Navgation 插件</li>
 </ul>
 
-<p><code class="language-plaintext highlighter-rouge">现在忙了点，不过还好，有时候觉得糟糕透了，坚持过去也就没什么大不了</code></p>
+<h3 id="依赖的插件">依赖的插件</h3>
 
-<p>这三年，也是有了很大的变化，最大的变化可能是：成为了一名全职的产品经理，而竟然我有一半的时间还在纠结是不是要回去。</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>mkdocs 
+pip <span class="nb">install </span>mkdocs-material 
+pip <span class="nb">install </span>mkdocs-git-revision-date-plugin 
+pip <span class="nb">install </span>mkdocs-mermaid2-plugin 
+pip <span class="nb">install </span>mkdocs-rss-plugin 
+pip <span class="nb">install </span>mkdocs-minify-plugin 
+pip <span class="nb">install </span>mkdocs-macros-plugin 
+pip <span class="nb">install </span>mkdocs-git-revision-date-localized-plugin 
+pip <span class="nb">install </span>mkdocs-awesome-pages-plugin 
+</code></pre></div></div>
+
+<h3 id="github-repo">Github repo</h3>
+
+<p>Private Teamplate https://github.com/SAMZONG/mkdocs-template</p>
+
+<h3 id="awesome-plugin-常用参数">Awesome Plugin 常用参数</h3>
 
 <blockquote>
-  <p>思绪有点乱，后面再继续写吧</p>
+  <p>在文档内的路径展示</p>
 </blockquote>
 
-<h2 id="关于hexo">关于hexo</h2>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="sb">```</span>sh
+docs
+├── .pages.yaml     <span class="c"># 站点顶部导航配置文件，控制顺序和名称，一般不增加</span>
+├── README.md       <span class="c"># 默认情况下 目录下 README.md 作为 default 页面</span>
+├── SUMMARY.md
+├── dce5.0          <span class="c"># 子文件夹，支持多级目录，自动检测配置</span>
+│   ├── .pages.yaml
+│   ├── 01kpanda.md <span class="c"># 子文件自动检测，可以通过文件名前缀数字控制排序</span>
+│   ├── 02ghippo.md
+│   ├── 03clusterpedia.md
+│   ├── ...
+├── design
+│   ├── .pages.yaml <span class="c"># 每个目录下都有一个 `.pages.yaml` 用来进行目录的配置</span>
+│   ├── README.md
+│   ├── ...
+</code></pre></div></div>
 
-<p>博客这边的确有很长时间没有更新，接下来应该会做些优化。</p>
+<p>通过对每个文件下的特定处理，默认情况下 <code class="language-plaintext highlighter-rouge">.pages.yaml</code> 为空即可，如需要特殊处理，可以在文档添加下方参数:</p>
 
-<hr />
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">title</span><span class="pi">:</span> <span class="s">Products</span>     <span class="c1"># 文件夹展示的标题</span>
+<span class="na">order</span><span class="pi">:</span> <span class="m">1</span>            <span class="c1"># 文件夹的顺序，数字越小越靠前</span>
+<span class="na">hide</span><span class="pi">:</span> <span class="no">false</span>         <span class="c1"># 是否隐藏，默认不隐藏</span>
+<span class="na">nav</span><span class="pi">:</span>                <span class="c1"># 采用自定义导航</span>
+    <span class="pi">-</span> <span class="s">filename.md</span>
+    <span class="pi">-</span> <span class="s">filename2.md</span>
+    <span class="pi">-</span> <span class="s">...</span>
+</code></pre></div></div>
 
-<h2 id="最后">最后</h2>
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">nav</code> 的配置方式，还有更多高级用法，可以参考插件做的的 Github 介绍 <a href="https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin#customize-navigation">传送门</a></p>
+</blockquote>
 
-<p>好多话想要说，一地鸡毛。</p>
+<h2 id="mkdocsyaml-的配置变更">mkdocs.yaml 的配置变更</h2>
+
+<ol>
+  <li>不要设定 <code class="language-plaintext highlighter-rouge">nav</code> OR <code class="language-plaintext highlighter-rouge">page</code></li>
+  <li>在 <code class="language-plaintext highlighter-rouge">plugin</code> 增加下方配置</li>
+</ol>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">awesome-pages</span><span class="pi">:</span>
+       <span class="na">filename</span><span class="pi">:</span> <span class="s">.pages.yaml</span>
+       <span class="na">collapse_single_pages</span><span class="pi">:</span> <span class="no">true</span>
+       <span class="na">strict</span><span class="pi">:</span> <span class="no">false</span>
+</code></pre></div></div>
+
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-01-01</cite> <i class="icon-tag"></i>
+      <cite>2022-05-06</cite> <i class="icon-tag"></i>
       <a href="/tags.html#随笔">随笔</a>
       
       
@@ -1010,33 +654,74 @@ ioreg <span class="nt">-l</span> | <span class="nb">grep</span> <span class="s2"
     <hr/>
     
     
-    <h1><a class="title" href="/post/2020/11/Check-You-Favorites-App-Is-Ready-Apple-Silicon.html">Check You App readyOnAppleSilicon</a></h1>
+    <h1><a class="title" href="/post/2022/05/Alfred-Workflow-%E6%8E%A8%E8%8D%90.html">Alfred Workflow 推荐</a></h1>
     <div class="post_at_index">
-      <h2 id="1-httpsisapplesiliconreadycom">1. https://isapplesiliconready.com/</h2>
+      <h2 id="alfred-介绍">Alfred 介绍</h2>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/ipic/2020-11-24-142803.png" alt="image-20201124222803150" /></p>
+<p>Alfred 是 Mac 上一款著名的效率应用，强大的功能和众多的扩展能让你在实际操作中大幅提升工作效率，网络上也有大量关于的 Alfred 的评测和技巧的文章。</p>
 
-<h4 id="if-you-have-any-apps-want-and-to-here-please-click-request-an-app--or-use-this-link">If you have any apps want and to here. Please click <code class="language-plaintext highlighter-rouge">REQUEST AN APP</code>  or use this link：</h4>
+<p><img src="https://cdn.sspai.com/attachment/origin/2016/02/19/311872.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="" /></p>
 
-<blockquote>
-  <p>https://isapplesiliconready.com/request/</p>
-</blockquote>
+<h2 id="workflow-介绍">Workflow 介绍</h2>
+
+<p>Workflow 工作流；将一件事情的多个步骤，通过一个的规则相连，并依次执行，最终完成，这个方式就是工作流； Alfred Workflow 就是一个将我们日常工作流 实现的一个工具，可以让我们在 Alfred 中更加方便的完成我们的工作；现实生活中的工作流可能更为复杂，但本质还是如此。正是基于这种现实背景，alfred 从 2.0 版本起加入了 workflow，简单的示例说明。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/mUZ6OI.png?x-oss-process=image/resize,w_960,m_lfit" alt="mUZ6OI" /></p>
+
+<h2 id="我的推荐">我的推荐</h2>
+
+<p>整理常用的一些 Workflow 分享, 提高工作和生活的效率小技巧。</p>
+
+<h3 id="5-星推荐">5 星推荐</h3>
+
+<ul>
+  <li><a href="https://www.packal.org/workflow/timezones-2">https://www.packal.org/workflow/timezones-2</a></li>
+  <li><a href="https://www.packal.org/workflow/homebrew-and-cask-alfred">https://www.packal.org/workflow/homebrew-and-cask-alfred</a></li>
+  <li><a href="https://www.packal.org/workflow/mac-app-store-search">https://www.packal.org/workflow/mac-app-store-search</a></li>
+  <li><a href="https://github.com/xiaotu9639/alfred-yuque-workflow">https://github.com/xiaotu9639/alfred-yuque-workflow</a></li>
+  <li><a href="https://github.com/whyliam/whyliam.workflows.youdao">https://github.com/whyliam/whyliam.workflows.youdao</a> 有道翻译
+    <ul>
+      <li>zhiyu_id: 12ba82650be566f5</li>
+      <li>zhiyu_key:XWkQjLboE4llgQuWZMR1e0d03Au9w8ob</li>
+    </ul>
+  </li>
+</ul>
 
 <hr />
 
-<h2 id="2-httpsdoesitarmcom">2. https://doesitarm.com/</h2>
+<h3 id="4-星推荐">4 星推荐</h3>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/ipic/2020-11-24-143231.png" alt="" /></p>
+<ul>
+  <li><a href="https://www.packal.org/workflow/alfred-markdown-table">https://www.packal.org/workflow/alfred-markdown-table</a></li>
+  <li><a href="https://www.packal.org/workflow/pretty-json">https://www.packal.org/workflow/pretty-json</a></li>
+  <li><a href="https://www.packal.org/workflow/who">https://www.packal.org/workflow/who</a></li>
+</ul>
 
-<h4 id="if-you-want-watching-any-apps-change-input--you-email-at--tell-me-with-this-changes">If you want watching any apps change? Input  you email at  <code class="language-plaintext highlighter-rouge">Tell me with this changes</code></h4>
+<h2 id="如何获取-workflow-">如何获取 Workflow ?</h2>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/ipic/2020-11-24-143450.png" alt="image-20201124223449695" /></p>
+<p>可以到这个网站 https://www.packal.org/  有非常丰富的 Workflow 或者 主题可以选择，丰富你的 Alfred 使用</p>
+
+<p>如果你有能力制作一些优秀的 Workflow ，也可以在这里分享</p>
+
+<h2 id="更多关于-alfred-的使用教程">更多关于 Alfred 的使用教程</h2>
+
+<p>网络上已经有大量的 视频和文本的使用教程了，所以我这里直接引用我学习时使用的教程</p>
+
+<h2 id="视频教程">视频教程</h2>
+
+<iframe width="640" height="360" src="//player.bilibili.com/player.html?aid=894481262&amp;bvid=BV1GP4y1g7HJ&amp;cid=700510300&amp;page=1" scrolling="no" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+<h2 id="文本教程">文本教程</h2>
+
+<p><a href="https://ihtcboy.com/2020/02/09/2020-02-09_%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84macOS%E7%B3%BB%E5%88%97%EF%BC%9A%E9%AB%98%E6%95%88Alfred%E8%BF%9B%E9%98%B6/">程序员的macOS系列：高效Alfred进阶</a></p>
+
+<p>同时，也推荐下这位优秀博主，如果关注 iOS 开发，可以关注他更新的内容</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2020-11-23</cite> <i class="icon-tag"></i>
+      <cite>2022-05-03</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Mac">Mac</a>
       
       
@@ -1046,139 +731,161 @@ ioreg <span class="nt">-l</span> | <span class="nb">grep</span> <span class="s2"
     <hr/>
     
     
-    <h1><a class="title" href="/post/2020/11/%E5%A6%82%E4%BD%95%E9%87%8D%E7%BD%AE-Mac-%E7%9A%84-SMC.html">如何重置 Mac 的 SMC</a></h1>
+    <h1><a class="title" href="/post/2022/05/youtube-dl-%E4%B8%8B%E8%BD%BD-YouTube-%E8%A7%86%E9%A2%91.html">youtube-dl 下载 YouTube 视频</a></h1>
     <div class="post_at_index">
-      <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437045272-4d2c8ef2-804a-4ed7-bb53-b241152c780c.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></p>
+      <blockquote>
+  <p>截止 2022.5 <code class="language-plaintext highlighter-rouge">youtube-dl</code> 已经较长时间未更新了，建议采用 <a href="https://github.com/yt-dlp/yt-dlp"><code class="language-plaintext highlighter-rouge">yt-dlp</code></a>, 将命令进行替换即可</p>
+</blockquote>
 
-<p>MacBookPro 雷电口不可用了不着送修，尝试下一下方法；可以为您省下大几千块钱哟 ~</p>
+<h2 id="安装新版本的-yt-dlp">安装新版本的 <code class="language-plaintext highlighter-rouge">yt-dlp</code></h2>
 
-<h2 id="什么是-smc-">什么是 SMC ？</h2>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>yt-dlp/taps/yt-dlp
+</code></pre></div></div>
 
-<p>SMC 全称 系统管理控制器负责管理与以下功能相关的行为：</p>
+<p><code class="language-plaintext highlighter-rouge">yt-dlp</code> 是从 <code class="language-plaintext highlighter-rouge">youtube-dl</code> 分支出来的版本，提供持续更新和向前兼容，在友好型上做了优化；仅需要将所有安装命令中 <code class="language-plaintext highlighter-rouge">youtube-dl</code> 替换为 <code class="language-plaintext highlighter-rouge">yt-dlp</code></p>
+
+<p>如果你还是喜欢使用 youtube-dl，可以使用以下命令将程序默认替换，同时不影响你的使用:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">alias </span>youtube-dl<span class="o">=</span>yt-dlp
+➜  ~ <span class="nb">echo</span> <span class="s2">"alias youtube-dl=yt-dlp"</span>  <span class="o">&gt;&gt;</span> ~/.zshrc  <span class="c"># or ~/.bashrc</span>
+</code></pre></div></div>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/JwWiwh.png?x-oss-process=image/resize,w_960,m_lfit" /></p>
+
+<hr />
+
+<h2 id="youtube-dl-下载-youtube-视频">youtube-dl 下载 YouTube 视频</h2>
+
+<p>视频下载命令行工具里，网友推荐通常都是『国外视频用 youtube-dl』，有这两个工具国内外主流视频网站的视频基本就横扫了，适合想收藏或者喜欢下载后用本地播放器的 Geek 群体。</p>
 
 <ul>
-  <li>电源，包括电源按钮和 USB 端口的电源</li>
-  <li>电池和充电</li>
-  <li>风扇和其他热能管理功能</li>
-  <li>指示灯或感应器，例如状态指示灯（睡眠状态、电池充电状态等）、突发移动感应器、环境光传感器和键盘背光</li>
-  <li>打开和合上笔记本电脑盖时的行为</li>
+  <li><a href="http://rg3.github.io/youtube-dl/download.html">youtube-dl</a></li>
 </ul>
 
-<hr />
+<p>命令行工具本身其实不复杂，理解了它们的语法就能开始使用了，结合 Alfred 还可以把常用的命令设置成触发的动作，提升交互体验和效率。然而很多人一看网站的介绍估计和我最初的感受差不多，还要部署一堆使用环境啊。</p>
 
-<h2 id="smc-常见问题">SMC 常见问题</h2>
+<h2 id="xcode-的命令行工具">Xcode 的命令行工具</h2>
 
-<p>由于Mac的雷电接口经常需要插拔外接设备，而外接设备的接口电流电压不一致，Mac在遇到异常电涌时会触发  SMC 的自我保护机制，通常意义是雷电口不可用。</p>
+<p>Homebrew 环境安装前先检查一下 Xcode 的命令行工具是否已经安装，如果 macOS 系统更新过可能也需要重新安装一次，「终端」（应用程序 - 实用工具 - 终端）中输入 <code class="language-plaintext highlighter-rouge">xcode-select --install</code>。</p>
 
-<p>通过重置系统管理控制器 (SMC) 可以解决某些与电源、电池、风扇和其他功能相关的问题。</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ xcode-select <span class="nt">--install</span>
+xcode-select: error: <span class="nb">command </span>line tools are already installed, use <span class="s2">"Software Update"</span> to <span class="nb">install </span>updates
+➜  ~
+</code></pre></div></div>
 
-<hr />
+<p><em>先前配置时已经安装过 Xcode 命令行工具，所以会出现上面的提示信息。</em></p>
 
-<h2 id="注意事项">注意事项</h2>
+<h2 id="homebrew-依赖">Homebrew 依赖</h2>
 
-<p>新款 Apple M1 设备的重置步骤本文不一致，后续会补充更新</p>
+<p><a href="https://brew.sh/index_zh-cn.html">Homebrew</a> 是一个macOS 上的软件包管理工具，通过命令行的方式安装和卸载软件，大部分的流行软件都提供了 Homebrew 的安装方式，也是开源世界里安装和更新软件的主流方式；</p>
 
-<hr />
+<h3 id="homebrew"><a href="https://brew.sh/index_zh-cn.html">Homebrew</a></h3>
 
-<h2 id="配备-t2-芯片的笔记本电脑">配备 T2 芯片的笔记本电脑</h2>
+<p>只需要在联网的情况下运行一行命令：</p>
 
-<ol>
-  <li>将 Mac 关机</li>
-  <li>在内建键盘上，按住以下所有按键。Mac 可能会开机。</li>
-</ol>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
 
-<ul>
-  <li>
-    <ul>
-      <li>键盘左侧的 <strong>Control</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437210613-0f478f9a-1f5b-4b51-8060-6f9af28a4ae0.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
-      <li>键盘左侧的 <strong>Option</strong> (Alt) <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437216356-d0ba8e9e-ebb9-4756-8459-124876d0c332.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
-      <li>键盘右侧的 <strong>Shift</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437210667-cdfb2059-1d3d-4cb4-bb6c-88e38c1c3054.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
-    </ul>
-  </li>
-</ul>
+<blockquote>
+  <p>更多关于 Homebrew 的使用相关，可以查看我的另一篇文章  <a href="https://samzong.me/2022/05/03/Mac%E4%B8%8Bhomebrew%E7%9A%84%E4%BD%BF%E7%94%A8/">Mac 下 Homebrew 的使用</a></p>
+</blockquote>
 
-<ol>
-  <li>按住<strong>全部三个按键</strong> 7 秒钟，然后在不松开按键的情况下按住<strong>电源按钮</strong>。如果 Mac 处于开机状态，它将在您按住这些按键时关机。</li>
-</ol>
+<h2 id="安装-youtube-dl">安装 youtube-dl</h2>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437286162-81a557b7-7f54-49b2-9ad6-32716f0b8488.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></p>
+<p>上面刚学习到的命令可以先用起来，先看看 youtube-dl 的软件信息，在终端里输入 <code class="language-plaintext highlighter-rouge">brew info youtube-dl</code>，了解一下 youtube-dl 的依存环境和需要搭档的其他应用。</p>
 
-<ol>
-  <li>继续按住<strong>全部四个按键</strong> 7 秒钟，然后松开这些按键。</li>
-  <li>等待几秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/S4sQmN.png?x-oss-process=image/resize,w_960,m_lfit" /></p>
 
-<hr />
+<p>从终端运行的反馈能看到，youtube-dl 的使用环境是 Python3，合并视频片断还会用到 <code class="language-plaintext highlighter-rouge">ffmpeg</code>  这个组件，也就是说安装完 youtube-dl，还要再运行一次 <code class="language-plaintext highlighter-rouge">brew install ffmpeg</code></p>
 
-<h2 id="配备-t2-芯片的台式电脑">配备 T2 芯片的台式电脑</h2>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>youtube-dl
+brew <span class="nb">install </span>ffmpeg
+</code></pre></div></div>
 
-<ol>
-  <li>将 Mac 关机，然后拔下电源线。</li>
-  <li>等待 15 秒钟，然后重新接回电源线。</li>
-  <li>等待 5 秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
+<h2 id="youtube-dl-的基本用法">youtube-dl 的基本用法</h2>
 
-<hr />
+<p>前 3 步结束已经可以用命令行下载视频了，这里介绍几个常用的命令，更多的命令用法在官网都有介绍 ，查看 Github 更全的操作指引 <a href="https://github.com/ytdl-org/youtube-dl/blob/master/README.md#description">Document</a></p>
 
-<h2 id="在其他电脑上重置-smc">在其他电脑上重置 SMC</h2>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ youtube-dl <span class="nt">-h</span> | <span class="nb">grep </span>Options
+Options:
+  General Options:
+  Network Options:
+  Download Options:
+  Filesystem Options:
+  Thumbnail Options:
+  Verbosity / Simulation Options:
+  Video Format Options:
+  Subtitle Options:
+  Authentication Options:
+  Adobe Pass Options:
+  Post-processing Options:
+</code></pre></div></div>
 
-<p>如果您的 Mac 没有配备 Apple T2 安全芯片，请按照以下步骤操作。</p>
+<h3 id="导出视频指定文件名称">导出视频指定文件名称</h3>
 
-<h3 id="装有不可拆卸电池的笔记本电脑">装有不可拆卸电池的笔记本电脑</h3>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>youtube-dl https://www.youtube.com/watch?v<span class="o">=</span>Ga4UCK627nU <span class="nt">-o</span> <span class="s2">"~/Downloads/aaa.mp4"</span>
+</code></pre></div></div>
 
-<p>这类电脑包括 2009 年中至 2017 年推出的 MacBook Pro 机型、2017 年或之前推出的 MacBook Air 机型，以及所有 MacBook 机型，但 MacBook（13 英寸，2009 年中）除外。</p>
+<p><code class="language-plaintext highlighter-rouge">youtube-dl</code> 还提供了 一些变量的方式，可以作用在文件名上，比较常用的如下：</p>
 
-<ol>
-  <li>将 Mac 关机。</li>
-  <li>在内建键盘上，按住以下所有按键：</li>
-</ol>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># %(title)s.%(ext)s 则是指定了文件名的格式，%(title)s 是视频的标题，%(ext)s 则是视频的文件扩展名</span>
+youtube-dl https://www.youtube.com/watch?v<span class="o">=</span>Ga4UCK627nU <span class="nt">-o</span> <span class="s2">"~/Downloads/%(title)s.%(ext)s"</span>
+</code></pre></div></div>
 
-<ul>
-  <li>
-    <ul>
-      <li>键盘左侧的 <strong>Shift</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437453096-c4dd55c9-dea8-4ece-810d-d0a6bf880b5a.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
-      <li>键盘左侧的 <strong>Control</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437452982-7bdab59b-e4d2-4aa0-863d-59d224b081a9.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
-      <li>键盘左侧的 <strong>Option</strong> (Alt) <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437453069-12f401d8-bfbf-4657-9323-67169460f2fa.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
-    </ul>
-  </li>
-</ul>
+<p>通过 <code class="language-plaintext highlighter-rouge">视频名.扩展名</code> 这样可以规范化导出文档的名称；还有其他非常丰富的变量支持，可以去这里找到你想要的 <a href="https://github.com/ytdl-org/youtube-dl/blob/master/README.md#output-template">Output Template</a></p>
 
-<ol>
-  <li>在按住<strong>全部三个按键</strong>的情况下，按住<strong>电源按钮</strong>。</li>
-</ol>
+<h3 id="查询视频支持的版本">查询视频支持的版本</h3>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437452835-44611990-1f9b-49c4-a49b-446cef022d56.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></p>
+<p>导出的画质不如意，希望自定义导出画质，可以采用这个方式，使用 <code class="language-plaintext highlighter-rouge">-F</code> 查看视频资源支持的类型，通过 <code class="language-plaintext highlighter-rouge">-f</code> 指定对应的版本进行下载</p>
 
-<ol>
-  <li>按住<strong>全部四个按键</strong> 10 秒钟。</li>
-  <li>松开所有按键，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/eUUy9N.png?x-oss-process=image/resize,w_960,m_lfit" /></p>
 
-<h3 id="装有可拆卸电池的笔记本电脑">装有可拆卸电池的笔记本电脑</h3>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ youtube-dl <span class="nt">-F</span> https://www.youtube.com/watch<span class="se">\?</span>v<span class="se">\=</span>BYkHLlKFEsM
+<span class="o">[</span>youtube] BYkHLlKFEsM: Downloading webpage
+<span class="o">[</span>info] Available formats <span class="k">for </span>BYkHLlKFEsM:
+format code  extension  resolution note
+249          webm       audio only tiny   53k , webm_dash container, opus @ 53k <span class="o">(</span>48000Hz<span class="o">)</span>, 2.44MiB
+250          webm       audio only tiny   70k , webm_dash container, opus @ 70k <span class="o">(</span>48000Hz<span class="o">)</span>, 3.22MiB
+140          m4a        audio only tiny  129k , m4a_dash container, mp4a.40.2@129k <span class="o">(</span>44100Hz<span class="o">)</span>, 5.93MiB
+251          webm       audio only tiny  136k , webm_dash container, opus @136k <span class="o">(</span>48000Hz<span class="o">)</span>, 6.27MiB
+160          mp4        256x144    144p   32k , mp4_dash container, avc1.4d400c@  32k, 30fps, video only, 1.48MiB
+278          webm       256x144    144p   75k , webm_dash container, vp9@  75k, 30fps, video only, 3.45MiB
+133          mp4        426x240    240p   48k , mp4_dash container, avc1.4d4015@  48k, 30fps, video only, 2.21MiB
+242          webm       426x240    240p   76k , webm_dash container, vp9@  76k, 30fps, video only, 3.51MiB
+134          mp4        638x360    360p   80k , mp4_dash container, avc1.4d401e@  80k, 30fps, video only, 3.70MiB
+243          webm       638x360    360p  115k , webm_dash container, vp9@ 115k, 30fps, video only, 5.28MiB
+135          mp4        852x480    480p  120k , mp4_dash container, avc1.4d401f@ 120k, 30fps, video only, 5.50MiB
+244          webm       852x480    480p  161k , webm_dash container, vp9@ 161k, 30fps, video only, 7.41MiB
+136          mp4        1278x720   720p  217k , mp4_dash container, avc1.4d401f@ 217k, 30fps, video only, 9.97MiB
+247          webm       1278x720   720p  273k , webm_dash container, vp9@ 273k, 30fps, video only, 12.52MiB
+248          webm       1916x1080  1080p  896k , webm_dash container, vp9@ 896k, 30fps, video only, 41.01MiB
+137          mp4        1916x1080  1080p  923k , mp4_dash container, avc1.640028@ 923k, 30fps, video only, 42.24MiB
+18           mp4        638x360    360p  350k , avc1.42001E, 30fps, mp4a.40.2 <span class="o">(</span>44100Hz<span class="o">)</span>, 16.07MiB <span class="o">(</span>best<span class="o">)</span>
 
-<p>这类电脑包括 2009 年初或之前推出的所有 MacBook Pro 和 MacBook 机型，以及 MacBook（13 英寸，2009 年中）。</p>
+➜  ~ youtube-dl <span class="nt">-f</span> 137 https://www.youtube.com/watch<span class="se">\?</span>v<span class="se">\=</span>BYkHLlKFEsM  <span class="c"># 下载对应的 format code</span>
+➜  ~ youtube-dl <span class="nt">-f</span> best https://www.youtube.com/watch<span class="se">\?</span>v<span class="se">\=</span>BYkHLlKFEsM  <span class="c"># 下载最佳的版本</span>
+</code></pre></div></div>
 
-<ol>
-  <li>将 Mac 关机。</li>
-  <li>拆下电池。</li>
-  <li>按住<strong>电源按钮</strong> 5 秒钟。</li>
-  <li>重新安装电池。</li>
-  <li>按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
+<h3 id="仅导出音频文件">仅导出音频文件</h3>
 
-<h3 id="台式电脑">台式电脑</h3>
+<p>:::information_source: 经常拿过来做个人的歌曲库导出，<code class="language-plaintext highlighter-rouge">youtube-dl -x</code> 提供了 -x 参数来进行指定 仅导出音频，<code class="language-plaintext highlighter-rouge">--extract-audio</code> 这里需要使用到 <code class="language-plaintext highlighter-rouge">ffmpeg</code> 。</p>
 
-<ol>
-  <li>将 Mac 关机，然后拔下电源线。</li>
-  <li>等待 15 秒钟，然后重新接回电源线。</li>
-  <li>等待 5 秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>youtube-dl <span class="nt">-x</span> https://www.youtube.com/watch?v<span class="o">=</span>Ga4UCK627nU <span class="nt">-o</span> <span class="s2">"~/Downloads/%(title)s.%(ext)s"</span>
+</code></pre></div></div>
+
+<p>默认下载的音频文件类型，可能无法满足你，这个时候，可以使用 <code class="language-plaintext highlighter-rouge">--audio-format</code> 参数，来指定对应的音频格式（使用 ffmpeg 自动转码），目前支持个格式类型有：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Specify audio format: <span class="s2">"best"</span>, <span class="s2">"aac"</span>,<span class="s2">"flac"</span>, <span class="s2">"mp3"</span>, <span class="s2">"m4a"</span>, <span class="s2">"opus"</span>, <span class="s2">"vorbis"</span>,or <span class="s2">"wav"</span><span class="p">;</span> <span class="s2">"best"</span> by default
+</code></pre></div></div>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>youtube-dl <span class="nt">-x</span> https://www.youtube.com/watch?v<span class="o">=</span>Ga4UCK627nU <span class="nt">-o</span> <span class="s2">"~/Downloads/%(title)s.%(ext)s"</span> <span class="nt">--audio-format</span> mp3
+</code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2020-11-23</cite> <i class="icon-tag"></i>
+      <cite>2022-05-03</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Mac">Mac</a>
       
       
@@ -1188,385 +895,310 @@ ioreg <span class="nt">-l</span> | <span class="nb">grep</span> <span class="s2"
     <hr/>
     
     
-    <h1><a class="title" href="/post/2019/07/Mac%E4%B8%8Bhomebrew%E7%9A%84%E4%BD%BF%E7%94%A8.html">Mac 下 Homebrew 的使用</a></h1>
+    <h1><a class="title" href="/post/2022/05/%E6%B7%98%E5%AE%9DPython-SDK%E4%BC%98%E5%8C%96%E6%94%AF%E6%8C%81Python3.html">淘宝Python SDK优化支持Python3</a></h1>
     <div class="post_at_index">
-      <p>mac系统也是基于unix的系统，所以也继承类很多unix的特性，包括软件的编译，安装等。ubuntu下有快捷命令<code class="language-plaintext highlighter-rouge">apt install</code>来快速安装软件。centos下有<code class="language-plaintext highlighter-rouge">yum install</code>来快速安装。所以，mac下也有一种方式，就是使用<code class="language-plaintext highlighter-rouge">brew</code>。</p>
+      <p>淘宝开放平台的SDK，Python的 SDK 是在2012年，仅支持Python2.7 及以上，但不支持Python3；二现在是2102年了，像我这样的新手都是直接从Python3开始的，</p>
 
-<p>并且，在 Homebrew 和 Cask 的支持下，基本可以全面接待 MacOS 的所有软件安装和更新功能。</p>
+<h4 id="1-python3-int替代了long">1. Python3 int替代了long</h4>
 
-<p><code class="language-plaintext highlighter-rouge">brew</code>是Mac下的一个包管理工具，它从下载源码解压然后 <code class="language-plaintext highlighter-rouge">./configure &amp;&amp; make install</code> ，同时会包含相关依存库。并自动配置好各种环境变量，而且非常易于卸载。 这个对程序员来说简直是福音，简单的指令，就能快速安装和升级本地的各种开发环境。</p>
+<p><code class="language-plaintext highlighter-rouge">P_TIMESTAMP: str(int(time.time() * 1000))</code></p>
 
-<p>home brew 官网是 http://brew.sh/index_zh-cn.html</p>
+<h4 id="2-用items替代iteritems">2. 用items替代iteritems:</h4>
 
-<h2 id="安装-brew">安装 brew</h2>
+<p><code class="language-plaintext highlighter-rouge">for key, value in application_parameter.items():</code></p>
 
-<p>打开 itrem 。输入一条命令即可安装好 brew。</p>
+<h4 id="3-查阅资料发现有人说到dict-methods-dictkeys-dictitems-and-dictvalues-return-views-instead-of-lists这样就显而易见知道怎么改了">3. 查阅资料，发现有人说到dict methods dict.keys(), dict.items() and dict.values() return “views” instead of lists.这样就显而易见知道怎么改了：</h4>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
-</code></pre></div></div>
+<p><code class="language-plaintext highlighter-rouge">keys = sorted(keys)</code></p>
 
-<p>这样一个简单的命令，我们就安装好来brew 。来验证一下，输入brew命令：</p>
+<h4 id="4-英文意思很明确unicode对象在哈希之前必须进行编码转换想起之前又看到过中文字符在python中是以unicode存在的所以">4. 英文意思很明确，unicode对象在哈希之前必须进行编码转换，想起之前又看到过中文字符在python中是以unicode存在的，所以：</h4>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew
-Example usage:
-  brew search TEXT|/REGEX/
-  brew info <span class="o">[</span>FORMULA|CASK...]
-  brew <span class="nb">install </span>FORMULA|CASK...
-  brew update
-  brew upgrade <span class="o">[</span>FORMULA|CASK...]
-  brew uninstall FORMULA|CASK...
-  brew list <span class="o">[</span>FORMULA|CASK...]
+<p><code class="language-plaintext highlighter-rouge">sign = hashlib.md5(parameters.encode("utf-8")).hexdigest().upper()</code></p>
 
-Troubleshooting:
-  brew config
-  brew doctor
-  brew <span class="nb">install</span> <span class="nt">--verbose</span> <span class="nt">--debug</span> FORMULA|CASK
+<h4 id="5-这是花费时间最长的一个错误首先直接看最后错误在soketpy里心凉了半截难道这里的调用都不一样了再网上看又是python-3x的http模块去百度了半天也没有发现类似的错误只能自己硬着头皮去看模块功夫不负有心人其实也很简单在类httpconnection的初始化函数是这样定义的">5. 这是花费时间最长的一个错误。首先，直接看最后，错误在soket.py里，心凉了半截，难道这里的调用都不一样了,再网上看又是python 3.X的http模块，去百度了半天也没有发现类似的错误，只能自己硬着头皮去看模块，功夫不负有心人，其实也很简单，在类HTTPConnection的初始化函数是这样定义的:</h4>
 
-Contributing:
-  brew create URL <span class="o">[</span><span class="nt">--no-fetch</span><span class="o">]</span>
-  brew edit <span class="o">[</span>FORMULA|CASK...]
-
-Further <span class="nb">help</span>:
-  brew commands
-  brew <span class="nb">help</span> <span class="o">[</span>COMMAND]
-  man brew
-  https://docs.brew.sh
-</code></pre></div></div>
-
-<p>出现了很多帮助命令，说明我们已经安装成功了。</p>
-
-<h2 id="用-brew-安装程序">用 brew 安装程序</h2>
-
-<p>安装好了brew之后，我们就可以用这个命令安装各种源码了。比如安装一下<code class="language-plaintext highlighter-rouge">wget</code>工具。这个工具能在命令行中帮我们下载各种数据。</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>git
-</code></pre></div></div>
-
-<p>这样一个简单的命令就可以了。它会帮我们下载好 git ，并且编译执行安装，还会下载各种依赖包，设置好各种配置和参数。</p>
-
-<p>安装好的 <code class="language-plaintext highlighter-rouge">git</code> 会被安装到<code class="language-plaintext highlighter-rouge">/usr/local/Cellar/git/</code>下。并且将<code class="language-plaintext highlighter-rouge">wget</code>命令软链接至 <code class="language-plaintext highlighter-rouge">/usr/local/bin</code> 目录下。这样全局就都可以使用<code class="language-plaintext highlighter-rouge">git</code>命令了。</p>
+<p><code class="language-plaintext highlighter-rouge">connection = httplib.HTTPConnection(self.__domain, self.__port, timeout)</code></p>
 
 <blockquote>
-  <p>Homebrew 在 MacOS 10.11 之后 修改了 安装的路径为 <code class="language-plaintext highlighter-rouge">/opt/Homebrew</code>，通过 <code class="language-plaintext highlighter-rouge">brew config</code> 可以看到</p>
+  <p>比较下参数发现，python 2比3多了一个参数，去掉即可，这个错误主要是是报错的地方和修改的地方不在一起，所以很难插出原因。</p>
 </blockquote>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew config
-HOMEBREW_VERSION: 3.4.10-7-ga4545e5
-ORIGIN: https://github.com/Homebrew/brew
-HEAD: a4545e52315ceedf2deb97ac17d7234708d16e5b
-HOMEBREW_PREFIX: /opt/homebrew
-HOMEBREW_CASK_OPTS: <span class="o">[]</span>
-CPU: 10-core 64-bit arm_firestorm_icestorm
-Clang: 13.1.6 build 1316
-Git: 2.36.0 <span class="o">=&gt;</span> /opt/homebrew/bin/git
-Curl: 7.79.1 <span class="o">=&gt;</span> /usr/bin/curl
-macOS: 12.3.1-arm64
-CLT: 13.3.1.0.1.1648687083
-Xcode: 13.3.1
-Rosetta 2: <span class="nb">false</span>
-</code></pre></div></div>
+<h4 id="6-官方文档是这样解释的urllib-has-been-split-up-in-python-3-the-urlliburlencode-function-is-now-urllibparseurlencode-and-the-urlliburlopen-function-is-now-urllibrequesturlopen">6. 官方文档是这样解释的：urllib has been split up in Python 3. The urllib.urlencode() function is now urllib.parse.urlencode(), and the urllib.urlopen() function is now urllib.request.urlopen()</h4>
 
-<h2 id="brew-的常用命令">brew 的常用命令</h2>
+<p><code class="language-plaintext highlighter-rouge">url = N_REST + "?" + urllib.parse.urlencode(sys_parameters)</code></p>
 
-<p>常用的命令没几个：</p>
+<h4 id="7-这个错误是在api调用出异常的时候暴露出来的原因前面已经提到了稍微查了下替代的方法">7. 这个错误是在API调用出异常的时候暴露出来的。原因前面已经提到了，稍微查了下替代的方法：</h4>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew <span class="nb">install </span>git 	<span class="c"># 安装</span>
-➜  ~ brew info git 		<span class="c"># 显示软件的各种信息</span>
-➜  ~ brew uninstall git <span class="c"># 卸载</span>
-➜  ~ brew search git <span class="c"># 模糊搜索 brew 支持的软件</span>
-➜  ~ brew list <span class="c"># 列出本机通过 brew 安装的所有软件</span>
-➜  ~ brew update <span class="c"># 更新 brew repo 信息，每次 Install 前也会自动更新</span>
-➜  ~ brew upgrade git <span class="c"># 更新软件 [如果不加软件名，就更新所有可以更新的软件]</span>
-➜  ~ brew cleanup <span class="c"># 清除下载的各种缓存</span>
-➜  ~ brew doctor <span class="c"># 诊断当前 brew 的配置是否有问题，并给出建议</span>
-</code></pre></div></div>
+<p><code class="language-plaintext highlighter-rouge">if "error_response" in jsonobj:</code></p>
 
-<h2 id="brew-cask">brew cask</h2>
+<p><code class="language-plaintext highlighter-rouge">if P_CODE in jsonobj["error_response"]:</code></p>
 
-<p><img src="https://camo.githubusercontent.com/f8b75a5e461338a90db6acf4db8f5bc9cf620bfba65a5a490ed10bd08f457b52/68747470733a2f2f692e696d6775722e636f6d2f464e4e4d36574c2e676966" alt="" /></p>
+<h4 id="8-在if-需要使用反向时应该是--而不是使用-is-not-这个也是-pycharm-给的建议所以在使用时所以简单调整下就好了">8. 在if 需要使用反向时，应该是 != ，而不是使用  is not ；这个也是 PyCharm 给的建议，所以在使用时，所以简单调整下就好了</h4>
 
-<p>brew cask 是在 brew 的基础上一个增强的工具，用来安装Mac上的Gui程序应用包（.dmg/.pkg）, 比如 Chrome 、WeChat 等。它先下载解压到统一的目录中（<code class="language-plaintext highlighter-rouge">/opt/homebrew-cask/Caskroom</code>），省掉了自己去下载、解压、拖拽（安装）等蛋疼步骤，同样，卸载相当容易与干净。然后再软链到<code class="language-plaintext highlighter-rouge">~/Applications/</code>目录下, 一气呵成。非常方便，而且还包含很多在 AppStore 里没有的常用软件。</p>
+<p><code class="language-plaintext highlighter-rouge">if response.status != 200:</code></p>
 
-<ul>
-  <li>brew cask的官网是：<a href="http://caskroom.io/">http://caskroom.io</a></li>
-  <li>github地址是：https://github.com/caskroom/homebrew-cask</li>
-</ul>
-
-<p>:::information_desk_person: Cask 目前已经内置到 brew 官方安装包内了，无需单独安装；并且官方集成的非常好，大部分情况下，不需要特殊标记就可以看到到对应的软件了</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew search git <span class="nt">--cask</span>   <span class="c"># 在 brew 后 --cask 可指定查询 GUI 类型</span>
-<span class="o">==&gt;</span> Casks
-adobe-digital-editions                   gitscout
-caldigit-docking-utility                 gitter ✔
-caldigit-thunderbolt-charging            gitup
-deepgit                                  gitx
-digital                                  logitech-camera-settings
-font-digital-numbers                     logitech-control-center
-git-it                                   logitech-firmwareupdatetool
-gitahead                                 logitech-g-hub
-gitblade                                 logitech-gaming-software
-gitdock                                  logitech-myharmony
-gitee                                    logitech-options ✔
-giteye                                   logitech-presentation
-gitfiend                                 logitech-unifying
-gitfinder                                plotdigitizer
-gitfox                                   rowanj-gitx
-github                                   smartgit
-github-beta                              snagit
-githubpulse                              snagit4
-gitify                                   subgit
-gitkraken                                webplotdigitizer
-gitnote                                  xit
-gitpigeon
-</code></pre></div></div>
-
-<p>举个简单的例子，iTerm 是我们经常使用的软件：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew <span class="nb">install </span>iTerm <span class="nt">--cask</span>  <span class="c"># 大部分情况下 --cask 是可以省略的，除非在出现同名的情况下</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>使用小技巧</p>
-</blockquote>
-
-<p>如果不清楚这个软件是否符合我们的要求，可以在安装前通过 <code class="language-plaintext highlighter-rouge">brew seach</code> 模糊查询下 具体的软件名称：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew search iterm <span class="nt">--cask</span>
-<span class="o">==&gt;</span> Casks
-font-ia-writer-mono        iterm2-legacy              zterm
-iterm2 ✔                   iterm2-nightly
-iterm2-beta                therm
-</code></pre></div></div>
-
-<p>在确认了具体的软件名称后，可以通过 <code class="language-plaintext highlighter-rouge">brew info</code> 查看更为详细的软件信息，在这里会告诉软件的具体名称和介绍</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew info iterm2
-iterm2: 3.4.15 <span class="o">(</span>auto_updates<span class="o">)</span>
-https://www.iterm2.com/
-/opt/homebrew/Caskroom/iterm2/3.4.15 <span class="o">(</span>119B<span class="o">)</span>
-From: https://github.com/Homebrew/homebrew-cask/blob/HEAD/Casks/iterm2.rb
-<span class="o">==&gt;</span> Name
-iTerm2
-<span class="o">==&gt;</span> Description
-Terminal emulator as alternative to Apple<span class="s1">'s Terminal app
-==&gt; Artifacts
-iTerm.app (App)
-==&gt; Analytics
-install: 25,001 (30 days), 91,481 (90 days), 335,711 (365 days)
-</span></code></pre></div></div>
-
-<p>OK，以上确认后，就可以正常安装了</p>
-
-<h2 id="brew-cu">brew cu</h2>
-
-<p><code class="language-plaintext highlighter-rouge">cu</code> 是 Cask 软件下的另一个优质的辅助工具，全称 <code class="language-plaintext highlighter-rouge">brew-cask-upgrade</code> 可以帮您检测全部 <code class="language-plaintext highlighter-rouge">brew install --cask</code> 的软件的版本更新情况</p>
-
-<h3 id="cu-的安装">cu 的安装</h3>
-
-<ul>
-  <li>Github https://github.com/buo/homebrew-cask-upgrade</li>
-</ul>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew tap buo/cask-upgrade
-</code></pre></div></div>
-
-<h3 id="使用说明">使用说明</h3>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew cu <span class="c"># 简单即可检测所有软件的更新情况</span>
-<span class="o">==&gt;</span> Options
-Include auto-update <span class="o">(</span><span class="nt">-a</span><span class="o">)</span>: <span class="nb">false
-</span>Include latest <span class="o">(</span><span class="nt">-f</span><span class="o">)</span>: <span class="nb">false</span>
-<span class="o">==&gt;</span> Updating Homebrew
-Already up-to-date.
-<span class="o">==&gt;</span> Finding outdated apps
-       Cask                           Current       Latest        A/U    Result
- 1/62  another-redis-desktop-manager  1.5.2         1.5.5              <span class="o">[</span>OUTDATED]
- 2/62  anydesk                        6.3.3         6.5.0              <span class="o">[</span>OUTDATED]
- 3/62  authy                          1.9.0         2.1.0          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
- 4/62  betterdummy                    1.0.13        1.1.12         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
- 5/62  bob                            0.7.0         0.8.1          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
- 6/62  cakebrew                       1.3           1.3            Y   <span class="o">[</span>  PASS  <span class="o">]</span>
- 7/62  clipy                          1.2.1         1.2.1              <span class="o">[</span>   OK   <span class="o">]</span>
- 8/62  dash                           6.2.0         6.2.3          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
- 9/62  devtoys                        0.0.10        0.0.10             <span class="o">[</span>   OK   <span class="o">]</span>
-10/62  feishu                         5.1.5         5.11.5         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-11/62  figma                          112.2.0       114.3.0        Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-12/62  firefox                        94.0.2        99.0.1         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-13/62  folx                           5.25          5.26           Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-14/62  font-fira-code                 6.2           6.2                <span class="o">[</span>   OK   <span class="o">]</span>
-15/62  forticlient-vpn                7.0           7.0                <span class="o">[</span>   OK   <span class="o">]</span>
-16/62  gitter                         1.177         1.177              <span class="o">[</span>   OK   <span class="o">]</span>
-17/62  iina                           1.2.0         1.2.0          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-18/62  iina-plus                      0.6.5         0.6.6              <span class="o">[</span>OUTDATED]
-19/62  imazing                        2.14.6        2.14.8         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-20/62  iterm2                         3.4.15        3.4.15         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-21/62  jellybeansoup-netflix          1.0.5         1.0.5              <span class="o">[</span>   OK   <span class="o">]</span>
-22/62  jetbrains-toolbox              1.22          1.23           Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-23/62  kap                            3.4.2         3.5.4          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-24/62  keyboardholder                 1.5.5         1.6.1              <span class="o">[</span>OUTDATED]
-25/62  kite                           0.20210610.0  0.20210610.0   Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-26/62  logitech-options               9.40.75       9.50.122       Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-27/62  maccy                          0.22.0        0.22.2         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-28/62  microsoft-remote-desktop       10.7.0        10.7.6         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-29/62  netnewswire                    6.1           6.1            Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-30/62  notable                        1.8.4         1.8.4          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-31/62  notion                         2.0.18        2.0.20         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-32/62  obsidian                       0.14.6        0.14.6         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-33/62  one-switch                     1.23          1.25               <span class="o">[</span>OUTDATED]
-34/62  openconnect-gui                1.5.3         1.5.3              <span class="o">[</span>   OK   <span class="o">]</span>
-35/62  openvpn-connect                3.3.2         3.3.5              <span class="o">[</span>OUTDATED]
-36/62  oss-browser                    1.16.0        1.16.0             <span class="o">[</span>   OK   <span class="o">]</span>
-37/62  picgo                          2.3.0         2.3.0              <span class="o">[</span>   OK   <span class="o">]</span>
-38/62  playcover                      0.9.2         1.0.0              <span class="o">[</span>OUTDATED]
-39/62  postman                        9.1.3         9.16.0         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-40/62  proxyman                       3.3.0         3.4.0          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-41/62  resilio-sync                   2.7.3         2.7.3          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-42/62  sensei                         1.5.1         1.5.2          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-43/62  shimo                          5.0.4         5.0.4          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-44/62  shuttle                        1.2.9         1.2.9              <span class="o">[</span>   OK   <span class="o">]</span>
-45/62  skype                          8.79.0.92     8.83.0.408     Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-46/62  slack-beta                     4.23.0        4.26.0         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-47/62  sourcetree                     4.1.7         4.1.8          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-48/62  spotify                        1.1.73.517    1.1.84.716     Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-49/62  steam                          4.0           4.0            Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-50/62  sunloginclient                 11.0.1.39931  12.5.0.45236       <span class="o">[</span>OUTDATED]
-51/62  switchkey                      1.1.3         1.1.3              <span class="o">[</span>   OK   <span class="o">]</span>
-52/62  telegram                       8.3           8.7            Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-53/62  tencent-lemon                  5.0.7         5.0.7          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-54/62  tencent-meeting                2.20.2.413    3.7.7.457      Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-55/62  typora                         1.0.2         1.2.4          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-56/62  upic                           0.21.1        0.21.1             <span class="o">[</span>   OK   <span class="o">]</span>
-57/62  utm-beta                       3.1.5         3.2.0              <span class="o">[</span>OUTDATED]
-58/62  visual-studio-code-insiders    1.63.0        latest             <span class="o">[</span>   OK   <span class="o">]</span>
-59/62  whatsapp                       2.2204.13     2.2214.12      Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-60/62  wireshark                      3.4.9         3.6.3          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-61/62  yesplaymusic                   0.4.3         0.4.3              <span class="o">[</span>   OK   <span class="o">]</span>
-62/62  zoom                           5.8.4.2421    5.10.4.6592    Y   <span class="o">[</span>  PASS  <span class="o">]</span>
-
-<span class="o">==&gt;</span> Found outdated apps
-     Cask                           Current       Latest        A/U    Result
-1/9  another-redis-desktop-manager  1.5.2         1.5.5              <span class="o">[</span>OUTDATED]
-2/9  anydesk                        6.3.3         6.5.0              <span class="o">[</span>OUTDATED]
-3/9  iina-plus                      0.6.5         0.6.6              <span class="o">[</span>OUTDATED]
-4/9  keyboardholder                 1.5.5         1.6.1              <span class="o">[</span>OUTDATED]
-5/9  one-switch                     1.23          1.25               <span class="o">[</span>OUTDATED]
-6/9  openvpn-connect                3.3.2         3.3.5              <span class="o">[</span>OUTDATED]
-7/9  playcover                      0.9.2         1.0.0              <span class="o">[</span>OUTDATED]
-8/9  sunloginclient                 11.0.1.39931  12.5.0.45236       <span class="o">[</span>OUTDATED]
-9/9  utm-beta                       3.1.5         3.2.0              <span class="o">[</span>OUTDATED]
-
-Do you want to upgrade 9 apps or enter <span class="o">[</span>i]nteractive mode <span class="o">[</span>y/i/N]?
-</code></pre></div></div>
-
-<p>可以根据提示输入然后选择是否更新：</p>
-
-<ul>
-  <li>y 全部更新，后续不再确认</li>
-  <li>i 依次咨询是否要更新</li>
-  <li>N 全部不更新，退出</li>
-</ul>
-
-<h2 id="brew-mas">brew mas</h2>
-
-<p>mas 是一个帮助在命令行下完成 Mac App Store 软件安装和查询的工具，使用起来也是非常的简单，但相对于 cask 低了很多，可以作为了解， 安装方式如下：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew <span class="nb">install </span>mas
-</code></pre></div></div>
-
-<p>支持的命令也基本覆盖了常用需求</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ mas list
-➜  ~ mas search xcode
-➜  ~ mas <span class="nb">install </span>407963104
-➜  ~ mas outdated
-➜  ~ mas upgrade
-</code></pre></div></div>
-
-<p>当然，mas 也支持了 appstore 的账号登录；不过目前看到 mas 的社区更新不怎么积极，目前仍旧未适配 最新的系统，谨慎选择。</p>
-
-<h2 id="brew-软件的备份和恢复">brew 软件的备份和恢复</h2>
-
-<p>随着对系统使用的不断加深，我们已经在一台电脑上建立一套对自己来说的软件生态，所以在更换电脑时，需要安装那些软件是非常头疼的一个事情； 如果都是 GUI 软件还好，但研发同学的电脑其实会有大量的 forumal 软件，重装起来还是非常麻烦的。</p>
-
-<p>所以，这里给大家推荐 <code class="language-plaintext highlighter-rouge">homebrew-bundle</code> 来帮助迁移电脑时，快速备份和恢复你的软件环境；整个使用的过程也是非常的便捷。</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 执行 bundle dump 备份软件清单到 Brewfile</span>
-brew bundle dump <span class="nt">--describe</span> <span class="nt">--force</span> <span class="nt">--file</span><span class="o">=</span><span class="s2">"~/Desktop/Brewfile"</span>
-
-<span class="c"># --describe：为列表中的命令行工具加上说明性文字，可以参照 brew info package</span>
-</code></pre></div></div>
-
-<p>根据你电脑的软件多少，这大概会花费几十秒的时间，然后你会得到一份你的电脑软件清单，这里也分享下我的清单</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">cat </span>Desktop/Brewfile
-tap <span class="s2">"bigwig-club/brew"</span>
-tap <span class="s2">"buo/cask-upgrade"</span>
-tap <span class="s2">"heroku/brew"</span>
-...
-<span class="c"># Mozilla CA certificate store</span>
-brew <span class="s2">"ca-certificates"</span>
-<span class="c"># GNU database manager</span>
-brew <span class="s2">"gdbm"</span>
-<span class="c"># Automate deployment, configuration, and upgrading</span>
-brew <span class="s2">"ansible"</span>
-<span class="c"># Library and utilities for processing GIFs</span>
-brew <span class="s2">"giflib"</span>
-...
-<span class="c"># Redis desktop manager</span>
-cask <span class="s2">"another-redis-desktop-manager"</span>
-<span class="c"># Allows connection to a computer remotely</span>
-cask <span class="s2">"anydesk"</span>
-<span class="c"># Two-factor authentication software</span>
-cask <span class="s2">"authy"</span>
-<span class="c"># Dummy Display for Apple Silicon Macs to achieve custom resolutions</span>
-cask <span class="s2">"betterdummy"</span>
-...
-mas <span class="s2">"AngryBirdsReloaded"</span>, <span class="nb">id</span>: 1539172625
-mas <span class="s2">"Asphalt 8+"</span>, <span class="nb">id</span>: 1563005359
-mas <span class="s2">"BombSquad"</span>, <span class="nb">id</span>: 416482767
-mas <span class="s2">"Bridge Constructor+"</span>, <span class="nb">id</span>: 1587908263
-...
-</code></pre></div></div>
-
-<p>整个备份的内容包含  4 个部分，也正好包含了，我上面讲到的所有 brew 命令</p>
-
-<ul>
-  <li>brew tap 中的软件库</li>
-  <li>brew 安装的命令行工具</li>
-  <li>brew cask 安装的 App</li>
-  <li>Mac App Store 安装的 App  <code class="language-plaintext highlighter-rouge">这里也就是用上面的 mas</code></li>
-</ul>
-
-<h3 id="快速恢复软件">快速恢复软件</h3>
-
-<p>以下是你的新 Mac 上要做的事情，你需要把自己的 <code class="language-plaintext highlighter-rouge">Brewfile</code> 转移到新的 Mac 上，软件需要安装基础的工具:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 安装 Homebrew</span>
-➜  ~ /usr/bin/ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
-<span class="c"># 安装 mas</span>
-➜  ~ brew <span class="nb">install </span>mas
-</code></pre></div></div>
-
-<p>基础环境安装好了，之后，就可以进行软件恢复啦</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 批量安装软件 </span>
-➜  ~ brew bundle <span class="nt">--file</span><span class="o">=</span><span class="s2">"~/Desktop/Brewfile"</span>
-</code></pre></div></div>
-
-<p>软件实际恢复的速度取决于你的网络状态，不过 brew bundle 可以重复执行，你是可以中断恢复的。</p>
-
-<h2 id="结语">结语</h2>
-
-<p>好了，以上就是我关于 Mac 下软件安装神器 <code class="language-plaintext highlighter-rouge">brew</code>  的使用分享啦，这里大概涵盖了你 95% 的使用需求，如果你发现仍有疑问，欢迎与我取得联系，或者使用 Google 解决剩下的问题。</p>
-
-<p>文档内容，可能会随着时间推移有不适用的情况，若遇到冲突以官方说明为准。</p>
+<p>以上调整之后，基本就可以正常跑起来了，基本是可以支持Python3的使用，我试过了Python3.6-3.9，都是OK的。</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2019-07-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
+      <cite>2022-05-03</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/04/GitHub-Pages-%E7%9A%84%E5%A6%99%E7%94%A8.html">GitHub Pages 的妙用</a></h1>
+    <div class="post_at_index">
+      <h2 id="本来是想好好工作的">本来是想好好工作的</h2>
+
+<p>最近换了新工作（后面找个时间好好说说），大量接触 k8s &amp; docker，开始写了比较多的 yaml 和 Dockerfile；散落在电脑上的话，还是很不方便，有个仓库管理起来的话，就会很方便了，于是有了这个项目 <a href="https://github.com/SAMZONG/k8s-yaml">samzong/k8s-yaml</a></p>
+
+<p>k8s-yaml 一开始的定义就是 public ，希望给更多其他的人提供帮助，索性就再增加了一个网页吧</p>
+
+<h2 id="一分钟快速搭建网站">一分钟快速搭建网站</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch gh-pages
+<span class="nb">echo</span> <span class="s2">"## Hello gh-pages"</span> <span class="o">&gt;</span> index.md
+git push origin gh-pages
+</code></pre></div></div>
+
+<p>eeen…. 这样就 ok ！</p>
+
+<p><code class="language-plaintext highlighter-rouge">gh-pages</code> 是每个 GitHub 仓库的默认 github pages 分支，当你创建这个分支并推动到 GitHub 时，会自动触发 Pages 的构建任务，大约30s 左右，你就会得到一个网站</p>
+
+<blockquote>
+  <p>http://[github_username].github.io/[github_repo_name]</p>
+</blockquote>
+
+<h2 id="简单的配置">简单的配置</h2>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/X4tbDt.png?x-oss-process=image/resize,w_960,m_lfit" alt="X4tbDt" /></p>
+
+<p>上图简单指引了如何打开 GitHub Pages 的配置路径，下面对主要的几个模块进行说明:</p>
+
+<ol>
+  <li>Source  - 指定的 以那个分支作为 built 源和文件夹，默认是 gh-pages, 建议不动，统一认知</li>
+  <li>Theme Chooser - 选择对应的博客主题，大概有 10 个，都比较普通，根据自己喜好来，可以自定义，这里不展开 (Google Jekyll themes 一大堆</li>
+  <li>Custom Domain - 可以指定默认的特定的域名，需要配置 <code class="language-plaintext highlighter-rouge">/CNAME</code>，需要和这里的域名一致，同时域名解析需要配置好 CNAME</li>
+  <li>Enforce HTTPS - 启用 HTTPS，默认不启动，建议启用</li>
+</ol>
+
+<blockquote>
+  <p>CNAME 配置，将指定的域名指向到 <code class="language-plaintext highlighter-rouge">[github_username].github.io</code></p>
+</blockquote>
+
+<p>经过简单的配置，这个仓库的网站，已经完成了你想要的； 在 <code class="language-plaintext highlighter-rouge">index.md</code> 内修改为你想要的内容。</p>
+
+<h2 id="高级功能结合-github-issue-的评论功能">高级功能：结合 GitHub issue 的评论功能</h2>
+
+<p>这里采用的 评论组件是 <a href="https://utteranc.es/">utterances</a>, 提供轻量级的博客评论功能，并且评论是直接创建 GitHub issue，方便管理</p>
+
+<p>这里不赘述安装细节的，比较简单，直接去看下面几个网站即可</p>
+
+<ul>
+  <li>https://utteranc.es/</li>
+  <li>https://roife.github.io/2021/02/12/use-utterances-for-comment/</li>
+  <li>https://www.evanlin.com/jekyll-remove-disqus/</li>
+</ul>
+
+<blockquote>
+  <p>注意需要增加的文件</p>
+</blockquote>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir _layouts
+wget https://raw.githubusercontent.com/SAMZONG/k8s-yaml/gh-pages/_layouts/post.html -o _layouts/post.html
+</code></pre></div></div>
+
+<p>index.md 增加 layout 参数，追加在最顶部</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">layout</span><span class="pi">:</span> <span class="s">post</span>
+<span class="nn">---</span>
+</code></pre></div></div>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add _layouts/post.html
+git add index.md
+
+git commit <span class="nt">-m</span> <span class="s2">"add comment module with utterances"</span>
+git push origin gh-pages
+</code></pre></div></div>
+
+<h2 id="end">End</h2>
+
+<p>以上就是全部的部署内容了，可以去看下我的网站和项目</p>
+
+<ul>
+  <li>https://k8s-yaml.samzong.me</li>
+</ul>
+
+<p>如果你觉得喜欢，求 fork，求 star</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-22</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Github">Github</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/04/%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E7%AB%9E%E5%93%81.html">需要了解的 K8s 发行版本</a></h1>
+    <div class="post_at_index">
+      <h2 id="k8s-的发行版本">K8s 的发行版本</h2>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/6ngC8v.png" alt="6ngC8v" /></p>
+
+<p>开始学习喜欢的东西，上面的每一个都要了解</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-19</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#K8s">K8s</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/04/CKA-%E8%80%83%E8%AF%95%E5%87%86%E5%A4%87.html">CKA 考试准备</a></h1>
+    <div class="post_at_index">
+      <h2 id="汇总">汇总</h2>
+
+<p>本来预计 4 月 10 号左右，可以开始准备 CKA 的考试了，因为疫情在家办公，再加上报名去做志愿者，所以这个时间耽搁到了现在才开始</p>
+
+<h3 id="时间成本">时间成本</h3>
+
+<p>在这里记录下整个学习过程，也给大家预估下，不走培训机构，自学大概需要多久的时间</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>时间</th>
+      <th>事项</th>
+      <th>耗费时间</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2022-04-16</td>
+      <td>了解什么是 CKA 和考试内容,捡起来 Docker 的知识, 个人项目转为 Docker Image 并推送到 dockerhub</td>
+      <td>1d</td>
+    </tr>
+    <tr>
+      <td>2022-04-17</td>
+      <td>在个人电脑上成功运行起来 K8s 的环境，并完成个人项目部署</td>
+      <td>1d</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="体会">体会</h3>
+
+<ul>
+  <li>有段时间没回过头来弄代码了，平时写比较多是项目上的小脚本，系统化把一个项目改造为 Docker image，再来了一遍，整个优化过程的感觉还是很舒服的</li>
+</ul>
+
+<h2 id="学习资料">学习资料</h2>
+
+<h3 id="培训机构的大纲">培训机构的大纲</h3>
+
+<p>大致培训时间是 3 天，给自己预估的学习时间大概是 一周左右的时间</p>
+
+<ul>
+  <li>CKA最新考纲解读与Kubernetes入门（Day 1/上午）
+    <ul>
+      <li>CKA考试大纲解读</li>
+      <li>Kubernetes基本概念与应用场景</li>
+      <li>Kubernetes主要功能特性、集群架构与组件</li>
+      <li>使用kubeadm安装集群与版本升级</li>
+      <li>etcd数据备份与还原</li>
+      <li>kubectl使用、shell自动补</li>
+    </ul>
+  </li>
+  <li>Kubernetes工作负载、调度与Helm（Day 1/下午）
+    <ul>
+      <li>Pod基本操作、生命周期、回调与探针</li>
+      <li>初始化与临时容器</li>
+      <li>使用Deployment部署自修复无状态服务</li>
+      <li>使用Deployment滚动更新/回滚/扩缩无状态服务</li>
+      <li>使用StatefulSet部署有状态服务</li>
+      <li>使用DaemonSet部署守护进程</li>
+      <li>深入理解控制器工作原理</li>
+      <li>使用ConfigMaps和Secrets配置应用程序</li>
+      <li>Kubernetes调度策略实践</li>
+      <li>资源限制如何影响Pod调度</li>
+      <li>理解调度器工作原理</li>
+      <li>各种调度策略使用场景总结</li>
+      <li>使用Helm部署/升级/回滚/下线服务</li>
+      <li>Helm回调与Chart编写</li>
+    </ul>
+  </li>
+  <li>Kubernetes服务与网络（Day 2/上午）
+    <ul>
+      <li>定义Service与Endpoint</li>
+      <li>Service Iptables与IPVS代理模式</li>
+      <li>通过Service名称与ClusterIP集群内互访</li>
+      <li>通过NodePort、Ingress、LoadBalancer集群外访问</li>
+      <li>CoreDNS原理介绍</li>
+      <li>配置和使用CoreDNS</li>
+      <li>同Pod/同Node/跨Node/跨集群互通性</li>
+      <li>常见网络接口插件工作原理与适用场景</li>
+      <li>常见网络故障排查</li>
+    </ul>
+  </li>
+  <li>Kubernetes存储与安全（Day 2/下午）
+    <ul>
+      <li>Volume、PV、PVC、StorageClass</li>
+      <li>卷模式、访问模式和卷回收策略</li>
+      <li>理解持久容量声明原语</li>
+      <li>了解如何配置具有持久性存储的应用程序</li>
+      <li>认证、授权与鉴权</li>
+      <li>管理基于角色的访问控制（RBAC）</li>
+      <li>Pod和容器操作权限安全策略</li>
+      <li>Network Policy</li>
+    </ul>
+  </li>
+  <li>Kubernetes监控日志、故障排查（Day 3/上午）
+    <ul>
+      <li>如何监控一个Kubenetes应用</li>
+      <li>查看与管理集群和节点日志</li>
+      <li>管理容器标准输出和标准错误日志</li>
+      <li>如何解决应用程序故障</li>
+      <li>对群集组件故障进行故障排除</li>
+      <li>Kubernetes其他常见问题定位</li>
+    </ul>
+  </li>
+  <li>CKA考试注意事项与模拟演练（Day 3/下午）
+    <ul>
+      <li>CKA真题演练与解析【重点】</li>
+      <li>CKA考试注意事项及应试答疑</li>
+    </ul>
+  </li>
+</ul>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-18</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Docker">Docker</a>
+      , 
+      <a href="/tags.html#K8s">K8s</a>
       
       
       
@@ -1613,7 +1245,7 @@ mas <span class="s2">"Bridge Constructor+"</span>, <span class="nb">id</span>: 1
             
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page15">15</a></li>
+          <li><a href="/page20">20</a></li>
         
 
         
@@ -1684,7 +1316,7 @@ mas <span class="s2">"Bridge Constructor+"</span>, <span class="nb">id</span>: 1
      
     	
       <li><a href="/categories.html#Git">
-    		Git <span>5</span>
+    		Git <span>6</span>
     	</a></li>
      
     	
@@ -1724,7 +1356,7 @@ mas <span class="s2">"Bridge Constructor+"</span>, <span class="nb">id</span>: 1
      
     	
       <li><a href="/categories.html#Python">
-    		Python <span>7</span>
+    		Python <span>45</span>
     	</a></li>
      
     	
@@ -1769,7 +1401,7 @@ mas <span class="s2">"Bridge Constructor+"</span>, <span class="nb">id</span>: 1
      
     	
       <li><a href="/categories.html#Docker">
-    		Docker <span>4</span>
+    		Docker <span>6</span>
     	</a></li>
      
     	
@@ -1828,6 +1460,36 @@ mas <span class="s2">"Bridge Constructor+"</span>, <span class="nb">id</span>: 1
     	</a></li>
      
     	
+      <li><a href="/categories.html#SQL">
+    		SQL <span>5</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Node">
+    		Node <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#BI">
+    		BI <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#NaN">
+    		NaN <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#微服务">
+    		微服务 <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#ClickHouse">
+    		ClickHouse <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#闲聊">
     		闲聊 <span>3</span>
     	</a></li>
@@ -1863,13 +1525,13 @@ mas <span class="s2">"Bridge Constructor+"</span>, <span class="nb">id</span>: 1
     	</a></li>
      
     	
-      <li><a href="/categories.html#云原生">
-    		云原生 <span>1</span>
+      <li><a href="/categories.html#Gitlab">
+    		Gitlab <span>1</span>
     	</a></li>
      
     	
-      <li><a href="/categories.html#微服务">
-    		微服务 <span>1</span>
+      <li><a href="/categories.html#云原生">
+    		云原生 <span>1</span>
     	</a></li>
     
   
@@ -1883,40 +1545,41 @@ mas <span class="s2">"Bridge Constructor+"</span>, <span class="nb">id</span>: 1
       <ul>
         
         <li>
-          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
+          <a href="/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过pipreqs获取当前项目的依赖库</a>
+          如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a>
           
-  参考资料：
+  strip() 删除字符串中的内容，删除后仍旧是str
+  split() 分割字符串，根据特定的标识，分割后=list
 
 
 
         </li>
         
         <li>
-          <a href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s系列 南北流量和东西流量</a>
-          南北流量和东西流量 是什么意思？
+          <a href="/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a>
+          ```python
+import string
 
 
         </li>
         
         <li>
-          <a href="/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8.html">jq 命令行 Json 处理神器</a>
-          
-  https://mozillazg.com/2018/01/jq-use-examples-cookbook.htm-
-
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/07/%E9%97%AD%E5%85%B3%E5%A4%87%E6%88%98-11%E6%9C%88.html">闭关备战 11月</a>
-          目标
+          <a href="/post/2022/11/python3-setup.py-help-commands.html">python3 setup.py --help-commands</a>
+          ```python
+→ python3 setup.py –help-commands
 
 
         </li>
         
         <li>
-          <a href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a>
-          背景
+          <a href="/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入excel</a>
+          以下是使用的方法：
 
 
         </li>

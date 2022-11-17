@@ -201,6 +201,26 @@
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
@@ -244,328 +264,18 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2016/11/Denyhosts%E5%A2%9E%E5%8A%A0%E6%9C%8D%E5%8A%A1%E5%99%A8SSH%E9%BB%91%E5%90%8D%E5%8D%95%E6%9C%BA%E5%88%B6.html">Denyhosts增加服务器SSH黑名单机制</a></h1>
+    <h1><a class="title" href="/post/2020/12/covert-timestamp2datetime.html">covert timestamp2datetime</a></h1>
     <div class="post_at_index">
-      <h5 id="查看当前服务器失败登录的统计">查看当前服务器失败登录的统计：</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat /var/log/secure | awk '/Failed/{print $(NF-3)}' | sort | uniq -c | sort -n |  awk '{print $2" = "$1}'
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="n">datetime</span><span class="p">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">json</span><span class="p">()[</span><span class="s">"updated_at"</span><span class="p">]</span> <span class="o">/</span><span class="mi">1000</span><span class="p">)).</span><span class="n">strftime</span><span class="p">(</span><span class="s">'%Y-%m-%d %H:%M:%S'</span><span class="p">)</span>
 </code></pre></div></div>
-<h5 id="install-denyhosts">Install denyhosts</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 需要预先安装epel源
-sudo yum install -y epel-release
-sudo yum install -y denyhosts
-</code></pre></div></div>
-<h5 id="配置文件解析">配置文件解析</h5>
-<p>默认配置文件/etc/denyhosts。</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 查看的sshd日志文件
-SECURE_LOG = /var/log/secure
-
-# 将阻止IP写入的配置文件
-HOSTS_DENY = /etc/hosts.deny
-
-# 过多久之后清除，其中w代表周，d代表天，h代表小时，s代表秒，m代表分钟。
-PURGE_DENY = 4h
-
-# 阻止的服务名称
-BLOCK_SERVICE  = sshd
-
-# 允许无效用户（在/etc/passwd未列出）登录失败次数,允许无效用户登录失败的次数.
-DENY_THRESHOLD_INVALID = 1
-
-# 允许普通用户登录失败的次数
-DENY_THRESHOLD_VALID = 5
-
-# 允许root登录失败的次数
-DENY_THRESHOLD_ROOT = 2
-DENY_THRESHOLD_RESTRICTED = 1
-
-# 设定 deny host 写入到该资料夹
-WORK_DIR = /var/lib/denyhosts
-
-# 将deny的host或ip纪录到Work_dir中
-SUSPICIOUS_LOGIN_REPORT_ALLOWED_HOSTS=YES
-
-# 是否做域名反解
-HOSTNAME_LOOKUP=YES
-
-# 将DenyHOts启动的pid纪录到LOCK_FILE中，已确保服务正确启动，防止同时启动多个服务。
-LOCK_FILE = /var/lock/subsys/denyhosts
-
-# 设置管理员邮件地址
-ADMIN_EMAIL = luchuanjia@msn.com
-SMTP_HOST = localhost
-SMTP_PORT = 25
-SMTP_FROM = DenyHosts &lt;nobody@localhost&gt;
-SMTP_SUBJECT = DenyHosts Report from $[HOSTNAME]
-
-# 有效用户登录失败计数归零的时间
-AGE_RESET_VALID=1d
-
-# root用户登录失败计数归零的时间
-AGE_RESET_ROOT=25d
-
-# 用户的失败登录计数重置为0的时间(/usr/share/denyhosts/data/restricted-usernames)
-AGE_RESET_RESTRICTED=25d
-
-# 无效用户登录失败计数归零的时间
-AGE_RESET_INVALID=10d
-
-# denyhosts的日志文件位置
-DAEMON_LOG = /var/log/denyhosts
-
-# denyhosts的轮询时间
-DAEMON_SLEEP = 30s
-
-# 该项与PURGE_DENY 设置一样，也是清除hosts.deny中 ssh用户的时间
-DAEMON_PURGE = 1h
-</code></pre></div></div>
-
-<h5 id="faq">FAQ</h5>
-
-<ol>
-  <li>如果想删除一个已经禁止的主机IP，并加入到允许主机例表，只在 /etc/hosts.deny 删除是没用的,还需要以下：
-```
-/var/lib/denyhosts 目录，进入以下操作：
-    <h1 id="停止denyhosts服务">停止denyhosts服务</h1>
-    <p>sudo service denyhosts stop</p>
-  </li>
-</ol>
-
-<h1 id="进入denyhosts的目录">进入denyhosts的目录</h1>
-<p>cd /var/lib/denyhosts</p>
-
-<h1 id="查看哪些文件添加了ssh限制将ip_addr替换成你的ip">查看哪些文件添加了ssh限制,将IP_addr替换成你的IP</h1>
-<p>sudo grep IP_addr /usr/share/denyhosts/data/*</p>
-
-<h1 id="然后一个个删除文件中你想取消的主机ip所在的行">然后一个个删除文件中你想取消的主机IP所在的行:</h1>
-<p>/usr/share/denyhosts/data/hosts
-/usr/share/denyhosts/data/hosts-restricted
-/usr/share/denyhosts/data/hosts-root
-/usr/share/denyhosts/data/hosts-valid
-/usr/share/denyhosts/data/users-hosts</p>
-
-<h1 id="添加你想允许的主机ip地址到allowed-hosts">添加你想允许的主机IP地址到allowed-hosts:</h1>
-<p>sudo echo IP_addr »/usr/share/denyhosts/data/allowed-hostsps</p>
-
-<h1 id="启动-denyhosts服务">启动 DenyHosts服务：</h1>
-<p>service denyhosts start
-```</p>
-
-<h5 id="tips">Tips</h5>
-
-<ul>
-  <li>尽量是用key验证登录服务器</li>
-  <li>尽量从固定IP点登录服务器，然后将该地址加入白名单</li>
-</ul>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-11-23</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#DenyHosts">DenyHosts</a>
-      , 
-      <a href="/tags.html#Tools">Tools</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/11/Python-1-%E5%9F%BA%E7%A1%80.html">Python 基础</a></h1>
-    <div class="post_at_index">
-      <p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;
-&lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd”&gt;</p>
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="exporter-version" content="Evernote Mac 6.10 (454269)" /><meta name="author" content="Alex LU" /><meta name="created" content="2016-09-29 02:27:16 +0000" /><meta name="source" content="desktop.mac" /><meta name="updated" content="2016-09-29 06:27:40 +0000" /><title>Python学习笔记(1) --Python基础</title></head><body>
-<ol>
-<li>输出： print
-<ol>
-<li>python2：print 'Hello Python'</li>
-<li>python3: print(‘Hello Python')</li>
-<li>python(‘10+20=‘,10+20)</li>
-</ol>
-</li>
-<li>输入：
-<ol>
-<li>python2：raw_input()</li>
-<li>python3: input()</li>
-</ol>
-</li>
-<li>python的语法比较简单，采用缩进的方式：</li>
-</ol>
-<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">
-<div>a = 100</div>
-<div>if a &gt;= 0:</div>
-<div>     print(a)</div>
-<div>else:</div>
-<div>     print(-a)</div>
-<div><br /></div>
-<div>&amp; diff &amp;</div>
-<div>a = 100</div>
-<div>if a &gt;=0:</div>
-<div>print(a)</div>
-<div>else:</div>
-<div>print(-a)</div>
-</div>
-<ol start="4">
-<li># 开头为注释；: 结尾，缩进的语句视为代码块；Python大小写是敏感的，约定俗成：4个空格的缩进，可以吧tab设置为4个空格。</li>
-<li>Python 的数据类型
-<ol>
-<li>整数：python可以处理任意大小的整数</li>
-<li>浮点数：也就是小数，之所以称之为浮点数，因为按照科学计数法表示时，一个浮点数的小数点位置是可变的</li>
-<li>字符串：字符串是以’’和”” 包括起来的任意文本，例如’abc’,”xyz”；如果字符内部同时包含’和”，可以使用\转义字符来标识。
-<ol>
-<li>如果字符串内部有很多换行，用\n不好阅读，python支持使用’’’…’’' 的格式表示多行‘</li>
-<li>r’…'  python可以使用r’’表示’'以内的字符不转义;多行: r’’’…’''</li>
-</ol>
-</li>
-<li>布尔值：布尔值和布尔代数表示的完全一致，一个布尔值只有True和False，python支持直接使用True和False表示布尔值，注意大小写，另外最好不要生命变量时使用True等，布尔值，经常用于在条件判断之中。
-<ol>
-<li>and : 与运算，所有运算结果都是True，and的结果才是True</li>
-<li>or：或运算，只有1个运算结果为True，or的结果就是True</li>
-<li>not：他是一个单目运算符，取相反的值</li>
-</ol>
-</li>
-<li>空值：python里的一个特殊值，用None表示，注意None不能理解为0，因为0是有意义的，而None是一个特殊的空值</li>
-</ol>
-</li>
-<li>python的变量
-<ol>
-<li>命名规则：必须是大小写英文，数字和_的组合，且不能用数字开头；</li>
-<li>赋值符号：’=’；等于的符号是’==’</li>
-<li>动态语言：变量本身类型不固定的语言称之为动态语言，反之是静态语言，静态语言在定义变量时必须制定变量的数据类型，如果赋值的时候类型不匹配，就会报错；</li>
-<li>变量在计算机内存中的表示：a=1,指的是python在内存中创建了整数1，然后在内存创建了变量a，并把它指向了整数1</li>
-</ol>
-</li>
-<li>python的常量
-<ol>
-<li>定义：常量就是不能改变的变量，在python中，通常使用全部大写的变量名表示常量</li>
-<li>整数的除法是精确的，因为除法计算结果是浮点数，例如 9/3 结果为3.0 ; 另外一种除法是’//‘ 地板除，两个整数的除法任然是整数；余数运算’%’</li>
-</ol>
-</li>
-<li>字符编码：字符串是一种数据类型，但是字符串还涉及到一个编码问题，Python3的字符串是支持多语言的
-<ol>
-<li>ord(‘')函数 获取字符的整数表示；</li>
-<li>chr(‘')函数 把编码转换成对应的字符；</li>
-<li>python的字符串类型是str，在内存中以Unicode表示，一个字符对应若干字节，但是如果要在网络传输或者保存到磁盘，就要把str转化为单位的bytes；
-<ol>
-<li>python对于bytes的数据类型用带b前缀的单引号或双引号表示：</li>
-<li>另外，Unicode表示的str可用encode()函数，指定编码为bytes。 ‘ABC’ .encode(‘utf-8')</li>
-<li>decode() 可以吧bytes转变为str。b'ABC' .decode('ascii')</li>
-<li>要计算str包含了多少个字符使用 len()函数： len(‘hello’) ,结果为5</li>
-</ol>
-</li>
-<li style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">#!/usr/bin/env python3<br />
-# -*- coding: utf-8 -*-</li>
-</ol>
-</li>
-<li>格式化： 如何处理格式化输出字符串，在python中使用的格式化方式和C语言是一致的，用’%’实现：
-<ol>
-<li>%d 表示整数</li>
-<li>%f 表示浮点数</li>
-<li>%s 表示字符串，如果不确定用什么，用%s，它会把任何数据类型转换为字符串</li>
-<li>%x 表示十六进制整数</li>
-<li>%% 表示一个普通的%</li>
-</ol>
-</li>
-<li>数据类型list和tuple
-<ol>
-<li>list是python内置的一种数据类型：列表，list是一个有序的集合，可以随时添加和删除其中元素。
-<ol>
-<li>classmates = [‘Michael’,’Bob’,’Tracy’]， 可以用len()函数获取这个list的元素的个数</li>
-<li>可以用索引来访问list中的每一个位置的元素，记住索引的第一个位置是0：</li>
-<li>当索引超出范围的时候，python会报出IndexError错误，记得最后一个索引是len(classmates) -1</li>
-<li>如果直接取出最后一个索引可用classmates[-1],以此类推</li>
-</ol>
-</li>
-<li>list是一个可变的有序列表，所以可以去追加，插入指定位置，删除，替换等操作，支持不同数据类型，支持嵌套list
-<ol>
-<li>追加: classmates.append(‘Adam')</li>
-<li>插入指定位置: classmates.insert(2,’Jack')</li>
-<li>删除list末尾的元素： classmates.pop()</li>
-<li>删除指定位置的元素: classmates.pop(1)</li>
-<li>替换元素：classmates[1]=‘Sarch’ ， 直接给相应位置的元素重新赋值即可</li>
-<li>list的元素支持不同的数据类型, L = [‘abc’,23,23.4]</li>
-<li>list的元素支持嵌套另外一个list： s = [‘abc',123,[‘XYZ’,2.34]]，注意这个时候len(s)的元素是3个</li>
-<li>list也可以没有元素，就是一个空的list，它的长度为0</li>
-</ol>
-</li>
-<li>tuple：元组，也是一种有序列表，但是tuple一旦初始化就不能修改，他没有append()也没有insert()，这样的方法，其他获取元素的方式和list一样，也不能赋值成为另外的元素：
-<ol>
-<li>classmates = (‘Michael’,’Bob’,’Tracy’) 注意list用的是’[]’，而tuple用的是’()’</li>
-<li>tuple 有个问题，当你定义1个元素的时候，tuple的()和数学公式中的小括号混淆 ，因此python规定，这种情况下面，当定义只有1个tuple时必须增加一个逗号’,’来消除歧义。</li>
-<li>tuple的元素也可以为list或者tuple，tuple的元素不会改变，但是list是一个可以改变的有序数列，所以当tuple中包含list时，这个tuple是’可变的'</li>
-</ol>
-</li>
-<li>取出特定元素： L[[‘Apple’,’Google’,’Microsoft’],[‘Java’,’Python’,’C’]] ; L[1][1] = ‘Python'</li>
-</ol>
-</li>
-<li>条件判断
-<ol>
-<li>if：根据python的缩进规则，如果if语句的判断是True，就会执行下面的语句，否则什么都不做</li>
-<li>else：也可以个if添加else，意思就是，如果if的判断是false，不要执行if的内容，执行else的内容</li>
-<li>elif：如果要嵌套多级判断条件的话，使用elif，elif 是else if的缩写</li>
-<li>if语句执行有个特点，它是自上而下的判断，如果某个判断的结果是True，那么执行该判断对应的语句，就会忽略掉剩下的所有elif和else，if判断条件还可以简写: if x: 只要x是非零数值、非空字符串、非空list等，就判断为True，</li>
-</ol>
-</li>
-<li>iput(): 需要注意的地方，默认input的返回类型是str，由于str不能直接整数比较，所以在碰到明明输入200，但是不能和201对比时，记住先要把str转化为整数，python提供了int()函数, 转化数据类型为int类型，但是如果输入’abc’则会得到1个ValueError的错误</li>
-<li>循环
-<ol>
-<li>for…in ： 依次把list或者tuple的每个元素迭代出来，for x in … ：循环就是把每个元素带入变量x，然后执行缩进的语句：</li>
-<li>range()函数：用来生成一个整数序列，再通过list()函数转换为list，例如range(5)生成：0,1,2,3,4
-<ol>
-<li>list(range(5)) = [0,1,2,3,4]</li>
-<li>计算1+...+100的结果： for x in range(101): sum = sum +x</li>
-</ol>
-</li>
-<li>while 循环： 只要条件满足，就不断循环，条件不足时退出循环：
-<ol>
-<li>计算100以内所有奇数之和： sum = 0,n = 99, while n &gt; 0: sum =sum +n; n = n-2</li>
-</ol>
-</li>
-<li>break: 在循环中，break语句可以提前退出循环，当程序执行满足break条件的时候，就会退出循环</li>
-<li>continue: 在循环过程中，也可以通过continue语句，跳过当前的这次循环。</li>
-<li>注意：循环是让计算机做重复任务的有效方法，break语句可以在循环过程总直接退出循环，continue语句可以提前结束本轮循环，并直接进入下一轮循环，这两个语句通常必须配合if语句使用，但是尽量不要滥用这两个语句，因为当break和continue使用过多会导致代码执行逻辑分支过多，容易出错。</li>
-</ol>
-</li>
-<li>dict和set
-<ol>
-<li>dict： python内置了字典：dict的支持，全称：dictionary，在其他语言中也称之为map，使用键值存储，具有极快的查找速度。</li>
-<li>对比list处理方式：会过滤整个list的元素，这导致list越长，耗时越长；dict实现时，只需要创建key-values对应表，直接根据名字查找，无论这个表有多大，查找速度都不会变慢，但是内存消耗会大，典型用性能(内存空间)换时间。</li>
-<li>dict的初始化: d {‘Michael’:95,’Bob’:75,’Tracy’:85}  # 注意dict使用的是大括号’{}‘</li>
-<li>dict的数据插入： d [‘Adam’] = 67 </li>
-<li>由于dict是根据key检索，所以key是固定的，一个key只能对应1个value,所以当对1个key多次放入value时，后面的值会把前面的值冲掉： （类似变量）</li>
-<li>但是如果查询的key不存在,dict会报错，KeyError，可以用in 判断key是否存在: ‘key’ in d  : True/False</li>
-<li>通过dict的get方法，如果key不存在，可以返回None，或者自己指定的值，d.get(‘Key’) , d.get(‘key’,-1)</li>
-<li>d.pop('key’): 删除1个key，注意当key被删除是，相应的value也会被删除。</li>
-<li>另外注意：dict内部存放的顺序和key放入的顺序是没有关系的：</li>
-<li>dict应在需要高速查找的地方，正确使用dict非常重要，要牢记1点，dict的key必须是不可变的对象，因为dict是根据key来计算value的位置，如果每次计算相同的key得到的结果不一样，那么dict内部就完全混乱了，这个通过key计算位置的算法称之为Hash算法。</li>
-<li>要保证hash的准确性，作为key的对象就不能改变，在python中，字符串·整数等都是不可变的，但是list是可以变的所以不能作为key</li>
-<li>set： set和dict类似，也是一组key的集合，但是不存储value，由于key不能重复，所以，在set中，没有重复的key值。</li>
-<li>要创建一个set，需要提供一个list作为输入集合。 s = set([1,2,3])   : s = {1,2,3}</li>
-<li>注意set也不是有序的，而且重复在set存在的元素会被自动过滤： s = set([1,2,3,1,2,3,1,2,3])  s = {1,2,3}</li>
-<li>通过s.add(key) 可以增加元素到set中，可以重复添加，但是不会有效果</li>
-<li>通过s.remove(key) 可以删除元素</li>
-<li>set 可以看成数学意义上的无序和无重复元素的集合，因此两个set可以做数学意义上的交集、并集能操作：
-<ol>
-<li>s1 = set([1,2,3]), s2 = set([2,3,4]) ,交集： s1 &amp; s2 = {2,3} ; s1 | s2 = {1,2,3,4}</li>
-</ol>
-</li>
-<li>set和dict的区别仅在于有没有存储对应的value，但是set和dict的原理是一样的，所以，同样不可以放置可变对象，因为无法判断两个对象是否相等，也就无法保证set内部的不会重复元素</li>
-<li>不可变对象：str是不变对象，list是可变对象；对于可变对象，例如list，对list进行操作，list的内部会发生变化</li>
-<li>a = ‘abc’ , a.replace(‘a’,’A’) # 这个操作是把所有小写的a替换成大写的A，但是注意a的值并没有发生改变，要牢记a是变量，’abc'才是字符对象。</li>
-</ol>
-</li>
-</ol>
-</body>
-</html>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-11-10</cite> <i class="icon-tag"></i>
+      <cite>2020-12-09</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Python">Python</a>
       
       
@@ -575,60 +285,78 @@ DAEMON_PURGE = 1h
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/11/MySQL-5-%E6%B8%85%E7%A9%BA%E8%A1%A8%E5%91%BD%E4%BB%A4%E4%B9%8B-truncate%E4%B8%8Edelete%E5%8C%BA%E5%88%AB.html">MySQL 清空表命令之：truncate与delete 区别</a></h1>
+    <h1><a class="title" href="/post/2020/12/python-%E5%AE%8C%E6%88%90%E6%8A%96%E5%BA%97API%E6%8E%88%E6%9D%83.html">python 完成抖店API授权</a></h1>
     <div class="post_at_index">
-      <p>       在实际工作中，有时我们会想要去清空一张表的所有数据，常用的命令有delete和truncate这两个命令。</p>
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 
-<h3 id="1-delete">1. delete</h3>
-<p>       在很多情况，我们对于delete的应用更多，因为它支持更多的匹配模式，我们可以使用where条件语句，清理一些特定的数据，关于delete的操作，这里不做过多解释，有空就专门写写delete的使用和原理。delete 在清空表时，如果表内有自增ID的设定，那么在delete清空之后，再插入数据时，自增ID不会从1开始，默认会继续增加; 除非我们使用OPTIMIZE TABLE，重置表属性；</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; delete from piwik_tmp;
-Query OK, 0 rows affected (0.00 sec)
-</code></pre></div></div>
+<span class="c1"># 替换 app_key, app_secret
+</span><span class="n">app_key</span> <span class="o">=</span> <span class="s">"1122233333444555"</span>
+<span class="n">app_secret</span> <span class="o">=</span> <span class="s">"beddee55a0-reerw2452ff4-5deeweec2d7faf1"</span>
 
-<h3 id="2-truncate">2. truncate</h3>
-<p>       truncate 在清空表时，会同时将自增ID重置，再插入新数据时会从1开始，而且truncate在清空表时，不关心表的行数，所以执行效率会高于delete；</p>
+<span class="n">current_time</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()))</span>
+<span class="n">timestamp</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="p">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">current_time</span><span class="p">()))</span>
+<span class="n">param_json</span> <span class="o">=</span> <span class="s">"{</span><span class="se">\"</span><span class="s">page</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">0</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">size</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">10</span><span class="se">\"</span><span class="s">}"</span>
+<span class="n">method</span> <span class="o">=</span> <span class="s">"product.list"</span>
+<span class="n">v</span> <span class="o">=</span> <span class="s">"2"</span>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; truncate table piwik_tmp;
-Query OK, 0 rows affected (0.01 sec)
 
-</code></pre></div></div>
+<span class="k">def</span> <span class="nf">access_token</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">"https://openapi-fxg.jinritemai.com/oauth2/access_token?app_id="</span> <span class="o">+</span> <span class="n">app_key</span> <span class="o">+</span> <span class="s">"&amp;app_secret="</span> <span class="o">+</span> <span class="n">app_secret</span> <span class="o">+</span> <span class="s">"&amp;grant_type=authorization_self"</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
 
-<h3 id="3-释放表空间">3. 释放表空间</h3>
-<p>       但是在truncate清空表数据时，myisam的表和innodb的表在使用上有一定的区别；myisam表会清空所有数据，并释放表空间，即硬盘空间会得到释放。innodb表也会清空所有数据，但不释放表空间。Innodb数据库对于已经删除的数据只是标记为删除，并不真正释放所占用的磁盘空间，这就导致InnoDB数据库文件不断增长。如果想彻底释放这些已经删除的数据，需要把数据库导出，删除InnoDB数据库文件，然后再导入。</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 备份数据库：
-mysqldump -u -p --quick --force --all-databases &gt; mysqldump.sql
+    <span class="k">return</span> <span class="n">req</span><span class="p">.</span><span class="n">json</span><span class="p">()[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'access_token'</span><span class="p">]</span>
 
-# 停止数据库
-service mysqld stop
 
-# 删除这些大文件
-rm /usr/local/mysql/var/ibdata1
-rm /usr/local/mysql/var/ib_logfile*
+<span class="k">def</span> <span class="nf">sign</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">):</span>
+    <span class="c1"># 请按照顺序拼装 app_secret,app_key,method,param_json,timestamp,v,app_secret
+</span>    <span class="nb">str</span> <span class="o">=</span> <span class="n">app_secret</span> <span class="o">+</span> <span class="s">"app_key"</span> <span class="o">+</span> <span class="n">app_key</span> <span class="o">+</span> <span class="s">"method"</span> <span class="o">+</span> <span class="n">method</span> <span class="o">+</span> <span class="s">"param_json"</span> <span class="o">+</span> <span class="n">param_json</span> <span class="o">+</span> <span class="s">"timestamp"</span> <span class="o">+</span> <span class="n">timestamp</span> <span class="o">+</span> <span class="s">"v"</span> <span class="o">+</span> <span class="n">v</span> <span class="o">+</span> <span class="n">app_secret</span>
 
-# 手动删除除Mysql之外所有数据库文件夹，然后启动数据库
-service mysqld start
+    <span class="c1"># sha256
+</span>    <span class="n">code</span> <span class="o">=</span> <span class="n">hashlib</span><span class="p">.</span><span class="n">sha256</span><span class="p">(</span><span class="nb">str</span><span class="p">.</span><span class="n">encode</span><span class="p">()).</span><span class="n">hexdigest</span><span class="p">()</span>
 
-# 还原数据
-mysql -uroot -proot &lt; mysqldump.sql
-</code></pre></div></div>
+    <span class="c1"># md5
+</span>    <span class="c1"># code = hashlib.md5(str.encode()).hexdigest()
+</span>
+    <span class="k">return</span> <span class="n">code</span>
 
-<h3 id="4-innodb_file_per_table">4. innodb_file_per_table</h3>
-<p>       还有一种方式是在创建数据库的时候设置innodb_file_per_table，这样InnoDB会对每个表创建一个数据文件，然后只需要运行OPTIMIZE TABLE 命令就可以释放所有已经删除的磁盘空间。</p>
 
-<h4 id="41-修改mysql默认配置文件">4.1 修改mysql默认配置文件。</h4>
-<p>       编辑my.ini或my.cnf 在innodb段中加入 innodb_file_per_table=1 # 1为启用，0为禁用</p>
+<span class="k">def</span> <span class="nf">testItem</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">"https://openapi-fxg.jinritemai.com/product/list"</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">access_token</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">)</span>
+    <span class="n">sign_code</span> <span class="o">=</span> <span class="n">sign</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
 
-<h4 id="42-查看修改结果">4.2 查看修改结果</h4>
-<p>       通过mysql语句可以查看该变量的值：</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like '%per_table%';
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"method"</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span>
+        <span class="s">"app_key"</span><span class="p">:</span> <span class="n">app_key</span><span class="p">,</span>
+        <span class="s">"access_token"</span><span class="p">:</span> <span class="n">token</span><span class="p">,</span>
+        <span class="s">"param_json"</span><span class="p">:</span> <span class="n">param_json</span><span class="p">,</span>
+        <span class="s">"timestamp"</span><span class="p">:</span> <span class="n">timestamp</span><span class="p">,</span>
+        <span class="s">"v"</span><span class="p">:</span> <span class="n">v</span><span class="p">,</span>
+        <span class="s">"sign"</span><span class="p">:</span> <span class="n">sign_code</span><span class="p">,</span>
+        <span class="s">"sign_method"</span><span class="p">:</span> <span class="s">"hmac-sha256"</span>  <span class="c1"># 如果 sign 算法类型是 md5, 这里需要输入 md5
+</span>    <span class="p">}</span>
+
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">req</span><span class="p">.</span><span class="n">status_code</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"access_token: '{}'"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">access_token</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"sign: '{}'"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">sign</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"sign test status: '{}'"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">testItem</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">)))</span>
+
 </code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-11-09</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
+      <cite>2020-12-08</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -637,141 +365,34 @@ mysql -uroot -proot &lt; mysqldump.sql
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/10/SSH-LINUX-Security-Settings.html">SSH LINUX Security Settings</a></h1>
+    <h1><a class="title" href="/post/2020/11/Check-You-Favorites-App-Is-Ready-Apple-Silicon.html">Check You App readyOnAppleSilicon</a></h1>
     <div class="post_at_index">
-      <h3 id="ssh-配置安全控制限制登录"><strong>SSH 配置安全控制限制登录</strong></h3>
-<h5 id="1-只允许某个ip登录拒绝其他所有ip">1. 只允许某个IP登录，拒绝其他所有IP</h5>
-<p>在 /etc/hosts.allow 增加:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sshd: 1.2.3.4
-</code></pre></div></div>
-<p>在 /etc/hosts.deny 增肌:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sshd: ALL
-</code></pre></div></div>
-<p>用 iptables 也行:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables -A INPUT -p tcp --dport 22 -j DROP
-iptables -A INPUT -p tcp --dport 22 -s 1.2.3.4 -j ACCEPT
-</code></pre></div></div>
-<h5 id="2-禁止某个用户通过ssh登录">2. 禁止某个用户通过ssh登录</h5>
-<p>在/etc/ssh/sshd_conf添加</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AllowUsers 用户名
-或者
-AllowGroups 组名
-或者
-DenyUsers 用户名
-</code></pre></div></div>
-<h5 id="3-设定登录黑名单">3. 设定登录黑名单</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@6 ~]# vim /etc/pam.d/sshd
-auth required /lib/security/pam_listfile.so item=user sense=deny file=/etc/sshd_user_deny_list onerr=succeed
-# 所有/etc/sshd_user_deny_list里面的用户被拒绝ssh登录
-</code></pre></div></div>
-<h5 id="4-sshd_config配置">4. sshd_config配置</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 关于 SSH Server 的整体设定，包含使用的 port 啦，以及使用的密码演算方式
-Port 22　　　　　　　　　　# SSH 预设使用 22 这个 port，您也可以使用多的 port ！
-　　　　　　　　　　　　　 # 亦即重复使用 port 这个设定项目即可！
-Protocol 2,1　　　　　　　 # 选择的 SSH 协议版本，可以是 1 也可以是 2 ，
-　　　　　　　　　　　　　 # 如果要同时支持两者，就必须要使用 2,1 这个分隔了！
-#ListenAddress 0.0.0.0　　 # 监听的主机适配卡！举个例子来说，如果您有两个 IP，
-　　　　　　　　　　　　　 # 分别是 192.168.0.100 及 192.168.2.20 ，那么只想要
-　　　　　　　　　　　　　 # 开放 192.168.0.100 时，就可以写如同下面的样式：
-ListenAddress 192.168.0.100          # 只监听来自 192.168.0.100 这个 IP 的SSH联机。
-　　　　　　　　　　　　　　　　　　 # 如果不使用设定的话，则预设所有接口均接受 SSH
-PidFile /var/run/sshd.pid　　　　　　# 可以放置 SSHD 这个 PID 的档案！左列为默认值
-LoginGraceTime 600　　　　 # 当使用者连上 SSH server 之后，会出现输入密码的画面，
-　　　　　　　　　　　　　 # 在该画面中，在多久时间内没有成功连上 SSH server ，
-　　　　　　　　　　　　　 # 就断线！时间为秒！
-Compression yes　　　　　　# 是否可以使用压缩指令？当然可以啰！
+      <h2 id="1-httpsisapplesiliconreadycom">1. https://isapplesiliconready.com/</h2>
 
-# 说明主机的 Private Key 放置的档案，预设使用下面的档案即可！
-HostKey /etc/ssh/ssh_host_key　　　　# SSH version 1 使用的私钥
-HostKey /etc/ssh/ssh_host_rsa_key　　# SSH version 2 使用的 RSA 私钥
-HostKey /etc/ssh/ssh_host_dsa_key　　# SSH version 2 使用的 DSA 私钥
-# 关于 version 1 的一些设定！
-KeyRegenerationInterval 3600　 　　　# 由前面联机的说明可以知道， version 1 会使用
-　　　　　　　　　　　　　　　　　　 # server 的 Public Key ，那么如果这个 Public
-　　　　　　　　　　　　　　　　　　 # Key 被偷的话，岂不完蛋？所以需要每隔一段时间
-　　　　　　　　　　　　　　　　　　 # 来重新建立一次！这里的时间为秒！
-ServerKeyBits 768 　　　　　　　　　 # 没错！这个就是 Server key 的长度！
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/ipic/2020-11-24-142803.png" alt="image-20201124222803150" /></p>
 
-# 关于登录文件的讯息数据放置与 daemon 的名称！
-SyslogFacility AUTH　　　　　　　　　# 当有人使用 SSH 登入系统的时候，SSH会记录资
-　　　　　　　　　　　　　　　　　　 # 讯，这个信息要记录在什么 daemon name 底下？
-　　　　　　　　　　　　　　　　　　 # 预设是以 AUTH 来设定的，即是 /var/log/secure
-　　　　　　　　　　　　　　　　　　 # 里面！什么？忘记了！回到 Linux 基础去翻一下
-　　　　　　　　　　　　　　　　　　 # 其它可用的 daemon name 为：DAEMON,USER,AUTH,
-　　　　　　　　　　　　　　　　　　 # LOCAL0,LOCAL1,LOCAL2,LOCAL3,LOCAL4,LOCAL5,
-LogLevel INFO　　　　　　　　　　　　# 登录记录的等级！嘿嘿！任何讯息！
-　　　　　　　　　　　　　　　　　　 # 同样的，忘记了就回去参考！
+<h4 id="if-you-have-any-apps-want-and-to-here-please-click-request-an-app--or-use-this-link">If you have any apps want and to here. Please click <code class="language-plaintext highlighter-rouge">REQUEST AN APP</code>  or use this link：</h4>
 
-# 登入设定部分
-PermitRootLogin no　　 　　# 是否允许 root 登入！预设是允许的，但是建议设定成 no！
-UserLogin no　　　　　　　 # 在 SSH 底下本来就不接受 login 这个程序的登入！
-StrictModes yes　　　　　　# 当使用者的 host key 改变之后，Server 就不接受联机，
-　　　　　　　　　　　　　 # 可以抵挡部分的木马程序！
-#RSAAuthentication yes　　 # 是否使用纯的 RSA 认证！？仅针对 version 1 ！
-PubkeyAuthentication yes　 # 是否允许 Public Key ？当然允许啦！只有 version 2
-AuthorizedKeysFile      .ssh/authorized_keys
-　　　　　　　　　　　　　 # 上面这个在设定若要使用不需要密码登入的账号时，那么那个
-　　　　　　　　　　　　　 # 账号的存放档案所在档名！
-Allowusers root@222.XX.XX.XX. #设置允许root帐号只能以222.XX.XX.XX这个IP进行ssh连接
+<blockquote>
+  <p>https://isapplesiliconready.com/request/</p>
+</blockquote>
 
-# 认证部分
-RhostsAuthentication no　　# 本机系统不止使用 .rhosts ，因为仅使用 .rhosts 太
-　　　　　　　　　　　　　 # 不安全了，所以这里一定要设定为 no ！
-IgnoreRhosts yes　　　　　 # 是否取消使用 ~/.ssh/.rhosts 来做为认证！当然是！
-RhostsRSAAuthentication no # 这个选项是专门给 version 1 用的，使用 rhosts 档案在
-　　　　　　　　　　　　　 # /etc/hosts.equiv配合 RSA 演算方式来进行认证！不要使用
-HostbasedAuthentication no # 这个项目与上面的项目类似，不过是给 version 2 使用的！
-IgnoreUserKnownHosts no　　# 是否忽略家目录内的 ~/.ssh/known_hosts 这个档案所记录
-　　　　　　　　　　　　　 # 的主机内容？当然不要忽略，所以这里就是 no 啦！
-PasswordAuthentication yes # 密码验证当然是需要的！所以这里写 yes 啰！
-PermitEmptyPasswords no　　# 若上面那一项如果设定为 yes 的话，这一项就最好设定
-　　　　　　　　　　　　　 # 为 no ，这个项目在是否允许以空的密码登入！当然不许！
-ChallengeResponseAuthentication yes  # 挑战任何的密码认证！所以，任何 login.conf
-　　　　　　　　　　　　　　　　　　 # 规定的认证方式，均可适用！
-#PAMAuthenticationViaKbdInt yes      # 是否启用其它的 PAM 模块！启用这个模块将会
-　　　　　　　　　　　　　　　　　　 # 导致 PasswordAuthentication 设定失效！
+<hr />
 
-# 与 Kerberos 有关的参数设定！因为我们没有 Kerberos 主机，所以底下不用设定！
-#KerberosAuthentication no
-#KerberosOrLocalPasswd yes
-#KerberosTicketCleanup yes
-#KerberosTgtPassing no
-　
-# 底下是有关在 X-Window 底下使用的相关设定！
-X11Forwarding yes
-#X11DisplayOffset 10
-#X11UseLocalhost yes
-# 登入后的项目：
-PrintMotd no              # 登入后是否显示出一些信息呢？例如上次登入的时间、地点等
-　　　　　　　　　　　　　# 等，预设是 yes ，但是，如果为了安全，可以考虑改为 no ！
-PrintLastLog yes　　　　　# 显示上次登入的信息！可以啊！预设也是 yes ！
-KeepAlive yes　　　　　　 # 一般而言，如果设定这项目的话，那么 SSH Server 会传送
-　　　　　　　　　　　　　# KeepAlive 的讯息给 Client 端，以确保两者的联机正常！
-　　　　　　　　　　　　　# 在这个情况下，任何一端死掉后， SSH 可以立刻知道！而不会
-　　　　　　　　　　　　　# 有僵尸程序的发生！
-UsePrivilegeSeparation yes # 使用者的权限设定项目！就设定为 yes 吧！
-MaxStartups 10　　　　　　# 同时允许几个尚未登入的联机画面？当我们连上 SSH ，
-　　　　　　　　　　　　　# 但是尚未输入密码时，这个时候就是我们所谓的联机画面啦！
-　　　　　　　　　　　　　# 在这个联机画面中，为了保护主机，所以需要设定最大值，
-　　　　　　　　　　　　　# 预设最多十个联机画面，而已经建立联机的不计算在这十个当中
+<h2 id="2-httpsdoesitarmcom">2. https://doesitarm.com/</h2>
 
-# 关于使用者抵挡的设定项目：
-DenyUsers *　　　　　　　 # 设定受抵挡的使用者名称，如果是全部的使用者，那就是全部
-　　　　　　　　　　　　　# 挡吧！若是部分使用者，可以将该账号填入！例如下列！
-DenyUsers test
-DenyGroups test　　　　　 # 与 DenyUsers 相同！仅抵挡几个群组而已！
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/ipic/2020-11-24-143231.png" alt="" /></p>
 
-# 关于 SFTP 服务的设定项目！
-Subsystem       sftp    /usr/lib/ssh/sftp-server
-如果不愿意开放 SFTP 的话，将这一行批注掉即可！
-</code></pre></div></div>
+<h4 id="if-you-want-watching-any-apps-change-input--you-email-at--tell-me-with-this-changes">If you want watching any apps change? Input  you email at  <code class="language-plaintext highlighter-rouge">Tell me with this changes</code></h4>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/ipic/2020-11-24-143450.png" alt="image-20201124223449695" /></p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-10-29</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SSH">SSH</a>
+      <cite>2020-11-23</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
       
       
       
@@ -780,156 +401,140 @@ Subsystem       sftp    /usr/lib/ssh/sftp-server
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/10/HowTo-Install-PostgreSQL-9-5-on-CentOS-6-x.html">HowTo Install PostgreSQL 9.5 on CentOS 6.x</a></h1>
+    <h1><a class="title" href="/post/2020/11/%E5%A6%82%E4%BD%95%E9%87%8D%E7%BD%AE-Mac-%E7%9A%84-SMC.html">如何重置 Mac 的 SMC</a></h1>
     <div class="post_at_index">
-      <h3 id="centos-6">CentOS 6</h3>
+      <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437045272-4d2c8ef2-804a-4ed7-bb53-b241152c780c.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></p>
 
-<h5 id="1-install-postgresql-repository-and-the-postgresql-server-by-running-the-following">1. Install PostgreSQL repository and the PostgreSQL server by running the following:</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-6-x86_64/pgdg-centos95-9.5-2.noarch.rpm
+<p>MacBookPro 雷电口不可用了不着送修，尝试下一下方法；可以为您省下大几千块钱哟 ~</p>
 
-sudo yum install postgresql95-serve
-</code></pre></div></div>
+<h2 id="什么是-smc-">什么是 SMC ？</h2>
 
-<h5 id="2-create-the-postgresql-database-cluster">2. Create the PostgreSQL database cluster.</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sduo service postgresql-9.5 initdb
-</code></pre></div></div>
+<p>SMC 全称 系统管理控制器负责管理与以下功能相关的行为：</p>
 
-<h5 id="3-enable-automatic-postgresql-server-startup">3. Enable automatic PostgreSQL server startup.</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo chkconfig postgresql-9.5 on
-</code></pre></div></div>
+<ul>
+  <li>电源，包括电源按钮和 USB 端口的电源</li>
+  <li>电池和充电</li>
+  <li>风扇和其他热能管理功能</li>
+  <li>指示灯或感应器，例如状态指示灯（睡眠状态、电池充电状态等）、突发移动感应器、环境光传感器和键盘背光</li>
+  <li>打开和合上笔记本电脑盖时的行为</li>
+</ul>
 
-<h5 id="4-start-the-postgresql-server">4. Start the PostgreSQL server.</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo service postgresql-9.5 start
-</code></pre></div></div>
+<hr />
 
-<h3 id="centos-7">CentOS 7</h3>
+<h2 id="smc-常见问题">SMC 常见问题</h2>
 
-<h5 id="1-install-postgresql-repository-and-the-postgresql-server-by-running-the-following-1">1. Install PostgreSQL repository and the PostgreSQL server by running the following:</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install https://download.postgresql.org/pub/repos/yum/9.5 /redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
+<p>由于Mac的雷电接口经常需要插拔外接设备，而外接设备的接口电流电压不一致，Mac在遇到异常电涌时会触发  SMC 的自我保护机制，通常意义是雷电口不可用。</p>
 
-sudo yum install postgresql95-serve
-</code></pre></div></div>
+<p>通过重置系统管理控制器 (SMC) 可以解决某些与电源、电池、风扇和其他功能相关的问题。</p>
 
-<h5 id="2-create-the-postgresql-database-cluster-1">2. Create the PostgreSQL database cluster.</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo /usr/pgsql-9.5/bin/postgresql95-setup initdb
-</code></pre></div></div>
+<hr />
 
-<h5 id="3-enable-automatic-postgresql-server-startup-1">3. Enable automatic PostgreSQL server startup.</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo systemctl enable postgresql-9.5
-</code></pre></div></div>
+<h2 id="注意事项">注意事项</h2>
 
-<h5 id="4-start-the-postgresql-server-1">4. Start the PostgreSQL server.</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo systemctl start postgresql-9.5
-</code></pre></div></div>
+<p>新款 Apple M1 设备的重置步骤本文不一致，后续会补充更新</p>
 
-<h3 id="configurations-for-centos">Configurations for CentOS</h3>
-<p>When installing in CentOs env. you will also need to make the following configurations.</p>
+<hr />
 
-<h5 id="1-change-authentication-to-md5">1. Change authentication to md5.</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo vi /var/lib/pgsql/9.5/data/pg_hba.conf
-</code></pre></div></div>
+<h2 id="配备-t2-芯片的笔记本电脑">配备 T2 芯片的笔记本电脑</h2>
 
-<h5 id="2-change-method-to-md5">2. Change METHOD to md5.</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># IPv4 local connections:
-host    all             all             127.0.0.1/32            md5
+<ol>
+  <li>将 Mac 关机</li>
+  <li>在内建键盘上，按住以下所有按键。Mac 可能会开机。</li>
+</ol>
 
-# IPv6 local connections:
-host    all             all             ::1/128                 md5
-</code></pre></div></div>
+<ul>
+  <li>
+    <ul>
+      <li>键盘左侧的 <strong>Control</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437210613-0f478f9a-1f5b-4b51-8060-6f9af28a4ae0.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
+      <li>键盘左侧的 <strong>Option</strong> (Alt) <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437216356-d0ba8e9e-ebb9-4756-8459-124876d0c332.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
+      <li>键盘右侧的 <strong>Shift</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437210667-cdfb2059-1d3d-4cb4-bb6c-88e38c1c3054.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
+    </ul>
+  </li>
+</ul>
 
-<h5 id="3-restart-postgresql">3. Restart PostgreSQL</h5>
+<ol>
+  <li>按住<strong>全部三个按键</strong> 7 秒钟，然后在不松开按键的情况下按住<strong>电源按钮</strong>。如果 Mac 处于开机状态，它将在您按住这些按键时关机。</li>
+</ol>
 
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-10-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#PostgreSQL">PostgreSQL</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/10/%E5%86%99%E7%9A%84%E5%BE%AE%E5%8D%9A.html">微博随笔</a></h1>
-    <div class="post_at_index">
-      <ol>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437286162-81a557b7-7f54-49b2-9ad6-32716f0b8488.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></p>
+
+<ol>
+  <li>继续按住<strong>全部四个按键</strong> 7 秒钟，然后松开这些按键。</li>
+  <li>等待几秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
+</ol>
+
+<hr />
+
+<h2 id="配备-t2-芯片的台式电脑">配备 T2 芯片的台式电脑</h2>
+
+<ol>
+  <li>将 Mac 关机，然后拔下电源线。</li>
+  <li>等待 15 秒钟，然后重新接回电源线。</li>
+  <li>等待 5 秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
+</ol>
+
+<hr />
+
+<h2 id="在其他电脑上重置-smc">在其他电脑上重置 SMC</h2>
+
+<p>如果您的 Mac 没有配备 Apple T2 安全芯片，请按照以下步骤操作。</p>
+
+<h3 id="装有不可拆卸电池的笔记本电脑">装有不可拆卸电池的笔记本电脑</h3>
+
+<p>这类电脑包括 2009 年中至 2017 年推出的 MacBook Pro 机型、2017 年或之前推出的 MacBook Air 机型，以及所有 MacBook 机型，但 MacBook（13 英寸，2009 年中）除外。</p>
+
+<ol>
+  <li>将 Mac 关机。</li>
+  <li>在内建键盘上，按住以下所有按键：</li>
+</ol>
+
+<ul>
   <li>
-    <p>20岁之前我看郭敬明的书很多，真的对我的人生有很大的影响，20岁以后，我开始看韩寒和王路的书，觉得他们的文字很酷，可以够我装逼来用，因为我看不来那些国外名著大师之作啊，文化水平达不到不能怪谁。</p>
+    <ul>
+      <li>键盘左侧的 <strong>Shift</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437453096-c4dd55c9-dea8-4ece-810d-d0a6bf880b5a.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
+      <li>键盘左侧的 <strong>Control</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437452982-7bdab59b-e4d2-4aa0-863d-59d224b081a9.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
+      <li>键盘左侧的 <strong>Option</strong> (Alt) <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437453069-12f401d8-bfbf-4657-9323-67169460f2fa.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></li>
+    </ul>
   </li>
-  <li>
-    <p>我的姑娘，必定是美好的，是完人，是仙女，是温柔的月光，是清晨初露的霞光，是令人心动的春风，是呼啸着穿堂而过的夏日阳光，是踩着红色高跟鞋踢踏踢踏走进我的胸膛，是历经岁月沧桑依然伴随左右的踏实臂膀。[大叔一直问阿姨要不我站起来你躺会，阿姨一直说我不累，却在我和大叔攀谈依靠在座位上睡着了。]</p>
-  </li>
-  <li>
-    <p>当你准备接受爱情的时候，就要接受爱情带来的苦涩，焦虑和怅然若失的情绪，就像你打算接受一个人，就要学会接受他的前面后面上面下面，可能下面会比较小，但是你都要学会接受，要么你还准备好开始一段爱情和爱上一个人。</p>
-  </li>
-  <li>
-    <p>如今社会高度发展的经济文化，的确会让很多人的价值观有失颇比，直观体现就是很多挂作家之名写出乌七八糟的东西反而畅销，进而影响更多读者，所以需要筛选文章，读适合自己的，生活如此，对的是自己，其他则毋庸顾虑，凡事需顾虑的，便对自己无甚意义，弃之亦不可惜。</p>
-  </li>
-  <li>
-    <p>sometimes the only way to move forward is to revisit the things in your past.that were holding you back.you have yo deal with them head on, no matter how scary they may be.beacuse once we do , you’ll see that you can go further than you ever imageined. 《The Flash》－ S02E17</p>
-  </li>
-  <li>
-    <p>莱蒙托夫有首诗《一只船》这样写：一只船孤独地航行在海上，它既不寻求幸福，也不逃避幸福，它只是向前航行，底下是沉静碧蓝的大海，而头顶是金色的太阳。</p>
-  </li>
-  <li>
-    <p>内心是有难过的地方，每次我望见那一方矮矮的坟墓，都感到距离这么近那么远。</p>
-  </li>
-  <li>
-    <p>我真不喜欢有些人把自己的惰性归咎于出生命运</p>
-  </li>
-  <li>
-    <p>你没法让自己做到最好，最起码要努力变的更好</p>
-  </li>
-  <li>
-    <p>我希望我可以像太阳一样，给你温暖，像树一样成为你的依靠</p>
-  </li>
-  <li>
-    <p>或是彼此太过沉默，曾经一起走过的那段时光也变得模糊了。其实，我们每个人都会经历很多这样的分离，没有海誓山盟，没有悲恸不已，就是那种不可寻的时间；猛然间才发现我早已失去了你，朋友，愿你一切都好！腐朽的生命会令我们忘记许多人，却夺不去那些美好时光，或已忘记，但它永远真切的存在。</p>
-  </li>
-  <li>
-    <p>踏上西行的列车，我说睡吧睡吧，醒来就是另一片天空，没有让你忧伤的人儿</p>
-  </li>
-  <li>
-    <p>每一个存在都是有意义的，当我们的时间用来羡慕、嫉妒、,抱怨的时候，我们存在的意义在哪里？“我就是我，是颜色不一样的烟火”——《我》，我们缺乏的是看清自己的勇气，加油！/微笑</p>
-  </li>
-  <li>
-    <p>一定是特别的缘分，才可以一路走来变成一家人，所以啊，没什么好忧伤的</p>
-  </li>
-  <li>
-    <p>这世间有很多个我，所以我泯然于众我，我与我并没有什么不同，不同的是心，得之我幸，失之我命，得失心重，所以不知己身已入局，正所谓当局者迷，所谓难，只是因为你觉得难，若不舍千万不要放手。</p>
-  </li>
-  <li>
-    <p>我始终觉得每个人在特定的时间都有很多事情要去做，这个世界上没有你想像中的有那么多童话，你不会是这世界的唯一，在每一刻亦或一个瞬间，有人多人，你只是其中的一个，现实就是如此，你可以幻想可是不能沉沦，感情是无法用言语来形容，你感到伤悲，很多年后你一定会忘记你曾经觉得一辈子都无法忘记的</p>
-  </li>
-  <li>
-    <p>感情是不可以用言语文字来形容的，我们掌控所有，甚至无法掌控自己，我们能做的只是不要迷失自我，做自己该做的，做自己想做的，做了就不会后悔，年轻的时光，是我们最美好的，应该好好珍惜，因为之后，生活不在简单纯洁，每个人都背负了太多，也许曾经触手可及的是现在的梦想。我一直相信，相信自己。</p>
-  </li>
-  <li>
-    <p>一个人的时候，可以听听歌，看看书，可以站在车水马龙的路边看着霓虹灯在闪烁 ，然后在身边转身看灯光下自己的影子，感谢你一直陪着我，一个人的时候可以把所有忧伤都表现出来 ，一个人的时候可以暴躁任性 ，总之一个人的时候可以无法无天 。</p>
-  </li>
-  <li>
-    <p>妄思不能静，混事乱七八糟，可汗，自省吾身吾言吾行吾思</p>
-  </li>
-  <li>
-    <p>我所有的自负都来自我的自卑，所有的英雄气概都来自于我内心的软弱，所有的振振有词都因为心中满是怀疑。我假装无情，其实是痛恨自己的深情。我以为人生的意义在于四处游荡流亡，其实只是掩饰至今没有找到愿意驻足的地方。——马良 《坦白书》</p>
-  </li>
-  <li>
-    <p>我猜，只是猜，每个人的一生都会遇见某些人，喜欢上她。有些人在合适的时间里遇到，就像是在春天遇到花开，所以一切都很好，他们会相恋、订婚、结婚、一起生活。而有的人在错误的时间遇到 ，就像是在冬天，隔着冰看见浮上来换气的鱼，所以只能看着，鱼换完气，沉到水下去，就看不见了，再也没有后续。但是我们能说在春天遇到花是对的，而在冬天遇到鱼是错的么？在错误的时间里遇到，就能克制自己不喜欢那个人么？是不是仍然会用尽了力气想去接近，想尽办法掩饰自己，甚至伪装成另外一条鱼。——江南 《龙族》​</p>
-  </li>
-  <li>
-    <p>可人不是断气的时候才真的死了。有人说人会死三次，第一次是他断气的时候 ，从生物学上他死了；第二次是他下葬的时候，人们来参加他的葬礼，怀念他的一生，然后在社会上他死了，不再会有他的位置；第三次是最后一个记得他的人把他忘记的时候，那时候他才真正的死了。——江南 《龙族》</p>
-  </li>
+</ul>
+
+<ol>
+  <li>在按住<strong>全部三个按键</strong>的情况下，按住<strong>电源按钮</strong>。</li>
+</ol>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437452835-44611990-1f9b-49c4-a49b-446cef022d56.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></p>
+
+<ol>
+  <li>按住<strong>全部四个按键</strong> 10 秒钟。</li>
+  <li>松开所有按键，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
+</ol>
+
+<h3 id="装有可拆卸电池的笔记本电脑">装有可拆卸电池的笔记本电脑</h3>
+
+<p>这类电脑包括 2009 年初或之前推出的所有 MacBook Pro 和 MacBook 机型，以及 MacBook（13 英寸，2009 年中）。</p>
+
+<ol>
+  <li>将 Mac 关机。</li>
+  <li>拆下电池。</li>
+  <li>按住<strong>电源按钮</strong> 5 秒钟。</li>
+  <li>重新安装电池。</li>
+  <li>按下<strong>电源按钮</strong>以将 Mac 开机。</li>
+</ol>
+
+<h3 id="台式电脑">台式电脑</h3>
+
+<ol>
+  <li>将 Mac 关机，然后拔下电源线。</li>
+  <li>等待 15 秒钟，然后重新接回电源线。</li>
+  <li>等待 5 秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
 </ol>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-10-14</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
+      <cite>2020-11-23</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
       
       
       
@@ -938,235 +543,61 @@ host    all             all             ::1/128                 md5
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/09/HowTo-Use-pt-query-digest.html">HowTo Use pt-query-digest</a></h1>
+    <h1><a class="title" href="/post/2020/11/%E4%BB%A3%E7%A0%81%E6%A0%BC%E5%BC%8F%E7%9B%B8%E5%85%B3.html">代码格式相关</a></h1>
     <div class="post_at_index">
-      <h3 id="1-简介">1. 简介</h3>
-<p>索引可以我们更快速的执行查询，但是肯定存在不合理的索引，如果想找到那些索引不是很合适的查询，并在它们成为问题前进行优化，则可以使用pt-query-digest的查询审查“review”功能，分析其EXPLAIN出来的执行计划。</p>
+      <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/** Java 单行 **/</span>
 
-<p>pt-query-digest是用于分析mysql慢查询的一个工具，它可以分析binlog、General log、slowlog，也可以通过SHOWPROCESSLIST或者通过tcpdump抓取的MySQL协议数据来进行分析。可以把分析结果输出到文件中，分析过程是先对查询语句的条件进行参数化，然后对参数化以后的查询进行分组统计，统计出各查询的执行时间、次数、占比等，可以借助分析结果找出问题进行优化。</p>
+<span class="cm">/** one line comment in Avro IDL */</span>
 
-<h3 id="2-install-percona-toolkit--pt-query-digest">2. Install Percona Toolkit &amp; pt-query-digest</h3>
-<p>percona-toolkit是一组高级命令行工具的集合，用来执行各种通过手工执行非常复杂和麻烦的mysql和系统任务。这些任务包括：</p>
+<span class="cm">/**
 
-<ul>
-  <li>检查master和slave数据的一致性</li>
-  <li>有效地对记录进行归档</li>
-  <li>查找重复的索引</li>
-  <li>对服务器信息进行汇总</li>
-  <li>分析来自日志和tcpdump的查询</li>
-  <li>当系统出问题的时候收集重要的系统信息</li>
-</ul>
+Java 多行
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultrera ~]# wget percona.com/get/percona-toolkit.tar.gz
---2016-09-22 09:17:00--  http://percona.com/get/percona-toolkit.tar.gz
-Resolving percona.com... 74.121.199.234, 74.121.199.234
-Connecting to percona.com|74.121.199.234|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://www.percona.com/get/percona-toolkit.tar.gz [following]
---2016-09-22 09:17:02--  https://www.percona.com/get/percona-toolkit.tar.gz
-Resolving www.percona.com... 74.121.199.234, 74.121.199.234
-Connecting to www.percona.com|74.121.199.234|:443... connected.
-HTTP request sent, awaiting response... 302 Found
-Location: https://www.percona.com/downloads/percona-toolkit/2.2.19/tarball/percona-toolkit-2.2.19.tar.gz [following]
---2016-09-22 09:17:03--  https://www.percona.com/downloads/percona-toolkit/2.2.19/tarball/percona-toolkit-2.2.19.tar.gz
-Reusing existing connection to www.percona.com:443.
-HTTP request sent, awaiting response... 200 OK
-Length: 1425623 (1.4M) [application/x-gzip]
-Saving to: “percona-toolkit.tar.gz”
+multiple lines
+comment in Avro IDL
 
-100%[=======================&gt;] 1,425,623    766K/s   in 1.8s
-
-2016-09-22 09:17:05 (766 KB/s) - “percona-toolkit.tar.gz” saved [1425623/1425623]
-
-[root@ultrera ~]# tar xf percona-toolkit.tar.gz
-[root@ultrera ~]# ls
-percona-toolkit-2.2.19  percona-toolkit.tar.gz
-[root@ultrera ~]# cd percona-toolkit-2.2.19
-[root@ultrera percona-toolkit-2.2.19]# perl Makefile.PL
-Warning: prerequisite DBD::mysql 3 not found.
-Writing Makefile for percona-toolkit
-[root@ultrera percona-toolkit-2.2.19]# make
-cp bin/pt-mysql-summary blib/script/pt-mysql-summary
-....
-Manifying blib/man1/pt-index-usage.1p
-Manifying blib/man1/pt-duplicate-key-checker.1p
-Manifying blib/man1/pt-config-diff.1p
-Manifying blib/man1/pt-stalk.1p
-[root@ultrera percona-toolkit-2.2.19]# make install
-Installing /usr/local/share/man/man1/pt-query-digest.1p
-...
-Installing /usr/local/bin/pt-query-digest
-...
-Appending installation info to /usr/lib64/perl5/perllocal.pod
-</code></pre></div></div>
-<blockquote>
-  <p>运行工具可能会遇到下面的错误: Can’t locate Time/HiRes.pm in @INC</p>
-</blockquote>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 解决办法：
-[root@ultrera ~]# yum install -y perl-Time-HiRes
-[root@ultrera ~]# pt-query-digest --version
-pt-query-digest 2.2.19
+**/</span>
 </code></pre></div></div>
 
-<h3 id="3-开启-mysql慢日志">3. 开启 mysql慢日志</h3>
-<h5 id="a-查看当前slow_query_log-状态">a. 查看当前‘slow_query_log’ 状态：</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like '%query%';
-+------------------------------+---------------------------------+
-| Variable_name                | Value                           |
-+------------------------------+---------------------------------+
-| binlog_rows_query_log_events | OFF                             |
-| ft_query_expansion_limit     | 20                              |
-| have_query_cache             | YES                             |
-| long_query_time              | 10.000000                       |
-| query_alloc_block_size       | 8192                            |
-| query_cache_limit            | 1048576                         |
-| query_cache_min_res_unit     | 4096                            |
-| query_cache_size             | 1048576                         |
-| query_cache_type             | OFF                             |
-| query_cache_wlock_invalidate | OFF                             |
-| query_prealloc_size          | 8192                            |
-| slow_query_log               | OFF                             |
-| slow_query_log_file          | /var/lib/mysql/ultrera-slow.log |
-+------------------------------+---------------------------------+
-13 rows in set (0.00 sec)
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 单行
+# one line comment in Avro IDL
+</span>
 
-mysql&gt; show variables like 'log_queries_not_using_indexes';
-+-------------------------------+-------+
-| Variable_name                 | Value |
-+-------------------------------+-------+
-| log_queries_not_using_indexes | OFF   |
-+-------------------------------+-------+
-1 row in set (0.00 sec)
-</code></pre></div></div>
-<h5 id="b-启动slow_log-配置">b. 启动slow_log, 配置</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 设定记录大于2s的sql
-mysql&gt; set global long_query_time=2;
-Query OK, 0 rows affected (0.00 sec)
+<span class="s">"""
 
-# 设定log存放路径
-mysql&gt; set global slow_query_log_file='/tmp/ultraera-slow.log';
-Query OK, 0 rows affected (0.00 sec)
+多行
 
-# 启用慢日志
-mysql&gt; set global slow_query_log=ON;
-Query OK, 0 rows affected (0.00 sec)
+multiple lines
+comment in Avro IDL
 
-# 同时记录没有使用索引的sql
-mysql&gt; set global log_queries_not_using_indexes=on;
-Query OK, 0 rows affected (0.00 sec)
+"""</span>
 </code></pre></div></div>
 
-<blockquote>
-  <p>等待一段时间，slow.log 增大的非常快，实际生产中，注意不要被slow.log将磁盘撑满，影响到正常生产使用。</p>
-</blockquote>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">##</span> <span class="n">时间命名</span>
 
-<h3 id="4-分析">4. 分析</h3>
-<p>pt-query-digest可以从普通MySQL日志，慢查询日志以及二进制日志中分析查询，甚至可以从SHOW PROCESSLIST和MySQL协议的tcpdump中进行分析，如果没有指定文件，它从标准输入流（STDIN）中读取数据。</p>
-<h5 id="a-简单使用方法">a. 简单使用方法：</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest slow.logs
+<span class="n">时间字段名称请以</span> <span class="n">in_TIMEUNIT</span> <span class="n">结尾</span><span class="o">,</span> <span class="nl">如:</span>
+
+  <span class="n">time_in_ms</span>
+  <span class="n">time_in_s</span>
+  <span class="n">time_in_min</span>
+  <span class="n">time_in_hour</span>
+
+ 
+ <span class="n">一些字段的统一命名请保持一致</span><span class="o">,</span> <span class="nl">如:</span>
+ 
+  <span class="n">store_id</span>  <span class="c1">// 店铺 ID</span>
+  <span class="n">seller_nick</span> <span class="c1">// 店铺主账号</span>
+  <span class="n">store_name</span> <span class="c1">// 店铺名称</span>
+  <span class="n">assistant_nick</span> <span class="c1">// 客服账号</span>
+  <span class="n">buyer_nick</span> <span class="c1">// 买家账号</span>
 </code></pre></div></div>
-<p>输出信息如下：</p>
-
-<div align="left">
-![](http://images.cnitblog.com/blog/288950/201312/14135450-6f7a732598054f7aa311e95cbd4df3b1.png)
-</div>
-
-<ul>
-1. Overall这个部分是一个大致的概要信息(类似loadrunner给出的概要信息)，通过它可以对当前MySQL的查询性能做一个初步的评估，比如各个指标的最大值(max)，平均值(min)，95%分布值，中位数(median)，标准偏差(stddev)
-<li>查询的执行时间（Exec time）</li>
-<li>锁占用的时间（Lock time）</li>
-<li>MySQL执行器需要检查的行数（Rows examine）</li>
-<li>最后返回给客户端的行数（Rows sent）</li>
-<li>查询的大小。</li>
-</ul>
-<ul>
-2. Profile
-<li>Rank ： 整个分析中该“语句”的排名，一般也就是性能最慢的</li>
-<li>Query ID ：每个查询都有一个</li>
-<li>Response time ： “语句”的响应时间以及整体占比情况。</li>
-<li>Calls ：“语句”的执行次数</li>
-<li>R/Call ：每次执行的平均响应时间。 </li>
-<li>V/M</li>
-</ul>
-<h5 id="详细信息">详细信息</h5>
-<p>列出上面Profile中每个Query ID的详细信息</p>
-
-<h5 id="b-从tcpdump包中分析通过tcpdump命令抓取一定时间网络数据包然后进行分析">b. 从tcpdump包中分析：通过tcpdump命令抓取一定时间网络数据包，然后进行分析：</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest --type tcpdump mysql.tcp.txt
-</code></pre></div></div>
-
-<h5 id="c-pt-query-digest-还支持很对其他的数据包分析形势但是我们主要使用的还是针对慢日志进行分析">c. pt-query-digest 还支持很对其他的数据包分析形势，但是我们主要使用的还是针对慢日志进行分析</h5>
-<blockquote>
-  <p>更多的帮助文档，请查看官方文档：http://www.percona.com/doc/percona-toolkit/2.2/pt-query-digest.html</p>
-</blockquote>
-
-<h3 id="5-使用anemometer将pt-query-digest的mysql慢查询可视化">5. 使用Anemometer将pt-query-digest的MySQL慢查询可视化</h3>
-
-<ul>
-  <li>需要安装php 5.3 and over</li>
-  <li>需要预先配置mysql数据库</li>
-  <li>需要预先安装好pt-query-digest</li>
-</ul>
-
-<h5 id="51-安装">5.1 安装</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultrera ~]# git clone https://github.com/box/Anemometer.git anemometer
-
-[root@ultrera ~]# mv anemometer /var/www/html
-[root@ultrera ~]# cd /var/www/html/anemometer/
-[root@ultrera anemometer]# mysql -h localhost -u root -p &lt; mysql56-install.sql
-[root@ultrera anemometer]# mysql -h localhost -u root -p -e "grant all privileges on slow_query_log.* to 'anemometer'@'%' identified by 'anemometer';"
-</code></pre></div></div>
-<h5 id="52-配置">5.2 配置</h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultrera anemometer]# cp conf/sample.config.inc.php conf/config.inc.php
-[root@ultrera anemometer]# vim conf/config.inc.php
-
-# line 48,49 and line 284,285
-设置数据库的用户名和密码;
-
-[root@ultrera anemometer]# vim conf/config.inc.php
-# line 7,8
-设置数据库的用户名和密码;
-</code></pre></div></div>
-<h5 id="53-导入">5.3 导入</h5>
-<p>将pt-query-digest 的分析结果到anemometer；</p>
-
-<blockquote>
-  <p>pt-query-digest version &lt; 2.2</p>
-</blockquote>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pt-query-digest --user=anemometer --password=superSecurePass \
-                  --review h=db.example.com,D=slow_query_log,t=global_query_review \
-                  --review-history h=db.example.com,D=slow_query_log,t=global_query_review_history \
-                  --no-report --limit=0% \
-                  --filter=" \$event-&gt;{Bytes} = length(\$event-&gt;{arg}) and \$event-&gt;{hostname}=\"$HOSTNAME\"" \
-                  /var/lib/mysql/db.example.com-slow.log
-</code></pre></div></div>
-
-<blockquote>
-  <p>pt-query-digest version &gt;= 2.2</p>
-</blockquote>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest --user=anemometer --password=superSecurePass \
-                  --review h=db.example.com,D=slow_query_log,t=global_query_review \
-                  --history h=db.example.com,D=slow_query_log,t=global_query_review_history \
-                  --no-report --limit=0% \
-                  --filter=" \$event-&gt;{Bytes} = length(\$event-&gt;{arg}) and \$event-&gt;{hostname}=\"$HOSTNAME\"" \
-                  /var/lib/mysql/db.example.com-slow.log
-
-
-Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57A" isn't numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 27.
-Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57B" isn't numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 28.
-Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57C" isn't numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 29.
-</code></pre></div></div>
-
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-09-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
+      <cite>2020-11-18</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -1175,241 +606,43 @@ Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57C" isn'
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/09/%E7%94%9F%E8%80%85%E5%AD%A4%E7%8B%AC.html">生者孤独</a></h1>
+    <h1><a class="title" href="/post/2020/11/Django-%E7%BB%83%E6%89%8B%E9%A1%B9%E7%9B%AE.html">Django 练手项目</a></h1>
     <div class="post_at_index">
-      <p>张楚说：孤独是可耻的。
-我一直不愿承认的，我是一个孤独的人；或者这个世界上，没有人不会感到孤独吧；我的孤独，就好像在喧闹的人群中，突然就孤独了。</p>
+      <blockquote>
+  <p>started_at 2020-11.17</p>
+</blockquote>
 
-<p>小王子说：有一天，我看了四十四次日落！
-李寻欢问阿飞：你看这棵树上的梅花已经开了，你可知道已经开了多少朵？
-孔乙己问：你可知道茴的四种写法？
-鲁迅说：楼下一个男人病的要死，那间壁的一家唱着留声机；对面是弄孩子，楼上有两人狂笑，还有打牌声，河中的穿上有女人哭着她死去的母亲，人类的悲欢并不相通，我只是觉得她们吵闹。
-大话西游中说：你看那个人，好像一条狗！</p>
-
-<p>一千个读者，有一千个哈姆雷特！
-一个人走的太远太久了，便看腻了人潮似海。
-如果问，你所理解的孤独是什么？大概每个人都有自己的答案吧。
-突然觉得，原本以为亲密无间的伙伴并没有把我当朋友。
-小心翼翼地与人相处，把她当作真诚的伙伴，害怕隔阂，害怕犯错。
-或许，你所害怕的不是失去某个朋友，而是不够勇敢地去面对一个人的孤独。
-有人说，最孤独的事，不是不能跟一个人在一起，而是你根本不知道想跟谁在一起…</p>
-
-<p>其实，我们生来就是孤独;
-生命的本质就是孤独，不管你拥有什么，我们生来就是孤独。
-出现在这个世界本来就是一个偶然的事，谣言嘈杂的社会，人来人往，浮光掠影，匆匆碌碌。
-这个世界永远都是陌生的，理解是奢侈的，你永远想不起来来时的路，你永远无法让一个人不离你而去。
-不管你拥有什么，我们生来就是孤独。</p>
-
-<p>当我年轻的时候我想变成任何人，除了我自己。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-09-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/09/HowTo-Install-a-Tomcat-Server-7.html">HowTo Install a Tomcat Server 7</a></h1>
-    <div class="post_at_index">
-      <p>       本文件是采用的模板是CentOS 6，同样适用于CentOS 系列其他发行版本。</p>
-
-<h4 id="1-测试环境">1. 测试环境</h4>
 <ul>
-  <li>VMware Fushion 8 Pro # windows Use <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></li>
-  <li><a href="http://mirrors.aliyun.com/centos/6.8/isos/x86_64/CentOS-6.8-x86_64-minimal.iso">CentOS-6.8-x86_64-minimal.iso</a></li>
-  <li><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">JDK 7</a></li>
-  <li><a href="http://ftp.riken.jp/net/apache/tomcat/tomcat-7/">Tomcat 7</a></li>
+  <li>[ ] 建立统一的dingtalk_webhook 发送钉群机器人通知</li>
+  <li>[x] 支持多种消息类型</li>
+  <li>[x] text</li>
+  <li>[x] markdown</li>
+  <li>[x] link</li>
+  <li>[ ] 支持@</li>
+  <li>[ ] @个人</li>
+  <li>[x] @所有</li>
+  <li>[ ] 支持在任意Djang App内调用</li>
+  <li>
+    <p>[ ] </p>
+  </li>
+  <li>[ ] 增加定时任务能力</li>
+  <li>[ ] 拆分任务 分钟/小时/天级别，自动执行</li>
+  <li>[ ] 使用request 访问各种API，并获取对应的信息</li>
+  <li>[ ] douyin 检测智能机器人类目上线</li>
+  <li>[ ] pdd.version 检查新版本更新并发出通知</li>
+  <li>[ ] 增加mysql数据库相关能力，丰富后续数据库存储相关的能力</li>
+  <li>[ ] 提供rest_framework_api 能力</li>
+  <li>[ ] 接收固定参数内容，请求第三方API返回相应的内容</li>
+  <li>[ ] 接口固定参数，并存储对应的查询结果</li>
 </ul>
 
-<h4 id="2-install-java-se-development-kit-7-jdk7">2. Install Java SE Development Kit 7 (JDK7)</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# curl -LO -H "Cookie: oraclelicense=accept-securebackup-cookie" \
-"http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-linux-x64.rpm"
-[root@ultraera ~]# rpm -Uvh jdk-7u75-linux-x64.rpm
-Preparing...                ########################################### [100%]
-   1:jdk                    ########################################### [100%]
-Unpacking JAR files...
-        rt.jar...
-        jsse.jar...
-        charsets.jar...
-        tools.jar...
-        localedata.jar...
-        jfxrt.jar...
-</code></pre></div></div>
-<h4 id="3-build-java-environment">3. Build Java Environment.</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# vi /etc/profile
-# add follows to the end
-export JAVA_HOME=/usr/java/default
-export PATH=$PATH:$JAVA_HOME/bin
-export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
-[root@ultraera ~]# source /etc/profile
-[root@ultraera ~]# java -version
-java version "1.7.0_75"
-Java(TM) SE Runtime Environment (build 1.7.0_75-b13)
-Java HotSpot(TM) 64-Bit Server VM (build 24.75-b04, mixed mode)
-</code></pre></div></div>
-<h4 id="4-download-tomcat7">4. Download Tomcat7</h4>
-<p>Make sure the latest one and download it from the site below.
-=》 http://ftp.riken.jp/net/apache/tomcat/tomcat-7/</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# wget http://ftp.riken.jp/net/apache/tomcat/tomcat-7/v7.0.70/bin/apache-tomcat-7.0.70.tar.gz
-[root@ultraera ~]# tar zxvf apache-tomcat-7.0.70.tar.gz
-[root@ultraera ~]# mv apache-tomcat-7.0.70 /usr/tomcat7
-[root@ultraera ~]# useradd -M -d /usr/tomcat7 tomcat7
-[root@ultraera ~]# chown -R tomcat7. /usr/tomcat7
-</code></pre></div></div>
-<h4 id="5-create-a-script--use-service-manage-tomcat7">5. create a script , use service manage tomcat7</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# cat /etc/rc.d/init.d/tomcat7
- #!/bin/bash
-
-# Tomcat7: Start/Stop Tomcat 7
-#
-# chkconfig: - 90 10
-# description: Tomcat is a Java application Server.
-
-. /etc/init.d/functions
-. /etc/sysconfig/network
-
-CATALINA_HOME=/usr/tomcat7
-TOMCAT_USER=tomcat7
-
-LOCKFILE=/var/lock/subsys/tomcat7
-
-RETVAL=0
-start(){
-    echo "Starting Tomcat7: "
-    su - $TOMCAT_USER -c "$CATALINA_HOME/bin/startup.sh"
-    RETVAL=$?
-    echo
-    [ $RETVAL -eq 0 ] &amp;&amp; touch $LOCKFILE
-    return $RETVAL
-}
-
-stop(){
-    echo "Shutting down Tomcat7: "
-    $CATALINA_HOME/bin/shutdown.sh
-    RETVAL=$?
-    echo
-    [ $RETVAL -eq 0 ] &amp;&amp; rm -f $LOCKFILE
-    return $RETVAL
-}
-
-case "$1" in
-    start)
-        start
-        ;;
-    stop)
-        stop
-        ;;
-    restart)
-        stop
-        start
-        ;;
-    *)
-        echo $"Usage: $0 {start|stop|restart}"
-        exit 1
-        ;;
-esac
-exit $?
-</code></pre></div></div>
-<h4 id="6-add-tomcat7-to-system-service">6. Add tomcat7 to system service</h4>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# <span class="nb">chmod </span>755 /etc/rc.d/init.d/tomcat7
-<span class="o">[</span>root@ultraera ~]# /etc/rc.d/init.d/tomcat7 start
-Starting Tomcat7:
-Using CATALINA_BASE:   /usr/tomcat7
-Using CATALINA_HOME:   /usr/tomcat7
-Using CATALINA_TMPDIR: /usr/tomcat7/temp
-Using JRE_HOME:        /usr/java/default
-Using CLASSPATH:       /usr/tomcat7/bin/bootstrap.jar:/usr/tomcat7/bin/tomcat-juli.jar
-Tomcat started.
-<span class="o">[</span>root@ultraera ~]# netstat <span class="nt">-ntlp</span> | <span class="nb">grep </span>java
-tcp        0      0 ::ffff:127.0.0.1:8005       :::<span class="k">*</span>                        LISTEN      6326/java
-tcp        0      0 :::8009                     :::<span class="k">*</span>                        LISTEN      6326/java
-tcp        0      0 :::8080                    :::<span class="k">*</span>                        LISTEN      6326/java
-<span class="o">[</span>root@ultraera ~]# ps axu | <span class="nb">grep </span>java
-tomcat7       6326  8.3 85.6 5229768 2910176 ?     Sl   Aug22 3216:38 /usr/bin/java <span class="nt">-Djava</span>.util.logging.config.file<span class="o">=</span>/usr/tomcat7/conf/logging.properties <span class="nt">-Djava</span>.util.logging.manager<span class="o">=</span>org.apache.juli.ClassLoaderLogManager <span class="nt">-server</span> <span class="nt">-Djava</span>.endorsed.dirs<span class="o">=</span>/usr/tomcat7/endorsed <span class="nt">-classpath</span> /usr/tomcat7/bin/bootstrap.jar:/usr/tomcat7/bin/tomcat-juli.jar <span class="nt">-Dcatalina</span>.base<span class="o">=</span>/usr/tomcat7 <span class="nt">-Dcatalina</span>.home<span class="o">=</span>/usr/tomcat7 <span class="nt">-Djava</span>.io.tmpdir<span class="o">=</span>/usr/tomcat7/temp org.apache.catalina.startup.Bootstrap start
-<span class="o">[</span>root@ultraera ~]# chkconfig <span class="nt">--add</span> tomcat7
-<span class="o">[</span>root@ultraera ~]# chkconfig tomcat7 on
-</code></pre></div></div>
-<h4 id="7-打开浏览器测试tomcat-server搭建完成默认页面如下">7. 打开浏览器测试Tomcat Server搭建完成，默认页面如下</h4>
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/09/tomcat7.jpg" alt="" /></p>
-
-<h4 id="8-使用curl-测试">8. 使用curl 测试</h4>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# curl -I http://localhost:8080
-HTTP/1.1 200 OK
-Server: Apache-Coyote/1.1
-Content-Type: text/html;charset=ISO-8859-1
-Transfer-Encoding: chunked
-Date: Sun, 18 Sep 2016 11:14:06 GMT
-</code></pre></div></div>
-
-<h4 id="9-tomcat-文件树">9. Tomcat 文件树</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera /usr/tomcat7]# tree
-.
-├── bin
-│   ├── bootstrap.jar
-│   ├── catalina.bat
-│   ├── catalina.sh
-│   ├── catalina-tasks.xml
-│   ├── commons-daemon.jar
-│   ├── commons-daemon-native.tar.gz
-│   ├── configtest.bat
-│   ├── configtest.sh
-│   ├── daemon.sh
-│   ├── digest.bat
-│   ├── digest.sh
-│   ├── setclasspath.bat
-│   ├── setclasspath.sh
-│   ├── shutdown.bat
-│   ├── shutdown.sh
-│   ├── startup.bat
-│   ├── startup.sh
-│   ├── tomcat-juli.jar
-│   ├── tomcat-native.tar.gz
-│   ├── tool-wrapper.bat
-│   ├── tool-wrapper.sh
-│   ├── version.bat
-│   └── version.sh
-├── conf
-│   ├── catalina.policy
-│   ├── catalina.properties
-│   ├── context.xml
-│   ├── logging.properties
-│   ├── server.xml
-│   ├── tomcat-users.xml
-│   └── web.xml
-├── lib
-├── LICENSE
-├── logs
-│   ├── catalina.2016-09-18.log
-│   ├── catalina.out
-│   ├── host-manager.2016-09-18.log
-│   ├── localhost.2016-09-18.log
-│   └── manager.2016-09-18.log
-├── NOTICE
-├── RELEASE-NOTES
-├── RUNNING.txt
-├── temp
-├── webapps
-│   └── ROOT
-└── work
-</code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-09-19</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Tomcat">Tomcat</a>
+      <cite>2020-11-18</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -1418,26 +651,211 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/08/%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%B2%81.html">二十四岁</a></h1>
+    <h1><a class="title" href="/post/2020/11/autoscraper-%E7%88%AC%E8%99%AB-%E6%89%80%E8%A7%81%E5%8D%B3%E6%89%80%E5%BE%97.html">autoscraper 爬虫 所见即所得</a></h1>
     <div class="post_at_index">
-      <p>现在时间凌晨2点多，已经记不得这是第几个凌晨2点还没睡觉了，好像早睡已经是很久远的事情了，看书学习，刷视频，发呆，玩手机平板，总之不想睡觉；花在睡觉上的时间越来越少，感觉，其实挺累的，生活在大都市里啊，忙碌工作生活奔波，总感觉时间不够用，要做的事情太多，你总要面对很多事情和责任，与人相处；我很努力么，也不那么见得，一旦你成为这个社会一员，总有人或事再推着你前进，在你耳边脑海嚷嚷着不要停，不要停啊！</p>
+      <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install</span>
 
-<p>每年生日的时候，都会给自己写点东西，回首曾经的岁月又多了一年，我不知道这个习惯会坚持到什么时候，或许写着写着就不想写了，或者自己落入庸俗的圈套，不敢回首过往岁月；我一直坚持的，就是希望在将来回望曾经岁月时不会面带羞愧，我没想过自己会有怎么牛逼的人生，如果回想起今天能觉得，哎哟，不错哦，那就很好了啊；我会坚持去自己想做的事，年岁在增长，不忘初心；就像，这个我喜欢啊，嗯，那就坚持下去咯。</p>
+<span class="nv">$ </span>pip3 <span class="nb">install </span>autoscraper
+</code></pre></div></div>
 
-<p>早上醒来的时候，收到前女友的“生日快乐”，挺意外的，然后感动；中午收到爸妈姐姐姐夫外甥的祝福，觉得自己好幸福啊，感恩这些在乎我的人，我爱他们，我想这些会是我生活的动力；今年的生日和往常一样，没有庆祝，我性格不太喜欢仪式感很强烈的事情，没有太多的心思，过的开心就好了，费那么大劲折腾犯不着，生活就是这样。</p>
+<h3 id="一分钟上手">一分钟上手</h3>
 
-<p>今年好像没什么好说的，工作没换，现在单位还不错，有自己努力的方向，领导也重视，比之去年也有提升，唯一的感觉就是时间不够用，要学习的东西太多了，但是还学的进去，这一点我很满足，接下来的一年要坚持下去；学业学习上来说，去年报的上外英本，今年上半年都没去上课了，虽然不是翘课，但是关心的力度不够，抽个时间要去趟学校，跟班主任聊聊接下来的学习规划，毕竟还是要考试的；生活上呢，终于感觉到我是爸妈亲生的了啊喂，超幸福美满，这个没得说，还有一个优秀的妹妹，作为谈心的伙伴和学习的榜样也是十分满足；不过，与朋友相处这块近期有些糟糕，这个要好好检讨，以后在这方面要更加成熟；总之目标啊就是努力挣钱啊挣钱啊，上海买房啊买房啊，虽然这座城市生活着挺辛苦的，但是我爱它，所以我要留在这里；至于恋爱结婚什么的，没什么进展也没什么打算，总之先努力工作，努力生活咯。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">autoscraper</span> <span class="kn">import</span> <span class="n">AutoScraper</span>
 
-<p>还是和往年一样，自从奶奶去世，我一直不喜欢过节，还是会想念她，不愿意听别人提及她，工作累了，与人相处不融洽的时候，很多时候，我都会想起她，想起小时候，为我遮风挡雨，是我最温暖最踏实的依靠，生活虽然艰辛，但那是我一生最快乐的时光，教我做人做事，让我努力，支持我鼓励我教训我，可是我却未能报答这份恩情，每次清明节回去，望着那座坟墓，总是还想听听您喊我的名字；所以呢，我要努力过好自己的人生，才能对得起奶奶的期望，人生的努力，终有一个理由。</p>
+<span class="n">url</span> <span class="o">=</span> <span class="s">'https://stackoverflow.com/questions/2081586/web-scraping-with-python'</span>
 
-<p>好了，接下来要开始走向25岁了。</p>
+<span class="c1"># We can add one or multiple candidates here.
+# You can also put urls here to retrieve urls.
+</span><span class="n">wanted_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">"How to call an external command?"</span><span class="p">]</span>
+
+<span class="n">scraper</span> <span class="o">=</span> <span class="n">AutoScraper</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">scraper</span><span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">wanted_list</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div></div>
+
+<ul>
+  <li>url 是你需要爬取的网页</li>
+  <li>wanted_list 是一个list，其中有你需要的元素目标，注意会爬取相同tag和范围的数据</li>
+</ul>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1605241399644-c035e6f7-8096-438b-806d-7a9da7bee65f.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<h1 id="更多使用技巧">更多使用技巧</h1>
+
+<blockquote>
+  <p>请关注Github仓库： <a href="https://github.com/alirezamika/autoscraper">https://github.com/alirezamika/autoscraper</a></p>
+</blockquote>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-08-19</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
+      <cite>2020-11-16</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2020/11/Django-%E5%88%9D%E5%A7%8B%E5%8C%96project.html">Django 初始化project</a></h1>
+    <div class="post_at_index">
+      <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 初始化 mysite 项目</span>
+
+django-admin startproject mysite
+
+
+- manage.py
+- mysite
+  - settings.py
+  - urls.py
+  - wsgi.py
+</code></pre></div></div>
+
+<h3 id="项目初始化">项目初始化</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 manage.py <span class="nt">--help</span> <span class="c"># 用于管理项目以及服务</span>
+python3 manage.py runserver  <span class="c"># 启动服务</span>
+python3 manage.py startapp <span class="s1">'blog'</span>  <span class="c"># 用于在项目下创建一个app</span>
+
+
+<span class="c"># 新项目初始化步骤</span>
+
+django-admin startproject mysite  <span class="c"># 创建项目</span>
+<span class="nb">cd </span>mysite
+python3 manage.py migrate  <span class="c"># 初始化数据库</span>
+python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号</span>
+</code></pre></div></div>
+
+<h3 id="常见项目配置">常见项目配置</h3>
+
+<blockquote>
+  <p>settings.py</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 切换数据库为 MySQL , Default = sqlite
+</span>
+<span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'default'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">'ENGINE'</span><span class="p">:</span> <span class="s">'django.db.backends.mysql'</span><span class="p">,</span>
+        <span class="s">'NAME'</span><span class="p">:</span> <span class="s">'mysite'</span><span class="p">,</span>
+        <span class="s">'USER'</span><span class="p">:</span> <span class="s">'root'</span><span class="p">,</span>
+        <span class="s">'PASSWORD'</span><span class="p">:</span> <span class="s">'luchuanjia'</span><span class="p">,</span>
+        <span class="s">'HOST'</span><span class="p">:</span> <span class="s">'127.0.0.1'</span><span class="p">,</span>
+        <span class="s">'PORT'</span><span class="p">:</span> <span class="s">'3306'</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1"># !需要安装插件 pip install mysql
+</span>
+<span class="o">---</span>
+
+<span class="c1"># 修改项目时区
+</span><span class="n">TIME_ZONE</span> <span class="o">=</span> <span class="s">'Asia/Shanghai'</span>  <span class="c1"># Default UTC
+</span>
+<span class="c1"># 修改语言
+</span><span class="n">LANGUAGE_CODE</span> <span class="o">=</span> <span class="s">'zh-Hans'</span>  <span class="c1"># 简体中文
+</span></code></pre></div></div>
+
+<h3 id="导出项目的依赖库">导出项目的依赖库</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span> <span class="n">freeze</span> <span class="o">&gt;</span> <span class="n">requirements</span><span class="p">.</span><span class="n">txt</span>   <span class="c1"># 将目前虚拟环境的 依赖库，导出到文件中
+</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="p">.</span><span class="n">txt</span> <span class="c1"># 从 requirements.txt 中读取依赖库，并进行安装
+</span></code></pre></div></div>
+
+<h3 id="modules-变更后需要同步变更数据库表">modules 变更后，需要同步变更数据库表</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 修改module.py后，需要执行以下命令，将变更同步到数据库，否则不生效
+</span><span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">makemigrations</span>
+<span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">migrate</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-11-09</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2020/11/join-%E4%B8%8E-format-%E4%B8%8D%E5%90%8C%E7%9A%84%E7%94%A8%E6%B3%95.html">join 与 format 不同的用法</a></h1>
+    <div class="post_at_index">
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Join
+</span><span class="k">print</span><span class="p">(</span><span class="s">"and"</span><span class="p">.</span><span class="n">join</span><span class="p">([</span><span class="s">"Jack"</span><span class="p">,</span> <span class="s">"Tom"</span><span class="p">]))</span>
+<span class="o">&gt;</span> <span class="n">Jack</span> <span class="ow">and</span> <span class="n">Tom</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"and"</span><span class="p">.</span><span class="n">join</span><span class="p">([</span><span class="s">"Jack"</span><span class="p">,</span> <span class="s">"Tom"</span><span class="p">,</span> <span class="s">"Jessica"</span><span class="p">]))</span>
+<span class="o">&gt;</span> <span class="n">Jack</span> <span class="ow">and</span> <span class="n">Tom</span> <span class="ow">and</span> <span class="n">Jessica</span>
+
+<span class="c1"># Format
+</span><span class="k">print</span><span class="p">(</span><span class="s">"你和{}"</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">"我"</span><span class="p">))</span>
+<span class="o">&gt;</span> <span class="n">你和我</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">"{}你和"</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">"我"</span><span class="p">))</span>
+<span class="o">&gt;</span><span class="n">我你和</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>当然还有 <code class="language-plaintext highlighter-rouge">%s</code> ，但更推荐使用format，任何在设计到字符替换的都可使用到</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"{}_name.txt"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">api</span><span class="p">),</span> <span class="s">"a+"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">"{}, {}</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">uid</span><span class="p">[</span><span class="s">"user-id"</span><span class="p">],</span> <span class="n">uid</span><span class="p">.</span><span class="n">string</span><span class="p">))</span>
+    <span class="n">f</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+    
+<span class="n">string_to_sign</span> <span class="o">=</span> <span class="s">'{}</span><span class="se">\n</span><span class="s">{}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">)</span>
+
+<span class="n">msg</span> <span class="o">=</span> <span class="s">"You get a new version. {}</span><span class="se">\n</span><span class="s">The download link : {}</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">get_version</span><span class="p">,</span> <span class="n">get_url</span><span class="p">)</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-11-06</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2020/11/Django-%E4%BF%AE%E6%94%B9modules%E6%97%B6%E5%87%BA%E9%94%99.html">Django 修改modules时出错</a></h1>
+    <div class="post_at_index">
+      <h1 id="djangodbutilsintegrityerror-not-null-constraint-failed">django.db.utils.IntegrityError: NOT NULL constraint failed</h1>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">migrate</span> 
+<span class="n">错误</span><span class="err">：</span><span class="n">django</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">IntegrityError</span><span class="p">:</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">constraint</span> <span class="n">failed</span>
+
+<span class="c1"># 在执行 migrate 遇到了以上错误，但实际上已经把错误添加的字段给移除后重新 makemigrations
+</span>
+<span class="c1"># 解决办法
+</span>
+<span class="n">删除</span> <span class="n">migrations</span> <span class="n">中对应生成的</span> <span class="sb">`0006`</span> <span class="n">文件</span>
+
+<span class="n">然后</span><span class="err">，</span><span class="n">再次运行2个命令</span>
+
+<span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">makemigrations</span>
+<span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">migrate</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-11-06</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -1486,7 +904,7 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
             <li class="active"><a>8</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page15">15</a></li>
+          <li><a href="/page20">20</a></li>
         
 
         
@@ -1557,7 +975,7 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
      
     	
       <li><a href="/categories.html#Git">
-    		Git <span>5</span>
+    		Git <span>6</span>
     	</a></li>
      
     	
@@ -1597,7 +1015,7 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
      
     	
       <li><a href="/categories.html#Python">
-    		Python <span>7</span>
+    		Python <span>45</span>
     	</a></li>
      
     	
@@ -1642,7 +1060,7 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
      
     	
       <li><a href="/categories.html#Docker">
-    		Docker <span>4</span>
+    		Docker <span>6</span>
     	</a></li>
      
     	
@@ -1701,6 +1119,36 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
     	</a></li>
      
     	
+      <li><a href="/categories.html#SQL">
+    		SQL <span>5</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Node">
+    		Node <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#BI">
+    		BI <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#NaN">
+    		NaN <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#微服务">
+    		微服务 <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#ClickHouse">
+    		ClickHouse <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#闲聊">
     		闲聊 <span>3</span>
     	</a></li>
@@ -1736,13 +1184,13 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
     	</a></li>
      
     	
-      <li><a href="/categories.html#云原生">
-    		云原生 <span>1</span>
+      <li><a href="/categories.html#Gitlab">
+    		Gitlab <span>1</span>
     	</a></li>
      
     	
-      <li><a href="/categories.html#微服务">
-    		微服务 <span>1</span>
+      <li><a href="/categories.html#云原生">
+    		云原生 <span>1</span>
     	</a></li>
     
   
@@ -1756,40 +1204,41 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
       <ul>
         
         <li>
-          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
+          <a href="/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过pipreqs获取当前项目的依赖库</a>
+          如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a>
           
-  参考资料：
+  strip() 删除字符串中的内容，删除后仍旧是str
+  split() 分割字符串，根据特定的标识，分割后=list
 
 
 
         </li>
         
         <li>
-          <a href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s系列 南北流量和东西流量</a>
-          南北流量和东西流量 是什么意思？
+          <a href="/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a>
+          ```python
+import string
 
 
         </li>
         
         <li>
-          <a href="/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8.html">jq 命令行 Json 处理神器</a>
-          
-  https://mozillazg.com/2018/01/jq-use-examples-cookbook.htm-
-
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/07/%E9%97%AD%E5%85%B3%E5%A4%87%E6%88%98-11%E6%9C%88.html">闭关备战 11月</a>
-          目标
+          <a href="/post/2022/11/python3-setup.py-help-commands.html">python3 setup.py --help-commands</a>
+          ```python
+→ python3 setup.py –help-commands
 
 
         </li>
         
         <li>
-          <a href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a>
-          背景
+          <a href="/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入excel</a>
+          以下是使用的方法：
 
 
         </li>

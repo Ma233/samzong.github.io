@@ -4,13 +4,202 @@
  <title>船长的课记</title>
  <link href="https://samzong.me/" rel="self"/>
  <link href="https://samzong.me"/>
- <updated>2022-11-16T12:37:40-06:00</updated>
+ <updated>2022-11-17T09:22:15-06:00</updated>
  <id>https://samzong.me</id>
  <author>
    <name>船长</name>
    <email>samzong.lu@gmail.com</email>
  </author>
 
+ 
+ <entry>
+   <title>通过pipreqs获取当前项目的依赖库</title>
+   <link href="https://samzong.me/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html"/>
+   <updated>2022-11-17T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/11/通过pipreqs获取当前项目的依赖库</id>
+   <content type="html">如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
+
+
+  导致缺少依赖库，导致项目初始化麻烦
+  读取了全局依赖库，导致项目安装了大量的实际无用的库
+
+
+这里推荐一个专门解决这个问题的 Python 库， pipreqs
+
+使用注意事项
+
+# linux &amp;amp; mac
+pipreqs $python_project_dir
+
+# Windows 需要增加 --encoding=utf-8 字母编码，否则会有出错，懂得都懂
+pipreqs ./ --encoding=utf-8
+
+# 会自动在当前目录生成一个 requirements.txt， 如果已存...</content>
+ </entry>
+ 
+ <entry>
+   <title>python3 文本处理 strip() split()</title>
+   <link href="https://samzong.me/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html"/>
+   <updated>2022-11-17T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/11/python3 文本处理 strip() split()</id>
+   <content type="html">
+  strip() 删除字符串中的内容，删除后仍旧是str
+  split() 分割字符串，根据特定的标识，分割后=list
+
+
+
+  两者处理过程中都不会修改原字符串的内容
+
+
+python3
+
+str.strip(&quot;,&quot;) # 删除字符串末尾的&quot;,&quot;
+str.rstrip(&quot;,&quot;) # 删除字符串末尾的&quot;,&quot;
+str.lstrip(&quot;,&quot;) # 删除字符串开通的&quot;,&quot;
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>python3 str 去除特定内容</title>
+   <link href="https://samzong.me/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html"/>
+   <updated>2022-11-17T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/11/python3 str 去除特定内容</id>
+   <content type="html">import string
+
+whitespace – 包含所有空白的字符串
+ascii_lowercase – 包含所有小写字母的字符串
+ascii_uppercase – 一个包含所有ASCII大写字母的字符串
+ascii_letters – 包含所有ASCII字母的字符串
+digits – 包含所有十进制位数的字符串
+hexdigits – 包含所有 十六进制数字的字符串
+octdigits – 包含所有八进制数字的字符串
+punctuation – 包含所有标点字符的字符串
+printable – 包含所有可打印的字符的字符串
+
+
+print(string.digits)  # ...</content>
+ </entry>
+ 
+ <entry>
+   <title>python3 setup.py --help-commands</title>
+   <link href="https://samzong.me/post/2022/11/python3-setup.py-help-commands.html"/>
+   <updated>2022-11-17T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/11/python3 setup.py --help-commands</id>
+   <content type="html">→ python3 setup.py --help-commands
+
+Standard commands:
+  build             build everything needed to install
+  build_py          &quot;build&quot; pure Python modules (copy to build directory)
+  build_ext         build C/C++ extensions (compile/link to build directory)
+  build_clib        build C/C++ libr...</content>
+ </entry>
+ 
+ <entry>
+   <title>python xlsxwriter 写入excel</title>
+   <link href="https://samzong.me/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html"/>
+   <updated>2022-11-17T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/11/python xlsxwriter 写入excel</id>
+   <content type="html">以下是使用的方法：
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>python re正则表达式</title>
+   <link href="https://samzong.me/post/2022/11/python-re%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.html"/>
+   <updated>2022-11-17T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/11/python re正则表达式</id>
+   <content type="html">
+</content>
+ </entry>
+ 
+ <entry>
+   <title>python Request install pip error</title>
+   <link href="https://samzong.me/post/2022/11/python-Request-install-pip-error.html"/>
+   <updated>2022-11-17T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/11/python Request install pip error</id>
+   <content type="html">…
+socket.timeout: The read operation timed out
+…
+ReadTimeoutError: HTTPSConnectionPool(host=‘files.pythonhosted.org’, port=443): Read timed out.
+
+
+解决办法：
+
+pip --default-timeout=200 install -U xxx_package_name
+</content>
+ </entry>
+ 
+ <entry>
+   <title>learn sqlalchemy</title>
+   <link href="https://samzong.me/post/2022/11/learn-sqlalchemy.html"/>
+   <updated>2022-11-17T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/11/learn sqlalchemy</id>
+   <content type="html"># python3 on Mac
+
+pip3 install sqlalchemy mysqclient
+
+# CentOS
+yum install MySQL-python
+
+
+import sqlalchemy
+import MySQLdb
+
+from sqlalchemy import create_engine, MetaData
+
+def connect_db ():
+	# connect db:
+	engine = create_engine(&quot;mysql://user:pass@localhost/db&quot;, echo = True)
+
+    meta = MetaData...</content>
+ </entry>
+ 
+ <entry>
+   <title>Python 抓出来随机下载记录</title>
+   <link href="https://samzong.me/post/2022/11/Python-%E6%8A%93%E5%87%BA%E6%9D%A5%E9%9A%8F%E6%9C%BA%E4%B8%8B%E8%BD%BD%E8%AE%B0%E5%BD%95.html"/>
+   <updated>2022-11-17T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/11/Python 抓出来随机下载记录</id>
+   <content type="html">for n in range(500):
+    url = 'https://appest-public.s3.amazonaws.com/download/mac/TickTick_3.9.00_{}.dmg'.format(n)
+    resp = requests.get(url)
+    try:
+        print(resp.status_code)
+        if resp.status_code == 200:
+            print(n)
+            break
+    except Exception as e:
+       ...</content>
+ </entry>
+ 
+ <entry>
+   <title>MySQL Case WHEN</title>
+   <link href="https://samzong.me/post/2022/11/MySQL-Case-WHEN.html"/>
+   <updated>2022-11-17T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/11/MySQL Case WHEN</id>
+   <content type="html">CASE
+	WHEN a=1 THEN 'HELLO'
+	WHEN a=2 THEN ’TELL‘
+	ELSE 'ELLE'
+END 'Col_name'
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Docker for Mac 网络技巧</title>
+   <link href="https://samzong.me/post/2022/11/Docker-for-Mac-%E7%BD%91%E7%BB%9C%E6%8A%80%E5%B7%A7.html"/>
+   <updated>2022-11-17T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/11/Docker for Mac 网络技巧</id>
+   <content type="html">在 Windows 和 Linux 中使用 Docker ，可以通过 docker0 这个网络 IP，在容器内访问宿主机的端口及服务
+
+➜  ~ ifconfig
+docker0: flags=4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&amp;gt;  mtu 1500
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
+        ether 02:42:65:e2:82:de  txqueuelen 0  (Ethernet)
+        RX packets...</content>
+ </entry>
  
  <entry>
    <title>Dubbo 基础知识梳理</title>
@@ -40,6 +229,92 @@
 版本迭代
 
 ...</content>
+ </entry>
+ 
+ <entry>
+   <title>Panads fill NaN value to Zero</title>
+   <link href="https://samzong.me/post/2022/11/Panads-fill-NaN-value-to-Zero.html"/>
+   <updated>2022-11-10T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/11/Panads fill NaN value to Zero</id>
+   <content type="html">df = pandas.read_csv('somefile.txt')
+
+df = df.fillna(0)
+
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Redash for Docker 部署</title>
+   <link href="https://samzong.me/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html"/>
+   <updated>2022-10-22T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/10/Redash for Docker 部署</id>
+   <content type="html">暗坑很多
+
+部署过程
+
+
+  需要自行维护一个 env 作为配置文件.
+
+
+
+
+REDASH_COOKIE_SECRET=a07cca441ab9f28b66c589f3118e0de48469b1bc6a5036eade7badbed305d96e
+POSTGRES_HOST_AUTH_METHOD=trust
+REDASH_REDIS_URL=redis://redis:6379/0
+REDASH_DATABASE_URL=postgresql://postgres
+
+
+
+  需要创建一个 postgres-data 并配置 docker-compose.yml 的路径，数据库持久化...</content>
+ </entry>
+ 
+ <entry>
+   <title>GitLab Forked 如何跟随upstream主库</title>
+   <link href="https://samzong.me/post/2022/09/GitLab-Forked-%E5%A6%82%E4%BD%95%E8%B7%9F%E9%9A%8Fupstream%E4%B8%BB%E5%BA%93.html"/>
+   <updated>2022-09-28T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/09/GitLab Forked 如何跟随upstream主库</id>
+   <content type="html">:::info
+通过 PR 的方式共同对主仓库进行贡献的方式，是开源项目协作的非常有效的方法；通常我们不会直接对主仓库直接提交代码。
+:::
+
+一般情况下，我们的操作是，在需要贡献时，Fork 一份项目，然后自己修改以 PR 的方式提交贡献请求。
+
+
+
+Github 的实现方式
+
+熟悉 Github 的同学会发现，在 Github 上最近更新了 Sync fork的功能，通过简单的点击操作，即可完成对源库(upstream) 的更新同步。
+
+通过以上方式，我们可以方便在跟随主库的更新
+
+
+  Tips Github 的方式，仅在 Web端 和 Github CLI 官方提供的 GH 才可...</content>
+ </entry>
+ 
+ <entry>
+   <title>Poetry 使用笔记</title>
+   <link href="https://samzong.me/post/2022/09/Poetry-%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0.html"/>
+   <updated>2022-09-22T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/09/Poetry 使用笔记</id>
+   <content type="html">poetry 是目前比较流行的 Python 环境管理工具 和 包管理工具，对多项目开发时的环境隔离有非常大的帮助，同时集成了包管理能力。
+
+
+  官方网站  https://python-poetry.org/   集成了所有 Poetry 最新的使用文档，以下仅在我的环境上经过验证
+
+
+安装方式
+
+# In Pip
+- 安装 pip install poetry # pip3
+- 更新 poetry self update
+
+# In my Mac
+- 安装 brew install poetry
+- 更新 brew upgrade poetry
+
+# In my CentOS
+- ...</content>
  </entry>
  
  <entry>
@@ -123,6 +398,38 @@ npm install hexo-admonition --save
 样式配置
 
 你的 hexo 可能会使用不同主题，所以需要自己增加样式，将如下样式放入 he...</content>
+ </entry>
+ 
+ <entry>
+   <title>Gitlab 发送企微机器人消息</title>
+   <link href="https://samzong.me/post/2022/05/Gitlab-%E5%8F%91%E9%80%81%E4%BC%81%E5%BE%AE%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%B6%88%E6%81%AF.html"/>
+   <updated>2022-05-18T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/05/Gitlab 发送企微机器人消息</id>
+   <content type="html">
+  企业微信机器人消息说明： https://developer.work.weixin.qq.com/document/path/91770
+  GitLab Webhook Event：   https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html
+
+
+
+
+Gitlab 配置
+
+
+:::info
+=&amp;gt; 高级用法 开启鉴权
+:::
+
+- 在 Gitlab 配置好之后 Secret token
+- 在服务端接收推送时验证
+
+
+实现中转站服务
+
+:::warning
+基本需求说明：
+
+
+  可以...</content>
  </entry>
  
  <entry>
@@ -221,6 +528,24 @@ yt-dlp 是从 youtube-dl 分支出来的版本，提供持续更新和向前兼�
 
 ➜  ~ alias youtube-dl=yt-dlp
 ➜  ~ echo &quot;alias youtube...</content>
+ </entry>
+ 
+ <entry>
+   <title>淘宝Python SDK优化支持Python3</title>
+   <link href="https://samzong.me/post/2022/05/%E6%B7%98%E5%AE%9DPython-SDK%E4%BC%98%E5%8C%96%E6%94%AF%E6%8C%81Python3.html"/>
+   <updated>2022-05-03T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/05/淘宝Python SDK优化支持Python3</id>
+   <content type="html">淘宝开放平台的SDK，Python的 SDK 是在2012年，仅支持Python2.7 及以上，但不支持Python3；二现在是2102年了，像我这样的新手都是直接从Python3开始的，
+
+1. Python3 int替代了long
+
+P_TIMESTAMP: str(int(time.time() * 1000))
+
+2. 用items替代iteritems:
+
+for key, value in application_parameter.items():
+
+3. 查阅资料，发现有人说到dict methods dict.keys(), dict.items() and dict....</content>
  </entry>
  
  <entry>
@@ -385,6 +710,35 @@ pip install taobao-openapi
 
 
 import taobao-opena...</content>
+ </entry>
+ 
+ <entry>
+   <title>Python Pip 国内加速</title>
+   <link href="https://samzong.me/post/2022/04/Python-Pip-%E5%9B%BD%E5%86%85%E5%8A%A0%E9%80%9F.html"/>
+   <updated>2022-04-14T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/04/Python Pip 国内加速</id>
+   <content type="html">目前国内还是有比较多的镜像站，截止目前使用下比较稳定的只有下面这个 清华的镜像站了
+
+
+  https://pypi.tuna.tsinghua.edu.cn/simple
+
+
+安装特定包时加速
+
+
+pip install pandas -i http://pypi.douban.com/simple
+
+
+修改默认的pip源
+
+
+# mkdir ~/.pip
+
+# cat ~/.pip/pip.conf  &amp;lt;&amp;lt;EOF
+[global]
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+[install]
+trusted-...</content>
  </entry>
  
  <entry>
@@ -573,6 +927,125 @@ curl https://pyenv.run | bash
  </entry>
  
  <entry>
+   <title>FastAPI 使用文档</title>
+   <link href="https://samzong.me/post/2022/02/FastAPI-%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3.html"/>
+   <updated>2022-02-24T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/02/FastAPI 使用文档</id>
+   <content type="html">安装基础环境
+
+
+
+poetry add fastapi
+
+
+首个程序文件
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>一个Python项目的目录结构设计</title>
+   <link href="https://samzong.me/post/2022/02/%E4%B8%80%E4%B8%AAPython%E9%A1%B9%E7%9B%AE%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1.html"/>
+   <updated>2022-02-11T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/02/一个Python项目的目录结构设计</id>
+   <content type="html">参考的目录结构设计
+
+
+  thanks https://www.justdopython.com/2020/01/18/python-web-flask-project-125/
+
+
+project/
+  forms/
+    myform.py
+    ...
+  models/
+    __init__.py
+    profile.py
+    user.py
+    ...
+  routes/
+    __init__.py
+    home.py
+    profile.py
+    ...
+  static/
+    ...
+  services/
+    __init__...</content>
+ </entry>
+ 
+ <entry>
+   <title>ClickHouse 常用函数使用</title>
+   <link href="https://samzong.me/post/2022/01/ClickHouse-%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E4%BD%BF%E7%94%A8.html"/>
+   <updated>2022-01-20T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/01/ClickHouse 常用函数使用</id>
+   <content type="html">1. 调整时区
+
+用于调整时区为查询者的时区
+
+-- clickhouse
+toString(toDateTime(event_time), 'Asia/Shanghai') AS event_time
+
+-- mysql howto
+SELECT  CONVERT_TZ('2020-04-06 02:00:00','UTC','Asia/Hong_Kong') as event_time
+
+
+2. 提前Json中的字符串
+
+通过 JSONExtractRaw对多层Json结构的数据进行 精准提取
+
+-- clickhouse
+JSONExtractRaw(_data,'properti...</content>
+ </entry>
+ 
+ <entry>
+   <title>python flask form</title>
+   <link href="https://samzong.me/post/2022/01/python-flask-form.html"/>
+   <updated>2022-01-03T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/01/python flask form</id>
+   <content type="html">form_data = request.form  # 获取表单中的提交的数据，这个是定义了一个post接口，入参会放在form_data 这里接口可以在 Google Chrome DevTools 中的 Doc
+args_data = request.args # 获取的是url中的参数 tips: ?method=12312&amp;amp;token=123121 &amp;gt; 这里获取到的是一个 List
+json_data = request.get_json() # 获取的是从 `POST` 收到的对应 json， 这里的接口文档会放在 Google Chrome DevTools 中...</content>
+ </entry>
+ 
+ <entry>
+   <title>get current timestamp</title>
+   <link href="https://samzong.me/post/2022/01/get-current-timestamp.html"/>
+   <updated>2022-01-03T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/01/get current timestamp</id>
+   <content type="html">import time
+millis = int(round(time.time() * 1000))
+print millis
+
+
+import time
+
+current_milli_time = lambda: int(round(time.time() * 1000))
+
+current_milli_time()
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Apollo 如何实现配置热发布</title>
+   <link href="https://samzong.me/post/2022/01/%E8%BD%AC%E8%BD%BD-Apollo%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E9%85%8D%E7%BD%AE%E7%83%AD%E5%8F%91%E5%B8%83.html"/>
+   <updated>2022-01-03T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/01/[转载] Apollo如何实现配置热发布</id>
+   <content type="html">配置中心在微服务架构体系中是非常重要的基础设施服务，承担着分布式配置集中管理、配置热发布以及审计等重要的职责。本文主要探讨Apollo配置中心的配置热发布特性如何实现。
+
+
+
+如上图所示，配置发布的主流程如下：
+
+
+  （1）用户通过Portal向AdminService发布配置信息；
+  （2）AdminService在配置发布后会往ReleaseMessage表插入一条消息记录；
+  （3）ConfigService中包含了一个定时线程，该定时线程每秒扫描一次ReleaseMessage表，检查表中是否有新的消息记录；
+  （4）如果存在配置更新，ConfigService就会通知所...</content>
+ </entry>
+ 
+ <entry>
    <title>Github使用 SSH拉取代码加速</title>
    <link href="https://samzong.me/post/2021/11/git%E7%BB%88%E7%AB%AFclone%E5%8A%A0%E9%80%9F.html"/>
    <updated>2021-11-29T00:00:00-06:00</updated>
@@ -597,6 +1070,115 @@ curl https://pyenv.run | bash
  </entry>
  
  <entry>
+   <title>钉钉内网穿透工具</title>
+   <link href="https://samzong.me/post/2021/11/%E9%92%89%E9%92%89%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%B7%A5%E5%85%B7.html"/>
+   <updated>2021-11-19T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2021/11/钉钉内网穿透工具</id>
+   <content type="html">
+  https://developers.dingtalk.com/document/resourcedownload/http-intranet-penetration?pnamespace=tutorial
+
+
+
+
+使用方法
+
+
+git clone https://github.com/open-dingtalk/pierced.git
+
+cd  pierced/mac_64
+./ding -config=./ding.cfg -subdomain=abcde 5000
+
+# usage:  命令 -config=配置文件[不需要修改] -subdomain=项目域名 Port
+#...</content>
+ </entry>
+ 
+ <entry>
+   <title>[待完成] 使用钉钉三方授权登录</title>
+   <link href="https://samzong.me/post/2021/11/%E5%BE%85%E5%AE%8C%E6%88%90-%E4%BD%BF%E7%94%A8%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%8E%88%E6%9D%83%E7%99%BB%E5%BD%95.html"/>
+   <updated>2021-11-17T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2021/11/[待完成] 使用钉钉三方授权登录</id>
+   <content type="html">
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Creating DataFrame using list</title>
+   <link href="https://samzong.me/post/2021/11/Creating-DataFrame-using-list.html"/>
+   <updated>2021-11-17T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2021/11/Creating DataFrame using list</id>
+   <content type="html">import pandas as pd
+  
+# list of strings
+lst = ['Geeks', 'For', 'Geeks', 'is', 
+            'portal', 'for', 'Geeks']
+  
+# Calling DataFrame constructor on list
+df = pd.DataFrame(lst)
+
+
+
+
+# import pandas as pd
+import pandas as pd
+
+# list of strings
+lst = ['Geeks', 'For', 'Geeks', 'is', 'portal', ...</content>
+ </entry>
+ 
+ <entry>
+   <title>Metabase 踩坑：跳转链接的浏览器缓存</title>
+   <link href="https://samzong.me/post/2021/11/Metabase-%E8%B8%A9%E5%9D%91-%E8%B7%B3%E8%BD%AC%E9%93%BE%E6%8E%A5%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98.html"/>
+   <updated>2021-11-03T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2021/11/Metabase 踩坑：跳转链接的浏览器缓存</id>
+   <content type="html">
+
+背景说明
+
+最近在使用Metabase做一个内部工具的跳转传送门，大概实现的方式是这样：
+
+
+
+  通过Metabase带有的字段支持链接跳转的功能，拼接上查询结果的部分
+  后端服务完成对用户行为的校验，并且完成身份预认证，生成验证token
+  然后带着预认证的信息跳转到对应的系统内
+
+
+问题分析
+
+起初用的时候发现还好，不过陆续有同学反馈有些行数的结果不能够进入后台去，而让其他人使用又是没问题；
+
+简单分析了下服务端日志，发现不能正常登录情况是请求根本没有到后端服务器，浏览器直接进行了跳转，而之前签发的token是有时效的，超过时间就过期了，所以导致跳转后校验不通过
+
+
+
+
+ ...</content>
+ </entry>
+ 
+ <entry>
+   <title>Python Version Manage `pyenv`</title>
+   <link href="https://samzong.me/post/2021/10/Python-Version-Manage-pyenv.html"/>
+   <updated>2021-10-19T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2021/10/Python Version Manage `pyenv`</id>
+   <content type="html">
+  to_url : http://pyenv.run/
+github offical site https://github.com/pyenv/pyenv
+
+
+在 MacOS 的使用方式： brew install pyenv
+
+使用 pyenv 还是挺方便的，但是在Linux云服务器上配置网络的话就比较麻烦了，比如我在用的阿里云ECS，中间有些曲折，所以编写下文档记录下来，以防后续使用遇到问题
+
+安装 pyenv
+
+# 官方推荐
+curl https://pyenv.run | bash
+
+
+上面一个简单的命令就好了，安装后 pyenv 文件 会在你的 $HOME/.pyenv ...</content>
+ </entry>
+ 
+ <entry>
    <title>MacOS 10.15 开启 HiDPI</title>
    <link href="https://samzong.me/post/2021/10/MacOS-10.15-%E5%BC%80%E5%90%AF-HiDPI.html"/>
    <updated>2021-10-12T00:00:00-05:00</updated>
@@ -612,6 +1194,302 @@ curl https://pyenv.run | bash
 
 
 它使用横纵 2 个物理像素也就是 4 个物理像素来显示 1 个像素区域, 结果就是图像...</content>
+ </entry>
+ 
+ <entry>
+   <title>node nvm</title>
+   <link href="https://samzong.me/post/2021/09/node-nvm.html"/>
+   <updated>2021-09-24T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2021/09/node nvm</id>
+   <content type="html"># 安装nvm
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | bash
+
+# 修改npm registry
+npm config set registry https://registry.npm.taobao.org
+
+
+:::info
+nvm 在中国国内使用
+:::
+
+# 安装
+bash -c &quot;$(curl -fsSL https://gitee.com/RubyKids/nvm-cn/raw/master/install.sh)&quot;
+
+# 卸载
+bash -c &quot;$(curl ...</content>
+ </entry>
+ 
+ <entry>
+   <title>01 快速了解连接数据库</title>
+   <link href="https://samzong.me/post/2021/09/01-%E5%BF%AB%E9%80%9F%E4%BA%86%E8%A7%A3%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93.html"/>
+   <updated>2021-09-24T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2021/09/01 快速了解连接数据库</id>
+   <content type="html">SQLAlchemy 是 ORM 框架 ，目前主流且比较通用，在程序中用来处理数据库相关的能力，本文是用于学习和理解 SQLAlchemy 的记录，主要使用的编程语言是Python
+
+
+  Python3 AND MySQL 5.6
+
+
+安装
+
+目前较为场景的关系型数据库是 MySQL ，这里介绍 在Python 中安装和MySQL的链接方式
+
+pip3 install sqlalchemy pymysql
+
+
+
+  快速连接数据库
+
+
+# easy script.
+
+from sqlalchemy import create_engine
+from sqlalchemy impory ...</content>
+ </entry>
+ 
+ <entry>
+   <title>使用Python3格式化大型json文件</title>
+   <link href="https://samzong.me/post/2021/09/%E4%BD%BF%E7%94%A8Python3%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%A4%A7%E5%9E%8Bjson%E6%96%87%E4%BB%B6.html"/>
+   <updated>2021-09-05T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2021/09/使用Python3格式化大型json文件</id>
+   <content type="html">当单个甚至单行Json文件大小超过100M时，无论是哪个文本编辑器在处理时都会显得吃力，接下来介绍一种非常方便的方式，快速格式化大型Json文件。
+
+:::info
+Python 自带json-tool 在转换是会导致中文乱码，以下在原有基础上进行了优化，并增加中文支持
+:::
+
+No BB, Show Code
+
+&quot;&quot;&quot;
+Command-line tool to validate and pretty-print JSON
+
+Usage::
+
+    $ python3 json-tool.json import.json  output.json
+
+    Need Python 3...</content>
+ </entry>
+ 
+ <entry>
+   <title>dataframe - Pandas</title>
+   <link href="https://samzong.me/post/2021/09/dataframe-Pandas.html"/>
+   <updated>2021-09-05T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2021/09/dataframe - Pandas</id>
+   <content type="html">https://www.cnblogs.com/timotong/p/9678490.html
+</content>
+ </entry>
+ 
+ <entry>
+   <title>MySQL REGEXP 活学活用</title>
+   <link href="https://samzong.me/post/2021/08/MySQL-REGEXP-%E6%B4%BB%E5%AD%A6%E6%B4%BB%E7%94%A8.html"/>
+   <updated>2021-08-09T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2021/08/MySQL REGEXP 活学活用</id>
+   <content type="html">REGEXP 在 MySQL中使用的正则表达式标识符，有着非常丰富的使用路径，代替like将有非常大的使用空间
+
+梅里埃强制增加定位域名备案
+
+
+  增加域名备案到页脚
+
+
+&amp;lt;div style=&quot;width: 100%; text-align: center; position:absolute; bottom:0; margin: auto;&quot;&amp;gt;
+   &amp;lt;p&amp;gt;
+       Copyright 2021 © 上海微企信息技术股份有限公司. &amp;lt;a href=&quot;https://beian.miit.gov.cn&quot;&amp;gt;沪ICP备12042952号-18&amp;l...</content>
+ </entry>
+ 
+ <entry>
+   <title>常用SQL-拼接日期</title>
+   <link href="https://samzong.me/post/2021/08/%E5%B8%B8%E7%94%A8SQL.html"/>
+   <updated>2021-08-08T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2021/08/常用SQL</id>
+   <content type="html">concat_ws
+
+
+  concat_ws(‘-‘,year,month,day) =&amp;gt; ‘2021-4-15’   拼接日期
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>快速了解MySQL时间范围参数</title>
+   <link href="https://samzong.me/post/2021/04/%E5%BF%AB%E9%80%9F%E4%BA%86%E8%A7%A3MySQL%E6%97%B6%E9%97%B4%E8%8C%83%E5%9B%B4%E5%8F%82%E6%95%B0.html"/>
+   <updated>2021-04-18T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2021/04/快速了解MySQL时间范围参数</id>
+   <content type="html">-- 查询30天
+select DATE_SUB(CURDATE(), INTERVAL 30 DAY) frm table;
+
+
+今天
+
+select * from 表名 where to_days(时间字段名) = to_days(now());
+
+昨天
+
+SELECT * FROM 表名 WHERE TO_DAYS( NOW( ) ) - TO_DAYS( 时间字段名) &amp;lt;= 1
+
+7天
+
+SELECT * FROM 表名 where DATE_SUB(CURDATE(), INTERVAL 7 DAY) &amp;lt;= date(时间字段名)
+
+近30天
+
+SELECT * F...</content>
+ </entry>
+ 
+ <entry>
+   <title>HQL/SQL时间处理</title>
+   <link href="https://samzong.me/post/2021/04/HQL_SQL%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86.html"/>
+   <updated>2021-04-16T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2021/04/HQL_SQL时间处理</id>
+   <content type="html">--HQL ms
+from_unixtime(CAST(obtained_ms/1000 AS BIGINT), 'yyyy-MM-dd HH:mm:ss')
+
+--SQL ms
+from_unixtime(time_in_ms / 1000)
+
+--SQL date
+date(from_unixtime(time_in_ms / 1000)) as dt
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>how to set container auto-restarting with docker</title>
+   <link href="https://samzong.me/post/2021/03/how-to-set-container-auto-restarting-with-docker.html"/>
+   <updated>2021-03-12T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2021/03/how to set container auto-restarting with docker</id>
+   <content type="html">auto-restarting with docker 
+docker run –restart=always my-container
+========================================
+
+disable auto-restarting with docker
+docker update –restart=no my-container
+=======================================
+</content>
+ </entry>
+ 
+ <entry>
+   <title>requests post data 时对json需要特殊注意</title>
+   <link href="https://samzong.me/post/2021/02/requests-post-data-%E6%97%B6%E5%AF%B9json%E9%9C%80%E8%A6%81%E7%89%B9%E6%AE%8A%E6%B3%A8%E6%84%8F.html"/>
+   <updated>2021-02-15T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2021/02/requests post data 时对json需要特殊注意</id>
+   <content type="html">import requests
+
+url = url
+data = data
+headers = headers
+
+# 通过以下方式录入的 type(data) = dict
+
+data = {}
+data[&quot;username&quot;] = username
+data[&quot;password&quot;] = password
+
+
+req = requests.post(url=url, headers=headers, json=data)
+
+# 以上处理方式会自动把数据转为json format
+
+
+
+  注意在方便插入数据的同时，也要关注数据类型转化的问题，研发初学者容易出的错误
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>python3 traceback</title>
+   <link href="https://samzong.me/post/2021/02/python3-traceback.html"/>
+   <updated>2021-02-15T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2021/02/python3 traceback</id>
+   <content type="html">打印堆栈信息，方便调试
+
+方式一:
+
+import traceback
+
+def test(self):
+    try:
+        1 / 0
+    except BaseException as e:
+        msg = traceback.format_exc()
+        print(msg)
+    finally:
+        pass
+
+
+方式二：
+
+import logging
+
+def test(self):
+    try:
+        1 / 0
+    except BaseException as e:
+        # msg ...</content>
+ </entry>
+ 
+ <entry>
+   <title>pprint beautiful json format</title>
+   <link href="https://samzong.me/post/2021/02/pprint-beautiful-json-format.html"/>
+   <updated>2021-02-15T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2021/02/pprint beautiful json format</id>
+   <content type="html">import pprint
+
+pp = pprint.PrettyPrinter(indent=2)
+pp.pprint(res.json())
+
+
+{   'data': [   {   '_serializer': 'v2.book',
+                    'content_updated_at': '2020-10-21T05:17:01.890Z',
+                    'created_at': '2020-10-20T15:37:45.000Z',
+                    'creator_id': 343806,
+  ...</content>
+ </entry>
+ 
+ <entry>
+   <title>dingtalk orgBot sign generate</title>
+   <link href="https://samzong.me/post/2021/02/dingtalk-orgBot-sign-generate.html"/>
+   <updated>2021-02-09T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2021/02/dingtalk orgBot sign generate</id>
+   <content type="html">需要使用到 hmac 以及 time 库
+
+#/usr/bin/env python3
+# -*- coding: UTF-8 -*-
+
+
+import hmac
+import hashlib
+import base64
+import time
+
+timestamp = lambda: int(round(time.time() * 1000))
+
+timestamp = ''
+
+app_secret = 'BvuHQ-bTB2PiChlyCD3rgdNgHfMSYb0m4iQ_T1mEmG8ImBPQ1DSN3qwRU2-GblxR'
+app_secret_enc = app_secr...</content>
+ </entry>
+ 
+ <entry>
+   <title>python django 编写公共模块在app中引用</title>
+   <link href="https://samzong.me/post/2021/02/python-django-%E7%BC%96%E5%86%99%E5%85%AC%E5%85%B1%E6%A8%A1%E5%9D%97%E5%9C%A8app%E4%B8%AD%E5%BC%95%E7%94%A8.html"/>
+   <updated>2021-02-07T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2021/02/python django 编写公共模块在app中引用</id>
+   <content type="html">使用方法一
+
+import sys
+sys.path.append('../dingtalk')
+
+from dingtalk import DingTalk
+
+
+import os
+import sys
+
+sys.path.insert(0,os.path('../dingtalk'))
+
+</content>
  </entry>
  
  <entry>
@@ -636,6 +1514,37 @@ curl https://pyenv.run | bash
 
 
   思绪有点乱，后面再继续写吧...</content>
+ </entry>
+ 
+ <entry>
+   <title>covert timestamp2datetime</title>
+   <link href="https://samzong.me/post/2020/12/covert-timestamp2datetime.html"/>
+   <updated>2020-12-09T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2020/12/covert timestamp2datetime</id>
+   <content type="html">from datetime import datetime
+
+datetime.fromtimestamp(int(res.json()[&quot;updated_at&quot;] /1000)).strftime('%Y-%m-%d %H:%M:%S')
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>python 完成抖店API授权</title>
+   <link href="https://samzong.me/post/2020/12/python-%E5%AE%8C%E6%88%90%E6%8A%96%E5%BA%97API%E6%8E%88%E6%9D%83.html"/>
+   <updated>2020-12-08T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2020/12/python 完成抖店API授权</id>
+   <content type="html">import hashlib
+import requests
+import time
+from datetime import datetime
+
+# 替换 app_key, app_secret
+app_key = &quot;1122233333444555&quot;
+app_secret = &quot;beddee55a0-reerw2452ff4-5deeweec2d7faf1&quot;
+
+current_time = lambda: int(round(time.time()))
+timestamp = str(datetime.fromtimestamp(current_time()))
+param_json...</content>
  </entry>
  
  <entry>
@@ -691,6 +1600,214 @@ SMC 全称 系统管理控制器负责管理与以下功能相关的行为：
 SMC 常见问题
 
 由于Mac的雷电接口经常需要插拔外接设备，而外接设备的接口电流电压不一致，Mac在遇到异常电涌时会触发  SMC 的自我保护机制，通常意义是雷电口不可用...</content>
+ </entry>
+ 
+ <entry>
+   <title>代码格式相关</title>
+   <link href="https://samzong.me/post/2020/11/%E4%BB%A3%E7%A0%81%E6%A0%BC%E5%BC%8F%E7%9B%B8%E5%85%B3.html"/>
+   <updated>2020-11-18T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2020/11/代码格式相关</id>
+   <content type="html">/** Java 单行 **/
+
+/** one line comment in Avro IDL */
+
+/**
+
+Java 多行
+
+multiple lines
+comment in Avro IDL
+
+**/
+
+
+# 单行
+# one line comment in Avro IDL
+
+
+&quot;&quot;&quot;
+
+多行
+
+multiple lines
+comment in Avro IDL
+
+&quot;&quot;&quot;
+
+
+## 时间命名
+
+时间字段名称请以 in_TIMEUNIT 结尾, 如:
+
+  time_in_ms
+  time_in_s
+  time_in_min
+  time_in_hour
+
+ 
+ 一些...</content>
+ </entry>
+ 
+ <entry>
+   <title>Django 练手项目</title>
+   <link href="https://samzong.me/post/2020/11/Django-%E7%BB%83%E6%89%8B%E9%A1%B9%E7%9B%AE.html"/>
+   <updated>2020-11-18T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2020/11/Django 练手项目</id>
+   <content type="html">
+  started_at 2020-11.17
+
+
+
+  [ ] 建立统一的dingtalk_webhook 发送钉群机器人通知
+  [x] 支持多种消息类型
+  [x] text
+  [x] markdown
+  [x] link
+  [ ] 支持@
+  [ ] @个人
+  [x] @所有
+  [ ] 支持在任意Djang App内调用
+  
+    [ ] 
+  
+  [ ] 增加定时任务能力
+  [ ] 拆分任务 分钟/小时/天级别，自动执行
+  [ ] 使用request 访问各种API，并获取对应的信息
+  [ ] douyin 检测智能机器人类目上线
+  [ ] pdd.v...</content>
+ </entry>
+ 
+ <entry>
+   <title>autoscraper 爬虫 所见即所得</title>
+   <link href="https://samzong.me/post/2020/11/autoscraper-%E7%88%AC%E8%99%AB-%E6%89%80%E8%A7%81%E5%8D%B3%E6%89%80%E5%BE%97.html"/>
+   <updated>2020-11-16T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2020/11/autoscraper 爬虫 所见即所得</id>
+   <content type="html"># Install
+
+$ pip3 install autoscraper
+
+
+一分钟上手
+
+from autoscraper import AutoScraper
+
+url = 'https://stackoverflow.com/questions/2081586/web-scraping-with-python'
+
+# We can add one or multiple candidates here.
+# You can also put urls here to retrieve urls.
+wanted_list = [&quot;How to call an external co...</content>
+ </entry>
+ 
+ <entry>
+   <title>Django 初始化project</title>
+   <link href="https://samzong.me/post/2020/11/Django-%E5%88%9D%E5%A7%8B%E5%8C%96project.html"/>
+   <updated>2020-11-09T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2020/11/Django 初始化project</id>
+   <content type="html"># 初始化 mysite 项目
+
+django-admin startproject mysite
+
+
+- manage.py
+- mysite
+  - settings.py
+  - urls.py
+  - wsgi.py
+
+
+项目初始化
+
+python3 manage.py --help # 用于管理项目以及服务
+python3 manage.py runserver  # 启动服务
+python3 manage.py startapp 'blog'  # 用于在项目下创建一个app
+
+
+# 新项目初始化步骤
+
+django-admin startproject mysite  # ...</content>
+ </entry>
+ 
+ <entry>
+   <title>join 与 format 不同的用法</title>
+   <link href="https://samzong.me/post/2020/11/join-%E4%B8%8E-format-%E4%B8%8D%E5%90%8C%E7%9A%84%E7%94%A8%E6%B3%95.html"/>
+   <updated>2020-11-06T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2020/11/join 与 format 不同的用法</id>
+   <content type="html"># Join
+print(&quot;and&quot;.join([&quot;Jack&quot;, &quot;Tom&quot;]))
+&amp;gt; Jack and Tom
+
+print(&quot;and&quot;.join([&quot;Jack&quot;, &quot;Tom&quot;, &quot;Jessica&quot;]))
+&amp;gt; Jack and Tom and Jessica
+
+# Format
+print(&quot;你和{}&quot;.Format(&quot;我&quot;))
+&amp;gt; 你和我
+
+print(&quot;{}你和&quot;.Format(&quot;我&quot;))
+&amp;gt;我你和
+
+
+
+  当然还有 %s ，但更推荐使用format，任何在设计到字符替换的都可使用到
+
+
+with open(&quot;{}_name.txt&quot;.format(api...</content>
+ </entry>
+ 
+ <entry>
+   <title>Django 修改modules时出错</title>
+   <link href="https://samzong.me/post/2020/11/Django-%E4%BF%AE%E6%94%B9modules%E6%97%B6%E5%87%BA%E9%94%99.html"/>
+   <updated>2020-11-06T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2020/11/Django 修改modules时出错</id>
+   <content type="html">django.db.utils.IntegrityError: NOT NULL constraint failed
+
+&amp;gt; python3 manage.py migrate 
+错误：django.db.utils.IntegrityError: NOT NULL constraint failed
+
+# 在执行 migrate 遇到了以上错误，但实际上已经把错误添加的字段给移除后重新 makemigrations
+
+# 解决办法
+
+删除 migrations 中对应生成的 `0006` 文件
+
+然后，再次运行2个命令
+
+python3 manage.py makemigratio...</content>
+ </entry>
+ 
+ <entry>
+   <title>beautiful soup 4 使用技巧</title>
+   <link href="https://samzong.me/post/2020/11/beautiful-soup-4-%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7.html"/>
+   <updated>2020-11-05T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2020/11/beautiful soup 4 使用技巧</id>
+   <content type="html"># import module
+
+from bs4 import BeautifulSoup
+
+# with requests.request
+soup = BeautifulSoup(res.content, 'lxml')
+
+
+select 使用技巧
+
+# 查询某一个特定的 HTML Tag 的方法
+soup.select(&quot;a&quot;)
+
+# 查询某个特定的 class 的方法
+soup.select(class=&quot;class_name&quot;)
+
+# 查询某个特定的 id 的方法，查询条件前加上#
+soup.select(&quot;#id_name&quot;)
+
+# 通过使用类名来进行查找，查询条件前加上....</content>
+ </entry>
+ 
+ <entry>
+   <title>Use devtools encodeurl &amp; decodeurl</title>
+   <link href="https://samzong.me/post/2020/10/Use-devtools-encodeurl-&-decodeurl.html"/>
+   <updated>2020-10-23T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2020/10/Use devtools encodeurl & decodeurl</id>
+   <content type="html">encodeURIComponent(&quot;&amp;amp;goods_url=https%3A%2F%2Fwww.ys7.com%2Fitem%2F9079.html&amp;amp;goods_title=%E3%80%90%E7%9B%B4%E9%99%8D50%E5%85%83%E3%80%91C6CN%E9%AB%98%E6%B8%85%E4%BA%92%E8%81%94%E7%BD%91%E4%BA%91%E5%8F%B0%E6%91%84%E5%83%8F%E6%9C%BA%2F1080P%2FH.265&amp;amp;goods_picture=https%3A%2F%2Fmfs.ys7.com...</content>
  </entry>
  
  <entry>

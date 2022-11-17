@@ -201,6 +201,26 @@
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
@@ -244,127 +264,45 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a></h1>
+    <h1><a class="title" href="/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过pipreqs获取当前项目的依赖库</a></h1>
     <div class="post_at_index">
-      <blockquote>
-  <p>参考资料：</p>
-</blockquote>
+      <p>如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：</p>
 
 <ul>
-  <li><a href="https://juejin.cn/post/7128953614403371015#heading-5">https://juejin.cn/post/7128953614403371015#heading-5</a></li>
-  <li><a href="https://dubbo.apache.org/zh/docs/">https://dubbo.apache.org/zh/docs/</a></li>
+  <li>导致缺少依赖库，导致项目初始化麻烦</li>
+  <li>读取了全局依赖库，导致项目安装了大量的实际无用的库</li>
 </ul>
 
-<h2 id="简介">简介</h2>
+<p>这里推荐一个专门解决这个问题的 Python 库， <code class="language-plaintext highlighter-rouge">pipreqs</code></p>
 
-<ul>
-  <li>Apache Dubbo 一款基于RPC服务开发的云原生微服务框架，与 SpringCloud 类似</li>
-  <li>使用 Dubbo 开发的微服务原生具备相互之间远程地址发现(注册中心)和通信的能力</li>
-  <li>Dubbo 支持丰富的服务治理特性，包含 服务发现、负载均衡、流量调度 等，高度可扩展</li>
-  <li>Dubbo 由 阿里巴巴 开发，并贡献给 Apache</li>
-</ul>
+<h3 id="使用注意事项">使用注意事项</h3>
 
-<h2 id="发展历程">发展历程</h2>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># linux &amp; mac</span>
+pipreqs <span class="nv">$python_project_dir</span>
 
-<h3 id="版本迭代">版本迭代</h3>
+<span class="c"># Windows 需要增加 --encoding=utf-8 字母编码，否则会有出错，懂得都懂</span>
+pipreqs ./ <span class="nt">--encoding</span><span class="o">=</span>utf-8
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/20221117023215.png?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+<span class="c"># 会自动在当前目录生成一个 requirements.txt， 如果已存在会提示失败</span>
+<span class="c"># 也可以使用 --force 强制覆盖</span>
+pipreqs <span class="nb">.</span> <span class="nt">--force</span>
+</code></pre></div></div>
 
-<h3 id="软件生态的活跃度">软件生态的活跃度</h3>
+<h3 id="支持的其他功能">支持的其他功能</h3>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/8G8hZG.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+<p>更多的功能，可以在安装后研究下，通过 -h 可以获取更多有价值的信息</p>
 
-<h2 id="与-springcloud-相比的优势">与 SpringCloud 相比的优势</h2>
-
-<ul>
-  <li>功能丰富，基于原生库即可完成大部分的微服务治理能力</li>
-  <li>支持超大规模的微服务机器设计，高性能 RPC 通信协议实现</li>
-  <li>高度可扩展性，支持在调用过程中对流量及协议进行拦截扩展，如 Filter、Router、LB 等</li>
-  <li>支持微服务治理的扩展组件
-    <ul>
-      <li>Registry 注册中心： Zookeeper、Nacos</li>
-      <li>Config Center 配置中心： Zookeeper、Nacos</li>
-      <li>Metadata Center 元数据中心 (Dubbo3支持)</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="dubbo-的基础概念介绍">Dubbo 的基础概念介绍</h2>
-
-<ul>
-  <li>RPC 通信</li>
-  <li>服务发现</li>
-  <li>流量治理</li>
-</ul>
-
-<h3 id="rpc-通信">RPC 通信</h3>
-
-<ul>
-  <li>Dubbo3之中， RPC 通信主要使用 Triple 协议，构建在 HTTP/2 协议之上，兼容 gRPC</li>
-  <li>提供 Request Response、Request Streaming、Response Streaming、Bi-directional Streaming 通信模型</li>
-  <li>支持 IDL ，基于 Triple 协议</li>
-</ul>
-
-<h3 id="服务发现">服务发现</h3>
-
-<p>服务发现，是消费端自动发现服务地址列表的能力，是微服务框架需要具备的关键能力，借助于自动化的服务发现，微服务之间在无需感知对端部署位置与IP地址的情况下实现通信。</p>
-
-<p>Dubbo提供的Client-Based服务发现机制，同时也需要第三方注册中心来协调服务发现过程，比如Nacos/Zookeeper等。</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/oaqyGX.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
-
-<h3 id="流量治理">流量治理</h3>
-
-<ul>
-  <li>Dubbo2开始，Dubbo就提供了丰富的服务治理规则，包括路由规则/动态配置等</li>
-  <li>Dubbo3之中的实现
-    <ul>
-      <li>Dubbo Mesh : 通过对接 xDS 对接到时下流行的 Mesh 产品如 Istio 中所使用的以 VirtualService、DestinationRule 为代表的治理规则</li>
-      <li>另一方面 Dubbo 正寻求设计一套自有规则以实现在不通部署场景下的流量治理，以及灵活的治理能力。</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="dubbo-mesh">Dubbo Mesh</h2>
-
-<p>Dubbo Mesh 的目标是提供适应 Dubbo 体系的完整 Mesh 解决方案，包含定制化控制面（Control Plane）、定制化数据面解决方案。Dubbo 控制面基于业界主流 Istio 扩展，支持更丰富的流量治理规则、Dubbo应用级服务发现模型等，Dubbo 数据面可以采用 Envoy Sidecar，即实现 Dubbo SDK + Envoy 的部署方案，也可以采用 Dubbo Proxyless 模式，直接实现 Dubbo 与控制面的通信。</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/vMniiR.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
-
-<h2 id="dubbo3">Dubbo3</h2>
-
-<p>Dubbo 3.0 提供的新特性包括：</p>
-
-<ul>
-  <li><strong>新的地址发现模型（应用级服务发现）</strong>
-    <ul>
-      <li>查看<a href="https://dubbo.apache.org/zh/docs/migration/migration-service-discovery">应用级服务发现的迁移步骤</a></li>
-      <li>查看应用级服务发现的使用方式</li>
-      <li>查看应用级服务发现设计与实现</li>
-    </ul>
-  </li>
-  <li><strong>下一代基于 HTTP/2 的 Triple 协议</strong>
-    <ul>
-      <li>查看<a href="https://dubbo.apache.org/zh/docs/migration/migration-triple">Triple 协议迁移步骤</a></li>
-      <li>查看 <a href="https://dubbo.apache.org/zh/docs/references/protocols/tri">Triple 协议使用方式</a></li>
-      <li>查看 Triple 协议设计与实现</li>
-    </ul>
-  </li>
-  <li><strong>统一的路由规则。</strong>
-    <ul>
-      <li>查看<a href="https://dubbo.apache.org/zh/docs/migration/migration-routingrule/">统一路由规则的迁移步骤</a></li>
-      <li>查看<a href="https://dubbo.apache.org/zh/docs/references/routers/">统一路由规则使用方式</a></li>
-      <li>查看统一路由规则设计与实现</li>
-    </ul>
-  </li>
-</ul>
+<p>:::info
+--diff <file>         将 requirements.txt 中的模块与项目导入进行比较。  &gt;&gt; 仅追加
+\--clean <file>     通过删除项目中没有导入的模块来清理 requirements.txt   &gt;&gt; 瘦身
+:::</file></file></p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-11-16</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Dubbo">Dubbo</a>
+      <cite>2022-11-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -373,261 +311,30 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s系列 南北流量和东西流量</a></h1>
-    <div class="post_at_index">
-      <h2 id="南北流量和东西流量-是什么意思">南北流量和东西流量 是什么意思？</h2>
-
-<p>在Service Mesh微服务架构中，我们常常会听到东西流量和南北流量两个术语。</p>
-
-<p>南北流量（NORTH-SOUTH traffic）和东西流量（EAST-WEST traffic）是数据中心环境中的网络流量模式。下面我们通过一个例子来理解这两个术语。</p>
-
-<p>假设我们尝试通过浏览器访问某些Web应用。Web应用部署在位于某个数据中心的应用服务器中。在多层体系结构中，典型的数据中心不仅包含应用服务器，还包含其他服务器，如负载均衡器、数据库等，以及路由器和交换机等网络组件。假设应用服务器是负载均衡器的前端。</p>
-
-<p>当我们访问web应用时，会发生以下类型的网络流量：</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/f9c10a68e23f6955cc25c176d2ea98f7.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" style="zoom:80%;" /></p>
-
-<p>数据中心树型拓扑图是一个典型的包含接入层、汇聚层、核心层三层的网络结构。这种结构诞生之初就是为了将外部流量引流到内部应用。</p>
-
-<p>流量从外部穿过防火墙或者数据中心其它外围网络设备进来，对应到上⾯这张图里，流动方向为从上到下，称为南向流量（和地图一样，上北下南），而与之对应的，数据中心内部产生的，离开数据中心的流量，从下到上故称为北向流量。合起来称为南北流量。</p>
-
-<p>在微服务化流行之前，以巨石系统（monolithic）这种单体应用为单位部署的方式，产生的是典型的南北流量。一个单体应用配有一个专门的服务器（或虚拟机），一个外部请求通常在单体应用内独立完成，除了访问数据库等必须依赖服务之外，很少会发生横向的流量。</p>
-
-<p>但云计算机、大数据、微服务、云原生等技术的发展催生了大量的从左到右以及从右到左的流量，也被称为东西流量。</p>
-
-<p>数据中心内部南北流量的削弱，而东西流量的井喷在硬件上要求数据中心要横向扩展以提供更宽的大二层以及容纳更多的服务器，而在软件上则要求一种新的服务编排方式以便能充分挖掘、利用现有的计算能力，从这个角度看 K8s 的出现是一种必然。</p>
-
-<p>举两个例子：</p>
-
-<ul>
-  <li>
-    <p>客户端（位于数据中心一侧的浏览器）与负载均衡器（位于数据中心）之间的网络流量</p>
-  </li>
-  <li>
-    <p>负载均衡器、应用服务器、数据库等之间的网络流量，它们都位于数据中心。</p>
-  </li>
-</ul>
-
-<p>在这个例子中，前者即即客户端和服务器之间的流量被称为南北流量。简而言之，南北流量是server-client流量。</p>
-
-<p>第二种流量即不同服务器之间的流量与数据中心或不同数据中心之间的网络流被称为东西流量。简而言之，东西流量是 service-service 流量。</p>
-
-<p>当下，东西流量远超南北流量，尤其是在当今的大数据生态系统中，比如Hadoop生态系统（大量server驻留在数据中心中，用map reduce处理），server-server流量远大于server-client流量。</p>
-
-<p>大家可能会好奇，东西南北，为什么这么命名 ？</p>
-
-<p>该命名来自于绘制典型network diagrams的习惯。在图表中，通常核心网络组件绘制在顶部（NORTH），客户端绘制在底部（SOUTH），而数据中心内的不同服务器水平（EAST-WEST）</p>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-09-12</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#K8s">K8s</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8.html">jq 命令行 Json 处理神器</a></h1>
+    <h1><a class="title" href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a></h1>
     <div class="post_at_index">
       <ul>
-  <li>
-    <p><a href="https://mozillazg.com/2018/01/jq-use-examples-cookbook.html">https://mozillazg.com/2018/01/jq-use-examples-cookbook.htm</a>-</p>
-  </li>
-  <li>
-    <p>jq 命令日常练习 https://jqplay.org/s/KhRuUFCP2h</p>
-  </li>
+  <li>strip() 删除字符串中的内容，删除后仍旧是str</li>
+  <li>split() 分割字符串，根据特定的标识，分割后=list</li>
 </ul>
 
-<p>一个灵活的轻量级命令行JSON处理器</p>
-
-<h2 id="说明">说明</h2>
-
-<p>jq 是 stedolan 开发的一个轻量级的和灵活的命令行JSON处理器，源码请参考 <a href="https://github.com/stedolan/jq">jq 项目主页</a> 。jq 用于处理JSON输入，将给定过滤器应用于其JSON文本输入并在标准输出上将过滤器的结果生成为JSON；最简单的过滤器是<code class="language-plaintext highlighter-rouge">.</code>，它将jq的输入未经修改地复制到其输出中（格式设置除外）； 请注意，jq 当前仅支持64位双精度浮点数（IEEE754）。</p>
-
-<h2 id="安装">安装</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Debian系，如 Ubuntu</span>
-<span class="nb">sudo </span>apt-get <span class="nb">install </span>jq
-
-<span class="c"># RedHat系, 如 CentOS</span>
-yum <span class="nb">install </span>jq
-
-<span class="c"># MacOS</span>
-brew <span class="nb">install </span>jq
-</code></pre></div></div>
-
-<h2 id="语法">语法</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jq <span class="o">[</span>options] &lt;jq filter&gt; <span class="o">[</span>file...]
-jq <span class="o">[</span>options] <span class="nt">--args</span> &lt;jq filter&gt; <span class="o">[</span>strings...]
-jq <span class="o">[</span>options] <span class="nt">--jsonargs</span> &lt;jq filter&gt; <span class="o">[</span>JSON_TEXTS...]
-</code></pre></div></div>
-
-<h2 id="选项">选项</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-c</span>               紧凑而不是漂亮的输出<span class="p">;</span>
-<span class="nt">-n</span>               使用<span class="sb">`</span>null<span class="sb">`</span>作为单个输入值<span class="p">;</span>
-<span class="nt">-e</span>               根据输出设置退出状态代码<span class="p">;</span>
-<span class="nt">-s</span>               将所有输入读取（吸取）到数组中；应用过滤器<span class="p">;</span>
-<span class="nt">-r</span>               输出原始字符串，而不是JSON文本<span class="p">;</span>
-<span class="nt">-R</span>               读取原始字符串，而不是JSON文本<span class="p">;</span>
-<span class="nt">-C</span>               为JSON着色<span class="p">;</span>
-<span class="nt">-M</span>               单色（不要为JSON着色）<span class="p">;</span>
-<span class="nt">-S</span>               在输出上排序对象的键<span class="p">;</span>
-<span class="nt">--tab</span>            使用制表符进行缩进<span class="p">;</span>
-<span class="nt">--arg</span> a v        将变量<span class="nv">$a</span>设置为value&lt;v&gt;<span class="p">;</span>
-<span class="nt">--argjson</span> a v    将变量<span class="nv">$a</span>设置为JSON value&lt;v&gt;<span class="p">;</span>
-<span class="nt">--slurpfile</span> a f  将变量<span class="nv">$a</span>设置为从&lt;f&gt;读取的JSON文本数组<span class="p">;</span>
-<span class="nt">--rawfile</span> a f    将变量<span class="nv">$a</span>设置为包含&lt;f&gt;内容的字符串<span class="p">;</span>
-<span class="nt">--args</span>           其余参数是字符串参数，而不是文件<span class="p">;</span>
-<span class="nt">--jsonargs</span>       其余的参数是JSON参数，而不是文件<span class="p">;</span>
-<span class="nt">--</span>               终止参数处理<span class="p">;</span>
-</code></pre></div></div>
-
-<h2 id="例子">例子</h2>
-
 <blockquote>
-  <p><code class="language-plaintext highlighter-rouge">.</code>: 以漂亮的方式输出</p>
+  <p>两者处理过程中都不会修改原字符串的内容</p>
 </blockquote>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{ "foo": { "bar": { "baz": 123 } } }'</span> | jq <span class="s1">'.'</span>
-<span class="o">{</span>
-  <span class="s2">"foo"</span>: <span class="o">{</span>
-    <span class="s2">"bar"</span>: <span class="o">{</span>
-      <span class="s2">"baz"</span>: 123
-    <span class="o">}</span>
-  <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python3</span>
 
-<blockquote>
-  <p><code class="language-plaintext highlighter-rouge">.foo, .foo.bar, .foo?</code>: 获取一个键的值</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{"foo": 42, "bar": "less interesting data"}'</span> | jq <span class="s1">'.foo'</span>
-42
-</code></pre></div></div>
-
-<blockquote>
-  <p><code class="language-plaintext highlighter-rouge">.[], .[]?, .[2], .[10:15]</code>: 数组运算</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[{"name":"JSON", "good":true}, {"name":"XML", "good":false}]'</span> | jq <span class="s1">'.[1]'</span>
-<span class="o">{</span>
-  <span class="s2">"name"</span>: <span class="s2">"XML"</span>,
-  <span class="s2">"good"</span>: <span class="nb">false</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p><code class="language-plaintext highlighter-rouge">[], {}</code>: 构造一个数组/对象</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{"user":"stedolan","titles":["JQ Primer", "More JQ"]}'</span> | jq <span class="s1">'{user, title: .titles[]}'</span>
-<span class="o">{</span>
-  <span class="s2">"user"</span>: <span class="s2">"stedolan"</span>,
-  <span class="s2">"title"</span>: <span class="s2">"JQ Primer"</span>
-<span class="o">}</span>
-<span class="o">{</span>
-  <span class="s2">"user"</span>: <span class="s2">"stedolan"</span>,
-  <span class="s2">"title"</span>: <span class="s2">"More JQ"</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p><code class="language-plaintext highlighter-rouge">length</code>: 计算一个值的长度</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[[1,2], "string", {"a":2}, null]'</span> | jq <span class="s1">'.[] | length'</span>                                  
-2
-6
-1
-0
-</code></pre></div></div>
-
-<blockquote>
-  <p><code class="language-plaintext highlighter-rouge">keys</code>: 取出数组中的键</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{"abc": 1, "abcd": 2, "Foo": 3}'</span> | jq <span class="s1">'keys'</span>                                        
-<span class="o">[</span>
-  <span class="s2">"Foo"</span>,
-  <span class="s2">"abc"</span>,
-  <span class="s2">"abcd"</span>
-<span class="o">]</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p><code class="language-plaintext highlighter-rouge">,</code>: 使用多个过滤器</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{ "foo": 42, "bar": "something else", "baz": true}'</span> | jq <span class="s1">'.foo, .bar'</span> 
-42
-<span class="s2">"something else"</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p><code class="language-plaintext highlighter-rouge">|</code>: 通过管道将一个过滤器的输出当做下一个过滤器的输入</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[{"name":"JSON", "good":true}, {"name":"XML", "good":false}]'</span> | jq <span class="s1">'.[] | .name'</span>                                                 
-<span class="s2">"JSON"</span>
-<span class="s2">"XML"</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p><code class="language-plaintext highlighter-rouge">select(foo)</code>: 如果foo返回true，则输入保持不变</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[1,5,3,0,7]'</span> | jq <span class="s1">'map(select(. &gt;= 2))'</span>                                                    
-<span class="o">[</span>
-  5,
-  3,
-  7
-<span class="o">]</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p><code class="language-plaintext highlighter-rouge">map(foo)</code>: 每个输入调用过滤器</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[1,2,3]'</span> | jq <span class="s1">'map(.+1)'</span>
-<span class="o">[</span>
-  2,
-  3,
-  4
-<span class="o">]</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p><code class="language-plaintext highlighter-rouge">if-then-else-end</code>: 条件判断</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'2'</span> | jq <span class="s1">'if . == 0 then "zero" elif . == 1 then "one" else "many" end'</span>
-<span class="s2">"many"</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p><code class="language-plaintext highlighter-rouge">\(foo)</code>: 在字符串中插入值并进行运算</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'42'</span> | jq <span class="s1">'"The input was \(.), which is one less than \(.+1)"'</span>          
-<span class="s2">"The input was 42, which is one less than 43"</span>
-</code></pre></div></div>
-
+<span class="nb">str</span><span class="p">.</span><span class="n">strip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串末尾的","
+</span><span class="nb">str</span><span class="p">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串末尾的","
+</span><span class="nb">str</span><span class="p">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串开通的","
+</span></code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-07-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#unix command">unix command</a>
+      <cite>2022-11-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -636,228 +343,60 @@ jq <span class="o">[</span>options] <span class="nt">--jsonargs</span> &lt;jq fi
     <hr/>
     
     
-    <h1><a class="title" href="/post/2022/07/%E9%97%AD%E5%85%B3%E5%A4%87%E6%88%98-11%E6%9C%88.html">闭关备战 11月</a></h1>
+    <h1><a class="title" href="/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a></h1>
     <div class="post_at_index">
-      <h2 id="目标">目标</h2>
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">string</span>
 
-<p>获得软考中级证书，完成落户条件准备。</p>
+<span class="n">whitespace</span> <span class="err">–</span> <span class="n">包含所有空白的字符串</span>
+<span class="n">ascii_lowercase</span> <span class="err">–</span> <span class="n">包含所有小写字母的字符串</span>
+<span class="n">ascii_uppercase</span> <span class="err">–</span> <span class="n">一个包含所有ASCII大写字母的字符串</span>
+<span class="n">ascii_letters</span> <span class="err">–</span> <span class="n">包含所有ASCII字母的字符串</span>
+<span class="n">digits</span> <span class="err">–</span> <span class="n">包含所有十进制位数的字符串</span>
+<span class="n">hexdigits</span> <span class="err">–</span> <span class="n">包含所有</span> <span class="n">十六进制数字的字符串</span>
+<span class="n">octdigits</span> <span class="err">–</span> <span class="n">包含所有八进制数字的字符串</span>
+<span class="n">punctuation</span> <span class="err">–</span> <span class="n">包含所有标点字符的字符串</span>
+<span class="n">printable</span> <span class="err">–</span> <span class="n">包含所有可打印的字符的字符串</span>
 
-<p>下一次考试时间是 11 月份，</p>
 
-<p>开始闭关。</p>
+<span class="k">print</span><span class="p">(</span><span class="n">string</span><span class="p">.</span><span class="n">digits</span><span class="p">)</span>  <span class="c1"># 输出包含数字0~9的字符串
+</span><span class="k">print</span><span class="p">(</span><span class="n">string</span><span class="p">.</span><span class="n">ascii_letters</span><span class="p">)</span>  <span class="c1"># 包含所有字母(大写或小写)的字符串
+</span><span class="k">print</span><span class="p">(</span><span class="n">string</span><span class="p">.</span><span class="n">ascii_lowercase</span><span class="p">)</span>  <span class="c1"># 包含所有小写字母的字符串
+</span><span class="k">print</span><span class="p">(</span><span class="n">string</span><span class="p">.</span><span class="n">ascii_uppercase</span><span class="p">)</span>  <span class="c1"># 包含所有大写字母的字符串
+##############
+</span><span class="mi">0123456789</span>
+<span class="n">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</span>
+<span class="n">abcdefghijklmnopqrstuvwxyz</span>
+<span class="n">ABCDEFGHIJKLMNOPQRSTUVWXYZ</span>
+
+
+<span class="k">print</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">65</span><span class="p">,</span> <span class="mi">91</span><span class="p">)])</span>  <span class="c1"># 所有大写字母
+</span><span class="k">print</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">97</span><span class="p">,</span> <span class="mi">123</span><span class="p">)])</span>  <span class="c1"># 所有小写字母
+</span><span class="k">print</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">58</span><span class="p">)])</span>   <span class="c1"># 所有数字
+</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="k">def</span> <span class="nf">get_code</span><span class="p">():</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="s">'0123456789'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">97</span><span class="p">,</span> <span class="mi">123</span><span class="p">):</span>
+        <span class="n">source</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="mi">4</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<h3 id="组合使用提出大写字母">组合使用提出大写字母</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">string</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="s">'XQX大家好'</span>
+ 
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">strip</span><span class="p">(</span><span class="n">string</span><span class="p">.</span><span class="n">ascii_uppercase</span><span class="p">))</span> <span class="c1"># 利用string.uppercase代表大写字母
+</span></code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-07-17</cite> <i class="icon-tag"></i>
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a></h1>
-    <div class="post_at_index">
-      <h2 id="背景">背景</h2>
-
-<p>除了在 Hexo 维护个人博客之外，目前经常用到的 2 个文档工具： 语雀和 Mkdocs 都是支持 admonition样式，所以也在考虑如何给 Hexo 博客文章也增加这样的能力。</p>
-
-<p>保证写作习惯的一致性，好在有人开发出对应的插件，感谢.</p>
-
-<ul>
-  <li>https://github.com/lxl80/hexo-admonition</li>
-</ul>
-
-<h2 id="安装方式">安装方式</h2>
-
-<p>简单通过 2 个步骤即可，</p>
-
-<h3 id="安装插件">安装插件</h3>
-
-<p>采用 npm 安装，如下：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>hexo-admonition <span class="nt">--save</span>
-</code></pre></div></div>
-
-<h3 id="样式配置">样式配置</h3>
-
-<p>你的 hexo 可能会使用不同主题，所以需要自己增加样式，将如下样式放入 hexo 主题的自定义样式文件中（如：<code class="language-plaintext highlighter-rouge">ext.css</code>），并按自己喜好修改：</p>
-
-<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">.admonition</span> <span class="p">{</span>
-  <span class="nl">margin</span><span class="p">:</span> <span class="m">1.5625em</span> <span class="m">0</span><span class="p">;</span>
-  <span class="nl">padding</span><span class="p">:</span> <span class="m">.6rem</span><span class="p">;</span>
-  <span class="nl">overflow</span><span class="p">:</span> <span class="nb">hidden</span><span class="p">;</span>
-  <span class="nl">font-size</span><span class="p">:</span> <span class="m">.64rem</span><span class="p">;</span>
-  <span class="nl">page-break-inside</span><span class="p">:</span> <span class="nb">avoid</span><span class="p">;</span>
-  <span class="nl">border-left</span><span class="p">:</span> <span class="m">.3rem</span> <span class="nb">solid</span> <span class="m">#42b983</span><span class="p">;</span>
-  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">.3rem</span><span class="p">;</span>
-  <span class="nl">box-shadow</span><span class="p">:</span> <span class="m">0</span> <span class="m">0.1rem</span> <span class="m">0.4rem</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">.05</span><span class="p">),</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0.05rem</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">.1</span><span class="p">);</span>
-  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#fafafa</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nt">p</span><span class="nc">.admonition-title</span> <span class="p">{</span>
-  <span class="nl">position</span><span class="p">:</span> <span class="nb">relative</span><span class="p">;</span>
-  <span class="nl">margin</span><span class="p">:</span> <span class="m">-.6rem</span> <span class="m">-.6rem</span> <span class="m">.8em</span> <span class="m">-.6rem</span> <span class="cp">!important</span><span class="p">;</span>
-  <span class="nl">padding</span><span class="p">:</span> <span class="m">.4rem</span> <span class="m">.6rem</span> <span class="m">.4rem</span> <span class="m">2.5rem</span><span class="p">;</span>
-  <span class="nl">font-weight</span><span class="p">:</span> <span class="m">700</span><span class="p">;</span>
-  <span class="nl">background-color</span><span class="p">:</span><span class="n">rgba</span><span class="p">(</span><span class="m">66</span><span class="p">,</span> <span class="m">185</span><span class="p">,</span> <span class="m">131</span><span class="p">,</span> <span class="m">.1</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="nc">.admonition-title</span><span class="nd">::before</span> <span class="p">{</span>
-  <span class="nl">position</span><span class="p">:</span> <span class="nb">absolute</span><span class="p">;</span>
-  <span class="nl">top</span><span class="p">:</span> <span class="m">.9rem</span><span class="p">;</span>
-  <span class="nl">left</span><span class="p">:</span> <span class="m">1rem</span><span class="p">;</span>
-  <span class="nl">width</span><span class="p">:</span> <span class="m">12px</span><span class="p">;</span>
-  <span class="nl">height</span><span class="p">:</span> <span class="m">12px</span><span class="p">;</span>
-  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#42b983</span><span class="p">;</span>
-  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">50%</span><span class="p">;</span>
-  <span class="nl">content</span><span class="p">:</span> <span class="s2">' '</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nc">.info</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.todo</span><span class="o">&gt;</span><span class="nc">.admonition-title</span> <span class="p">{</span>
-  <span class="nl">background-color</span><span class="p">:</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="m">184</span><span class="p">,</span><span class="m">212</span><span class="p">,</span><span class="m">.1</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="nc">.warning</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.attention</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.caution</span><span class="o">&gt;</span><span class="nc">.admonition-title</span> <span class="p">{</span>
-  <span class="nl">background-color</span><span class="p">:</span> <span class="n">rgba</span><span class="p">(</span><span class="m">255</span><span class="p">,</span><span class="m">145</span><span class="p">,</span><span class="m">0</span><span class="p">,</span><span class="m">.1</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="nc">.failure</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.missing</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.fail</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="o">,</span> <span class="nc">.error</span><span class="o">&gt;</span><span class="nc">.admonition-title</span> <span class="p">{</span>
-  <span class="nl">background-color</span><span class="p">:</span> <span class="n">rgba</span><span class="p">(</span><span class="m">255</span><span class="p">,</span><span class="m">82</span><span class="p">,</span><span class="m">82</span><span class="p">,</span><span class="m">.1</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="nc">.admonition.info</span><span class="o">,</span> <span class="nc">.admonition.todo</span> <span class="p">{</span>
-  <span class="nl">border-color</span><span class="p">:</span> <span class="m">#00b8d4</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nc">.admonition.warning</span><span class="o">,</span> <span class="nc">.admonition.attention</span><span class="o">,</span> <span class="nc">.admonition.caution</span> <span class="p">{</span>
-  <span class="nl">border-color</span><span class="p">:</span> <span class="m">#ff9100</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nc">.admonition.failure</span><span class="o">,</span> <span class="nc">.admonition.missing</span><span class="o">,</span> <span class="nc">.admonition.fail</span><span class="o">,</span> <span class="nc">.admonition.error</span> <span class="p">{</span>
-  <span class="nl">border-color</span><span class="p">:</span> <span class="m">#ff5252</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nc">.info</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span> <span class="nc">.todo</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span> <span class="p">{</span>
-  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#00b8d4</span><span class="p">;</span>
-  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">50%</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nc">.success</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="p">{</span>
-  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#00c853</span><span class="p">;</span>
-  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">50%</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nc">.warning</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span> <span class="nc">.attention</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span> <span class="nc">.caution</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span> <span class="p">{</span>
-  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#ff9100</span><span class="p">;</span>
-  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">50%</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nc">.failure</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span><span class="nc">.missing</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span><span class="nc">.fail</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="o">,</span><span class="nc">.error</span><span class="o">&gt;</span><span class="nc">.admonition-title</span><span class="nd">::before</span><span class="p">{</span>
-  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#ff5252</span><span class="p">;</span><span class="err">;</span>
-  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">50%</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="nc">.admonition</span><span class="o">&gt;</span><span class="nd">:last-child</span> <span class="p">{</span>
-  <span class="nl">margin-bottom</span><span class="p">:</span> <span class="m">0</span> <span class="cp">!important</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h2 id="使用说明">使用说明</h2>
-
-<p>Hexo-admonition 遵循一种简单的语法：每个块都以 <code class="language-plaintext highlighter-rouge">!!!</code> 开头，然后是代表提示类型的关键字（<code class="language-plaintext highlighter-rouge">type</code>）及标题（<code class="language-plaintext highlighter-rouge">title</code>）。例如:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>!!! note Hexo-admonition 插件使用示例
-    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 note，并设置了自定义标题。
-    提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
-</code></pre></div></div>
-
-<p>在 Hexo 渲染前，将被转换成如下内容：</p>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"admonition note "</span><span class="nt">&gt;</span>
-  <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"admonition-title"</span><span class="nt">&gt;</span>Hexo-admonition 插件使用示例<span class="nt">&lt;/p&gt;</span>
-  <span class="nt">&lt;p&gt;</span>这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 note，并设置了自定义标题。<span class="nt">&lt;/p&gt;</span>
-  <span class="nt">&lt;p&gt;</span>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。<span class="nt">&lt;/p&gt;</span>
-<span class="nt">&lt;/div&gt;</span>
-</code></pre></div></div>
-
-<p>最终呈现效果如下：</p>
-
-<p>!!! note Hexo-admonition 插件使用示例
-    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 note，并设置了自定义标题。
-    提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。</p>
-
-<h3 id="支持的类型">支持的类型</h3>
-
-<p>提示类型 <code class="language-plaintext highlighter-rouge">type</code> 将用作 CSS 类名称，暂支持如下类型：</p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">note</code></li>
-  <li><code class="language-plaintext highlighter-rouge">info, todo</code></li>
-  <li><code class="language-plaintext highlighter-rouge">warning, attention, caution</code></li>
-  <li><code class="language-plaintext highlighter-rouge">error, failure, missing, fail</code></li>
-</ul>
-
-<h3 id="设置隐藏标题">设置/隐藏标题</h3>
-
-<p>标题 <code class="language-plaintext highlighter-rouge">title</code> 是可选的，当未设置时，将以 <code class="language-plaintext highlighter-rouge">type</code> 作为默认值:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>!!! warning
-    这是一条采用默认标题的警告信息。
-</code></pre></div></div>
-
-<p>效果如下：</p>
-
-<p>!!! warning
-    这是一条采用默认标题的警告信息。</p>
-
-<p>如果不想显示标题，可以将 <code class="language-plaintext highlighter-rouge">title</code> 设置为 <code class="language-plaintext highlighter-rouge">""</code>：</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>!!! Warning ""
-    这是一条不带标题的警告信息。
-</code></pre></div></div>
-
-<p>效果如下：</p>
-
-<p>!!! Warning “”
-    这是一条不带标题的警告信息。</p>
-
-<h2 id="卡片演示">卡片演示</h2>
-
-<blockquote>
-  <p>主要四种类型：info, warning, error, note</p>
-</blockquote>
-
-<p>!!! note Hexo-admonition 插件使用示例
-    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 note，并设置了自定义标题。</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
-</code></pre></div></div>
-
-<p>!!! warning Hexo-admonition 插件使用示例
-    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 warning，并设置了自定义标题。</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
-</code></pre></div></div>
-
-<p>!!! error Hexo-admonition 插件使用示例
-    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 error，并设置了自定义标题。</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
-</code></pre></div></div>
-
-<p>!!! info Hexo-admonition 插件使用示例
-    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 info，并设置了自定义标题。</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
-</code></pre></div></div>
-
-<p>!!! todo Hexo-admonition 插件使用示例
-    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 todo，并设置了自定义标题。</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
-</code></pre></div></div>
-
-<p>!!! attention Hexo-admonition 插件使用示例
-    这是基于 hexo-admonition 插件渲染的一条提示信息。类型为 attention，并设置了自定义标题。</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>提示内容开头留 4 个空格，可以有多行，最后用空行结束此标记。
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-05-28</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Hexo">Hexo</a>
+      <cite>2022-11-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -866,22 +405,58 @@ jq <span class="o">[</span>options] <span class="nt">--jsonargs</span> &lt;jq fi
     <hr/>
     
     
-    <h1><a class="title" href="/post/2022/05/%E5%9B%BD%E5%86%85%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA-MacOS-K8s-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.html">国内环境搭建 MacOS K8s 开发环境</a></h1>
+    <h1><a class="title" href="/post/2022/11/python3-setup.py-help-commands.html">python3 setup.py --help-commands</a></h1>
     <div class="post_at_index">
-      <h2 id="minikube">Minikube</h2>
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">→</span> <span class="n">python3</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="o">--</span><span class="n">help</span><span class="o">-</span><span class="n">commands</span>
 
-<p>在 Mac 上搭建开发环境，这里主要使用了 Kubernetes 官方推荐的 minikube 和 docker-for-desktop 环境</p>
+<span class="n">Standard</span> <span class="n">commands</span><span class="p">:</span>
+  <span class="n">build</span>             <span class="n">build</span> <span class="n">everything</span> <span class="n">needed</span> <span class="n">to</span> <span class="n">install</span>
+  <span class="n">build_py</span>          <span class="s">"build"</span> <span class="n">pure</span> <span class="n">Python</span> <span class="n">modules</span> <span class="p">(</span><span class="n">copy</span> <span class="n">to</span> <span class="n">build</span> <span class="n">directory</span><span class="p">)</span>
+  <span class="n">build_ext</span>         <span class="n">build</span> <span class="n">C</span><span class="o">/</span><span class="n">C</span><span class="o">++</span> <span class="n">extensions</span> <span class="p">(</span><span class="nb">compile</span><span class="o">/</span><span class="n">link</span> <span class="n">to</span> <span class="n">build</span> <span class="n">directory</span><span class="p">)</span>
+  <span class="n">build_clib</span>        <span class="n">build</span> <span class="n">C</span><span class="o">/</span><span class="n">C</span><span class="o">++</span> <span class="n">libraries</span> <span class="n">used</span> <span class="n">by</span> <span class="n">Python</span> <span class="n">extensions</span>
+  <span class="n">build_scripts</span>     <span class="s">"build"</span> <span class="n">scripts</span> <span class="p">(</span><span class="n">copy</span> <span class="ow">and</span> <span class="n">fixup</span> <span class="c1">#! line)
+</span>  <span class="n">clean</span>             <span class="n">clean</span> <span class="n">up</span> <span class="n">temporary</span> <span class="n">files</span> <span class="k">from</span> <span class="s">'build'</span> <span class="n">command</span>
+  <span class="n">install</span>           <span class="n">install</span> <span class="n">everything</span> <span class="k">from</span> <span class="n">build</span> <span class="n">directory</span>
+  <span class="n">install_lib</span>       <span class="n">install</span> <span class="nb">all</span> <span class="n">Python</span> <span class="n">modules</span> <span class="p">(</span><span class="n">extensions</span> <span class="ow">and</span> <span class="n">pure</span> <span class="n">Python</span><span class="p">)</span>
+  <span class="n">install_headers</span>   <span class="n">install</span> <span class="n">C</span><span class="o">/</span><span class="n">C</span><span class="o">++</span> <span class="n">header</span> <span class="n">files</span>
+  <span class="n">install_scripts</span>   <span class="n">install</span> <span class="n">scripts</span> <span class="p">(</span><span class="n">Python</span> <span class="ow">or</span> <span class="n">otherwise</span><span class="p">)</span>
+  <span class="n">install_data</span>      <span class="n">install</span> <span class="n">data</span> <span class="n">files</span>
+  <span class="n">sdist</span>             <span class="n">create</span> <span class="n">a</span> <span class="n">source</span> <span class="n">distribution</span> <span class="p">(</span><span class="n">tarball</span><span class="p">,</span> <span class="nb">zip</span> <span class="nb">file</span><span class="p">,</span> <span class="n">etc</span><span class="p">.)</span>
+  <span class="n">register</span>          <span class="n">register</span> <span class="n">the</span> <span class="n">distribution</span> <span class="k">with</span> <span class="n">the</span> <span class="n">Python</span> <span class="n">package</span> <span class="n">index</span>
+  <span class="n">bdist</span>             <span class="n">create</span> <span class="n">a</span> <span class="n">built</span> <span class="p">(</span><span class="n">binary</span><span class="p">)</span> <span class="n">distribution</span>
+  <span class="n">bdist_dumb</span>        <span class="n">create</span> <span class="n">a</span> <span class="s">"dumb"</span> <span class="n">built</span> <span class="n">distribution</span>
+  <span class="n">bdist_rpm</span>         <span class="n">create</span> <span class="n">an</span> <span class="n">RPM</span> <span class="n">distribution</span>
+  <span class="n">bdist_wininst</span>     <span class="n">create</span> <span class="n">an</span> <span class="n">executable</span> <span class="n">installer</span> <span class="k">for</span> <span class="n">MS</span> <span class="n">Windows</span>
+  <span class="n">check</span>             <span class="n">perform</span> <span class="n">some</span> <span class="n">checks</span> <span class="n">on</span> <span class="n">the</span> <span class="n">package</span>
+  <span class="n">upload</span>            <span class="n">upload</span> <span class="n">binary</span> <span class="n">package</span> <span class="n">to</span> <span class="n">PyPI</span>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>minikube start <span class="nt">--image-mirror-country</span> cn <span class="se">\</span>
-    <span class="nt">--registry-mirror</span><span class="o">=</span>https://vbj8usl3.mirror.aliyuncs.com
-</code></pre></div></div>
+<span class="n">Extra</span> <span class="n">commands</span><span class="p">:</span>
+  <span class="n">bdist_wheel</span>       <span class="n">create</span> <span class="n">a</span> <span class="n">wheel</span> <span class="n">distribution</span>
+  <span class="n">alias</span>             <span class="n">define</span> <span class="n">a</span> <span class="n">shortcut</span> <span class="n">to</span> <span class="n">invoke</span> <span class="n">one</span> <span class="ow">or</span> <span class="n">more</span> <span class="n">commands</span>
+  <span class="n">bdist_egg</span>         <span class="n">create</span> <span class="n">an</span> <span class="s">"egg"</span> <span class="n">distribution</span>
+  <span class="n">develop</span>           <span class="n">install</span> <span class="n">package</span> <span class="ow">in</span> <span class="s">'development mode'</span>
+  <span class="n">dist_info</span>         <span class="n">create</span> <span class="n">a</span> <span class="p">.</span><span class="n">dist</span><span class="o">-</span><span class="n">info</span> <span class="n">directory</span>
+  <span class="n">easy_install</span>      <span class="n">Find</span><span class="o">/</span><span class="n">get</span><span class="o">/</span><span class="n">install</span> <span class="n">Python</span> <span class="n">packages</span>
+  <span class="n">egg_info</span>          <span class="n">create</span> <span class="n">a</span> <span class="n">distribution</span><span class="s">'s .egg-info directory
+  install_egg_info  Install an .egg-info directory for the package
+  rotate            delete older distributions, keeping N newest files
+  saveopts          save supplied options to setup.cfg or other config file
+  setopt            set an option in setup.cfg or another config file
+  test              run unit tests after in-place build (deprecated)
+  upload_docs       Upload documentation to PyPI
+
+usage: setup.py [global_opts] cmd1 [cmd1_opts] [cmd2 [cmd2_opts] ...]
+   or: setup.py --help [cmd1 cmd2 ...]
+   or: setup.py --help-commands
+   or: setup.py cmd --help
+</span></code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-05-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#K8s">K8s</a>
+      <cite>2022-11-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -890,114 +465,17 @@ jq <span class="o">[</span>options] <span class="nt">--jsonargs</span> &lt;jq fi
     <hr/>
     
     
-    <h1><a class="title" href="/post/2022/05/MacOS%E9%9A%90%E8%97%8FDock%E6%A0%8F%E4%B8%AD%E7%89%B9%E5%AE%9A%E5%BA%94%E7%94%A8.html">MacOS隐藏Dock栏中特定应用</a></h1>
+    <h1><a class="title" href="/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入excel</a></h1>
     <div class="post_at_index">
-      <h2 id="背景说明">背景说明</h2>
-
-<p>MacOS Dock 栏的空间是有限的，而且绝大部分应用都会占用一个 Dock 的槽位；但并不是所有软件都提供了 <code class="language-plaintext highlighter-rouge">Hidden  in Dock</code> 的能力，所以从来不点击，但一直存在，挺痛苦的。</p>
-
-<p style="color:red;font-size=16px">为不具备隐藏 Dock Icon 的应用附加隐藏能力</p>
-
-<blockquote>
-  <p>符合这类特征的软件： a. 常驻应用，开机自启动，基本不会打开； b. 像我这样的 Alfred 爱好者</p>
-</blockquote>
-
-<p>之前了解到一些软件对系统的影响都比较大，基本上都是要接管 整个<code class="language-plaintext highlighter-rouge">Dock</code>，要关闭 <code class="language-plaintext highlighter-rouge">SIP</code>，使用成本太好，基本不值得采用。</p>
-
-<h2 id="全球同性交友网站">全球同性交友网站</h2>
-
-<p>下午在闲逛的时候，发现了这个仓库： https://github.com/FirePanther/MacOS-Hide-Dock-Icon ，一个非常简单的 PHP 脚本，貌似可以提供这个能力，于是我就简单的 Download ，按照 README.md 的方法执行了一下。</p>
-
-<p>很神奇的！ 满足了我的需求！ 所以，我在这里记录和分享给大家，如果你也需要的话。</p>
-
-<h2 id="操作步骤">操作步骤</h2>
-
-<blockquote>
-  <p>当然，你也可以直接 从这切换到 官方仓库的 <code class="language-plaintext highlighter-rouge">README.md</code> 去操作</p>
-</blockquote>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 下载 脚本文件</span>
-➜  ~ wget https://raw.githubusercontent.com/FirePanther/MacOS-Hide-Dock-Icon/master/hideDockIcon.php <span class="nt">-O</span> hideDockIcon.php
-
-<span class="c"># 备份地址</span>
-➜  ~ wget https://raw.githubusercontent.com/SAMZONG/MacOS-Hide-Dock-Icon/master/hideDockIcon.php <span class="nt">-O</span> hideDockIcon.php
-</code></pre></div></div>
-
-<p>确保你的 Mac 内装有 PHP</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>php   <span class="c"># just one command</span>
-</code></pre></div></div>
-
-<p>接下就是操作步骤了： 在此之前，你需要完全退出被隐藏的软件**</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20220507152104232.png?x-oss-process=image/resize,w_960,m_lfit" alt="image-20220507152104232" /></p>
-
-<p>下方是脚本的执行过程：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">sudo </span>php hideDockIcon.php
-App name: BaiduNetdisk_mac
-Cracking app BaiduNetdisk_mac
-Info.plist successfully injected
-Signing <span class="nt">------</span>
-/Applications/BaiduNetdisk_mac.app: replacing existing signature
-<span class="nt">------</span>
-
-Finished  <span class="c"># 看到这个就是成功了</span>
-</code></pre></div></div>
-
-<p>执行成功后，再次打开App，App会先在Dock栏跳动加载，加载完后图标自动消失，但App依旧在运行。</p>
-
-<p>以上，你就成功的隐藏这个需要的软件，经过在测试，脚本的健壮性很好:</p>
-
-<p>支持的 PC : <strong>2022 年 M1 Max MacOS12.3.1</strong></p>
-
-<h2 id="注意事项">注意事项</h2>
-
-<h3 id="确认对的-app-name">确认对的 App Name</h3>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20220507153226027.png?x-oss-process=image/resize,w_960,m_lfit" alt="image-20220507153226027" /></p>
-
-<h3 id="恢复被隐藏的应用">恢复被隐藏的应用</h3>
-
-<p><strong>首先 &gt;</strong> 还是要退出App，这时Dock栏也不显示了，菜单栏也没有，所以不好使用 <code class="language-plaintext highlighter-rouge">邮件退出的方式</code>，那么接下来我们要找到下方这个软件：</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20220507153525040.png?x-oss-process=image/resize,w_960,m_lfit" alt="image-20220507153525040" /></p>
-
-<p>打开软件后，等待加载完成，通过搜索窗口利用 App name 找到被隐藏的软件</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20220507154000558.png?x-oss-process=image/resize,w_960,m_lfit" alt="image-20220507154000558" /></p>
-
-<p>然后使用上方的，<code class="language-plaintext highlighter-rouge">X</code> 关闭按钮，在弹窗中，选择 <code class="language-plaintext highlighter-rouge">Quit</code></p>
-
-<p>然后 &gt; 再去执行下 <code class="language-plaintext highlighter-rouge">hideDockIcon.php</code> 这个脚本:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  <span class="nb">sudo </span>php hideDockIcon.php
-Password:
-App name: BaiduNetDisk_mac
-Cracking app BaiduNetDisk_mac
-This app should be invisible <span class="k">in </span>the Dock
-Would you like to show it? <span class="o">(</span>y/n<span class="o">)</span> y
-Info.plist successfully injected
-Signing <span class="nt">------</span>
-/Applications/BaiduNetDisk_mac.app: replacing existing signature
-<span class="nt">------</span>
-
-Finished
-</code></pre></div></div>
-
-<p>然后再次启动 App，那么就会出现在 Dock 栏并且不再隐藏</p>
-
-<h2 id="结语">结语</h2>
-
-<p>没事儿还是要逛逛 Github</p>
-
+      <p>以下是使用的方法：
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1611155030404-b12d4cd7-6fa1-44ca-b183-bdf1e796ebeb.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-05-07</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
+      <cite>2022-11-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -1006,92 +484,16 @@ Finished
     <hr/>
     
     
-    <h1><a class="title" href="/post/2022/05/%E6%BB%A1%E8%B6%B3%E9%A2%84%E6%9C%9F%E7%9A%84%E6%96%87%E6%A1%A3%E7%AB%99-Mkdocs.html">满足预期的文档站 Mkdocs</a></h1>
+    <h1><a class="title" href="/post/2022/11/python-re%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.html">python re正则表达式</a></h1>
     <div class="post_at_index">
-      <h2 id="组合三件套">组合三件套</h2>
-
-<ul>
-  <li>Mkdocs	# 热门的静态博客框架</li>
-  <li>Mkdocs-material	# Mkdocs 颜值担当的主题</li>
-  <li>MkDocs Awesome Pages Plugin   # Mkdocs 动态的 Navgation 插件</li>
-</ul>
-
-<h3 id="依赖的插件">依赖的插件</h3>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>mkdocs 
-pip <span class="nb">install </span>mkdocs-material 
-pip <span class="nb">install </span>mkdocs-git-revision-date-plugin 
-pip <span class="nb">install </span>mkdocs-mermaid2-plugin 
-pip <span class="nb">install </span>mkdocs-rss-plugin 
-pip <span class="nb">install </span>mkdocs-minify-plugin 
-pip <span class="nb">install </span>mkdocs-macros-plugin 
-pip <span class="nb">install </span>mkdocs-git-revision-date-localized-plugin 
-pip <span class="nb">install </span>mkdocs-awesome-pages-plugin 
-</code></pre></div></div>
-
-<h3 id="github-repo">Github repo</h3>
-
-<p>Private Teamplate https://github.com/SAMZONG/mkdocs-template</p>
-
-<h3 id="awesome-plugin-常用参数">Awesome Plugin 常用参数</h3>
-
-<blockquote>
-  <p>在文档内的路径展示</p>
-</blockquote>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="sb">```</span>sh
-docs
-├── .pages.yaml     <span class="c"># 站点顶部导航配置文件，控制顺序和名称，一般不增加</span>
-├── README.md       <span class="c"># 默认情况下 目录下 README.md 作为 default 页面</span>
-├── SUMMARY.md
-├── dce5.0          <span class="c"># 子文件夹，支持多级目录，自动检测配置</span>
-│   ├── .pages.yaml
-│   ├── 01kpanda.md <span class="c"># 子文件自动检测，可以通过文件名前缀数字控制排序</span>
-│   ├── 02ghippo.md
-│   ├── 03clusterpedia.md
-│   ├── ...
-├── design
-│   ├── .pages.yaml <span class="c"># 每个目录下都有一个 `.pages.yaml` 用来进行目录的配置</span>
-│   ├── README.md
-│   ├── ...
-</code></pre></div></div>
-
-<p>通过对每个文件下的特定处理，默认情况下 <code class="language-plaintext highlighter-rouge">.pages.yaml</code> 为空即可，如需要特殊处理，可以在文档添加下方参数:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">title</span><span class="pi">:</span> <span class="s">Products</span>     <span class="c1"># 文件夹展示的标题</span>
-<span class="na">order</span><span class="pi">:</span> <span class="m">1</span>            <span class="c1"># 文件夹的顺序，数字越小越靠前</span>
-<span class="na">hide</span><span class="pi">:</span> <span class="no">false</span>         <span class="c1"># 是否隐藏，默认不隐藏</span>
-<span class="na">nav</span><span class="pi">:</span>                <span class="c1"># 采用自定义导航</span>
-    <span class="pi">-</span> <span class="s">filename.md</span>
-    <span class="pi">-</span> <span class="s">filename2.md</span>
-    <span class="pi">-</span> <span class="s">...</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p><code class="language-plaintext highlighter-rouge">nav</code> 的配置方式，还有更多高级用法，可以参考插件做的的 Github 介绍 <a href="https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin#customize-navigation">传送门</a></p>
-</blockquote>
-
-<h2 id="mkdocsyaml-的配置变更">mkdocs.yaml 的配置变更</h2>
-
-<ol>
-  <li>不要设定 <code class="language-plaintext highlighter-rouge">nav</code> OR <code class="language-plaintext highlighter-rouge">page</code></li>
-  <li>在 <code class="language-plaintext highlighter-rouge">plugin</code> 增加下方配置</li>
-</ol>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">awesome-pages</span><span class="pi">:</span>
-       <span class="na">filename</span><span class="pi">:</span> <span class="s">.pages.yaml</span>
-       <span class="na">collapse_single_pages</span><span class="pi">:</span> <span class="no">true</span>
-       <span class="na">strict</span><span class="pi">:</span> <span class="no">false</span>
-</code></pre></div></div>
-
+      
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-05-06</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#随笔">随笔</a>
+      <cite>2022-11-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -1100,75 +502,24 @@ docs
     <hr/>
     
     
-    <h1><a class="title" href="/post/2022/05/Alfred-Workflow-%E6%8E%A8%E8%8D%90.html">Alfred Workflow 推荐</a></h1>
+    <h1><a class="title" href="/post/2022/11/python-Request-install-pip-error.html">python Request install pip error</a></h1>
     <div class="post_at_index">
-      <h2 id="alfred-介绍">Alfred 介绍</h2>
+      <pre><code class="language-log">…
+socket.timeout: The read operation timed out
+…
+ReadTimeoutError: HTTPSConnectionPool(host=‘files.pythonhosted.org’, port=443): Read timed out.
+</code></pre>
 
-<p>Alfred 是 Mac 上一款著名的效率应用，强大的功能和众多的扩展能让你在实际操作中大幅提升工作效率，网络上也有大量关于的 Alfred 的评测和技巧的文章。</p>
+<p>解决办法：</p>
 
-<p><img src="https://cdn.sspai.com/attachment/origin/2016/02/19/311872.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="" /></p>
-
-<h2 id="workflow-介绍">Workflow 介绍</h2>
-
-<p>Workflow 工作流；将一件事情的多个步骤，通过一个的规则相连，并依次执行，最终完成，这个方式就是工作流； Alfred Workflow 就是一个将我们日常工作流 实现的一个工具，可以让我们在 Alfred 中更加方便的完成我们的工作；现实生活中的工作流可能更为复杂，但本质还是如此。正是基于这种现实背景，alfred 从 2.0 版本起加入了 workflow，简单的示例说明。</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/mUZ6OI.png?x-oss-process=image/resize,w_960,m_lfit" alt="mUZ6OI" /></p>
-
-<h2 id="我的推荐">我的推荐</h2>
-
-<p>整理常用的一些 Workflow 分享, 提高工作和生活的效率小技巧。</p>
-
-<h3 id="5-星推荐">5 星推荐</h3>
-
-<ul>
-  <li><a href="https://www.packal.org/workflow/timezones-2">https://www.packal.org/workflow/timezones-2</a></li>
-  <li><a href="https://www.packal.org/workflow/homebrew-and-cask-alfred">https://www.packal.org/workflow/homebrew-and-cask-alfred</a></li>
-  <li><a href="https://www.packal.org/workflow/mac-app-store-search">https://www.packal.org/workflow/mac-app-store-search</a></li>
-  <li><a href="https://github.com/xiaotu9639/alfred-yuque-workflow">https://github.com/xiaotu9639/alfred-yuque-workflow</a></li>
-  <li><a href="https://github.com/whyliam/whyliam.workflows.youdao">https://github.com/whyliam/whyliam.workflows.youdao</a> 有道翻译
-    <ul>
-      <li>zhiyu_id: 12ba82650be566f5</li>
-      <li>zhiyu_key:XWkQjLboE4llgQuWZMR1e0d03Au9w8ob</li>
-    </ul>
-  </li>
-</ul>
-
-<hr />
-
-<h3 id="4-星推荐">4 星推荐</h3>
-
-<ul>
-  <li><a href="https://www.packal.org/workflow/alfred-markdown-table">https://www.packal.org/workflow/alfred-markdown-table</a></li>
-  <li><a href="https://www.packal.org/workflow/pretty-json">https://www.packal.org/workflow/pretty-json</a></li>
-  <li><a href="https://www.packal.org/workflow/who">https://www.packal.org/workflow/who</a></li>
-</ul>
-
-<h2 id="如何获取-workflow-">如何获取 Workflow ?</h2>
-
-<p>可以到这个网站 https://www.packal.org/  有非常丰富的 Workflow 或者 主题可以选择，丰富你的 Alfred 使用</p>
-
-<p>如果你有能力制作一些优秀的 Workflow ，也可以在这里分享</p>
-
-<h2 id="更多关于-alfred-的使用教程">更多关于 Alfred 的使用教程</h2>
-
-<p>网络上已经有大量的 视频和文本的使用教程了，所以我这里直接引用我学习时使用的教程</p>
-
-<h2 id="视频教程">视频教程</h2>
-
-<iframe width="640" height="360" src="//player.bilibili.com/player.html?aid=894481262&amp;bvid=BV1GP4y1g7HJ&amp;cid=700510300&amp;page=1" scrolling="no" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
-
-<h2 id="文本教程">文本教程</h2>
-
-<p><a href="https://ihtcboy.com/2020/02/09/2020-02-09_%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84macOS%E7%B3%BB%E5%88%97%EF%BC%9A%E9%AB%98%E6%95%88Alfred%E8%BF%9B%E9%98%B6/">程序员的macOS系列：高效Alfred进阶</a></p>
-
-<p>同时，也推荐下这位优秀博主，如果关注 iOS 开发，可以关注他更新的内容</p>
+<p><code class="language-plaintext highlighter-rouge">pip --default-timeout=200 install -U xxx_package_name</code></p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-05-03</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
+      <cite>2022-11-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -1177,162 +528,90 @@ docs
     <hr/>
     
     
-    <h1><a class="title" href="/post/2022/05/youtube-dl-%E4%B8%8B%E8%BD%BD-YouTube-%E8%A7%86%E9%A2%91.html">youtube-dl 下载 YouTube 视频</a></h1>
+    <h1><a class="title" href="/post/2022/11/learn-sqlalchemy.html">learn sqlalchemy</a></h1>
     <div class="post_at_index">
-      <blockquote>
-  <p>截止 2022.5 <code class="language-plaintext highlighter-rouge">youtube-dl</code> 已经较长时间未更新了，建议采用 <a href="https://github.com/yt-dlp/yt-dlp"><code class="language-plaintext highlighter-rouge">yt-dlp</code></a>, 将命令进行替换即可</p>
-</blockquote>
+      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># python3 on Mac</span>
 
-<h2 id="安装新版本的-yt-dlp">安装新版本的 <code class="language-plaintext highlighter-rouge">yt-dlp</code></h2>
+pip3 <span class="nb">install </span>sqlalchemy mysqclient
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>yt-dlp/taps/yt-dlp
+<span class="c"># CentOS</span>
+yum <span class="nb">install </span>MySQL-python
 </code></pre></div></div>
 
-<p><code class="language-plaintext highlighter-rouge">yt-dlp</code> 是从 <code class="language-plaintext highlighter-rouge">youtube-dl</code> 分支出来的版本，提供持续更新和向前兼容，在友好型上做了优化；仅需要将所有安装命令中 <code class="language-plaintext highlighter-rouge">youtube-dl</code> 替换为 <code class="language-plaintext highlighter-rouge">yt-dlp</code></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sqlalchemy</span>
+<span class="kn">import</span> <span class="nn">MySQLdb</span>
 
-<p>如果你还是喜欢使用 youtube-dl，可以使用以下命令将程序默认替换，同时不影响你的使用:</p>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span><span class="p">,</span> <span class="n">MetaData</span>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">alias </span>youtube-dl<span class="o">=</span>yt-dlp
-➜  ~ <span class="nb">echo</span> <span class="s2">"alias youtube-dl=yt-dlp"</span>  <span class="o">&gt;&gt;</span> ~/.zshrc  <span class="c"># or ~/.bashrc</span>
-</code></pre></div></div>
+<span class="k">def</span> <span class="nf">connect_db</span> <span class="p">():</span>
+	<span class="c1"># connect db:
+</span>	<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s">"mysql://user:pass@localhost/db"</span><span class="p">,</span> <span class="n">echo</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/JwWiwh.png?x-oss-process=image/resize,w_960,m_lfit" /></p>
-
-<hr />
-
-<h2 id="youtube-dl-下载-youtube-视频">youtube-dl 下载 YouTube 视频</h2>
-
-<p>视频下载命令行工具里，网友推荐通常都是『国外视频用 youtube-dl』，有这两个工具国内外主流视频网站的视频基本就横扫了，适合想收藏或者喜欢下载后用本地播放器的 Geek 群体。</p>
-
-<ul>
-  <li><a href="http://rg3.github.io/youtube-dl/download.html">youtube-dl</a></li>
-</ul>
-
-<p>命令行工具本身其实不复杂，理解了它们的语法就能开始使用了，结合 Alfred 还可以把常用的命令设置成触发的动作，提升交互体验和效率。然而很多人一看网站的介绍估计和我最初的感受差不多，还要部署一堆使用环境啊。</p>
-
-<h2 id="xcode-的命令行工具">Xcode 的命令行工具</h2>
-
-<p>Homebrew 环境安装前先检查一下 Xcode 的命令行工具是否已经安装，如果 macOS 系统更新过可能也需要重新安装一次，「终端」（应用程序 - 实用工具 - 终端）中输入 <code class="language-plaintext highlighter-rouge">xcode-select --install</code>。</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ xcode-select <span class="nt">--install</span>
-xcode-select: error: <span class="nb">command </span>line tools are already installed, use <span class="s2">"Software Update"</span> to <span class="nb">install </span>updates
-➜  ~
-</code></pre></div></div>
-
-<p><em>先前配置时已经安装过 Xcode 命令行工具，所以会出现上面的提示信息。</em></p>
-
-<h2 id="homebrew-依赖">Homebrew 依赖</h2>
-
-<p><a href="https://brew.sh/index_zh-cn.html">Homebrew</a> 是一个macOS 上的软件包管理工具，通过命令行的方式安装和卸载软件，大部分的流行软件都提供了 Homebrew 的安装方式，也是开源世界里安装和更新软件的主流方式；</p>
-
-<h3 id="homebrew"><a href="https://brew.sh/index_zh-cn.html">Homebrew</a></h3>
-
-<p>只需要在联网的情况下运行一行命令：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>更多关于 Homebrew 的使用相关，可以查看我的另一篇文章  <a href="https://samzong.me/2022/05/03/Mac%E4%B8%8Bhomebrew%E7%9A%84%E4%BD%BF%E7%94%A8/">Mac 下 Homebrew 的使用</a></p>
-</blockquote>
-
-<h2 id="安装-youtube-dl">安装 youtube-dl</h2>
-
-<p>上面刚学习到的命令可以先用起来，先看看 youtube-dl 的软件信息，在终端里输入 <code class="language-plaintext highlighter-rouge">brew info youtube-dl</code>，了解一下 youtube-dl 的依存环境和需要搭档的其他应用。</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/S4sQmN.png?x-oss-process=image/resize,w_960,m_lfit" /></p>
-
-<p>从终端运行的反馈能看到，youtube-dl 的使用环境是 Python3，合并视频片断还会用到 <code class="language-plaintext highlighter-rouge">ffmpeg</code>  这个组件，也就是说安装完 youtube-dl，还要再运行一次 <code class="language-plaintext highlighter-rouge">brew install ffmpeg</code></p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>youtube-dl
-brew <span class="nb">install </span>ffmpeg
-</code></pre></div></div>
-
-<h2 id="youtube-dl-的基本用法">youtube-dl 的基本用法</h2>
-
-<p>前 3 步结束已经可以用命令行下载视频了，这里介绍几个常用的命令，更多的命令用法在官网都有介绍 ，查看 Github 更全的操作指引 <a href="https://github.com/ytdl-org/youtube-dl/blob/master/README.md#description">Document</a></p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ youtube-dl <span class="nt">-h</span> | <span class="nb">grep </span>Options
-Options:
-  General Options:
-  Network Options:
-  Download Options:
-  Filesystem Options:
-  Thumbnail Options:
-  Verbosity / Simulation Options:
-  Video Format Options:
-  Subtitle Options:
-  Authentication Options:
-  Adobe Pass Options:
-  Post-processing Options:
-</code></pre></div></div>
-
-<h3 id="导出视频指定文件名称">导出视频指定文件名称</h3>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>youtube-dl https://www.youtube.com/watch?v<span class="o">=</span>Ga4UCK627nU <span class="nt">-o</span> <span class="s2">"~/Downloads/aaa.mp4"</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">youtube-dl</code> 还提供了 一些变量的方式，可以作用在文件名上，比较常用的如下：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># %(title)s.%(ext)s 则是指定了文件名的格式，%(title)s 是视频的标题，%(ext)s 则是视频的文件扩展名</span>
-youtube-dl https://www.youtube.com/watch?v<span class="o">=</span>Ga4UCK627nU <span class="nt">-o</span> <span class="s2">"~/Downloads/%(title)s.%(ext)s"</span>
-</code></pre></div></div>
-
-<p>通过 <code class="language-plaintext highlighter-rouge">视频名.扩展名</code> 这样可以规范化导出文档的名称；还有其他非常丰富的变量支持，可以去这里找到你想要的 <a href="https://github.com/ytdl-org/youtube-dl/blob/master/README.md#output-template">Output Template</a></p>
-
-<h3 id="查询视频支持的版本">查询视频支持的版本</h3>
-
-<p>导出的画质不如意，希望自定义导出画质，可以采用这个方式，使用 <code class="language-plaintext highlighter-rouge">-F</code> 查看视频资源支持的类型，通过 <code class="language-plaintext highlighter-rouge">-f</code> 指定对应的版本进行下载</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/eUUy9N.png?x-oss-process=image/resize,w_960,m_lfit" /></p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ youtube-dl <span class="nt">-F</span> https://www.youtube.com/watch<span class="se">\?</span>v<span class="se">\=</span>BYkHLlKFEsM
-<span class="o">[</span>youtube] BYkHLlKFEsM: Downloading webpage
-<span class="o">[</span>info] Available formats <span class="k">for </span>BYkHLlKFEsM:
-format code  extension  resolution note
-249          webm       audio only tiny   53k , webm_dash container, opus @ 53k <span class="o">(</span>48000Hz<span class="o">)</span>, 2.44MiB
-250          webm       audio only tiny   70k , webm_dash container, opus @ 70k <span class="o">(</span>48000Hz<span class="o">)</span>, 3.22MiB
-140          m4a        audio only tiny  129k , m4a_dash container, mp4a.40.2@129k <span class="o">(</span>44100Hz<span class="o">)</span>, 5.93MiB
-251          webm       audio only tiny  136k , webm_dash container, opus @136k <span class="o">(</span>48000Hz<span class="o">)</span>, 6.27MiB
-160          mp4        256x144    144p   32k , mp4_dash container, avc1.4d400c@  32k, 30fps, video only, 1.48MiB
-278          webm       256x144    144p   75k , webm_dash container, vp9@  75k, 30fps, video only, 3.45MiB
-133          mp4        426x240    240p   48k , mp4_dash container, avc1.4d4015@  48k, 30fps, video only, 2.21MiB
-242          webm       426x240    240p   76k , webm_dash container, vp9@  76k, 30fps, video only, 3.51MiB
-134          mp4        638x360    360p   80k , mp4_dash container, avc1.4d401e@  80k, 30fps, video only, 3.70MiB
-243          webm       638x360    360p  115k , webm_dash container, vp9@ 115k, 30fps, video only, 5.28MiB
-135          mp4        852x480    480p  120k , mp4_dash container, avc1.4d401f@ 120k, 30fps, video only, 5.50MiB
-244          webm       852x480    480p  161k , webm_dash container, vp9@ 161k, 30fps, video only, 7.41MiB
-136          mp4        1278x720   720p  217k , mp4_dash container, avc1.4d401f@ 217k, 30fps, video only, 9.97MiB
-247          webm       1278x720   720p  273k , webm_dash container, vp9@ 273k, 30fps, video only, 12.52MiB
-248          webm       1916x1080  1080p  896k , webm_dash container, vp9@ 896k, 30fps, video only, 41.01MiB
-137          mp4        1916x1080  1080p  923k , mp4_dash container, avc1.640028@ 923k, 30fps, video only, 42.24MiB
-18           mp4        638x360    360p  350k , avc1.42001E, 30fps, mp4a.40.2 <span class="o">(</span>44100Hz<span class="o">)</span>, 16.07MiB <span class="o">(</span>best<span class="o">)</span>
-
-➜  ~ youtube-dl <span class="nt">-f</span> 137 https://www.youtube.com/watch<span class="se">\?</span>v<span class="se">\=</span>BYkHLlKFEsM  <span class="c"># 下载对应的 format code</span>
-➜  ~ youtube-dl <span class="nt">-f</span> best https://www.youtube.com/watch<span class="se">\?</span>v<span class="se">\=</span>BYkHLlKFEsM  <span class="c"># 下载最佳的版本</span>
-</code></pre></div></div>
-
-<h3 id="仅导出音频文件">仅导出音频文件</h3>
-
-<p>:::information_source: 经常拿过来做个人的歌曲库导出，<code class="language-plaintext highlighter-rouge">youtube-dl -x</code> 提供了 -x 参数来进行指定 仅导出音频，<code class="language-plaintext highlighter-rouge">--extract-audio</code> 这里需要使用到 <code class="language-plaintext highlighter-rouge">ffmpeg</code> 。</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>youtube-dl <span class="nt">-x</span> https://www.youtube.com/watch?v<span class="o">=</span>Ga4UCK627nU <span class="nt">-o</span> <span class="s2">"~/Downloads/%(title)s.%(ext)s"</span>
-</code></pre></div></div>
-
-<p>默认下载的音频文件类型，可能无法满足你，这个时候，可以使用 <code class="language-plaintext highlighter-rouge">--audio-format</code> 参数，来指定对应的音频格式（使用 ffmpeg 自动转码），目前支持个格式类型有：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Specify audio format: <span class="s2">"best"</span>, <span class="s2">"aac"</span>,<span class="s2">"flac"</span>, <span class="s2">"mp3"</span>, <span class="s2">"m4a"</span>, <span class="s2">"opus"</span>, <span class="s2">"vorbis"</span>,or <span class="s2">"wav"</span><span class="p">;</span> <span class="s2">"best"</span> by default
-</code></pre></div></div>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>youtube-dl <span class="nt">-x</span> https://www.youtube.com/watch?v<span class="o">=</span>Ga4UCK627nU <span class="nt">-o</span> <span class="s2">"~/Downloads/%(title)s.%(ext)s"</span> <span class="nt">--audio-format</span> mp3
+    <span class="n">meta</span> <span class="o">=</span> <span class="n">MetaData</span><span class="p">()</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">engine</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
 </code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-05-03</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
+      <cite>2022-11-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/11/Python-%E6%8A%93%E5%87%BA%E6%9D%A5%E9%9A%8F%E6%9C%BA%E4%B8%8B%E8%BD%BD%E8%AE%B0%E5%BD%95.html">Python 抓出来随机下载记录</a></h1>
+    <div class="post_at_index">
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">'https://appest-public.s3.amazonaws.com/download/mac/TickTick_3.9.00_{}.dmg'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">resp</span><span class="p">.</span><span class="n">status_code</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="p">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="k">break</span>
+    <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>:::info
+背景
+:::</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-11-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/11/MySQL-Case-WHEN.html">MySQL Case WHEN</a></h1>
+    <div class="post_at_index">
+      <pre><code class="language-SQL">CASE
+	WHEN a=1 THEN 'HELLO'
+	WHEN a=2 THEN ’TELL‘
+	ELSE 'ELLE'
+END 'Col_name'
+</code></pre>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-11-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#SQL">SQL</a>
       
       
       
@@ -1372,7 +651,7 @@ format code  extension  resolution note
         </li>
         
         <li><span>...</span></li>
-        <li><a href="/page15">15</a></li>
+        <li><a href="/page20">20</a></li>
         
 
         
@@ -1446,7 +725,7 @@ format code  extension  resolution note
      
     	
       <li><a href="/categories.html#Git">
-    		Git <span>5</span>
+    		Git <span>6</span>
     	</a></li>
      
     	
@@ -1486,7 +765,7 @@ format code  extension  resolution note
      
     	
       <li><a href="/categories.html#Python">
-    		Python <span>7</span>
+    		Python <span>45</span>
     	</a></li>
      
     	
@@ -1531,7 +810,7 @@ format code  extension  resolution note
      
     	
       <li><a href="/categories.html#Docker">
-    		Docker <span>4</span>
+    		Docker <span>6</span>
     	</a></li>
      
     	
@@ -1590,6 +869,36 @@ format code  extension  resolution note
     	</a></li>
      
     	
+      <li><a href="/categories.html#SQL">
+    		SQL <span>5</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Node">
+    		Node <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#BI">
+    		BI <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#NaN">
+    		NaN <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#微服务">
+    		微服务 <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#ClickHouse">
+    		ClickHouse <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#闲聊">
     		闲聊 <span>3</span>
     	</a></li>
@@ -1625,13 +934,13 @@ format code  extension  resolution note
     	</a></li>
      
     	
-      <li><a href="/categories.html#云原生">
-    		云原生 <span>1</span>
+      <li><a href="/categories.html#Gitlab">
+    		Gitlab <span>1</span>
     	</a></li>
      
     	
-      <li><a href="/categories.html#微服务">
-    		微服务 <span>1</span>
+      <li><a href="/categories.html#云原生">
+    		云原生 <span>1</span>
     	</a></li>
     
   
@@ -1645,40 +954,41 @@ format code  extension  resolution note
       <ul>
         
         <li>
-          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
+          <a href="/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过pipreqs获取当前项目的依赖库</a>
+          如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a>
           
-  参考资料：
+  strip() 删除字符串中的内容，删除后仍旧是str
+  split() 分割字符串，根据特定的标识，分割后=list
 
 
 
         </li>
         
         <li>
-          <a href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s系列 南北流量和东西流量</a>
-          南北流量和东西流量 是什么意思？
+          <a href="/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a>
+          ```python
+import string
 
 
         </li>
         
         <li>
-          <a href="/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8.html">jq 命令行 Json 处理神器</a>
-          
-  https://mozillazg.com/2018/01/jq-use-examples-cookbook.htm-
-
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/07/%E9%97%AD%E5%85%B3%E5%A4%87%E6%88%98-11%E6%9C%88.html">闭关备战 11月</a>
-          目标
+          <a href="/post/2022/11/python3-setup.py-help-commands.html">python3 setup.py --help-commands</a>
+          ```python
+→ python3 setup.py –help-commands
 
 
         </li>
         
         <li>
-          <a href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a>
-          背景
+          <a href="/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入excel</a>
+          以下是使用的方法：
 
 
         </li>

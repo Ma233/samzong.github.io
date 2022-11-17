@@ -201,6 +201,26 @@
       
     
   
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
 
 
 
@@ -244,205 +264,65 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2019/07/MySQL-%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BE%85%E5%8A%A9-mycli.html">MySQL 命令行辅助 mycli</a></h1>
+    <h1><a class="title" href="/post/2022/04/Docker-Run-at-Apple-Silicon-M1.html">Dockerfile Run at M1 processor build failed</a></h1>
     <div class="post_at_index">
-      <h5 id="install">Install</h5>
+      <h2 id="apple-m1-processor">Apple M1 processor</h2>
 
-<p>Mycli is tested on macOS and Linux. It runs on Python 2.7 and 3.4+.</p>
+<p>在使用了 Apple M1 的笔记本后，在 docker 使用遇到了一些问题，这里做些笔记记录下来</p>
+
+<h2 id="pull-image-error">pull image error</h2>
 
 <blockquote>
-  <p>NOTE: Python 2.6 support was dropped in mycli 1.9.0. If you’re running Python 2.6, you’ll want to install mycli 1.8.1.</p>
+  <p>Error “no matching manifest for linux/arm64/v8 in the manifest list entries”</p>
 </blockquote>
 
-<p>######Python Package:</p>
+<p>在我尝试想要 pull 下来时，得到上面的一个错误；同样的问题，我在编写 Dockerfile 和 docker-compose.yml 都遇到这样的问题</p>
 
-<p>If you already know how to install python packages, then you can do:</p>
+<h3 id="docker-composeyml">docker-compose.yml</h3>
 
-<ul>
-  <li>You might need sudo.</li>
-</ul>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">3.9'</span>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>pip <span class="nb">install </span>mycli
-or
-<span class="nv">$ </span>easy_install mycli
-
-<span class="c"># Windows:</span>
-<span class="c"># Follow the instructions on this blogpost to install mycli on Windows:  https://www.codewall.co.uk/installing-using-mycli-on-windows/</span>
-
-<span class="c"># macOS:</span>
-<span class="c">#The easiest way install mycli on a Mac is to use Homebrew.</span>
-<span class="nv">$ </span>brew <span class="nb">install </span>mycli
-
-
-<span class="c"># Linux:</span>
-<span class="c"># Debian/Ubuntu Package:</span>
-<span class="c"># https://packages.debian.org/search?keywords=mycli</span>
-<span class="nv">$ </span><span class="nb">sudo </span>apt-get update
-<span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install </span>mycli
-
-<span class="c"># Fedora</span>
-<span class="nv">$ </span><span class="nb">sudo </span>dnf <span class="nb">install </span>mycli
-
-
-<span class="c"># RHEL, Centos:</span>
-<span class="c"># We don't have packages for RHEL or Centos, yet. Instead, use pip to install mycli. You can install pip on your system using:</span>
-<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>python-pip python-devel
-<span class="c"># Once that is installed, you can install mycli:</span>
-<span class="nv">$ </span><span class="nb">sudo </span>pip <span class="nb">install </span>mycli
+<span class="na">services</span><span class="pi">:</span>
+  <span class="c1"># Database</span>
+  <span class="na">db</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">mysql-server:5.7</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">db_data:/var/lib/mysql</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="na">MYSQL_ROOT_PASSWORD</span><span class="pi">:</span> <span class="s">pass</span>
+      <span class="na">MYSQL_DATABASE</span><span class="pi">:</span> <span class="s">wp</span>
+      <span class="na">MYSQL_USER</span><span class="pi">:</span> <span class="s">wp</span>
+      <span class="na">MYSQL_PASSWORD</span><span class="pi">:</span> <span class="s">wp</span>
+    <span class="na">networks</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">wpsite</span>    
 </code></pre></div></div>
 
-<h5 id="install-error-qa">Install Error QA.</h5>
+<h3 id="解决思路">解决思路</h3>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cannot uninstall <span class="s1">'configobj'</span><span class="nb">.</span> It is a distutils installed project and thus we cannot accurately determine which files belong to it which would lead to only a partial uninstall.
+<p>需要指定下 <code class="language-plaintext highlighter-rouge">plaform</code> ，当我运行在 Apple M1上，变更部分如下：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>services:
+  # Database
+  db:
+    platform: linux/x86_64  # set platform
+    image: mysql-server:5.7
+    ...
 </code></pre></div></div>
 
-<h6 id="fix-code">Fix code</h6>
+<p>如果只是在 docker pull 时，增加指定参数即可：</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="nt">--ignore-installed</span> mycli
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull <span class="nt">--plaform</span> linux/x84_64 mysql-server:5.7
 </code></pre></div></div>
-
 
       
     </div>
     <br/>
     <div>
-      <cite>2019-07-03</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2019/01/Mac%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%BD%95%E5%88%B6GiF%E5%B0%8F%E8%A7%86%E9%A2%91.html">MacTips 如何快速录制GiF小视频</a></h1>
-    <div class="post_at_index">
-      <p>在平时的沟通中经常有需要用到分享一个连续的操作等，在很多时候截图不能满足我的需求，录制视频文件的话呢，文件过大，不同平台限制过多是一个很麻烦的视频，所以录制GIF是一个非常好的解决办法，今天给大家推荐两款软件，关于录制GIF和GIF编辑。</p>
-
-<h4 id="录制工具1-kap">录制工具(1) Kap</h4>
-
-<p>Kap是一款轻量级开源的GIF录制工具，这意味它是免费简单易用；你可以从官网下载。<a href="https://getkap.co/">官网</a></p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/sbuwo.gif" alt="" /></p>
-
-<p>安装完成，启动Kap，它是以一个圆环的形式显示在状态栏上，所有的界面都在这里，你可以点击红框直接开始录制，点击后你的屏幕上会出现一个虚线框，你可以通过拖动四角调整大小。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/vcaug.gif" alt="" /></p>
-
-<p>确定好录制范围之后，这时你发现Kap上红色录制按钮一个变成一个红色实心圆，再次单击即可开始录制。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/9txw3.gif" alt="" /></p>
-
-<p>在你操作完成之后，再次单击，即可结束录制。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/lws2b.gif" alt="" /></p>
-
-<h4 id="录制工具2-macappquicktime-player">录制工具(2) MacApp：QuickTime Player</h4>
-
-<p>以上管理Kap的使用GIF录制我是用过Mac自带的QuickTime Player录制，教程可以直接看 @JasonZone 的教程 <a href="https://mp.weixin.qq.com/s/lgHOrpZ2PE8hJWU3O_IDUA">链接</a></p>
-
-<h4 id="gif编辑">GIF编辑</h4>
-
-<p>在@JasonZone 最后使用的是一个网站进行了从mov转换为gif格式的操作，这里推荐一个Mac应用 <a href="http://www.aiseesoft.com/app-store/video-to-gif-maker/">Video to Gif Maker</a>，可以批量进行多个GIF文件转换，也支持在GIF增加文字或图片，这很实用。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/5yogy.gif" alt="" /></p>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2019-01-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2018/08/HowTo-Skip-Atlassian-Auth-for-SourceTree.html">HowTo Skip Atlassian Auth for SourceTree</a></h1>
-    <div class="post_at_index">
-      <h4 id="问题">问题</h4>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/eaxem.png" alt="" /></p>
-
-<p>因为国内的网络的原因，导致我们在首次打开SourceTree时需要验证Atlassian账号，但是Atlassian的注册页面使用requirejs是用了Google的CDN服务，所以无法正常通过验证，如果你有翻墙工具，那么这就没有问题，下面我要讲的方法是在不翻墙的情况下跳过初始化验证。</p>
-
-<blockquote>
-  <p>目前我解决的是在Windows平台上的问题，关于Mac平台，我稍后会更新到文档中。</p>
-</blockquote>
-
-<h4 id="解决思路">解决思路</h4>
-
-<p>我的想法是通过增加<code class="language-plaintext highlighter-rouge">account</code>信息，让<code class="language-plaintext highlighter-rouge">SourceTree</code>跳过验证；经过测试<code class="language-plaintext highlighter-rouge">2.0.19</code>及以下版本都支持，但是SourceTree在最新版本2.0.20时可能修订验证方式，所以导致我的这个方式不适用，大家可以在我的百度云盘共享中下载2.0.19，功能上并没发生多少变化。</p>
-
-<p>链接: https://pan.baidu.com/s/1qYsHKWs 密码: wnc3</p>
-
-<h4 id="解决步骤">解决步骤</h4>
-
-<h5 id="net-452">.NET 4.5.2</h5>
-
-<p>SourceTree 依赖的.NET环境最低是4.5.2，当然在你安装的过程中，会提示你下载安装，你只需要确认即可，不过这样下载会比较慢，所以建议你使用Offline的形式安装，下面是微软官方下载地址：</p>
-
-<p>https://www.microsoft.com/en-us/download/confirmation.aspx?id=42642</p>
-
-<h5 id="sourcetree">SourceTree</h5>
-
-<p>安装过程中，默认一路“Next”即可，在安装完成之后，我们需要找到SourceTree在LocalAppData中的路径，请打开资源管理窗口，然后输入以下地址：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%LocalAppData%<span class="se">\A</span>tlassian<span class="se">\S</span>ourceTree<span class="se">\</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>如果路径不存在，创建目录即可</p>
-</blockquote>
-
-<p>然后将之前百度云盘的文件<code>accounts.json</code>复制到这个位置，它的路径应该是：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%LocalAppData%<span class="se">\A</span>tlassian<span class="se">\S</span>ourceTree<span class="se">\a</span>ccounts.json
-</code></pre></div></div>
-
-<p>文件内容：</p>
-
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"$id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"$type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SourceTree.Api.Host.Identity.Model.IdentityAccount, SourceTree.Api.Host.Identity"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"HostInstance"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"$id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"$type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SourceTree.Host.Atlassianaccount.AtlassianAccountInstance, SourceTree.Host.AtlassianAccount"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"Host"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"$id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"$type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SourceTree.Host.Atlassianaccount.AtlassianAccountHost, SourceTree.Host.AtlassianAccount"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"atlassian account"</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-      </span><span class="nl">"BaseUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://id.atlassian.com/"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"Credentials"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"$id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"$type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SourceTree.Model.BasicAuthCredentials, SourceTree.Api.Account"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"Username"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"IsDefault"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre></div></div>
-
-<p>添加完成之后，启动SourceTree即可发现已经跳过了验证界面。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2018-08-04</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SourceTree">SourceTree</a>
+      <cite>2022-04-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Docker">Docker</a>
       , 
-      <a href="/tags.html#Git">Git</a>
+      <a href="/tags.html#Apple M1">Apple M1</a>
       
       
       
@@ -451,50 +331,421 @@ or
     <hr/>
     
     
-    <h1><a class="title" href="/post/2018/02/%E4%BD%BF%E7%94%A8%E5%9B%BD%E5%86%85pypi%E6%BA%90%E5%8A%A0%E9%80%9Fpip%E5%AE%89%E8%A3%85.html">使用国内pypi源加速pip安装</a></h1>
+    <h1><a class="title" href="/post/2022/04/Metabase-%E4%B8%8A%E6%89%8B-%E4%BD%BF%E7%94%A8Jar.html">Metabase 上手 - 使用 Jar 运行</a></h1>
     <div class="post_at_index">
-      <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/mxb19.png" alt="" /></p>
+      <h2 id="metabase-documentation">Metabase Documentation</h2>
 
-<p>在解决将AWS Cloudwatch的监控信息展示在Zabbix上时，需要安装AWS的一个python 工具包boto3，但是在安装过程中，碰到了如上图的错误信息；问题是由于国内网络问题导致连接python库超时，所以将库改为国内</p>
+<p>这里主要是 metabase 的部署和使用方法，以及相关的组件的使用方法。</p>
 
-<h4 id="国内pypi源站点">国内pypi源站点</h4>
+<p>我正在打造一个中文环境下 Metabase 交互的社群，如果你有任何关于 Metabase 的问题，请联系我们：</p>
+
+<blockquote>
+  <p>Metabase 中文交流 <strong>https://t.me/metabase_zh</strong></p>
+</blockquote>
+
+<h2 id="installation">Installation</h2>
+
+<p>Metabase 的安装方式有三种：</p>
 
 <ul>
-  <li>http://pypi.douban.com/simple  豆瓣</li>
-  <li>http://pypi.hustunique.com/simple  华中理工大学</li>
-  <li>http://pypi.sdutlinux.org/simple  山东理工大学</li>
-  <li>http://pypi.mirrors.ustc.edu.cn/simple  中国科学技术大学</li>
+  <li>以Jar包的形式，在本地运行，只需要简单的步骤即可 <strong>(本文)</strong></li>
+  <li>以 Docker 容器的形式，部署到服务器上</li>
 </ul>
 
-<h4 id="windows-修改">Windows 修改</h4>
+<p>以Jar的方式来运行相对简单，对环境依赖也是比较少，只要的电脑上有 JDK 就可以了。</p>
 
-<p>编辑 %HOMEPATH%\pip\pip.ini</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>global]
-index-url <span class="o">=</span> http://pypi.douban.com/simple
+<h3 id="检查-java-环境">检查 Java 环境</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java <span class="nt">-version</span>
+
+<span class="o">=&gt;</span> java version <span class="s2">"1.8.0_311"</span>
+<span class="o">=&gt;</span> Java<span class="o">(</span>TM<span class="o">)</span> SE Runtime Environment <span class="o">(</span>build 1.8.0_311-b11<span class="o">)</span>
+<span class="o">=&gt;</span> Java HotSpot<span class="o">(</span>TM<span class="o">)</span> 64-Bit Server VM <span class="o">(</span>build 25.311-b11, mixed mode<span class="o">)</span>
 </code></pre></div></div>
 
-<h4 id="linux-修改">Linux 修改</h4>
-<p>编辑 ~/.pip/pip.conf ， 如果文件不存在，可以先创建</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>global]
-index-url <span class="o">=</span> http://pypi.douban.com/simple
+<p>Metabase 要求 Java 8 及以上，如果你的环境不支持，请先升级</p>
+
+<h3 id="获取-metabase-的-jar-包">获取 Metabase 的 Jar 包</h3>
+
+<blockquote>
+  <p>https://metabase.com/start/jar.html</p>
+</blockquote>
+
+<p>通过上方这个链接，可以很快的获取到 Metabase 的最新版本的 Jar 包</p>
+
+<h3 id="启动-metabase">启动 Metabase</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java <span class="nt">-jar</span> metabase.jar
 </code></pre></div></div>
 
-<h4 id="修改easy_install-源">修改easy_install 源</h4>
-<p>编辑 ~/.pydistutils.cfg</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>global]
-index-url <span class="o">=</span> http://pypi.douban.com/simple
+<p>通过一个简单的命令，就可以启动 Metabase 了，这个命令会自动检查环境，如果环境没问题，就会自动启动 Metabase 了。</p>
+
+<blockquote>
+  <p>生产环境的 MetaBase 路径是 /data/product/metabase/</p>
+</blockquote>
+
+<p>成功启动后，Metabase 会运行在 3000 端口</p>
+
+<blockquote>
+  <p>http://localhost:3000/</p>
+</blockquote>
+
+<h3 id="以后台方式运行-metabase">以后台方式运行 Metabase</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">nohup </span>java <span class="nt">-jar</span> metabase.jar <span class="o">&gt;</span> metabase.log 2&gt;&amp;1 &amp;
 </code></pre></div></div>
 
-<h4 id="临时使用">临时使用</h4>
-<p>如果你不想修改源，只是临时使用的话，可以在pip安装时使用-i参数临时指定源站点</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nt">-i</span> http://pypi.douban.com/simple <span class="nb">install </span>boto3
+<p>日志文件会保存在本地的 metabase.log 文件中，如果你想查看 Metabase 的日志，可以使用 tail -f metabase.log 来查看。</p>
+
+<h2 id="configuration">Configuration</h2>
+
+<h3 id="配置-metabase-的数据库">配置 Metabase 的数据库</h3>
+
+<p>Metabase 默认的采用的是H2的作为数据库存储，会存放在程序运行目录下的 <code class="language-plaintext highlighter-rouge">data</code> 目录下；但对于在正式环境中启用 Metabase，我们建议使用 MySQL 来作为数据库存储。</p>
+
+<p>而指定 Metabase 的数据库配置，可以很方便的加载到系统的默认环境中:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+vim ~/.bashrc
+
+<span class="c"># update metabase config at .bashrc</span>
+<span class="nb">export </span><span class="nv">MB_DB_TYPE</span><span class="o">=</span>mysql
+<span class="nb">export </span><span class="nv">MB_DB_DBNAME</span><span class="o">=</span>metabase
+<span class="nb">export </span><span class="nv">MB_DB_PORT</span><span class="o">=</span>3306
+<span class="nb">export </span><span class="nv">MB_DB_USER</span><span class="o">=</span>
+<span class="nb">export </span><span class="nv">MB_DB_PASS</span><span class="o">=</span>
+<span class="nb">export </span><span class="nv">MB_DB_HOST</span><span class="o">=</span>
+<span class="nb">export </span><span class="nv">MB_DB_CONNECTION_URI</span><span class="o">=</span><span class="s2">"mysql://MB_DB_HOST:MB_DB_PORT/MB_DB_DBNAME?user=MB_DB_USER&amp;password=MB_DB_PASS"</span>
+<span class="nb">export </span><span class="nv">JAVA_TIMEZONE</span><span class="o">=</span>Asia/Shanghai
+</code></pre></div></div>
+
+<h3 id="配置-metabase-的-nginx">配置 Metabase 的 Nginx</h3>
+
+<p>通过配置 Metabase 的 Nginx，可以让 Metabase 在网站上运行，这样可以开放外部服务给使用者</p>
+
+<p>对 Nginx 的配置，比较简单，可以参考这个文档：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server <span class="o">{</span>
+	listen 443 ssl<span class="p">;</span>
+	server_name example.com<span class="p">;</span>
+	root /var/www/example.com/public<span class="p">;</span>
+
+	<span class="c"># reverse proxy</span>
+	location /mb/ <span class="o">{</span>
+		proxy_pass http://127.0.0.1:3000<span class="p">;</span>
+		proxy_set_header Host <span class="nv">$Host</span><span class="p">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>overseas-metabase 的 配置文件放在 /etc/nginx/config.d/leyan.core 下，在 80.conf 内 引用</p>
+</blockquote>
+
+<h3 id="配置-metabase-的-clickhouse-插件">配置 Metabase 的 ClickHouse 插件</h3>
+
+<blockquote>
+  <p>Metabase 官方支持数据库 https://www.metabase.com/docs/latest/administration-guide/01-managing-databases.html#officially-supported-databases</p>
+</blockquote>
+
+<p>Metabase 默认支持非常丰富数据库驱动，这些都会预置在 Jar 内，例如 MySQL、Oracle、SQL Server；但是 ClickHouse 不在其中，所以我们需要独立进行安装。</p>
+
+<p>ClickHouse 驱动: https://github.com/enqueue/metabase-clickhouse-driver#readme=</p>
+
+<ul>
+  <li>下载 <strong>合适的</strong> 驱动版本，放在 Metabase 的目录下的 plugin 文件夹下</li>
+  <li>重新启动 Metabase 即可</li>
+  <li>在 Metabase 的数据库管理中新增数据库，选择类型为 ClickHouse</li>
+</ul>
+
+<blockquote>
+  <p>更多三方驱动: https://www.metabase.com/docs/latest/developers-guide-drivers.html#how-to-use-a-community-built-driver</p>
+</blockquote>
+
+<h2 id="tips">Tips</h2>
+
+<h3 id="1-如何重启-metabase-">1. 如何重启 Metabase ?</h3>
+
+<p>直接杀掉进程即可，如果为了以后方便，可以将下述命令保存为 stop.sh 放在目录下，后续直接执行</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">APP_NAME</span><span class="o">=</span><span class="s2">"metabase"</span>
+
+ps aux | <span class="nb">grep </span>python | <span class="nb">grep</span> <span class="k">${</span><span class="nv">APP_NAME</span><span class="k">}</span> | <span class="nb">awk</span> <span class="s1">'{print $2}'</span> | xargs <span class="nb">kill</span> <span class="nt">-9</span>
 </code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2018-02-28</cite> <i class="icon-tag"></i>
+      <cite>2022-04-15</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Metabase">Metabase</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/04/SQL-%E5%AF%B9%E6%97%B6%E9%97%B4%E6%95%B4%E7%82%B9%E7%9A%84%E5%A4%84%E7%90%86.html">SQL 对时间整点的处理</a></h1>
+    <div class="post_at_index">
+      <h2 id="需要取值整点时间">需要取值整点时间</h2>
+
+<p>项目上需要取值上一个整点的数据查询处理，落表，然后实现按小时更新</p>
+
+<blockquote>
+  <p>ClickHouse</p>
+</blockquote>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">subtractHours</span><span class="p">(</span><span class="n">date_trunc</span><span class="p">(</span><span class="s1">'hour'</span><span class="p">,</span><span class="n">now</span><span class="p">()),</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>MySQL</p>
+</blockquote>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">and</span> <span class="n">auth_time</span> <span class="o">&gt;=</span> <span class="n">DATE_SUB</span><span class="p">(</span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="s1">'%Y-%m-%d %H:00:00'</span><span class="p">),</span><span class="n">interval</span> <span class="mi">1</span> <span class="n">hour</span><span class="p">)</span>
+<span class="k">and</span> <span class="n">auth_time</span> <span class="o">&lt;</span> <span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="s1">'%Y-%m-%d %H:00:00'</span><span class="p">)</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-15</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#MySQL">MySQL</a>
+      , 
+      <a href="/tags.html#ClickHouse">ClickHouse</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/04/%E6%B7%98%E5%AE%9DPython-SDK%E4%BC%98%E5%8C%96%E6%94%AF%E6%8C%81Python3.html">淘宝Python SDK 优化支持 Python3</a></h1>
+    <div class="post_at_index">
+      <p>淘宝开放平台的SDK，Python的 SDK 是在2012年，仅支持Python2.7 及以上，但不支持Python3；二现在是2102年了，像我这样的新手都是直接从Python3开始的</p>
+
+<ul>
+  <li>我已经把这个项目开放在 GitHub https://github.com/SAMZONG/taobao-openapi</li>
+  <li>同时放在了 Python pypi 软件仓库 https://pypi.org/project/taobao-openapi/</li>
+</ul>
+
+<h2 id="install--usage">Install &amp; Usage</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>taobao-openapi
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">import</span> <span class="nn">taobao</span><span class="o">-</span><span class="n">openapi</span> <span class="k">as</span> <span class="n">tbapi</span>
+
+</code></pre></div></div>
+
+<h2 id="持续补充sdk能力">持续补充SDK能力</h2>
+
+<p>淘宝开放平台后台下载获取到的SDK文件，会根据应用的权限生产对应的SDK包，所以你可能获取到的是几十个或者上百个</p>
+
+<p>NOTE: <strong>如果你有其他的SDK没有在文档中找到，可以反馈给我或者提 <code class="language-plaintext highlighter-rouge">Pull requests</code>，大家一起扩充SDK</strong></p>
+
+<ul>
+  <li>v1.0.6 fix 文档错误</li>
+  <li>v1.0.4 增加更多接口</li>
+  <li>v1.0.3 增加更多接口</li>
+  <li>v1.0.2 添加 Wdt QimenCloud-openapi</li>
+  <li>v1.0.1 适配 taobao-openapi</li>
+</ul>
+
+<h2 id="使用说明">使用说明</h2>
+
+<pre><code class="language-python3">
+import top.api
+import json
+
+app_key = 
+app_secret = 
+session_key = 
+
+def trade_rates_get_request():
+	req = top.api.TraderatesGetRequest()
+	req.set_app_info(top.appinfo(app_key, app_secret))
+	
+	req.fields = "tid,oid,role,nick,result,created,rated_nick,item_title,item_price,content,reply,num_iid"
+	req.rate_type = "get"
+	req.role = "buyer"
+	
+	try:
+		resp = req.getResponse(session_key)
+	except Exception as e:
+		print(e)
+
+
+if __name__ == '__main__':
+	result = trade_rates_get_request()
+	print(result)
+
+</code></pre>
+
+<h2 id="适配部分介绍">适配部分介绍</h2>
+
+<blockquote>
+  <p>以下为了省时间，基本引用了 https://blog.csdn.net/starryhwj/article/details/103026402 补充了8
+同时感谢 <a href="https://github.com/ymj4023">@ymj4023</a></p>
+</blockquote>
+
+<h3 id="1-python3-int替代了long">1. Python3 int替代了long</h3>
+
+<pre><code class="language-python3">FROM: str(long(time.time() * 1000))
+
+TO: P_TIMESTAMP: str(int(time.time() * 1000))
+</code></pre>
+
+<h3 id="2-用items替代iteritems">2. 用items替代iteritems</h3>
+
+<pre><code class="language-python3">FROM: for key, value in application_parameter.iteritems():
+
+TO: for key, value in application_parameter.items():
+</code></pre>
+
+<h3 id="3-dict方法优化">3. dict方法优化</h3>
+
+<p>查阅资料，发现有人说到dict methods dict.keys(), dict.items() and dict.values() return “views” instead of lists.这样就显而易见知道怎么改了：</p>
+
+<pre><code class="language-python3">FROM: keys = keys.sort()
+
+TO: keys = sorted(keys)
+</code></pre>
+
+<h3 id="4-unicode-对象需要编码">4. unicode 对象需要编码</h3>
+
+<p>英文意思很明确，unicode对象在哈希之前必须进行编码转换，想起之前又看到过中文字符在python中是以unicode存在的，所以：</p>
+
+<pre><code class="language-python3">FROM: sign = hashlib.md5(parameters)).hexdigest().upper()
+
+TO: sign = hashlib.md5(parameters.encode("utf-8")).hexdigest().upper()
+</code></pre>
+
+<h3 id="5-soketpy-httpconnection">5. soket.py HttpConnection</h3>
+
+<p>这是花费时间最长的一个错误。首先，直接看最后，错误在soket.py里，心凉了半截，难道这里的调用都不一样了,再网上看又是python 3.X的http模块，去百度了半天也没有发现类似的错误，只能自己硬着头皮去看模块，功夫不负有心人，其实也很简单，在类HTTPConnection的初始化函数是这样定义的:</p>
+
+<pre><code class="language-python3">FROM: connection = httplib.HTTPConnection(self.__domain, self.__port, False, timeout)
+
+TO: connection = httplib.HTTPConnection(self.__domain, self.__port, timeout)
+</code></pre>
+
+<blockquote>
+  <p>比较下参数发现，python 2比3多了一个参数，去掉即可，这个错误主要是是报错的地方和修改的地方不在一起，所以很难插出原因。</p>
+</blockquote>
+
+<h3 id="6-urllib方法升级">6. urllib方法升级</h3>
+
+<p>官方文档是这样解释的：urllib has been split up in Python 3. The urllib.urlencode() function is now urllib.parse.urlencode(), and the urllib.urlopen() function is now urllib.request.urlopen()</p>
+
+<pre><code class="language-python3">FROM: url = N_REST + "?" + urllib.parse.urlencode(sys_parameters)
+
+TO: url = N_REST + "?" + urllib.urlencode(sys_parameters)
+</code></pre>
+
+<h3 id="7-jsonobj-异常抛出">7. jsonobj 异常抛出</h3>
+
+<p>这个错误是在API调用出异常的时候暴露出来的。原因前面已经提到了，稍微查了下替代的方法：</p>
+
+<pre><code class="language-python3">if "error_response" in jsonobj:
+
+if P_CODE in jsonobj["error_response"]:
+</code></pre>
+
+<h3 id="8-is-not-修改为-">8. is not 修改为 !=</h3>
+
+<p>在if 需要使用反向时，应该是 != ，而不是使用  is not ；这个也是 PyCharm 给的建议，所以在使用时，所以简单调整下就好了</p>
+
+<pre><code class="language-python3">FROM: if respone.status is not 200:
+
+TO: if response.status != 200:
+</code></pre>
+
+<hr />
+
+<p>以上调整之后，基本就可以正常跑起来了，基本是可以支持Python3的使用，我试过了Python3.6-3.9，都是OK的。</p>
+
+<h2 id="pypi-howto">pypi HowTo</h2>
+
+<p>把你的库上传到pypi 之前，主要依赖的是 setup.py，下方是对应的demo</p>
+
+<ul>
+  <li>打包 python3 steup.py sdist</li>
+  <li>twine upload dist/*</li>
+</ul>
+
+<blockquote>
+  <p>注意： 需要先安装 setuptools twine</p>
+</blockquote>
+
+<pre><code class="language-python3"># /usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import setuptools
+from distutils.core import setup
+import codecs
+import os
+import sys
+
+try:
+	from setuptools import setup, find_packages
+except:
+	from distutils import setup
+
+with open('README.md', 'r', encoding="utf-8") as fp:
+	readme = fp.read()
+
+VERSION = "1.0.0"
+LICENSE = "MIT"
+
+setup(
+	name='taobao-openapi',
+	version=VERSION,
+	description=(
+		'集合了淘宝开放平台的商铺OPEN API，并适配了Python3'
+	),
+	long_description=readme,
+	long_description_content_type='text/markdown',
+	author='samzong.lu',
+	author_email='samzong.lu@gmail.com',
+	maintainer='samzong.lu',
+	maintainer_email='samzong.lu@gmail.com',
+	license=LICENSE,
+	packages=find_packages(),
+	platforms=["all"],
+	url='https://github.com/SAMZONG/taobao-sdk-python3',
+	install_requires=[
+		"requests"
+		],
+	classifiers=[
+		'Development Status :: 4 - Beta',
+		'Operating System :: OS Independent',
+		'Intended Audience :: Developers',
+		'License :: OSI Approved :: BSD License',
+		'Programming Language :: Python',
+		'Programming Language :: Python :: Implementation',
+		'Programming Language :: Python :: 3',
+		'Programming Language :: Python :: 3.4',
+		'Programming Language :: Python :: 3.5',
+		'Programming Language :: Python :: 3.6',
+		'Programming Language :: Python :: 3.7',
+		'Programming Language :: Python :: 3.8',
+		'Programming Language :: Python :: 3.9',
+		'Topic :: Software Development :: Libraries'
+		],
+	)
+</code></pre>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-14</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Python">Python</a>
       
       
@@ -504,73 +755,41 @@ index-url <span class="o">=</span> http://pypi.douban.com/simple
     <hr/>
     
     
-    <h1><a class="title" href="/post/2018/01/MacTips-choose-apps-defaults-language.html">MacTips 单独设置程序语言</a></h1>
+    <h1><a class="title" href="/post/2022/04/Python-Pip-%E5%9B%BD%E5%86%85%E5%8A%A0%E9%80%9F.html">Python Pip 国内加速</a></h1>
     <div class="post_at_index">
-      <p>Mac 上系统语言设置成英文查看起来是最舒适的，所以我很早就将系统语言改成英文，但是在自身英语水平有限，应对基本的单词没有问题，但是在查看例如Word、PowerPoint这类应用时，有大量的选项大脑转化速度较慢，影响工作效率，所以有时在做PPT时，不得已要将系统切换到中文，这对我来说是一件很麻烦的事情，但是今天在网上找到一个帖子<a href="http://www.viblue.com/wiki/469264501.html">原文</a>，其实一个命令就可以搞定我的问题，修改某一软件的默认语言。</p>
-
-<h5 id="command">Command</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults write '{AppName}' AppleLanguages '("Your choose language")'
-</code></pre></div></div>
-
-<p>这不会影响到我们其他软件的使用。</p>
-
-<h5 id="tips">Tips:</h5>
-
-<p>我在一次切换Outlook语言时使用上面的命令不能生效，经过研究稍微改造了一下命令：</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults write com.microsoft.Outlook AppleLanguages -array zh
-</code></pre></div></div>
-
-<h5 id="例子">例子</h5>
-
-<ol>
-  <li>修改Microsoft Office Applocation.</li>
-</ol>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults write com.microsoft.Word AppleLanguages '("zh-CN")'
-</code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults write com.microsoft.Excel AppleLanguages '("zh-CN")'
-</code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults write com.microsoft.Powerpoint AppleLanguages '("zh-CN")'
-</code></pre></div></div>
-
-<ol>
-  <li>Mac 自带地图应</li>
-</ol>
-
-<p>Mac 自带地图非常的好用，但是中文会更适合我们的查看和标记</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults write com.apple.Maps AppleLanguages '("zh-CN")'
-</code></pre></div></div>
-
-<blockquote>
-  <p>Tip：如果不知道程序名称时，可以在<code class="language-plaintext highlighter-rouge">com.</code>使用三次<code class="language-plaintext highlighter-rouge">Tab</code>键来查找程序名称.</p>
-</blockquote>
-
-<h5 id="结语">结语</h5>
-
-<p>如上操作，仅适合本身支持中英文的应用程序，如果程序本身不带有中文或者英文是无法使用的，当然有些应用也内置了语言切换按钮，可以优先使用程序自带的设置选项。</p>
-
-<h5 id="去除设置">去除设置</h5>
-
-<p>ok，在我们增加了特定程序语言环境之后，如果手动切换系统语言之后，已设置的程序语言环境仍保留我们的手动设置情境，如若不需要，可以采用以下命令去除。</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults delete '{AppName}' AppleLanguages
-</code></pre></div></div>
+      <p>目前国内还是有比较多的镜像站，截止目前使用下比较稳定的只有下面这个 清华的镜像站了</p>
 
 <ul>
-  <li>参考链接：http://www.viblue.com/wiki/469264501.html</li>
+  <li><a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></li>
 </ul>
 
+<h2 id="安装特定包时加速">安装特定包时加速</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+pip <span class="nb">install </span>pandas <span class="nt">-i</span> http://pypi.douban.com/simple
+</code></pre></div></div>
+
+<h2 id="修改默认的pip源">修改默认的pip源</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c"># mkdir ~/.pip</span>
+
+<span class="c"># cat ~/.pip/pip.conf  &lt;&lt;EOF</span>
+<span class="o">[</span>global]
+index-url <span class="o">=</span> https://pypi.tuna.tsinghua.edu.cn/simple
+<span class="o">[</span><span class="nb">install</span><span class="o">]</span>
+trusted-host <span class="o">=</span> pypi.tuna.tsinghua.edu.cn
+EOF
+</code></pre></div></div>
+
+<p>文件保存后，pip的源就更新成功了，使用 <code class="language-plaintext highlighter-rouge">pip config list</code> 确认下是否切换成功</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2018-01-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
+      <cite>2022-04-14</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -579,81 +798,118 @@ index-url <span class="o">=</span> http://pypi.douban.com/simple
     <hr/>
     
     
-    <h1><a class="title" href="/post/2018/01/Git%E4%BD%BF%E7%94%A8%E8%A7%84%E8%8C%83%E6%B5%81%E7%A8%8B.html">Git 使用规范流程</a></h1>
+    <h1><a class="title" href="/post/2022/04/Git-%E4%BF%AE%E5%A4%8D%E5%8E%86%E5%8F%B2%E9%94%99%E8%AF%AF%E7%9A%84Author%E4%BF%A1%E6%81%AF.html">Git 修复历史错误的 Author 信息</a></h1>
     <div class="post_at_index">
-      <p>团队开发中，遵循一个合理、清晰的Git使用流程，是非常重要的。否则，每个人都提交一堆杂乱无章的commit，项目很快就会变得难以协调和维护。下图是比较常规的Git使用规范流程，这能适合绝大多数团队开发的需求，推荐你们也这样使用。</p>
+      <h2 id="git-author-的作用">git author 的作用</h2>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/j4ndi.png" alt="" /></p>
+<p>一般情况下 git 仓库，都是通过 author 中的 <code class="language-plaintext highlighter-rouge">user.email</code> 的判定提交者的身份；而这个配置一般在新电脑上需要初始化配置，否则还是容易出错。</p>
 
-<h4 id="1--分支管理">1.  分支管理</h4>
+<ul>
+  <li>个人软件仓库使用了公司的 author 信息 [信息泄漏的风险]</li>
+  <li>和其他开发者使用了相同的 author 信息 [影响commit追踪]</li>
+</ul>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/naweu.jpg" alt="" /></p>
+<h2 id="-修改为正确的-author-信息">✅ 修改为正确的 author 信息</h2>
 
-<ol>
-  <li>
-    <p>主分支Master：首先，代码库应该有一个、且仅有一个主分支。所有提供给用户使用的正式版本，都在这个主分支上发布。</p>
-  </li>
-  <li>
-    <p>开发分支Develop：主分支只用来分布重大版本，日常开发应该在另一条分支上完成。我们把开发用的分支，叫做Develop。</p>
-  </li>
-  <li>
-    <p>临时性分支</p>
+<blockquote>
+  <p>注意修改全局需要增加 <code class="language-plaintext highlighter-rouge">--global</code> 参数</p>
+</blockquote>
 
-    <ol>
-      <li>
-        <p>功能分支 : 为了开发某种特定功能，从Develop分支上面分出来的。开发完成后，要再并入Develop，功能分支的名字，可以采用feature-*的形式命名。</p>
-      </li>
-      <li>
-        <p>预发布分支 : 指发布正式版本之前（即合并到Master分支之前），我们可能需要有一个预发布的版本进行测试,预发布分支是从Develop分支上面分出来的，预发布结束以后，必须合并进Develop和Master分支。它的命名，可以采用release-*的形式。</p>
-      </li>
-      <li>
-        <p>修补bug分支：软件正式发布以后，难免会出现bug。这时就需要创建一个分支，进行bug修补。修补bug分支是从Master分支上面分出来的。修补结束以后，再合并进Master和Develop分支。它的命名，可以采用fixbug-*的形式</p>
-      </li>
-    </ol>
-  </li>
-</ol>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 修改系统默认（影响全部项目）谨慎使用
+git config <span class="nt">--global</span> user.name <span class="s2">"samzong"</span>
+git config <span class="nt">--global</span> user.email <span class="s2">"samzong.lu@gmail.com"</span>
 
-<p>​</p>
-
-<h5 id="2-新建分支">2. 新建分支</h5>
-
-<p>Master分支不允许进行开发，所有的开发相关操作都必须基于develop分支.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 获取主分支最新代码
-git chekcout master
-
-# 新建develop分支进行开发
-git checkout -b develop
+// 修改单个项目
+git config user.name <span class="s2">"samzong"</span>
+git config user.email <span class="s2">"samzong.lu@gmail.com"</span>
 </code></pre></div></div>
 
-<h5 id="3-提交分支">3. 提交分支</h5>
+<p>但是，通过以上的变更后，仅对后续的操作生效；所以这样可以帮助你回到正确的轨道上，但无法解决历史遗留的错误问题！</p>
 
-<p>分支修改后，使用commit提交修改。</p>
+<p>下面我将演示如何解决这个问题</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># add 所有新增的文件
-git add --all
+<h2 id="修订最近一次提交-amend">修订最近一次提交 (–amend)</h2>
 
-# 提交更新， 每次提交必须写增加的东西和修改内容，保证协同开发是其他看到代码就能知道你做了什么
-gti commit -m "first commit"
+<p><code class="language-plaintext highlighter-rouge">git commit</code> 提供了 –amend 的参数，作用是对commit进行修正，如果你是最近一次提交出错，那么可以直接使用下方命令完成补救。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 📢 注意替换 user.name &amp; user.email 为正确的选项</span>
+git commit <span class="nt">--amend</span> <span class="nt">--author</span><span class="o">=</span><span class="s2">"{user.name} &lt;{user.email}&gt;"</span>
 </code></pre></div></div>
 
-<h5 id="4-推送到远程仓库">4. 推送到远程仓库</h5>
+<p>以上变更完成后，你会发现最近一次的提交被修正成功了，可以使用 <code class="language-plaintext highlighter-rouge">git log -1</code> 来对比前后的 author 信息的变更；确认无误后，将你的修改推送到目标仓库中即可；</p>
 
-<p>commit 之后，其实代码还在本地仓库，这时我们需要将本地版本与git远端仓库进行同步</p>
+<blockquote>
+  <p>如果修改后的结果不满意，是可以再次修订</p>
+</blockquote>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 推送到远程develop分支
-git push origin develop
+<h2 id="修改更早之前的提交-谨慎使用">修改更早之前的提交 (谨慎使用)</h2>
+
+<p>写在前面的话，如果你知道rebase的作用，请谨慎使用的同时记住，可以在任何过程中终止你的操作，这非常重要，使用如下命令</p>
+
+<pre><code class="language-bashe">git rebase --abort
+</code></pre>
+
+<p>如果需要修改更早之前的提交，那就需要结合 <code class="language-plaintext highlighter-rouge">git rebase</code> 的能力，来实现了</p>
+
+<blockquote>
+  <p>rebase 是个危险的操作，其产生的风险也就是目前我们要做的修改历史；<strong>仅建议在测试项目或者个人项目中使用，涉及到多人协作的开源、商业化项目谨慎使用</strong></p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## 使用 git log 找到你想要修改的提交</span>
+git log
 </code></pre></div></div>
 
-<h5 id="5-合并分支">5. 合并分支</h5>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>commit 145a3eb180c3f45fd99c2d61cad6439177cbc319
+Author: samzong.lu &lt;samzong.lu@gmail.com&gt;
+Date:   Sun Mar 20 22:22:58 2022 +0800
 
-<p>当代码提交到远端develop分支后，应该让别人进行代码review和测试，确认无误后，合并到Master分支，完成开发。</p>
+commit 7e04c7ebaf06b2eea1951a29b79a571090cd1d8b  <span class="o">{</span>commit_id<span class="o">}</span>
+Author: samzong.lu &lt;samzong.lu@gmail.com&gt;
+Date:   Sun Mar 20 22:19:48 2022 +0800
+</code></pre></div></div>
+
+<p>找到你想要更新的commit_id, 然后使用rebase 命令来进行处理</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git rebase <span class="nt">-i</span> <span class="o">{</span>commit_id<span class="o">}</span>
+</code></pre></div></div>
+
+<p>然后继续使用 <code class="language-plaintext highlighter-rouge">git commit --amend</code> 来修改 author 信息，可以增加 –no-edit 来提效，表示无需弹出修改 commit info 的窗口</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit <span class="nt">--amend</span> <span class="nt">--author</span><span class="o">=</span><span class="s2">"{user.name} &lt;{user.email}&gt;"</span>
+</code></pre></div></div>
+
+<p>最后使用 <code class="language-plaintext highlighter-rouge">git rebase --coutine</code> 继续完成剩余的提交</p>
+
+<h2 id="更高级做法-filter-branch">更高级做法 <code class="language-plaintext highlighter-rouge">filter-branch</code></h2>
+
+<p><code class="language-plaintext highlighter-rouge">filter-branch</code> 虽然被官方推荐，但也不是可以轻易使用的工具；本次的目的只是修改 author 中邮箱，所以一定要加上 <code class="language-plaintext highlighter-rouge">--commit-filter</code>，官方的脚本实例我直接copy在下方了</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git filter-branch <span class="nt">--commit-filter</span> <span class="s1">'
+        if [ "$GIT_AUTHOR_EMAIL" = "schacon@localhost" ];
+        then
+                GIT_AUTHOR_NAME="Scott Chacon";
+                GIT_AUTHOR_EMAIL="schacon@example.com";
+                git commit-tree "$@";
+        else
+                git commit-tree "$@";
+        fi'</span> HEAD
+</code></pre></div></div>
+
+<h2 id="push-到-repo-的注意事项">push 到 repo 的注意事项</h2>
+
+<p>注意以上的消息会导致提交包含了 “它们父提交的SHA-1校验” 和 “这个命令修改历史中的每一个提交的SHA-1校验”， 再加上修改后的 author 信息，所以在push时会遇到警告，可以使用下方命令强制提交</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push <span class="nt">--force</span> origin <span class="o">{</span>branch_name<span class="o">}</span>
+</code></pre></div></div>
+
+<p>在多人协作的场景可能会出现覆盖他人代码的情况，请注意协商并 fetch 分支的变更，确保最新状态</p>
+
 
       
     </div>
     <br/>
     <div>
-      <cite>2018-01-09</cite> <i class="icon-tag"></i>
+      <cite>2022-04-11</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Git">Git</a>
       
       
@@ -663,226 +919,390 @@ git push origin develop
     <hr/>
     
     
-    <h1><a class="title" href="/post/2017/12/Howto-Install-Redmine-on-Ubuntu-16.04.html">Howto Install Redmine on Ubuntu 16.04</a></h1>
+    <h1><a class="title" href="/post/2022/04/awsome-telegram-bot.html">Awsome Telegram Bot</a></h1>
     <div class="post_at_index">
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># base
-apt install mysql-server libmysqlclient-dev git-core subversion imagemagick libmagickwand-dev libcurl4-openssl-dev 
-apt install build-essential mysql-server ruby ruby-dev libmysqlclient-dev imagemagick libmagickwand-dev
-# install mysql
-systemctl enable mysql.service
-systemctl start mysql.service
-create database redmine character set utf8;
-grant all privileges on redmine.* to redmine@'localhost' identified by 'redmine';
-flush privileges;
-# Install ruby
-gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-curl -sSL https://get.rvm.io | bash -s stable
-source /etc/profile.d/rvm.sh
-rvm requirements
-rvm install 2.4.1
-rvm use 2.4.1 --default
-# install passenger and nginx 
-gem install passenger --no-ri --no-rdoc
-passenger-install-nginx-module
-# 1. auto install nginx.
-curl https://raw.githubusercontent.com/makevoid/nginx-passenger-ubuntu/master/nginx/nginx.service &gt; /lib/systemd/system/nginx.service
-systemctl daemon-reload
-systemctl enable nginx
-vim /opt/nginx/conf/nginx.conf # 注销 location / {} 的配置
-server {
-  listen  80;
-  server_name [your_server_domain_name] # redmine.com;
-  root /var/data/redmine/public;
-  passenger_enabled on;
-  client_max_body_size      10m; # Max attachemnt size
-}
+      <h2 id="关于电报群">关于电报群</h2>
 
-systemctl start nginx
-# install redmine
-mkdir /var/data
-cd /var/data
-svn co http://svn.redmine.org/redmine/branches/3.4-stable redmine
-cd /var/data/redmine
-cp -pR /var/data/redmine/config/database.yml.example /var/data/redmine/config/database.yml
-vim config/database.yml  # set redmine db user and password
-# Install Plugins
-cd /var/data/redmine
-gem install bundler --no-ri --no-rdoc
-bundle install
-# configure redmine
-cd /var/data/redmine
-mkdir public/plugin_assets
-chown -R www-data:www-data files log tmp public/plugin_assets config.ru
-chmod -R 755 files log tmp public/plugin_assets
-# input database and base file.
-RAILS_ENV=production bundle exec rake db:migrate
-RAILS_ENV=production bundle exec rake redmine:load_default_data
-bundle exec rake generate_secret_token
-# restart nginx, install ok.
-systemctl restart nginx
-# restart redmine
-touch /var/data/redmine/tmp/restart.txt
-# configure email service
-vim /var/data/redmine/config/configuration.yml
-</code></pre></div></div>
+<p>从2014年开始使用电报群，在这个不存在的通讯工具中，结识不少有趣的朋友，也发现了大量有价值的群组或BOT，可以很方便你的生活</p>
 
+<blockquote>
+  <p>P.S. 不要过分关注那些黑产、广告和色情信息，它们虽然利用了这个工具，但是也只是其中一小部分</p>
+</blockquote>
 
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-12-02</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Redmine">Redmine</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2017/10/iPhone-iPad%E4%B8%8D%E8%B6%8A%E7%8B%B1%E5%AE%89%E8%A3%85%E6%97%A7%E7%89%88%E7%A8%8B%E5%BA%8F.html">iPhone/iPad 不越狱安装旧版程序</a></h1>
-    <div class="post_at_index">
-      <h4 id="前言">前言</h4>
-
-<p>软件版本迭代是会带来新的功能和 BUG 修复，为给用户带来更好的使用体验，我也是乐于尝鲜的性格，所以在软件推出发布新版本时都会及时更新，但用户体验其实是一个玄学的话题，有时并不能给你带来更好的体验，在 iOS 上，由于苹果商店严格的管理机制导致我们在升级后，想要回退到之前版本变得十分困难。</p>
-
-<p>虾米音乐升级到 6.0 版本之后，改变很大，作为一位老虾米非常不适应，所以就瞄准了 6.0 之前的最后一个版本：5.9.4。</p>
-
-<p>解决办法是在 iTunes 下载程序时，使用抓包工具对与苹果应用商店服务器之间的请求进行分析，通过修改下载请求中程序版本识别序列号来下载旧版本。</p>
-
-<h4 id="准备">准备</h4>
-
-<p>网上较多的解决办法是使用 Fiddler+iTunes 是在 Windows 平台，因为我只有 Mac ，所以用Charles 代替 Fiddler，这里需要注意的是iTunes的版本，在笔者写这篇教程的前一天 iTunes 更新到12.7，在 12.7 中有一个很大的变化移除了 App store ，所以请使用低于 12.7 版本的 iTunes 。</p>
-
-<h5 id="charles-安装">Charles 安装</h5>
-
-<p>对于 Charles 版本并没有特殊要求，我这边是通过brew安装，你也可以到 Charles 官网下载安装， Charles 是需要付费的软件，但是有30天免费使用期限，如果你有长期使用打算，建议购买正版授权。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/x4dkc.jpg" alt="" /></p>
-
-<h5 id="charles-ssl证书导入系统">Charles SSL证书导入系统</h5>
-
-<p>从 Charles 中导出证书文件</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/v815e.jpg" alt="" /></p>
-
-<p>在 KeyChain Access 中导入证书</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/883p7.jpg" alt="" /></p>
-
-<p>选中导入的证书，然后右键选择 ‘Get Info’ ，设置证书信任状态</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/xoalz.jpg" alt="" /></p>
-
-<h4 id="虾米音乐-的三次下载">“虾米音乐” 的三次下载</h4>
-
-<h5 id="第一次下载">第一次下载</h5>
-
-<p>打开 Charles ，开启监听，然后使用搜索虾米音乐，点击 Downloads 按钮。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/6dt52.jpg" alt="" /></p>
-
-<p>点击下载后，在 Charles 会出现监听到信息，找到一条 ‘p[xx]-buy.itunes.apple.com’ ，其中 xx 是一个随机的数字，选中它，然后右键菜单栏中勾选 ‘Enable SSL Proxying’ 和 ‘Breakpoints’ 。设置完成后，在 iTunes 下载中，清理下载记录。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/ea85i.jpg" alt="" /></p>
-
-<h5 id="第二次下载">第二次下载</h5>
-
-<p>重新搜索虾米音乐，并点击下载按钮，这时 Charles 会弹出窗口，然后在弹出窗口的右下三个按钮中选择 ‘Execute’ ，这一步是我们请求服务器，紧接着出现的就是服务器给我们的响应，然后选择 ‘Edit Response’ - ‘XML Text’ ，然后向下滚动找到下图中的部分，这里是所有虾米音乐的版本的序列数字，但是这里没有办法直接看到版本号，越大的数字版本号越新。这里可以通过在手机 App store 中查看软件的版本记录，找到大概要回退多少个版本，然后数字从大到小找个半个序列数字记录下来，然后在下面三个按钮中选择 ‘Abort’ ，这时 iTunes 会弹出一个报错窗口，关掉即可。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/27nit.jpg" alt="" /></p>
-
-<h5 id="第三次下载">第三次下载</h5>
-
-<p>再次重新搜索虾米音乐，并点击下载，在这次Charles弹出窗口中我们需要直接修改 ‘Edit Requset’ - ‘XML Text’ ，将如下图中的 ‘appExtVrsid’ 对应的值修改为，我们上一步中记录的序列数字，然后就一直在每次弹出选择时，选择 ‘Execute’ ，直到下载完成记录。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/h7zzu.jpg" alt="" /></p>
-
-<h4 id="验证">验证</h4>
-
-<p>下载完成后，你的 iTunes App Library 中已经有了一个虾米音乐，连接上你的手机，将其安装到手机上即可，下图是我安装后的版本截图。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/ppy2m.jpg" alt="" /></p>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-10-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#iPhone">iPhone</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2017/08/blazemeter_recoding_jmx.html">Jmeter 使用BlazeMeter为Jmeter录制脚本</a></h1>
-    <div class="post_at_index">
-      <p>之前一直使用阿里云的PTS服务作为测试，但是今天发现阿里云的PTS服务正在升级无法使用，所以打算用Jmeter来做压力测试，并使用Chrome插件BlazeMeter来录制.jmx脚本。</p>
-
-<h4 id="安装blazemeter插件">安装BlazeMeter插件</h4>
-
-<p><a href="https://chrome.google.com/webstore/search/blazemeter">插件安装</a> , 需要能登录到Chrome应用商店，如果不能登录的话，可以在网上搜索下载crx包，手动加载到Chrome中即可。</p>
-
-<p>安装成功之后，在Chrome插件栏可以看到程序入口，<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/r0ps7.jpg" alt="" /></p>
-
-<p>BlazeMeter限制需要登录才能导出jmx脚本，所以首先需要注册账号。成功登陆后，完整界面如图所示：</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/oamv4.png" alt="" /></p>
-
-<h4 id="录制过程">录制过程</h4>
-
-<p>填写测试脚本名称后，点击开始录制，执行一系列操作后，点停止录制，然后到处jmx文件到本地。</p>
-
-<h4 id="导入脚本到jmeter">导入脚本到Jmeter</h4>
-
-<p>在Jmeter中”File-Open”导入你jmx脚本，为了方便观察结果，我们需要增加一些察看报告。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/uxe75.jpg" alt="" /></p>
-
-<h5 id="聚合报告aggregate-report">聚合报告(Aggregate Report)</h5>
-
-<p>我们可以在聚合报告中一些非常有用的信息，这有助于对性能测试的分析。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/j93gs.png" alt="" /></p>
+<h3 id="我在电报做的事情">我在电报做的事情</h3>
 
 <ul>
-  <li>Samples ： 一共完成了多少事务</li>
-  <li>Averge ： 平均响应时间</li>
-  <li>Median ： 统计意义上的响应时间的中值</li>
-  <li>90% Line ：90%的事务响应时间都小于xx ms</li>
-  <li>Min ：最小响应时间 ms</li>
-  <li>Max :  最大响应时间 ms</li>
-  <li>Eror %  : 出错率</li>
-  <li>Throughput ： 吞吐量，事务/秒</li>
-  <li>KB/sec ： 用流量来衡量的吞吐量</li>
+  <li>美剧、电影和图书，所以最新的资源基本在电报群出现了，远比各种关注微信公众号套娃的营销号好很多</li>
+  <li>技术群，感谢技术群里的各位大佬给的帮助，尤其感谢 Taiwan 的几个技术社群，会有人认真解答你的问题
+    <ul>
+      <li>Go/Php 各类开发群</li>
+      <li>开源软件的沟通群， 在这里你可以和开发者们进行沟通，并且提供你的建议，甚至讨论 PR</li>
+    </ul>
+  </li>
+  <li>各类BOT
+    <ul>
+      <li>Temp Mail 生成临时邮箱</li>
+      <li>资料查询</li>
+      <li>GitHub 助手</li>
+      <li>短连接</li>
+      <li>网站服务监控</li>
+    </ul>
+  </li>
+  <li>羊毛群/合租群/VPN群，这里不用详细说明</li>
+</ul>
+
+<h3 id="使用的一些技巧">使用的一些技巧</h3>
+
+<ul>
+  <li>你需要一个 !+86 的手机号，保障你与所有的网友的友好交流，可以考虑使用 G家Voice 买个美区号方便</li>
+  <li>DO NOT USE CHINESE ! 这会让你发现不一样的 Telegram</li>
+</ul>
+
+<h3 id="develop-in-telegram">Develop in Telegram</h3>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/7a0Bjv.png" alt="7a0Bjv" /></p>
+
+<ul>
+  <li><a href="https://telegra.ph/">telegra.ph</a> 匿名博客， Writing is Sharing ~</li>
+  <li><a href="https://core.telegram.org/bots/api">telegram.bot_api</a> 定制开发你的webhook</li>
+</ul>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Telegram">Telegram</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/03/Javascript-Tips.html">Javascript Tips</a></h1>
+    <div class="post_at_index">
+      <ul>
+  <li>alert 弹窗提醒一段文本</li>
+  <li>a = prompt(“input desc”)  接收输入，并把内容赋值给a</li>
+  <li>confirm 弹出确认窗口，让用户确认，这是给出的结果就是 yes/no</li>
+  <li>console.log(‘AAS’) 输出一段日志</li>
+  <li>let a = 1  声明 变量 a=1， number 类型</li>
+  <li>const ABB = 123 声明一个常量 ABB, 不可以重新赋值</li>
+  <li>undefined 和 null 都是空的意思，但是这两个又不相同</li>
+  <li>a ?? “hello” ;  <code class="language-plaintext highlighter-rouge">??</code> 叫做 空值运算符，指当a 未被赋值时，将hello赋值给a，如果a已经被赋值了，则不变 ; a 需要被声明，在JavaScript中 声明 和 赋值 是两件事情</li>
+</ul>
+
+<h3 id="js的数据类型">js的数据类型</h3>
+
+<ul>
+  <li>js 是弱类型语言， 1 == ‘1’ =&gt; true; 但是  1 === ‘1’ =&gt; false；   6 / “2” =&gt; 3, typeof is number</li>
+</ul>
+
+<h3 id="支持判断">支持判断</h3>
+
+<p>if  /elif else</p>
+
+<h3 id="支持的循环方式">支持的循环方式</h3>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="k">do</span> <span class="p">{</span>
+    <span class="c1">// Hello</span>
+<span class="p">}</span> <span class="nx">whIle</span> <span class="p">()</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="nx">a</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="nx">a</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span><span class="nx">a</span><span class="o">+=</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+ <span class="c1">// Hello</span>
+<span class="p">}</span>
+
+<span class="nx">a</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<span class="k">switch</span> <span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="p">(</span><span class="nx">a</span> <span class="o">=</span> <span class="mi">100</span><span class="p">):{</span>
+        <span class="c1">//Hello</span>
+        <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nl">default</span><span class="p">:</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="函数声明">函数声明</h3>
+
+<p>必须要使用 function</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kd">function</span> <span class="nx">showMessage</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello Javascript !</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>函数中变量的作用域：这部分与Python和C一致， 分别为 内部变量 和 外部变量； 关系存在在继承的概念</li>
+  <li>函数的参数， 入参定义在 () 内，当函数声明了入参后，在对应调用时，就需要传递符合条件的参数
+    <ul>
+      <li>支持函数的默认值的设定</li>
+    </ul>
+  </li>
+  <li>函数的返回值，同样使用 return 作为返回值处理</li>
+  <li>函数 function is  an action, 所以函数的命名通常是 使用动词； javascipt 的命名方式 官方建议为 驼峰的方式</li>
 </ul>
 
 <blockquote>
-  <p>吞吐量=完成的事务数/完成这些事务数所需要的时间；</p>
-
-  <p>平均响应时间=所有响应时间的总和/完成的事务数；</p>
-
-  <p>失败率=失败的个数/事务数。</p>
+  <p>函数的特殊部分</p>
 </blockquote>
 
-<h5 id="查看结果树view-results-tree">查看结果树(View Results Tree)</h5>
+<ul>
+  <li>函数表达式   let  sayHi = function () { alert(‘Hi’)}  利用声明 <code class="language-plaintext highlighter-rouge">let</code> 创建了一个函数，并把他赋值给了变量 sayHi</li>
+  <li>回调函数</li>
+</ul>
 
-<p>通过查看结果树，可以看到每个事务的返回结果，其中红色是出错，绿色则为正常。建议在测试开始前将log/Display Only中Errors打上勾即可，不然会输出很多东西，不方便查看。</p>
+<hr />
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/moo9h.png" alt="" /></p>
+<p>[ ] 今天学习的内容到此 回调函数  <a href="https://zh.javascript.info/function-expressions">https://zh.javascript.info/function-expressions</a></p>
 
+<h3 id="严格模式">严格模式</h3>
+
+<ul>
+  <li>三连表达式     cond ? resultA : resultB   //  1 &gt; 0 ? alert(true) : alert(false)   cond 为真展示resultA, 反之展示resultB</li>
+  <li>空值运算符     a ?? b       =&gt;  a ?? b 的结果是 a，除非 a 为 null/undefined，这时结果是 b</li>
+</ul>
+
+<h3 id="开发行为规范">开发行为规范</h3>
+
+<blockquote>
+  <p>BDD</p>
+</blockquote>
+
+<p>在 BDD 中，规范先行，实现在后。最后我们同时拥有了规范和代码。</p>
+
+<p>规范有三种使用方式：</p>
+
+<ul>
+  <li>作为 测试 —— 保证代码正确工作。</li>
+  <li>作为 文档 —— describe 和 it 的标题告诉我们函数做了什么。</li>
+  <li>作为 案例 —— 测试实际工作的例子展示了一个函数可以被怎样使用。</li>
+</ul>
+
+<p>有了规范，我们可以安全地改进、修改甚至重写函数，并确保它仍然正确地工作。</p>
+
+<p>这在一个函数会被用在多个地方的大型项目中尤其重要。当我们改变这样一个函数时，没有办法手动检查每个使用它们的地方是否仍旧正确。</p>
+
+<p>如果没有测试，一般有两个办法：</p>
+
+<ul>
+  <li>展示修改，无论修改了什么。然后我们的用户遇到了 bug，这应该是我们没有手动完成某些检查。</li>
+  <li>如果对出错的惩罚比较严重，并且没有测试，那么大家会很害怕修改这样的函数，然后这些代码就会越来越陈旧，没有人会想接触它。这很不利于发展。自动化测试则有助于避免这样的问题！</li>
+</ul>
+
+<p>如果这个项目被测试代码覆盖了，就不会出现这种问题。在任何修改之后，我们都可以运行测试，并在几秒钟内看到大量的检查。</p>
+
+<p>另外，一个经过良好测试的代码通常都有更好的架构。</p>
+
+<p>当然，这是因为覆盖了自动化测试的代码更容易修改和改进。但还有另一个原因。</p>
+
+<p>要编写测试，代码的组织方式应确保每个函数都有一个清晰描述的任务、定义良好的输入和输出。这意味着从一开始就有一个好的架构。</p>
+
+<p>在实际开发中有时候可能并不容易，有时很难在写实际代码之前编写规范，因为还不清楚它应该如何表现。但一般来说，编写测试使得开发更快更稳定。</p>
+
+<h3 id="object-对象的基础知识">Object 对象的基础知识</h3>
+
+<p>在js中 对象可以说非常常见的用到，所以相对来讲 定义一个对象也是非常的方便</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>   <span class="nx">构造函数</span> <span class="nx">的语法</span>
+<span class="kd">let</span> <span class="nx">user</span> <span class="o">=</span> <span class="p">{}</span>     <span class="nx">构造</span> <span class="dl">"</span><span class="s2">字面量的语法</span><span class="dl">"</span>
+</code></pre></div></div>
+
+<p>在对象中，包含的是 一个个属性， 这些属性又以 键值对 的形式出现在 {} 中</p>
+
+<ul>
+  <li>定义一个有属性的对象  let user = {name:’alex’, age: 18}
+    <ul>
+      <li>增加属性 user.city = ‘Shanghai’  =&gt;   user[‘love package’] = ‘Apple’</li>
+      <li>删除一个属性 delete user.age</li>
+    </ul>
+  </li>
+  <li>计算属性  ： 当创建一个对象时，我可以在对象字面量中使用方括号，这叫做计算属性；计算属性的含义是 [fruit] 是从 变量 fruit 中获取的</li>
+  <li>判断一个 属性是否在对象中    ”key” in Object  ，这里的 key 需要时一个值，否则会被认为一个变量</li>
+  <li>遍历一个对象采用的方式是  for  (let key in Object) : 这里的做法是 声明[let] 变量key ，并且把Object 中的每一个key的值遍历赋予key</li>
+  <li>取出对象中一个key的值可以采用的方式 Object[key] 或者 Object.key；但是Object.key 会出现对 <code class="language-plaintext highlighter-rouge">多词属性</code>
+    <ul>
+      <li>单词属性   name , age</li>
+      <li>多词属性   “like birds” ， 这时使用 Object.key 的方式就不可行了</li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>JavaScirpt 中的垃圾回收机制</p>
+</blockquote>
+
+<p>当一个对象中的属性被建立后，如果这些属性被多个对象引用时，其他一个对象被重新赋值了，那么这些属性还是可以被访问的；但是当所有对象被重置后，这些无法被访问的属性 就变得不可以，这也会占用我们内存，而这类也会被 回收。</p>
+
+<h4 id="对象的方法-this">对象的方法 <code class="language-plaintext highlighter-rouge">this</code></h4>
+
+<p>this 是用来标识当前对象的，这个对象可以是个函数 ; 为了访问该对象，方法中可以使用 this 关键字。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>this 设计到编程的一种形式 ： **面向对象编程** OOP ; 当我们在代码中用对象表示实体时，就是所谓的 面向对象编程，简称为 “OOP”。
+</code></pre></div></div>
+
+<ul>
+  <li>this 的优势 ： 在 JavaScript 中，this 关键字与其他大多数编程语言中的不同。JavaScript 中的 this 可以用于任何函数，即使它不是对象的方法。</li>
+  <li>this 的值是在代码运行时计算出来的，它取决于代码上下文。 不用函数调用this时的到结果不一致的</li>
+  <li>箭头函数   function sum (a,b) =&gt; a*b ； 这类箭头函数是没有自己的 this，如果在箭头函数中使用 this，会把this当成一个真正的对象去处理，这不好</li>
+</ul>
+
+<p>在 JavaScript 中，this 是“自由”的，它的值是在调用时计算出来的，它的值并不取决于方法声明的位置，而是取决于在“点符号前”的是什么对象。在运行时对 this 求值的这个概念既有优点也有缺点。一方面，函数可以被重用于不同的对象。另一方面，更大的灵活性造成了更大的出错的可能。这里我们的立场并不是要评判编程语言的这个设计是好是坏。而是要了解怎样使用它，如何趋利避害。</p>
+
+<h4 id="对象的-构造和操作符-new">对象的 构造和操作符 <code class="language-plaintext highlighter-rouge">new</code></h4>
+
+<ul>
+  <li>构造函数在技术上，也是属于常规函数，不过有2个约定：
+    <ul>
+      <li>命名以大写字母开头， 这是一个共同的约定，用来标明一个函数将被使用 <code class="language-plaintext highlighter-rouge">new</code> 来运行</li>
+      <li>他们只能有 <code class="language-plaintext highlighter-rouge">new</code> 操作符来执行</li>
+    </ul>
+  </li>
+</ul>
+
+<p>构造器不能被再次调用，因为他保存在任何地址，知识被创建后 后续 调用使用；所以 构造函数的封装一个 单一对象的代码，而无需将来重用</p>
+
+<h4 id="javascript--可选链">JavaScript  <code class="language-plaintext highlighter-rouge">?.</code> 可选链</h4>
+
+<p>可选链 ?. 语法有三种形式：</p>
+
+<ul>
+  <li>obj?.prop —— 如果 obj 存在则返回 obj.prop，否则返回 undefined。</li>
+  <li>obj?.[prop] —— 如果 obj 存在则返回 obj[prop]，否则返回 undefined。</li>
+  <li>obj.method?.() —— 如果 obj.method 存在则调用 obj.method()，否则返回 undefined。</li>
+</ul>
+
+<p>正如我们所看到的，这些语法形式用起来都很简单直接。?. 检查左边部分是否为 null/undefined，如果不是则继续运算。 ?. 链使我们能够安全地访问嵌套属性。 但是，我们应该谨慎地使用 ?.，仅在当左边部分不存在也没问题的情况下使用为宜。以保证在代码中有编程上的错误出现时，也不会对我们隐藏。</p>
+
+<h3 id="symbol-类型">Symbol  类型</h3>
+
+<p>根据规范，Obj的属性键 只能是 字符串类型或者 Symbol 类型；不能是Number，也不能是Boolean。</p>
+
+<p>Symbol 值 表示 唯一的标识符，现在可以通过 Symbol() 来创建这种类型的值；Symbol的特性是唯一，即使我们创建了相同描述的Symbol，他们的值不相同的；比如以下：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">id1</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">(</span><span class="dl">'</span><span class="s1">id</span><span class="dl">'</span><span class="p">)</span>
+<span class="kd">let</span> <span class="nx">id2</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">(</span><span class="dl">'</span><span class="s1">id</span><span class="dl">'</span><span class="p">)</span>
+
+<span class="nx">id1</span> <span class="o">==</span> <span class="nx">id2</span>   <span class="c1">// 结果是 false</span>
+</code></pre></div></div>
+
+<p>Symbol 的另外一个特性是不会被自动转化为字符串；其实在javascript中大多数的数值都是可以进行字符串的 <code class="language-plaintext highlighter-rouge">隐式转换</code> ，但是使用 Symbol() 定义的一个字符，是不能够直接转化为 字符串的， 可以使用 <code class="language-plaintext highlighter-rouge">Symbol('id').toString()</code> 来输出字符串。</p>
+
+<h3 id="原始类型的方法">原始类型的方法</h3>
+
+<p>在 JavaScript 中有 7 种原始类型：string，number，bigint，boolean，symbol，null 和 undefined。</p>
+
+<ul>
+  <li>字符串处理方法</li>
+  <li>Number的处理方法</li>
+</ul>
+
+<h3 id="数组方法的备忘笔记">数组方法的备忘笔记</h3>
+
+<p>数组方法备忘单：</p>
+
+<ul>
+  <li>添加/删除元素：
+    <ul>
+      <li><strong>push(…items) —— 向尾端添加元素</strong></li>
+      <li><strong>pop() —— 从尾端提取一个元素</strong></li>
+      <li><strong>shift() —— 从首端提取一个元素</strong></li>
+      <li><strong>unshift(…items) —— 向首端添加元素</strong></li>
+      <li>splice(pos, deleteCount, …items) 从 pos 开始删除 deleteCount 个元素，并插入 items。 <code class="language-plaintext highlighter-rouge">用来控制数组的增删改查</code></li>
+      <li>slice(start, end) —— 创建一个新数组，将从索引 start 到索引 end（但不包括 end）的元素复制进去 <code class="language-plaintext highlighter-rouge">取出部分数组的内容产生新数组</code></li>
+      <li>concat(…items) —— 返回一个新数组：复制当前数组的所有元素，并向其中添加 items。如果 items 中的任意一项是一个数组，那么就取其元素。 <code class="language-plaintext highlighter-rouge">拼接多个数组，产生一个新的数组</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>*搜索元素：</p>
+<ul>
+  <li>indexOf/lastIndexOf(item, pos) —— 从索引 pos 开始搜索 item，搜索到则返回该项的索引，否则返回 -1。</li>
+  <li>includes(value) —— 如果数组有 value，则返回 true，否则返回 false。</li>
+  <li>find/filter(func) —— 通过 func 过滤元素，返回使 func 返回 true 的第一个值/所有值。</li>
+  <li>
+    <p>findIndex 和 find 类似，但返回索引而不是值。</p>
+  </li>
+  <li>遍历元素：
+    <ul>
+      <li>forEach(func) —— 对每个元素都调用 func，不返回任何内容。</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kd">let</span> <span class="nx">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">Apple</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Orage</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">Prism</span><span class="dl">'</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="p">(</span> <span class="kd">let</span> <span class="nx">fruit</span> <span class="k">of</span> <span class="nx">fruits</span> <span class="p">)</span> <span class="p">{</span><span class="nx">alert</span><span class="p">(</span><span class="nx">fruit</span><span class="p">);</span> <span class="p">}</span>
+<span class="c1">// 遍历数组 使用 for .. of 不能获取到当前元素的索引，知识获取到元素的值；但是大多数情况下是够用的，而且这样些代码更短，质量会高一些</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="nx">fruits</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span><span class="nx">alert</span><span class="p">(</span><span class="nx">fruits</span><span class="p">[</span><span class="nx">i</span><span class="p">])}</span>
+<span class="c1">// 这个方式就是标准的通过遍历元素的索引，然后通过索引获取到对应的数组元素的值</span>
+</code></pre></div></div>
+
+<ul>
+  <li>转换数组：
+    <ul>
+      <li>map(func) —— 根据对每个元素调用 func 的结果创建一个新数组。</li>
+      <li>sort(func) —— 对数组进行原位（in-place）排序，然后返回它。</li>
+      <li>reverse() —— 原位（in-place）反转数组，然后返回它。</li>
+      <li>split/join —— 将字符串转换为数组并返回。</li>
+      <li>reduce/reduceRight(func, initial) —— 通过对每个元素调用 func 计算数组上的单个值，并在调用之间传递中间结果。</li>
+    </ul>
+  </li>
+  <li>其他：
+    <ul>
+      <li>Array.isArray(arr) 检查 arr 是否是一个数组。</li>
+    </ul>
+  </li>
+</ul>
+
+<p>请注意，sort，reverse 和 splice 方法修改的是数组本身； 这些是最常用的方法，它们覆盖 99％ 的用例。但是还有其他几个：</p>
+
+<ul>
+  <li>arr.some(fn)/arr.every(fn) 检查数组。</li>
+</ul>
+
+<p>与 map 类似，对数组的每个元素调用函数 fn。如果任何/所有结果为 true，则返回 true，否则返回 false。</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>这两个方法的行为类似于</td>
+      <td> </td>
+      <td>和 &amp;&amp; 运算符：如果 fn 返回一个真值，arr.some() 立即返回 true 并停止迭代其余数组项；如果 fn 返回一个假值，arr.every() 立即返回 false 并停止对其余数组项的迭代。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>我们可以使用 every 来比较数组：</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">arraysEqual</span><span class="p">(</span><span class="nx">arr1</span><span class="p">,</span> <span class="nx">arr2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">arr1</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="nx">arr2</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span> <span class="nx">arr1</span><span class="p">.</span><span class="nx">every</span><span class="p">((</span><span class="nx">value</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">value</span> <span class="o">===</span> <span class="nx">arr2</span><span class="p">[</span><span class="nx">index</span><span class="p">]);</span>
+<span class="p">}</span>
+
+<span class="nx">alert</span><span class="p">(</span> <span class="nx">arraysEqual</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]));</span> <span class="c1">// true</span>
+</code></pre></div></div>
+
+<ul>
+  <li>arr.fill(value, start, end) —— 从索引 start 到 end，用重复的 value 填充数组。</li>
+  <li>arr.copyWithin(target, start, end) —— 将从位置 start 到 end 的所有元素复制到 自身 的 target 位置（覆盖现有元素）。</li>
+  <li>arr.flat(depth)/arr.flatMap(fn) 从多维数组创建一个新的扁平数组。</li>
+  <li>Array.of(element0[, element1[, …[, elementN]]]) 基于可变数量的参数创建一个新的 Array 实例，而不需要考虑参数的数量或类型。</li>
+</ul>
 
       
     </div>
     <br/>
     <div>
-      <cite>2017-08-12</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Jmeter">Jmeter</a>
+      <cite>2022-03-28</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Javascript">Javascript</a>
+      , 
+      <a href="/tags.html#HTML">HTML</a>
       
       
       
@@ -891,291 +1311,225 @@ vim /var/data/redmine/config/configuration.yml
     <hr/>
     
     
-    <h1><a class="title" href="/post/2017/06/%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98Python%E5%AE%A2%E6%88%B7%E7%AB%AF.html">bypy 百度网盘Python客户端</a></h1>
+    <h1><a class="title" href="/post/2022/03/awesome-hexo-plugins.html">Awesome Hexo Plugin</a></h1>
     <div class="post_at_index">
-      <p>最近在GitHub上发现一个有趣的项目，<a href="https://github.com/houtianze/bypy">百度网盘Python客户端</a>(bypy)，主要使用在Linux命令行下，这样很大的一个好处是可以利用到百度云盘2TB的存储空间(如果你是会员有6TB)；你可以在任何服务器上，利用自动化脚本实现一些数据文件、日志文件等等备份操作，同时也提供丰富的文件列表、上传、下载、对比、同步以及批量操作等。</p>
+      <p>About my blog use hexo plugin</p>
+
+<h2 id="hexo-hide-posts">hexo-hide-posts</h2>
+
+<p><a href="https://github.com/prinsss/hexo-hide-posts">hexo-hide-posts</a> is A plugin to hide specific posts from your Hexo blog and make them only accessible by links</p>
+
+<h3 id="installation">Installation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>npm <span class="nb">install </span>hexo-hide-posts <span class="nt">--save</span>
+</code></pre></div></div>
+
+<p>Usage</p>
+
+<p>Add <code class="language-plaintext highlighter-rouge">hidden: true</code> to the <a href="https://hexo.io/docs/front-matter">front-matter</a> of posts which you want to hide.</p>
+
+<p>e.g. Edit <code class="language-plaintext highlighter-rouge">source/_posts/lorem-ipsum.md</code>:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
+layout: post
+title: 'Lorem Ipsum'
+date: '2019/8/10 11:45:14'
+hidden: true
+---
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+</code></pre></div></div>
+
+<p>This post will not be shown anywhere, but you can still access it by <code class="language-plaintext highlighter-rouge">https://hexo.test/lorem-ipsum/</code>. (If you want to completely prevent a post from rendering, just set it as a <a href="https://hexo.io/docs/writing.html#Drafts">draft</a>.)</p>
+
+<p>To get a list of hidden posts, you can run <code class="language-plaintext highlighter-rouge">hexo hidden:list</code> from command line.</p>
+
+<p>For developers, <code class="language-plaintext highlighter-rouge">all_posts</code> and <code class="language-plaintext highlighter-rouge">hidden_posts</code> added to <a href="https://hexo.io/api/locals">Local Variables</a> may be useful.</p>
+
+<h3 id="config">Config</h3>
+
+<p>In your site’s <code class="language-plaintext highlighter-rouge">_config.yml</code>:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># hexo-hide-posts</span>
+<span class="na">hide_posts</span><span class="pi">:</span>
+  <span class="na">enable</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="c1"># Change the filter name to fit your need</span>
+  <span class="na">filter</span><span class="pi">:</span> <span class="s">hidden</span>
+  <span class="c1"># Generators which you want to expose all posts (include hidden ones) to.</span>
+  <span class="c1"># Common generators: index, tag, category, archive, sitemap, feed, etc.</span>
+  <span class="na">public_generators</span><span class="pi">:</span> <span class="pi">[]</span>
+  <span class="c1"># Add "noindex" meta tag to prevent hidden posts from being indexed by search engines</span>
+  <span class="na">noindex</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre></div></div>
+
+<h2 id="hexo-generator-restful">hexo-generator-restful</h2>
+
+<p><a href="https://github.com/yscoder/hexo-generator-restful">hexo-generator-restful</a> is generate restful json data for Hexo plugins.</p>
+
+<h3 id="install">Install</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>hexo-generator-restful <span class="nt">--save</span>
+</code></pre></div></div>
+
+<h3 id="config-1">Config</h3>
+
+<p>以下为默认配置，属性值为 <code class="language-plaintext highlighter-rouge">false</code> 表示不生成。</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">restful</span><span class="pi">:</span>
+  <span class="c1"># site 可配置为数组选择性生成某些属性</span>
+  <span class="c1"># site: ['title', 'subtitle', 'description', 'author', 'since', email', 'favicon', 'avatar']</span>
+  <span class="na">site</span><span class="pi">:</span> <span class="no">true</span>        <span class="c1"># hexo.config mix theme.config</span>
+  <span class="na">posts_size</span><span class="pi">:</span> <span class="m">10</span>    <span class="c1"># 文章列表分页，0 表示不分页</span>
+  <span class="na">posts_props</span><span class="pi">:</span>      <span class="c1"># 文章列表项的需要生成的属性</span>
+    <span class="na">title</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">slug</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">date</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">updated</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">comments</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">path</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">excerpt</span><span class="pi">:</span> <span class="no">false</span>
+    <span class="na">cover</span><span class="pi">:</span> <span class="no">true</span>      <span class="c1"># 封面图，取文章第一张图片</span>
+    <span class="na">content</span><span class="pi">:</span> <span class="no">false</span>
+    <span class="na">keywords</span><span class="pi">:</span> <span class="no">false</span>
+    <span class="na">categories</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">tags</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="na">categories</span><span class="pi">:</span> <span class="no">true</span>         <span class="c1"># 分类数据</span>
+  <span class="na">use_category_slug</span><span class="pi">:</span> <span class="no">false</span> <span class="c1"># Use slug for filename of category data</span>
+  <span class="na">tags</span><span class="pi">:</span> <span class="no">true</span>               <span class="c1"># 标签数据</span>
+  <span class="na">use_tag_slug</span><span class="pi">:</span> <span class="no">false</span>      <span class="c1"># Use slug for filename of tag data</span>
+  <span class="na">post</span><span class="pi">:</span> <span class="no">true</span>               <span class="c1"># 文章数据</span>
+  <span class="na">pages</span><span class="pi">:</span> <span class="no">false</span>             <span class="c1"># 额外的 Hexo 页面数据, 如 About</span>
+</code></pre></div></div>
+
+<h3 id="get-hexo-config">Get Hexo Config</h3>
+
+<p>获取所有 Hexo 配置（站点配置和主题配置）。</p>
 
 <blockquote>
-  <p>虽然百度网盘Python客户端提供很大的便利，但是我强烈不建议将一些重要数据放到百度云盘</p>
+  <p>Request</p>
 </blockquote>
 
-<h2 id="实验目的">实验目的</h2>
-
-<p>数据库备份文件自动上传到百度网盘</p>
-
-<h2 id="环境依赖">环境依赖</h2>
-
-<ul>
-  <li>Python 2.7 or 3.0 以上</li>
-  <li>Encoding UTF-8</li>
-</ul>
-
-<h2 id="python-环境">Python 环境</h2>
-
-<p>首先使用<code class="language-plaintext highlighter-rouge">python -V</code>检查你的Python版本，如果你的版本是2.7或以上，那么就不需要做任何操作，可以直接安装bypy，但是如果你像我一样多数是CentOS 6.x 那么就需要先升级Python版本。我这里是将Python升级到2.7。</p>
-
-<h3 id="install-python-27">Install Python 2.7</h3>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check current Python version</span>
-➜  ~ python <span class="nt">-V</span>
-Python 2.6.6
-
-<span class="c"># Download python 2.7.13 or new packge.</span>
-➜  ~ wget http://www.python.org/ftp/python/2.7.13/Python-2.7.13.tar.xz
-
-<span class="c"># Extract and change in</span>
-➜  ~ <span class="nb">tar </span>xf Python-2.7.13.tar.xz
-➜  ~ <span class="nb">cd </span>Python-2.7.13
-
-<span class="c"># Run the configure:</span>
-➜  Python-2.7.13 ./configure <span class="nt">--prefix</span><span class="o">=</span>/usr/local
-
-<span class="c"># Compile and install it:</span>
-➜  Python-2.7.13 make <span class="o">&amp;&amp;</span> make altinstall
-
-<span class="c"># Check Python Version</span>
-➜  Python-2.7.13 python2.7 <span class="nt">-V</span>
-Python 2.7.13
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api/site.json
 </code></pre></div></div>
 
-<p>虽然Python2.7已经安装成功了，但是默认的Python仍然是2.6版本，所以我们要替换默认Python命令指到2.7</p>
+<blockquote>
+  <p>Response</p>
+</blockquote>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update bin python to python2.7</span>
-➜  ~ ll /usr/bin/python /usr/local/bin/python2.7
-➜  ~ ll /usr/bin/python-config /usr/local/bin/python2.7-config
-➜  ~ python <span class="nt">-V</span>
-Python 2.7.13
+<p><a href="https://samzong.me/api/site.json">/api/site.json</a></p>
+
+<h3 id="get-posts">Get Posts</h3>
+
+<p>如果配置 <code class="language-plaintext highlighter-rouge">posts_size: 0</code> 则不分页，以下请求会获取全部文章。</p>
+
+<blockquote>
+  <p>Request</p>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /api/posts.json
 </code></pre></div></div>
 
-<h3 id="can-not-use-yum-">Can not use Yum ?</h3>
+<blockquote>
+  <p>Response</p>
+</blockquote>
 
-<p>因为<code class="language-plaintext highlighter-rouge">yum</code>必须要使用Python2.6 ，所以当升级成功之后，发现yum无法使用，这时我们要稍微修改下：</p>
+<p>示例为分页配置下的数据，会包含分页属性 <code class="language-plaintext highlighter-rouge">total</code>、<code class="language-plaintext highlighter-rouge">pageSize</code>、<code class="language-plaintext highlighter-rouge">pageCount</code>，不分页的数据不包含这三项。</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ which-command yum
-/usr/bin/yum
+<p><a href="https://samzong.me/api/posts.json">/api/posts.json</a></p>
 
-<span class="c">#Update frist line "#!/usr/bin/python" to "#!/usr/bin/python2.6"</span>
-➜  ~ vim /usr/bin/yum
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-03-27</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Hexo">Hexo</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/03/Python-%E5%A4%9A%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7.html">Pyenv Python多版本管理利器</a></h1>
+    <div class="post_at_index">
+      <blockquote>
+  <p>to_url : <a href="http://pyenv.run/">http://pyenv.run/</a>
+github offical site <a href="https://github.com/pyenv/pyenv">https://github.com/pyenv/pyenv</a></p>
+</blockquote>
+
+<p>在 MacOS 的使用方式：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>pyenv
 </code></pre></div></div>
 
-<h2 id="安装bypy">安装<code class="language-plaintext highlighter-rouge">bypy</code></h2>
+<hr />
 
-<h5 id="install-setuptools--requests">Install Setuptools &amp; requests</h5>
+<p>使用 pyenv 还是挺方便的，但是在Linux云服务器上配置网络的话就比较麻烦了，比如我在用的阿里云ECS，中间有些曲折，所以编写下文档记录下来，以防后续使用遇到问题</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ wget <span class="nt">--no-check-certificate</span> https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz
-<span class="nb">tar </span>xf setuptools-1.4.2.tar.gz
-➜  ~ python setup.py <span class="nb">install</span>
+<h2 id="安装-pyenv">安装 <code class="language-plaintext highlighter-rouge">pyenv</code></h2>
 
-➜  ~ pip2.7 <span class="nb">install </span>requests
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 官方推荐</span>
+curl https://pyenv.run | bash
 </code></pre></div></div>
 
-<h3 id="clone---install">Clone &amp;  Install</h3>
+<p>上面一个简单的命令就好了，安装后 pyenv 文件 会在你的 <code class="language-plaintext highlighter-rouge">$HOME/.pyenv</code> ，可以尝试看下脚本文件的内容，这里简单贴出来了；可以看到实际执行的脚本文件是下面这个</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ git clone https://github.com/houtianze/bypy.git
-➜  ~ <span class="nb">cd </span>bypy
-➜  bypy git:<span class="o">(</span>master<span class="o">)</span> python setup.py <span class="nb">install</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 建议看下脚本</span>
+curl <span class="nt">-L</span> https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+
+<span class="c"># 下载脚本文件</span>
+wget https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer <span class="nt">-O</span> ~/pyenv-installer
 </code></pre></div></div>
 
-<p>如果安装失败，注意看报错，是否缺少Python依赖包，或者版本不对</p>
+<p>如果你的服务器环境比较悲催，访问GitHub也是比较麻烦，那么可以看下这个网站  <a href="https://gitclone.com/">https://gitclone.com/</a> ； 只需要对 <code class="language-plaintext highlighter-rouge">pyenv-installer</code> 进行简单的修改就可以实现加速下载了</p>
 
-<h3 id="基本操作">基本操作</h3>
-
-<p>在成功安装完成之后，以下需要注意：</p>
-
-<h4 id="授权">授权</h4>
-
-<p>首次安装之后，需要进行授权，只需要运行任何一个命令都可以，例如<code class="language-plaintext highlighter-rouge">bypy info</code>，然后根据提示，打开网页登录你的百度网盘账号，取得授权码，即可。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/2grhz.png" alt="" /></p>
-
-<p>复制上图中的链接到你的浏览器中，打开可以看到百度API授权页面，如下图，将授权码粘贴到命令行，然后回车等待验证通过即可。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/9zhdm.png" alt="" /></p>
-
-<p>然后再次运行命令时，就不需要进行身份验证了</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost bypy]# bypy info
-Quota: 6.103TB
-Used: 180.074GB
-</code></pre></div></div>
-
-<p>你可以看到我的百度网盘有6.103TB的空间，已经使用了180.074GB</p>
-
-<h4 id="常用操作">常用操作</h4>
-
-<p>由于百度PCS API权限限制，程序只能存取百度云端/apps/bypy目录下面的文件和目录。通过以下链接可以打开你的bypy默认路径：</p>
-
-<p>https://pan.baidu.com/disk/home#list/vmode=list&amp;path=%2Fapps%2Fbypy</p>
-
-<h4 id="查看">查看</h4>
-
-<p>我在百度网盘内增加了一个v6的文件夹，对应我服务器名称，这是我在服务器内利用命令即可看到。</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost bypy]# bypy list
-/apps/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
-D v6 0 2017-06-02, 10:28:41
-</code></pre></div></div>
-
-<h4 id="创建文件夹">创建文件夹</h4>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy <span class="nb">mkdir </span>v6/bypy
-<span class="o">[</span>root@localhost ~]# bypy list v6
-/apps/bypy/v6 <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
-D bypy 0 2017-06-02, 10:35:53
-</code></pre></div></div>
-
-<h4 id="上传">上传</h4>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy upload bypy.tgz
-<span class="o">[</span>root@localhost ~]# bypy list
-/apps/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
-D v6 0 2017-06-02, 10:28:41
-D v6_1 0 2017-06-02, 10:34:52
-F bypy.tgz 2867963 2017-06-02, 10:37:30 aa4160cdbf2f4eca9baf0fcd395241fe
-</code></pre></div></div>
-
-<h4 id="本地同步到百度网盘">本地同步到百度网盘</h4>
-
-<p>使用<code class="language-plaintext highlighter-rouge">syncup</code>参数将本地目录文件同步到百度网盘</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy syncup ./bypy v6/bypy
-<span class="o">[</span>root@localhost ~]# bypy list v6/bypy
-/apps/bypy/v6/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
-D .git 0 2017-06-02, 10:45:31
-D baidudoc 0 2017-06-02, 10:44:50
-D build 0 2017-06-02, 10:45:11
-D bypy 0 2017-06-02, 10:45:54
-D bypy.egg-info 0 2017-06-02, 10:45:00
-D dist 0 2017-06-02, 10:44:54
-D update 0 2017-06-02, 10:45:08
-F .editorconfig 277 2017-06-02, 10:45:08 d9f71b00f908626ae68da571ca47cbe2
-F .gitignore 484 2017-06-02, 10:45:00 833d8511a69044a1f1c6e0fe4b3c3117
-F .travis.yml 628 2017-06-02, 10:44:58 9f377251309ced0a55548c18896ebd7a
-F CONTRIBUTING.md 683 2017-06-02, 10:44:52 f5e8a568937039e5853613ff0fe296ee
-F genrst.py 129 2017-06-02, 10:45:30 4565eddf226c2e8bed73d2c30dfae9f3
-F HISTORY.md 2542 2017-06-02, 10:45:11 16605670a55a3dd9768d4c862543eac4
-F HISTORY.rst 2639 2017-06-02, 10:44:57 7215fbd0a3be667fd7f9fda14f06c1a9
-F LICENSE 1078 2017-06-02, 10:44:59 ebd1a0c53ea3046f505b995629faf8fb
-F MANIFEST.in 116 2017-06-02, 10:44:50 c98e18e65329b318f13abd031a4397c4
-F README.md 6276 2017-06-02, 10:46:15 d4b88fd543d93c6b63863d28f5c4e716
-F release.sh 1795 2017-06-02, 10:45:53 c086eb283e9554bbcd23daf0888e2819
-F requirements.txt 42 2017-06-02, 10:44:54 28b314f2f2d2ed79957a7a7e6d3f7c17
-F setup.cfg 70 2017-06-02, 10:45:11 b23579970dcedbcaeaaa00636d601335
-F setup.py 2377 2017-06-02, 10:44:58 34d63d5143ab02d3db7808321a7f9df4
-<span class="o">[</span>root@localhost ~]# bypy syncup ./bypy v6/bypy
-<span class="o">[</span>root@localhost ~]#
-</code></pre></div></div>
-
-<h4 id="搜索">搜索</h4>
-
-<p><code class="language-plaintext highlighter-rouge">bypy</code> 同样支持搜索，根据文件名检索，自动递归所有目录</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy search release.sh
-Found:
-F /apps/bypy/v6/bypy/release.sh 1795 2017-06-02, 10:45:53 2017-06-02, 10:45:53 c086eb283e9554bbcd23daf0888e2819
-</code></pre></div></div>
-
-<h4 id="比较本地与百度网盘">比较本地与百度网盘</h4>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 先删除本地一个文件</span>
-<span class="o">[</span>root@localhost ~]# <span class="nb">rm</span> ./bypy/release.sh
-
-<span class="c"># 对比</span>
-<span class="o">[</span>root@localhost ~]# bypy compare v6/bypy ./bypy
-<span class="o">====</span> Same files <span class="o">===</span>
-F - MANIFEST.in
-... omit ...
-F - bypy/monkey.py
-F - README.md
-<span class="o">====</span> Different files <span class="o">===</span>
-<span class="o">====</span> Local only <span class="o">====</span>
-<span class="o">====</span> Remote only <span class="o">====</span>
-F - release.sh
-
-Statistics:
-<span class="nt">--------------------------------</span>
-Same: 131
-Different: 0
-Local only: 0
-Remote only: 1
-</code></pre></div></div>
-
-<p>通过以上可以看到，相同文件131，远程目录多了一个文件。</p>
-
-<h4 id="其他">其他</h4>
-
-<p><code class="language-plaintext highlighter-rouge">bypy</code>支持的操作很多，使用<code class="language-plaintext highlighter-rouge">bypy help</code>即可以看到，若要调试，使用以下参数可以打开对应调试信息：</p>
-
-<ul>
-  <li>运行时添加<code class="language-plaintext highlighter-rouge">-v</code>参数，会显示进度详情。</li>
-  <li>运行时添加<code class="language-plaintext highlighter-rouge">-d</code>，会显示一些调试信息。</li>
-  <li>运行时添加<code class="language-plaintext highlighter-rouge">-ddd</code>，还会会显示HTTP通讯信息（<strong>警告：非常多</strong>）</li>
-</ul>
-
-<h2 id="数据库备份自动上传到百度网盘">数据库备份自动上传到百度网盘</h2>
-
-<p>之前也写过很多关于Mysql备份的文章，如果要详细查看，请打开以下链接：<a href="https://samzong.me/categories/MySQL/">分类MySQL</a></p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># create back script.</span>
-<span class="o">[</span>root@localhost ~]# <span class="nb">touch </span>mysql_back.sh
-
-<span class="c"># add executable permissions</span>
-<span class="o">[</span>root@localhost ~]# <span class="nb">chmod</span> +x mysql_back.sh
-
-<span class="o">[</span>root@localhost ~]# vim mysql_back.sh
-<span class="c">#!/bin/bash</span>
-<span class="c">#  </span>
-<span class="c"># backup mysqldump file to baidu yunPan</span>
-<span class="c"># filepath: /usr/local/bin/mysql_back.sh</span>
-<span class="c"># Author: samzong</span>
-<span class="c">#</span>
-
-<span class="k">function </span>upload_file<span class="o">(){</span>
-        <span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H%M%S"</span><span class="sb">`</span>
-        <span class="nv">folder</span><span class="o">=</span><span class="s2">"/mysqlbak"</span>
-        <span class="nv">filename</span><span class="o">=</span><span class="s2">"db_</span><span class="nv">$TIME</span><span class="s2">.sql"</span>
-        <span class="nv">filePath</span><span class="o">=</span><span class="nv">$folder</span>/<span class="nv">$filename</span>
-
-        <span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="nv">$filePath</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
-                </span><span class="nb">echo</span> <span class="s2">"[ERROR]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] </span><span class="nv">$folder</span><span class="s2">/</span><span class="nv">$filename</span><span class="s2"> not found."</span>
-        <span class="k">else
-                </span><span class="nb">echo</span> <span class="s2">"[INFO]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] </span><span class="nv">$folder</span><span class="s2">/</span><span class="nv">$filename</span><span class="s2"> has been found. Start uploading ......"</span>
-                bypy upload <span class="s2">"</span><span class="nv">$filePath</span><span class="s2">"</span> <span class="s2">"v6/mysql_backup/</span><span class="nv">$filename</span><span class="s2">"</span>
-                <span class="nb">echo</span> <span class="s2">"[INFO]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] Uploading end."</span>
-        <span class="k">fi</span>
-<span class="o">}</span>
-
-<span class="c">#  set TIME variable</span>
-<span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H%M%S"</span><span class="sb">`</span>
-
-<span class="c"># backup db ghost to /mysqlbak/</span>
-mysqldump <span class="nt">--single-transaction</span> <span class="nt">-h</span> localhost <span class="nt">-u</span> ghost_backuser <span class="nt">-pbackupPass</span> ghost  <span class="o">&gt;</span> /mysqlbak/db_<span class="nv">$TIME</span>.sql
-
-<span class="c"># tar sql file</span>
-<span class="nb">tar </span>czvf /mysqlbak/ghost_<span class="nv">$TIME</span>.sql.tgz /mysqlbak/ghost_<span class="nv">$TIME</span>.sql <span class="nt">--remove-files</span>
-
-<span class="c"># upload sql file to baidu yunPan.</span>
-upload_file<span class="p">;</span>
-
-<span class="c"># send mial to admin'mial</span>
-<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span><span class="p">;</span> <span class="k">then
-    </span><span class="nb">echo</span> <span class="s2">"ghost SQL dump is successfully. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-successfully  samzong.lu@gmail.com
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ......</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-n</span> <span class="s2">"</span><span class="k">${</span><span class="nv">USE_GIT_URI</span><span class="k">}</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+  </span><span class="nv">GITHUB</span><span class="o">=</span><span class="s2">"git://github.com"</span>
 <span class="k">else
-    </span><span class="nb">echo</span> <span class="s2">" Error Error ghost SQL dump is Error. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-error samzong.lu@gmail.com
+  </span><span class="nv">GITHUB</span><span class="o">=</span><span class="s2">"https://gitclone.com/github.com"</span>
 <span class="k">fi</span>
+
+<span class="c"># .....</span>
 </code></pre></div></div>
 
-<h2 id="添加计划任务">添加计划任务</h2>
+<blockquote>
+  <p>先通过，<code class="language-plaintext highlighter-rouge">wget</code> 下载脚本文件，然后对脚本中的 <code class="language-plaintext highlighter-rouge">github.com</code> 的域名进行下修改，我试了下修改<code class="language-plaintext highlighter-rouge">https</code>就行了，然后就可以飞快的下载了</p>
+</blockquote>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ~ crontab <span class="nt">-e</span>
-00 00 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> sh /usr/local/bin/mysql_back.sh
+<p>最后，将 <code class="language-plaintext highlighter-rouge">pyenv</code> 的初始化增加到系统的环境变量中</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s1">'export PATH="$HOME/.pyenv/bin:$PATH"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">echo</span> <span class="s1">'eval "$(pyenv init -)"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">echo</span> <span class="s1">'eval "$(pyenv virtualenv-init -)"'</span>  <span class="o">&gt;&gt;</span> ~/.bashrc
 </code></pre></div></div>
+
+<hr />
+
+<h2 id="使用-pyenv-安装特定版本的python">使用 <code class="language-plaintext highlighter-rouge">pyenv</code> 安装特定版本的python</h2>
+
+<p>在网络好的情况下，可以直接通过 <code class="language-plaintext highlighter-rouge">pyenv install 3.9.6</code> 安装对应的版本了，但是因为网络的问题，你会发现一直在下载 Python 包这一步，问题就是 www.python.org/ftp 网络的访问问题</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711398-96703bab-2e76-4f74-8b6d-1dfa212d39b1.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+
+<p>遇到这个问题，可以尝试 先下载对应版本的安装包；可以使用国内的镜像站进行下载，或者在网络访问正常的地方进行下载包，然后上传到服务器中，这里推荐使用 淘宝的镜像站，把域名中 <a href="https://www.python.org/ftp">https://www.python.org/ftp</a> 替换为 <a href="https://npm.taobao.org/mirrors/">https://npm.taobao.org/mirrors/</a> ，下载到指定的目录</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># v = 你想要安装的python版本，比如 3.8.6</span>
+<span class="nb">export </span><span class="nv">v</span><span class="o">=</span>3.8.6<span class="p">;</span>  <span class="nb">mkdir</span> <span class="nt">-p</span> ~/.pyenv/sources/<span class="nv">$v</span><span class="p">;</span> wget https://npm.taobao.org/mirrors/python/<span class="nv">$v</span>/Python-<span class="nv">$v</span>.tar.xz <span class="nt">-P</span> ~/.pyenv/sources/<span class="nv">$v</span><span class="p">;</span> pyenv <span class="nb">install</span> <span class="nv">$v</span> <span class="nt">-k</span>
+</code></pre></div></div>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711423-9636d877-a9a2-4c9e-8cac-f82aaa3ff5b6.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+
+<blockquote>
+  <p>在 pyenv 命令的最后增加一个 -k  会在安装时，优先检测本地的文件</p>
+</blockquote>
+
 
       
     </div>
     <br/>
     <div>
-      <cite>2017-06-02</cite> <i class="icon-tag"></i>
+      <cite>2022-03-27</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Python">Python</a>
       
       
@@ -1223,7 +1577,7 @@ upload_file<span class="p">;</span>
             
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page15">15</a></li>
+          <li><a href="/page20">20</a></li>
         
 
         
@@ -1294,7 +1648,7 @@ upload_file<span class="p">;</span>
      
     	
       <li><a href="/categories.html#Git">
-    		Git <span>5</span>
+    		Git <span>6</span>
     	</a></li>
      
     	
@@ -1334,7 +1688,7 @@ upload_file<span class="p">;</span>
      
     	
       <li><a href="/categories.html#Python">
-    		Python <span>7</span>
+    		Python <span>45</span>
     	</a></li>
      
     	
@@ -1379,7 +1733,7 @@ upload_file<span class="p">;</span>
      
     	
       <li><a href="/categories.html#Docker">
-    		Docker <span>4</span>
+    		Docker <span>6</span>
     	</a></li>
      
     	
@@ -1438,6 +1792,36 @@ upload_file<span class="p">;</span>
     	</a></li>
      
     	
+      <li><a href="/categories.html#SQL">
+    		SQL <span>5</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Node">
+    		Node <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#BI">
+    		BI <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#NaN">
+    		NaN <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#微服务">
+    		微服务 <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#ClickHouse">
+    		ClickHouse <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#闲聊">
     		闲聊 <span>3</span>
     	</a></li>
@@ -1473,13 +1857,13 @@ upload_file<span class="p">;</span>
     	</a></li>
      
     	
-      <li><a href="/categories.html#云原生">
-    		云原生 <span>1</span>
+      <li><a href="/categories.html#Gitlab">
+    		Gitlab <span>1</span>
     	</a></li>
      
     	
-      <li><a href="/categories.html#微服务">
-    		微服务 <span>1</span>
+      <li><a href="/categories.html#云原生">
+    		云原生 <span>1</span>
     	</a></li>
     
   
@@ -1493,40 +1877,41 @@ upload_file<span class="p">;</span>
       <ul>
         
         <li>
-          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
+          <a href="/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过pipreqs获取当前项目的依赖库</a>
+          如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a>
           
-  参考资料：
+  strip() 删除字符串中的内容，删除后仍旧是str
+  split() 分割字符串，根据特定的标识，分割后=list
 
 
 
         </li>
         
         <li>
-          <a href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s系列 南北流量和东西流量</a>
-          南北流量和东西流量 是什么意思？
+          <a href="/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a>
+          ```python
+import string
 
 
         </li>
         
         <li>
-          <a href="/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8.html">jq 命令行 Json 处理神器</a>
-          
-  https://mozillazg.com/2018/01/jq-use-examples-cookbook.htm-
-
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/07/%E9%97%AD%E5%85%B3%E5%A4%87%E6%88%98-11%E6%9C%88.html">闭关备战 11月</a>
-          目标
+          <a href="/post/2022/11/python3-setup.py-help-commands.html">python3 setup.py --help-commands</a>
+          ```python
+→ python3 setup.py –help-commands
 
 
         </li>
         
         <li>
-          <a href="/post/2022/05/hexo-admonition.html">Hexo 增加admonition样式支持</a>
-          背景
+          <a href="/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入excel</a>
+          以下是使用的方法：
 
 
         </li>

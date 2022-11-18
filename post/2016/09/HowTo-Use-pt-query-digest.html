@@ -289,11 +289,13 @@
         </div>
         <div class="post-content" itemprop="articleBody">
             <h3 id="1-简介">1. 简介</h3>
+
 <p>索引可以我们更快速的执行查询，但是肯定存在不合理的索引，如果想找到那些索引不是很合适的查询，并在它们成为问题前进行优化，则可以使用pt-query-digest的查询审查“review”功能，分析其EXPLAIN出来的执行计划。</p>
 
 <p>pt-query-digest是用于分析mysql慢查询的一个工具，它可以分析binlog、General log、slowlog，也可以通过SHOWPROCESSLIST或者通过tcpdump抓取的MySQL协议数据来进行分析。可以把分析结果输出到文件中，分析过程是先对查询语句的条件进行参数化，然后对参数化以后的查询进行分组统计，统计出各查询的执行时间、次数、占比等，可以借助分析结果找出问题进行优化。</p>
 
 <h3 id="2-install-percona-toolkit--pt-query-digest">2. Install Percona Toolkit &amp; pt-query-digest</h3>
+
 <p>percona-toolkit是一组高级命令行工具的集合，用来执行各种通过手工执行非常复杂和麻烦的mysql和系统任务。这些任务包括：</p>
 
 <ul>
@@ -347,6 +349,7 @@ Installing /usr/local/bin/pt-query-digest
 ...
 Appending installation info to /usr/lib64/perl5/perllocal.pod
 </code></pre></div></div>
+
 <blockquote>
   <p>运行工具可能会遇到下面的错误: Can’t locate Time/HiRes.pm in @INC</p>
 </blockquote>
@@ -358,7 +361,9 @@ pt-query-digest 2.2.19
 </code></pre></div></div>
 
 <h3 id="3-开启-mysql慢日志">3. 开启 mysql慢日志</h3>
-<h5 id="a-查看当前slow_query_log-状态">a. 查看当前‘slow_query_log’ 状态：</h5>
+
+<h5 id="a-查看当前slow_query_log-状态">a. 查看当前‘slow_query_log’ 状态</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like '%query%';
 +------------------------------+---------------------------------+
 | Variable_name                | Value                           |
@@ -387,7 +392,9 @@ mysql&gt; show variables like 'log_queries_not_using_indexes';
 +-------------------------------+-------+
 1 row in set (0.00 sec)
 </code></pre></div></div>
+
 <h5 id="b-启动slow_log-配置">b. 启动slow_log, 配置</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 设定记录大于2s的sql
 mysql&gt; set global long_query_time=2;
 Query OK, 0 rows affected (0.00 sec)
@@ -410,10 +417,14 @@ Query OK, 0 rows affected (0.00 sec)
 </blockquote>
 
 <h3 id="4-分析">4. 分析</h3>
+
 <p>pt-query-digest可以从普通MySQL日志，慢查询日志以及二进制日志中分析查询，甚至可以从SHOW PROCESSLIST和MySQL协议的tcpdump中进行分析，如果没有指定文件，它从标准输入流（STDIN）中读取数据。</p>
-<h5 id="a-简单使用方法">a. 简单使用方法：</h5>
+
+<h5 id="a-简单使用方法">a. 简单使用方法</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest slow.logs
 </code></pre></div></div>
+
 <p>输出信息如下：</p>
 
 <div align="left">
@@ -440,13 +451,15 @@ Query OK, 0 rows affected (0.00 sec)
 <h5 id="详细信息">详细信息</h5>
 <p>列出上面Profile中每个Query ID的详细信息</p>
 
-<h5 id="b-从tcpdump包中分析通过tcpdump命令抓取一定时间网络数据包然后进行分析">b. 从tcpdump包中分析：通过tcpdump命令抓取一定时间网络数据包，然后进行分析：</h5>
+<h5 id="b-从tcpdump包中分析通过tcpdump命令抓取一定时间网络数据包然后进行分析">b. 从tcpdump包中分析：通过tcpdump命令抓取一定时间网络数据包，然后进行分析</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest --type tcpdump mysql.tcp.txt
 </code></pre></div></div>
 
 <h5 id="c-pt-query-digest-还支持很对其他的数据包分析形势但是我们主要使用的还是针对慢日志进行分析">c. pt-query-digest 还支持很对其他的数据包分析形势，但是我们主要使用的还是针对慢日志进行分析</h5>
+
 <blockquote>
-  <p>更多的帮助文档，请查看官方文档：http://www.percona.com/doc/percona-toolkit/2.2/pt-query-digest.html</p>
+  <p>更多的帮助文档，请查看官方文档：<a href="http://www.percona.com/doc/percona-toolkit/2.2/pt-query-digest.html">http://www.percona.com/doc/percona-toolkit/2.2/pt-query-digest.html</a></p>
 </blockquote>
 
 <h3 id="5-使用anemometer将pt-query-digest的mysql慢查询可视化">5. 使用Anemometer将pt-query-digest的MySQL慢查询可视化</h3>
@@ -458,6 +471,7 @@ Query OK, 0 rows affected (0.00 sec)
 </ul>
 
 <h5 id="51-安装">5.1 安装</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultrera ~]# git clone https://github.com/box/Anemometer.git anemometer
 
 [root@ultrera ~]# mv anemometer /var/www/html
@@ -465,7 +479,9 @@ Query OK, 0 rows affected (0.00 sec)
 [root@ultrera anemometer]# mysql -h localhost -u root -p &lt; mysql56-install.sql
 [root@ultrera anemometer]# mysql -h localhost -u root -p -e "grant all privileges on slow_query_log.* to 'anemometer'@'%' identified by 'anemometer';"
 </code></pre></div></div>
+
 <h5 id="52-配置">5.2 配置</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultrera anemometer]# cp conf/sample.config.inc.php conf/config.inc.php
 [root@ultrera anemometer]# vim conf/config.inc.php
 
@@ -476,7 +492,9 @@ Query OK, 0 rows affected (0.00 sec)
 # line 7,8
 设置数据库的用户名和密码;
 </code></pre></div></div>
+
 <h5 id="53-导入">5.3 导入</h5>
+
 <p>将pt-query-digest 的分析结果到anemometer；</p>
 
 <blockquote>
@@ -507,7 +525,6 @@ Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57A" isn'
 Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57B" isn't numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 28.
 Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57C" isn't numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 29.
 </code></pre></div></div>
-
 
         </div>
 

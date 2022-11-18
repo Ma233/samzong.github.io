@@ -288,9 +288,8 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <p>       </p>
+            <h2 id="1-测试环境">1. 测试环境</h2>
 
-<h2 id="1-测试环境">1. 测试环境</h2>
 <ul>
   <li>MacBook Pro 15‘ i7 16GB</li>
   <li>VMware Fushion 8 Pro</li>
@@ -311,7 +310,7 @@
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera  ~]#  service  mysqld  start
 [root@ultraera  ~]#  chkconfig  mysqld  on
 [root@ultraera  ~]#  chkconfig  --list  |  grep  mysqld
-mysqld	0:off  1:off  2:on  3:on  4:on  5:on  6:off
+mysqld 0:off  1:off  2:on  3:on  4:on  5:on  6:off
 
 </code></pre></div></div>
 
@@ -404,12 +403,12 @@ Cleaning up...
 Query  OK,  1  row  affected  (0.00  sec)
 mysql&gt;  SHOW  DATABASES;
 +--------------------+
-|  Database	|
+|  Database |
 +--------------------+
 |  information_schema  |
-|  mysql	|
-|  test	|
-|  ultraera	|
+|  mysql |
+|  test |
+|  ultraera |
 +--------------------+
 4  rows  in  set  (0.00  sec)
 mysql&gt;  DROP  DATABASE  ultraera;
@@ -422,25 +421,26 @@ Query  OK,  0  rows  affected  (0.00  sec)
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#创建表格之前要先选择数据库
 mysql&gt;  use  ultraera;
 Database  changed
-mysql&gt;  CREATE  TABLE  ultraera(	#create 创建表格，至少1列
--&gt;  id  int  NOT  NULL,	#NOT  NULL	不为空,int 整型
--&gt;  name  char(20)  NOT  NULL,	#char() 字符型  ,()内定义字符长度
+mysql&gt;  CREATE  TABLE  ultraera( #create 创建表格，至少1列
+-&gt;  id  int  NOT  NULL, #NOT  NULL 不为空,int 整型
+-&gt;  name  char(20)  NOT  NULL, #char() 字符型  ,()内定义字符长度
 -&gt;  age  int  NOT  NULL
 -&gt;  );
 Query  OK,  0  rows  affected  (0.01  sec)
 mysql&gt;  DESC  ultraera;
 +-------+----------+------+-----+---------+----------------+
-|  Field  |  Type	|  Null  |  Key  |  Default  |  Extra	|
+|  Field  |  Type |  Null  |  Key  |  Default  |  Extra |
 +-------+----------+------+-----+---------+----------------+
-|  id	|  int(11)  |  NO  |	|  NULL	|	|
-|  name  |  char(20)  |  NO  |	|  NULL	|	|
-|  age	|  int(11)  |  NO  |	|  NULL	|	|
+|  id |  int(11)  |  NO  | |  NULL | |
+|  name  |  char(20)  |  NO  | |  NULL | |
+|  age |  int(11)  |  NO  | |  NULL | |
 +-------+----------+------+-----+---------+----------------+
 3  rows  in  set  (0.00  sec)
 mysql&gt;  DROP  TABLE  ultraera  ;
 Query  OK,  0  rows  affected  (0.00  sec)
 
 </code></pre></div></div>
+
 <h3 id="27-修改表格信息">2.7 修改表格信息</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a.重命名表格
@@ -462,12 +462,12 @@ mysql&gt;  insert  into  ultraera  values(1,'name',18);
 b.  根据列插入
 mysql&gt;  insert  into  ultraera(id,name,age)  values(2,'john',19);
 ### 2.9 查看表格中的数据：
-mysql&gt;  select  *  from  ultraera;	#  *匹配所有列，也可以只查询单个列，
+mysql&gt;  select  *  from  ultraera; #  *匹配所有列，也可以只查询单个列，
 mysql&gt;  select  name  from  ultraera;
 
 </code></pre></div></div>
 
-<h3 id="210-where运算符条件判断查询查询使用方法where列运算符值">2.10 where运算符：条件判断查询，查询使用方法：where  列  运算符  值；</h3>
+<h3 id="210-where运算符条件判断查询查询使用方法where列运算符值">2.10 where运算符：条件判断查询，查询使用方法：where  列  运算符  值</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>where支持的运算符：=等于；&gt;大于；&lt;小于；&lt;&gt;不等于；&gt;=大于等于；&lt;=小于等于；BETWEEN在某范围之内；
 mysql&gt; select * from ultraera where id&gt;1;
@@ -482,9 +482,10 @@ mysql&gt; select * from ultraera where id  between  1  and  4;
 <h3 id="211-删除表格中的一条记录同样可以匹配where运算符">2.11 删除表格中的一条记录（同样可以匹配where运算符）</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt;  delete  from  ultraera  where  id  =  4;
-mysql&gt;  delete  *  from  ultraera ；	#清空一个表格的数据；
+mysql&gt;  delete  *  from  ultraera ； #清空一个表格的数据；
 
 </code></pre></div></div>
+
 <h3 id="212-更新表中的一个数据">2.12 更新表中的一个数据</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt;  update  ultraera  set  age=30  where  id=3;
@@ -493,8 +494,8 @@ mysql&gt;  delete  *  from  ultraera ；	#清空一个表格的数据�
 
 <h3 id="213-mysql增加删除一个用户">2.13 MySQL增加删除一个用户</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt;  create  user  user1  identified  by  '123456';	#user1，密码123456，新用户没有权限，无法登录数据库
-mysql&gt;  drop  user  user1;	#删除用户user1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt;  create  user  user1  identified  by  '123456'; #user1，密码123456，新用户没有权限，无法登录数据库
+mysql&gt;  drop  user  user1; #删除用户user1
 
 </code></pre></div></div>
 

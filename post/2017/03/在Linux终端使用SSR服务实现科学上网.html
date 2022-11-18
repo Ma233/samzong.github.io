@@ -311,20 +311,20 @@ remote: Total 5490 <span class="o">(</span>delta 0<span class="o">)</span>, reus
 Receiving objects: 100% <span class="o">(</span>5490/5490<span class="o">)</span>, 1.71 MiB | 410.00 KiB/s, <span class="k">done</span><span class="nb">.</span>
 Resolving deltas: 100% <span class="o">(</span>3799/3799<span class="o">)</span>, <span class="k">done</span><span class="nb">.</span>
 
-<span class="o">[</span>root@localhost ~]# ssr config 		<span class="c"># 配置文件路径 /usr/local/share/shadowsocksr/config.json</span>
+<span class="o">[</span>root@localhost ~]# ssr config   <span class="c"># 配置文件路径 /usr/local/share/shadowsocksr/config.json</span>
 <span class="o">{</span>
-    <span class="s2">"server"</span>: <span class="s2">"0..0.0.0"</span>,	// ssr服务器ip
+    <span class="s2">"server"</span>: <span class="s2">"0..0.0.0"</span>, // ssr服务器ip
     <span class="s2">"server_ipv6"</span>: <span class="s2">"::"</span>,
-    <span class="s2">"server_port"</span>: 8080,	// ssr服务器端口
+    <span class="s2">"server_port"</span>: 8080, // ssr服务器端口
     <span class="s2">"local_address"</span>: <span class="s2">"127.0.0.1"</span>,
     <span class="s2">"local_port"</span>: 1080,
 
-    <span class="s2">"password"</span>: <span class="s2">"123456"</span>,		// 对应password
-    <span class="s2">"method"</span>: <span class="s2">"none"</span>,			// 这里对应SSGlobal配置中的Encryption
-    <span class="s2">"protocol"</span>: <span class="s2">"auth_chain_a"</span>,		//对应protocl
+    <span class="s2">"password"</span>: <span class="s2">"123456"</span>,  // 对应password
+    <span class="s2">"method"</span>: <span class="s2">"none"</span>,   // 这里对应SSGlobal配置中的Encryption
+    <span class="s2">"protocol"</span>: <span class="s2">"auth_chain_a"</span>,  //对应protocl
     <span class="s2">"protocol_param"</span>: <span class="s2">""</span>,
-    <span class="s2">"obfs"</span>: <span class="s2">"http_simple"</span>,		//对应obfs
-    <span class="s2">"obfs_param"</span>: <span class="s2">"hello.world"</span>,	//对应obfs_param
+    <span class="s2">"obfs"</span>: <span class="s2">"http_simple"</span>,  //对应obfs
+    <span class="s2">"obfs_param"</span>: <span class="s2">"hello.world"</span>, //对应obfs_param
     <span class="s2">"speed_limit_per_con"</span>: 0,
     <span class="s2">"speed_limit_per_user"</span>: 0,
 
@@ -391,7 +391,7 @@ systemctl start privoxy.service
 <span class="o">[</span>root@localhost gfwlist2privoxy]# <span class="nb">ls
 </span>gfw.action  gfwlist2privoxy  README.md  ssr
 <span class="o">[</span>root@localhost gfwlist2privoxy]# bash gfwlist2privoxy
-proxy<span class="o">(</span>socks5<span class="o">)</span>: 127.0.0.1:1080		<span class="c"># 注意，如果你修改了ssr本地监听端口是需要设置对应的</span>
+proxy<span class="o">(</span>socks5<span class="o">)</span>: 127.0.0.1:1080  <span class="c"># 注意，如果你修改了ssr本地监听端口是需要设置对应的</span>
 <span class="o">{</span>+forward-override<span class="o">{</span>forward-socks5 127.0.0.1:1080 .<span class="o">}}</span>
 
 <span class="o">=================================================================</span>
@@ -450,29 +450,29 @@ curl <span class="nt">-sL</span> ip.chinaz.com/getip.aspx
 <span class="c"># Author Samzong.lu</span>
 
 <span class="k">case</span> <span class="nv">$1</span> <span class="k">in
-	</span>start<span class="p">)</span>
-		ssr start &amp;&gt; /var/log/ssr-local.log
-		systemctl start privoxy.service
-		<span class="nb">export </span><span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:8118
-		<span class="nb">export </span><span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:8118
-		<span class="nb">export </span><span class="nv">no_proxy</span><span class="o">=</span><span class="s2">"localhost, ip.cn, chinaz.com"</span>
-		<span class="p">;;</span>
-	stop<span class="p">)</span>
-		<span class="nb">unset </span>http_proxy https_proxy no_proxy
-		systemctl stop privoxy.service
-		ssr stop &amp;&gt; /var/log/ssr-log.log
-		<span class="p">;;</span>
-	autostart<span class="p">)</span>
-		<span class="nb">echo</span> <span class="s2">"ssr start"</span> <span class="o">&gt;&gt;</span> /etc/rc.local
-		systemctl <span class="nb">enable </span>privoxy.service
-		<span class="nb">echo</span> <span class="s2">"http_proxy=http://127.0.0.1:8118"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
-		<span class="nb">echo</span> <span class="s2">"https_proxy=http://127.0.0.1:8118"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
-		<span class="nb">echo</span> <span class="s2">"no_proxy='localhost, ip.cn, chinaz.com'"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
-		<span class="p">;;</span>
-	<span class="k">*</span><span class="p">)</span>
-		<span class="nb">echo</span> <span class="s2">"usage: source </span><span class="nv">$0</span><span class="s2"> start|stop|autostart"</span>
-		<span class="nb">exit </span>1
-		<span class="p">;;</span>
+ </span>start<span class="p">)</span>
+  ssr start &amp;&gt; /var/log/ssr-local.log
+  systemctl start privoxy.service
+  <span class="nb">export </span><span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+  <span class="nb">export </span><span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+  <span class="nb">export </span><span class="nv">no_proxy</span><span class="o">=</span><span class="s2">"localhost, ip.cn, chinaz.com"</span>
+  <span class="p">;;</span>
+ stop<span class="p">)</span>
+  <span class="nb">unset </span>http_proxy https_proxy no_proxy
+  systemctl stop privoxy.service
+  ssr stop &amp;&gt; /var/log/ssr-log.log
+  <span class="p">;;</span>
+ autostart<span class="p">)</span>
+  <span class="nb">echo</span> <span class="s2">"ssr start"</span> <span class="o">&gt;&gt;</span> /etc/rc.local
+  systemctl <span class="nb">enable </span>privoxy.service
+  <span class="nb">echo</span> <span class="s2">"http_proxy=http://127.0.0.1:8118"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
+  <span class="nb">echo</span> <span class="s2">"https_proxy=http://127.0.0.1:8118"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
+  <span class="nb">echo</span> <span class="s2">"no_proxy='localhost, ip.cn, chinaz.com'"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
+  <span class="p">;;</span>
+ <span class="k">*</span><span class="p">)</span>
+  <span class="nb">echo</span> <span class="s2">"usage: source </span><span class="nv">$0</span><span class="s2"> start|stop|autostart"</span>
+  <span class="nb">exit </span>1
+  <span class="p">;;</span>
 <span class="k">esac</span>
 </code></pre></div></div>
 
@@ -494,10 +494,9 @@ ssr_manager autostart
 <h4 id="参考链接">参考链接</h4>
 
 <ul>
-  <li>https://www.zfl9.com/ss-local.html</li>
-  <li>https://www.djangoz.com/2017/08/16/linux_setup_ssr/</li>
+  <li><a href="https://www.zfl9.com/ss-local.html">https://www.zfl9.com/ss-local.html</a></li>
+  <li><a href="https://www.djangoz.com/2017/08/16/linux_setup_ssr/">https://www.djangoz.com/2017/08/16/linux_setup_ssr/</a></li>
 </ul>
-
 
         </div>
 

@@ -293,13 +293,14 @@
     <tbody>
       <tr>
         <td>egrep -v “^ *#</td>
-        <td>^ *$”     去除所有以#号开头的文件</td>
+        <td>^*$”     去除所有以#号开头的文件</td>
       </tr>
     </tbody>
   </table>
 </blockquote>
 
 <h4 id="demo-system">Demo system</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]$ uname -a
 Linux Test01 2.6.32-504.el6.x86_64 #1 SMP Wed Oct 15 04:27:16 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
 [Alex@Test01 ~]$ ip addr | grep eth0
@@ -308,6 +309,7 @@ Linux Test01 2.6.32-504.el6.x86_64 #1 SMP Wed Oct 15 04:27:16 UTC 2014 x86_64 x8
 </code></pre></div></div>
 
 <h4 id="install-httpd">Install httpd</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 yum.repos.d]$ sudo yum install -y httpd
 [Alex@Test01 ~]$ rpm -qa | grep httpd
 httpd-2.2.15-39.el6.centos.x86_64
@@ -319,7 +321,8 @@ httpd-tools-2.2.15-39.el6.centos.x86_64
 [Alex@Test01 yum.repos.d]$ sudo rm -f /var/www/error/noindex.html
 </code></pre></div></div>
 
-<h4 id="configure-httpd--replace-the-server-name-to-you-own-one">Configure httpd . Replace the server name to you own one.</h4>
+<h4 id="configure-httpd--replace-the-server-name-to-you-own-one">Configure httpd . Replace the server name to you own one</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]# sudo vi /etc/httpd/conf/httpd.conf
 # line 44: change
  ServerTokens Prod
@@ -341,13 +344,17 @@ httpd-tools-2.2.15-39.el6.centos.x86_64
  Starting httpd:[  OK  ]
 [Alex@Test01 ~]# sudo chkconfig httpd on     # set httpd start with system.
 </code></pre></div></div>
+
 <h4 id="create-a-html-test-page">create a HTML test page</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]# sudo vi /var/www/html/index.html
 it's ok.
 </code></pre></div></div>
+
 <p><img src="http://s3.51cto.com/wyfs02/M00/70/DE/wKioL1XAUfuQoFfwAACC5LJWQgg039.jpg" alt="" /></p>
 
-<h4 id="install-php">Install PHP.</h4>
+<h4 id="install-php">Install PHP</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]$ sudo yum install -y php php-mbstring php-pear
 [Alex@Test01 ~]$ rpm -qa | grep php
 php-common-5.3.3-46.el6_6.x86_64
@@ -367,16 +374,19 @@ date.timezone = "Asia/Shanghai"
  Starting httpd:[  OK  ]
 </code></pre></div></div>
 
-<h4 id="create-a-php-test-page">create a php test page.</h4>
+<h4 id="create-a-php-test-page">create a php test page</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]# sudo vi /var/www/html/index.php
 
 &lt;?php
     phpinfo();
 ?&gt;
 </code></pre></div></div>
+
 <p><img src="http://s3.51cto.com/wyfs02/M02/70/DE/wKioL1XAUguwJCl2AARE16t4hyw682.jpg" alt="" /></p>
 
 <h4 id="install-mysql">Install MySQL</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]$ sudo -y install mysql-server
 [Alex@Test01 ~]$ rpm -qa | grep mysql-server
 mysql-server-5.1.73-5.el6_6.x86_64
@@ -417,6 +427,7 @@ Starting mysqld:                      [  OK  ]
 </code></pre></div></div>
 
 <h4 id="initial-settings-for-mysql">Initial settings for MySQL</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@www ~]#mysql_secure_installation
 NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MySQL
       SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!

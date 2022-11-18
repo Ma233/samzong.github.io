@@ -295,22 +295,30 @@
 <p>First, to set up the yum repository, install the mysql－community-server 5.5 RPM based on your CentOS/RHEL release: <br /></p>
 
 <hr />
+
 <h4 id="mysql-server-55repo-for-centosrhel-5x"><strong>mysql-server-5.5.repo for CentOS/RHEL 5.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm -Uvh http://mirror.webtatic.com/yum/el5/latest.rpm
 </code></pre></div></div>
+
 <h4 id="-only-install-mysql-55-on-centos-5x">* <strong>Only Install MySQL 5.5 On CentOS 5.x</strong></h4>
+
 <p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you can upgrade using the following method:<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install mysql.`uname -i` yum-plugin-replace
 yum replace mysql --replace-with mysql55w
 </code></pre></div></div>
 
 <p>“yum install mysql” is only there to make sure yum-plugin-replace can resolve dependencies correctly if only mysql-server was installed.<br />
 Otherwise, to install MySql client and server, then run:<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install mysql55w mysql55w-server
 </code></pre></div></div>
+
 <hr />
 
 <h4 id="mysql-server-55repo-for-centosrhel-6x"><strong>mysql-server-5.5.repo for CentOS/RHEL 6.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
 yum install http://repo.mysql.com/yum/mysql-5.5-community/el/6/x86_64/mysql-community-release-el6-5.noarch.rpm
 
@@ -319,6 +327,7 @@ yum install http://repo.mysql.com/yum/mysql-5.5-community/el/6/i386/mysql-commun
 </code></pre></div></div>
 
 <h4 id="mysql-server-55repo-for-centosrhel-7x"><strong>mysql-server-5.5.repo for CentOS/RHEL 7.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
 yum install http://repo.mysql.com/yum/mysql-5.5-community/el/7/x86_64/mysql-community-release-el7-5.noarch.rpm
 
@@ -327,7 +336,9 @@ yum install http://repo.mysql.com/yum/mysql-5.5-community/el/7/i386/mysql-commun
 </code></pre></div></div>
 
 <h3 id="setup-2-install-mysql-server-55"><strong>Setup 2. Install MySQL Server 5.5</strong></h3>
+
 <p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># It's RHEL/CentOS 6/7
 yum remove -y mysql-server
 yum remove -y mysql*
@@ -335,14 +346,19 @@ yum remove -y mysql*
 
 <p>If you don’t have mysql-server was installed.<br />
 Otherwise, to install MySql client and server, then run:<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y mysql-community-server
 </code></pre></div></div>
 
 <h3 id="setup-3-service-configure"><strong>Setup 3. Service Configure</strong></h3>
+
 <p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service mysqld start
 </code></pre></div></div>
+
 <p>This will issue a password prompt for the user. If you don’t have a root user password, remove the “-p”<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql_secure_installation
 </code></pre></div></div>
 
@@ -353,6 +369,7 @@ Otherwise, to install MySql client and server, then run:<br /></p>
 <p>First, to set up the yum repository, install the mysql－community-server 5.6 RPM based on your CentOS/RHEL release: <br /></p>
 
 <h4 id="mysql-server-56repo-for-centosrhel-5x"><strong>mysql-server-5.6.repo for CentOS/RHEL 5.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
 yum install http://repo.mysql.com/yum/mysql-5.6-community/el/5/x86_64/mysql-community-release-el5-5.noarch.rpm
 
@@ -361,6 +378,7 @@ yum install http://repo.mysql.com/yum/mysql-5.6-community/el/5/i386/mysql-commun
 </code></pre></div></div>
 
 <h4 id="mysql-server-56repo-for-centosrhel-6x"><strong>mysql-server-5.6.repo for CentOS/RHEL 6.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
 yum install http://repo.mysql.com/yum/mysql-5.6-community/el/6/x86_64/mysql-community-release-el6-5.noarch.rpm
 
@@ -369,6 +387,7 @@ yum install http://repo.mysql.com/yum/mysql-5.6-community/el/6/i386/mysql-commun
 </code></pre></div></div>
 
 <h4 id="mysql-server-56repo-for-centosrhel-7x"><strong>mysql-server-5.6.repo for CentOS/RHEL 7.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
 yum install http://repo.mysql.com/yum/mysql-5.6-community/el/7/x86_64/mysql-community-release-el7-5.noarch.rpm
 
@@ -377,21 +396,28 @@ yum install http://repo.mysql.com/yum/mysql-5.6-community/el/7/i386/mysql-commun
 </code></pre></div></div>
 
 <h3 id="setup-2-install-mysql-server-56"><strong>Setup 2. Install MySQL Server 5.6</strong></h3>
+
 <p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum remove -y mysql-server
 yum remove -y mysql*
 </code></pre></div></div>
 
 <p>If you don’t have mysql-server was installed.<br />
 Otherwise, to install MySql client and server, then run:<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y mysql-community-server
 </code></pre></div></div>
 
 <h3 id="setup-3-service-configure-1"><strong>Setup 3. Service Configure</strong></h3>
+
 <p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service mysqld start
 </code></pre></div></div>
+
 <p>This will issue a password prompt for the user. If you don’t have a root user password, remove the “-p”<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql_secure_installation
 </code></pre></div></div>
 
@@ -402,6 +428,7 @@ Otherwise, to install MySql client and server, then run:<br /></p>
 <p>First, to set up the yum repository, install the mysql－community-server 5.7 RPM based on your CentOS/RHEL release: <br /></p>
 
 <h4 id="mysql-server-57repo-for-centosrhel-5x"><strong>mysql-server-5.7.repo for CentOS/RHEL 5.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
 yum install http://repo.mysql.com/yum/mysql-5.7-community/el/5/x86_64/mysql-community-release-el5-7.noarch.rpm
 
@@ -410,6 +437,7 @@ yum install http://repo.mysql.com/yum/mysql-5.7-community/el/5/i386/mysql-commun
 </code></pre></div></div>
 
 <h4 id="mysql-server-57repo-for-centosrhel-6x"><strong>mysql-server-5.7.repo for CentOS/RHEL 6.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
 yum install http://repo.mysql.com/yum/mysql-5.7-community/el/6/x86_64/mysql-community-release-el6-7.noarch.rpm
 
@@ -418,6 +446,7 @@ yum install http://repo.mysql.com/yum/mysql-5.7-community/el/6/i386/mysql-commun
 </code></pre></div></div>
 
 <h4 id="mysql-server-57repo-for-centosrhel-7x"><strong>mysql-server-5.7.repo for CentOS/RHEL 7.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
 yum install http://repo.mysql.com/yum/mysql-5.7-community/el/7/x86_64/mysql-community-release-el7-7.noarch.rpm
 
@@ -426,24 +455,30 @@ yum install http://repo.mysql.com/yum/mysql-5.7-community/el/7/i386/mysql-commun
 </code></pre></div></div>
 
 <h3 id="setup-2-install-mysql-server-57"><strong>Setup 2. Install MySQL Server 5.7</strong></h3>
+
 <p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum remove -y mysql-server
 yum remove -y mysql*
 </code></pre></div></div>
 
 <p>If you don’t have mysql-server was installed.<br />
 Otherwise, to install MySql client and server, then run:<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y mysql-community-server
 </code></pre></div></div>
 
 <h3 id="setup-3-service-configure-2"><strong>Setup 3. Service Configure</strong></h3>
+
 <p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service mysqld start
 </code></pre></div></div>
+
 <p>This will issue a password prompt for the user. If you don’t have a root user password, remove the “-p”<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql_secure_installation
 </code></pre></div></div>
-
 
         </div>
 

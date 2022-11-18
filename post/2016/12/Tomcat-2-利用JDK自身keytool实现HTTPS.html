@@ -295,6 +295,7 @@
 </blockquote>
 
 <h4 id="1-生成-keystore">1. 生成 keystore</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test conf]# keytool -genkey -v -alias tomcat -keyalg RSA -keystore mykeystore
 Enter keystore password:              #设置密码
 Re-enter new password:                #重复一次
@@ -321,17 +322,21 @@ Enter key password for &lt;tomcat&gt;
 [root@test conf]# ls
 Catalina  catalina.policy  catalina.properties  context.xml  logging.properties  mykeystore  server.xml  tomcat-users.xml  web.xml
 </code></pre></div></div>
+
 <blockquote>
   <p>注意：-keystore是用来指定keystore保存位置，如果不加参数默认保存的当前用户家目录为~/.keystore
        -validity 可以用来指定证书有效期，单位为天，缺省值为90天。</p>
 </blockquote>
 
 <h4 id="2-备份tomcatdirconfserverxml">2. 备份$tomcatdir/conf/server.xml</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp $tomcatdir/conf/server.xml $tomcatdir/conf/server.xml
 </code></pre></div></div>
 
 <h4 id="3-修改serverxml">3. 修改server.xml</h4>
+
 <h6 id="a-注释以下tomcat注释用---xxxx----如何也想保留http访问可以不注释">a. 注释以下：（tomcat注释用：&lt;!-- XXXX --&gt; ）,如何也想保留http访问，可以不注释</h6>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;!--
 &lt;Connector executor="tomcatThreadPool"
                 port="80" protocol="HTTP/1.1"
@@ -339,23 +344,29 @@ Catalina  catalina.policy  catalina.properties  context.xml  logging.properties 
                 redirectPort="8443" /&gt;
 --&gt;
 </code></pre></div></div>
+
 <h6 id="b-取消下面注释">b. 取消下面注释</h6>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Connector port="443" protocol="HTTP/1.1" SSLEnabled="true"
                 maxThreads="150" scheme="https" secure="true"
                 clientAuth="false" sslProtocol="TLS" /&gt;
 </code></pre></div></div>
+
 <h6 id="c-增加keystorefile和keystorepass">c. 增加keystoreFile和keystorePass</h6>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Connector port="443" protocol="HTTP/1.1" SSLEnabled="true"
                maxThreads="150" scheme="https" secure="true"
                clientAuth="false" sslProtocol="TLS"
                keystoreFile="conf/mykeystore" keystorePass="123456"/&gt;
 </code></pre></div></div>
+
 <blockquote>
   <p>keystoreFile=跟keystore文件位置
 keystorePass=跟当时keytool命令执行时输入的密码</p>
 </blockquote>
 
 <h4 id="4-重启tomcat">4. 重启tomcat</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test conf]# ../bin/catalina.sh stop &amp;&amp; ../bin/catalina.sh start
 Using CATALINA_BASE:   /home/pms/apache-tomcat-6.0.44
 Using CATALINA_HOME:   /home/pms/apache-tomcat-6.0.44

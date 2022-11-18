@@ -299,10 +299,13 @@
 <p>ossfs 是通过磁盘挂载的形式，将oss存储挂载到linux、类unix等操作系统，而且不仅仅可以挂载阿里云内的ECS上，理论上所有网络能到达oss的都可以挂载，但还是要以实际问题为准。</p>
 
 <h5 id="1download--install">1.Download &amp; Install</h5>
+
 <p><a href="https://github.com/aliyun/ossfs/releases">官方版本发布页面</a>，请根据你的系统类型进行选择，我这演示的环境是CentOS 6.8；ossfs目前最新的版本是v1.79.9，您可以根据自己当时版本进行选择，建议选择最新版本。</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 请先将包上传到服务器上
  sudo yum localinstall ossfs_1.79.9_centos6.5_x86_64.rpm
 </code></pre></div></div>
+
 <blockquote>
   <p>注意使用localinstall，因为在安装过程，yum 可以很好的解决依赖关系，会节省我们很多时间</p>
 </blockquote>
@@ -310,6 +313,7 @@
 <h5 id="2-oss--bucket">2. OSS &amp; Bucket</h5>
 
 <p>需要获取以下信息，在后面我们都会用到的：<br /></p>
+
 <ol>
   <li>Bucket 名称
   <img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/QQ20161111-0.jpg" alt="" />
@@ -336,23 +340,31 @@ sudo chmod 640 /etc/passwd-ossfs
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 我碰到安装后找不到ossfs命令，查看下因为ossfs没有x权限，目录路径为/usr/local/bin，如果您也碰到这个问题，可以增加x权限后再测试
 sudo ossfs my-bucket /mnt/ossdir -ourl=http://oss-location.aliyuncs.com
 
-# 如果使用ossfs的机器是阿里云ECS，可以使用内网域名来避免流量收费和 提高速度：
-sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com
+# 如果使用ossfs的机器是阿里云ECS，可以使用内网域名来避免流量收费和 提高速度
+
+sudo ossfs my-bucket /tmp/ossfs -ourl=&lt;http://oss-location-internal.aliyuncs.com&gt;
+
 </code></pre></div></div>
 <p>磁盘空间达到上百T：
 <img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/0B78E099-5488-4839-AE48-09A074E7415D.png" alt="" />
 <br /></p>
 
 <p>umount：</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 注意用户身份
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+# 注意用户身份
+
 umount /tmp/ossfs # root user
 sudo fusermount -u /tmp/ossfs # non-root user
+
 </code></pre></div></div>
 <p><br /></p>
 <h5 id="4-debug--faq">4. Debug &amp; FAQ</h5>
 <p>当遇到错误的时候，可以试着打开Debug日志信息，然后分析问题原因：</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 使用 -o dbglevel=debug -f -d参数打印日志信息
-sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com -o dbglevel=debug -f -d &gt; /mnt/ossfs.log 2&gt;&amp;1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+# 使用 -o dbglevel=debug -f -d参数打印日志信息
+
+sudo ossfs my-bucket /tmp/ossfs -ourl=&lt;http://oss-location-internal.aliyuncs.com&gt; -o dbglevel=debug -f -d &gt; /mnt/ossfs.log 2&gt;&amp;1
+
 </code></pre></div></div>
 
 <p>更多的问题，请移步查看<a href="https://github.com/aliyun/ossfs/wiki/FAQ">官方的FAQ文档</a>。</p>
@@ -939,11 +951,11 @@ sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com 
                 
                 
                 
+                
+                
+                
+                
                 <li><a href="/post/2016/12/HowTo-Mount-OSS-Bucket-On-ECS.html">HowTo Mount OSS Bucket On ECS</a> - <span>12/20/2016</span></li>
-                
-                
-                
-                
                 
                 
                 

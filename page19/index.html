@@ -276,6 +276,39 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/05/Azure-HowTo-Use-Azure-CLI-on-Mac.html">HowTo Use Azure CLI on Mac</a></h1>
+    <div class="post_at_index">
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Install azure-cli on Mac and CentOS
+
+### In Mac
+1. Install brew.
+2. brew install nodejs
+3. echo “registry = https://registry.npm.taobao.org” &gt; ~/.npmrc
+4. npm install azure-cli -g
+
+
+### In CentOS
+1. Install epel
+2. yum install -y nodejs npm
+3. echo “registry = https://registry.npm.taobao.org” &gt; ~/.npmrc
+4. npm install azure-cli -g
+
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-05-24</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Azure">Azure</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/05/Azure-3-HowTo-Use-Azure-CLI-on-Mac.html">Azure CLI Import AcountInfo</a></h1>
     <div class="post_at_index">
       <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/05/D50E240D-1468-486F-8CA7-C5D3DC7463DE.png" alt="" /></p>
@@ -297,6 +330,7 @@
     <h1><a class="title" href="/post/2016/05/HowTo-Monitoring-MySQL-server-for-Zabbix.html">HowTo Monitoring MySQL server for Zabbix</a></h1>
     <div class="post_at_index">
       <h2 id="安装插件包">安装插件包</h2>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm -y
 yum install percona-zabbix-templates.noarch -y
 yum install php* -y
@@ -311,6 +345,7 @@ ConfigurationTemplatesImport(在右上角)
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/05/zabbix-mysql01.png" alt="" /></p>
 
 <h2 id="安装agent">安装Agent</h2>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm -ivh http://repo.zabbix.com/zabbix/2.4/rhel/6/x86_64/zabbix-release-2.4-1.el6.noarch.rpm
 yum install zabbix-agent
 vim /etc/zabbix/zabbix-agentd.conf
@@ -330,10 +365,12 @@ grant select on <em>.</em> to ‘percona’@’localhost’ identified by ‘per
 flush tables;</p>
 
 <h2 id="配置percona插件">配置Percona插件</h2>
+
 <p>修改插件使用的mysql用户名密码
 sed -i s/cactiuser/percona/g /var/lib/zabbix/percona/scripts/ss_get_mysql_stats.php</p>
 
 <h2 id="测试">测试</h2>
+
 <p>测试是否可以获取到值
 cd /var/lib/zabbix/percona/scripts/
 ./get_mysql_stats_wrapper.sh gg
@@ -439,7 +476,7 @@ binlog-format = 'ROW'
 
 service mysqld start
 chkconfig mysqld on
-mysql_secure_installation 	# remeber the root pass.
+mysql_secure_installation  # remeber the root pass.
 
 # Cloudstack-management
 yum -y install cloudstack-management
@@ -473,7 +510,6 @@ kvm                   337772  1 kvm_intel
 
 ##### UI Setting ####
 http://[ip]:8080/client
-
 
 
 </code></pre></div></div>
@@ -592,7 +628,8 @@ pip install fabric
     
     <h1><a class="title" href="/post/2016/05/CentOS-7-2-%E7%B3%BB%E7%BB%9F%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F.html">CentOS 系统服务管理方式</a></h1>
     <div class="post_at_index">
-      <h2 id="关闭防火墙">关闭防火墙：</h2>
+      <h2 id="关闭防火墙">关闭防火墙</h2>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   systemctl stop firewalld.service   # 关闭
    systemctl disable firewalld.service # 开机不自启动
 </code></pre></div></div>
@@ -642,38 +679,47 @@ pip install fabric
       <p>常用的mysqldump命令组合。</p>
 
 <h2 id="备份数据库">备份数据库</h2>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump db_name &gt; bak_name.sql
 mysqldump -A -u [dbuser] -p db_name &gt; bak_name.sql
 mysqldump -d -A --add-drop-table -uroot -p &gt;xxx.sql
 </code></pre></div></div>
 
 <h2 id="备份所有库到一个单独的文件">备份所有库到一个单独的文件</h2>
+
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-e</span> <span class="s1">'show databases'</span> | <span class="nb">sed</span> <span class="nt">-n</span> <span class="s1">'2,$p'</span> | xargs <span class="nt">-I</span> DB <span class="s1">'mysqldump DB &gt; DB.sql'</span>
 </code></pre></div></div>
 
 <h3 id="1-导出结构不导出数据">1. 导出结构不导出数据</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　--opt　-d　db_name　-u　root　-p　&gt;　xxx.sql
 </code></pre></div></div>
 
 <h3 id="2-导出数据不导出结构">2. 导出数据不导出结构</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　-t　db_name　-uroot　-p　&gt;　xxx.sql
 </code></pre></div></div>
 
 <h3 id="3-导出数据和表结构">3. 导出数据和表结构</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　db_name　-uroot　-p　&gt;　xxx.sql
 </code></pre></div></div>
 
 <h3 id="4-导出特定表的结构">4. 导出特定表的结构</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　-uroot　-p　-B　db_name　--table　tb_name　&gt;　xxx.sql
 </code></pre></div></div>
 
 <h2 id="导入数据">导入数据</h2>
+
 <p>因为mysqldump导出的是完整的SQL语句，所以用mysql客户程序很容易就能把数据导入了：</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql -u db_user -p db_name  &lt; xxx.sql
 mysql&gt; source /path/xxx.sql
 </code></pre></div></div>
 
-<h2 id="mysqldump参数详解">mysqldump参数详解：</h2>
+<h2 id="mysqldump参数详解">mysqldump参数详解</h2>
+
 <p><code>–all-databases , -A </code>
 导出全部数据库<br />
 mysqldump -uroot -p –all-databases</p>
@@ -812,87 +858,6 @@ mysqldump -uroot -p –host=localhost –all-databases –no-data</p>
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/05/HowTo-Install-Python-2-7-8-on-CentOS-6-x.html">HowTo Install Python 2.7.8 on CentOS 6.x</a></h1>
-    <div class="post_at_index">
-      <p>CentOS 6.5 still come with Python 2.6 and I need 2.7, below a simple tutorial how to achieve this with no pain and not messing with installed Python.</p>
-
-<p>Update CentOS and install development tools</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum -y update
-yum groupinstall -y 'development tools'
-</code></pre></div></div>
-
-<p>Also you need the packages below to enable SSL, bz2, zlib for Python and some utils:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y zlib-devel bzip2-devel openssl-devel xz-libs wget
-</code></pre></div></div>
-
-<h2 id="installing-python-278-from-source">Installing Python 2.7.8 from source</h2>
-<p>Download Python and extract it</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://www.python.org/ftp/python/2.7.8/Python-2.7.8.tar.xz
-xz -d Python-2.7.8.tar.xz
-tar -xvf Python-2.7.8.tar
-</code></pre></div></div>
-
-<h2 id="installation-process">Installation process</h2>
-<p>Since we already installed all the dependencies we are ready to go:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Enter the directory:
-cd Python-2.7.8
-
-# Run the configure:
-./configure --prefix=/usr/local
-
-# compile and install it:
-make
-make altinstall
-
-# Checking Python version:
-[root@nicetry ~]# python2.7 -V
-Python 2.7.8
-</code></pre></div></div>
-<p>If you need set <code>PATH</code> variable check the line below:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export PATH="/usr/local/bin:$PATH"
-</code></pre></div></div>
-
-<h2 id="installing-pip-and-virtualenv">Installing pip and virtualenv</h2>
-<p>Now we have Python installed, but something is missing isn’t? Yes! We need pip and virtualenv.</p>
-
-<h3 id="install-setuptools">Install setuptools</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget --no-check-certificate https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz
-
-# Extract the files:
-tar -xvf setuptools-1.4.2.tar.gz
-cd setuptools-1.4.2
-
-# Install setuptools using the Python 2.7.8:
-python2.7 setup.py install
-</code></pre></div></div>
-
-<h3 id="install-pip">Install pip</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py | python2.7 -
-</code></pre></div></div>
-
-<h3 id="and-finally-virtualenv">And finally virtualenv</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip2.7 install virtualenv
-</code></pre></div></div>
-
-<p>And that’s all, we have Python 2.7.8 installed on CentOS.</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-05-04</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -976,16 +941,6 @@ python2.7 setup.py install
     	
       <li><a href="/categories.html#CentOS">
     		CentOS <span>14</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Tools">
-    		Tools <span>4</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#VPN">
-    		VPN <span>2</span>
     	</a></li>
      
     	
@@ -1131,6 +1086,16 @@ python2.7 setup.py install
     	
       <li><a href="/categories.html#Bigdata">
     		Bigdata <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Tools">
+    		Tools <span>4</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#VPN">
+    		VPN <span>2</span>
     	</a></li>
      
     	

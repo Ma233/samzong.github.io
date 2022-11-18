@@ -295,28 +295,34 @@
 <h3 id="install">Install</h3>
 
 <h4 id="安装支持的软件源">安装支持的软件源</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y epel-release
 </code></pre></div></div>
 
 <h4 id="安装相关软件">安装相关软件</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum -y install git python-pip libvirt-python libxml2-python python-websockify supervisor nginx
 </code></pre></div></div>
 
 <h4 id="从git-hub中下载相关的webvirtmgr代码">从git-hub中下载相关的webvirtmgr代码</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /usr/local/src/
 git clone git://github.com/retspen/webvirtmgr.git
 </code></pre></div></div>
 
 <h4 id="安装webvirtmgr">安装webvirtmgr</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd webvirtmgr/
 pip install -r requirements.txt
 </code></pre></div></div>
 
 <h4 id="安装数据库">安装数据库</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install python-sqlite2
 </code></pre></div></div>
 
 <h4 id="对django进行环境配置">对django进行环境配置</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./manage.py syncdb
 
 You just installed Django's auth system, which means you don't have any superusers defined.
@@ -331,6 +337,7 @@ Password (again):*********
 </code></pre></div></div>
 
 <h4 id="拷贝web到-相关目录">拷贝web到 相关目录</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd ..
 rm -rf /var/www
 mkdir -pv /var/www
@@ -338,12 +345,14 @@ cp -Rv webvirtmgr /var/www/webvirtmgr
 </code></pre></div></div>
 
 <h4 id="设置ssh">设置ssh</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen
 ssh-copy-id 192.168.2.32
 ssh 192.168.2.32 -L localhost:8000:localhost:8000 -L localhost:6080:localhost:6080
 </code></pre></div></div>
 
 <h4 id="编辑nginx配置文件">编辑nginx配置文件</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
 vim /etc/nginx/conf.d/webvirtmgr.conf  #添加下面内容到文件中
 
@@ -373,14 +382,17 @@ server {
 </code></pre></div></div>
 
 <h4 id="启动nginx">启动nginx</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service nginx start
 </code></pre></div></div>
 
 <h4 id="修改防火墙规则--如果关闭selinux此步可省略">修改防火墙规则 ( 如果关闭selinux，此步可省略)</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/sbin/setsebool httpd_can_network_connect true
 </code></pre></div></div>
 
 <h4 id="设置-supervisor">设置 supervisor</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chown -R nginx:nginx /var/www/webvirtmgr
 vim /etc/supervisord.conf #在文件末尾添加
 
@@ -407,6 +419,7 @@ bind = "0:8000"
 </code></pre></div></div>
 
 <h4 id="设置开机启动">设置开机启动</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chkconfig supervisord on
 chkconfig nginx on
 vim /etc/rc.local
@@ -414,14 +427,15 @@ vim /etc/rc.local
 </code></pre></div></div>
 
 <h4 id="启动进程">启动进程</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service nginx start
 service supervisord start
 </code></pre></div></div>
 
 <h4 id="访问">访问</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://$server_ip/login/
 </code></pre></div></div>
-
 
         </div>
 

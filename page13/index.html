@@ -276,6 +276,300 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2017/06/%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98Python%E5%AE%A2%E6%88%B7%E7%AB%AF.html">bypy 百度网盘Python客户端</a></h1>
+    <div class="post_at_index">
+      <p>最近在GitHub上发现一个有趣的项目，<a href="https://github.com/houtianze/bypy">百度网盘Python客户端</a>(bypy)，主要使用在Linux命令行下，这样很大的一个好处是可以利用到百度云盘2TB的存储空间(如果你是会员有6TB)；你可以在任何服务器上，利用自动化脚本实现一些数据文件、日志文件等等备份操作，同时也提供丰富的文件列表、上传、下载、对比、同步以及批量操作等。</p>
+
+<blockquote>
+  <p>虽然百度网盘Python客户端提供很大的便利，但是我强烈不建议将一些重要数据放到百度云盘</p>
+</blockquote>
+
+<h2 id="实验目的">实验目的</h2>
+
+<p>数据库备份文件自动上传到百度网盘</p>
+
+<h2 id="环境依赖">环境依赖</h2>
+
+<ul>
+  <li>Python 2.7 or 3.0 以上</li>
+  <li>Encoding UTF-8</li>
+</ul>
+
+<h2 id="python-环境">Python 环境</h2>
+
+<p>首先使用<code class="language-plaintext highlighter-rouge">python -V</code>检查你的Python版本，如果你的版本是2.7或以上，那么就不需要做任何操作，可以直接安装bypy，但是如果你像我一样多数是CentOS 6.x 那么就需要先升级Python版本。我这里是将Python升级到2.7。</p>
+
+<h3 id="install-python-27">Install Python 2.7</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check current Python version</span>
+➜  ~ python <span class="nt">-V</span>
+Python 2.6.6
+
+<span class="c"># Download python 2.7.13 or new packge.</span>
+➜  ~ wget http://www.python.org/ftp/python/2.7.13/Python-2.7.13.tar.xz
+
+<span class="c"># Extract and change in</span>
+➜  ~ <span class="nb">tar </span>xf Python-2.7.13.tar.xz
+➜  ~ <span class="nb">cd </span>Python-2.7.13
+
+<span class="c"># Run the configure:</span>
+➜  Python-2.7.13 ./configure <span class="nt">--prefix</span><span class="o">=</span>/usr/local
+
+<span class="c"># Compile and install it:</span>
+➜  Python-2.7.13 make <span class="o">&amp;&amp;</span> make altinstall
+
+<span class="c"># Check Python Version</span>
+➜  Python-2.7.13 python2.7 <span class="nt">-V</span>
+Python 2.7.13
+</code></pre></div></div>
+
+<p>虽然Python2.7已经安装成功了，但是默认的Python仍然是2.6版本，所以我们要替换默认Python命令指到2.7</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update bin python to python2.7</span>
+➜  ~ ll /usr/bin/python /usr/local/bin/python2.7
+➜  ~ ll /usr/bin/python-config /usr/local/bin/python2.7-config
+➜  ~ python <span class="nt">-V</span>
+Python 2.7.13
+</code></pre></div></div>
+
+<h3 id="can-not-use-yum-">Can not use Yum ?</h3>
+
+<p>因为<code class="language-plaintext highlighter-rouge">yum</code>必须要使用Python2.6 ，所以当升级成功之后，发现yum无法使用，这时我们要稍微修改下：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ which-command yum
+/usr/bin/yum
+
+<span class="c">#Update frist line "#!/usr/bin/python" to "#!/usr/bin/python2.6"</span>
+➜  ~ vim /usr/bin/yum
+</code></pre></div></div>
+
+<h2 id="安装bypy">安装<code class="language-plaintext highlighter-rouge">bypy</code></h2>
+
+<h5 id="install-setuptools--requests">Install Setuptools &amp; requests</h5>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ wget <span class="nt">--no-check-certificate</span> https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz
+<span class="nb">tar </span>xf setuptools-1.4.2.tar.gz
+➜  ~ python setup.py <span class="nb">install</span>
+
+➜  ~ pip2.7 <span class="nb">install </span>requests
+</code></pre></div></div>
+
+<h3 id="clone---install">Clone &amp;  Install</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ git clone https://github.com/houtianze/bypy.git
+➜  ~ <span class="nb">cd </span>bypy
+➜  bypy git:<span class="o">(</span>master<span class="o">)</span> python setup.py <span class="nb">install</span>
+</code></pre></div></div>
+
+<p>如果安装失败，注意看报错，是否缺少Python依赖包，或者版本不对</p>
+
+<h3 id="基本操作">基本操作</h3>
+
+<p>在成功安装完成之后，以下需要注意：</p>
+
+<h4 id="授权">授权</h4>
+
+<p>首次安装之后，需要进行授权，只需要运行任何一个命令都可以，例如<code class="language-plaintext highlighter-rouge">bypy info</code>，然后根据提示，打开网页登录你的百度网盘账号，取得授权码，即可。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/2grhz.png" alt="" /></p>
+
+<p>复制上图中的链接到你的浏览器中，打开可以看到百度API授权页面，如下图，将授权码粘贴到命令行，然后回车等待验证通过即可。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/9zhdm.png" alt="" /></p>
+
+<p>然后再次运行命令时，就不需要进行身份验证了</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost bypy]# bypy info
+Quota: 6.103TB
+Used: 180.074GB
+</code></pre></div></div>
+
+<p>你可以看到我的百度网盘有6.103TB的空间，已经使用了180.074GB</p>
+
+<h4 id="常用操作">常用操作</h4>
+
+<p>由于百度PCS API权限限制，程序只能存取百度云端/apps/bypy目录下面的文件和目录。通过以下链接可以打开你的bypy默认路径：</p>
+
+<p><a href="https://pan.baidu.com/disk/home#list/vmode=list&amp;path=%2Fapps%2Fbypy">https://pan.baidu.com/disk/home#list/vmode=list&amp;path=%2Fapps%2Fbypy</a></p>
+
+<h4 id="查看">查看</h4>
+
+<p>我在百度网盘内增加了一个v6的文件夹，对应我服务器名称，这是我在服务器内利用命令即可看到。</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost bypy]# bypy list
+/apps/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
+D v6 0 2017-06-02, 10:28:41
+</code></pre></div></div>
+
+<h4 id="创建文件夹">创建文件夹</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy <span class="nb">mkdir </span>v6/bypy
+<span class="o">[</span>root@localhost ~]# bypy list v6
+/apps/bypy/v6 <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
+D bypy 0 2017-06-02, 10:35:53
+</code></pre></div></div>
+
+<h4 id="上传">上传</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy upload bypy.tgz
+<span class="o">[</span>root@localhost ~]# bypy list
+/apps/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
+D v6 0 2017-06-02, 10:28:41
+D v6_1 0 2017-06-02, 10:34:52
+F bypy.tgz 2867963 2017-06-02, 10:37:30 aa4160cdbf2f4eca9baf0fcd395241fe
+</code></pre></div></div>
+
+<h4 id="本地同步到百度网盘">本地同步到百度网盘</h4>
+
+<p>使用<code class="language-plaintext highlighter-rouge">syncup</code>参数将本地目录文件同步到百度网盘</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy syncup ./bypy v6/bypy
+<span class="o">[</span>root@localhost ~]# bypy list v6/bypy
+/apps/bypy/v6/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
+D .git 0 2017-06-02, 10:45:31
+D baidudoc 0 2017-06-02, 10:44:50
+D build 0 2017-06-02, 10:45:11
+D bypy 0 2017-06-02, 10:45:54
+D bypy.egg-info 0 2017-06-02, 10:45:00
+D dist 0 2017-06-02, 10:44:54
+D update 0 2017-06-02, 10:45:08
+F .editorconfig 277 2017-06-02, 10:45:08 d9f71b00f908626ae68da571ca47cbe2
+F .gitignore 484 2017-06-02, 10:45:00 833d8511a69044a1f1c6e0fe4b3c3117
+F .travis.yml 628 2017-06-02, 10:44:58 9f377251309ced0a55548c18896ebd7a
+F CONTRIBUTING.md 683 2017-06-02, 10:44:52 f5e8a568937039e5853613ff0fe296ee
+F genrst.py 129 2017-06-02, 10:45:30 4565eddf226c2e8bed73d2c30dfae9f3
+F HISTORY.md 2542 2017-06-02, 10:45:11 16605670a55a3dd9768d4c862543eac4
+F HISTORY.rst 2639 2017-06-02, 10:44:57 7215fbd0a3be667fd7f9fda14f06c1a9
+F LICENSE 1078 2017-06-02, 10:44:59 ebd1a0c53ea3046f505b995629faf8fb
+F MANIFEST.in 116 2017-06-02, 10:44:50 c98e18e65329b318f13abd031a4397c4
+F README.md 6276 2017-06-02, 10:46:15 d4b88fd543d93c6b63863d28f5c4e716
+F release.sh 1795 2017-06-02, 10:45:53 c086eb283e9554bbcd23daf0888e2819
+F requirements.txt 42 2017-06-02, 10:44:54 28b314f2f2d2ed79957a7a7e6d3f7c17
+F setup.cfg 70 2017-06-02, 10:45:11 b23579970dcedbcaeaaa00636d601335
+F setup.py 2377 2017-06-02, 10:44:58 34d63d5143ab02d3db7808321a7f9df4
+<span class="o">[</span>root@localhost ~]# bypy syncup ./bypy v6/bypy
+<span class="o">[</span>root@localhost ~]#
+</code></pre></div></div>
+
+<h4 id="搜索">搜索</h4>
+
+<p><code class="language-plaintext highlighter-rouge">bypy</code> 同样支持搜索，根据文件名检索，自动递归所有目录</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy search release.sh
+Found:
+F /apps/bypy/v6/bypy/release.sh 1795 2017-06-02, 10:45:53 2017-06-02, 10:45:53 c086eb283e9554bbcd23daf0888e2819
+</code></pre></div></div>
+
+<h4 id="比较本地与百度网盘">比较本地与百度网盘</h4>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 先删除本地一个文件</span>
+<span class="o">[</span>root@localhost ~]# <span class="nb">rm</span> ./bypy/release.sh
+
+<span class="c"># 对比</span>
+<span class="o">[</span>root@localhost ~]# bypy compare v6/bypy ./bypy
+<span class="o">====</span> Same files <span class="o">===</span>
+F - MANIFEST.in
+... omit ...
+F - bypy/monkey.py
+F - README.md
+<span class="o">====</span> Different files <span class="o">===</span>
+<span class="o">====</span> Local only <span class="o">====</span>
+<span class="o">====</span> Remote only <span class="o">====</span>
+F - release.sh
+
+Statistics:
+<span class="nt">--------------------------------</span>
+Same: 131
+Different: 0
+Local only: 0
+Remote only: 1
+</code></pre></div></div>
+
+<p>通过以上可以看到，相同文件131，远程目录多了一个文件。</p>
+
+<h4 id="其他">其他</h4>
+
+<p><code class="language-plaintext highlighter-rouge">bypy</code>支持的操作很多，使用<code class="language-plaintext highlighter-rouge">bypy help</code>即可以看到，若要调试，使用以下参数可以打开对应调试信息：</p>
+
+<ul>
+  <li>运行时添加<code class="language-plaintext highlighter-rouge">-v</code>参数，会显示进度详情。</li>
+  <li>运行时添加<code class="language-plaintext highlighter-rouge">-d</code>，会显示一些调试信息。</li>
+  <li>运行时添加<code class="language-plaintext highlighter-rouge">-ddd</code>，还会会显示HTTP通讯信息（<strong>警告：非常多</strong>）</li>
+</ul>
+
+<h2 id="数据库备份自动上传到百度网盘">数据库备份自动上传到百度网盘</h2>
+
+<p>之前也写过很多关于Mysql备份的文章，如果要详细查看，请打开以下链接：<a href="https://samzong.me/categories/MySQL/">分类MySQL</a></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># create back script.</span>
+<span class="o">[</span>root@localhost ~]# <span class="nb">touch </span>mysql_back.sh
+
+<span class="c"># add executable permissions</span>
+<span class="o">[</span>root@localhost ~]# <span class="nb">chmod</span> +x mysql_back.sh
+
+<span class="o">[</span>root@localhost ~]# vim mysql_back.sh
+<span class="c">#!/bin/bash</span>
+<span class="c">#  </span>
+<span class="c"># backup mysqldump file to baidu yunPan</span>
+<span class="c"># filepath: /usr/local/bin/mysql_back.sh</span>
+<span class="c"># Author: samzong</span>
+<span class="c">#</span>
+
+<span class="k">function </span>upload_file<span class="o">(){</span>
+        <span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H%M%S"</span><span class="sb">`</span>
+        <span class="nv">folder</span><span class="o">=</span><span class="s2">"/mysqlbak"</span>
+        <span class="nv">filename</span><span class="o">=</span><span class="s2">"db_</span><span class="nv">$TIME</span><span class="s2">.sql"</span>
+        <span class="nv">filePath</span><span class="o">=</span><span class="nv">$folder</span>/<span class="nv">$filename</span>
+
+        <span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="nv">$filePath</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+                </span><span class="nb">echo</span> <span class="s2">"[ERROR]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] </span><span class="nv">$folder</span><span class="s2">/</span><span class="nv">$filename</span><span class="s2"> not found."</span>
+        <span class="k">else
+                </span><span class="nb">echo</span> <span class="s2">"[INFO]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] </span><span class="nv">$folder</span><span class="s2">/</span><span class="nv">$filename</span><span class="s2"> has been found. Start uploading ......"</span>
+                bypy upload <span class="s2">"</span><span class="nv">$filePath</span><span class="s2">"</span> <span class="s2">"v6/mysql_backup/</span><span class="nv">$filename</span><span class="s2">"</span>
+                <span class="nb">echo</span> <span class="s2">"[INFO]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] Uploading end."</span>
+        <span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="c">#  set TIME variable</span>
+<span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H%M%S"</span><span class="sb">`</span>
+
+<span class="c"># backup db ghost to /mysqlbak/</span>
+mysqldump <span class="nt">--single-transaction</span> <span class="nt">-h</span> localhost <span class="nt">-u</span> ghost_backuser <span class="nt">-pbackupPass</span> ghost  <span class="o">&gt;</span> /mysqlbak/db_<span class="nv">$TIME</span>.sql
+
+<span class="c"># tar sql file</span>
+<span class="nb">tar </span>czvf /mysqlbak/ghost_<span class="nv">$TIME</span>.sql.tgz /mysqlbak/ghost_<span class="nv">$TIME</span>.sql <span class="nt">--remove-files</span>
+
+<span class="c"># upload sql file to baidu yunPan.</span>
+upload_file<span class="p">;</span>
+
+<span class="c"># send mial to admin'mial</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"ghost SQL dump is successfully. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-successfully  samzong.lu@gmail.com
+<span class="k">else
+    </span><span class="nb">echo</span> <span class="s2">" Error Error ghost SQL dump is Error. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-error samzong.lu@gmail.com
+<span class="k">fi</span>
+</code></pre></div></div>
+
+<h2 id="添加计划任务">添加计划任务</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ~ crontab <span class="nt">-e</span>
+00 00 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> sh /usr/local/bin/mysql_back.sh
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-06-02</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2017/05/%E6%88%91%E6%9D%A5%E5%88%B0%E8%BF%99%E4%B8%96%E4%B8%8A.html">我来到这世上</a></h1>
     <div class="post_at_index">
       <hr />
@@ -386,15 +680,15 @@
     <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/3m1jm.png" alt="" /></p>
 
     <p>上图中的服务器就是开放了445端口，这有很大的风险可能会WannaCry 蠕虫病毒被攻击到，所以我们应该关掉对应端口，并修复漏洞。</p>
-
-    <h3 id="漏洞修复">漏洞修复</h3>
-
-    <ol>
-      <li>目前微软已发布补丁MS17-010修复了“永恒之蓝”攻击的系统漏洞，请尽快为电脑安装此补丁，网址为<a href="https://laod.cn/go.php?url=https://technet.microsoft.com/zh-cn/library/security/MS17-010">https://technet.microsoft.com/zh-cn/library/security/MS17-010</a></li>
-      <li>对于XP、2003等微软已不再提供安全更新的机器，推荐使用360“NSA武器库免疫工具”检测系统是否存在漏洞，并关闭受到漏洞影响的端口，可以避免遭到勒索软件等病毒的侵害，可以在360电脑安全管家中找到。</li>
-      <li>开启系统防火墙，利用系统防火墙的“高级设置”阻止外部对 445 端口进的访问（存在一定影响，该操作会影响使用 445 端口的服务）。</li>
-    </ol>
   </li>
+</ol>
+
+<h3 id="漏洞修复">漏洞修复</h3>
+
+<ol>
+  <li>目前微软已发布补丁MS17-010修复了“永恒之蓝”攻击的系统漏洞，请尽快为电脑安装此补丁，网址为<a href="https://laod.cn/go.php?url=https://technet.microsoft.com/zh-cn/library/security/MS17-010">https://technet.microsoft.com/zh-cn/library/security/MS17-010</a></li>
+  <li>对于XP、2003等微软已不再提供安全更新的机器，推荐使用360“NSA武器库免疫工具”检测系统是否存在漏洞，并关闭受到漏洞影响的端口，可以避免遭到勒索软件等病毒的侵害，可以在360电脑安全管家中找到。</li>
+  <li>开启系统防火墙，利用系统防火墙的“高级设置”阻止外部对 445 端口进的访问（存在一定影响，该操作会影响使用 445 端口的服务）。</li>
 </ol>
 
 <h3 id="修复脚本">修复脚本</h3>
@@ -421,7 +715,7 @@ pause
 
 <p>我已经将脚本上传到百度云盘中，大家可以自行下载运行，注意解压缩Zip包之后的fix_WannaCry.bat</p>
 
-<p>下载链接：https://pan.baidu.com/s/1gfceNRH</p>
+<p>下载链接：<a href="https://pan.baidu.com/s/1gfceNRH">https://pan.baidu.com/s/1gfceNRH</a></p>
 
 <h3 id="添加防火规则">添加防火规则</h3>
 
@@ -445,7 +739,7 @@ pause
 
 <p>下载策略文件</p>
 
-<p>https://share.weiyun.com/15b7bbd3f86c493a66721dd948a81c54</p>
+<p><a href="https://share.weiyun.com/15b7bbd3f86c493a66721dd948a81c54">https://share.weiyun.com/15b7bbd3f86c493a66721dd948a81c54</a></p>
 
 <p>打开控制面板–管理工具-本地安全策略–IP安全策略 –&gt;所有任务–&gt;导入策略：</p>
 
@@ -1003,6 +1297,7 @@ sudo gitlab-ctl start sidekiq
       <p>因CentOS7与6在系统上，变化较大，所以在之前的文章中讲到的使用Tomcat7开机自启动的方式在CentOS7是是无法使用的，所以这篇文章的目的是如何在CentOS7上将Tomcat7设置为开机自启动。</p>
 
 <h4 id="安装java环境">安装JAVA环境</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 [root@7 ~]# curl -LO -H "Cookie: oraclelicense=accept-securebackup-cookie" \
 "http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-linux-x64.rpm"
@@ -1027,6 +1322,7 @@ export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
 </code></pre></div></div>
 
 <h4 id="安装tomcat7">安装Tomcat7</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 [root@7 ~]# wget http://ftp.riken.jp/net/apache/tomcat/tomcat-7/v7.0.77/bin/apache-tomcat-7.0.77.tar.gz
 [root@7 ~]# tar zxvf apache-tomcat-7.0.77.tar.gz
@@ -1036,6 +1332,7 @@ export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
 </code></pre></div></div>
 
 <h4 id="创建开机自启动脚本">创建开机自启动脚本</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@7 ~]# cat /usr/lib/systemd/system/tomcat7.service
 # create new
  [Unit]
@@ -1055,6 +1352,7 @@ WantedBy=multi-user.target
 </code></pre></div></div>
 
 <h4 id="启动tomcat7">启动Tomcat7</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@7 ~]# systemctl start tomcat7.service
 [root@7 ~]# systemctl enable tomcat7.service
 </code></pre></div></div>
@@ -1100,20 +1398,20 @@ remote: Total 5490 <span class="o">(</span>delta 0<span class="o">)</span>, reus
 Receiving objects: 100% <span class="o">(</span>5490/5490<span class="o">)</span>, 1.71 MiB | 410.00 KiB/s, <span class="k">done</span><span class="nb">.</span>
 Resolving deltas: 100% <span class="o">(</span>3799/3799<span class="o">)</span>, <span class="k">done</span><span class="nb">.</span>
 
-<span class="o">[</span>root@localhost ~]# ssr config 		<span class="c"># 配置文件路径 /usr/local/share/shadowsocksr/config.json</span>
+<span class="o">[</span>root@localhost ~]# ssr config   <span class="c"># 配置文件路径 /usr/local/share/shadowsocksr/config.json</span>
 <span class="o">{</span>
-    <span class="s2">"server"</span>: <span class="s2">"0..0.0.0"</span>,	// ssr服务器ip
+    <span class="s2">"server"</span>: <span class="s2">"0..0.0.0"</span>, // ssr服务器ip
     <span class="s2">"server_ipv6"</span>: <span class="s2">"::"</span>,
-    <span class="s2">"server_port"</span>: 8080,	// ssr服务器端口
+    <span class="s2">"server_port"</span>: 8080, // ssr服务器端口
     <span class="s2">"local_address"</span>: <span class="s2">"127.0.0.1"</span>,
     <span class="s2">"local_port"</span>: 1080,
 
-    <span class="s2">"password"</span>: <span class="s2">"123456"</span>,		// 对应password
-    <span class="s2">"method"</span>: <span class="s2">"none"</span>,			// 这里对应SSGlobal配置中的Encryption
-    <span class="s2">"protocol"</span>: <span class="s2">"auth_chain_a"</span>,		//对应protocl
+    <span class="s2">"password"</span>: <span class="s2">"123456"</span>,  // 对应password
+    <span class="s2">"method"</span>: <span class="s2">"none"</span>,   // 这里对应SSGlobal配置中的Encryption
+    <span class="s2">"protocol"</span>: <span class="s2">"auth_chain_a"</span>,  //对应protocl
     <span class="s2">"protocol_param"</span>: <span class="s2">""</span>,
-    <span class="s2">"obfs"</span>: <span class="s2">"http_simple"</span>,		//对应obfs
-    <span class="s2">"obfs_param"</span>: <span class="s2">"hello.world"</span>,	//对应obfs_param
+    <span class="s2">"obfs"</span>: <span class="s2">"http_simple"</span>,  //对应obfs
+    <span class="s2">"obfs_param"</span>: <span class="s2">"hello.world"</span>, //对应obfs_param
     <span class="s2">"speed_limit_per_con"</span>: 0,
     <span class="s2">"speed_limit_per_user"</span>: 0,
 
@@ -1180,7 +1478,7 @@ systemctl start privoxy.service
 <span class="o">[</span>root@localhost gfwlist2privoxy]# <span class="nb">ls
 </span>gfw.action  gfwlist2privoxy  README.md  ssr
 <span class="o">[</span>root@localhost gfwlist2privoxy]# bash gfwlist2privoxy
-proxy<span class="o">(</span>socks5<span class="o">)</span>: 127.0.0.1:1080		<span class="c"># 注意，如果你修改了ssr本地监听端口是需要设置对应的</span>
+proxy<span class="o">(</span>socks5<span class="o">)</span>: 127.0.0.1:1080  <span class="c"># 注意，如果你修改了ssr本地监听端口是需要设置对应的</span>
 <span class="o">{</span>+forward-override<span class="o">{</span>forward-socks5 127.0.0.1:1080 .<span class="o">}}</span>
 
 <span class="o">=================================================================</span>
@@ -1239,29 +1537,29 @@ curl <span class="nt">-sL</span> ip.chinaz.com/getip.aspx
 <span class="c"># Author Samzong.lu</span>
 
 <span class="k">case</span> <span class="nv">$1</span> <span class="k">in
-	</span>start<span class="p">)</span>
-		ssr start &amp;&gt; /var/log/ssr-local.log
-		systemctl start privoxy.service
-		<span class="nb">export </span><span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:8118
-		<span class="nb">export </span><span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:8118
-		<span class="nb">export </span><span class="nv">no_proxy</span><span class="o">=</span><span class="s2">"localhost, ip.cn, chinaz.com"</span>
-		<span class="p">;;</span>
-	stop<span class="p">)</span>
-		<span class="nb">unset </span>http_proxy https_proxy no_proxy
-		systemctl stop privoxy.service
-		ssr stop &amp;&gt; /var/log/ssr-log.log
-		<span class="p">;;</span>
-	autostart<span class="p">)</span>
-		<span class="nb">echo</span> <span class="s2">"ssr start"</span> <span class="o">&gt;&gt;</span> /etc/rc.local
-		systemctl <span class="nb">enable </span>privoxy.service
-		<span class="nb">echo</span> <span class="s2">"http_proxy=http://127.0.0.1:8118"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
-		<span class="nb">echo</span> <span class="s2">"https_proxy=http://127.0.0.1:8118"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
-		<span class="nb">echo</span> <span class="s2">"no_proxy='localhost, ip.cn, chinaz.com'"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
-		<span class="p">;;</span>
-	<span class="k">*</span><span class="p">)</span>
-		<span class="nb">echo</span> <span class="s2">"usage: source </span><span class="nv">$0</span><span class="s2"> start|stop|autostart"</span>
-		<span class="nb">exit </span>1
-		<span class="p">;;</span>
+ </span>start<span class="p">)</span>
+  ssr start &amp;&gt; /var/log/ssr-local.log
+  systemctl start privoxy.service
+  <span class="nb">export </span><span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+  <span class="nb">export </span><span class="nv">https_proxy</span><span class="o">=</span>http://127.0.0.1:8118
+  <span class="nb">export </span><span class="nv">no_proxy</span><span class="o">=</span><span class="s2">"localhost, ip.cn, chinaz.com"</span>
+  <span class="p">;;</span>
+ stop<span class="p">)</span>
+  <span class="nb">unset </span>http_proxy https_proxy no_proxy
+  systemctl stop privoxy.service
+  ssr stop &amp;&gt; /var/log/ssr-log.log
+  <span class="p">;;</span>
+ autostart<span class="p">)</span>
+  <span class="nb">echo</span> <span class="s2">"ssr start"</span> <span class="o">&gt;&gt;</span> /etc/rc.local
+  systemctl <span class="nb">enable </span>privoxy.service
+  <span class="nb">echo</span> <span class="s2">"http_proxy=http://127.0.0.1:8118"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
+  <span class="nb">echo</span> <span class="s2">"https_proxy=http://127.0.0.1:8118"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
+  <span class="nb">echo</span> <span class="s2">"no_proxy='localhost, ip.cn, chinaz.com'"</span> <span class="o">&gt;&gt;</span> /etc/bashrc
+  <span class="p">;;</span>
+ <span class="k">*</span><span class="p">)</span>
+  <span class="nb">echo</span> <span class="s2">"usage: source </span><span class="nv">$0</span><span class="s2"> start|stop|autostart"</span>
+  <span class="nb">exit </span>1
+  <span class="p">;;</span>
 <span class="k">esac</span>
 </code></pre></div></div>
 
@@ -1283,10 +1581,9 @@ ssr_manager autostart
 <h4 id="参考链接">参考链接</h4>
 
 <ul>
-  <li>https://www.zfl9.com/ss-local.html</li>
-  <li>https://www.djangoz.com/2017/08/16/linux_setup_ssr/</li>
+  <li><a href="https://www.zfl9.com/ss-local.html">https://www.zfl9.com/ss-local.html</a></li>
+  <li><a href="https://www.djangoz.com/2017/08/16/linux_setup_ssr/">https://www.djangoz.com/2017/08/16/linux_setup_ssr/</a></li>
 </ul>
-
 
       
     </div>
@@ -1307,6 +1604,7 @@ ssr_manager autostart
       <p>Zoomdata是一个大数据可视化展示的工具，由ZoomData企业创建，是为数不多的同时支持移动端的数据分析公司，Zoomdata的可视化可将大数据流转化为触屏友好的，艺术感十足的三维形态，Zoomdata的定位是非ETL(传统的提取、转换和加载的数据处理过程)工具，Zoomdata支持多种数据源，包括社交媒体等，其中应用最主流是大数据平台的展示工具，并且Zoomdata对Cloudera Impala做了很好的支持，所以我们做了Zoomdata+Cloudera技术实施。[^1]</p>
 
 <h4 id="系统要求"><strong>系统要求</strong></h4>
+
 <p>Zoomdata最新版是v2.4，支持常见主流的操作系统，并且有非常友好的安装帮助，但是Zoomdata不支持安装在32位的操作系统之上
 <br />
 |biaoti|biaoti|baiiti|
@@ -1374,47 +1672,6 @@ ssr_manager autostart
     <div>
       <cite>2017-03-04</cite> <i class="icon-tag"></i>
       <a href="/tags.html#随笔">随笔</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2017/02/MacTips-%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E5%85%B3%E9%97%AD%E5%92%8C%E5%90%AF%E5%8A%A8AirPort.html">MacTips 使用命令关闭和启动AirPort</a></h1>
-    <div class="post_at_index">
-      <p>今天在给妹妹调试新的MacBookAir 13’时遇到一个问题，无法检测到她家的WiFi，一开始怀疑是不是无线路由器长时间未重启导致，所以重启了路由器，但是问题依然没有解决，于是我们将问题转向排查设备，因我们基本正好有iPad，iPhone，MacBook这些设备，发现唯独他的这个Macbook无法识别WiFi，后来在Google的帮助下，发现多个版本的Mac OS X都出现了类似的问题，可以通过重启AirPort解决问题，但是AirPort在System Preferences找不到选项，所以需要使用命令行来重启。</p>
-
-<h5 id="查看网络接口"><strong>查看网络接口</strong></h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ifconfig
-en0: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
-	ether 60:f8:1d:ad:85:76
-	inet6 fe80::18a9:fa23:b02f:5d8a%en0 prefixlen 64 secured scopeid 0x4
-	inet 192.168.199.200 netmask 0xffffff00 broadcast 192.168.199.255
-	nd6 options=201&lt;PERFORMNUD,DAD&gt;
-	media: autoselect
-	status: active
-</code></pre></div></div>
-<h5 id="关闭airport"><strong>关闭AirPort</strong></h5>
-<p>有时候设备的名称是en0、en1这样，所以，可以用过设备名称来重启airport，例如en0</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup -setairportpower en0 off
-</code></pre></div></div>
-
-<h5 id="查看状态"><strong>查看状态</strong></h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup -getairportpower en0
-</code></pre></div></div>
-
-<h5 id="关闭airport-1"><strong>关闭AirPort</strong></h5>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup -setairportpower en0 on
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-02-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
       
       
       
@@ -1505,16 +1762,6 @@ en0: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
     	
       <li><a href="/categories.html#CentOS">
     		CentOS <span>14</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Tools">
-    		Tools <span>4</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#VPN">
-    		VPN <span>2</span>
     	</a></li>
      
     	
@@ -1660,6 +1907,16 @@ en0: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
     	
       <li><a href="/categories.html#Bigdata">
     		Bigdata <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Tools">
+    		Tools <span>4</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#VPN">
+    		VPN <span>2</span>
     	</a></li>
      
     	

@@ -507,16 +507,16 @@ find /mysqlbak/ <span class="nt">-mtime</span> +7 <span class="nt">-exec</span> 
 <span class="c"># send mial to admin'mial</span>
 <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span>
 <span class="k">then
-	</span><span class="nb">echo</span> <span class="s2">"ghost SQL dump is successfully. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-successfully  samzong.lu@gmail.com
+ </span><span class="nb">echo</span> <span class="s2">"ghost SQL dump is successfully. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-successfully  samzong.lu@gmail.com
 <span class="k">else
-	</span><span class="nb">echo</span> <span class="s2">" Error Error ghost SQL dump is Error. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-error samzong.lu@gmail.com
+ </span><span class="nb">echo</span> <span class="s2">" Error Error ghost SQL dump is Error. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-error samzong.lu@gmail.com
 <span class="k">fi</span>
 </code></pre></div></div>
 
 <p>注意脚本中的以下内容要根据你的实际情况修改:</p>
 
 <ul>
-  <li>-h “ “ 	这是数据库所在的主机</li>
+  <li>-h “ “  这是数据库所在的主机</li>
   <li>-u “ “       这是数据库可备份的用户名</li>
   <li>-p” “        备份用户的密码</li>
 </ul>
@@ -535,9 +535,8 @@ find /mysqlbak/ <span class="nt">-mtime</span> +7 <span class="nt">-exec</span> 
 Stopping crond:                                            <span class="o">[</span>  OK  <span class="o">]</span>
 Starting crond:                                            <span class="o">[</span>  OK  <span class="o">]</span>
 ➜  ~ chkconfig <span class="nt">--list</span> | <span class="nb">grep </span>crond
-crond          	0:off	1:off	2:on	3:on	4:on	5:on	6:off
+crond           0:off 1:off 2:on 3:on 4:on 5:on 6:off
 </code></pre></div></div>
-
 
         </div>
 

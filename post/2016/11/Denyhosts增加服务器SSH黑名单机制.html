@@ -288,16 +288,22 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <h5 id="查看当前服务器失败登录的统计">查看当前服务器失败登录的统计：</h5>
+            <h5 id="查看当前服务器失败登录的统计">查看当前服务器失败登录的统计</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat /var/log/secure | awk '/Failed/{print $(NF-3)}' | sort | uniq -c | sort -n |  awk '{print $2" = "$1}'
 </code></pre></div></div>
+
 <h5 id="install-denyhosts">Install denyhosts</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 需要预先安装epel源
 sudo yum install -y epel-release
 sudo yum install -y denyhosts
 </code></pre></div></div>
+
 <h5 id="配置文件解析">配置文件解析</h5>
+
 <p>默认配置文件/etc/denyhosts。</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 查看的sshd日志文件
 SECURE_LOG = /var/log/secure
 
@@ -364,33 +370,32 @@ DAEMON_PURGE = 1h
 <h5 id="faq">FAQ</h5>
 
 <ol>
-  <li>如果想删除一个已经禁止的主机IP，并加入到允许主机例表，只在 /etc/hosts.deny 删除是没用的,还需要以下：
-```
-/var/lib/denyhosts 目录，进入以下操作：
-    <h1 id="停止denyhosts服务">停止denyhosts服务</h1>
-    <p>sudo service denyhosts stop</p>
-  </li>
+  <li>如果想删除一个已经禁止的主机IP，并加入到允许主机例表，只在 /etc/hosts.deny 删除是没用的,还需要以下：</li>
 </ol>
 
-<h1 id="进入denyhosts的目录">进入denyhosts的目录</h1>
-<p>cd /var/lib/denyhosts</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/var/lib/denyhosts 目录，进入以下操作：
+# 停止denyhosts服务
+sudo service denyhosts stop
 
-<h1 id="查看哪些文件添加了ssh限制将ip_addr替换成你的ip">查看哪些文件添加了ssh限制,将IP_addr替换成你的IP</h1>
-<p>sudo grep IP_addr /usr/share/denyhosts/data/*</p>
+# 进入denyhosts的目录
+cd /var/lib/denyhosts
 
-<h1 id="然后一个个删除文件中你想取消的主机ip所在的行">然后一个个删除文件中你想取消的主机IP所在的行:</h1>
-<p>/usr/share/denyhosts/data/hosts
+# 查看哪些文件添加了ssh限制,将IP_addr替换成你的IP
+sudo grep IP_addr /usr/share/denyhosts/data/*
+
+# 然后一个个删除文件中你想取消的主机IP所在的行:
+/usr/share/denyhosts/data/hosts
 /usr/share/denyhosts/data/hosts-restricted
 /usr/share/denyhosts/data/hosts-root
 /usr/share/denyhosts/data/hosts-valid
-/usr/share/denyhosts/data/users-hosts</p>
+/usr/share/denyhosts/data/users-hosts
 
-<h1 id="添加你想允许的主机ip地址到allowed-hosts">添加你想允许的主机IP地址到allowed-hosts:</h1>
-<p>sudo echo IP_addr »/usr/share/denyhosts/data/allowed-hostsps</p>
+# 添加你想允许的主机IP地址到allowed-hosts:
+sudo echo IP_addr &gt;&gt;/usr/share/denyhosts/data/allowed-hostsps
 
-<h1 id="启动-denyhosts服务">启动 DenyHosts服务：</h1>
-<p>service denyhosts start
-```</p>
+# 启动 DenyHosts服务：
+ service denyhosts start
+</code></pre></div></div>
 
 <h5 id="tips">Tips</h5>
 
@@ -1008,11 +1013,11 @@ DAEMON_PURGE = 1h
                 
                 
                 
+                
+                
+                
+                
                 <li><a href="/post/2016/11/Denyhosts%E5%A2%9E%E5%8A%A0%E6%9C%8D%E5%8A%A1%E5%99%A8SSH%E9%BB%91%E5%90%8D%E5%8D%95%E6%9C%BA%E5%88%B6.html">Denyhosts增加服务器SSH黑名单机制</a> - <span>11/23/2016</span></li>
-                
-                
-                
-                
                 
                 
                 

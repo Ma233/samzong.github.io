@@ -276,18 +276,98 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/11/%E4%B8%96%E7%95%8C%E4%B8%8A%E6%9C%80%E6%B2%A1%E7%94%A8%E7%9A%84%E4%B8%9C%E8%A5%BF.html">世界上最没用的东西</a></h1>
+    <div class="post_at_index">
+      <p><a href="https://www.zhihu.com/question/21905681/answer/93684468">知乎</a></p>
+
+<p>@匿名用户</p>
+
+<p>旧手机的充电器</p>
+
+<p>暗恋时的独角戏</p>
+
+<p>情人节后的鲜花</p>
+
+<p>单身狗的第二杯半价</p>
+
+<p><br /></p>
+
+<p>政客上任的许诺</p>
+
+<p>渴望理解的诉说</p>
+
+<p>花前月下的誓言</p>
+
+<p>回忆里微笑的脸</p>
+
+<p><br /></p>
+
+<p>过期的悔恨</p>
+
+<p>懦弱的容忍</p>
+
+<p>寒假前的作息表</p>
+
+<p>满街的宣传口号</p>
+
+<p><br /></p>
+
+<p>天赋不足的认真</p>
+
+<p>无疾而终的情深</p>
+
+<p>所谓寂寞空虚冷</p>
+
+<p>不可说与人知的疼</p>
+
+<p><br /></p>
+
+<p>失败后的借口</p>
+
+<p>酒桌上的朋友</p>
+
+<p>年轻时为你写的诗</p>
+
+<p>心血来潮时的雄心壮志</p>
+
+<p>收藏夹里的心灵鸡汤</p>
+
+<p>总结汇报的官样文章</p>
+
+<p>额度不够的信用卡</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-11-27</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/11/Denyhosts%E5%A2%9E%E5%8A%A0%E6%9C%8D%E5%8A%A1%E5%99%A8SSH%E9%BB%91%E5%90%8D%E5%8D%95%E6%9C%BA%E5%88%B6.html">Denyhosts增加服务器SSH黑名单机制</a></h1>
     <div class="post_at_index">
-      <h5 id="查看当前服务器失败登录的统计">查看当前服务器失败登录的统计：</h5>
+      <h5 id="查看当前服务器失败登录的统计">查看当前服务器失败登录的统计</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat /var/log/secure | awk '/Failed/{print $(NF-3)}' | sort | uniq -c | sort -n |  awk '{print $2" = "$1}'
 </code></pre></div></div>
+
 <h5 id="install-denyhosts">Install denyhosts</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 需要预先安装epel源
 sudo yum install -y epel-release
 sudo yum install -y denyhosts
 </code></pre></div></div>
+
 <h5 id="配置文件解析">配置文件解析</h5>
+
 <p>默认配置文件/etc/denyhosts。</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 查看的sshd日志文件
 SECURE_LOG = /var/log/secure
 
@@ -354,33 +434,32 @@ DAEMON_PURGE = 1h
 <h5 id="faq">FAQ</h5>
 
 <ol>
-  <li>如果想删除一个已经禁止的主机IP，并加入到允许主机例表，只在 /etc/hosts.deny 删除是没用的,还需要以下：
-```
-/var/lib/denyhosts 目录，进入以下操作：
-    <h1 id="停止denyhosts服务">停止denyhosts服务</h1>
-    <p>sudo service denyhosts stop</p>
-  </li>
+  <li>如果想删除一个已经禁止的主机IP，并加入到允许主机例表，只在 /etc/hosts.deny 删除是没用的,还需要以下：</li>
 </ol>
 
-<h1 id="进入denyhosts的目录">进入denyhosts的目录</h1>
-<p>cd /var/lib/denyhosts</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/var/lib/denyhosts 目录，进入以下操作：
+# 停止denyhosts服务
+sudo service denyhosts stop
 
-<h1 id="查看哪些文件添加了ssh限制将ip_addr替换成你的ip">查看哪些文件添加了ssh限制,将IP_addr替换成你的IP</h1>
-<p>sudo grep IP_addr /usr/share/denyhosts/data/*</p>
+# 进入denyhosts的目录
+cd /var/lib/denyhosts
 
-<h1 id="然后一个个删除文件中你想取消的主机ip所在的行">然后一个个删除文件中你想取消的主机IP所在的行:</h1>
-<p>/usr/share/denyhosts/data/hosts
+# 查看哪些文件添加了ssh限制,将IP_addr替换成你的IP
+sudo grep IP_addr /usr/share/denyhosts/data/*
+
+# 然后一个个删除文件中你想取消的主机IP所在的行:
+/usr/share/denyhosts/data/hosts
 /usr/share/denyhosts/data/hosts-restricted
 /usr/share/denyhosts/data/hosts-root
 /usr/share/denyhosts/data/hosts-valid
-/usr/share/denyhosts/data/users-hosts</p>
+/usr/share/denyhosts/data/users-hosts
 
-<h1 id="添加你想允许的主机ip地址到allowed-hosts">添加你想允许的主机IP地址到allowed-hosts:</h1>
-<p>sudo echo IP_addr »/usr/share/denyhosts/data/allowed-hostsps</p>
+# 添加你想允许的主机IP地址到allowed-hosts:
+sudo echo IP_addr &gt;&gt;/usr/share/denyhosts/data/allowed-hostsps
 
-<h1 id="启动-denyhosts服务">启动 DenyHosts服务：</h1>
-<p>service denyhosts start
-```</p>
+# 启动 DenyHosts服务：
+ service denyhosts start
+</code></pre></div></div>
 
 <h5 id="tips">Tips</h5>
 
@@ -609,16 +688,19 @@ DAEMON_PURGE = 1h
     
     <h1><a class="title" href="/post/2016/11/MySQL-5-%E6%B8%85%E7%A9%BA%E8%A1%A8%E5%91%BD%E4%BB%A4%E4%B9%8B-truncate%E4%B8%8Edelete%E5%8C%BA%E5%88%AB.html">MySQL 清空表命令之：truncate与delete 区别</a></h1>
     <div class="post_at_index">
-      <p>       在实际工作中，有时我们会想要去清空一张表的所有数据，常用的命令有delete和truncate这两个命令。</p>
+      <p>在实际工作中，有时我们会想要去清空一张表的所有数据，常用的命令有delete和truncate这两个命令。</p>
 
 <h3 id="1-delete">1. delete</h3>
-<p>       在很多情况，我们对于delete的应用更多，因为它支持更多的匹配模式，我们可以使用where条件语句，清理一些特定的数据，关于delete的操作，这里不做过多解释，有空就专门写写delete的使用和原理。delete 在清空表时，如果表内有自增ID的设定，那么在delete清空之后，再插入数据时，自增ID不会从1开始，默认会继续增加; 除非我们使用OPTIMIZE TABLE，重置表属性；</p>
+
+<p>在很多情况，我们对于delete的应用更多，因为它支持更多的匹配模式，我们可以使用where条件语句，清理一些特定的数据，关于delete的操作，这里不做过多解释，有空就专门写写delete的使用和原理。delete 在清空表时，如果表内有自增ID的设定，那么在delete清空之后，再插入数据时，自增ID不会从1开始，默认会继续增加; 除非我们使用OPTIMIZE TABLE，重置表属性；</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; delete from piwik_tmp;
 Query OK, 0 rows affected (0.00 sec)
 </code></pre></div></div>
 
 <h3 id="2-truncate">2. truncate</h3>
-<p>       truncate 在清空表时，会同时将自增ID重置，再插入新数据时会从1开始，而且truncate在清空表时，不关心表的行数，所以执行效率会高于delete；</p>
+
+<p>truncate 在清空表时，会同时将自增ID重置，再插入新数据时会从1开始，而且truncate在清空表时，不关心表的行数，所以执行效率会高于delete；</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; truncate table piwik_tmp;
 Query OK, 0 rows affected (0.01 sec)
@@ -626,7 +708,9 @@ Query OK, 0 rows affected (0.01 sec)
 </code></pre></div></div>
 
 <h3 id="3-释放表空间">3. 释放表空间</h3>
-<p>       但是在truncate清空表数据时，myisam的表和innodb的表在使用上有一定的区别；myisam表会清空所有数据，并释放表空间，即硬盘空间会得到释放。innodb表也会清空所有数据，但不释放表空间。Innodb数据库对于已经删除的数据只是标记为删除，并不真正释放所占用的磁盘空间，这就导致InnoDB数据库文件不断增长。如果想彻底释放这些已经删除的数据，需要把数据库导出，删除InnoDB数据库文件，然后再导入。</p>
+
+<p>但是在truncate清空表数据时，myisam的表和innodb的表在使用上有一定的区别；myisam表会清空所有数据，并释放表空间，即硬盘空间会得到释放。innodb表也会清空所有数据，但不释放表空间。Innodb数据库对于已经删除的数据只是标记为删除，并不真正释放所占用的磁盘空间，这就导致InnoDB数据库文件不断增长。如果想彻底释放这些已经删除的数据，需要把数据库导出，删除InnoDB数据库文件，然后再导入。</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 备份数据库：
 mysqldump -u -p --quick --force --all-databases &gt; mysqldump.sql
 
@@ -645,13 +729,17 @@ mysql -uroot -proot &lt; mysqldump.sql
 </code></pre></div></div>
 
 <h3 id="4-innodb_file_per_table">4. innodb_file_per_table</h3>
-<p>       还有一种方式是在创建数据库的时候设置innodb_file_per_table，这样InnoDB会对每个表创建一个数据文件，然后只需要运行OPTIMIZE TABLE 命令就可以释放所有已经删除的磁盘空间。</p>
 
-<h4 id="41-修改mysql默认配置文件">4.1 修改mysql默认配置文件。</h4>
-<p>       编辑my.ini或my.cnf 在innodb段中加入 innodb_file_per_table=1 # 1为启用，0为禁用</p>
+<p>还有一种方式是在创建数据库的时候设置innodb_file_per_table，这样InnoDB会对每个表创建一个数据文件，然后只需要运行OPTIMIZE TABLE 命令就可以释放所有已经删除的磁盘空间。</p>
+
+<h4 id="41-修改mysql默认配置文件">4.1 修改mysql默认配置文件</h4>
+
+<p>编辑my.ini或my.cnf 在innodb段中加入 innodb_file_per_table=1 # 1为启用，0为禁用</p>
 
 <h4 id="42-查看修改结果">4.2 查看修改结果</h4>
-<p>       通过mysql语句可以查看该变量的值：</p>
+
+<p>通过mysql语句可以查看该变量的值：</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like '%per_table%';
 </code></pre></div></div>
 
@@ -672,31 +760,45 @@ mysql -uroot -proot &lt; mysqldump.sql
     <h1><a class="title" href="/post/2016/10/SSH-LINUX-Security-Settings.html">SSH LINUX Security Settings</a></h1>
     <div class="post_at_index">
       <h3 id="ssh-配置安全控制限制登录"><strong>SSH 配置安全控制限制登录</strong></h3>
+
 <h5 id="1-只允许某个ip登录拒绝其他所有ip">1. 只允许某个IP登录，拒绝其他所有IP</h5>
+
 <p>在 /etc/hosts.allow 增加:</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sshd: 1.2.3.4
 </code></pre></div></div>
+
 <p>在 /etc/hosts.deny 增肌:</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sshd: ALL
 </code></pre></div></div>
+
 <p>用 iptables 也行:</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables -A INPUT -p tcp --dport 22 -j DROP
 iptables -A INPUT -p tcp --dport 22 -s 1.2.3.4 -j ACCEPT
 </code></pre></div></div>
+
 <h5 id="2-禁止某个用户通过ssh登录">2. 禁止某个用户通过ssh登录</h5>
+
 <p>在/etc/ssh/sshd_conf添加</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AllowUsers 用户名
 或者
 AllowGroups 组名
 或者
 DenyUsers 用户名
 </code></pre></div></div>
+
 <h5 id="3-设定登录黑名单">3. 设定登录黑名单</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@6 ~]# vim /etc/pam.d/sshd
 auth required /lib/security/pam_listfile.so item=user sense=deny file=/etc/sshd_user_deny_list onerr=succeed
 # 所有/etc/sshd_user_deny_list里面的用户被拒绝ssh登录
 </code></pre></div></div>
+
 <h5 id="4-sshd_config配置">4. sshd_config配置</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 关于 SSH Server 的整体设定，包含使用的 port 啦，以及使用的密码演算方式
 Port 22　　　　　　　　　　# SSH 预设使用 22 这个 port，您也可以使用多的 port ！
 　　　　　　　　　　　　　 # 亦即重复使用 port 这个设定项目即可！
@@ -816,52 +918,63 @@ Subsystem       sftp    /usr/lib/ssh/sftp-server
     <div class="post_at_index">
       <h3 id="centos-6">CentOS 6</h3>
 
-<h5 id="1-install-postgresql-repository-and-the-postgresql-server-by-running-the-following">1. Install PostgreSQL repository and the PostgreSQL server by running the following:</h5>
+<h5 id="1-install-postgresql-repository-and-the-postgresql-server-by-running-the-following">1. Install PostgreSQL repository and the PostgreSQL server by running the following</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-6-x86_64/pgdg-centos95-9.5-2.noarch.rpm
 
 sudo yum install postgresql95-serve
 </code></pre></div></div>
 
-<h5 id="2-create-the-postgresql-database-cluster">2. Create the PostgreSQL database cluster.</h5>
+<h5 id="2-create-the-postgresql-database-cluster">2. Create the PostgreSQL database cluster</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sduo service postgresql-9.5 initdb
 </code></pre></div></div>
 
-<h5 id="3-enable-automatic-postgresql-server-startup">3. Enable automatic PostgreSQL server startup.</h5>
+<h5 id="3-enable-automatic-postgresql-server-startup">3. Enable automatic PostgreSQL server startup</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo chkconfig postgresql-9.5 on
 </code></pre></div></div>
 
-<h5 id="4-start-the-postgresql-server">4. Start the PostgreSQL server.</h5>
+<h5 id="4-start-the-postgresql-server">4. Start the PostgreSQL server</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo service postgresql-9.5 start
 </code></pre></div></div>
 
 <h3 id="centos-7">CentOS 7</h3>
 
-<h5 id="1-install-postgresql-repository-and-the-postgresql-server-by-running-the-following-1">1. Install PostgreSQL repository and the PostgreSQL server by running the following:</h5>
+<h5 id="1-install-postgresql-repository-and-the-postgresql-server-by-running-the-following-1">1. Install PostgreSQL repository and the PostgreSQL server by running the following</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install https://download.postgresql.org/pub/repos/yum/9.5 /redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
 
 sudo yum install postgresql95-serve
 </code></pre></div></div>
 
-<h5 id="2-create-the-postgresql-database-cluster-1">2. Create the PostgreSQL database cluster.</h5>
+<h5 id="2-create-the-postgresql-database-cluster-1">2. Create the PostgreSQL database cluster</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo /usr/pgsql-9.5/bin/postgresql95-setup initdb
 </code></pre></div></div>
 
-<h5 id="3-enable-automatic-postgresql-server-startup-1">3. Enable automatic PostgreSQL server startup.</h5>
+<h5 id="3-enable-automatic-postgresql-server-startup-1">3. Enable automatic PostgreSQL server startup</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo systemctl enable postgresql-9.5
 </code></pre></div></div>
 
-<h5 id="4-start-the-postgresql-server-1">4. Start the PostgreSQL server.</h5>
+<h5 id="4-start-the-postgresql-server-1">4. Start the PostgreSQL server</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo systemctl start postgresql-9.5
 </code></pre></div></div>
 
 <h3 id="configurations-for-centos">Configurations for CentOS</h3>
+
 <p>When installing in CentOs env. you will also need to make the following configurations.</p>
 
-<h5 id="1-change-authentication-to-md5">1. Change authentication to md5.</h5>
+<h5 id="1-change-authentication-to-md5">1. Change authentication to md5</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo vi /var/lib/pgsql/9.5/data/pg_hba.conf
 </code></pre></div></div>
 
-<h5 id="2-change-method-to-md5">2. Change METHOD to md5.</h5>
+<h5 id="2-change-method-to-md5">2. Change METHOD to md5</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># IPv4 local connections:
 host    all             all             127.0.0.1/32            md5
 
@@ -973,11 +1086,13 @@ host    all             all             ::1/128                 md5
     <h1><a class="title" href="/post/2016/09/HowTo-Use-pt-query-digest.html">HowTo Use pt-query-digest</a></h1>
     <div class="post_at_index">
       <h3 id="1-简介">1. 简介</h3>
+
 <p>索引可以我们更快速的执行查询，但是肯定存在不合理的索引，如果想找到那些索引不是很合适的查询，并在它们成为问题前进行优化，则可以使用pt-query-digest的查询审查“review”功能，分析其EXPLAIN出来的执行计划。</p>
 
 <p>pt-query-digest是用于分析mysql慢查询的一个工具，它可以分析binlog、General log、slowlog，也可以通过SHOWPROCESSLIST或者通过tcpdump抓取的MySQL协议数据来进行分析。可以把分析结果输出到文件中，分析过程是先对查询语句的条件进行参数化，然后对参数化以后的查询进行分组统计，统计出各查询的执行时间、次数、占比等，可以借助分析结果找出问题进行优化。</p>
 
 <h3 id="2-install-percona-toolkit--pt-query-digest">2. Install Percona Toolkit &amp; pt-query-digest</h3>
+
 <p>percona-toolkit是一组高级命令行工具的集合，用来执行各种通过手工执行非常复杂和麻烦的mysql和系统任务。这些任务包括：</p>
 
 <ul>
@@ -1031,6 +1146,7 @@ Installing /usr/local/bin/pt-query-digest
 ...
 Appending installation info to /usr/lib64/perl5/perllocal.pod
 </code></pre></div></div>
+
 <blockquote>
   <p>运行工具可能会遇到下面的错误: Can’t locate Time/HiRes.pm in @INC</p>
 </blockquote>
@@ -1042,7 +1158,9 @@ pt-query-digest 2.2.19
 </code></pre></div></div>
 
 <h3 id="3-开启-mysql慢日志">3. 开启 mysql慢日志</h3>
-<h5 id="a-查看当前slow_query_log-状态">a. 查看当前‘slow_query_log’ 状态：</h5>
+
+<h5 id="a-查看当前slow_query_log-状态">a. 查看当前‘slow_query_log’ 状态</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like '%query%';
 +------------------------------+---------------------------------+
 | Variable_name                | Value                           |
@@ -1071,7 +1189,9 @@ mysql&gt; show variables like 'log_queries_not_using_indexes';
 +-------------------------------+-------+
 1 row in set (0.00 sec)
 </code></pre></div></div>
+
 <h5 id="b-启动slow_log-配置">b. 启动slow_log, 配置</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 设定记录大于2s的sql
 mysql&gt; set global long_query_time=2;
 Query OK, 0 rows affected (0.00 sec)
@@ -1094,10 +1214,14 @@ Query OK, 0 rows affected (0.00 sec)
 </blockquote>
 
 <h3 id="4-分析">4. 分析</h3>
+
 <p>pt-query-digest可以从普通MySQL日志，慢查询日志以及二进制日志中分析查询，甚至可以从SHOW PROCESSLIST和MySQL协议的tcpdump中进行分析，如果没有指定文件，它从标准输入流（STDIN）中读取数据。</p>
-<h5 id="a-简单使用方法">a. 简单使用方法：</h5>
+
+<h5 id="a-简单使用方法">a. 简单使用方法</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest slow.logs
 </code></pre></div></div>
+
 <p>输出信息如下：</p>
 
 <div align="left">
@@ -1124,13 +1248,15 @@ Query OK, 0 rows affected (0.00 sec)
 <h5 id="详细信息">详细信息</h5>
 <p>列出上面Profile中每个Query ID的详细信息</p>
 
-<h5 id="b-从tcpdump包中分析通过tcpdump命令抓取一定时间网络数据包然后进行分析">b. 从tcpdump包中分析：通过tcpdump命令抓取一定时间网络数据包，然后进行分析：</h5>
+<h5 id="b-从tcpdump包中分析通过tcpdump命令抓取一定时间网络数据包然后进行分析">b. 从tcpdump包中分析：通过tcpdump命令抓取一定时间网络数据包，然后进行分析</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest --type tcpdump mysql.tcp.txt
 </code></pre></div></div>
 
 <h5 id="c-pt-query-digest-还支持很对其他的数据包分析形势但是我们主要使用的还是针对慢日志进行分析">c. pt-query-digest 还支持很对其他的数据包分析形势，但是我们主要使用的还是针对慢日志进行分析</h5>
+
 <blockquote>
-  <p>更多的帮助文档，请查看官方文档：http://www.percona.com/doc/percona-toolkit/2.2/pt-query-digest.html</p>
+  <p>更多的帮助文档，请查看官方文档：<a href="http://www.percona.com/doc/percona-toolkit/2.2/pt-query-digest.html">http://www.percona.com/doc/percona-toolkit/2.2/pt-query-digest.html</a></p>
 </blockquote>
 
 <h3 id="5-使用anemometer将pt-query-digest的mysql慢查询可视化">5. 使用Anemometer将pt-query-digest的MySQL慢查询可视化</h3>
@@ -1142,6 +1268,7 @@ Query OK, 0 rows affected (0.00 sec)
 </ul>
 
 <h5 id="51-安装">5.1 安装</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultrera ~]# git clone https://github.com/box/Anemometer.git anemometer
 
 [root@ultrera ~]# mv anemometer /var/www/html
@@ -1149,7 +1276,9 @@ Query OK, 0 rows affected (0.00 sec)
 [root@ultrera anemometer]# mysql -h localhost -u root -p &lt; mysql56-install.sql
 [root@ultrera anemometer]# mysql -h localhost -u root -p -e "grant all privileges on slow_query_log.* to 'anemometer'@'%' identified by 'anemometer';"
 </code></pre></div></div>
+
 <h5 id="52-配置">5.2 配置</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultrera anemometer]# cp conf/sample.config.inc.php conf/config.inc.php
 [root@ultrera anemometer]# vim conf/config.inc.php
 
@@ -1160,7 +1289,9 @@ Query OK, 0 rows affected (0.00 sec)
 # line 7,8
 设置数据库的用户名和密码;
 </code></pre></div></div>
+
 <h5 id="53-导入">5.3 导入</h5>
+
 <p>将pt-query-digest 的分析结果到anemometer；</p>
 
 <blockquote>
@@ -1191,7 +1322,6 @@ Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57A" isn'
 Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57B" isn't numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 28.
 Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57C" isn't numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 29.
 </code></pre></div></div>
-
 
       
     </div>
@@ -1250,9 +1380,10 @@ Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57C" isn'
     
     <h1><a class="title" href="/post/2016/09/HowTo-Install-a-Tomcat-Server-7.html">HowTo Install a Tomcat Server 7</a></h1>
     <div class="post_at_index">
-      <p>       本文件是采用的模板是CentOS 6，同样适用于CentOS 系列其他发行版本。</p>
+      <p>本文件是采用的模板是CentOS 6，同样适用于CentOS 系列其他发行版本。</p>
 
 <h4 id="1-测试环境">1. 测试环境</h4>
+
 <ul>
   <li>VMware Fushion 8 Pro # windows Use <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></li>
   <li><a href="http://mirrors.aliyun.com/centos/6.8/isos/x86_64/CentOS-6.8-x86_64-minimal.iso">CentOS-6.8-x86_64-minimal.iso</a></li>
@@ -1275,7 +1406,9 @@ Unpacking JAR files...
         localedata.jar...
         jfxrt.jar...
 </code></pre></div></div>
-<h4 id="3-build-java-environment">3. Build Java Environment.</h4>
+
+<h4 id="3-build-java-environment">3. Build Java Environment</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# vi /etc/profile
 # add follows to the end
 export JAVA_HOME=/usr/java/default
@@ -1287,9 +1420,11 @@ java version "1.7.0_75"
 Java(TM) SE Runtime Environment (build 1.7.0_75-b13)
 Java HotSpot(TM) 64-Bit Server VM (build 24.75-b04, mixed mode)
 </code></pre></div></div>
+
 <h4 id="4-download-tomcat7">4. Download Tomcat7</h4>
+
 <p>Make sure the latest one and download it from the site below.
-=》 http://ftp.riken.jp/net/apache/tomcat/tomcat-7/</p>
+=》 <a href="http://ftp.riken.jp/net/apache/tomcat/tomcat-7/">http://ftp.riken.jp/net/apache/tomcat/tomcat-7/</a></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# wget http://ftp.riken.jp/net/apache/tomcat/tomcat-7/v7.0.70/bin/apache-tomcat-7.0.70.tar.gz
 [root@ultraera ~]# tar zxvf apache-tomcat-7.0.70.tar.gz
@@ -1297,7 +1432,9 @@ Java HotSpot(TM) 64-Bit Server VM (build 24.75-b04, mixed mode)
 [root@ultraera ~]# useradd -M -d /usr/tomcat7 tomcat7
 [root@ultraera ~]# chown -R tomcat7. /usr/tomcat7
 </code></pre></div></div>
+
 <h4 id="5-create-a-script--use-service-manage-tomcat7">5. create a script , use service manage tomcat7</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# cat /etc/rc.d/init.d/tomcat7
  #!/bin/bash
 
@@ -1351,6 +1488,7 @@ case "$1" in
 esac
 exit $?
 </code></pre></div></div>
+
 <h4 id="6-add-tomcat7-to-system-service">6. Add tomcat7 to system service</h4>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# <span class="nb">chmod </span>755 /etc/rc.d/init.d/tomcat7
@@ -1371,10 +1509,13 @@ tomcat7       6326  8.3 85.6 5229768 2910176 ?     Sl   Aug22 3216:38 /usr/bin/j
 <span class="o">[</span>root@ultraera ~]# chkconfig <span class="nt">--add</span> tomcat7
 <span class="o">[</span>root@ultraera ~]# chkconfig tomcat7 on
 </code></pre></div></div>
+
 <h4 id="7-打开浏览器测试tomcat-server搭建完成默认页面如下">7. 打开浏览器测试Tomcat Server搭建完成，默认页面如下</h4>
+
 <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/09/tomcat7.jpg" alt="" /></p>
 
 <h4 id="8-使用curl-测试">8. 使用curl 测试</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# curl -I http://localhost:8080
 HTTP/1.1 200 OK
 Server: Apache-Coyote/1.1
@@ -1442,34 +1583,6 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
     <div>
       <cite>2016-09-19</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Tomcat">Tomcat</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/08/%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%B2%81.html">二十四岁</a></h1>
-    <div class="post_at_index">
-      <p>现在时间凌晨2点多，已经记不得这是第几个凌晨2点还没睡觉了，好像早睡已经是很久远的事情了，看书学习，刷视频，发呆，玩手机平板，总之不想睡觉；花在睡觉上的时间越来越少，感觉，其实挺累的，生活在大都市里啊，忙碌工作生活奔波，总感觉时间不够用，要做的事情太多，你总要面对很多事情和责任，与人相处；我很努力么，也不那么见得，一旦你成为这个社会一员，总有人或事再推着你前进，在你耳边脑海嚷嚷着不要停，不要停啊！</p>
-
-<p>每年生日的时候，都会给自己写点东西，回首曾经的岁月又多了一年，我不知道这个习惯会坚持到什么时候，或许写着写着就不想写了，或者自己落入庸俗的圈套，不敢回首过往岁月；我一直坚持的，就是希望在将来回望曾经岁月时不会面带羞愧，我没想过自己会有怎么牛逼的人生，如果回想起今天能觉得，哎哟，不错哦，那就很好了啊；我会坚持去自己想做的事，年岁在增长，不忘初心；就像，这个我喜欢啊，嗯，那就坚持下去咯。</p>
-
-<p>早上醒来的时候，收到前女友的“生日快乐”，挺意外的，然后感动；中午收到爸妈姐姐姐夫外甥的祝福，觉得自己好幸福啊，感恩这些在乎我的人，我爱他们，我想这些会是我生活的动力；今年的生日和往常一样，没有庆祝，我性格不太喜欢仪式感很强烈的事情，没有太多的心思，过的开心就好了，费那么大劲折腾犯不着，生活就是这样。</p>
-
-<p>今年好像没什么好说的，工作没换，现在单位还不错，有自己努力的方向，领导也重视，比之去年也有提升，唯一的感觉就是时间不够用，要学习的东西太多了，但是还学的进去，这一点我很满足，接下来的一年要坚持下去；学业学习上来说，去年报的上外英本，今年上半年都没去上课了，虽然不是翘课，但是关心的力度不够，抽个时间要去趟学校，跟班主任聊聊接下来的学习规划，毕竟还是要考试的；生活上呢，终于感觉到我是爸妈亲生的了啊喂，超幸福美满，这个没得说，还有一个优秀的妹妹，作为谈心的伙伴和学习的榜样也是十分满足；不过，与朋友相处这块近期有些糟糕，这个要好好检讨，以后在这方面要更加成熟；总之目标啊就是努力挣钱啊挣钱啊，上海买房啊买房啊，虽然这座城市生活着挺辛苦的，但是我爱它，所以我要留在这里；至于恋爱结婚什么的，没什么进展也没什么打算，总之先努力工作，努力生活咯。</p>
-
-<p>还是和往年一样，自从奶奶去世，我一直不喜欢过节，还是会想念她，不愿意听别人提及她，工作累了，与人相处不融洽的时候，很多时候，我都会想起她，想起小时候，为我遮风挡雨，是我最温暖最踏实的依靠，生活虽然艰辛，但那是我一生最快乐的时光，教我做人做事，让我努力，支持我鼓励我教训我，可是我却未能报答这份恩情，每次清明节回去，望着那座坟墓，总是还想听听您喊我的名字；所以呢，我要努力过好自己的人生，才能对得起奶奶的期望，人生的努力，终有一个理由。</p>
-
-<p>好了，接下来要开始走向25岁了。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-08-19</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
       
       
       
@@ -1560,16 +1673,6 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
     	
       <li><a href="/categories.html#CentOS">
     		CentOS <span>14</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Tools">
-    		Tools <span>4</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#VPN">
-    		VPN <span>2</span>
     	</a></li>
      
     	
@@ -1715,6 +1818,16 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
     	
       <li><a href="/categories.html#Bigdata">
     		Bigdata <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Tools">
+    		Tools <span>4</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#VPN">
+    		VPN <span>2</span>
     	</a></li>
      
     	

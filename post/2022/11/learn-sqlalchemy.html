@@ -302,8 +302,8 @@ yum <span class="nb">install </span>MySQL-python
 <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span><span class="p">,</span> <span class="n">MetaData</span>
 
 <span class="k">def</span> <span class="nf">connect_db</span> <span class="p">():</span>
-	<span class="c1"># connect db:
-</span>	<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s">"mysql://user:pass@localhost/db"</span><span class="p">,</span> <span class="n">echo</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+ <span class="c1"># connect db:
+</span> <span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s">"mysql://user:pass@localhost/db"</span><span class="p">,</span> <span class="n">echo</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
 
     <span class="n">meta</span> <span class="o">=</span> <span class="n">MetaData</span><span class="p">()</span>
     <span class="n">conn</span> <span class="o">=</span> <span class="n">engine</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>

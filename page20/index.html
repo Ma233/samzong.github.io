@@ -276,12 +276,95 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/05/HowTo-Install-Python-2-7-8-on-CentOS-6-x.html">HowTo Install Python 2.7.8 on CentOS 6.x</a></h1>
+    <div class="post_at_index">
+      <p>CentOS 6.5 still come with Python 2.6 and I need 2.7, below a simple tutorial how to achieve this with no pain and not messing with installed Python.</p>
+
+<p>Update CentOS and install development tools</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum -y update
+yum groupinstall -y 'development tools'
+</code></pre></div></div>
+
+<p>Also you need the packages below to enable SSL, bz2, zlib for Python and some utils:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y zlib-devel bzip2-devel openssl-devel xz-libs wget
+</code></pre></div></div>
+
+<h2 id="installing-python-278-from-source">Installing Python 2.7.8 from source</h2>
+<p>Download Python and extract it</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://www.python.org/ftp/python/2.7.8/Python-2.7.8.tar.xz
+xz -d Python-2.7.8.tar.xz
+tar -xvf Python-2.7.8.tar
+</code></pre></div></div>
+
+<h2 id="installation-process">Installation process</h2>
+<p>Since we already installed all the dependencies we are ready to go:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Enter the directory:
+cd Python-2.7.8
+
+# Run the configure:
+./configure --prefix=/usr/local
+
+# compile and install it:
+make
+make altinstall
+
+# Checking Python version:
+[root@nicetry ~]# python2.7 -V
+Python 2.7.8
+</code></pre></div></div>
+<p>If you need set <code>PATH</code> variable check the line below:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export PATH="/usr/local/bin:$PATH"
+</code></pre></div></div>
+
+<h2 id="installing-pip-and-virtualenv">Installing pip and virtualenv</h2>
+<p>Now we have Python installed, but something is missing isn’t? Yes! We need pip and virtualenv.</p>
+
+<h3 id="install-setuptools">Install setuptools</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget --no-check-certificate https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz
+
+# Extract the files:
+tar -xvf setuptools-1.4.2.tar.gz
+cd setuptools-1.4.2
+
+# Install setuptools using the Python 2.7.8:
+python2.7 setup.py install
+</code></pre></div></div>
+
+<h3 id="install-pip">Install pip</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py | python2.7 -
+</code></pre></div></div>
+
+<h3 id="and-finally-virtualenv">And finally virtualenv</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip2.7 install virtualenv
+</code></pre></div></div>
+
+<p>And that’s all, we have Python 2.7.8 installed on CentOS.</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-05-04</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      , 
+      <a href="/tags.html#CentOS">CentOS</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/04/HowTo-Add-Piwik-Tracking-to-Ghost.html">HowTo Add Piwik Tracking to Ghost</a></h1>
     <div class="post_at_index">
       <p>This is what about piwik on wiki. <a href="https://en.wikipedia.org/wiki/Piwik">goto</a></p>
 
 <h2 id="step-1---getting-your-piwik-tracking-code">Step 1 - Getting your Piwik Tracking code</h2>
+
 <p>The first step to having Piwik tracking your Ghost blog will be to add a new website in Piwik, if you are unfamiliar with this process you can checkout the Piwik documention on Managing Websites. With your Ghost blog added into Piwik you will end up with tracking code that will look similar to the following:</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;!-- Piwik --&gt;
 &lt;script type="text/javascript"&gt;
     var _paq = _paq || [];
@@ -295,6 +378,7 @@
 &lt;/script&gt;
 &lt;!-- End Piwik Code --&gt;
 </code></pre></div></div>
+
 <blockquote>
   <p>Where <code>$PIWIK_URL</code> will be the domain name you have setup for Piwik.</p>
 </blockquote>
@@ -305,6 +389,7 @@
 How you add the tracking code to your <code>default.hbs</code> will depend on if you are editing the file on your local computer or directly on the server. If you are editing your theme locally you can edit this file in any text editor and when you are finished upload this file to your server. Otherwise if you are editing this file directly on the server you can use the command line editor, <code>vim</code>, to add the tracking code.</p>
 
 <h2 id="step-3---restart-ghost">Step 3 - Restart Ghost</h2>
+
 <p>For the changes in your theme to take effect you will need to restart Ghost. Restarting Ghost will load up a fresh copy of your theme files, with your Piwik tracking code. How you restart Ghost depends on how you started Ghost. If you followed our <a href="https://www.howtoinstallghost.com/how-to-start-ghost-with-forever/">Keep Ghost Running with forever</a>, then you can restart Ghost with <code>forever restart ghost</code>.
 Within a few moments you will start to see data coming in for your Ghost blog!
 If you have any questions about setting this up or run into any issues please leave us a comment below and we will do what we can to help.</p>
@@ -325,27 +410,28 @@ If you have any questions about setting this up or run into any issues please le
     
     <h1><a class="title" href="/post/2016/04/HowTo-Install-piwik-with-nginx-on-centos-6-x.html">HowTo Install piwik with nginx on centos 6.x</a></h1>
     <div class="post_at_index">
-      <h3 id="this-is-my-nginx-config">This is my nginx config.</h3>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server {
-	listen blog.ultraera.org:80;
-	server_name blog.ultraera.org;
+      <h3 id="this-is-my-nginx-config">This is my nginx config</h3>
 
-	location / {
-		proxy_set_header	X-Real-IP $remote_addr;
-		proxy_set_header	Host	$http_host;
-		proxy_pass			http://127.0.0.1:2368;
-	}
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server {
+ listen blog.ultraera.org:80;
+ server_name blog.ultraera.org;
+
+ location / {
+  proxy_set_header X-Real-IP $remote_addr;
+  proxy_set_header Host $http_host;
+  proxy_pass   http://127.0.0.1:2368;
+ }
 }
 
 server {
-	listen piwik.ultraera.org:80;
-	server_name piwik.ultraera.org;
+ listen piwik.ultraera.org:80;
+ server_name piwik.ultraera.org;
 
-	location / {
-		proxy_set_header	X-Real-IP $remote_addr;
-		proxy_set_header	Host	$http_host;
-		proxy_pass			http://127.0.0.1:2080;
-	}
+ location / {
+  proxy_set_header X-Real-IP $remote_addr;
+  proxy_set_header Host $http_host;
+  proxy_pass   http://127.0.0.1:2080;
+ }
 }
 
 </code></pre></div></div>
@@ -367,6 +453,7 @@ server {
     <h1><a class="title" href="/post/2016/04/%E4%BD%BF%E7%94%A8SoureceTree%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84git%E9%A1%B9%E7%9B%AE.html">使用SoureceTree管理你的git项目</a></h1>
     <div class="post_at_index">
       <h6 id="update">Update</h6>
+
 <ul>
   <li>
     <font color="red">update: Windows用户在初始化Souretree工具时，需要用到Atlassian ID，新建用户时需要加载google 验证码，这一步需要VPN的支持，请注意。</font>
@@ -377,6 +464,7 @@ server {
 <p><br /></p>
 
 <h5 id="补充1-git学习网站">补充1 ：Git学习网站</h5>
+
 <ol>
   <li><a href="http://backlogtool.com/git-guide/cn/">猴子都能学会的git教程</a></li>
   <li><a href="http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html">常用 Git 命令清单</a></li>
@@ -385,6 +473,7 @@ server {
 </ol>
 
 <h5 id="补充2-利用git协同开发">补充2 ：利用Git协同开发</h5>
+
 <ol>
   <li><a href="https://ourai.ws/posts/working-with-git-in-team/">团队中的Git实践</a></li>
   <li><a href="http://www.ruanyifeng.com/blog/2015/08/git-use-process.html">Git 使用规范流程</a></li>
@@ -395,26 +484,34 @@ server {
 <hr />
 
 <h2 id="1-关于-sourcetree">1. 关于 SourceTree</h2>
-<h4 id="sourcetree-是一款免费且同时支持windows-和mac-的git项目管理软件本文旨在给大家介绍这款应用的基础使用并用它来管理你的项目">SourceTree 是一款免费且同时支持Windows 和Mac 的git项目管理软件，本文旨在给大家介绍这款应用的基础使用，并用它来管理你的项目。</h4>
+
+<h4 id="sourcetree-是一款免费且同时支持windows-和mac-的git项目管理软件本文旨在给大家介绍这款应用的基础使用并用它来管理你的项目">SourceTree 是一款免费且同时支持Windows 和Mac 的git项目管理软件，本文旨在给大家介绍这款应用的基础使用，并用它来管理你的项目</h4>
+
 <blockquote>
-  <p>官网： https://www.sourcetreeapp.com/</p>
+  <p>官网： <a href="https://www.sourcetreeapp.com/">https://www.sourcetreeapp.com/</a></p>
 </blockquote>
 
 <h2 id="2-git帐号建立">2. git帐号建立</h2>
-<h3 id="1-新员工入职之后你的公司邮箱内会收到一封来自gitlab的邮件如下图">1. 新员工入职之后，你的公司邮箱内会收到一封来自Gitlab的邮件，如下图：</h3>
+
+<h3 id="1-新员工入职之后你的公司邮箱内会收到一封来自gitlab的邮件如下图">1. 新员工入职之后，你的公司邮箱内会收到一封来自Gitlab的邮件，如下图</h3>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree02.jpg" alt="image" /></p>
 
-<h3 id="2-点击邮件中的-click-here-to-set-your-password设置gitlab登陆密码">2. 点击邮件中的 “Click here to set your password”，设置gitlab登陆密码。</h3>
+<h3 id="2-点击邮件中的-click-here-to-set-your-password设置gitlab登陆密码">2. 点击邮件中的 “Click here to set your password”，设置gitlab登陆密码</h3>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsouretree03.jpg" alt="image" /></p>
 
-<h3 id="3-登陆gitlab帐号将会出现这个界面">3. 登陆gitlab帐号，将会出现这个界面：</h3>
+<h3 id="3-登陆gitlab帐号将会出现这个界面">3. 登陆gitlab帐号，将会出现这个界面</h3>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree05.jpg" alt="image" /></p>
 
-<h3 id="4-设定个人信息">4. 设定个人信息：</h3>
+<h3 id="4-设定个人信息">4. 设定个人信息</h3>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsouretree06.jpg" alt="image" /></p>
 
 <h3 id="5-sshkey">5. sshKey</h3>
-<h4 id="51-在linux和mac上生成sshkey">5.1 在Linux和Mac上生成sshkey：</h4>
+
+<h4 id="51-在linux和mac上生成sshkey">5.1 在Linux和Mac上生成sshkey</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ ssh-keygen -t rsa
 Generating public/private rsa key pair.
@@ -442,22 +539,26 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VI
 ➜  ~
 </code></pre></div></div>
 
-<h4 id="52-在windows上生成sshkey">5.2 在Windows上生成sshkey：</h4>
+<h4 id="52-在windows上生成sshkey">5.2 在Windows上生成sshkey</h4>
+
 <h4 id="因为windows没有自带openssl模块所以在windows环境中使用第三方工具puttygenexe生成sshkey-下载地址">因为windows没有自带openssl模块，所以在Windows环境中使用第三方工具puttygen.exe生成sshkey <a href="http://the.earth.li/~sgtatham/putty/0.67/x86/puttygen.exe">下载地址</a></h4>
 
-<h4 id="步骤如下">步骤如下：</h4>
+<h4 id="步骤如下">步骤如下</h4>
 
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree13.jpg" alt="image" />
 <img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree14.jpg" alt="image" />
 <img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree15.jpg" alt="image" /></p>
 
 <h4 id="当sourcetree首次启动时会弹出加载sshkey的提示按提示操作找到之前保存的privateppk文件">当sourcetree首次启动时，会弹出加载sshkey的提示，按提示操作，找到之前保存的private.ppk文件</h4>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree12.jpg" alt="image" /></p>
 
-<h4 id="53-上传sshkey">5.3 上传sshkey：</h4>
+<h4 id="53-上传sshkey">5.3 上传sshkey</h4>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree07.jpg" alt="image" /></p>
 
-<h3 id="6-回到-dashboard-点击项目名称进入详情">6. 回到 dashboard ，点击项目名称进入详情：</h3>
+<h3 id="6-回到-dashboard-点击项目名称进入详情">6. 回到 dashboard ，点击项目名称进入详情</h3>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree08.jpg" alt="image" /></p>
 
 <h3 id="7-使用souretree将项目从git服务器clone到本地">7. 使用souretree将项目从git服务器clone到本地</h3>
@@ -465,13 +566,16 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VI
 <h4 id="71-安装souretree-软件-略">7.1 安装souretree 软件 ［略］</h4>
 
 <h4 id="72-clone项目到本地">7.2 clone项目到本地</h4>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree09.jpg" alt="image" />
 <img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree10.jpg" alt="image" /></p>
 
-<h3 id="8-进入项目工作台">8. 进入项目工作台：</h3>
+<h3 id="8-进入项目工作台">8. 进入项目工作台</h3>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree11.jpg" alt="image" /></p>
 
-<h4 id="9-关于sourcetree工具的使用下面是一些git操作的释疑">9. 关于sourcetree工具的使用，下面是一些git操作的释疑。</h4>
+<h4 id="9-关于sourcetree工具的使用下面是一些git操作的释疑">9. 关于sourcetree工具的使用，下面是一些git操作的释疑</h4>
+
 <ul>
   <li>检出仓库: 将在本地创建一个git仓库的克隆版本</li>
   <li>工作流: 本地仓库由 git 维护的三棵“树”组成。第一个是 工作目录，它持有实际文件；第二个是 缓存区（Index），它像个缓存区域，临时保存改动；最后是 HEAD，指向最近一次提交后的结果。</li>
@@ -481,7 +585,6 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VI
   <li>分支：分支是用来将特性开发分离出来的。在创建仓库的时候，master 是“默认的”。创建分支将可以从主线开发上分离开来，然后在不影响主线的同时继续工作，完成后再将它们合并到主分支上。</li>
   <li>合并： 将分支功能并入主分支。</li>
 </ul>
-
 
       
     </div>
@@ -543,11 +646,11 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VI
 
 ➜  ~ sudo du -sh /private/var/log/asl/
 Password:
-2.7G	/private/var/log/asl/
+2.7G /private/var/log/asl/
 
 ➜  ~ sudo rm -rf /private/var/log/asl/*.asl
 ➜  ~ sudo du -sh /private/var/log/asl/
-208M	/private/var/log/asl/
+208M /private/var/log/asl/
 
 </code></pre></div></div>
 
@@ -582,6 +685,7 @@ CentOS 6 默认安装的PHP 版本是5.3， 但现在很多应用对于LAMP中�
 </blockquote>
 
 <h4 id="1-安装remi源">1. 安装Remi源</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 因为remi依赖epel源仓库，所有我们要先安装它。
 [root@visionet8 ~]# yum install -y epel-release
 
@@ -590,6 +694,7 @@ CentOS 6 默认安装的PHP 版本是5.3， 但现在很多应用对于LAMP中�
 </code></pre></div></div>
 
 <h4 id="2-我们看下remi的的yum配置文件">2. 我们看下Remi的的yum配置文件</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Repository: http://rpms.remirepo.net/
 # Blog:       http://blog.remirepo.net/
 # Forum:      http://forum.remirepo.net/
@@ -737,7 +842,8 @@ Updated:
 Complete!
 </code></pre></div></div>
 
-<h4 id="3-测试">3. 测试：</h4>
+<h4 id="3-测试">3. 测试</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@visionet8 html]# php -v
 PHP 5.4.45 (cli) (built: Sep 19 2016 15:31:07)
 Copyright (c) 1997-2014 The PHP Group
@@ -752,6 +858,7 @@ Zend Engine v2.4.0, Copyright (c) 1998-2014 Zend Technologies
 <hr />
 
 <h4 id="5-php-7">5. php 7</h4>
+
 <blockquote>
   <p>安装完成之后发现, 在安装remi源之后，在<code>/etc/yum.repos.d</code>除了<code>remi.repo</code>之外，还有<code>remi-php70.repo</code>和<code>remi-php71.repo</code>，测试下，如果要升级到php7，可以打开相应源仓库的配置文件，之后升级即可。</p>
 </blockquote>
@@ -780,9 +887,8 @@ Zend Engine v2.4.0, Copyright (c) 1998-2014 Zend Technologies
     
     <h1><a class="title" href="/post/2016/03/MySQL-4-MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80.html">MySQL数据库使用基础</a></h1>
     <div class="post_at_index">
-      <p>       </p>
+      <h2 id="1-测试环境">1. 测试环境</h2>
 
-<h2 id="1-测试环境">1. 测试环境</h2>
 <ul>
   <li>MacBook Pro 15‘ i7 16GB</li>
   <li>VMware Fushion 8 Pro</li>
@@ -803,7 +909,7 @@ Zend Engine v2.4.0, Copyright (c) 1998-2014 Zend Technologies
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera  ~]#  service  mysqld  start
 [root@ultraera  ~]#  chkconfig  mysqld  on
 [root@ultraera  ~]#  chkconfig  --list  |  grep  mysqld
-mysqld	0:off  1:off  2:on  3:on  4:on  5:on  6:off
+mysqld 0:off  1:off  2:on  3:on  4:on  5:on  6:off
 
 </code></pre></div></div>
 
@@ -896,12 +1002,12 @@ Cleaning up...
 Query  OK,  1  row  affected  (0.00  sec)
 mysql&gt;  SHOW  DATABASES;
 +--------------------+
-|  Database	|
+|  Database |
 +--------------------+
 |  information_schema  |
-|  mysql	|
-|  test	|
-|  ultraera	|
+|  mysql |
+|  test |
+|  ultraera |
 +--------------------+
 4  rows  in  set  (0.00  sec)
 mysql&gt;  DROP  DATABASE  ultraera;
@@ -914,25 +1020,26 @@ Query  OK,  0  rows  affected  (0.00  sec)
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#创建表格之前要先选择数据库
 mysql&gt;  use  ultraera;
 Database  changed
-mysql&gt;  CREATE  TABLE  ultraera(	#create 创建表格，至少1列
--&gt;  id  int  NOT  NULL,	#NOT  NULL	不为空,int 整型
--&gt;  name  char(20)  NOT  NULL,	#char() 字符型  ,()内定义字符长度
+mysql&gt;  CREATE  TABLE  ultraera( #create 创建表格，至少1列
+-&gt;  id  int  NOT  NULL, #NOT  NULL 不为空,int 整型
+-&gt;  name  char(20)  NOT  NULL, #char() 字符型  ,()内定义字符长度
 -&gt;  age  int  NOT  NULL
 -&gt;  );
 Query  OK,  0  rows  affected  (0.01  sec)
 mysql&gt;  DESC  ultraera;
 +-------+----------+------+-----+---------+----------------+
-|  Field  |  Type	|  Null  |  Key  |  Default  |  Extra	|
+|  Field  |  Type |  Null  |  Key  |  Default  |  Extra |
 +-------+----------+------+-----+---------+----------------+
-|  id	|  int(11)  |  NO  |	|  NULL	|	|
-|  name  |  char(20)  |  NO  |	|  NULL	|	|
-|  age	|  int(11)  |  NO  |	|  NULL	|	|
+|  id |  int(11)  |  NO  | |  NULL | |
+|  name  |  char(20)  |  NO  | |  NULL | |
+|  age |  int(11)  |  NO  | |  NULL | |
 +-------+----------+------+-----+---------+----------------+
 3  rows  in  set  (0.00  sec)
 mysql&gt;  DROP  TABLE  ultraera  ;
 Query  OK,  0  rows  affected  (0.00  sec)
 
 </code></pre></div></div>
+
 <h3 id="27-修改表格信息">2.7 修改表格信息</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a.重命名表格
@@ -954,12 +1061,12 @@ mysql&gt;  insert  into  ultraera  values(1,'name',18);
 b.  根据列插入
 mysql&gt;  insert  into  ultraera(id,name,age)  values(2,'john',19);
 ### 2.9 查看表格中的数据：
-mysql&gt;  select  *  from  ultraera;	#  *匹配所有列，也可以只查询单个列，
+mysql&gt;  select  *  from  ultraera; #  *匹配所有列，也可以只查询单个列，
 mysql&gt;  select  name  from  ultraera;
 
 </code></pre></div></div>
 
-<h3 id="210-where运算符条件判断查询查询使用方法where列运算符值">2.10 where运算符：条件判断查询，查询使用方法：where  列  运算符  值；</h3>
+<h3 id="210-where运算符条件判断查询查询使用方法where列运算符值">2.10 where运算符：条件判断查询，查询使用方法：where  列  运算符  值</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>where支持的运算符：=等于；&gt;大于；&lt;小于；&lt;&gt;不等于；&gt;=大于等于；&lt;=小于等于；BETWEEN在某范围之内；
 mysql&gt; select * from ultraera where id&gt;1;
@@ -974,9 +1081,10 @@ mysql&gt; select * from ultraera where id  between  1  and  4;
 <h3 id="211-删除表格中的一条记录同样可以匹配where运算符">2.11 删除表格中的一条记录（同样可以匹配where运算符）</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt;  delete  from  ultraera  where  id  =  4;
-mysql&gt;  delete  *  from  ultraera ；	#清空一个表格的数据；
+mysql&gt;  delete  *  from  ultraera ； #清空一个表格的数据；
 
 </code></pre></div></div>
+
 <h3 id="212-更新表中的一个数据">2.12 更新表中的一个数据</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt;  update  ultraera  set  age=30  where  id=3;
@@ -985,8 +1093,8 @@ mysql&gt;  delete  *  from  ultraera ；	#清空一个表格的数据�
 
 <h3 id="213-mysql增加删除一个用户">2.13 MySQL增加删除一个用户</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt;  create  user  user1  identified  by  '123456';	#user1，密码123456，新用户没有权限，无法登录数据库
-mysql&gt;  drop  user  user1;	#删除用户user1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt;  create  user  user1  identified  by  '123456'; #user1，密码123456，新用户没有权限，无法登录数据库
+mysql&gt;  drop  user  user1; #删除用户user1
 
 </code></pre></div></div>
 
@@ -1075,9 +1183,9 @@ rm:  cannot  remove  `./ultraera/test':  Operation  not  permitted
 suid  ：  4
 sgid  ：  2
 sticky ：  1
-chmod  4644  filename	#设置文件suid权限
-chmod  2755  flodername	#设置文件夹sgid权限
-chmod  1755  flodername	#设置文件夹sticky权限
+chmod  4644  filename #设置文件suid权限
+chmod  2755  flodername #设置文件夹sgid权限
+chmod  1755  flodername #设置文件夹sticky权限
 
 </code></pre></div></div>
 
@@ -1148,11 +1256,11 @@ Sqlite DBs complete
 [root@ultraera yumload]#
 
 # 2.6 在/etc/yum.repo.d/下创建一个repo文件，文件名可以自定义，但一定要以repo结尾，并添加一下内容：
-[ultraera.org]	#仓库名称可以自定义
-name=This is a local repo	#描述信息
-baseurl=file:///yumload/	#这里填写仓库的url，注意 有三个正斜线
-enabled=1	#是否开启仓库，1为开启，0为关闭
-gpgcheck=0	#是否检查gpgkey，1为开启，0为关闭
+[ultraera.org] #仓库名称可以自定义
+name=This is a local repo #描述信息
+baseurl=file:///yumload/ #这里填写仓库的url，注意 有三个正斜线
+enabled=1 #是否开启仓库，1为开启，0为关闭
+gpgcheck=0 #是否检查gpgkey，1为开启，0为关闭
 
 # 2.7 另外如果想要添加软件包group的信息，可以把DVD1中的repodata文件中的*-comps.xml文件，使用ceraterepo -g 加载本地仓库即可，代码如下：
 [root@ultraera repodata]# createrepo -g [字符可能不一样，后缀正确就行]c6-i386-comps.xml /yumload/
@@ -1167,10 +1275,10 @@ Cleaning up list of fastest mirrors
 [root@ultraera repodata]# yum makecache
 Loaded plugins: fastestmirror, refresh-packagekit, security
 Determining fastest mirrors
-ultraera.org	| 2.9 kB	00:00 ...
-ultraera.org/filelists_db	| 4.9 MB	00:00 ...
-ultraera.org/primary_db	| 3.5 MB	00:00 ...
-ultraera.org/other_db	| 2.1 MB	00:00 ...
+ultraera.org | 2.9 kB 00:00 ...
+ultraera.org/filelists_db | 4.9 MB 00:00 ...
+ultraera.org/primary_db | 3.5 MB 00:00 ...
+ultraera.org/other_db | 2.1 MB 00:00 ...
 Metadata Cache Created
 
 # 2.9 测试group信息是否添加正确可以用如下代码，只要有正确输出信息就表示成功了
@@ -1185,236 +1293,6 @@ Metadata Cache Created
     <div>
       <cite>2016-03-28</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Yum">Yum</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/03/HowTo-Install-MongoDB-on-CentOS-6-x.html">HowTo Install MongoDB  on CentOS 6.x</a></h1>
-    <div class="post_at_index">
-      <h2 id="1-overiew">1. Overiew</h2>
-
-<p>       在CentOS Linux 中安装软件的方式有很多种，我会在后续的文章中整理给大家，我比较喜欢的方式是尽量用Yum 安装，不用自己动手去解决软件包之间的依赖关系，“能Yum 就Yum ，不能Yum 想着法Yum 。”  – 这是我遵循的真理；今天给大家整理的就是如何使用Yum 来安装Mongodb ，在本文中会给出在32位与64位系统的区别，以及Mongodb 的版本，本文适用于CentOS 6/7 的Linux发行版本，所以同样适用于红帽体系的OS，如 RedHat Enterprise Linux 6/7 、 Fedora 。</p>
-
-<h2 id="2-packages">2. Packages</h2>
-
-<p>       业内常用的Mongodb 的Yum 仓库有Mongodb-org 与 Mongodb-10gen ,这里提供的Mongodb-org 的repository 仓库，支持以下软件包列表：</p>
-
-<ul>
-  <li>
-    <p>2.1 mongodb-org</p>
-
-    <p>       这个是源数据包，主要是用来组织自动安装下面的4个软件包.</p>
-  </li>
-  <li>
-    <p>2.2 mongodb-org-sever</p>
-
-    <p>        这个Mongodb Server端，包含了相关的配置和初始化脚本。</p>
-  </li>
-  <li>
-    <p>2.3 mongodb-org-mongos</p>
-
-    <p>        这个是Mongodb的守护进程。</p>
-  </li>
-  <li>
-    <p>2.4 mongodb-org-shell</p>
-
-    <p>       这个是mongodb 的shell环境。</p>
-  </li>
-  <li>
-    <p>2.5 mongodb-org-tools</p>
-
-    <p>        这个包里包含了下列mongodb 的工具：mongoimport bsondump, mongodump, mongoexport, mongofiles, mongooplog, mongoperf, mongorestore, mongostat, and mongotop 。</p>
-  </li>
-</ul>
-
-<h2 id="3-添加相对应版本的mongodb-repo-file">3. 添加相对应版本的Mongodb repo file.</h2>
-
-<h3 id="31-mongodb-26--os-x64">3.1 Mongodb 2.6 + OS x64</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-2.6.repo
-
-[mongodb-org-2.6]
-name=MongoDB 2.6 Repository
-baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/
-gpgcheck=0
-enabled=1
-
-</code></pre></div></div>
-
-<h3 id="32-mongodb-26--os-i686">3.2 Mongodb 2.6 + OS i686</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-2.6.repo
-
-[mongodb-org-2.6]
-name=MongoDB 2.6 Repository
-baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/i686/
-gpgcheck=0
-enabled=1
-
-</code></pre></div></div>
-
-<h3 id="33-mongodb-32---os-x64">3.3 Mongodb 3.2  + OS x64</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-3.2.repo
-
-[mongodb-org-3.2]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.2/x86_64/
-gpgcheck=0
-enabled=1
-
-</code></pre></div></div>
-
-<h3 id="34-mongodb-32---os-i686">3.4 Mongodb 3.2  + OS i686</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-3.2.repo
-
-[mongodb-org-3.2]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.2/i686/
-gpgcheck=0
-enabled=1
-
-</code></pre></div></div>
-
-<h2 id="4-install-mongodb">4. Install MongoDB</h2>
-
-<p>       安装最新版本的 Mongodb ，安装都方式一样，请注意安装相对应的源保证正确安装Mongodb，请使用如下命令：</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum clean all
-[root@vm02 ~]# yum makecache
-[root@vm02 ~]# yum install mongodb-org
-
-</code></pre></div></div>
-
-<h2 id="5-run-mongodb">5. Run MongoDB</h2>
-
-<h3 id="51-配置selinux">5.1 配置SELinux</h3>
-
-<p>       SELinux 默认为开启状态，会导致我们的Mongodb 无法使用，解决方式有两种：</p>
-
-<ol>
-  <li><a href="http://blog.ultraera.org/centos6-x-base-settings/">关闭SELinux</a></li>
-  <li>添加Mongodb 通过SELinux 设定，指令如下：</li>
-</ol>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>semanage port -a -t mongod_port_t -p tcp 27017
-
-</code></pre></div></div>
-<blockquote>
-  <p>Tips: 在CentOS 7 ，SELinux 会限定你去修改Mongodb的data目录及lib目录。</p>
-</blockquote>
-
-<h3 id="52-start-mongodb">5.2 Start MongoDB</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# sudo service mongod start
-Starting mongod:                                           [  OK  ]
-[root@vm02 ~]#
-
-</code></pre></div></div>
-<h3 id="53-检查mongodb日志文件验证服务正常启动-varlogmongodbmongodblog">5.3 检查MongoDB日志文件验证服务正常启动， /var/log/mongodb/mongodb.log</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# cat /var/log/mongodb/mongod.log  # 看到如下内容表示mongodb启动成功了。
-2016-03-24T04:09:28.582+0800 I NETWORK  [initandlisten] waiting for connections on port 27017
-
-</code></pre></div></div>
-
-<h3 id="54-设置mongodb-开机自启动">5.4 设置MongoDB 开机自启动</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# chkconfig mongod on
-
-</code></pre></div></div>
-
-<h3 id="55-设置mongodb-允许其他服务器访问">5.5 设置MongoDB 允许其他服务器访问</h3>
-
-<p>       默认情况下，mongodb 只监听 127.0.0.1 ，但是实际生产环境中可能需要其他服务器访问，所以这里添加监听其他网络端口，修改mongodb的配置文件：/etc/mongodb.conf</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/mongodb.conf
-
-# line 29 增加一行：
-    bindIp: 172.16.102.129
-
-# 注意不要把1270.0.1 去除，这会导致本地无法使用MongoDB .
-
-</code></pre></div></div>
-
-<h2 id="6-use-mongodb">6. Use MongoDB</h2>
-
-<h3 id="61-检查mongodb-状态">6.1 检查mongodb 状态</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# service mongod status
-mongod (pid 6502) is running...
-[root@vm02 ~]#
-
-</code></pre></div></div>
-
-<h3 id="62-mongodb-自带检测工具">6.2 mongodb 自带检测工具</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# mongostat
-insert query update delete getmore command % dirty % used flushes  vsize   res qr|qw ar|aw netIn netOut conn                      time
-    *0    *0     *0     *0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:09+08:00
-    *0    *0     *0     *0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:10+08:00
-    *0    *0     *0     *0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:11+08:00
-
-</code></pre></div></div>
-
-<h3 id="63-进入mongodb-命令行模式">6.3 进入mongodb 命令行模式</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# mongo
-MongoDB shell version: 3.2.4
-connecting to: test
-Server has startup warnings:
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/enabled is 'always'.
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] **        We suggest setting it to 'never'
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/defrag is 'always'.
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] **        We suggest setting it to 'never'
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. rlimits set to 1024 processes, 64000 files. Number of processes should be at least 32000 : 0.5 times number of files.
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
-&gt;
-
-</code></pre></div></div>
-
-<h2 id="7-uninstall-mongodb">7. Uninstall MongoDB</h2>
-
-<h3 id="71-关闭mongodb">7.1 关闭mongodb</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# service mongod stop
-
-</code></pre></div></div>
-
-<h3 id="72-卸载mongodb-软件包">7.2 卸载mongodb 软件包</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum erase $(rpm -qa | grep mongodb-org)
-
-</code></pre></div></div>
-
-<h3 id="73-删除mongodb文件数据库文件和日志文件">7.3 删除mongodb文件：数据库文件和日志文件</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# rm -rf /var/log/mongodb
-[root@vm02 ~]# rm -rf /var/lib/mongo
-
-</code></pre></div></div>
-
-<h2 id="8-faq">8. FAQ</h2>
-
-<p>       Q : Mongodb 占用99%CPU并且查询速度很慢?</p>
-
-<p>       A : 数据库需要首先建立索引，类似图书的目录文件，否则当你在数据库内查找数据的时候，就类似于在整本字典一页页翻查一个字如此。</p>
-
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-03-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MongoDB">MongoDB</a>
       
       
       
@@ -1505,16 +1383,6 @@ Server has startup warnings:
     	
       <li><a href="/categories.html#CentOS">
     		CentOS <span>14</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Tools">
-    		Tools <span>4</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#VPN">
-    		VPN <span>2</span>
     	</a></li>
      
     	
@@ -1660,6 +1528,16 @@ Server has startup warnings:
     	
       <li><a href="/categories.html#Bigdata">
     		Bigdata <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Tools">
+    		Tools <span>4</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#VPN">
+    		VPN <span>2</span>
     	</a></li>
      
     	

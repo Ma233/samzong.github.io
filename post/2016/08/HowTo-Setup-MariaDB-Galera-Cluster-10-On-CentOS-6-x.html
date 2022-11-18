@@ -289,8 +289,9 @@
         </div>
         <div class="post-content" itemprop="articleBody">
             <h4 id="介绍">介绍</h4>
+
 <p>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MariaDB Galera Cluster 是一套在MySQL InnoDB存储引擎上面实现multi-master及数据实时同步的系统架构，业务层面无需做读写分离工作，数据库读写压力都能按照既定的规则分发到 各个节点上去。在数据方面完全兼容 MariaDB 和 MySQL。使用MariaDB Galera的解决方案，可以方便快速的搭建出高可用的数据库Cluster，不是主备模式，而是双活模式，也就是说，没有主节点和备份节点，每个节点都可以看做是主节点，都可以进行读写，由Galera来实现底层的数据同步。
+MariaDB Galera Cluster 是一套在MySQL InnoDB存储引擎上面实现multi-master及数据实时同步的系统架构，业务层面无需做读写分离工作，数据库读写压力都能按照既定的规则分发到 各个节点上去。在数据方面完全兼容 MariaDB 和 MySQL。使用MariaDB Galera的解决方案，可以方便快速的搭建出高可用的数据库Cluster，不是主备模式，而是双活模式，也就是说，没有主节点和备份节点，每个节点都可以看做是主节点，都可以进行读写，由Galera来实现底层的数据同步。
 </p>
 
 <ul>
@@ -315,6 +316,7 @@
 </blockquote>
 
 <h4 id="环境检测">环境检测</h4>
+
 <ul>
   <li>
     <table>
@@ -342,7 +344,9 @@
 </ul>
 
 <h4 id="安装">安装</h4>
+
 <h5 id="1-在所有节点编辑etchosts">1. 在所有节点编辑/etc/hosts</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# vi /etc/hosts
 
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
@@ -359,6 +363,7 @@
 </code></pre></div></div>
 
 <h5 id="2-在所有node上安装-mariadb-galera">2. 在所有node上安装 MariaDB Galera</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# vi /etc/yum.repos.d/mariadb.repo
  # MariaDB 10.0 CentOS repository list
 # http://mariadb.org/mariadb/repositories/
@@ -379,6 +384,7 @@ enabled=0
 </blockquote>
 
 <h5 id="3-在其中一个节点上编辑etcmycnfdservercnf配置文件">3. 在其中一个节点上编辑/etc/my.cnf.d/server.cnf配置文件</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# vi /etc/my.cnf.d/server.cnf
 # 19 行，取消下面的注释，并修改为需求
 [galera]
@@ -410,6 +416,7 @@ Starting MySQL. SUCCESS!
 <h5 id="4-在其它节点上编辑etcmycnfdservercnf配置文件">4. 在其它节点上编辑/etc/my.cnf.d/server.cnf配置文件</h5>
 
 <h5 id="node5">node5</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node5 ~]# vi /etc/my.cnf.d/server.cnf
 # 19 行，取消下面的注释，并修改为需求
 [galera]
@@ -437,6 +444,7 @@ Starting MySQL...SST in progress, setting sleep higher. SUCCESS!
 </code></pre></div></div>
 
 <h5 id="node6">node6</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node6 ~]# vi /etc/my.cnf.d/server.cnf
 # 19 行，取消下面的注释，并修改为需求
 [galera]
@@ -469,7 +477,8 @@ Starting MySQL...SST in progress, setting sleep higher. SUCCESS!
 
 <h4 id="登陆各个节点数据库检查配置是否成功">登陆各个节点数据库检查配置是否成功</h4>
 
-<p>        server.cnf的配置如果没有问题，那么wsrep_local_state_comment的状态应该是Synced。</p>
+<p>server.cnf的配置如果没有问题，那么wsrep_local_state_comment的状态应该是Synced。</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# mysql -u root -p
 Enter password:
 Welcome to the MariaDB monitor.  Commands end with ; or \g.
@@ -493,8 +502,7 @@ MariaDB [(none)]&gt;
 
 <h4 id="结论">结论</h4>
 
-<p>        MariaDB Galera没有主节点和备份节点，配置成功之后，可以在任何一个node节点上操作会自动同步到其他节点，任何一个节点宕机不会影响其他节点的数据和稳定性，配置HAProxy设置VIP的方式来实现负载均衡，提高服务的高可用性，另外，当宕机节点上线之后，事务会自动同步不丢失。</p>
-
+<p>MariaDB Galera没有主节点和备份节点，配置成功之后，可以在任何一个node节点上操作会自动同步到其他节点，任何一个节点宕机不会影响其他节点的数据和稳定性，配置HAProxy设置VIP的方式来实现负载均衡，提高服务的高可用性，另外，当宕机节点上线之后，事务会自动同步不丢失。</p>
 
         </div>
 
@@ -1149,11 +1157,11 @@ MariaDB [(none)]&gt;
                 
                 
                 
+                
+                
+                
+                
                 <li><a href="/post/2016/08/HowTo-Setup-MariaDB-Galera-Cluster-10-On-CentOS-6-x.html">HowTo Setup MariaDB Galera Cluster 10 On CentOS 6.x</a> - <span>08/04/2016</span></li>
-                
-                
-                
-                
                 
                 
                 

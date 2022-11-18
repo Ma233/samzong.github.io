@@ -276,11 +276,242 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/03/HowTo-Install-MongoDB-on-CentOS-6-x.html">HowTo Install MongoDB  on CentOS 6.x</a></h1>
+    <div class="post_at_index">
+      <h2 id="1-overiew">1. Overiew</h2>
+
+<p>在CentOS Linux 中安装软件的方式有很多种，我会在后续的文章中整理给大家，我比较喜欢的方式是尽量用Yum 安装，不用自己动手去解决软件包之间的依赖关系，“能Yum 就Yum ，不能Yum 想着法Yum 。”  – 这是我遵循的真理；今天给大家整理的就是如何使用Yum 来安装Mongodb ，在本文中会给出在32位与64位系统的区别，以及Mongodb 的版本，本文适用于CentOS 6/7 的Linux发行版本，所以同样适用于红帽体系的OS，如 RedHat Enterprise Linux 6/7 、 Fedora 。</p>
+
+<h2 id="2-packages">2. Packages</h2>
+
+<p>业内常用的Mongodb 的Yum 仓库有Mongodb-org 与 Mongodb-10gen ,这里提供的Mongodb-org 的repository 仓库，支持以下软件包列表：</p>
+
+<ul>
+  <li>
+    <p>2.1 mongodb-org</p>
+
+    <p>这个是源数据包，主要是用来组织自动安装下面的4个软件包.</p>
+  </li>
+  <li>
+    <p>2.2 mongodb-org-sever</p>
+
+    <p>这个Mongodb Server端，包含了相关的配置和初始化脚本。</p>
+  </li>
+  <li>
+    <p>2.3 mongodb-org-mongos</p>
+
+    <p>这个是Mongodb的守护进程。</p>
+  </li>
+  <li>
+    <p>2.4 mongodb-org-shell</p>
+
+    <p>这个是mongodb 的shell环境。</p>
+  </li>
+  <li>
+    <p>2.5 mongodb-org-tools</p>
+
+    <p>这个包里包含了下列mongodb 的工具：mongoimport bsondump, mongodump, mongoexport, mongofiles, mongooplog, mongoperf, mongorestore, mongostat, and mongotop 。</p>
+  </li>
+</ul>
+
+<h2 id="3-添加相对应版本的mongodb-repo-file">3. 添加相对应版本的Mongodb repo file</h2>
+
+<h3 id="31-mongodb-26--os-x64">3.1 Mongodb 2.6 + OS x64</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-2.6.repo
+
+[mongodb-org-2.6]
+name=MongoDB 2.6 Repository
+baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/
+gpgcheck=0
+enabled=1
+
+</code></pre></div></div>
+
+<h3 id="32-mongodb-26--os-i686">3.2 Mongodb 2.6 + OS i686</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-2.6.repo
+
+[mongodb-org-2.6]
+name=MongoDB 2.6 Repository
+baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/i686/
+gpgcheck=0
+enabled=1
+
+</code></pre></div></div>
+
+<h3 id="33-mongodb-32---os-x64">3.3 Mongodb 3.2  + OS x64</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-3.2.repo
+
+[mongodb-org-3.2]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.2/x86_64/
+gpgcheck=0
+enabled=1
+
+</code></pre></div></div>
+
+<h3 id="34-mongodb-32---os-i686">3.4 Mongodb 3.2  + OS i686</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-3.2.repo
+
+[mongodb-org-3.2]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.2/i686/
+gpgcheck=0
+enabled=1
+
+</code></pre></div></div>
+
+<h2 id="4-install-mongodb">4. Install MongoDB</h2>
+
+<p>安装最新版本的 Mongodb ，安装都方式一样，请注意安装相对应的源保证正确安装Mongodb，请使用如下命令：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum clean all
+[root@vm02 ~]# yum makecache
+[root@vm02 ~]# yum install mongodb-org
+
+</code></pre></div></div>
+
+<h2 id="5-run-mongodb">5. Run MongoDB</h2>
+
+<h3 id="51-配置selinux">5.1 配置SELinux</h3>
+
+<p>SELinux 默认为开启状态，会导致我们的Mongodb 无法使用，解决方式有两种：</p>
+
+<ol>
+  <li><a href="http://blog.ultraera.org/centos6-x-base-settings/">关闭SELinux</a></li>
+  <li>添加Mongodb 通过SELinux 设定，指令如下：</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>semanage port -a -t mongod_port_t -p tcp 27017
+
+</code></pre></div></div>
+
+<blockquote>
+  <p>Tips: 在CentOS 7 ，SELinux 会限定你去修改Mongodb的data目录及lib目录。</p>
+</blockquote>
+
+<h3 id="52-start-mongodb">5.2 Start MongoDB</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# sudo service mongod start
+Starting mongod:                                           [  OK  ]
+[root@vm02 ~]#
+
+</code></pre></div></div>
+
+<h3 id="53-检查mongodb日志文件验证服务正常启动-varlogmongodbmongodblog">5.3 检查MongoDB日志文件验证服务正常启动， /var/log/mongodb/mongodb.log</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# cat /var/log/mongodb/mongod.log  # 看到如下内容表示mongodb启动成功了。
+2016-03-24T04:09:28.582+0800 I NETWORK  [initandlisten] waiting for connections on port 27017
+
+</code></pre></div></div>
+
+<h3 id="54-设置mongodb-开机自启动">5.4 设置MongoDB 开机自启动</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# chkconfig mongod on
+
+</code></pre></div></div>
+
+<h3 id="55-设置mongodb-允许其他服务器访问">5.5 设置MongoDB 允许其他服务器访问</h3>
+
+<p>默认情况下，mongodb 只监听 127.0.0.1 ，但是实际生产环境中可能需要其他服务器访问，所以这里添加监听其他网络端口，修改mongodb的配置文件：/etc/mongodb.conf</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/mongodb.conf
+
+# line 29 增加一行：
+    bindIp: 172.16.102.129
+
+# 注意不要把1270.0.1 去除，这会导致本地无法使用MongoDB .
+
+</code></pre></div></div>
+
+<h2 id="6-use-mongodb">6. Use MongoDB</h2>
+
+<h3 id="61-检查mongodb-状态">6.1 检查mongodb 状态</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# service mongod status
+mongod (pid 6502) is running...
+[root@vm02 ~]#
+
+</code></pre></div></div>
+
+<h3 id="62-mongodb-自带检测工具">6.2 mongodb 自带检测工具</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# mongostat
+insert query update delete getmore command % dirty % used flushes  vsize   res qr|qw ar|aw netIn netOut conn                      time
+    *0    *0     *0     *0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:09+08:00
+    *0    *0     *0     *0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:10+08:00
+    *0    *0     *0     *0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:11+08:00
+
+</code></pre></div></div>
+
+<h3 id="63-进入mongodb-命令行模式">6.3 进入mongodb 命令行模式</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# mongo
+MongoDB shell version: 3.2.4
+connecting to: test
+Server has startup warnings:
+2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
+2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/enabled is 'always'.
+2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] **        We suggest setting it to 'never'
+2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
+2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/defrag is 'always'.
+2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] **        We suggest setting it to 'never'
+2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
+2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. rlimits set to 1024 processes, 64000 files. Number of processes should be at least 32000 : 0.5 times number of files.
+2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
+&gt;
+
+</code></pre></div></div>
+
+<h2 id="7-uninstall-mongodb">7. Uninstall MongoDB</h2>
+
+<h3 id="71-关闭mongodb">7.1 关闭mongodb</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# service mongod stop
+
+</code></pre></div></div>
+
+<h3 id="72-卸载mongodb-软件包">7.2 卸载mongodb 软件包</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum erase $(rpm -qa | grep mongodb-org)
+
+</code></pre></div></div>
+
+<h3 id="73-删除mongodb文件数据库文件和日志文件">7.3 删除mongodb文件：数据库文件和日志文件</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# rm -rf /var/log/mongodb
+[root@vm02 ~]# rm -rf /var/lib/mongo
+
+</code></pre></div></div>
+
+<h2 id="8-faq">8. FAQ</h2>
+
+<p>Q : Mongodb 占用99%CPU并且查询速度很慢?</p>
+
+<p>A : 数据库需要首先建立索引，类似图书的目录文件，否则当你在数据库内查找数据的时候，就类似于在整本字典一页页翻查一个字如此。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-03-27</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#MongoDB">MongoDB</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/03/%E5%9C%A8CentOS%E4%B8%AD%E9%85%8D%E7%BD%AE-SFTP-%E7%8E%AF%E5%A2%83.html">在CentOS中配置 SFTP 环境</a></h1>
     <div class="post_at_index">
-      <p>       做运维工作的，应该经常会碰到这样的问题，需要新上一个web项目，需要上传文件到服务器上，解决方法有很多种，常见的如sftp和ftp，今天讲如何使用sftp让系统用户用户上传项目的权限，并且实现chroot和无法使用ssh登录到系统。</p>
+      <p>做运维工作的，应该经常会碰到这样的问题，需要新上一个web项目，需要上传文件到服务器上，解决方法有很多种，常见的如sftp和ftp，今天讲如何使用sftp让系统用户用户上传项目的权限，并且实现chroot和无法使用ssh登录到系统。</p>
 
-<p>       SFTP是指SSH文件传输协议（SSH File Transfer protocol）或安全文件传输协议（Secure File Transfer Protocol），它提供了可信数据流下的文件访问、文件传输以及文件管理功能。当我们为SFTP配置chroot环境后，只有被许可的用户可以访问，并被限制到他们的家目录中，换言之：被许可的用户将处于牢笼环境中，在此环境中它们甚至不能切换它们的目录。</p>
+<p>SFTP是指SSH文件传输协议（SSH File Transfer protocol）或安全文件传输协议（Secure File Transfer Protocol），它提供了可信数据流下的文件访问、文件传输以及文件管理功能。当我们为SFTP配置chroot环境后，只有被许可的用户可以访问，并被限制到他们的家目录中，换言之：被许可的用户将处于牢笼环境中，在此环境中它们甚至不能切换它们的目录。</p>
 
 <h3 id="1-测试环境">1. 测试环境</h3>
 
@@ -300,19 +531,23 @@ openssh-server-5.3p1-104.el6.i686
 <h3 id="2-实验步骤">2. 实验步骤</h3>
 
 <h5 id="21-增加一个sftpusers用户组">2.1 增加一个sftpusers用户组</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# groupadd sftpusers
 </code></pre></div></div>
 
 <h5 id="22-创建一个用户user01并分配给sftpusers用户组">2.2 创建一个用户user01，并分配给sftpusers用户组</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# useradd -g sftpusers user01
 </code></pre></div></div>
 
 <h5 id="23-修改用户家目录及指定不能登录shell">2.3 修改用户家目录及指定不能登录shell</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# mkdir /sftp/
 [root@test ~]# usermod -s /sbin/nologin -d /sftp/user01 -m user01
 </code></pre></div></div>
 
 <h5 id="24-给用户创建密码注意密码不明文显示">2.4 给用户创建密码（注意密码不明文显示）</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# passwd user01
 Changing password for user user01.
 New password:
@@ -324,6 +559,7 @@ passwd: all authentication tokens updated successfully.
 </code></pre></div></div>
 
 <h4 id="25-修改ssh的配置文件如下设置">2.5 修改ssh的配置文件，如下设置</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# ll /etc/ssh/sshd_config
 -rw-------. 1 root root 3879 Oct 15  2014 /etc/ssh/sshd_config
 [root@test ~]# vim /etc/ssh/sshd_config
@@ -341,26 +577,31 @@ Match Group sftpusers        #指定一下参数仅适用的用户组sftpusers
 </code></pre></div></div>
 
 <h5 id="26-重启ssh服务">2.6 重启ssh服务</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# /etc/init.d/sshd restart
 Stopping sshd:                                             [  OK  ]
 Starting sshd:                                             [  OK  ]
 </code></pre></div></div>
 
 <h5 id="27-设置用户家目录权限注意权限不能大于0755">2.7 设置用户家目录权限,(注意权限不能大于0755)</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# chmod 0755 /sftp/user01/
 [root@test ~]# chown root /sftp/user01/
 [root@test ~]# chgrp -R sftpusers /sftp/user01/
 </code></pre></div></div>
 
-<h5 id="28-关于上传根目录无法上传文件">2.8 关于上传,根目录无法上传文件。</h5>
-<p>       因为用户家目录属主是root，并且权限最大0755，所以没法写，我的解决方法是在在家目录建立一个文件夹，作为上传目录，并把属主给user01即可。</p>
+<h5 id="28-关于上传根目录无法上传文件">2.8 关于上传,根目录无法上传文件</h5>
+
+<p>因为用户家目录属主是root，并且权限最大0755，所以没法写，我的解决方法是在在家目录建立一个文件夹，作为上传目录，并把属主给user01即可。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# mkdir /sftp/user01/upload
 [root@test ~]# chown user01:sftpusers /sftp/user01/upload/
 </code></pre></div></div>
 
 <h3 id="3-测试验证">3. 测试验证</h3>
+
 <h5 id="31-linux-登录测试">3.1 Linux 登录测试</h5>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# su - user01
 This account is currently not available.    #su - 切换失败
 
@@ -388,8 +629,8 @@ sftp&gt;
 </code></pre></div></div>
 
 <h5 id="32-sftp-工具测试">3.2 SFTP 工具测试</h5>
-<p>       我这里使用的是Mac，但是传统的文件传输工具都差不多，Windows下有Winscp、Xftp等。</p>
 
+<p>我这里使用的是Mac，但是传统的文件传输工具都差不多，Windows下有Winscp、Xftp等。</p>
 
       
     </div>
@@ -407,15 +648,12 @@ sftp&gt;
     
     <h1><a class="title" href="/post/2016/03/MySQL-6-%E5%88%A9%E7%94%A8Linux%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E5%AE%9A%E6%97%B6%E5%90%8C%E6%AD%A5MySQL.html">利用 Linux 计划任务定时同步 MySQL</a></h1>
     <div class="post_at_index">
-      <p>       </p>
+      <p>说下实际项目场景，公司一个应用已部署主从数据库，业务也正式上线；现在客户公司领导希望可以看到每天的业务数据报表，本设定直接到从库拿数据，然后进行数据处理，生成报表，但是Java同事提出需求新增用户和权限表，这样一来，如果直接使用生产库的表会导致后台系统管理人员与领导的账户和权限混淆，经过讨论决定，按照生产库的表结构新增特殊用户表和权限表；这样操作实际是可以在从库上新增表单，且不影响主从库之间的数据同步，但是从安全性的考虑，新增表单设计需要给用户Insert权限，为了保证从库只有利用主库同步写入数据，则只能给其他用户select权限。</p>
 
-<p>        说下实际项目场景，公司一个应用已部署主从数据库，业务也正式上线；现在客户公司领导希望可以看到每天的业务数据报表，本设定直接到从库拿数据，然后进行数据处理，生成报表，但是Java同事提出需求新增用户和权限表，这样一来，如果直接使用生产库的表会导致后台系统管理人员与领导的账户和权限混淆，经过讨论决定，按照生产库的表结构新增特殊用户表和权限表；这样操作实际是可以在从库上新增表单，且不影响主从库之间的数据同步，但是从安全性的考虑，新增表单设计需要给用户Insert权限，为了保证从库只有利用主库同步写入数据，则只能给其他用户select权限。</p>
-
-<p>       <b>最终决定，因为报表系统的使用率低，直接在报表系统的服务器安装本地mysql数据库，通过计划任务定时到从库上同步数据。</b></p>
-
-<p>       </p>
+<p><b>最终决定，因为报表系统的使用率低，直接在报表系统的服务器安装本地mysql数据库，通过计划任务定时到从库上同步数据。</b></p>
 
 <h3 id="1-测试环境">1. 测试环境</h3>
+
 <ul>
   <li>MacBook Pro 15‘ i7 16GB</li>
   <li>VMware Fushion 8 Pro</li>
@@ -427,25 +665,26 @@ sftp&gt;
 
 <h3 id="2-利用mysqldump导出sql文件">2. 利用mysqldump导出sql文件</h3>
 
-<p>       需要注意的是，mysqldump时会锁表，需要给mysqldump传递 <i>“–single-transaction”</i>  参数，可以使得mysqldump时不锁表，如下：</p>
+<p>需要注意的是，mysqldump时会锁表，需要给mysqldump传递 <i>“–single-transaction”</i>  参数，可以使得mysqldump时不锁表，如下：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/mysqldump -h 172.168.102.129 -u dbuser -pdbuser --single-transaction slave &gt; slave.sql
 </code></pre></div></div>
 
 <h3 id="3-使用mysql恢复sql文件到数据库中">3. 使用mysql恢复sql文件到数据库中</h3>
 
-<p>       需要注意的是，如果该local server的slave库中有数据表，当表名与slave server的表名相同时，数据表内的数据会被覆盖；如果local server的表在slave.sql中不存在，则不受影响，正是利用这个特性解决用户需求。</p>
+<p>需要注意的是，如果该local server的slave库中有数据表，当表名与slave server的表名相同时，数据表内的数据会被覆盖；如果local server的表在slave.sql中不存在，则不受影响，正是利用这个特性解决用户需求。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/mysql -u dbuser -pdbuser report &lt; /home/.mysql/slave.sql
 </code></pre></div></div>
 
 <h3 id="4-编写脚本">4. 编写脚本</h3>
 
-<p>        首先在本地某一位置作为临时sql存储地址：</p>
+<p>首先在本地某一位置作为临时sql存储地址：</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# mkdir /home/.mysql     # 这个目录可以自定义
 </code></pre></div></div>
 
-<p>         脚本1：</p>
+<p>脚本1：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
 
@@ -458,9 +697,10 @@ rm -rf /home/.mysql/*
 /usr/bin/mysql -u dbuser -pdbuser report &lt; /home/.mysql/slave_$TIME.sql
 
 </code></pre></div></div>
+
 <h3 id="5-增加邮件通知功能">5. 增加邮件通知功能</h3>
 
-<p>        因为前期同事需要得知备份的执行结果，所以希望数据同步成功后获得邮件提醒，这里使用sendmail实现，在CentOS里预装是没有安装sendmail，所以我们需要安装sendmail服务，另外一个安装命令行邮件工具mailx：</p>
+<p>因为前期同事需要得知备份的执行结果，所以希望数据同步成功后获得邮件提醒，这里使用sendmail实现，在CentOS里预装是没有安装sendmail，所以我们需要安装sendmail服务，另外一个安装命令行邮件工具mailx：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# yum install -y sendmail mailx
 
@@ -473,7 +713,7 @@ Starting sm-client:                                        [  OK  ]
 
 </code></pre></div></div>
 
-<p>         完整脚本：report_sync.sh ，如下：</p>
+<p>完整脚本：report_sync.sh ，如下：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
 
@@ -495,12 +735,12 @@ fi
 
 </code></pre></div></div>
 
-<p>         查看下邮件通知：
+<p>查看下邮件通知：
 <img src="http://blog.ultraera.org:80/content/images/2016/03/24/p01.jpg" alt="" /></p>
 
 <h3 id="6-计划任务crontab">6. 计划任务crontab</h3>
 
-<p>       和同事及客户沟通，确认每天1、5、9、13、17、21整时到从库拉去数据，Linux选择使用crontab做计划任务，crontab命令常见于Unix和类Unix的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“crontab”文件中。通常，crontab储存的指令被守护进程激活， crond常常在后台运行，每一分钟检查是否有预定的作业需要执行。这类作业一般称为cron jobs。</p>
+<p>和同事及客户沟通，确认每天1、5、9、13、17、21整时到从库拉去数据，Linux选择使用crontab做计划任务，crontab命令常见于Unix和类Unix的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“crontab”文件中。通常，crontab储存的指令被守护进程激活， crond常常在后台运行，每一分钟检查是否有预定的作业需要执行。这类作业一般称为cron jobs。</p>
 
 <h4 id="61-安装crontab">6.1 安装crontab</h4>
 
@@ -521,14 +761,15 @@ cron 是linux的内置服务，但它不自动起来，可以用以下的方法�
 [root@report ~]# chkconfig crond on
 
 </code></pre></div></div>
+
 <h3 id="7-添加计划任务">7. 添加计划任务</h3>
 
-<p>       将脚本report_sync.sh 保存到/usr/bin下：</p>
+<p>将脚本report_sync.sh 保存到/usr/bin下：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# mv report_sync.sh /usr/bin
 </code></pre></div></div>
 
-<p>       增加计划任务：</p>
+<p>增加计划任务：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# crontab -e
 
@@ -538,7 +779,6 @@ cron 是linux的内置服务，但它不自动起来，可以用以下的方法�
 # 表示在每天的1-21时间内，每4小时执行一个脚本
 
 </code></pre></div></div>
-
 
       
     </div>
@@ -756,7 +996,6 @@ A. \usr/zhang/memo　　　B. /usr/zhang/memo　　　C. //usr\zhang/memo　　�
 10.某一天误操作，执行了rm  -rf  * ，会有哪些情况发生？请举例。
 
 
-
 三、 公有云题目 （1题5分）
 1. 请解释上云的好处是什么？传统业务类型与公有云也为类型有什么区别？请举例说明。
 
@@ -787,6 +1026,7 @@ A. \usr/zhang/memo　　　B. /usr/zhang/memo　　　C. //usr\zhang/memo　　�
       <h1 id="工欲善其事必先利其器--mysql开启慢日志优化">工欲善其事，必先利其器 – mysql开启慢日志优化</h1>
 
 <h3 id="慢查询日志">慢查询日志</h3>
+
 <p>顾名思义就是记录查询比较慢得日志。</p>
 
 <h3 id="测试环境">测试环境</h3>
@@ -820,6 +1060,7 @@ slow_launch_time = 2
 slow_query_log_file = /usr/local/mysql/data/slow_query.log
 
 </code></pre></div></div>
+
 <p>slow_launch_time只能精确到秒，如果需要更精确可以使用一些第三方的工具比如后面介绍的pt-query-digest</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like '%slow%';
@@ -836,6 +1077,7 @@ slow_query_log_file = /usr/local/mysql/data/slow_query.log
 
 mysql&gt;
 </code></pre></div></div>
+
 <blockquote>
   <p>Tips: 我这里用的MySQL版本是5.6，不同版本的MySQL开启慢查询的配置是不同的，比如5.6之前的某些版本是long_query_time, long_query_time和log-slow-queries。可以先在终端执行show variables like ‘%slow%’;查看下当前版本具体配置是什么。</p>
 </blockquote>
@@ -846,6 +1088,7 @@ mysql&gt;
 </code></pre></div></div>
 
 <h3 id="保持慢查询日志到表中">保持慢查询日志到表中</h3>
+
 <p>MySQL支持将慢查询日志保存到mysql.slow_log这张表中。通过@@global.log_output可以设置默认为TABLE，FILE和TABLE只能同时使用一个。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; select @@global.log_output;
@@ -906,6 +1149,7 @@ mysql&gt;
 </code></pre></div></div>
 
 <h3 id="慢查询日志分析">慢查询日志分析</h3>
+
 <ol>
   <li>可以使用MySQL自带的mysqldumpslow工具。使用很简单，可以跟-help来查看具体的用法。</li>
 </ol>
@@ -923,6 +1167,7 @@ mysql&gt;
 </ol>
 
 <h3 id="pt-query-digest">pt-query-digest</h3>
+
 <p>pt-query-digest可以从普通MySQL日志，慢查询日志以及二进制日志中分析查询，甚至可以从SHOW PROCESSLIST和MySQL协议的tcpdump中进行分析，如果没有指定文件，它从标准输入流（STDIN）中读取数据。
 最简单地用法如下：</p>
 
@@ -933,7 +1178,6 @@ mysql&gt;
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 </code></pre></div></div>
-
 
       
     </div>
@@ -953,7 +1197,7 @@ mysql&gt;
     <div class="post_at_index">
       <h2 id="centos-6x-初始安装基本优化操作">CentOS 6.x 初始安装基本优化操作</h2>
 
-<p>       本文件是采用的模板是centos 6.x，相较于centos 5.x与centos 7.x系列有些区别，不能一概而论。</p>
+<p>本文件是采用的模板是centos 6.x，相较于centos 5.x与centos 7.x系列有些区别，不能一概而论。</p>
 
 <h3 id="1-测试环境">1. 测试环境</h3>
 
@@ -964,7 +1208,8 @@ mysql&gt;
 </ul>
 
 <h3 id="2-默认网卡开机未设定自启动">2. 默认网卡开机未设定自启动</h3>
-<p>       很多初学者，在安装系统的时候，碰到的第一个问题就是不能上网，所以有些同学就担心是不是需要去安装网卡驱动，其实这样想就把问题复杂化了，如果你在实体机安装Linux的系统时，可能会碰到网卡驱动不上导致无法上网的问题，这个时候是需要自行安装驱动的，但是我们使用的VMware的一款虚拟化工具，所以网卡驱动基本就不用考虑，原因是因为我们没有把网卡设置为开机自启动，下面讲如何开启网卡，并设定为开机自启动。</p>
+
+<p>很多初学者，在安装系统的时候，碰到的第一个问题就是不能上网，所以有些同学就担心是不是需要去安装网卡驱动，其实这样想就把问题复杂化了，如果你在实体机安装Linux的系统时，可能会碰到网卡驱动不上导致无法上网的问题，这个时候是需要自行安装驱动的，但是我们使用的VMware的一款虚拟化工具，所以网卡驱动基本就不用考虑，原因是因为我们没有把网卡设置为开机自启动，下面讲如何开启网卡，并设定为开机自启动。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# ifup eth0
 
@@ -981,18 +1226,19 @@ eth0      Link encap:Ethernet  HWaddr 00:0C:29:B9:60:D8
           RX bytes:14010 (13.6 KiB)  TX bytes:11410 (11.1 KiB)
           
 [root@vm02 ~]# vi /etc/sysconfig/network-scripts/ifcfg-eth0
-	DEVICE=eth0
-	HWADDR=00:0C:29:B9:60:D8
-	TYPE=Ethernet
-	UUID=7ad636ff-78d9-4afa-9886-706b1de236a8
-	ONBOOT=no		 // 默认是no，修改为yes
-	NM_CONTROLLED=yes
-	BOOTPROTO=dhcp
+ DEVICE=eth0
+ HWADDR=00:0C:29:B9:60:D8
+ TYPE=Ethernet
+ UUID=7ad636ff-78d9-4afa-9886-706b1de236a8
+ ONBOOT=no   // 默认是no，修改为yes
+ NM_CONTROLLED=yes
+ BOOTPROTO=dhcp
 
 </code></pre></div></div>
 
 <h3 id="3-增加第三方yum源">3. 增加第三方Yum源</h3>
-<p>       CentOS 系统内置的官方源软件更新较慢，而且缺少一些常用软件包，建议安装epel源，EPEL 是 Extra Packages for Enterprise Linux 的缩写（EPEL），是用于 Fedora-based Red Hat Enterprise Linux (RHEL) 的一个高质量软件源，所以同时也适用于 CentOS 或者 Scientific Linux 等发行版。</p>
+
+<p>CentOS 系统内置的官方源软件更新较慢，而且缺少一些常用软件包，建议安装epel源，EPEL 是 Extra Packages for Enterprise Linux 的缩写（EPEL），是用于 Fedora-based Red Hat Enterprise Linux (RHEL) 的一个高质量软件源，所以同时也适用于 CentOS 或者 Scientific Linux 等发行版。</p>
 
 <h5 id="a-因为我们使用的是minimal版本的iso安装所以系统默认没有wget我们可以直接用yum安装wget是linux常用的命令行下载工具">a. 因为我们使用的是minimal版本的ISO安装，所以系统默认没有wget，我们可以直接用yum安装：[wget是Linux常用的命令行下载工具]</h5>
 
@@ -1045,16 +1291,18 @@ Installed:
 Complete!
 [root@vm02 ~]#
 </code></pre></div></div>
+
 <h5 id="b-下载并安装epel源">b. 下载并安装epel源</h5>
-<p>       不同CentOS版本的epel下载地址：</p>
+
+<p>不同CentOS版本的epel下载地址：</p>
 
 <ul>
-  <li>CentOS 5 ： https://dl.fedoraproject.org/pub/epel/epel-release-latest-5.noarch.rpm</li>
-  <li>CentOS 6 ： https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm</li>
-  <li>CentOS 7 ： https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm</li>
+  <li>CentOS 5 ： <a href="https://dl.fedoraproject.org/pub/epel/epel-release-latest-5.noarch.rpm">https://dl.fedoraproject.org/pub/epel/epel-release-latest-5.noarch.rpm</a></li>
+  <li>CentOS 6 ： <a href="https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm">https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm</a></li>
+  <li>CentOS 7 ： <a href="https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm">https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm</a></li>
 </ul>
 
-<p>       本次试验用到的CentOS 6 所以我们下载epel-release-latest-6.noarch.rpm</p>
+<p>本次试验用到的CentOS 6 所以我们下载epel-release-latest-6.noarch.rpm</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
 --2016-03-18 11:47:17--  https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
@@ -1074,7 +1322,8 @@ epel-release-latest-6.noarch.rpm  install.log.syslog
 </code></pre></div></div>
 
 <h3 id="4-安装vimlinux使用最广泛的文件编辑工具">4. 安装vim：Linux使用最广泛的文件编辑工具</h3>
-<p>       与我们长久使用Win环境不同的是，在Linux之中，我们接触最多的是command line，所以熟练一款命令行下的文本编辑工具是一项必备技能，我这里推荐大家：vim。</p>
+
+<p>与我们长久使用Win环境不同的是，在Linux之中，我们接触最多的是command line，所以熟练一款命令行下的文本编辑工具是一项必备技能，我这里推荐大家：vim。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum install -y vim
 Loaded plugins: fastestmirror
@@ -1185,9 +1434,10 @@ Complete!
 </code></pre></div></div>
 
 <h3 id="4-关闭selinux">4. 关闭SELinux</h3>
-<p>       SELinux主要由美国国家安全局开发，并于2000年12月22日发行给开放源代码的开发社区。SELinux旨在加强访问控制架构以对付入侵的威胁或任何企图略过安全架构的应用程序，并且从2.6版的Linux核心就开始集成SELinux；但是SELinux严格的权限控制对于初学者来说并不是非常必要，所以我们建议关闭SELinux，[其实由于SELinux的复杂性，很多运维人员都是选择关闭它，熟悉阿里云ECS的同学可能知道，它是默认关闭SELinux的，但是我们不建议在生产环境关闭SELinux。]</p>
 
-<p>       SELinux的配置文件主要由两个：/etc/sysconfig/selinux、 /etc/selinux/config，其实第一个是第二个路径的软链接。</p>
+<p>SELinux主要由美国国家安全局开发，并于2000年12月22日发行给开放源代码的开发社区。SELinux旨在加强访问控制架构以对付入侵的威胁或任何企图略过安全架构的应用程序，并且从2.6版的Linux核心就开始集成SELinux；但是SELinux严格的权限控制对于初学者来说并不是非常必要，所以我们建议关闭SELinux，[其实由于SELinux的复杂性，很多运维人员都是选择关闭它，熟悉阿里云ECS的同学可能知道，它是默认关闭SELinux的，但是我们不建议在生产环境关闭SELinux。]</p>
+
+<p>SELinux的配置文件主要由两个：/etc/sysconfig/selinux、 /etc/selinux/config，其实第一个是第二个路径的软链接。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/selinux/config
 # This file controls the state of SELinux on the system.
@@ -1203,7 +1453,7 @@ SELINUXTYPE=targeted
 
 </code></pre></div></div>
 
-<p>       SELinux 的状态模式：</p>
+<p>SELinux 的状态模式：</p>
 
 <ul>
   <li>enforcing : 强制启用SELinux</li>
@@ -1215,7 +1465,7 @@ SELINUXTYPE=targeted
   <p>Tips: SELinux的参数只能在重启后生效。</p>
 </blockquote>
 
-<p>       SELinux 常用的两个命令：getenforce setenforce :</p>
+<p>SELinux 常用的两个命令：getenforce setenforce :</p>
 
 <ul>
   <li>getenforce 获得SELinux 当前的状态，返回值为如上三种；</li>
@@ -1226,13 +1476,13 @@ SELINUXTYPE=targeted
   <p>Tips: 状态已经为disabled时，无法使用setenforce 1 启用。</p>
 </blockquote>
 
-<h3 id="5">5.</h3>
+<h3 id="5">5</h3>
 
-<h3 id="6">6.</h3>
+<h3 id="6">6</h3>
 
-<h3 id="7">7.</h3>
+<h3 id="7">7</h3>
 
-<h3 id="8">8.</h3>
+<h3 id="8">8</h3>
 
       
     </div>
@@ -1254,10 +1504,10 @@ SELINUXTYPE=targeted
     <div class="post_at_index">
       <h2> 从inode了解Linux文件系统</h2>
 
-<p>       硬链接与软链接是 Linux 文件系统中的一个重要概念，其涉及文件系统中的索引节点 (index node 又称 inode)，而索引节点对象是 Linux 虚拟文件系统 (VFS) 的四个基本概念之一。通过剖析硬链接与软链接的联系与区别，我们可更好的了解 Linux 中 VFS 这一通用文件模型。并让 Linux 普通用户和系统管理员正确使用硬链接与软链接，帮助文件系统开发者获取 inode 的相关知识。</p>
+<p>硬链接与软链接是 Linux 文件系统中的一个重要概念，其涉及文件系统中的索引节点 (index node 又称 inode)，而索引节点对象是 Linux 虚拟文件系统 (VFS) 的四个基本概念之一。通过剖析硬链接与软链接的联系与区别，我们可更好的了解 Linux 中 VFS 这一通用文件模型。并让 Linux 普通用户和系统管理员正确使用硬链接与软链接，帮助文件系统开发者获取 inode 的相关知识。</p>
 
 <h3> Linux的文件系统与目录 </h3>
-<p>       现代操作系统为解决信息能独立于进程之外被长期存储引入了文件，文件作为进程创建信息的逻辑单元可被多个进程并发使用。在 UNIX 系统中，操作系统为磁盘上的文本与图像、鼠标与键盘等输入设备及网络交互等 I/O 操作设计了一组通用 API，使他们被处理时均可统一使用字节流方式。换言之，UNIX 系统中除进程之外的一切皆是文件，而 Linux 保持了这一特性。为了便于文件的管理，Linux 还引入了目录（有时亦被称为文件夹）这一概念。目录使文件可被分类管理，且目录的引入使 Linux 的文件系统形成一个层级结构的目录树。<a href="#list1">清单1.</a>所示的是普通 Linux 系统的顶层目录结构，其中 /dev 是存放了设备相关文件的目录。</p>
+<p>现代操作系统为解决信息能独立于进程之外被长期存储引入了文件，文件作为进程创建信息的逻辑单元可被多个进程并发使用。在 UNIX 系统中，操作系统为磁盘上的文本与图像、鼠标与键盘等输入设备及网络交互等 I/O 操作设计了一组通用 API，使他们被处理时均可统一使用字节流方式。换言之，UNIX 系统中除进程之外的一切皆是文件，而 Linux 保持了这一特性。为了便于文件的管理，Linux 还引入了目录（有时亦被称为文件夹）这一概念。目录使文件可被分类管理，且目录的引入使 Linux 的文件系统形成一个层级结构的目录树。<a href="#list1">清单1.</a>所示的是普通 Linux 系统的顶层目录结构，其中 /dev 是存放了设备相关文件的目录。</p>
 
 <h4 id="list1"> 清单 1. Linux系统的顶层目录结构</h4>
 
@@ -1268,7 +1518,7 @@ SELINUXTYPE=targeted
 ├── etc     存放系统配置文件
 ├── home    用户主目录
 ├── lib     动态共享库
-├── lost+found 	文件系统恢复时的恢复文件
+├── lost+found  文件系统恢复时的恢复文件
 ├── media   可卸载存储介质挂载点
 ├── mnt     文件系统临时挂载点
 ├── opt     附加的应用程序包
@@ -1283,7 +1533,7 @@ SELINUXTYPE=targeted
 
 </code></pre></div></div>
 
-<p>       Linux 将设备当做文件进行处理，<a href="#list2">清单 2.</a>展示了如何打开设备文件 /dev/input/event5 并读取文件内容。文件 event5 表示一种输入设备，其可能是鼠标或键盘等。查看文件 /proc/bus/input/devices 可知 event5 对应设备的类型。设备文件 /dev/input/event5 使用 read() 以字符流的方式被读取。结构体 input_event 被定义在内核头文件 linux/input.h 中。</p>
+<p>Linux 将设备当做文件进行处理，<a href="#list2">清单 2.</a>展示了如何打开设备文件 /dev/input/event5 并读取文件内容。文件 event5 表示一种输入设备，其可能是鼠标或键盘等。查看文件 /proc/bus/input/devices 可知 event5 对应设备的类型。设备文件 /dev/input/event5 使用 read() 以字符流的方式被读取。结构体 input_event 被定义在内核头文件 linux/input.h 中。</p>
 
 <h4 id="list2"> 清单 2.  打开并读取设备文件 </h4>
 
@@ -1292,24 +1542,24 @@ SELINUXTYPE=targeted
  fd = open("/dev/input/event5", O_RDONLY);
  read(fd, &amp;ie, sizeof(struct input_event));
  printf("type = %d  code = %d  value = %d\n",
-			 ie.type, ie.code, ie.value);
+    ie.type, ie.code, ie.value);
  close(fd);
 </code></pre></div></div>
 
 <p><br /></p>
 <h3 id="硬链接与软链接的联系与区别">硬链接与软链接的联系与区别</h3>
-<p>       我们知道文件都有文件名与数据，这在 Linux 上被分成两个部分：用户数据 (user data) 与元数据 (metadata)。用户数据，即文件数据块 (data block)，数据块是记录文件真实内容的地方；而元数据则是文件的附加属性，如文件大小、创建时间、所有者等信息。在 Linux 中，元数据中的 inode 号（inode 是文件元数据的一部分但其并不包含文件名，inode 号即索引节点号）才是文件的唯一标识而非文件名。文件名仅是为了方便人们的记忆和使用，系统或程序通过 inode 号寻找正确的文件数据块。<a href="#p1">图 1.</a>展示了程序通过文件名获取文件内容的过程。</p>
+<p>我们知道文件都有文件名与数据，这在 Linux 上被分成两个部分：用户数据 (user data) 与元数据 (metadata)。用户数据，即文件数据块 (data block)，数据块是记录文件真实内容的地方；而元数据则是文件的附加属性，如文件大小、创建时间、所有者等信息。在 Linux 中，元数据中的 inode 号（inode 是文件元数据的一部分但其并不包含文件名，inode 号即索引节点号）才是文件的唯一标识而非文件名。文件名仅是为了方便人们的记忆和使用，系统或程序通过 inode 号寻找正确的文件数据块。<a href="#p1">图 1.</a>展示了程序通过文件名获取文件内容的过程。</p>
 
 <h4 id="p1"> 图 1. 通过文件名打开文件 </h4>
 <p><img src="http://120.24.251.209/content/images/2016/03/image001.jpg" alt="" /></p>
 
-<p>       在Linux 系统中查看 inode号可使用命令stat 或 ls -i（若是 AIX 系统，则使用命令 istat）。<a href="#list3">清单 3.</a>中使用命令 mv 移动并重命名文件 glibc-2.16.0.tar.xz，其结果不影响文件的用户数据及 inode 号，文件移动前后 inode 号均为：2485677。</p>
+<p>在Linux 系统中查看 inode号可使用命令stat 或 ls -i（若是 AIX 系统，则使用命令 istat）。<a href="#list3">清单 3.</a>中使用命令 mv 移动并重命名文件 glibc-2.16.0.tar.xz，其结果不影响文件的用户数据及 inode 号，文件移动前后 inode 号均为：2485677。</p>
 
 <h4 id="list3"> 清单 3.  移动或重命名文件 </h4>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># stat /home/harris/source/glibc-2.16.0.tar.xz
   File: `/home/harris/source/glibc-2.16.0.tar.xz'
-  Size: 9990512   	 Blocks: 19520      IO Block: 4096   regular file
- Device: 807h/2055d 	 Inode: 2485677     Links: 1
+  Size: 9990512     Blocks: 19520      IO Block: 4096   regular file
+ Device: 807h/2055d   Inode: 2485677     Links: 1
  Access: (0600/-rw-------)  Uid: ( 1000/  harris)   Gid: ( 1000/  harris)
  ...
  ...
@@ -1319,13 +1569,13 @@ SELINUXTYPE=targeted
  2485677 /home/harris/Desktop/glibc.tar.xz
 </code></pre></div></div>
 
-<p>       为解决文件的共享使用，Linux 系统引入了两种链接：硬链接 (hard link) 与软链接（又称符号链接，即 soft link 或 symbolic link）。链接为 Linux 系统解决了文件的共享使用，还带来了隐藏文件路径、增加权限安全及节省存储等好处。若一个 inode 号对应多个文件名，则称这些文件为硬链接。换言之，硬链接就是同一个文件使用了多个别名（见 <a href="#p2">图 2.</a>hard link 就是 file 的一个别名，他们有共同的 inode）。硬链接可由命令 link 或 ln 创建。如下是对文件 oldfile 创建硬链接。</p>
+<p>为解决文件的共享使用，Linux 系统引入了两种链接：硬链接 (hard link) 与软链接（又称符号链接，即 soft link 或 symbolic link）。链接为 Linux 系统解决了文件的共享使用，还带来了隐藏文件路径、增加权限安全及节省存储等好处。若一个 inode 号对应多个文件名，则称这些文件为硬链接。换言之，硬链接就是同一个文件使用了多个别名（见 <a href="#p2">图 2.</a>hard link 就是 file 的一个别名，他们有共同的 inode）。硬链接可由命令 link 或 ln 创建。如下是对文件 oldfile 创建硬链接。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> link oldfile newfile
  ln oldfile newfile
 </code></pre></div></div>
 
-<p>       由于硬链接是有着相同 inode 号仅文件名不同的文件，因此硬链接存在以下几点特性：</p>
+<p>由于硬链接是有着相同 inode 号仅文件名不同的文件，因此硬链接存在以下几点特性：</p>
 
 <ul>
   <li>文件有相同的 inode 及 data block；</li>
@@ -1349,8 +1599,8 @@ SELINUXTYPE=targeted
  This is an original file
  # stat old.file
   File: `old.file'
-  Size: 25        	 Blocks: 8          IO Block: 4096   regular file
- Device: 807h/2055d 	 Inode: 660650      Links: 2
+  Size: 25          Blocks: 8          IO Block: 4096   regular file
+ Device: 807h/2055d   Inode: 660650      Links: 2
  Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
  ...
  // 文件有相同的 inode 号以及 data block
@@ -1371,7 +1621,8 @@ SELINUXTYPE=targeted
  # ls -iF
  660650 hard.link  657948 old.dir/  660650 old.file
 </code></pre></div></div>
-<p>       文件 old.file 与 hard.link 有着相同的 inode 号：660650 及文件权限，inode 是随着文件的存在而存在，因此只有当文件存在时才可创建硬链接，即当 inode 存在且链接计数器（link count）不为 0 时。inode 号仅在各文件系统下是唯一的，当 Linux 挂载多个文件系统后将出现 inode 号重复的现象（如<a href="#list5">清单 5.</a>所示，文件 t3.jpg、sync 及 123.txt 并无关联，却有着相同的 inode 号），因此硬链接创建时不可跨文件系统。设备文件目录 /dev 使用的文件系统是 devtmpfs，而 /root（与根目录 / 一致）使用的是磁盘文件系统 ext4。<a href="#list5">清单 5.</a>展示了使用命令 df 查看当前系统中挂载的文件系统类型、各文件系统 inode 使用情况及文件系统挂载点。</p>
+
+<p>文件 old.file 与 hard.link 有着相同的 inode 号：660650 及文件权限，inode 是随着文件的存在而存在，因此只有当文件存在时才可创建硬链接，即当 inode 存在且链接计数器（link count）不为 0 时。inode 号仅在各文件系统下是唯一的，当 Linux 挂载多个文件系统后将出现 inode 号重复的现象（如<a href="#list5">清单 5.</a>所示，文件 t3.jpg、sync 及 123.txt 并无关联，却有着相同的 inode 号），因此硬链接创建时不可跨文件系统。设备文件目录 /dev 使用的文件系统是 devtmpfs，而 /root（与根目录 / 一致）使用的是磁盘文件系统 ext4。<a href="#list5">清单 5.</a>展示了使用命令 df 查看当前系统中挂载的文件系统类型、各文件系统 inode 使用情况及文件系统挂载点。</p>
 
 <h4 id="list5"> 清单 5.  查找有相同 inode 号的文件 </h4>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># df -i --print-type
@@ -1384,19 +1635,26 @@ SELINUXTYPE=targeted
  /dev/sda6      fuseblk  74383900   4786 74379114    1% /media/DiskE
  /dev/sda8      fuseblk  29524592  19939 29504653    1% /media/DiskF
 
- # find / -inum 1114
+# find / -inum 1114
+
  /media/DiskE/Pictures/t3.jpg
  /media/DiskF/123.txt
  /bin/sync
+
 </code></pre></div></div>
-<p>       值得一提的是，Linux 系统存在 inode 号被用完但磁盘空间还有剩余的情况。我们创建一个 5M 大小的 ext4 类型的 mo.img 文件，并将其挂载至目录 /mnt。然后我们使用一个 shell 脚本将挂载在 /mnt 下 ext4 文件系统的 indoe 耗尽（见<a href="#list6">清单 6.</a>）。</p>
+<p>值得一提的是，Linux 系统存在 inode 号被用完但磁盘空间还有剩余的情况。我们创建一个 5M 大小的 ext4 类型的 mo.img 文件，并将其挂载至目录 /mnt。然后我们使用一个 shell 脚本将挂载在 /mnt 下 ext4 文件系统的 indoe 耗尽（见<a href="#list6">清单 6.</a>）。</p>
 
 <h4 id="list6"> 清单 6.  测试文件系统 inode 耗尽但仍有磁盘空间的情景 </h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> # dd if=/dev/zero of=mo.img bs=5120k count=1
- # ls -lh mo.img
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+# dd if=/dev/zero of=mo.img bs=5120k count=1
+
+# ls -lh mo.img
+
  -rw-r--r-- 1 root root 5.0M Sep  1 17:54 mo.img
- # mkfs -t ext4  -F ./mo.img
+
+# mkfs -t ext4  -F ./mo.img
+
  ...
  OS type: Linux
  Block size=1024 (log=0)
@@ -1408,8 +1666,10 @@ SELINUXTYPE=targeted
  ...
  Writing superblocks and filesystem accounting information: done
 
- # mount -o loop ./mo.img /mnt
- # cat /mnt/inode_test.sh
+# mount -o loop ./mo.img /mnt
+
+# cat /mnt/inode_test.sh
+
  #!/bin/bash
 
  for ((i = 1; ; i++))
@@ -1421,33 +1681,40 @@ SELINUXTYPE=targeted
     fi
  done
 
- # ./inode_test.sh
+# ./inode_test.sh
+
  ./inode_test.sh: line 6: file_1269: No space left on device
 
- # df -iT /mnt/; du -sh /mnt/
+# df -iT /mnt/; du -sh /mnt/
+
  Filesystem     Type Inodes IUsed IFree IUse% Mounted on
  /dev/loop0     ext4   1280  1280     0  100% /mnt
- 1.3M 	 /mnt/
+ 1.3M   /mnt/
+
 </code></pre></div></div>
 
-<p>       硬链接不能对目录创建是受限于文件系统的设计（见 <a href="#list4">清单 4.</a>对目录创建硬链接将失败）。现 Linux 文件系统中的目录均隐藏了两个个特殊的目录：当前目录（.）与父目录（..）。查看这两个特殊目录的 inode 号可知其实这两目录就是两个硬链接（注意目录 /mnt/lost+found/ 的 inode 号）。若系统允许对目录创建硬链接，则会产生目录环。</p>
+<p>硬链接不能对目录创建是受限于文件系统的设计（见 <a href="#list4">清单 4.</a>对目录创建硬链接将失败）。现 Linux 文件系统中的目录均隐藏了两个个特殊的目录：当前目录（.）与父目录（..）。查看这两个特殊目录的 inode 号可知其实这两目录就是两个硬链接（注意目录 /mnt/lost+found/ 的 inode 号）。若系统允许对目录创建硬链接，则会产生目录环。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> # ls -aliF /mnt/lost+found
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+# ls -aliF /mnt/lost+found
+
  total 44
  11 drwx------ 2 root root 12288 Sep  1 17:54 ./
  2 drwxr-xr-x 3 root root 31744 Sep  1 17:57 ../
 
- # stat  /mnt/lost+found/
+# stat  /mnt/lost+found/
+
   File: `/mnt/lost+found/'
-  Size: 12288     	 Blocks: 24         IO Block: 1024   directory
- Device: 700h/1792d 	 Inode: 11          Links: 2
+  Size: 12288       Blocks: 24         IO Block: 1024   directory
+ Device: 700h/1792d   Inode: 11          Links: 2
  Access: (0700/drwx------)  Uid: (    0/    root)   Gid: (    0/    root)
  Access: 2012-09-01 17:57:17.000000000 +0800
  Modify: 2012-09-01 17:54:49.000000000 +0800
  Change: 2012-09-01 17:54:49.000000000 +0800
  Birth: -
+
 </code></pre></div></div>
-<p>       软链接与硬链接不同，若文件用户数据块中存放的内容是另一文件的路径名的指向，则该文件就是软连接。软链接就是一个普通文件，只是数据块内容有点特殊。软链接有着自己的 inode 号以及用户数据块（见 <a href="#p2">图 2.</a>）。因此软链接的创建与使用没有类似硬链接的诸多限制：</p>
+<p>软链接与硬链接不同，若文件用户数据块中存放的内容是另一文件的路径名的指向，则该文件就是软连接。软链接就是一个普通文件，只是数据块内容有点特殊。软链接有着自己的 inode 号以及用户数据块（见 <a href="#p2">图 2.</a>）。因此软链接的创建与使用没有类似硬链接的诸多限制：</p>
 
 <ul>
   <li>软链接有自己的文件属性及权限等；</li>
@@ -1463,75 +1730,103 @@ SELINUXTYPE=targeted
 
 <h4 id="list7"> 清单 7. 软链接特性展示 </h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ls -li
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+# ls -li
+
  total 0
 
  // 可对不存在的文件创建软链接
- # ln -s old.file soft.link
- # ls -liF
+
+# ln -s old.file soft.link
+
+# ls -liF
+
  total 0
  789467 lrwxrwxrwx 1 root root 8 Sep  1 18:00 soft.link -&gt; old.file
 
  // 由于被指向的文件不存在，此时的软链接 soft.link 就是死链接
- # cat soft.link
+
+# cat soft.link
+
  cat: soft.link: No such file or directory
 
  // 创建被指向的文件 old.file，soft.link 恢复成正常的软链接
- # echo "This is an original file_A" &gt;&gt; old.file
- # cat soft.link
+
+# echo "This is an original file_A" &gt;&gt; old.file
+
+# cat soft.link
+
  This is an original file_A
 
  // 对不存在的目录创建软链接
- # ln -s old.dir soft.link.dir
- # mkdir -p old.dir/test
- # tree . -F --inodes
+
+# ln -s old.dir soft.link.dir
+
+# mkdir -p old.dir/test
+
+# tree . -F --inodes
+
  .
 ├── [ 789497]  old.dir/
 │   └── [ 789498]  test/
 ├── [ 789495]  old.file
 ├── [ 789495]  soft.link -&gt; old.file
 └── [ 789497]  soft.link.dir -&gt; old.dir/
-</code></pre></div></div>
-<p>       当然软链接的用户数据也可以是另一个软链接的路径，其解析过程是递归的。但需注意：软链接创建时原文件的路径指向使用绝对路径较好。使用相对路径创建的软链接被移动后该软链接文件将成为一个死链接（如下所示的软链接 a 使用了相对路径，因此不宜被移动），因为链接数据块中记录的亦是相对路径指向。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ ls -li
+</code></pre></div></div>
+<p>当然软链接的用户数据也可以是另一个软链接的路径，其解析过程是递归的。但需注意：软链接创建时原文件的路径指向使用绝对路径较好。使用相对路径创建的软链接被移动后该软链接文件将成为一个死链接（如下所示的软链接 a 使用了相对路径，因此不宜被移动），因为链接数据块中记录的亦是相对路径指向。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+ $ ls -li
  total 2136
  656627 lrwxrwxrwx 1 harris harris       8 Sep  1 14:37 a -&gt; data.txt
  656662 lrwxrwxrwx 1 harris harris       1 Sep  1 14:37 b -&gt; a
  656228 -rw------- 1 harris harris 2186738 Sep  1 14:37 data.txt 6
+
 </code></pre></div></div>
 
 <h3 id="链接相关的命令">链接相关的命令</h3>
-<p>       在 Linux 中查看当前系统已挂着的文件系统类型，除上述使用的命令 df，还可使用命令 mount 或查看文件 /proc/mounts。</p>
+<p>在 Linux 中查看当前系统已挂着的文件系统类型，除上述使用的命令 df，还可使用命令 mount 或查看文件 /proc/mounts。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> # mount
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+# mount
+
  /dev/sda7 on / type ext4 (rw,errors=remount-ro)
  proc on /proc type proc (rw,noexec,nosuid,nodev)
  sysfs on /sys type sysfs (rw,noexec,nosuid,nodev)
  ...
  ...
  none on /run/shm type tmpfs (rw,nosuid,nodev)
+
 </code></pre></div></div>
 
-<p>       命令 ls 或 stat 可帮助我们区分软链接与其他文件并查看文件 inode 号，但较好的方式还是使用 find 命令，其不仅可查找某文件的软链接，还可以用于查找相同 inode 的所有硬链接。（见 <a href="#list8">清单 8.</a>）</p>
+<p>命令 ls 或 stat 可帮助我们区分软链接与其他文件并查看文件 inode 号，但较好的方式还是使用 find 命令，其不仅可查找某文件的软链接，还可以用于查找相同 inode 的所有硬链接。（见 <a href="#list8">清单 8.</a>）</p>
 
 <h4 id="list8"> 清单 8. 使用命令 find 查找软链接与硬链接 </h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 查找在路径 /home 下的文件 data.txt 的软链接
- # find /home -lname data.txt
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+// 查找在路径 /home 下的文件 data.txt 的软链接
+
+# find /home -lname data.txt
+
  /home/harris/debug/test2/a
 
  // 查看路径 /home 有相同 inode 的所有硬链接
- # find /home -samefile /home/harris/debug/test3/old.file
+
+# find /home -samefile /home/harris/debug/test3/old.file
+
  /home/harris/debug/test3/hard.link
  /home/harris/debug/test3/old.file
 
- # find /home -inum 660650
+# find /home -inum 660650
+
  /home/harris/debug/test3/hard.link
  /home/harris/debug/test3/old.file
 
  // 列出路径 /home/harris/debug/ 下的所有软链接文件
- # find /home/harris/debug/ -type l -ls
+
+# find /home/harris/debug/ -type l -ls
+
  656662 0 lrwxrwxrwx 1 harris harris 1 Sep 1 14:37 /home/harris/debug/test2/b -&gt; a
  656627 0 lrwxrwxrwx 1 harris harris 8 Sep 1 14:37 /home/harris/debug/test2/a -&gt;
  data.txt
@@ -1539,24 +1834,30 @@ SELINUXTYPE=targeted
  old.file
  789496    0 lrwxrwxrwx   1 root     root            7 Sep  1 18:01
  /home/harris/debug/test/soft.link.dir -&gt; old.dir
+
 </code></pre></div></div>
 
-<p>       系统根据磁盘的大小默认设定了 inode 的值（见<a href="#list9">清单 9.</a>），如若必要，可在格式文件系统前对该值进行修改。如键入命令 mkfs -t ext4 -I 512/dev/sda4，将使磁盘设备 /dev/sda4 格式成 inode 大小是 512 字节的 ext4 文件系统。</p>
+<p>系统根据磁盘的大小默认设定了 inode 的值（见<a href="#list9">清单 9.</a>），如若必要，可在格式文件系统前对该值进行修改。如键入命令 mkfs -t ext4 -I 512/dev/sda4，将使磁盘设备 /dev/sda4 格式成 inode 大小是 512 字节的 ext4 文件系统。</p>
 
 <h4 id="list9"> 清单 9. 查看系统的 inode 值 </h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> // 查看磁盘分区 /dev/sda7 上的 inode 值
- # dumpe2fs -h /dev/sda7 | grep "Inode size"
- dumpe2fs 1.42 (29-Nov-2011)
- Inode size: 	          256
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+ // 查看磁盘分区 /dev/sda7 上的 inode 值
 
- # tune2fs -l /dev/sda7 | grep "Inode size"
- Inode size: 	          256
+# dumpe2fs -h /dev/sda7 | grep "Inode size"
+
+ dumpe2fs 1.42 (29-Nov-2011)
+ Inode size:            256
+
+# tune2fs -l /dev/sda7 | grep "Inode size"
+
+ Inode size:            256
+
 </code></pre></div></div>
 
 <h3 id="linux-vfs">Linux VFS</h3>
 
-<p>       Linux 有着极其丰富的文件系统，大体上可分如下几类：</p>
+<p>Linux 有着极其丰富的文件系统，大体上可分如下几类：</p>
 
 <ol>
   <li>网络文件系统，如 nfs、cifs 等；</li>
@@ -1564,22 +1865,23 @@ SELINUXTYPE=targeted
   <li>特殊文件系统，如 proc、sysfs、ramfs、tmpfs 等。</li>
 </ol>
 
-<p>       实现以上这些文件系统并在 Linux 下共存的基础就是 Linux VFS（Virtual File System 又称 Virtual Filesystem Switch），即虚拟文件系统。VFS 作为一个通用的文件系统，抽象了文件系统的四个基本概念：文件、目录项 (dentry)、索引节点 (inode) 及挂载点，其在内核中为用户空间层的文件系统提供了相关的接口（见 <a href="#p3">图 3.</a>所示 VFS 在 Linux 系统的架构）。VFS 实现了 open()、read() 等系统调并使得 cp 等用户空间程序可跨文件系统。VFS 真正实现了上述内容中：在 Linux 中除进程之外一切皆是文件。</p>
+<p>实现以上这些文件系统并在 Linux 下共存的基础就是 Linux VFS（Virtual File System 又称 Virtual Filesystem Switch），即虚拟文件系统。VFS 作为一个通用的文件系统，抽象了文件系统的四个基本概念：文件、目录项 (dentry)、索引节点 (inode) 及挂载点，其在内核中为用户空间层的文件系统提供了相关的接口（见 <a href="#p3">图 3.</a>所示 VFS 在 Linux 系统的架构）。VFS 实现了 open()、read() 等系统调并使得 cp 等用户空间程序可跨文件系统。VFS 真正实现了上述内容中：在 Linux 中除进程之外一切皆是文件。</p>
 
 <h4 id="p3"> 图 3. VFS 在系统中的架构 </h4>
 <p><img src="http://120.24.251.209/content/images/2016/03/image003.jpg" alt="" /></p>
 
-<p>       Linux VFS 存在四个基本对象：超级块对象 (superblock object)、索引节点对象 (inode object)、目录项对象 (dentry object) 及文件对象 (file object)。超级块对象代表一个已安装的文件系统；索引节点对象代表一个文件；目录项对象代表一个目录项，如设备文件 event5 在路径 /dev/input/event5 中，其存在四个目录项对象：/ 、dev/ 、input/ 及 event5。文件对象代表由进程打开的文件。这四个对象与进程及磁盘文件间的关系如<a href="#p4">图 4.</a> 所示，其中 d_inode 即为硬链接。为文件路径的快速解析，Linux VFS 设计了目录项缓存（Directory Entry Cache，即 dcache）。</p>
+<p>Linux VFS 存在四个基本对象：超级块对象 (superblock object)、索引节点对象 (inode object)、目录项对象 (dentry object) 及文件对象 (file object)。超级块对象代表一个已安装的文件系统；索引节点对象代表一个文件；目录项对象代表一个目录项，如设备文件 event5 在路径 /dev/input/event5 中，其存在四个目录项对象：/ 、dev/ 、input/ 及 event5。文件对象代表由进程打开的文件。这四个对象与进程及磁盘文件间的关系如<a href="#p4">图 4.</a> 所示，其中 d_inode 即为硬链接。为文件路径的快速解析，Linux VFS 设计了目录项缓存（Directory Entry Cache，即 dcache）。</p>
 
 <h4 id="p4"> 图 4. VFS 的对象之间的处理 </h4>
 <p><img src="http://120.24.251.209/content/images/2016/03/image004.jpg" alt="" /></p>
 
 <h3 id="linux-文件系统中的-inode">Linux 文件系统中的 inode</h3>
-<p>       在 Linux 中，索引节点结构存在于系统内存及磁盘，其可区分成 VFS inode 与实际文件系统的 inode。VFS inode 作为实际文件系统中 inode 的抽象，定义了结构体 inode 与其相关的操作 inode_operations（见内核源码 include/linux/fs.h）。</p>
+<p>在 Linux 中，索引节点结构存在于系统内存及磁盘，其可区分成 VFS inode 与实际文件系统的 inode。VFS inode 作为实际文件系统中 inode 的抽象，定义了结构体 inode 与其相关的操作 inode_operations（见内核源码 include/linux/fs.h）。</p>
 
 <h4 id="list10"> 清单 10. VFS 中的 inode 与 inode_operations 结构体 </h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct inode {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+struct inode {
     ...
     const struct inode_operations   *i_op; // 索引节点操作
     unsigned long           i_ino;      // 索引节点号
@@ -1590,21 +1892,23 @@ SELINUXTYPE=targeted
 
  struct inode_operations {
     ...
-    int (*create) (struct inode *,struct dentry *,int, struct nameidata *);
-    int (*link) (struct dentry *,struct inode *,struct dentry *);
-    int (*unlink) (struct inode *,struct dentry *);
-    int (*symlink) (struct inode *,struct dentry *,const char *);
-    int (*mkdir) (struct inode *,struct dentry *,int);
-    int (*rmdir) (struct inode *,struct dentry *);
+    int (*create) (struct inode*,struct dentry *,int, struct nameidata*);
+    int (*link) (struct dentry*,struct inode *,struct dentry*);
+    int (*unlink) (struct inode*,struct dentry *);
+    int (*symlink) (struct inode *,struct dentry*,const char *);
+    int (*mkdir) (struct inode *,struct dentry*,int);
+    int (*rmdir) (struct inode*,struct dentry *);
     ...
  }
+
 </code></pre></div></div>
 
-<p>       如<a href="#list10">清单 10.</a> 所见，每个文件存在两个计数器：i_count 与 i_nlink，即引用计数与硬链接计数。结构体 inode 中的 i_count 用于跟踪文件被访问的数量，而 i_nlink 则是上述使用 ls -l 等命令查看到的文件硬链接数。或者说 i_count 跟踪文件在内存中的情况，而 i_nlink 则是磁盘计数器。当文件被删除时，则 i_nlink 先被设置成 0。文件的这两个计数器使得 Linux 系统升级或程序更新变的容易。系统或程序可在不关闭的情况下（即文件 i_count 不为 0），将新文件以同样的文件名进行替换，新文件有自己的 inode 及 data block，旧文件会在相关进程关闭后被完整的删除。</p>
+<p>如<a href="#list10">清单 10.</a> 所见，每个文件存在两个计数器：i_count 与 i_nlink，即引用计数与硬链接计数。结构体 inode 中的 i_count 用于跟踪文件被访问的数量，而 i_nlink 则是上述使用 ls -l 等命令查看到的文件硬链接数。或者说 i_count 跟踪文件在内存中的情况，而 i_nlink 则是磁盘计数器。当文件被删除时，则 i_nlink 先被设置成 0。文件的这两个计数器使得 Linux 系统升级或程序更新变的容易。系统或程序可在不关闭的情况下（即文件 i_count 不为 0），将新文件以同样的文件名进行替换，新文件有自己的 inode 及 data block，旧文件会在相关进程关闭后被完整的删除。</p>
 
 <h4 id="list11"> 清单 11. 文件系统 ext4 中的 inode </h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>struct ext4_inode {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+struct ext4_inode {
     ...
     __le32  i_atime;        // 文件内容最后一次访问时间
     __le32  i_ctime;        // inode 修改时间
@@ -1614,21 +1918,26 @@ SELINUXTYPE=targeted
     __le32  i_block[EXT4_N_BLOCKS];  // 指向具体的 block
     ...
  };
+
 </code></pre></div></div>
-<p>       <a href="#list11">清单 11.</a> 展示的是文件系统 ext4 中对 inode 的定义（见内核源码 fs/ext4/ext4.h）。其中三个时间的定义可对应与命令 stat 中查看到三个时间。i_links_count 不仅用于文件的硬链接计数，也用于目录的子目录数跟踪（目录并不显示硬链接数，命令 ls -ld 查看到的是子目录数）。由于文件系统 ext3 对 i_links_count 有限制，其最大数为：32000（该限制在 ext4 中被取消）。尝试在 ext3 文件系统上验证目录子目录及普通文件硬链接最大数可见 <a href="#list12">清单 12.</a>的错误信息。因此实际文件系统的 inode 之间及与 VFS inode 相较是有差异的。</p>
+<p><a href="#list11">清单 11.</a> 展示的是文件系统 ext4 中对 inode 的定义（见内核源码 fs/ext4/ext4.h）。其中三个时间的定义可对应与命令 stat 中查看到三个时间。i_links_count 不仅用于文件的硬链接计数，也用于目录的子目录数跟踪（目录并不显示硬链接数，命令 ls -ld 查看到的是子目录数）。由于文件系统 ext3 对 i_links_count 有限制，其最大数为：32000（该限制在 ext4 中被取消）。尝试在 ext3 文件系统上验证目录子目录及普通文件硬链接最大数可见 <a href="#list12">清单 12.</a>的错误信息。因此实际文件系统的 inode 之间及与 VFS inode 相较是有差异的。</p>
 
 <h4 id="list12"> 清单 12. 文件系统 ext3 中 i_links_count 的限制 </h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> # ./dirtest.sh
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+# ./dirtest.sh
+
  mkdir: cannot create directory `dir_31999': Too many links
 
- # ./linkcount.sh
+# ./linkcount.sh
+
  ln: failed to create hard link to `old.file': Too many links
+
 </code></pre></div></div>
 
 <h3 id="结束语">结束语</h3>
 
-<p>       本文最初描述了 Linux 系统中文件与目录被引入的原因及 Linux 处理文件的方式，然后我们通过区分硬链接与软链接的不同，了解 Linux 中的索引节点的相关知识，并以此引出了 inode 的结构体。索引节点结构体存在在于 Linux VFS 以及实际文件系统中，VFS 作为通用文件模型是 Linux 中“一切皆是文件”实现的基础。文章并未深入 Linux VFS，也没涉及实际文件系统的实现，文章只是从 inode 了解 Linux 的文件系统的相关内容。若想深入文件系统的内容，查看内核文档 Documentation/filesystems/ 是一个不错的方式。</p>
+<p>本文最初描述了 Linux 系统中文件与目录被引入的原因及 Linux 处理文件的方式，然后我们通过区分硬链接与软链接的不同，了解 Linux 中的索引节点的相关知识，并以此引出了 inode 的结构体。索引节点结构体存在在于 Linux VFS 以及实际文件系统中，VFS 作为通用文件模型是 Linux 中“一切皆是文件”实现的基础。文章并未深入 Linux VFS，也没涉及实际文件系统的实现，文章只是从 inode 了解 Linux 的文件系统的相关内容。若想深入文件系统的内容，查看内核文档 Documentation/filesystems/ 是一个不错的方式。</p>
 
       
     </div>
@@ -1684,7 +1993,7 @@ SELINUXTYPE=targeted
 
 <h4 id="下载">下载</h4>
 
-<p>TortoiseGit的官方下载地址是这里：https://tortoisegit.org/download/ ，下载时请注意与你系统的兼容性。</p>
+<p>TortoiseGit的官方下载地址是这里：<a href="https://tortoisegit.org/download/">https://tortoisegit.org/download/</a> ，下载时请注意与你系统的兼容性。</p>
 
 <blockquote>
   <p>注意TortoiseGit 1.8.16之后的版本不在支持Windows XP 和 Server 2003</p>
@@ -1692,7 +2001,7 @@ SELINUXTYPE=targeted
 
 <p>因为TortoiseGit官网不在国内，所以在访问下载时速度非常的慢，我将目前的稳定版本2.4上传到我的百度云盘，但是以后我可能不能及时更新，所以如果你对版本要求不是很高，可以点击下面链接下载。</p>
 
-<p>链接: https://pan.baidu.com/s/1eScNjA6 密码: 31hu</p>
+<p>链接: <a href="https://pan.baidu.com/s/1eScNjA6">https://pan.baidu.com/s/1eScNjA6</a> 密码: 31hu</p>
 
 <blockquote>
   <p>如链接失效，您可以通过本页面右下角展开通过邮箱，与我取得联系。</p>
@@ -1704,11 +2013,11 @@ SELINUXTYPE=targeted
 
 <p>首先，我们需要安装Git在你的电脑上，这保证你的TortoiseGit运行时所需要的依赖环境。</p>
 
-<p>下载地址：https://git-for-windows.github.io/</p>
+<p>下载地址：<a href="https://git-for-windows.github.io/">https://git-for-windows.github.io/</a></p>
 
 <p>同样，因为某些网络的原因，导致我们在下载时也会很慢，所以我也将目前最新2.13版本上传到了我的百度云盘：</p>
 
-<p>链接: https://pan.baidu.com/s/1c12ZvRq 密码: 43yt</p>
+<p>链接: <a href="https://pan.baidu.com/s/1c12ZvRq">https://pan.baidu.com/s/1c12ZvRq</a> 密码: 43yt</p>
 
 <p>安装过程，这里不在展示，通常情况下，你只需要一路点击Next即可，但是如果你想要修改一些设置，例如默认的安装位置，那么你需要注意下，在TortoiseGit初次启动时，你需要手动设置Git.exe的位置。</p>
 
@@ -1867,7 +2176,6 @@ Remove test database and access to it? [Y/n]: Y
 Reload privilege tables now? [Y/n]: Y
 </code></pre></div></div>
 
-
       
     </div>
     <br/>
@@ -1876,58 +2184,6 @@ Reload privilege tables now? [Y/n]: Y
       <a href="/tags.html#MySQL">MySQL</a>
       , 
       <a href="/tags.html#CentOS">CentOS</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/01/%E5%A6%82%E4%BD%95%E5%81%9A%E4%B8%80%E4%B8%AA%E6%88%90%E7%86%9F%E7%9A%84%E8%87%AA%E5%B7%B1.html">何余生说要感谢身边所有美好的人</a></h1>
-    <div class="post_at_index">
-      <p>在<a href="https://www.zhihu.com/question/59607102/answer/168598394">@知乎</a>上看到一段话：</p>
-
-<blockquote>
-  <p>我感觉到25岁过后，大多数人都不会纠结于，没有跟喜欢的人过一生，人长大了就会体谅命运的多种可能性，你喜欢她，她不一定喜欢你，你们互相喜欢，不一定合适，你们情投意合有匹配度满分，也可能因为随机产生的变数失散。</p>
-</blockquote>
-
-<blockquote>
-  <p><strong>到了一个应该“醒过来”的岁数，还能执着于“我那么喜欢ta为什么不是ta陪着我过下辈子”的，估计都是人生赢家们，没怎么吃过闷亏，还妄想跟命运说道理。</strong></p>
-</blockquote>
-
-<blockquote>
-  <p>大多数人都是可以认的，但“认了”的同时，我们还会心存一点侥幸，张敬轩唱过的，“祈求旧人万岁，旧情万岁，别随便老去”。</p>
-</blockquote>
-
-<p>我今天要讲的不是一个爱情的故事。</p>
-
-<p>我今年25岁，褪去青涩的旧衣，却又茫然被生活拉扯不知所措，我最近看了很多关于25岁该做什么？如何做5年规划？如何改变不甘于现状却又不思进取的状态？人这一辈子，到底是想方设法用尽一切精力赚钱，还是一切随缘安稳度日？好像我的25岁突然来了，所以昨日看来的未来事都硬生生地堆在眼前，你没准备好，我也没有，所以我们疲于奔波像条狗，所以我他妈好累。</p>
-
-<p>25岁好像是人生状态最多的时候，有仍在读书，有刚开始工作，有已工作多年的，有已婚，有未婚，有孩子成群，有好多好多的角色，不同于你的角色；身边总有人在催你做很多事，要赶紧谈恋爱，要赶紧结婚，要赶紧事业有成，要赶紧挣钱，很多很多的钱，可是很多人甚至包括你自己都忘记了自己想要做什么，被迫机械庸碌生存，然后消失茫茫人海不见回首，我想说的我们都知道自己该做什么，尽管很多时间我们被前路妖魔鬼怪打的遍体鳞伤昏天暗地奄奄一息，我们忘了自己是谁，想往后退，不停的后退，蜷缩在昏暗地角落，不想被别人任何人打搅，我们受够足够多的伤害，爱情生活或其他，我们认识的生活的种种不美好，我们躺在昨日伤痕中自哀自怜，开始向生活做出妥协，但是前路上所有的荆棘不会少，只会随着时间的推移更加茂盛，扎人更疼，这些我们都知道，但我有能怎样，懦弱又怎样，我他妈就是个废材。</p>
-
-<p>可是少年啊，昔日你们可是屠龙的勇者啊，千军万马一只独木桥，每个人都是剑指群雄，屹立华山之巅，眼神清亮无暇，棱角分明，一身热血滚滚发烫的少年啊，每个人都是不爱荣华爱红颜，纵是红颜易老，伊人已逝，亦要战苍穹下幽冥，心中有火，头顶有光，杀尽天下，寻伊归来。</p>
-
-<p>是啊，我们都喜欢齐天大圣，成为向他一样的英雄，想成为大话西游中那个身披金甲圣衣，脚踏五彩祥云的猴子，逆转时空五百年寻得我们的紫霞仙子，我们喜欢的热血沸腾，却又目光温柔如水，心里隐隐想起曾经的紫霞仙子，暗暗叹息，呢喃着我猜到了开始，却没猜到结局。大话西游再映时，去影院看到这段时，在暗影搓搓里多少少年儿女唏嘘不已泪眼婆娑，不为别的，只为我们的青春和早已寻不到的那个不可能的那个人。</p>
-
-<p>所以，矫情个什么鬼啊，神经病啊，你他妈已经是一个大人了，别再为了一点感情问题就跟丢了魂而似的，你可以有一段糟糕的爱情和随之一段放纵自己自怜自哀的时期，但是你不能放纵自己过一个烂透的人生；如果，她不是对的人，我不是你想要的那个人，就赶紧麻利地让丫从你脑子里滚蛋，太累，感动不了自己，还想去感动谁。</p>
-
-<p>数数年头，我已经工作5年时间了，工作都换了3个，5年前我没想过现在的自己会是怎么样，也预料不到自己会在哪里，如果重新选择，我应该还是会选择成为现在的自己；的确很多时候，我们都会迷茫，大多数人都是这样，你跟我说，不知道我是不是适合做现在的工作，如果转行，却又不知道想要做什么什么。其实人这一生啊，多数自己想要的和自己想做的不是一件事，就好像你很难碰到你爱ta2也爱你的人，说出来的确会很难受。王小波在《黄金时代》曾写到：“那一天我二十一岁，在我一生的黄金时代。我有好多奢望。我想爱，想吃，还想在一瞬间变成天上半明半暗的云。后来我才知道，生活就是个缓慢受锤的过程，人一天天老下去，奢望也一天天消失，最后变得像挨了锤的牛一样”。少年们总是幻想有一天仗剑走天涯，看一看世界的繁华，可总有一天，他起床发现手里没有剑，哪里也去不了，生活就像一个泥坑，想拔出脚，却动弹不得。那时有的人索性坐下痛哭，有的人抬头看到了星辰。你我都在泥坑，只是有人看到了星辰。</p>
-
-<p>无论怎样，血不能凉。</p>
-
-<p>所以，努力和生活更好的相处，不需要纠结如何去规划，就努力地去生活，如果感受到生命中特别重要的东西，要拼尽所有力气去抓住，不要怀疑自己现在做的对不对，我也不知道如何告诉你该怎样处理这样的状态，我所能告诉你的就是爱自己，遵从内心的选择，然后努力去做，一直努力下去。在我们的人生肯定会遇到迷雾沼泽和望不到顶的大山，可是我们穷尽一生也无法穿越翻越，无法看到峰顶景色以及山的那边的一切，这的确是一件想想就很难过的事情，并且这一切无法逃避，听起来是那么地令人绝望，但是，亲爱的，我们总要去面对，或是大步向前，冲向那未知地泥泞沼泽或满是荆棘望不到顶的大山，要打败可以吃掉我们的大老虎或不知道是什么的怪物，一次又一次，我们会经常失败，摔倒，伤痕累累，可是我们总要爬起来啊，一次又一次，每次都像是用尽整个生命的力量，就算最后我们真的跌倒爬不起来了，也许我们最后真的无法凝聚一丝力量，那至少，我们明白我是真的做不到，而不是不去选择，而不是说从一开始就放弃，至少我们努力让自己变更好，这不是为了哪个人或谁而是为了你自己。</p>
-
-<p>最后，希望你抬起头，看到星辰，</p>
-
-<p>和我。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-01-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
       
       
       
@@ -2018,16 +2274,6 @@ Reload privilege tables now? [Y/n]: Y
     	
       <li><a href="/categories.html#CentOS">
     		CentOS <span>14</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Tools">
-    		Tools <span>4</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#VPN">
-    		VPN <span>2</span>
     	</a></li>
      
     	
@@ -2173,6 +2419,16 @@ Reload privilege tables now? [Y/n]: Y
     	
       <li><a href="/categories.html#Bigdata">
     		Bigdata <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Tools">
+    		Tools <span>4</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#VPN">
+    		VPN <span>2</span>
     	</a></li>
      
     	

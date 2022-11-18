@@ -291,38 +291,47 @@
             <p>常用的mysqldump命令组合。</p>
 
 <h2 id="备份数据库">备份数据库</h2>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump db_name &gt; bak_name.sql
 mysqldump -A -u [dbuser] -p db_name &gt; bak_name.sql
 mysqldump -d -A --add-drop-table -uroot -p &gt;xxx.sql
 </code></pre></div></div>
 
 <h2 id="备份所有库到一个单独的文件">备份所有库到一个单独的文件</h2>
+
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-e</span> <span class="s1">'show databases'</span> | <span class="nb">sed</span> <span class="nt">-n</span> <span class="s1">'2,$p'</span> | xargs <span class="nt">-I</span> DB <span class="s1">'mysqldump DB &gt; DB.sql'</span>
 </code></pre></div></div>
 
 <h3 id="1-导出结构不导出数据">1. 导出结构不导出数据</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　--opt　-d　db_name　-u　root　-p　&gt;　xxx.sql
 </code></pre></div></div>
 
 <h3 id="2-导出数据不导出结构">2. 导出数据不导出结构</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　-t　db_name　-uroot　-p　&gt;　xxx.sql
 </code></pre></div></div>
 
 <h3 id="3-导出数据和表结构">3. 导出数据和表结构</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　db_name　-uroot　-p　&gt;　xxx.sql
 </code></pre></div></div>
 
 <h3 id="4-导出特定表的结构">4. 导出特定表的结构</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　-uroot　-p　-B　db_name　--table　tb_name　&gt;　xxx.sql
 </code></pre></div></div>
 
 <h2 id="导入数据">导入数据</h2>
+
 <p>因为mysqldump导出的是完整的SQL语句，所以用mysql客户程序很容易就能把数据导入了：</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql -u db_user -p db_name  &lt; xxx.sql
 mysql&gt; source /path/xxx.sql
 </code></pre></div></div>
 
-<h2 id="mysqldump参数详解">mysqldump参数详解：</h2>
+<h2 id="mysqldump参数详解">mysqldump参数详解</h2>
+
 <p><code>–all-databases , -A </code>
 导出全部数据库<br />
 mysqldump -uroot -p –all-databases</p>

@@ -288,9 +288,10 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <p>       本文件是采用的模板是CentOS 6，同样适用于CentOS 系列其他发行版本。</p>
+            <p>本文件是采用的模板是CentOS 6，同样适用于CentOS 系列其他发行版本。</p>
 
 <h4 id="1-测试环境">1. 测试环境</h4>
+
 <ul>
   <li>VMware Fushion 8 Pro # windows Use <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></li>
   <li><a href="http://mirrors.aliyun.com/centos/6.8/isos/x86_64/CentOS-6.8-x86_64-minimal.iso">CentOS-6.8-x86_64-minimal.iso</a></li>
@@ -313,7 +314,9 @@ Unpacking JAR files...
         localedata.jar...
         jfxrt.jar...
 </code></pre></div></div>
-<h4 id="3-build-java-environment">3. Build Java Environment.</h4>
+
+<h4 id="3-build-java-environment">3. Build Java Environment</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# vi /etc/profile
 # add follows to the end
 export JAVA_HOME=/usr/java/default
@@ -325,9 +328,11 @@ java version "1.7.0_75"
 Java(TM) SE Runtime Environment (build 1.7.0_75-b13)
 Java HotSpot(TM) 64-Bit Server VM (build 24.75-b04, mixed mode)
 </code></pre></div></div>
+
 <h4 id="4-download-tomcat7">4. Download Tomcat7</h4>
+
 <p>Make sure the latest one and download it from the site below.
-=》 http://ftp.riken.jp/net/apache/tomcat/tomcat-7/</p>
+=》 <a href="http://ftp.riken.jp/net/apache/tomcat/tomcat-7/">http://ftp.riken.jp/net/apache/tomcat/tomcat-7/</a></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# wget http://ftp.riken.jp/net/apache/tomcat/tomcat-7/v7.0.70/bin/apache-tomcat-7.0.70.tar.gz
 [root@ultraera ~]# tar zxvf apache-tomcat-7.0.70.tar.gz
@@ -335,7 +340,9 @@ Java HotSpot(TM) 64-Bit Server VM (build 24.75-b04, mixed mode)
 [root@ultraera ~]# useradd -M -d /usr/tomcat7 tomcat7
 [root@ultraera ~]# chown -R tomcat7. /usr/tomcat7
 </code></pre></div></div>
+
 <h4 id="5-create-a-script--use-service-manage-tomcat7">5. create a script , use service manage tomcat7</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# cat /etc/rc.d/init.d/tomcat7
  #!/bin/bash
 
@@ -389,6 +396,7 @@ case "$1" in
 esac
 exit $?
 </code></pre></div></div>
+
 <h4 id="6-add-tomcat7-to-system-service">6. Add tomcat7 to system service</h4>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# <span class="nb">chmod </span>755 /etc/rc.d/init.d/tomcat7
@@ -409,10 +417,13 @@ tomcat7       6326  8.3 85.6 5229768 2910176 ?     Sl   Aug22 3216:38 /usr/bin/j
 <span class="o">[</span>root@ultraera ~]# chkconfig <span class="nt">--add</span> tomcat7
 <span class="o">[</span>root@ultraera ~]# chkconfig tomcat7 on
 </code></pre></div></div>
+
 <h4 id="7-打开浏览器测试tomcat-server搭建完成默认页面如下">7. 打开浏览器测试Tomcat Server搭建完成，默认页面如下</h4>
+
 <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/09/tomcat7.jpg" alt="" /></p>
 
 <h4 id="8-使用curl-测试">8. 使用curl 测试</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# curl -I http://localhost:8080
 HTTP/1.1 200 OK
 Server: Apache-Coyote/1.1

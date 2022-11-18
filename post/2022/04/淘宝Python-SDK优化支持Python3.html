@@ -291,8 +291,8 @@
             <p>淘宝开放平台的SDK，Python的 SDK 是在2012年，仅支持Python2.7 及以上，但不支持Python3；二现在是2102年了，像我这样的新手都是直接从Python3开始的</p>
 
 <ul>
-  <li>我已经把这个项目开放在 GitHub https://github.com/SAMZONG/taobao-openapi</li>
-  <li>同时放在了 Python pypi 软件仓库 https://pypi.org/project/taobao-openapi/</li>
+  <li>我已经把这个项目开放在 GitHub <a href="https://github.com/SAMZONG/taobao-openapi">https://github.com/SAMZONG/taobao-openapi</a></li>
+  <li>同时放在了 Python pypi 软件仓库 <a href="https://pypi.org/project/taobao-openapi/">https://pypi.org/project/taobao-openapi/</a></li>
 </ul>
 
 <h2 id="install--usage">Install &amp; Usage</h2>
@@ -330,29 +330,29 @@ app_secret =
 session_key = 
 
 def trade_rates_get_request():
-	req = top.api.TraderatesGetRequest()
-	req.set_app_info(top.appinfo(app_key, app_secret))
-	
-	req.fields = "tid,oid,role,nick,result,created,rated_nick,item_title,item_price,content,reply,num_iid"
-	req.rate_type = "get"
-	req.role = "buyer"
-	
-	try:
-		resp = req.getResponse(session_key)
-	except Exception as e:
-		print(e)
+ req = top.api.TraderatesGetRequest()
+ req.set_app_info(top.appinfo(app_key, app_secret))
+ 
+ req.fields = "tid,oid,role,nick,result,created,rated_nick,item_title,item_price,content,reply,num_iid"
+ req.rate_type = "get"
+ req.role = "buyer"
+ 
+ try:
+  resp = req.getResponse(session_key)
+ except Exception as e:
+  print(e)
 
 
 if __name__ == '__main__':
-	result = trade_rates_get_request()
-	print(result)
+ result = trade_rates_get_request()
+ print(result)
 
 </code></pre>
 
 <h2 id="适配部分介绍">适配部分介绍</h2>
 
 <blockquote>
-  <p>以下为了省时间，基本引用了 https://blog.csdn.net/starryhwj/article/details/103026402 补充了8
+  <p>以下为了省时间，基本引用了 <a href="https://blog.csdn.net/starryhwj/article/details/103026402">https://blog.csdn.net/starryhwj/article/details/103026402</a> 补充了8
 同时感谢 <a href="https://github.com/ymj4023">@ymj4023</a></p>
 </blockquote>
 
@@ -455,52 +455,52 @@ import os
 import sys
 
 try:
-	from setuptools import setup, find_packages
+ from setuptools import setup, find_packages
 except:
-	from distutils import setup
+ from distutils import setup
 
 with open('README.md', 'r', encoding="utf-8") as fp:
-	readme = fp.read()
+ readme = fp.read()
 
 VERSION = "1.0.0"
 LICENSE = "MIT"
 
 setup(
-	name='taobao-openapi',
-	version=VERSION,
-	description=(
-		'集合了淘宝开放平台的商铺OPEN API，并适配了Python3'
-	),
-	long_description=readme,
-	long_description_content_type='text/markdown',
-	author='samzong.lu',
-	author_email='samzong.lu@gmail.com',
-	maintainer='samzong.lu',
-	maintainer_email='samzong.lu@gmail.com',
-	license=LICENSE,
-	packages=find_packages(),
-	platforms=["all"],
-	url='https://github.com/SAMZONG/taobao-sdk-python3',
-	install_requires=[
-		"requests"
-		],
-	classifiers=[
-		'Development Status :: 4 - Beta',
-		'Operating System :: OS Independent',
-		'Intended Audience :: Developers',
-		'License :: OSI Approved :: BSD License',
-		'Programming Language :: Python',
-		'Programming Language :: Python :: Implementation',
-		'Programming Language :: Python :: 3',
-		'Programming Language :: Python :: 3.4',
-		'Programming Language :: Python :: 3.5',
-		'Programming Language :: Python :: 3.6',
-		'Programming Language :: Python :: 3.7',
-		'Programming Language :: Python :: 3.8',
-		'Programming Language :: Python :: 3.9',
-		'Topic :: Software Development :: Libraries'
-		],
-	)
+ name='taobao-openapi',
+ version=VERSION,
+ description=(
+  '集合了淘宝开放平台的商铺OPEN API，并适配了Python3'
+ ),
+ long_description=readme,
+ long_description_content_type='text/markdown',
+ author='samzong.lu',
+ author_email='samzong.lu@gmail.com',
+ maintainer='samzong.lu',
+ maintainer_email='samzong.lu@gmail.com',
+ license=LICENSE,
+ packages=find_packages(),
+ platforms=["all"],
+ url='https://github.com/SAMZONG/taobao-sdk-python3',
+ install_requires=[
+  "requests"
+  ],
+ classifiers=[
+  'Development Status :: 4 - Beta',
+  'Operating System :: OS Independent',
+  'Intended Audience :: Developers',
+  'License :: OSI Approved :: BSD License',
+  'Programming Language :: Python',
+  'Programming Language :: Python :: Implementation',
+  'Programming Language :: Python :: 3',
+  'Programming Language :: Python :: 3.4',
+  'Programming Language :: Python :: 3.5',
+  'Programming Language :: Python :: 3.6',
+  'Programming Language :: Python :: 3.7',
+  'Programming Language :: Python :: 3.8',
+  'Programming Language :: Python :: 3.9',
+  'Topic :: Software Development :: Libraries'
+  ],
+ )
 </code></pre>
 
         </div>

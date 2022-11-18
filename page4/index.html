@@ -284,19 +284,19 @@
 
 <p><code class="language-plaintext highlighter-rouge">P_TIMESTAMP: str(int(time.time() * 1000))</code></p>
 
-<h4 id="2-用items替代iteritems">2. 用items替代iteritems:</h4>
+<h4 id="2-用items替代iteritems">2. 用items替代iteritems</h4>
 
 <p><code class="language-plaintext highlighter-rouge">for key, value in application_parameter.items():</code></p>
 
-<h4 id="3-查阅资料发现有人说到dict-methods-dictkeys-dictitems-and-dictvalues-return-views-instead-of-lists这样就显而易见知道怎么改了">3. 查阅资料，发现有人说到dict methods dict.keys(), dict.items() and dict.values() return “views” instead of lists.这样就显而易见知道怎么改了：</h4>
+<h4 id="3-查阅资料发现有人说到dict-methods-dictkeys-dictitems-and-dictvalues-return-views-instead-of-lists这样就显而易见知道怎么改了">3. 查阅资料，发现有人说到dict methods dict.keys(), dict.items() and dict.values() return “views” instead of lists.这样就显而易见知道怎么改了</h4>
 
 <p><code class="language-plaintext highlighter-rouge">keys = sorted(keys)</code></p>
 
-<h4 id="4-英文意思很明确unicode对象在哈希之前必须进行编码转换想起之前又看到过中文字符在python中是以unicode存在的所以">4. 英文意思很明确，unicode对象在哈希之前必须进行编码转换，想起之前又看到过中文字符在python中是以unicode存在的，所以：</h4>
+<h4 id="4-英文意思很明确unicode对象在哈希之前必须进行编码转换想起之前又看到过中文字符在python中是以unicode存在的所以">4. 英文意思很明确，unicode对象在哈希之前必须进行编码转换，想起之前又看到过中文字符在python中是以unicode存在的，所以</h4>
 
 <p><code class="language-plaintext highlighter-rouge">sign = hashlib.md5(parameters.encode("utf-8")).hexdigest().upper()</code></p>
 
-<h4 id="5-这是花费时间最长的一个错误首先直接看最后错误在soketpy里心凉了半截难道这里的调用都不一样了再网上看又是python-3x的http模块去百度了半天也没有发现类似的错误只能自己硬着头皮去看模块功夫不负有心人其实也很简单在类httpconnection的初始化函数是这样定义的">5. 这是花费时间最长的一个错误。首先，直接看最后，错误在soket.py里，心凉了半截，难道这里的调用都不一样了,再网上看又是python 3.X的http模块，去百度了半天也没有发现类似的错误，只能自己硬着头皮去看模块，功夫不负有心人，其实也很简单，在类HTTPConnection的初始化函数是这样定义的:</h4>
+<h4 id="5-这是花费时间最长的一个错误首先直接看最后错误在soketpy里心凉了半截难道这里的调用都不一样了再网上看又是python-3x的http模块去百度了半天也没有发现类似的错误只能自己硬着头皮去看模块功夫不负有心人其实也很简单在类httpconnection的初始化函数是这样定义的">5. 这是花费时间最长的一个错误。首先，直接看最后，错误在soket.py里，心凉了半截，难道这里的调用都不一样了,再网上看又是python 3.X的http模块，去百度了半天也没有发现类似的错误，只能自己硬着头皮去看模块，功夫不负有心人，其实也很简单，在类HTTPConnection的初始化函数是这样定义的</h4>
 
 <p><code class="language-plaintext highlighter-rouge">connection = httplib.HTTPConnection(self.__domain, self.__port, timeout)</code></p>
 
@@ -308,7 +308,7 @@
 
 <p><code class="language-plaintext highlighter-rouge">url = N_REST + "?" + urllib.parse.urlencode(sys_parameters)</code></p>
 
-<h4 id="7-这个错误是在api调用出异常的时候暴露出来的原因前面已经提到了稍微查了下替代的方法">7. 这个错误是在API调用出异常的时候暴露出来的。原因前面已经提到了，稍微查了下替代的方法：</h4>
+<h4 id="7-这个错误是在api调用出异常的时候暴露出来的原因前面已经提到了稍微查了下替代的方法">7. 这个错误是在API调用出异常的时候暴露出来的。原因前面已经提到了，稍微查了下替代的方法</h4>
 
 <p><code class="language-plaintext highlighter-rouge">if "error_response" in jsonobj:</code></p>
 
@@ -354,7 +354,7 @@ git push origin gh-pages
 <p><code class="language-plaintext highlighter-rouge">gh-pages</code> 是每个 GitHub 仓库的默认 github pages 分支，当你创建这个分支并推动到 GitHub 时，会自动触发 Pages 的构建任务，大约30s 左右，你就会得到一个网站</p>
 
 <blockquote>
-  <p>http://[github_username].github.io/[github_repo_name]</p>
+  <p><a href="http://[github_username">http://[github_username</a>].github.io/[github_repo_name]</p>
 </blockquote>
 
 <h2 id="简单的配置">简单的配置</h2>
@@ -383,9 +383,9 @@ git push origin gh-pages
 <p>这里不赘述安装细节的，比较简单，直接去看下面几个网站即可</p>
 
 <ul>
-  <li>https://utteranc.es/</li>
-  <li>https://roife.github.io/2021/02/12/use-utterances-for-comment/</li>
-  <li>https://www.evanlin.com/jekyll-remove-disqus/</li>
+  <li><a href="https://utteranc.es/">https://utteranc.es/</a></li>
+  <li><a href="https://roife.github.io/2021/02/12/use-utterances-for-comment/">https://roife.github.io/2021/02/12/use-utterances-for-comment/</a></li>
+  <li><a href="https://www.evanlin.com/jekyll-remove-disqus/">https://www.evanlin.com/jekyll-remove-disqus/</a></li>
 </ul>
 
 <blockquote>
@@ -415,7 +415,7 @@ git push origin gh-pages
 <p>以上就是全部的部署内容了，可以去看下我的网站和项目</p>
 
 <ul>
-  <li>https://k8s-yaml.samzong.me</li>
+  <li><a href="https://k8s-yaml.samzong.me">https://k8s-yaml.samzong.me</a></li>
 </ul>
 
 <p>如果你觉得喜欢，求 fork，求 star</p>
@@ -664,7 +664,7 @@ git push origin gh-pages
 <p>我正在打造一个中文环境下 Metabase 交互的社群，如果你有任何关于 Metabase 的问题，请联系我们：</p>
 
 <blockquote>
-  <p>Metabase 中文交流 <strong>https://t.me/metabase_zh</strong></p>
+  <p>Metabase 中文交流 <strong><a href="https://t.me/metabase_zh">https://t.me/metabase_zh</a></strong></p>
 </blockquote>
 
 <h2 id="installation">Installation</h2>
@@ -692,7 +692,7 @@ git push origin gh-pages
 <h3 id="获取-metabase-的-jar-包">获取 Metabase 的 Jar 包</h3>
 
 <blockquote>
-  <p>https://metabase.com/start/jar.html</p>
+  <p><a href="https://metabase.com/start/jar.html">https://metabase.com/start/jar.html</a></p>
 </blockquote>
 
 <p>通过上方这个链接，可以很快的获取到 Metabase 的最新版本的 Jar 包</p>
@@ -711,7 +711,7 @@ git push origin gh-pages
 <p>成功启动后，Metabase 会运行在 3000 端口</p>
 
 <blockquote>
-  <p>http://localhost:3000/</p>
+  <p><a href="http://localhost:3000/">http://localhost:3000/</a></p>
 </blockquote>
 
 <h3 id="以后台方式运行-metabase">以后台方式运行 Metabase</h3>
@@ -750,15 +750,15 @@ vim ~/.bashrc
 <p>对 Nginx 的配置，比较简单，可以参考这个文档：</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server <span class="o">{</span>
-	listen 443 ssl<span class="p">;</span>
-	server_name example.com<span class="p">;</span>
-	root /var/www/example.com/public<span class="p">;</span>
+ listen 443 ssl<span class="p">;</span>
+ server_name example.com<span class="p">;</span>
+ root /var/www/example.com/public<span class="p">;</span>
 
-	<span class="c"># reverse proxy</span>
-	location /mb/ <span class="o">{</span>
-		proxy_pass http://127.0.0.1:3000<span class="p">;</span>
-		proxy_set_header Host <span class="nv">$Host</span><span class="p">;</span>
-	<span class="o">}</span>
+ <span class="c"># reverse proxy</span>
+ location /mb/ <span class="o">{</span>
+  proxy_pass http://127.0.0.1:3000<span class="p">;</span>
+  proxy_set_header Host <span class="nv">$Host</span><span class="p">;</span>
+ <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>
 
@@ -769,12 +769,12 @@ vim ~/.bashrc
 <h3 id="配置-metabase-的-clickhouse-插件">配置 Metabase 的 ClickHouse 插件</h3>
 
 <blockquote>
-  <p>Metabase 官方支持数据库 https://www.metabase.com/docs/latest/administration-guide/01-managing-databases.html#officially-supported-databases</p>
+  <p>Metabase 官方支持数据库 <a href="https://www.metabase.com/docs/latest/administration-guide/01-managing-databases.html#officially-supported-databases">https://www.metabase.com/docs/latest/administration-guide/01-managing-databases.html#officially-supported-databases</a></p>
 </blockquote>
 
 <p>Metabase 默认支持非常丰富数据库驱动，这些都会预置在 Jar 内，例如 MySQL、Oracle、SQL Server；但是 ClickHouse 不在其中，所以我们需要独立进行安装。</p>
 
-<p>ClickHouse 驱动: https://github.com/enqueue/metabase-clickhouse-driver#readme=</p>
+<p>ClickHouse 驱动: <a href="https://github.com/enqueue/metabase-clickhouse-driver#readme">https://github.com/enqueue/metabase-clickhouse-driver#readme</a>=</p>
 
 <ul>
   <li>下载 <strong>合适的</strong> 驱动版本，放在 Metabase 的目录下的 plugin 文件夹下</li>
@@ -783,7 +783,7 @@ vim ~/.bashrc
 </ul>
 
 <blockquote>
-  <p>更多三方驱动: https://www.metabase.com/docs/latest/developers-guide-drivers.html#how-to-use-a-community-built-driver</p>
+  <p>更多三方驱动: <a href="https://www.metabase.com/docs/latest/developers-guide-drivers.html#how-to-use-a-community-built-driver">https://www.metabase.com/docs/latest/developers-guide-drivers.html#how-to-use-a-community-built-driver</a></p>
 </blockquote>
 
 <h2 id="tips">Tips</h2>
@@ -853,8 +853,8 @@ ps aux | <span class="nb">grep </span>python | <span class="nb">grep</span> <spa
       <p>淘宝开放平台的SDK，Python的 SDK 是在2012年，仅支持Python2.7 及以上，但不支持Python3；二现在是2102年了，像我这样的新手都是直接从Python3开始的</p>
 
 <ul>
-  <li>我已经把这个项目开放在 GitHub https://github.com/SAMZONG/taobao-openapi</li>
-  <li>同时放在了 Python pypi 软件仓库 https://pypi.org/project/taobao-openapi/</li>
+  <li>我已经把这个项目开放在 GitHub <a href="https://github.com/SAMZONG/taobao-openapi">https://github.com/SAMZONG/taobao-openapi</a></li>
+  <li>同时放在了 Python pypi 软件仓库 <a href="https://pypi.org/project/taobao-openapi/">https://pypi.org/project/taobao-openapi/</a></li>
 </ul>
 
 <h2 id="install--usage">Install &amp; Usage</h2>
@@ -892,29 +892,29 @@ app_secret =
 session_key = 
 
 def trade_rates_get_request():
-	req = top.api.TraderatesGetRequest()
-	req.set_app_info(top.appinfo(app_key, app_secret))
-	
-	req.fields = "tid,oid,role,nick,result,created,rated_nick,item_title,item_price,content,reply,num_iid"
-	req.rate_type = "get"
-	req.role = "buyer"
-	
-	try:
-		resp = req.getResponse(session_key)
-	except Exception as e:
-		print(e)
+ req = top.api.TraderatesGetRequest()
+ req.set_app_info(top.appinfo(app_key, app_secret))
+ 
+ req.fields = "tid,oid,role,nick,result,created,rated_nick,item_title,item_price,content,reply,num_iid"
+ req.rate_type = "get"
+ req.role = "buyer"
+ 
+ try:
+  resp = req.getResponse(session_key)
+ except Exception as e:
+  print(e)
 
 
 if __name__ == '__main__':
-	result = trade_rates_get_request()
-	print(result)
+ result = trade_rates_get_request()
+ print(result)
 
 </code></pre>
 
 <h2 id="适配部分介绍">适配部分介绍</h2>
 
 <blockquote>
-  <p>以下为了省时间，基本引用了 https://blog.csdn.net/starryhwj/article/details/103026402 补充了8
+  <p>以下为了省时间，基本引用了 <a href="https://blog.csdn.net/starryhwj/article/details/103026402">https://blog.csdn.net/starryhwj/article/details/103026402</a> 补充了8
 同时感谢 <a href="https://github.com/ymj4023">@ymj4023</a></p>
 </blockquote>
 
@@ -1017,52 +1017,52 @@ import os
 import sys
 
 try:
-	from setuptools import setup, find_packages
+ from setuptools import setup, find_packages
 except:
-	from distutils import setup
+ from distutils import setup
 
 with open('README.md', 'r', encoding="utf-8") as fp:
-	readme = fp.read()
+ readme = fp.read()
 
 VERSION = "1.0.0"
 LICENSE = "MIT"
 
 setup(
-	name='taobao-openapi',
-	version=VERSION,
-	description=(
-		'集合了淘宝开放平台的商铺OPEN API，并适配了Python3'
-	),
-	long_description=readme,
-	long_description_content_type='text/markdown',
-	author='samzong.lu',
-	author_email='samzong.lu@gmail.com',
-	maintainer='samzong.lu',
-	maintainer_email='samzong.lu@gmail.com',
-	license=LICENSE,
-	packages=find_packages(),
-	platforms=["all"],
-	url='https://github.com/SAMZONG/taobao-sdk-python3',
-	install_requires=[
-		"requests"
-		],
-	classifiers=[
-		'Development Status :: 4 - Beta',
-		'Operating System :: OS Independent',
-		'Intended Audience :: Developers',
-		'License :: OSI Approved :: BSD License',
-		'Programming Language :: Python',
-		'Programming Language :: Python :: Implementation',
-		'Programming Language :: Python :: 3',
-		'Programming Language :: Python :: 3.4',
-		'Programming Language :: Python :: 3.5',
-		'Programming Language :: Python :: 3.6',
-		'Programming Language :: Python :: 3.7',
-		'Programming Language :: Python :: 3.8',
-		'Programming Language :: Python :: 3.9',
-		'Topic :: Software Development :: Libraries'
-		],
-	)
+ name='taobao-openapi',
+ version=VERSION,
+ description=(
+  '集合了淘宝开放平台的商铺OPEN API，并适配了Python3'
+ ),
+ long_description=readme,
+ long_description_content_type='text/markdown',
+ author='samzong.lu',
+ author_email='samzong.lu@gmail.com',
+ maintainer='samzong.lu',
+ maintainer_email='samzong.lu@gmail.com',
+ license=LICENSE,
+ packages=find_packages(),
+ platforms=["all"],
+ url='https://github.com/SAMZONG/taobao-sdk-python3',
+ install_requires=[
+  "requests"
+  ],
+ classifiers=[
+  'Development Status :: 4 - Beta',
+  'Operating System :: OS Independent',
+  'Intended Audience :: Developers',
+  'License :: OSI Approved :: BSD License',
+  'Programming Language :: Python',
+  'Programming Language :: Python :: Implementation',
+  'Programming Language :: Python :: 3',
+  'Programming Language :: Python :: 3.4',
+  'Programming Language :: Python :: 3.5',
+  'Programming Language :: Python :: 3.6',
+  'Programming Language :: Python :: 3.7',
+  'Programming Language :: Python :: 3.8',
+  'Programming Language :: Python :: 3.9',
+  'Topic :: Software Development :: Libraries'
+  ],
+ )
 </code></pre>
 
       
@@ -1228,7 +1228,6 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
 
 <p>在多人协作的场景可能会出现覆盖他人代码的情况，请注意协商并 fetch 分支的变更，确保最新状态</p>
 
-
       
     </div>
     <br/>
@@ -1323,16 +1322,6 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
     	
       <li><a href="/categories.html#CentOS">
     		CentOS <span>14</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Tools">
-    		Tools <span>4</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#VPN">
-    		VPN <span>2</span>
     	</a></li>
      
     	
@@ -1478,6 +1467,16 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
     	
       <li><a href="/categories.html#Bigdata">
     		Bigdata <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Tools">
+    		Tools <span>4</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#VPN">
+    		VPN <span>2</span>
     	</a></li>
      
     	

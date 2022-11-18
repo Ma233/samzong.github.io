@@ -276,6 +276,379 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/07/Manage-Tomcat-Service-Use-Shell-Script.html">Manage Tomcat Service Use Shell Script</a></h1>
+    <div class="post_at_index">
+      <h4 id="tomcat-项目管理交互式脚本">Tomcat 项目管理交互式脚本</h4>
+
+<ul>
+  <li>Install pssh</li>
+  <li>Use Key Login Server Hosts</li>
+  <li>~/.ssh/config 配置使用host名登录服务</li>
+  <li>指定 Server Group Files 存放位置</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+#!/bin/bash
+
+# Author Alex LU
+# Date 2016-07-20
+# Version 1.0
+
+# HostFile
+HostDIR=~/.ssh/host/
+
+# war包上传到该目录
+# /warfolder
+
+:'
+jobs_select (){
+    STRING=``cat $vmname | grep group
+    if [ -z "$STRING" ]
+    then
+        job_tomcat
+    else
+        job2_tomcat
+    fi
+}
+'
+
+function HOST()
+{
+    echo ""
+    echo "############ Host List ###############"
+    echo "ckgroup:ck01,ck02,ck03,ck04"
+    echo "sjgroup:sj01,sj02,sj03,sj04"
+    echo "ddgroup:dd01,dd02,dd03,dd04"
+    echo "htgroup:ht01,ht02"
+    echo "othergroup:report,tg"
+    echo "######################################"
+    echo ""
+    echo " Tips: 如果要选择ck01，则输入ck01即可，如果输入ck组，输入ckgroup即可,如果要退出当前脚本输入exit"
+    echo " Tips: 退回上一步请输入back"
+    read -p "请输入你的选择:" vmname
+
+    case "$vmname" in
+        ck01|ck02|ck03|ck04|sj01|sj02|sj03|sj04|dd01|dd02|dd03|dd04|report|tg|ht01|ht02)
+            job_tomcat $vmname
+            ;;
+        ckgroup|sjgroup|htgroup|ddgroup|othergroup)
+            job2_tomcat $vmname
+            ;;
+        exit)
+            exit 0;
+            ;;
+        back)
+            clear
+            echo ""
+            echo "Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"
+            main
+            ;;
+        *)
+            echo "请输入的选择!"
+            HOST
+            ;;
+    esac
+}
+
+function job_tomcat ()
+{
+    echo ""
+    echo "############ 动作 ###############"
+    echo "  1. 查看当前tomcat7状态"
+    echo "  2. 关闭tomcat7"
+    echo "  3. 启动tomcat7"
+    echo "  4. 重启tomcat7"
+    echo "  5. 获取最近200行日志"
+    echo "  6. 重新选择主机"
+    echo "  7. 回到顶层目录"
+    echo ""
+    echo "#################################"
+
+    read -p "请输入你的选择:" service_tomcat
+
+    case $service_tomcat in
+        1)
+        pssh -H $vmname -i "ps aux | grep tomcat"
+        job_tomcat
+        ;;
+        2)
+        pssh -H $vmname -i "service tomcat7 stop"
+        # tips： 下面grep的字符串要和你的tomcat项目名称契合
+        pssh -H $vmname -i "ps aux | grep tomcat7 | awk '{print $2}' | xargs kill -9 "
+        # tips: 下面用到的路径为绝对路径，请更改为自己tomcat的目录，也可以在前面增加自定义变量
+        pssh -H $vmname -i "rm -rf /tomcat7/work/*"
+        pssh -H $vmname -i "rm -rf /tomcat7/logs/*"
+        pssh -H $vmname -i "rm -rf /tomcat7/temp/*"
+        job_tomcat
+        ;;
+        3)
+        pssh -H $vmname -i "service tomcat7 start"
+        job_tomcat
+        ;;
+        4)
+        pssh -H $vmname -i "service tomcat7 stop"
+        # tips： 下面grep的字符串要和你的tomcat项目名称契合
+        pssh -H $vmname -i "ps aux | grep tomcat7 | awk '{print $2}' | xargs kill -9 "
+        # tips: 下面用到的路径为绝对路径，请更改为自己tomcat的目录，也可以在前面增加自定义变量
+        pssh -H $vmname -i "rm -rf /tomcat7/work/*"
+        pssh -H $vmname -i "rm -rf /tomcat7/logs/*"
+        pssh -H $vmname -i "rm -rf /tomcat7/temp/*"
+        sleep 1
+        pssh -H $vmname -i "service tomcat7 start"
+        job_tomcat
+        ;;
+        5)
+        pssh -H $vmname -i "tail -n 200 /tomcat7/logs/catalina.out"
+        job_tomcat
+        ;;
+        6)
+        echo ""
+        HOST
+        ;;
+        7)
+        clear
+        echo ""
+        echo "Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"
+        main
+        ;;
+        *)
+        echo "请输入正确的选项！"
+        job_tomcat
+        ;;
+    esac
+}
+
+function job2_tomcat ()
+{
+    echo ""
+    echo "############ 动作 ###############"
+    echo "  1. 查看当前tomcat7状态"
+    echo "  2. 关闭tomcat7"
+    echo "  3. 启动tomcat7"
+    echo "  4. 重启tomcat7"
+    echo "  5. 获取最近200行日志"
+    echo "  6. 重新选择主机"
+    echo "  7. 回到顶层目录"
+    echo ""
+    echo "################################"
+
+    read -p "请输入你的选择:" service_tomcat
+
+    case $service_tomcat in
+        1)
+        pssh -h $HostDIR/$vmname -i "ps aux | grep tomcat"
+        job2_tomcat
+        ;;
+        2)
+        pssh -h $HostDIR/$vmname -i "service tomcat7 stop"
+        # tips： 下面grep的字符串要和你的tomcat项目名称契合
+        pssh -h $HostDIR/$vmname -i "ps aux | grep tomcat7 | awk '{print $2}' | xargs kill -9 "
+        # tips: 下面用到的路径为绝对路径，请更改为自己tomcat的目录，也可以在前面增加自定义变量
+        pssh -h $HostDIR/$vmname -i "rm -rf /tomcat7/work/*"
+        pssh -h $HostDIR/$vmname -i "rm -rf /tomcat7/logs/*"
+        pssh -h $HostDIR/$vmname -i "rm -rf /tomcat7/temp/*"
+        job2_tomcat
+        ;;
+        3)
+        pssh -h $HostDIR/$vmname -i "service tomcat7 start"
+        job2_tomcat
+        ;;
+        4)
+        pssh -h $HostDIR/$vmname -i "service tomcat7 stop"
+        # tips： 下面grep的字符串要和你的tomcat项目名称契合
+        pssh -h $HostDIR/$vmname -i "ps aux | grep tomcat7 | awk '{print $2}' | xargs kill -9 "
+        # tips: 下面用到的路径为绝对路径，请更改为自己tomcat的目录，也可以在前面增加自定义变量
+        pssh -h $HostDIR/$vmname -i "rm -rf /tomcat7/work/*"
+        pssh -h $HostDIR/$vmname -i "rm -rf /tomcat7/logs/*"
+        pssh -h $HostDIR/$vmname -i "rm -rf /tomcat7/temp/*"
+        sleep 1
+        pssh -h $HostDIR/$vmname -i "service tomcat7 start"
+        job2_tomcat
+        ;;
+        5)
+        pssh -h $HostDIR/$vmname -i "tail -n 200 /tomcat7/logs/catalina.out"
+        job2_tomcat
+        ;;
+        6)
+        echo ""
+        HOST
+        ;;
+        7)
+        clear
+        echo ""
+        echo "Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"
+        main
+        ;;
+        *)
+        echo "请输入正确的选项！"
+        job_tomcat
+        ;;
+    esac
+}
+
+function HOST2()
+{
+    echo ""
+    echo "############ Host List ###############"
+    echo "ckgroup:ck01,ck02,ck03,ck04"
+    echo "sjgroup:sj01,sj02,sj03,sj04"
+    echo "ddgroup:dd01,dd02,dd03,dd04"
+    echo "htgroup:ht01,ht02"
+    echo "othergroup:report,tg"
+    echo "######################################"
+    echo ""
+# 确认是否所有项目包发布后立即启动
+    echo -e "\033[7m 更新订单服务器的war包时，会自动启动tomcat程序，为了释放war包，修改order.no，请设置war包内order.no＝0 ,其它服务器tomcat不会自启动，请使用命令操作 \033[0m"
+    echo " Tips: 如果要选择ck01，则输入ck01即可，如果输入ck组，输入ckgroup即可,如果要退出当前脚本输入exit"
+    echo " Tips: 退回上一步请输入back"
+    read -p "请输入你的选择:" vmname
+    case "$vmname" in
+        ck01|ck02|ck03|ck04|sj01|sj02|sj03|sj04|dd01|dd02|dd03|dd04|report|tg|ht01|ht02)
+            read -p "请输入war包的名称,例如:dzcx_ck.war :" warname
+            pscp_tomcat $vmname $warname
+            ;;
+        ckgroup|sjgroup|htgroup|othergroup)
+            read -p "请输入war包的名称,例如:dzcx_ck.war :" warname
+            pscp2_tomcat $vmname $warname
+            ;;
+        ddgroup)
+            read -p "请输入war包的名称,例如:dzcx_ck.war :" warname
+            pscp3_tomcat $vmname $warname
+            ;;
+        exit)
+            exit 0;
+            ;;
+        back)
+            clear
+            echo ""
+            echo "Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"
+            main
+            ;;
+        *)
+            echo "请输入的选择!"
+            HOST
+            ;;
+    esac
+}
+
+function pscp_tomcat ()
+{
+    # single host
+    pscp.pssh -H $vmname /warfolder/"$warname" /tomcat7/webapps/
+    HOST2
+}
+
+function pscp2_tomcat ()
+{
+    # group
+    pscp.pssh -h $HostDIR/$vmname /warfolder/"$warname" /tomcat7/webapps/
+    HOST2
+}
+
+function pscp3_tomcat ()
+{
+    # group dd 因为订单需要修改服务器编号
+    pscp.pssh -h $HostDIR/$vmname /warfolder/"$warname" /tomcat7/webapps/
+    pssh -h $vmname -i "service tomcat7 start"
+    sleep 10
+    pssh -H dd02 "sed -i 's/order.no=0/order.no=1/g' /tomcat7/webapps/dzcx_socket/WEB-INF/classes/base.properties"
+    pssh -H dd03 "sed -i 's/order.no=0/order.no=2/g' /tomcat7/webapps/dzcx_socket/WEB-INF/classes/base.properties"
+    pssh -H dd04 "sed -i 's/order.no=0/order.no=3/g' /tomcat7/webapps/dzcx_socket/WEB-INF/classes/base.properties"
+    HOST2
+}
+
+function main ()
+{
+echo ""
+echo "######################################"
+echo ""
+echo "#  1. 更新war包"
+echo "#  2. 管理tomcat7"
+echo "#  3. 管理mysql"
+echo "#  4. 管理redis"
+echo "#  5. 同步服务器时间"
+echo "#  6. 清理当前屏幕"
+echo "#  7. 退出"
+echo ""
+echo "######################################"
+
+read -p "请输入你的选择:" num
+
+case "$num" in
+    1)
+        HOST2
+        ;;
+    2)
+        HOST
+        ;;
+    3)
+        echo "该功能暂未开放"
+        ;;
+    4)
+        echo "该功能暂未开放"
+        ;;
+    5)
+        pssh -h $HostDIR/allhost -i "service ntpd restart"
+        ;;
+    6)
+        clear
+        echo ""
+        echo "Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"
+        main
+        ;;
+    7)
+        exit 0
+        ;;
+    *)
+        echo "请输入正确的数值！"
+        main
+    ;;
+esac
+
+}
+
+# --------------------------------- main -------------------------------------------------
+
+clear
+
+echo ""
+echo "Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"
+command -v pssh &gt; /dev/null 2&gt;&amp;1
+
+if [ $? -eq 0 ]
+then
+    main
+else
+    echo -e "\033[07m"
+    echo -e "系统检测到您还没安装pssh，请预先安装pssh"
+    echo "yum install -y epel-release"
+    echo "yum install -y pssh"
+    echo "安装成功请重新运行此脚本"
+    echo -e "\033[0m"
+
+fi
+
+
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-07-26</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Shell">Shell</a>
+      , 
+      <a href="/tags.html#CentOS">CentOS</a>
+      , 
+      <a href="/tags.html#Tomcat">Tomcat</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/07/HowTo-Play-Pokemon-GO-in-China.html">HowTo Play Pokemon GO in China</a></h1>
     <div class="post_at_index">
       <h2 id="installtions">Installtions</h2>
@@ -344,16 +717,21 @@ width="360" height="640"&gt;
 </blockquote>
 
 <h3 id="1-指定虚拟机"><strong>1. 指定虚拟机</strong></h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$vm = Get-AzureVM -ServiceName '云服务名称' -Name '虚拟机名称'
 $vm.GetInstance().ProvisionGuestAgent = $true
 </code></pre></div></div>
+
 <h3 id="2-输入您当前的用户名和新密码"><strong>2. 输入您当前的用户名和新密码</strong></h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$UserName = "指定用户名"
 $Password = "指定密码"
 
 $PrivateConfig = '{"username":"'+ $UserName + '", "password":"' +  $Password + '"}'
 </code></pre></div></div>
+
 <h3 id="3-开始执行"><strong>3. 开始执行</strong></h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ExtensionName = 'VMAccessForLinux'
 $Publisher = 'Microsoft.OSTCExtensions'
 $Version =  '1.0'
@@ -367,10 +745,13 @@ Set-AzureVMExtension -ExtensionName $ExtensionName -VM  $vm -Publisher $Publishe
 </blockquote>
 
 <h3 id="1-指定虚拟机-1"><strong>1. 指定虚拟机</strong></h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$vm = Get-AzureVM -ServiceName 'MyServiceName' -Name 'MyVMName'
 $PrivateConfig = '{"reset_ssh":"True"}''
 </code></pre></div></div>
+
 <h3 id="2-开始执行"><strong>2. 开始执行</strong></h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ExtensionName = 'VMAccessForLinux'
 $Publisher = 'Microsoft.OSTCExtensions'
 $Version =  '1.0'
@@ -397,37 +778,49 @@ Set-AzureVMExtension -ExtensionName $ExtensionName -VM  $vm -Publisher $Publishe
     <h1><a class="title" href="/post/2016/07/HowTo-Install-Docker-on-CentOS-6-x.html">HowTo Install Docker on CentOS 6.x</a></h1>
     <div class="post_at_index">
       <h3 id="1-add-the-epel-repository"><strong>1. Add the EPEL Repository</strong></h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm -iUvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 </code></pre></div></div>
+
 <h3 id="2-update-your-system"><strong>2. Update your system</strong></h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum update -y
 </code></pre></div></div>
 
 <h3 id="3-install"><strong>3. Install</strong></h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y docker-io
 </code></pre></div></div>
 
 <h3 id="4-configure"><strong>4. Configure</strong></h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service docker start
 chkconfig docker on
 
 docker info
 </code></pre></div></div>
+
 <h3 id="5-download-a-docker-container"><strong>5. Download a Docker Container</strong></h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull centos
 </code></pre></div></div>
+
 <h3 id="6-run-a-docker-container"><strong>6. Run a Docker Container</strong></h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run -i -t centos /bin/bash
 </code></pre></div></div>
 
 <h3 id="7-find-docker-container"><strong>7. Find Docker Container</strong></h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker search ubuntu
 </code></pre></div></div>
 
 <h3 id="faq"><strong>FAQ</strong></h3>
 
 <h4 id="1-faild-to-start-docker-on-centos-6x"><strong>1. Faild to start docker on CentOS 6.x</strong></h4>
+
 <p><code>***/usr/bin/docker: relocation error: /usr/bin/docker: symbol dm_task_get_info_with_deferred_remove, version Base not defined in file libdevmapper.so.1.02 with link time reference***</code></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>the lib-device-mapper that you have isn't exporting a symbol ("Base") that Docker needs.
 this by upgrading lib-device-mapper to version 1.02.90.
 
@@ -437,18 +830,20 @@ sudo yum install device-mapper-event-libs
 </code></pre></div></div>
 
 <h4 id="2-faild-to-use-docker"><strong>2. Faild to use docker</strong></h4>
-<p><code>***Get http:///var/run/docker.sock/v1.19/info: dial unix /var/run/docker.sock: no such file or directory. Are you trying to connect to a TLS-enabled daemon without TLS?***</code></p>
+
+<p><code>***Get &lt;http:///var/run/docker.sock/v1.19/info&gt;: dial unix /var/run/docker.sock: no such file or directory. Are you trying to connect to a TLS-enabled daemon without TLS?***</code></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># this is because docker no restart ok.
 
 pkill -9 docker &amp;&amp; service docker start
 </code></pre></div></div>
 
 <h4 id="3-howto-save-docker-run--i--t-xxx-binbash"><strong>3. HowTo save ‘docker run -i -t xxx /bin/bash’</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps -l
 docker commit ID newname
 docker images
 </code></pre></div></div>
-
 
       
     </div>
@@ -473,22 +868,30 @@ docker images
 <p>First, to set up the yum repository, install the mysql－community-server 5.5 RPM based on your CentOS/RHEL release: <br /></p>
 
 <hr />
+
 <h4 id="mysql-server-55repo-for-centosrhel-5x"><strong>mysql-server-5.5.repo for CentOS/RHEL 5.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm -Uvh http://mirror.webtatic.com/yum/el5/latest.rpm
 </code></pre></div></div>
+
 <h4 id="-only-install-mysql-55-on-centos-5x">* <strong>Only Install MySQL 5.5 On CentOS 5.x</strong></h4>
+
 <p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you can upgrade using the following method:<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install mysql.`uname -i` yum-plugin-replace
 yum replace mysql --replace-with mysql55w
 </code></pre></div></div>
 
 <p>“yum install mysql” is only there to make sure yum-plugin-replace can resolve dependencies correctly if only mysql-server was installed.<br />
 Otherwise, to install MySql client and server, then run:<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install mysql55w mysql55w-server
 </code></pre></div></div>
+
 <hr />
 
 <h4 id="mysql-server-55repo-for-centosrhel-6x"><strong>mysql-server-5.5.repo for CentOS/RHEL 6.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
 yum install http://repo.mysql.com/yum/mysql-5.5-community/el/6/x86_64/mysql-community-release-el6-5.noarch.rpm
 
@@ -497,6 +900,7 @@ yum install http://repo.mysql.com/yum/mysql-5.5-community/el/6/i386/mysql-commun
 </code></pre></div></div>
 
 <h4 id="mysql-server-55repo-for-centosrhel-7x"><strong>mysql-server-5.5.repo for CentOS/RHEL 7.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
 yum install http://repo.mysql.com/yum/mysql-5.5-community/el/7/x86_64/mysql-community-release-el7-5.noarch.rpm
 
@@ -505,7 +909,9 @@ yum install http://repo.mysql.com/yum/mysql-5.5-community/el/7/i386/mysql-commun
 </code></pre></div></div>
 
 <h3 id="setup-2-install-mysql-server-55"><strong>Setup 2. Install MySQL Server 5.5</strong></h3>
+
 <p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># It's RHEL/CentOS 6/7
 yum remove -y mysql-server
 yum remove -y mysql*
@@ -513,14 +919,19 @@ yum remove -y mysql*
 
 <p>If you don’t have mysql-server was installed.<br />
 Otherwise, to install MySql client and server, then run:<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y mysql-community-server
 </code></pre></div></div>
 
 <h3 id="setup-3-service-configure"><strong>Setup 3. Service Configure</strong></h3>
+
 <p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service mysqld start
 </code></pre></div></div>
+
 <p>This will issue a password prompt for the user. If you don’t have a root user password, remove the “-p”<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql_secure_installation
 </code></pre></div></div>
 
@@ -531,6 +942,7 @@ Otherwise, to install MySql client and server, then run:<br /></p>
 <p>First, to set up the yum repository, install the mysql－community-server 5.6 RPM based on your CentOS/RHEL release: <br /></p>
 
 <h4 id="mysql-server-56repo-for-centosrhel-5x"><strong>mysql-server-5.6.repo for CentOS/RHEL 5.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
 yum install http://repo.mysql.com/yum/mysql-5.6-community/el/5/x86_64/mysql-community-release-el5-5.noarch.rpm
 
@@ -539,6 +951,7 @@ yum install http://repo.mysql.com/yum/mysql-5.6-community/el/5/i386/mysql-commun
 </code></pre></div></div>
 
 <h4 id="mysql-server-56repo-for-centosrhel-6x"><strong>mysql-server-5.6.repo for CentOS/RHEL 6.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
 yum install http://repo.mysql.com/yum/mysql-5.6-community/el/6/x86_64/mysql-community-release-el6-5.noarch.rpm
 
@@ -547,6 +960,7 @@ yum install http://repo.mysql.com/yum/mysql-5.6-community/el/6/i386/mysql-commun
 </code></pre></div></div>
 
 <h4 id="mysql-server-56repo-for-centosrhel-7x"><strong>mysql-server-5.6.repo for CentOS/RHEL 7.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
 yum install http://repo.mysql.com/yum/mysql-5.6-community/el/7/x86_64/mysql-community-release-el7-5.noarch.rpm
 
@@ -555,21 +969,28 @@ yum install http://repo.mysql.com/yum/mysql-5.6-community/el/7/i386/mysql-commun
 </code></pre></div></div>
 
 <h3 id="setup-2-install-mysql-server-56"><strong>Setup 2. Install MySQL Server 5.6</strong></h3>
+
 <p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum remove -y mysql-server
 yum remove -y mysql*
 </code></pre></div></div>
 
 <p>If you don’t have mysql-server was installed.<br />
 Otherwise, to install MySql client and server, then run:<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y mysql-community-server
 </code></pre></div></div>
 
 <h3 id="setup-3-service-configure-1"><strong>Setup 3. Service Configure</strong></h3>
+
 <p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service mysqld start
 </code></pre></div></div>
+
 <p>This will issue a password prompt for the user. If you don’t have a root user password, remove the “-p”<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql_secure_installation
 </code></pre></div></div>
 
@@ -580,6 +1001,7 @@ Otherwise, to install MySql client and server, then run:<br /></p>
 <p>First, to set up the yum repository, install the mysql－community-server 5.7 RPM based on your CentOS/RHEL release: <br /></p>
 
 <h4 id="mysql-server-57repo-for-centosrhel-5x"><strong>mysql-server-5.7.repo for CentOS/RHEL 5.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
 yum install http://repo.mysql.com/yum/mysql-5.7-community/el/5/x86_64/mysql-community-release-el5-7.noarch.rpm
 
@@ -588,6 +1010,7 @@ yum install http://repo.mysql.com/yum/mysql-5.7-community/el/5/i386/mysql-commun
 </code></pre></div></div>
 
 <h4 id="mysql-server-57repo-for-centosrhel-6x"><strong>mysql-server-5.7.repo for CentOS/RHEL 6.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
 yum install http://repo.mysql.com/yum/mysql-5.7-community/el/6/x86_64/mysql-community-release-el6-7.noarch.rpm
 
@@ -596,6 +1019,7 @@ yum install http://repo.mysql.com/yum/mysql-5.7-community/el/6/i386/mysql-commun
 </code></pre></div></div>
 
 <h4 id="mysql-server-57repo-for-centosrhel-7x"><strong>mysql-server-5.7.repo for CentOS/RHEL 7.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># For x86_64
 yum install http://repo.mysql.com/yum/mysql-5.7-community/el/7/x86_64/mysql-community-release-el7-7.noarch.rpm
 
@@ -604,24 +1028,30 @@ yum install http://repo.mysql.com/yum/mysql-5.7-community/el/7/i386/mysql-commun
 </code></pre></div></div>
 
 <h3 id="setup-2-install-mysql-server-57"><strong>Setup 2. Install MySQL Server 5.7</strong></h3>
+
 <p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum remove -y mysql-server
 yum remove -y mysql*
 </code></pre></div></div>
 
 <p>If you don’t have mysql-server was installed.<br />
 Otherwise, to install MySql client and server, then run:<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y mysql-community-server
 </code></pre></div></div>
 
 <h3 id="setup-3-service-configure-2"><strong>Setup 3. Service Configure</strong></h3>
+
 <p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service mysqld start
 </code></pre></div></div>
+
 <p>This will issue a password prompt for the user. If you don’t have a root user password, remove the “-p”<br /></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql_secure_installation
 </code></pre></div></div>
-
 
       
     </div>
@@ -644,24 +1074,30 @@ Otherwise, to install MySql client and server, then run:<br /></p>
 <p>Frist, To install remi Repo and epel Repo.</p>
 
 <h4 id="remi-el6-for-centosrhel-6x"><strong>Remi EL6 for CentOS/RHEL 6.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm -Uvh https://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 </code></pre></div></div>
+
 <h4 id="remi-el5-for-centosrhel-5x"><strong>Remi EL5 for CentOS/RHEL 5.x</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm -Uvh https://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm
 rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
 </code></pre></div></div>
 
-<h4 id="有时间我们会碰到remirepo无法使用报错就像这样">有时间我们会碰到remi.repo无法使用报错，就像这样：</h4>
+<h4 id="有时间我们会碰到remirepo无法使用报错就像这样">有时间我们会碰到remi.repo无法使用报错，就像这样</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://remi.schlundtech.de/enterprise/latest/remi/x86_64/repodata/repomd.xml: [Errno 14] PYCURL ERROR 22 - "The requested URL returned error: 404 Not Found"
 </code></pre></div></div>
 
-<h4 id="这时我们需要修改etcyumreposdremirepo像这样">这时我们需要修改/etc/yum.repos.d/remi.repo，像这样：</h4>
+<h4 id="这时我们需要修改etcyumreposdremirepo像这样">这时我们需要修改/etc/yum.repos.d/remi.repo，像这样</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>baseurl=http://rpms.famillecollet.com/enterprise/5/remi/$basearch/
 #mirrorlist=http://rpms.famillecollet.com/enterprise/5/remi/mirror/$basearch/
 </code></pre></div></div>
 
-<h4 id="如果发现安装后yum-makecache没看到相应的源站点请检查repo文件的enable参数是否为11为开启0为关闭状态">如果发现安装后yum makecache没看到相应的源站点，请检查repo文件的enable参数是否为1，1为开启，0为关闭状态。</h4>
+<h4 id="如果发现安装后yum-makecache没看到相应的源站点请检查repo文件的enable参数是否为11为开启0为关闭状态">如果发现安装后yum makecache没看到相应的源站点，请检查repo文件的enable参数是否为1，1为开启，0为关闭状态</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[repoName]
 name=repoName repo
 baseurl=http://repoPath
@@ -670,6 +1106,7 @@ enabled=0                 # 是否启用该源
 </code></pre></div></div>
 
 <h4 id="install-redis"><strong>Install Redis</strong></h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y redis
 
 [root@zabbix yum.repos.d]# rpm -qi redis
@@ -695,19 +1132,24 @@ Summary     : A persistent key-value database
 <h2 id="setup-2-基本配置项"><strong>Setup 2. 基本配置项</strong></h2>
 
 <h4 id="redis-配置默认文件etcredisconf">Redis 配置默认文件/etc/redis.conf</h4>
+
 <p>＃ 设置Redis的运行模式，yes表示后台运行，no表示不开启后台运行。</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>daemonize yes
 </code></pre></div></div>
 
 <p>＃ 指定 redis 监听端口，默认为 6379</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>port 6379
 </code></pre></div></div>
 
 <p>＃ 设置bind_ip，默认监听接口，默认是监听本地，如果未配置的情况下，只有本地可以访问redis，如果取消，则默认监听所有接口</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># bind 127.0.0.1
 </code></pre></div></div>
 
 <p>＃ 指定日志记录级别</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># debug  记录很多信息，用于开发和测试
 # varbose 很多精简的有用信息，不像 debug 会记录那么多
 # notice 普通的 verbose，常用于生产环境
@@ -717,17 +1159,20 @@ loglevel verbose
 </code></pre></div></div>
 
 <p>＃ 配置 log 文件名称和全路径地址，默认为stdout，即标准输出，输出到/dev/null，可以手动指定redis日志文件地址，建议级别不要太高，否则会产生大量日志，注意避免磁盘因此撑满。</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>logfile stdout
 </code></pre></div></div>
 
 <p>＃ 可用数据库数，默认值为 16，默认数据库存储在 DB 0 号 ID 库中，无特殊需求，建议仅设置一个数据库<br />
 ＃ 查询数据库使用  SELECT ‘dbid’，dbid 介于 0 到 ‘databases’-1 之间。</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>database 16
 </code></pre></div></div>
 
 <p>＃ 安全限定，要求客户端在处理任何命令时都要验证身份和设置密码。<br />
 ＃ 默认不启用，若要启用，需要将下行取消注释，并将foobared设置自定一的密码接即可。<br />
 ＃ <strong>因为redis加密是通过配置文件进行，所以目前各大云厂家的redis PAAS 服务，都不支持redis加密，在程序开发时需要注意。</strong></p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># requirepass foobared
 
 # 如果开启了安全验证，这时通过redis-cli登录时需要首先执行auth，否则不能正常使用。
@@ -735,14 +1180,17 @@ redis-cli&gt; auth foobared
 </code></pre></div></div>
 
 <p>＃ 向redis内插入一条数据</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt;  set [key] [values]
 </code></pre></div></div>
 
 <p>＃ 获取key的值</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt; get key
 </code></pre></div></div>
 
 <p>＃ 查看redis的db信息</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt; info
 </code></pre></div></div>
 
@@ -755,7 +1203,6 @@ redis-cli&gt; auth foobared
 </ul>
 
 <h3 id="font-colorblackmsis-size45-wait--font">&lt;font color=blackm,sis size=45 &gt;Wait … &lt;/font&gt;</h3>
-
 
       
     </div>
@@ -783,20 +1230,27 @@ SSH 是一个强大且安全的工具，我们除了可以用它来远程管理�
 <br /></p>
 
 <h3 id="install-fuse-sshfs">Install fuse-sshfs</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[cent@localhost ~]$ sudo yum install -y epel-relese
 [cent@localhost ~]$ sudo yum --enablerepo=epel install -y fuse-sshfs
 </code></pre></div></div>
+
 <h3 id="挂载远程-ssh文件系统">挂载远程 ssh文件系统</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[cent@localhost ~]$ mkdir ./mnt
 [cent@localhost ~]$ sshfs root@192.168.16.230:/home/ ./mnt
 root@192.168.16.230's password:
 [cent@localhost ~]$ mount
 root@192.168.16.230:/home/ on /home/cent/mnt type fuse.sshfs (rw,nosuid,nodev,user=cent)
 </code></pre></div></div>
+
 <h3 id="卸载远程-ssh文件系统">卸载远程 ssh文件系统</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[cent@localhost ~]$ fusermount -u ./mnt
 </code></pre></div></div>
+
 <h3 id="常用参数">常用参数</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-C 压缩，或者-o compression=yes
 -o reconnect 自动重连
 -o transform_symlinks 表示转换绝对链接符号为相对链接符号
@@ -806,6 +1260,7 @@ root@192.168.16.230:/home/ on /home/cent/mnt type fuse.sshfs (rw,nosuid,nodev,us
 </code></pre></div></div>
 
 <h3 id="缺点"> 缺点</h3>
+
 <p>当然sshfs也不尽是优点，例如远程主机失去响应后本地挂载点卡死并影响本地系统使用，需要手工找出 sshfs进程并杀死，因网速问题造成操作响应缓慢等等，不过一般在稳定快速的网络中不太会遇上，对比其强大的功能，还是可以接受的，正所谓暇不掩瑜。</p>
 
 <ol>
@@ -814,7 +1269,8 @@ root@192.168.16.230:/home/ on /home/cent/mnt type fuse.sshfs (rw,nosuid,nodev,us
   <li>可以看到的是sshfs默认挂载是rw的权限，但是通过sshfs –help 可以看到有非常详尽的参数配置可以选择，大家可以仔细研究下。</li>
 </ol>
 
-<h3 id="附1">附1.</h3>
+<h3 id="附1">附1</h3>
+
 <p><a href="http://igikorn.com/sshfs-windows-8/">Link</a> 在windows下可以使用sshfs.</p>
 
       
@@ -842,11 +1298,14 @@ root@192.168.16.230:/home/ on /home/cent/mnt type fuse.sshfs (rw,nosuid,nodev,us
 <h3 id="1-mysql-系统配置优化">1. MySQL 系统配置优化</h3>
 
 <p>网络配置方面：修改/etc/sysctl.conf</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>          # 增加tcp支持的队列数
                net.ipv4.tcp_max_syn_backlog = 65535
           # 减少断开时
 </code></pre></div></div>
+
 <p>打开文件限制 修改/etc/security/limits.conf</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>          # 增加：
                * sort nofile 65535
                * hard nofile 65535
@@ -858,10 +1317,15 @@ root@192.168.16.230:/home/ on /home/cent/mnt type fuse.sshfs (rw,nosuid,nodev,us
   <li>
     <p>配置文件位置：/etc/my.cnf /etc/mysql/my.cnf</p>
   </li>
-  <li>如果/etc下没有my.cnf，需要拷贝一份
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp /usr/share/mysql/my-medium.cnf /etc/my.cnf
-</code></pre></div>    </div>
+  <li>
+    <p>如果/etc下没有my.cnf，需要拷贝一份</p>
   </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp /usr/share/mysql/my-medium.cnf /etc/my.cnf
+</code></pre></div></div>
+
+<ul>
   <li>
     <table>
       <tbody>
@@ -872,47 +1336,57 @@ root@192.168.16.230:/home/ on /home/cent/mnt type fuse.sshfs (rw,nosuid,nodev,us
       </tbody>
     </table>
   </li>
-  <li>常用配置说明:
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_buffer_pool_size
-</code></pre></div>    </div>
-    <p>设置mysql数据库innodb存储缓冲池的大小，如果是独立的mysql服务，建议设置为物理内存的75％左右，如果和apahce等服务一起运行时，则根据实际需求设定，尽可能大。</p>
-  </li>
+  <li>常用配置说明:</li>
 </ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_buffer_pool_size
+</code></pre></div></div>
+
+<p>设置mysql数据库innodb存储缓冲池的大小，如果是独立的mysql服务，建议设置为物理内存的75％左右，如果和apahce等服务一起运行时，则根据实际需求设定，尽可能大。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_buffer_pool_instances
 </code></pre></div></div>
+
 <p>这是mysql5.5中新增的一个参数，用于控制缓冲池的个数，默认情况下只有1个缓冲池，设置多个缓冲池可以增加并发性，提事物运算效率。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_log_buffer_size
 </code></pre></div></div>
+
 <p>设定日志缓冲区的大小，由于体制最长每秒就会刷新，不需要太大。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_flush_log_at_trx_commit
 </code></pre></div></div>
+
 <p>关键参数，对于innodb的IO效率影响很大，默认值为1，可以取值0：不自动同步log到磁盘，由mysql每秒自动执行，1：将所有事物直接写到磁盘，可以用在保证数据绝对安全的地方，会影响效率，2：先将事物纪录保存在内存中，有mysql每秒统一写入磁盘，建议设定为2</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_read_io_threads;
  innodb_write_io_threadsm;
 </code></pre></div></div>
+
 <p>mysql5.5 新增的两个参数，决定了Innodb读写的io进程数量，默认为4，可以根据CPU的实际性能设定。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_file_per_table
 </code></pre></div></div>
+
 <p>关键参数，控制Innodb每一个表实用独立的表空间，默认为off，也就是所有的表都会建立在共享空间，不利于资源回收</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_stats_on_metadata
 </code></pre></div></div>
+
 <p>决定了mysql在什么情况下会刷新innodb表的统计信息，可以关闭，管理员选取时间手动刷新。存在的目的保证优化器正确找到索引.</p>
 
 <p>mysql最大连接数限制</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>max_connections=5000
 </code></pre></div></div>
 
 <p>不区分表名称大小写</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lower_case_table_names=1
 </code></pre></div></div>
 
 <p>修改默认字符编码</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># mysql 5.1
 default-character-set=utf8
 
@@ -921,21 +1395,26 @@ character-set-server=utf8
 </code></pre></div></div>
 
 <p>最大错误操作次数 : 默认是10，尽量调大，否则容易导致mysql对来访主机锁定</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>max_connect_errors = 10000
 </code></pre></div></div>
 
 <p>设置mysql时区：默认mysql使用的系统时区，其实我们也可以在mysql内设定时区</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>default-time_zone = '+8:00'
 </code></pre></div></div>
 
 <p>以上配置，如何在mysql内，检测是否生效</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>show variables like '%max_connections%'
 show variables like '%time_zone%'
 show variables like '%max_connect_errors%'
 show variables like '%character-set-server%'
 show variables like '%lower_case_table_names%'
 </code></pre></div></div>
+
 <p>修改/etc/my.cnf这是需要重启mysql才能生效，但是很多时候，我们不方便重启mysql，这时我们需要在mysql临时修改配置，注意并不是所有选项都可以在运行中修改，以修改时区为例：</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 修改全局设置
 set global time_zone='+8:00'
 
@@ -946,7 +1425,7 @@ set time_zone='+8:00'
 <h3 id="3--第三方工具对mysql配置进行优化">3.  第三方工具对mysql配置进行优化</h3>
 
 <ul>
-  <li>http://toolspercona.com <br />
+  <li><a href="http://toolspercona.com">http://toolspercona.com</a> <br />
 先回答问题，然后根据问题你给出的答案，网站会给你一个参考配置。</li>
 </ul>
 
@@ -980,34 +1459,37 @@ set time_zone='+8:00'
   <li>&lt;Connector port=”80” protocol=”HTTP/1.1” maxThreads=”600” minSpareThreads=”100” maxSpareThreads=”500” acceptCount=”700”</li>
   <li>connectionTimeout=”20000” redirectPort=”8443” /&gt;</li>
   <li>关闭DNS查询 :修改server.xml文件中的Connector元素，修改属性enableLookups参数值: enableLookups=”false”</li>
-  <li>使用apr插件，提高tomcat响应时间 <br />
-    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(1)安装APR tomcat-native
-  apr-1.3.8.tar.gz   安装在/usr/local/apr
-  #tar zxvf apr-1.3.8.tar.gz
-  #cd apr-1.3.8
-  #./configure;make;make install
+  <li>使用apr插件，提高tomcat响应时间 <br /></li>
+</ul>
 
-  apr-util-1.3.9.tar.gz  安装在/usr/local/apr/lib
-  #tar zxvf apr-util-1.3.9.tar.gz
-  #cd apr-util-1.3.9
-  #./configure --with-apr=/usr/local/apr ----with-java-home=JDK;make;make install
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  (1)安装APR tomcat-native
+    apr-1.3.8.tar.gz   安装在/usr/local/apr
+    #tar zxvf apr-1.3.8.tar.gz
+    #cd apr-1.3.8
+    #./configure;make;make install
 
-  #cd apache-tomcat-6.0.20/bin
-  #tar zxvf tomcat-native.tar.gz
-  #cd tomcat-native/jni/native
-  #./configure --with-apr=/usr/local/apr;make;make install
+    apr-util-1.3.9.tar.gz  安装在/usr/local/apr/lib
+    #tar zxvf apr-util-1.3.9.tar.gz
+    #cd apr-util-1.3.9
+    #./configure --with-apr=/usr/local/apr ----with-java-home=JDK;make;make install
 
-(2)设置 Tomcat 整合 APR
-  修改 tomcat 的启动 shell （startup.sh），在该文件中加入启动参数：
-    CATALINA_OPTS="$CATALINA_OPTS -Djava.library.path=/usr/local/apr/lib" 。
+    #cd apache-tomcat-6.0.20/bin
+    #tar zxvf tomcat-native.tar.gz
+    #cd tomcat-native/jni/native
+    #./configure --with-apr=/usr/local/apr;make;make install
 
-(3)判断安装成功:
-  如果看到下面的启动日志，表示成功。
-    2007-4-26 15:34:32 org.apache.coyote.http11.Http11AprProtocol init
-</code></pre></div>    </div>
-  </li>
+  (2)设置 Tomcat 整合 APR
+    修改 tomcat 的启动 shell （startup.sh），在该文件中加入启动参数：
+      CATALINA_OPTS="$CATALINA_OPTS -Djava.library.path=/usr/local/apr/lib" 。
+
+  (3)判断安装成功:
+    如果看到下面的启动日志，表示成功。
+      2007-4-26 15:34:32 org.apache.coyote.http11.Http11AprProtocol init
+</code></pre></div></div>
+
+<ul>
   <li>开启manager 管理</li>
-  <li>使用http://visualvm.Java.net/download.html 工具监控tomcat的性能</li>
+  <li>使用<a href="http://visualvm.Java.net/download.html">http://visualvm.Java.net/download.html</a> 工具监控tomcat的性能</li>
   <li>JAVA_OPTS=’-Dcom.sun.management.jmxremote.port=8999 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false’</li>
   <li>设置自动更新autodeploy＝false</li>
 </ul>
@@ -1033,13 +1515,16 @@ set time_zone='+8:00'
 <h4 id="mosh-主页">Mosh <a href="https://mosh.mit.edu/#getting">主页</a></h4>
 
 <h4 id="1-安装配置">1. 安装配置</h4>
+
 <p>需要在服务端和客户端同时安装Mosh：</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>＃ 以centos 6.x 为例：
 [user@host ~]$ sudo yum install -y epel-release
 [user@host ~]$ sudo yum install -y mosh
 </code></pre></div></div>
 
 <h4 id="2-采用ssh配置进行认证登录只需要将ssh-替换为mosh即可">2. 采用SSH配置进行认证登录，只需要将ssh 替换为mosh即可</h4>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[user@host ~]$ mosh user@host
 
 # 如何需要指定特定的ssh port或者使用ssh keyfile. 可以使用-ssh参数：
@@ -1047,6 +1532,7 @@ set time_zone='+8:00'
 </code></pre></div></div>
 
 <h4 id="3-other">3. Other</h4>
+
 <p>另外Mosh还支持使用临时key的方式认证，需要服务器端创建临时key，然后客户端通过这个key进行登录，该key在会话结束的十分钟后自动失效。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 创建临时key
@@ -1073,39 +1559,6 @@ There is NO WARRANTY, to the extent permitted by law.
     <div>
       <cite>2016-06-15</cite> <i class="icon-tag"></i>
       <a href="/tags.html#SSH">SSH</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/05/Azure-HowTo-Use-Azure-CLI-on-Mac.html">HowTo Use Azure CLI on Mac</a></h1>
-    <div class="post_at_index">
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Install azure-cli on Mac and CentOS
-
-### In Mac
-1. Install brew.
-2. brew install nodejs
-3. echo “registry = https://registry.npm.taobao.org” &gt; ~/.npmrc
-4. npm install azure-cli -g
-
-
-### In CentOS
-1. Install epel
-2. yum install -y nodejs npm
-3. echo “registry = https://registry.npm.taobao.org” &gt; ~/.npmrc
-4. npm install azure-cli -g
-
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-05-24</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Azure">Azure</a>
       
       
       
@@ -1196,16 +1649,6 @@ There is NO WARRANTY, to the extent permitted by law.
     	
       <li><a href="/categories.html#CentOS">
     		CentOS <span>14</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Tools">
-    		Tools <span>4</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#VPN">
-    		VPN <span>2</span>
     	</a></li>
      
     	
@@ -1351,6 +1794,16 @@ There is NO WARRANTY, to the extent permitted by law.
     	
       <li><a href="/categories.html#Bigdata">
     		Bigdata <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Tools">
+    		Tools <span>4</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#VPN">
+    		VPN <span>2</span>
     	</a></li>
      
     	

@@ -289,6 +289,7 @@
         </div>
         <div class="post-content" itemprop="articleBody">
             <h6 id="update">Update</h6>
+
 <ul>
   <li>
     <font color="red">update: Windows用户在初始化Souretree工具时，需要用到Atlassian ID，新建用户时需要加载google 验证码，这一步需要VPN的支持，请注意。</font>
@@ -299,6 +300,7 @@
 <p><br /></p>
 
 <h5 id="补充1-git学习网站">补充1 ：Git学习网站</h5>
+
 <ol>
   <li><a href="http://backlogtool.com/git-guide/cn/">猴子都能学会的git教程</a></li>
   <li><a href="http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html">常用 Git 命令清单</a></li>
@@ -307,6 +309,7 @@
 </ol>
 
 <h5 id="补充2-利用git协同开发">补充2 ：利用Git协同开发</h5>
+
 <ol>
   <li><a href="https://ourai.ws/posts/working-with-git-in-team/">团队中的Git实践</a></li>
   <li><a href="http://www.ruanyifeng.com/blog/2015/08/git-use-process.html">Git 使用规范流程</a></li>
@@ -317,26 +320,34 @@
 <hr />
 
 <h2 id="1-关于-sourcetree">1. 关于 SourceTree</h2>
-<h4 id="sourcetree-是一款免费且同时支持windows-和mac-的git项目管理软件本文旨在给大家介绍这款应用的基础使用并用它来管理你的项目">SourceTree 是一款免费且同时支持Windows 和Mac 的git项目管理软件，本文旨在给大家介绍这款应用的基础使用，并用它来管理你的项目。</h4>
+
+<h4 id="sourcetree-是一款免费且同时支持windows-和mac-的git项目管理软件本文旨在给大家介绍这款应用的基础使用并用它来管理你的项目">SourceTree 是一款免费且同时支持Windows 和Mac 的git项目管理软件，本文旨在给大家介绍这款应用的基础使用，并用它来管理你的项目</h4>
+
 <blockquote>
-  <p>官网： https://www.sourcetreeapp.com/</p>
+  <p>官网： <a href="https://www.sourcetreeapp.com/">https://www.sourcetreeapp.com/</a></p>
 </blockquote>
 
 <h2 id="2-git帐号建立">2. git帐号建立</h2>
-<h3 id="1-新员工入职之后你的公司邮箱内会收到一封来自gitlab的邮件如下图">1. 新员工入职之后，你的公司邮箱内会收到一封来自Gitlab的邮件，如下图：</h3>
+
+<h3 id="1-新员工入职之后你的公司邮箱内会收到一封来自gitlab的邮件如下图">1. 新员工入职之后，你的公司邮箱内会收到一封来自Gitlab的邮件，如下图</h3>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree02.jpg" alt="image" /></p>
 
-<h3 id="2-点击邮件中的-click-here-to-set-your-password设置gitlab登陆密码">2. 点击邮件中的 “Click here to set your password”，设置gitlab登陆密码。</h3>
+<h3 id="2-点击邮件中的-click-here-to-set-your-password设置gitlab登陆密码">2. 点击邮件中的 “Click here to set your password”，设置gitlab登陆密码</h3>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsouretree03.jpg" alt="image" /></p>
 
-<h3 id="3-登陆gitlab帐号将会出现这个界面">3. 登陆gitlab帐号，将会出现这个界面：</h3>
+<h3 id="3-登陆gitlab帐号将会出现这个界面">3. 登陆gitlab帐号，将会出现这个界面</h3>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree05.jpg" alt="image" /></p>
 
-<h3 id="4-设定个人信息">4. 设定个人信息：</h3>
+<h3 id="4-设定个人信息">4. 设定个人信息</h3>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsouretree06.jpg" alt="image" /></p>
 
 <h3 id="5-sshkey">5. sshKey</h3>
-<h4 id="51-在linux和mac上生成sshkey">5.1 在Linux和Mac上生成sshkey：</h4>
+
+<h4 id="51-在linux和mac上生成sshkey">5.1 在Linux和Mac上生成sshkey</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ ssh-keygen -t rsa
 Generating public/private rsa key pair.
@@ -364,22 +375,26 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VI
 ➜  ~
 </code></pre></div></div>
 
-<h4 id="52-在windows上生成sshkey">5.2 在Windows上生成sshkey：</h4>
+<h4 id="52-在windows上生成sshkey">5.2 在Windows上生成sshkey</h4>
+
 <h4 id="因为windows没有自带openssl模块所以在windows环境中使用第三方工具puttygenexe生成sshkey-下载地址">因为windows没有自带openssl模块，所以在Windows环境中使用第三方工具puttygen.exe生成sshkey <a href="http://the.earth.li/~sgtatham/putty/0.67/x86/puttygen.exe">下载地址</a></h4>
 
-<h4 id="步骤如下">步骤如下：</h4>
+<h4 id="步骤如下">步骤如下</h4>
 
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree13.jpg" alt="image" />
 <img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree14.jpg" alt="image" />
 <img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree15.jpg" alt="image" /></p>
 
 <h4 id="当sourcetree首次启动时会弹出加载sshkey的提示按提示操作找到之前保存的privateppk文件">当sourcetree首次启动时，会弹出加载sshkey的提示，按提示操作，找到之前保存的private.ppk文件</h4>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree12.jpg" alt="image" /></p>
 
-<h4 id="53-上传sshkey">5.3 上传sshkey：</h4>
+<h4 id="53-上传sshkey">5.3 上传sshkey</h4>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree07.jpg" alt="image" /></p>
 
-<h3 id="6-回到-dashboard-点击项目名称进入详情">6. 回到 dashboard ，点击项目名称进入详情：</h3>
+<h3 id="6-回到-dashboard-点击项目名称进入详情">6. 回到 dashboard ，点击项目名称进入详情</h3>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree08.jpg" alt="image" /></p>
 
 <h3 id="7-使用souretree将项目从git服务器clone到本地">7. 使用souretree将项目从git服务器clone到本地</h3>
@@ -387,13 +402,16 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VI
 <h4 id="71-安装souretree-软件-略">7.1 安装souretree 软件 ［略］</h4>
 
 <h4 id="72-clone项目到本地">7.2 clone项目到本地</h4>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree09.jpg" alt="image" />
 <img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree10.jpg" alt="image" /></p>
 
-<h3 id="8-进入项目工作台">8. 进入项目工作台：</h3>
+<h3 id="8-进入项目工作台">8. 进入项目工作台</h3>
+
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree11.jpg" alt="image" /></p>
 
-<h4 id="9-关于sourcetree工具的使用下面是一些git操作的释疑">9. 关于sourcetree工具的使用，下面是一些git操作的释疑。</h4>
+<h4 id="9-关于sourcetree工具的使用下面是一些git操作的释疑">9. 关于sourcetree工具的使用，下面是一些git操作的释疑</h4>
+
 <ul>
   <li>检出仓库: 将在本地创建一个git仓库的克隆版本</li>
   <li>工作流: 本地仓库由 git 维护的三棵“树”组成。第一个是 工作目录，它持有实际文件；第二个是 缓存区（Index），它像个缓存区域，临时保存改动；最后是 HEAD，指向最近一次提交后的结果。</li>
@@ -403,7 +421,6 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VI
   <li>分支：分支是用来将特性开发分离出来的。在创建仓库的时候，master 是“默认的”。创建分支将可以从主线开发上分离开来，然后在不影响主线的同时继续工作，完成后再将它们合并到主分支上。</li>
   <li>合并： 将分支功能并入主分支。</li>
 </ul>
-
 
         </div>
 
@@ -1184,11 +1201,11 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VI
                 
                 
                 
+                
+                
+                
+                
                 <li><a href="/post/2016/04/%E4%BD%BF%E7%94%A8SoureceTree%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84git%E9%A1%B9%E7%9B%AE.html">使用SoureceTree管理你的git项目</a> - <span>04/20/2016</span></li>
-                
-                
-                
-                
                 
                 
                 

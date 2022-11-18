@@ -306,7 +306,6 @@
   <li>[ ] 接口固定参数，并存储对应的查询结果</li>
 </ul>
 
-
       
     </div>
     <br/>
@@ -585,16 +584,16 @@ python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号
     <span class="k">print</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
 </code></pre></div></div>
 
-<h1 id="select返回的是一个-list"><code class="language-plaintext highlighter-rouge">select</code> 返回的是一个 <code class="language-plaintext highlighter-rouge">list</code> </h1>
+<h1 id="select返回的是一个-list"><code class="language-plaintext highlighter-rouge">select</code> 返回的是一个 <code class="language-plaintext highlighter-rouge">list</code></h1>
 
 <p>通过过下标，可以获取到对应的内容</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>
-	<span class="k">print</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">=&lt;</span><span class="n">a</span> <span class="n">title</span><span class="o">=</span><span class="s">"郭大侠"</span> <span class="n">user</span><span class="o">-</span><span class="nb">id</span><span class="o">=</span><span class="s">"1802863164"</span> <span class="n">class</span><span class="o">=</span><span class="s">"J_card"</span> <span class="n">href</span><span class="o">=</span><span class="s">"/member/1802863164"</span><span class="o">&gt;</span><span class="n">郭大侠</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+ <span class="k">print</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">=&lt;</span><span class="n">a</span> <span class="n">title</span><span class="o">=</span><span class="s">"郭大侠"</span> <span class="n">user</span><span class="o">-</span><span class="nb">id</span><span class="o">=</span><span class="s">"1802863164"</span> <span class="n">class</span><span class="o">=</span><span class="s">"J_card"</span> <span class="n">href</span><span class="o">=</span><span class="s">"/member/1802863164"</span><span class="o">&gt;</span><span class="n">郭大侠</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
 </code></pre></div></div>
 
 <ul>
-  <li>比如要打印出上述的user-id，可以使用  <code class="language-plaintext highlighter-rouge">print(user['user-id'])</code> </li>
+  <li>比如要打印出上述的user-id，可以使用  <code class="language-plaintext highlighter-rouge">print(user['user-id'])</code></li>
   <li>比如要打印出上述的title，可以使用  <code class="language-plaintext highlighter-rouge">print(user['title'])</code></li>
 </ul>
 
@@ -603,7 +602,7 @@ python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># .string   在获取到的tag后面增加
 </span>
 <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>
-	<span class="k">print</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">=&lt;</span><span class="n">a</span> <span class="n">title</span><span class="o">=</span><span class="s">"郭大侠"</span> <span class="n">user</span><span class="o">-</span><span class="nb">id</span><span class="o">=</span><span class="s">"1802863164"</span> <span class="n">class</span><span class="o">=</span><span class="s">"J_card"</span> <span class="n">href</span><span class="o">=</span><span class="s">"/member/1802863164"</span><span class="o">&gt;</span><span class="n">郭大侠</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+ <span class="k">print</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">=&lt;</span><span class="n">a</span> <span class="n">title</span><span class="o">=</span><span class="s">"郭大侠"</span> <span class="n">user</span><span class="o">-</span><span class="nb">id</span><span class="o">=</span><span class="s">"1802863164"</span> <span class="n">class</span><span class="o">=</span><span class="s">"J_card"</span> <span class="n">href</span><span class="o">=</span><span class="s">"/member/1802863164"</span><span class="o">&gt;</span><span class="n">郭大侠</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
 
     <span class="k">print</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="n">string</span><span class="p">)</span>
 </code></pre></div></div>
@@ -652,12 +651,12 @@ python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ifconfig
 en0: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
-	ether 60:f8:1d:ad:85:76
-	inet6 fe80::18a9:fa23:b02f:5d8a%en0 prefixlen 64 secured scopeid 0x4
-	inet 192.168.199.200 netmask 0xffffff00 broadcast 192.168.199.255
-	nd6 options=201&lt;PERFORMNUD,DAD&gt;
-	media: autoselect
-	status: active
+ ether 60:f8:1d:ad:85:76
+ inet6 fe80::18a9:fa23:b02f:5d8a%en0 prefixlen 64 secured scopeid 0x4
+ inet 192.168.199.200 netmask 0xffffff00 broadcast 192.168.199.255
+ nd6 options=201&lt;PERFORMNUD,DAD&gt;
+ media: autoselect
+ status: active
 </code></pre></div></div>
 
 <h5 id="关闭airport"><strong>关闭AirPort</strong></h5>
@@ -702,11 +701,11 @@ en0: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
 
 ➜  ~ sudo du -sh /private/var/log/asl/
 Password:
-2.7G	/private/var/log/asl/
+2.7G /private/var/log/asl/
 
 ➜  ~ sudo rm -rf /private/var/log/asl/*.asl
 ➜  ~ sudo du -sh /private/var/log/asl/
-208M	/private/var/log/asl/
+208M /private/var/log/asl/
 </code></pre></div></div>
 
 <p>关闭终端，再次打开，问题解决。</p>
@@ -733,7 +732,7 @@ Password:
 
 <p><code class="language-plaintext highlighter-rouge">brew</code>是Mac下的一个包管理工具，它从下载源码解压然后 <code class="language-plaintext highlighter-rouge">./configure &amp;&amp; make install</code> ，同时会包含相关依存库。并自动配置好各种环境变量，而且非常易于卸载。 这个对程序员来说简直是福音，简单的指令，就能快速安装和升级本地的各种开发环境。</p>
 
-<p>home brew 官网是 http://brew.sh/index_zh-cn.html</p>
+<p>home brew 官网是 <a href="http://brew.sh/index_zh-cn.html">http://brew.sh/index_zh-cn.html</a></p>
 
 <h2 id="安装-brew">安装 brew</h2>
 
@@ -807,8 +806,8 @@ Rosetta 2: <span class="nb">false</span>
 
 <p>常用的命令没几个：</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew <span class="nb">install </span>git 	<span class="c"># 安装</span>
-➜  ~ brew info git 		<span class="c"># 显示软件的各种信息</span>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew <span class="nb">install </span>git  <span class="c"># 安装</span>
+➜  ~ brew info git   <span class="c"># 显示软件的各种信息</span>
 ➜  ~ brew uninstall git <span class="c"># 卸载</span>
 ➜  ~ brew search git <span class="c"># 模糊搜索 brew 支持的软件</span>
 ➜  ~ brew list <span class="c"># 列出本机通过 brew 安装的所有软件</span>
@@ -826,7 +825,7 @@ Rosetta 2: <span class="nb">false</span>
 
 <ul>
   <li>brew cask的官网是：<a href="http://caskroom.io/">http://caskroom.io</a></li>
-  <li>github地址是：https://github.com/caskroom/homebrew-cask</li>
+  <li>github地址是：<a href="https://github.com/caskroom/homebrew-cask">https://github.com/caskroom/homebrew-cask</a></li>
 </ul>
 
 <p>:::information_desk_person: Cask 目前已经内置到 brew 官方安装包内了，无需单独安装；并且官方集成的非常好，大部分情况下，不需要特殊标记就可以看到到对应的软件了</p>
@@ -901,7 +900,7 @@ install: 25,001 (30 days), 91,481 (90 days), 335,711 (365 days)
 <h3 id="cu-的安装">cu 的安装</h3>
 
 <ul>
-  <li>Github https://github.com/buo/homebrew-cask-upgrade</li>
+  <li>Github <a href="https://github.com/buo/homebrew-cask-upgrade">https://github.com/buo/homebrew-cask-upgrade</a></li>
 </ul>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew tap buo/cask-upgrade
@@ -1197,16 +1196,6 @@ mas <span class="s2">"Bridge Constructor+"</span>, <span class="nb">id</span>: 1
     	</a></li>
      
     	
-      <li><a href="/categories.html#Tools">
-    		Tools <span>4</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#VPN">
-    		VPN <span>2</span>
-    	</a></li>
-     
-    	
       <li><a href="/categories.html#HTML">
     		HTML <span>1</span>
     	</a></li>
@@ -1349,6 +1338,16 @@ mas <span class="s2">"Bridge Constructor+"</span>, <span class="nb">id</span>: 1
     	
       <li><a href="/categories.html#Bigdata">
     		Bigdata <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Tools">
+    		Tools <span>4</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#VPN">
+    		VPN <span>2</span>
     	</a></li>
      
     	

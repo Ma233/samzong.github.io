@@ -343,12 +343,12 @@ REDASH_DATABASE_URL=postgresql://postgres
 
 <h2 id="启动的服务介绍">启动的服务介绍</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>v10-redashio_adhoc_worker_1					# 执行查询任务的 worker
-v10-redashio_postgres_1							# 数据库
-v10-redashio_redis_1								# 缓存
-v10-redashio_scheduled_worker_1			# 执行计划任务的 worker
-v10-redashio_scheduler_1						# 计划任务管理 server
-v10-redashio_server_1								# 主体 server
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>v10-redashio_adhoc_worker_1     # 执行查询任务的 worker
+v10-redashio_postgres_1       # 数据库
+v10-redashio_redis_1        # 缓存
+v10-redashio_scheduled_worker_1   # 执行计划任务的 worker
+v10-redashio_scheduler_1      # 计划任务管理 server
+v10-redashio_server_1        # 主体 server
 </code></pre></div></div>
 
 <p>以上主要会设计到 3 个镜像，redis、pgsql、redash，其中核心是 redash，所以关注镜像版本也是这个</p>

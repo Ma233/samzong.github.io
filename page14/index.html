@@ -276,6 +276,53 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2017/02/MacTips-%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E5%85%B3%E9%97%AD%E5%92%8C%E5%90%AF%E5%8A%A8AirPort.html">MacTips 使用命令关闭和启动AirPort</a></h1>
+    <div class="post_at_index">
+      <p>今天在给妹妹调试新的MacBookAir 13’时遇到一个问题，无法检测到她家的WiFi，一开始怀疑是不是无线路由器长时间未重启导致，所以重启了路由器，但是问题依然没有解决，于是我们将问题转向排查设备，因我们基本正好有iPad，iPhone，MacBook这些设备，发现唯独他的这个Macbook无法识别WiFi，后来在Google的帮助下，发现多个版本的Mac OS X都出现了类似的问题，可以通过重启AirPort解决问题，但是AirPort在System Preferences找不到选项，所以需要使用命令行来重启。</p>
+
+<h5 id="查看网络接口"><strong>查看网络接口</strong></h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ifconfig
+en0: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
+ ether 60:f8:1d:ad:85:76
+ inet6 fe80::18a9:fa23:b02f:5d8a%en0 prefixlen 64 secured scopeid 0x4
+ inet 192.168.199.200 netmask 0xffffff00 broadcast 192.168.199.255
+ nd6 options=201&lt;PERFORMNUD,DAD&gt;
+ media: autoselect
+ status: active
+</code></pre></div></div>
+
+<h5 id="关闭airport"><strong>关闭AirPort</strong></h5>
+
+<p>有时候设备的名称是en0、en1这样，所以，可以用过设备名称来重启airport，例如en0</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup -setairportpower en0 off
+</code></pre></div></div>
+
+<h5 id="查看状态"><strong>查看状态</strong></h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup -getairportpower en0
+</code></pre></div></div>
+
+<h5 id="关闭airport-1"><strong>关闭AirPort</strong></h5>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup -setairportpower en0 on
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-02-27</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2017/02/HowTo-Install-NextCloud.html">HowTo Install NextCloud</a></h1>
     <div class="post_at_index">
       <p>随着最近一个云盘厂家不再提供个人服务，或者开始各种收费限速，自己存放在第三方云盘厂商的数据被盗取，数据的安全性和数据的稳定性都得不到保证，而且随着智能终端的普及，我也有一些更加高质量的图片文件需要大量储存，所以我想到了自建存储服务的方式，在甄别了OwnCloud，Seafiles和NextCloud，最后选择了NextCloud作为自己今后数据存储节点，NextCloud源自OwnCloud，但是近些年来OwnCloud的发展进度几乎停滞，多数开发者也转战NextCloud，当然NextCloud也继承了搭建简单，依赖于PHP环境的特性。</p>
@@ -354,13 +401,13 @@ group=nginx
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# vim /etc/nginx/conf.d/nextcloud.conf
  upstream php-handler {
-  	# 这里是你php-fpm的服务端口，默认是9000
+   # 这里是你php-fpm的服务端口，默认是9000
     server 127.0.0.1:9000;
     #server unix:/var/run/php5-fpm.sock;
 }
 
 server {
-  	# 你的域名
+   # 你的域名
     listen pan.ultraera.org:80;
     server_name pan.ultraera.org;
     # enforce https
@@ -372,7 +419,7 @@ server {
     listen pan.ultraera.org:443 ssl;
     server_name pan.ultraera.org;
 
-  	# 以下是你的ssl证书文件存放路径
+   # 以下是你的ssl证书文件存放路径
     ssl_certificate /etc/nginx/ssl/1_pan.ultraera.org_bundle.crt;
     ssl_certificate_key /etc/nginx/ssl/2_pan.ultraera.org.key;
 
@@ -387,7 +434,7 @@ server {
     add_header X-Robots-Tag none;
     add_header X-Download-Options noopen;
     add_header X-Permitted-Cross-Domain-Policies none;
-	add_header Strict-Transport-Security "max-age=15552000; includeSubdomains; ";
+ add_header Strict-Transport-Security "max-age=15552000; includeSubdomains; ";
 
     # 设定你的NextCloud的根目录，请根据实际修改
     root /opt/nextcloud/;
@@ -662,7 +709,7 @@ $CONFIG = array (
 
 <h5 id="更换gem源">更换gem源</h5>
 
-<p>默认gem的源站点是https://rubygems.org 由于国内的网络原因导致无法连接，所以导致无法使用gem安装，这里换成国内淘宝的gem镜像站点</p>
+<p>默认gem的源站点是<a href="https://rubygems.org">https://rubygems.org</a> 由于国内的网络原因导致无法连接，所以导致无法使用gem安装，这里换成国内淘宝的gem镜像站点</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# gem sources -l
 *** CURRENT SOURCES ***
@@ -789,7 +836,7 @@ production:
 <h5 id="配置nginxconf-修改server模块中location的配置">配置nginx.conf 修改server模块中location的配置</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ...
-server	{
+server {
   # ...
   passenger_enabled on;
   location / {
@@ -809,7 +856,7 @@ server	{
 
 <p>到这里，所有的安装都完成了，过程中我遇到这些问题，你也注意下：</p>
 
-<h5 id="71-could-not-find-gem-mysql2--0311-in-any-of-the-gem-sources-listed-in-your-gemfile">7.1 Could not find gem ‘mysql2 (~&gt; 0.3.11)’ in any of the gem sources listed in your Gemfile.</h5>
+<h5 id="71-could-not-find-gem-mysql2--0311-in-any-of-the-gem-sources-listed-in-your-gemfile">7.1 Could not find gem ‘mysql2 (~&gt; 0.3.11)’ in any of the gem sources listed in your Gemfile</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# rm -f Gemfile.lock
 [root@localhost redmine-3.3.2]# bundle install
@@ -819,7 +866,6 @@ server	{
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install libcurl-devel
 </code></pre></div></div>
-
 
       
     </div>
@@ -891,7 +937,6 @@ cp index.js *.json /usr/ghost
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pm2 restart ghost
 </code></pre></div></div>
 
-
       
     </div>
     <br/>
@@ -957,7 +1002,6 @@ cp index.js *.json /usr/ghost
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chkconfig yum-cron on
 </code></pre></div></div>
 
-
       
     </div>
     <br/>
@@ -980,47 +1024,47 @@ cp index.js *.json /usr/ghost
 
 <h4 id="2-创建索引"><strong>2. 创建索引</strong></h4>
 
-<p>​	在执行CREATE TABLE时可以创建索引，也可以在之后单独使用CREATE INDEX或ALTER TABLE来为表增加索引。</p>
+<p>​ 在执行CREATE TABLE时可以创建索引，也可以在之后单独使用CREATE INDEX或ALTER TABLE来为表增加索引。</p>
 
 <h6 id="21-alter-table">2.1 ALTER TABLE</h6>
 
-<p>​	ALTER TABLE用来创建普通索引、UNIQUE索引或PRIMARY KEY索引。</p>
+<p>​ ALTER TABLE用来创建普通索引、UNIQUE索引或PRIMARY KEY索引。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ALTER TABLE tb_name ADD INDEX index_Name (column_list);
 ALTER TABLE tb_name ADD UNIQUE (column_list);
 ALTER TABLE tb_name ADD PRIMARY KEY (column_list);
 </code></pre></div></div>
 
-<p>​	tb_name 是要增加索引的表名，column_list 是要增加索引的列，多列用逗号隔开，index_Name 是可选，缺省为第一个索引列赋名称，ALTER TABLE允许在单个语句中更改多个表，因此可以也可以同时创建多个索引。</p>
+<p>​ tb_name 是要增加索引的表名，column_list 是要增加索引的列，多列用逗号隔开，index_Name 是可选，缺省为第一个索引列赋名称，ALTER TABLE允许在单个语句中更改多个表，因此可以也可以同时创建多个索引。</p>
 
 <h6 id="22-create-index">2.2 CREATE INDEX</h6>
 
-<p>​	CREATE INDEX 可对表增加普通索引或者UNIQUE索引。</p>
+<p>​ CREATE INDEX 可对表增加普通索引或者UNIQUE索引。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CREATE INDEX index_Name ON tb_name(column_list);
 CREATE UNIQUE INDEX index_Name ON tb_name(column_list);
 </code></pre></div></div>
 
-<p>​	tb_name、index_Name和column_list具有ALTER TABLE语句中相同的含义，索引名称不可自定义，也不能创建PRIMARY KEY。</p>
+<p>​ tb_name、index_Name和column_list具有ALTER TABLE语句中相同的含义，索引名称不可自定义，也不能创建PRIMARY KEY。</p>
 
 <h4 id="3-索引类型"><strong>3. 索引类型</strong></h4>
 
-<p>​	在创建索引时，可以规定索引能否包含重复的值，如果不包含，则索引应该为PRIMARY KEY或UNIQUE索引，对于单列唯一索引，这能保证单列不包含重复的值，对于多列唯一索引，保证多值的组合不重复。</p>
+<p>​ 在创建索引时，可以规定索引能否包含重复的值，如果不包含，则索引应该为PRIMARY KEY或UNIQUE索引，对于单列唯一索引，这能保证单列不包含重复的值，对于多列唯一索引，保证多值的组合不重复。</p>
 
-<p>​	PRIMAY KEY索引与UNIQUE索引非常类似，实际上PRIMAY KEY索引仅是一个具有名称PRIMAY的UNIQUE索引，这表示一个表只能包含一个PRIMAY KEY索引，因为一个表中不可能具有两个同名的索引。</p>
+<p>​ PRIMAY KEY索引与UNIQUE索引非常类似，实际上PRIMAY KEY索引仅是一个具有名称PRIMAY的UNIQUE索引，这表示一个表只能包含一个PRIMAY KEY索引，因为一个表中不可能具有两个同名的索引。</p>
 
 <h4 id="4-删除索引"><strong>4. 删除索引</strong></h4>
 
-<p>​	可以使用ALTER TABLE或DROP INDEX语句来删除索引：</p>
+<p>​ 可以使用ALTER TABLE或DROP INDEX语句来删除索引：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DROP INDEX index_Name On tb_name;
 ALTER TABLE tb_Name DROP TABLE index_Name;
 ALTER TABLE tb_Name DROP PRIMAY KEY;
 </code></pre></div></div>
 
-<p>​	第一条和第二条作用是一样的，删除tb_Name中index_Name索引；第三条仅适用于删除PRIMAY KEY时，因为一个只可能有一个PRIMAY KEY索引。</p>
+<p>​ 第一条和第二条作用是一样的，删除tb_Name中index_Name索引；第三条仅适用于删除PRIMAY KEY时，因为一个只可能有一个PRIMAY KEY索引。</p>
 
-<p>​	另外，如果在表中删除了某列，则索引会受到影响，对于多列组合的索引，如果删除其中某列，则该列也会在索引中删除，如果删除所有列，则该索引也会被删除。</p>
+<p>​ 另外，如果在表中删除了某列，则索引会受到影响，对于多列组合的索引，如果删除其中某列，则该列也会在索引中删除，如果删除所有列，则该索引也会被删除。</p>
 
 <h4 id="5-查看索引"><strong>5. 查看索引</strong></h4>
 
@@ -1071,6 +1115,7 @@ Tomcat 7.0 <br /></p>
 <p>实验前提默认是各位已经安装Zabbix Server服务器，并且至少有一台Zabbix agent服务器正常监控。关于如何搭建Zabbix监控集群，会有专门文章描述。</p>
 
 <h4 id="zabbix-java-gateway的工作机制">zabbix-java-gateway的工作机制</h4>
+
 <ul>
   <li>首先我们需要配置我们的Tomcat服务启用监控服务，这个是默认不启用的</li>
   <li>之后需要在Zabbix的管理页面添加对应Tomcat服务器的jmx监控接口</li>
@@ -1080,10 +1125,14 @@ Tomcat 7.0 <br /></p>
 </ul>
 
 <h4 id="1-install-zabbix-java-gateway-on-zabbix-server">1. Install zabbix-java-gateway on Zabbix Server</h4>
+
 <p>因为我的zabbix是使用zabbix 2.4官方源安装，所以只需要用yum在安装即可:</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@6 ~]# sudo  yum install -y zabbix-java-gateway
 </code></pre></div></div>
+
 <p>如果你没有官方源可能先安装该源，注意我的服务器zabbix版本是2.4 如果你是不同的版本，请到[<a href="http://repo.zabbix.com/zabbix/">这里</a>]查找对应版本。</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 查看zabbix server版本
 [root@6 ~]# zabbix_server --version
 Zabbix server v2.4.8 (revision 59539) (20 April 2016)
@@ -1091,6 +1140,7 @@ Compilation time: May  4 2016 01:32:12
 </code></pre></div></div>
 
 <p>在使用yum安装zabbix-java-gateway源时,会自动关联安装openjdk，尽管这段程序没多大影响，如果你想保证系统JAVA环境不受到改变的话，可以在/etc/profile文件最后，增加如下内容:</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># add follows to the end
 export JAVA_HOME=/usr/java/default
 export PATH=$PATH:$JAVA_HOME/bin
@@ -1098,7 +1148,9 @@ export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
 </code></pre></div></div>
 
 <h4 id="2-confiure-tomcat-host-with-enable-jmx">2. Confiure Tomcat host with enable jmx</h4>
+
 <p>首先在$tomcatdir/bin/catalina.sh文件开头处增加如下：</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/sh
 
 CATALINA_OPTS="-Dcom.sun.management.jmxremote \
@@ -1106,7 +1158,9 @@ CATALINA_OPTS="-Dcom.sun.management.jmxremote \
 -Dcom.sun.management.jmxremote.ssl=false \
 -Dcom.sun.management.jmxremote.port=12345"
 </code></pre></div></div>
+
 <p>然后,启动Tomcat，你会发现多了一个12345端口，这就是jmx的监听端口，请保证zabbix-java-gateway可以访问到这台服务器。</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@6 ~]# /tomcat7/bin/startup.sh
 Starting Tomcat7:
 Using CATALINA_BASE:   /tomcat7
@@ -1120,6 +1174,7 @@ Tomcat started.
 tcp  0      0 :::12345   :::*     LISTEN      8793/java
 [root@6 ~]#
 </code></pre></div></div>
+
 <hr />
 
 <h4 id="fix-1---zabbix-agent与server存在复杂网络环境">==<em>fix 1</em> == : zabbix agent与server存在复杂网络环境</h4>
@@ -1147,11 +1202,13 @@ wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-7/v7.0.57/bin/extras/catalina
 </code></pre></div></div>
 
 <p>增加如下内容，在conf/server.xml中：</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Listener className="org.apache.catalina.mbeans.JmxRemoteLifecycleListener"
           rmiRegistryPortPlatform="12345" rmiServerPortPlatform="12346" /&gt;
 </code></pre></div></div>
 
 <p>因为我们已经在conf/server.xml定义了rmiRegistryPortPlatform，所以要将bin/catalina.sh中CATALINA_OPTS的com.sun.management.jmxremote.port去掉，否则会因为jmxremote.port配置有优先级更高而导致配置失效。</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CATALINA_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
 </code></pre></div></div>
 
@@ -1169,71 +1226,117 @@ wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-7/v7.0.57/bin/extras/catalina
  # Default:
 JavaGateway=10.211.55.4 # 设置为你的zabbixsever IP
 
- ### Option: JavaGatewayPort
- #       Port that Zabbix Java gateway listens on.
- #
- # Mandatory: no
- # Range: 1024-32767
- # Default:
+### Option: JavaGatewayPort
+
+# Port that Zabbix Java gateway listens on
+
+#
+
+# Mandatory: no
+
+# Range: 1024-32767
+
+# Default
+
  JavaGatewayPort=10053 # 设置服务端监听接口
 
- ### Option: StartJavaPollers
- #       Number of pre-forked instances of Java pollers.
- #
- # Mandatory: no
- # Range: 0-1000
- # Default:
+### Option: StartJavaPollers
+
+# Number of pre-forked instances of Java pollers
+
+#
+
+# Mandatory: no
+
+# Range: 0-1000
+
+# Default
+
  StartJavaPollers=5 # 设置多线程启动
+
 </code></pre></div></div>
 <p>然后修改zabbix_java_gateway.conf 配置如下:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ### Option: zabbix.listenIP
- #       IP address to listen on.
- #
- # Mandatory: no
- # Default:
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+### Option: zabbix.listenIP
+
+# IP address to listen on
+
+#
+
+# Mandatory: no
+
+# Default
+
  LISTEN_IP="10.211.55.4" # 配置监听IP
 
- ### Option: zabbix.listenPort
- #       Port to listen on.
- #
- # Mandatory: no
- # Range: 1024-32767
- # Default:
+### Option: zabbix.listenPort
+
+# Port to listen on
+
+#
+
+# Mandatory: no
+
+# Range: 1024-32767
+
+# Default
+
  LISTEN_PORT=10053 # 配置监听端口
 
- ### Option: zabbix.pidFile
- #       Name of PID file.
- #       If omitted, Zabbix Java Gateway is started as a console application.
- #
- # Mandatory: no
- # Default:
- # PID_FILE=
+### Option: zabbix.pidFile
+
+# Name of PID file
+
+# If omitted, Zabbix Java Gateway is started as a console application
+
+#
+
+# Mandatory: no
+
+# Default
+
+# PID_FILE=
 
  PID_FILE="/var/run/zabbix/zabbix_java.pid"
 
- ### Option: zabbix.startPollers
- #       Number of worker threads to start.
- #
- # Mandatory: no
- # Range: 1-1000
- # Default:
+### Option: zabbix.startPollers
+
+# Number of worker threads to start
+
+#
+
+# Mandatory: no
+
+# Range: 1-1000
+
+# Default
+
 # 不能大于zabbix_server.conf的值，否则可能导致当连接Java gateway时没有多余的线程进行处理
+
  START_POLLERS=5
+
 </code></pre></div></div>
 
 <p>最后启动启动zabbix-java-gateway，并重启zabbix-server</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@6 ~]# service zabbix-java-gateway start
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+[root@6 ~]# service zabbix-java-gateway start
 Starting zabbix java gateway:              [  OK  ]
 [root@6 ~]# service zabbix-server restart
 Stopping zabbix server:              [  OK  ]
 Starting zabbix server:              [  OK  ]
+
 </code></pre></div></div>
 
 <p>我在尝试重启发现一问题，zabbix-java-gateway通过service命令管理stop不能删除pid文件导致服务无法启动，如果你也碰到，解决办法如下:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@6 zabbix]# vim /etc/rc.d/init.d/zabbix-java-gateway
-# line 97, 注释修改为如下：
-#       kill `cat $PID_FILE` &amp;&amp; rm $PID_FILE
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+[root@6 zabbix]# vim /etc/rc.d/init.d/zabbix-java-gateway
+
+# line 97, 注释修改为如下
+
+# kill `cat $PID_FILE` &amp;&amp; rm $PID_FILE
+
         rm -f $PID_FILE
+
 </code></pre></div></div>
 
 <h4 id="4-adding-jmx-host-on-zabbix-web-consloe">4. Adding jmx host on Zabbix Web consloe</h4>
@@ -1248,7 +1351,6 @@ Starting zabbix server:              [  OK  ]
 
 <h4 id="5-view-the-head-memory-monitoring">5. View the Head Memory Monitoring.</h4>
 <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-view-monitor.png" alt="" /></p>
-
 
       
     </div>
@@ -1325,7 +1427,7 @@ BAKDBNAME=z3
 
 # creat tmp folder
 if [ ! -d $TMPDIR ]; then
-	mkdir $TMPDIR
+ mkdir $TMPDIR
 fi
 
 # dump tbName
@@ -1334,12 +1436,12 @@ mysqldump -h $DBSERVER1 -P $DBSERVER1_PORT -u $DBSERVER1_USER -p"$DBSERVER1_PASS
 
 # insert tbNAME to bakdbName
 if [ $? -eq 0  ]; then
-	mysql -h $DBSERVER2 -P $DBSERVER2_PORT -u $DBSERVER2_USER -p"$DBSERVER2_PASSWORD" $BAKDBNAME &lt; $TMPDIR/$MASTER_TBNAME.sql
+ mysql -h $DBSERVER2 -P $DBSERVER2_PORT -u $DBSERVER2_USER -p"$DBSERVER2_PASSWORD" $BAKDBNAME &lt; $TMPDIR/$MASTER_TBNAME.sql
 
-	if [ $? -eq 0 ]; then
-		# rename tbName
-		mysql -h $DBSERVER2 -P $DBSERVER2_PORT -u $DBSERVER2_USER -p"$DBSERVER2_PASSWORD" -e "rename table "$BAKDBNAME"."$MASTER_TBNAME" to "$BAKDBNAME"."$MASTER_TBNAME"_"$DATE";"
-	fi
+ if [ $? -eq 0 ]; then
+  # rename tbName
+  mysql -h $DBSERVER2 -P $DBSERVER2_PORT -u $DBSERVER2_USER -p"$DBSERVER2_PASSWORD" -e "rename table "$BAKDBNAME"."$MASTER_TBNAME" to "$BAKDBNAME"."$MASTER_TBNAME"_"$DATE";"
+ fi
 
 fi
 </code></pre></div></div>
@@ -1348,7 +1450,6 @@ fi
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>00 00 * * * /usr/local/bin/bakTable.sh
 </code></pre></div></div>
-
 
       
     </div>
@@ -1407,13 +1508,16 @@ fi
 <p>但是Docker Hub有着非常丰富的镜像资源，所以我这一直是个问题困扰着我，一次偶然机会发现了<a href="https://www.daocloud.io">DaoCloud</a>提供了国内镜像加速服务，并且提供的Docker Hub Mirror详细的文档。</p>
 
 <h4 id="1-注册daocloud账号">1. 注册DaoCloud账号</h4>
+
 <p>首先，你需要到一DaoCloud账号，注册很方便，点击地址：<a href="https://account.daocloud.io/signup">signup</a>
 <img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/o6wh3.jpg" alt="" /></p>
 
 <h4 id="2-登录到你的daocloud账号内然后入下图操作">2. 登录到你的DaoCloud账号内，然后入下图操作</h4>
+
 <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/n9mt7.jpg" alt="" /></p>
 
 <h4 id="3-查看你的daocloud加速器地址">3. 查看你的DaoCloud加速器地址</h4>
+
 <p><a href="https://www.daocloud.io/mirror#accelerator-doc">链接</a></p>
 
 <p>选择你相对应平台的的加速器设置
@@ -1425,110 +1529,6 @@ fi
     <div>
       <cite>2017-01-07</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Docker">Docker</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/12/HowTo-Mount-OSS-Bucket-On-ECS.html">HowTo Mount OSS Bucket On ECS</a></h1>
-    <div class="post_at_index">
-      <blockquote>
-  <p>From <a href="https://github.com/aliyun/ossfs">阿里云官方Github</a></p>
-</blockquote>
-
-<blockquote>
-  <p>Demo: CentOS 6.8 on ECS</p>
-</blockquote>
-
-<p>ossfs 是通过磁盘挂载的形式，将oss存储挂载到linux、类unix等操作系统，而且不仅仅可以挂载阿里云内的ECS上，理论上所有网络能到达oss的都可以挂载，但还是要以实际问题为准。</p>
-
-<h5 id="1download--install">1.Download &amp; Install</h5>
-<p><a href="https://github.com/aliyun/ossfs/releases">官方版本发布页面</a>，请根据你的系统类型进行选择，我这演示的环境是CentOS 6.8；ossfs目前最新的版本是v1.79.9，您可以根据自己当时版本进行选择，建议选择最新版本。</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 请先将包上传到服务器上
- sudo yum localinstall ossfs_1.79.9_centos6.5_x86_64.rpm
-</code></pre></div></div>
-<blockquote>
-  <p>注意使用localinstall，因为在安装过程，yum 可以很好的解决依赖关系，会节省我们很多时间</p>
-</blockquote>
-
-<h5 id="2-oss--bucket">2. OSS &amp; Bucket</h5>
-
-<p>需要获取以下信息，在后面我们都会用到的：<br /></p>
-<ol>
-  <li>Bucket 名称
-  <img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/QQ20161111-0.jpg" alt="" />
-  <br /></li>
-  <li>Access Key ID</li>
-  <li>Access Key Secret
-  <img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/0256A9CB-A0FA-43BC-82AF-4DE17D4852B6.png" alt="" /></li>
-</ol>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/QQ20161111-2.jpg" alt="" />
-<br /></p>
-<ol>
-  <li>Location，这需要注意点，不要加上Bucket的名字，区域对应表如下，注意你的Bucket所在区域:</li>
-</ol>
-<div><table><thead><tr><th style="color:green">Region中文名称</th><th style="text-align:left;color: green;">Region英文表示</th><th style="text-align:left;color: green;">外网Endpoint</th><th style="text-align:left;color: green;">ECS访问的内网Endpoint</th></tr></thead><tbody><tr><td>华东 1</td><td style="text-align:left">oss-cn-hangzhou</td><td style="text-align:left">oss-cn-hangzhou.aliyuncs.com</td><td style="text-align:left">oss-cn-hangzhou-internal.aliyuncs.com</td></tr><tr><td>华东 2</td><td style="text-align:left">oss-cn-shanghai</td><td style="text-align:left">oss-cn-shanghai.aliyuncs.com</td><td style="text-align:left">oss-cn-shanghai-internal.aliyuncs.com</td></tr><tr><td>华北 1</td><td style="text-align:left">oss-cn-qingdao</td><td style="text-align:left">oss-cn-qingdao.aliyuncs.com</td><td style="text-align:left">oss-cn-qingdao-internal.aliyuncs.com</td></tr><tr><td>华北 2</td><td style="text-align:left">oss-cn-beijing</td><td style="text-align:left">oss-cn-beijing.aliyuncs.com</td><td style="text-align:left">oss-cn-beijing-internal.aliyuncs.com</td></tr><tr><td>华南 1</td><td style="text-align:left">oss-cn-shenzhen</td><td style="text-align:left">oss-cn-shenzhen.aliyuncs.com</td><td style="text-align:left">oss-cn-shenzhen-internal.aliyuncs.com</td></tr><tr><td>香港数据中心</td><td style="text-align:left">oss-cn-hongkong</td><td style="text-align:left">oss-cn-hongkong.aliyuncs.com</td><td style="text-align:left">oss-cn-hongkong-internal.aliyuncs.com</td></tr><tr><td>美国硅谷数据中心</td><td style="text-align:left">oss-us-west-1</td><td style="text-align:left">oss-us-west-1.aliyuncs.com</td><td style="text-align:left">oss-us-west-1-internal.aliyuncs.com</td></tr><tr><td>美国弗吉尼亚数据中心</td><td style="text-align:left">oss-us-east-1</td><td style="text-align:left">oss-us-east-1.aliyuncs.com</td><td style="text-align:left">oss-us-east-1-internal.aliyuncs.com</td></tr><tr><td>亚太（新加坡）数据中心</td><td style="text-align:left">oss-ap-southeast-1</td><td style="text-align:left">oss-ap-southeast-1.aliyuncs.com</td><td style="text-align:left">oss-ap-southeast-1-internal.aliyuncs.com</td></tr><tr><td>亚太东北 1（日本）数据中心</td><td style="text-align:left">oss-ap-northeast-1</td><td style="text-align:left">oss-ap-northeast-1.aliyuncs.com</td><td style="text-align:left">oss-ap-northeast-1-internal.aliyuncs.com</td></tr></tbody></table></div>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 设置bucket/access key/id的信息，将其存放在/etc/passwd-ossfs 文件中
-# 注意这个文件的权限必须正确设置，建议设为640
-sudo echo my-bucket:my-access-key-id:my-access-key-secret &gt; /etc/passwd-ossfs
-sudo chmod 640 /etc/passwd-ossfs
-</code></pre></div></div>
-<p><br /></p>
-<h5 id="3-mount--uasge">3. Mount &amp; Uasge</h5>
-<p>将oss bucket mount到指定目录:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 我碰到安装后找不到ossfs命令，查看下因为ossfs没有x权限，目录路径为/usr/local/bin，如果您也碰到这个问题，可以增加x权限后再测试
-sudo ossfs my-bucket /mnt/ossdir -ourl=http://oss-location.aliyuncs.com
-
-# 如果使用ossfs的机器是阿里云ECS，可以使用内网域名来避免流量收费和 提高速度：
-sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com
-</code></pre></div></div>
-<p>磁盘空间达到上百T：
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/0B78E099-5488-4839-AE48-09A074E7415D.png" alt="" />
-<br /></p>
-
-<p>umount：</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 注意用户身份
-umount /tmp/ossfs # root user
-sudo fusermount -u /tmp/ossfs # non-root user
-</code></pre></div></div>
-<p><br /></p>
-<h5 id="4-debug--faq">4. Debug &amp; FAQ</h5>
-<p>当遇到错误的时候，可以试着打开Debug日志信息，然后分析问题原因：</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 使用 -o dbglevel=debug -f -d参数打印日志信息
-sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com -o dbglevel=debug -f -d &gt; /mnt/ossfs.log 2&gt;&amp;1
-</code></pre></div></div>
-
-<p>更多的问题，请移步查看<a href="https://github.com/aliyun/ossfs/wiki/FAQ">官方的FAQ文档</a>。</p>
-
-<p><br /></p>
-<h5 id="5-about">5. About</h5>
-<p>ossfs提供的功能和性能和本地文件系统相比，具有一些局限性。具体包括：</p>
-
-<ul>
-  <li>随机或者追加写文件会导致整个文件的重写。</li>
-  <li>元数据操作，例如list directory，性能较差，因为需要远程访问oss服务器。</li>
-  <li>文件/文件夹的rename操作不是原子的。</li>
-  <li>多个客户端挂载同一个oss bucket时，依赖用户自行协调各个客户端的行为。例如避免多个客户端写同一个文件等等。</li>
-  <li>不支持hard link。</li>
-  <li>不适合用在高并发读/写的场景，这样会让系统的load升高</li>
-</ul>
-
-<blockquote>
-  <p>另外，ossfs的稳定性很大一部分依赖于网络环境，建议的使用场景更多是作为临时数据迁移或定期备份，虽然ossfs挂载到系统中会有着几百TB的空间，但是稳定性并不高。</p>
-</blockquote>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-12-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Aliyun">Aliyun</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
       
       
       
@@ -1619,16 +1619,6 @@ sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com 
     	
       <li><a href="/categories.html#CentOS">
     		CentOS <span>14</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Tools">
-    		Tools <span>4</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#VPN">
-    		VPN <span>2</span>
     	</a></li>
      
     	
@@ -1774,6 +1764,16 @@ sudo ossfs my-bucket /tmp/ossfs -ourl=http://oss-location-internal.aliyuncs.com 
     	
       <li><a href="/categories.html#Bigdata">
     		Bigdata <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Tools">
+    		Tools <span>4</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#VPN">
+    		VPN <span>2</span>
     	</a></li>
      
     	

@@ -290,7 +290,7 @@
         <div class="post-content" itemprop="articleBody">
             <h2 id="centos-6x-初始安装基本优化操作">CentOS 6.x 初始安装基本优化操作</h2>
 
-<p>       本文件是采用的模板是centos 6.x，相较于centos 5.x与centos 7.x系列有些区别，不能一概而论。</p>
+<p>本文件是采用的模板是centos 6.x，相较于centos 5.x与centos 7.x系列有些区别，不能一概而论。</p>
 
 <h3 id="1-测试环境">1. 测试环境</h3>
 
@@ -301,7 +301,8 @@
 </ul>
 
 <h3 id="2-默认网卡开机未设定自启动">2. 默认网卡开机未设定自启动</h3>
-<p>       很多初学者，在安装系统的时候，碰到的第一个问题就是不能上网，所以有些同学就担心是不是需要去安装网卡驱动，其实这样想就把问题复杂化了，如果你在实体机安装Linux的系统时，可能会碰到网卡驱动不上导致无法上网的问题，这个时候是需要自行安装驱动的，但是我们使用的VMware的一款虚拟化工具，所以网卡驱动基本就不用考虑，原因是因为我们没有把网卡设置为开机自启动，下面讲如何开启网卡，并设定为开机自启动。</p>
+
+<p>很多初学者，在安装系统的时候，碰到的第一个问题就是不能上网，所以有些同学就担心是不是需要去安装网卡驱动，其实这样想就把问题复杂化了，如果你在实体机安装Linux的系统时，可能会碰到网卡驱动不上导致无法上网的问题，这个时候是需要自行安装驱动的，但是我们使用的VMware的一款虚拟化工具，所以网卡驱动基本就不用考虑，原因是因为我们没有把网卡设置为开机自启动，下面讲如何开启网卡，并设定为开机自启动。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# ifup eth0
 
@@ -318,18 +319,19 @@ eth0      Link encap:Ethernet  HWaddr 00:0C:29:B9:60:D8
           RX bytes:14010 (13.6 KiB)  TX bytes:11410 (11.1 KiB)
           
 [root@vm02 ~]# vi /etc/sysconfig/network-scripts/ifcfg-eth0
-	DEVICE=eth0
-	HWADDR=00:0C:29:B9:60:D8
-	TYPE=Ethernet
-	UUID=7ad636ff-78d9-4afa-9886-706b1de236a8
-	ONBOOT=no		 // 默认是no，修改为yes
-	NM_CONTROLLED=yes
-	BOOTPROTO=dhcp
+ DEVICE=eth0
+ HWADDR=00:0C:29:B9:60:D8
+ TYPE=Ethernet
+ UUID=7ad636ff-78d9-4afa-9886-706b1de236a8
+ ONBOOT=no   // 默认是no，修改为yes
+ NM_CONTROLLED=yes
+ BOOTPROTO=dhcp
 
 </code></pre></div></div>
 
 <h3 id="3-增加第三方yum源">3. 增加第三方Yum源</h3>
-<p>       CentOS 系统内置的官方源软件更新较慢，而且缺少一些常用软件包，建议安装epel源，EPEL 是 Extra Packages for Enterprise Linux 的缩写（EPEL），是用于 Fedora-based Red Hat Enterprise Linux (RHEL) 的一个高质量软件源，所以同时也适用于 CentOS 或者 Scientific Linux 等发行版。</p>
+
+<p>CentOS 系统内置的官方源软件更新较慢，而且缺少一些常用软件包，建议安装epel源，EPEL 是 Extra Packages for Enterprise Linux 的缩写（EPEL），是用于 Fedora-based Red Hat Enterprise Linux (RHEL) 的一个高质量软件源，所以同时也适用于 CentOS 或者 Scientific Linux 等发行版。</p>
 
 <h5 id="a-因为我们使用的是minimal版本的iso安装所以系统默认没有wget我们可以直接用yum安装wget是linux常用的命令行下载工具">a. 因为我们使用的是minimal版本的ISO安装，所以系统默认没有wget，我们可以直接用yum安装：[wget是Linux常用的命令行下载工具]</h5>
 
@@ -382,16 +384,18 @@ Installed:
 Complete!
 [root@vm02 ~]#
 </code></pre></div></div>
+
 <h5 id="b-下载并安装epel源">b. 下载并安装epel源</h5>
-<p>       不同CentOS版本的epel下载地址：</p>
+
+<p>不同CentOS版本的epel下载地址：</p>
 
 <ul>
-  <li>CentOS 5 ： https://dl.fedoraproject.org/pub/epel/epel-release-latest-5.noarch.rpm</li>
-  <li>CentOS 6 ： https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm</li>
-  <li>CentOS 7 ： https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm</li>
+  <li>CentOS 5 ： <a href="https://dl.fedoraproject.org/pub/epel/epel-release-latest-5.noarch.rpm">https://dl.fedoraproject.org/pub/epel/epel-release-latest-5.noarch.rpm</a></li>
+  <li>CentOS 6 ： <a href="https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm">https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm</a></li>
+  <li>CentOS 7 ： <a href="https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm">https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm</a></li>
 </ul>
 
-<p>       本次试验用到的CentOS 6 所以我们下载epel-release-latest-6.noarch.rpm</p>
+<p>本次试验用到的CentOS 6 所以我们下载epel-release-latest-6.noarch.rpm</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
 --2016-03-18 11:47:17--  https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
@@ -411,7 +415,8 @@ epel-release-latest-6.noarch.rpm  install.log.syslog
 </code></pre></div></div>
 
 <h3 id="4-安装vimlinux使用最广泛的文件编辑工具">4. 安装vim：Linux使用最广泛的文件编辑工具</h3>
-<p>       与我们长久使用Win环境不同的是，在Linux之中，我们接触最多的是command line，所以熟练一款命令行下的文本编辑工具是一项必备技能，我这里推荐大家：vim。</p>
+
+<p>与我们长久使用Win环境不同的是，在Linux之中，我们接触最多的是command line，所以熟练一款命令行下的文本编辑工具是一项必备技能，我这里推荐大家：vim。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum install -y vim
 Loaded plugins: fastestmirror
@@ -522,9 +527,10 @@ Complete!
 </code></pre></div></div>
 
 <h3 id="4-关闭selinux">4. 关闭SELinux</h3>
-<p>       SELinux主要由美国国家安全局开发，并于2000年12月22日发行给开放源代码的开发社区。SELinux旨在加强访问控制架构以对付入侵的威胁或任何企图略过安全架构的应用程序，并且从2.6版的Linux核心就开始集成SELinux；但是SELinux严格的权限控制对于初学者来说并不是非常必要，所以我们建议关闭SELinux，[其实由于SELinux的复杂性，很多运维人员都是选择关闭它，熟悉阿里云ECS的同学可能知道，它是默认关闭SELinux的，但是我们不建议在生产环境关闭SELinux。]</p>
 
-<p>       SELinux的配置文件主要由两个：/etc/sysconfig/selinux、 /etc/selinux/config，其实第一个是第二个路径的软链接。</p>
+<p>SELinux主要由美国国家安全局开发，并于2000年12月22日发行给开放源代码的开发社区。SELinux旨在加强访问控制架构以对付入侵的威胁或任何企图略过安全架构的应用程序，并且从2.6版的Linux核心就开始集成SELinux；但是SELinux严格的权限控制对于初学者来说并不是非常必要，所以我们建议关闭SELinux，[其实由于SELinux的复杂性，很多运维人员都是选择关闭它，熟悉阿里云ECS的同学可能知道，它是默认关闭SELinux的，但是我们不建议在生产环境关闭SELinux。]</p>
+
+<p>SELinux的配置文件主要由两个：/etc/sysconfig/selinux、 /etc/selinux/config，其实第一个是第二个路径的软链接。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/selinux/config
 # This file controls the state of SELinux on the system.
@@ -540,7 +546,7 @@ SELINUXTYPE=targeted
 
 </code></pre></div></div>
 
-<p>       SELinux 的状态模式：</p>
+<p>SELinux 的状态模式：</p>
 
 <ul>
   <li>enforcing : 强制启用SELinux</li>
@@ -552,7 +558,7 @@ SELINUXTYPE=targeted
   <p>Tips: SELinux的参数只能在重启后生效。</p>
 </blockquote>
 
-<p>       SELinux 常用的两个命令：getenforce setenforce :</p>
+<p>SELinux 常用的两个命令：getenforce setenforce :</p>
 
 <ul>
   <li>getenforce 获得SELinux 当前的状态，返回值为如上三种；</li>
@@ -563,13 +569,13 @@ SELINUXTYPE=targeted
   <p>Tips: 状态已经为disabled时，无法使用setenforce 1 启用。</p>
 </blockquote>
 
-<h3 id="5">5.</h3>
+<h3 id="5">5</h3>
 
-<h3 id="6">6.</h3>
+<h3 id="6">6</h3>
 
-<h3 id="7">7.</h3>
+<h3 id="7">7</h3>
 
-<h3 id="8">8.</h3>
+<h3 id="8">8</h3>
 
         </div>
 
@@ -1396,11 +1402,11 @@ SELINUXTYPE=targeted
                 
                 
                 
+                
+                
+                
+                
                 <li><a href="/post/2016/03/CentOS-6-2-%E5%88%9D%E5%A7%8B%E5%AE%89%E8%A3%85%E5%9F%BA%E6%9C%AC%E4%BC%98%E5%8C%96%E6%93%8D%E4%BD%9C.html">CentOS 初始安装基本优化操作</a> - <span>03/19/2016</span></li>
-                
-                
-                
-                
                 
                 
                 

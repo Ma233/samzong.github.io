@@ -295,33 +295,40 @@
 <h4 id="国内pypi源站点">国内pypi源站点</h4>
 
 <ul>
-  <li>http://pypi.douban.com/simple  豆瓣</li>
-  <li>http://pypi.hustunique.com/simple  华中理工大学</li>
-  <li>http://pypi.sdutlinux.org/simple  山东理工大学</li>
-  <li>http://pypi.mirrors.ustc.edu.cn/simple  中国科学技术大学</li>
+  <li><a href="http://pypi.douban.com/simple">http://pypi.douban.com/simple</a>  豆瓣</li>
+  <li><a href="http://pypi.hustunique.com/simple">http://pypi.hustunique.com/simple</a>  华中理工大学</li>
+  <li><a href="http://pypi.sdutlinux.org/simple">http://pypi.sdutlinux.org/simple</a>  山东理工大学</li>
+  <li><a href="http://pypi.mirrors.ustc.edu.cn/simple">http://pypi.mirrors.ustc.edu.cn/simple</a>  中国科学技术大学</li>
 </ul>
 
 <h4 id="windows-修改">Windows 修改</h4>
 
 <p>编辑 %HOMEPATH%\pip\pip.ini</p>
+
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>global]
 index-url <span class="o">=</span> http://pypi.douban.com/simple
 </code></pre></div></div>
 
 <h4 id="linux-修改">Linux 修改</h4>
+
 <p>编辑 ~/.pip/pip.conf ， 如果文件不存在，可以先创建</p>
+
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>global]
 index-url <span class="o">=</span> http://pypi.douban.com/simple
 </code></pre></div></div>
 
 <h4 id="修改easy_install-源">修改easy_install 源</h4>
+
 <p>编辑 ~/.pydistutils.cfg</p>
+
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>global]
 index-url <span class="o">=</span> http://pypi.douban.com/simple
 </code></pre></div></div>
 
 <h4 id="临时使用">临时使用</h4>
+
 <p>如果你不想修改源，只是临时使用的话，可以在pip安装时使用-i参数临时指定源站点</p>
+
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nt">-i</span> http://pypi.douban.com/simple <span class="nb">install </span>boto3
 </code></pre></div></div>
 

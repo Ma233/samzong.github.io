@@ -233,6 +233,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -276,401 +280,74 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2016/08/%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%B2%81.html">二十四岁</a></h1>
+    <h1><a class="title" href="/post/2016/12/HowTo-Reset-MySQL-Root-Password.html">HowTo Reset MySQL Root Password</a></h1>
     <div class="post_at_index">
-      <p>现在时间凌晨 2 点多，已经记不得这是第几个凌晨 2 点还没睡觉了，好像早睡已经是很久远的事情了，看书学习，刷视频，发呆，玩手机平板，总之不想睡觉；花在睡觉上的时间越来越少，感觉，其实挺累的，生活在大都市里啊，忙碌工作生活奔波，总感觉时间不够用，要做的事情太多，你总要面对很多事情和责任，与人相处；我很努力么，也不那么见得，一旦你成为这个社会一员，总有人或事再推着你前进，在你耳边脑海嚷嚷着不要停，不要停啊！</p>
+      <h4 id="1-处理的状态">1. 处理的状态</h4>
 
-<p>每年生日的时候，都会给自己写点东西，回首曾经的岁月又多了一年，我不知道这个习惯会坚持到什么时候，或许写着写着就不想写了，或者自己落入庸俗的圈套，不敢回首过往岁月；我一直坚持的，就是希望在将来回望曾经岁月时不会面带羞愧，我没想过自己会有怎么牛逼的人生，如果回想起今天能觉得，哎哟，不错哦，那就很好了啊；我会坚持去自己想做的事，年岁在增长，不忘初心；就像，这个我喜欢啊，嗯，那就坚持下去咯。</p>
+<p>首先确认服务器出于安全的状态，也就是没有人能够任意地连接 MySQL 数据库。
+因为在重新设置 MySQL 的 root 密码的期间，MySQL 数据库完全出于没有密码保护的
+状态下，其他的用户也可以任意地登录和修改 MySQL 的信息。可以采用将 MySQL 对
+外的端口封闭，并且停止 Apache 以及所有的用户进程的方法实现服务器的准安全
+状态。最安全的状态是到服务器的 Console 上面操作，并且拔掉网线。</p>
 
-<p>早上醒来的时候，收到前女友的“生日快乐”，挺意外的，然后感动；中午收到爸妈姐姐姐夫外甥的祝福，觉得自己好幸福啊，感恩这些在乎我的人，我爱他们，我想这些会是我生活的动力；今年的生日和往常一样，没有庆祝，我性格不太喜欢仪式感很强烈的事情，没有太多的心思，过的开心就好了，费那么大劲折腾犯不着，生活就是这样。</p>
+<h4 id="2-重置密码">2. 重置密码</h4>
 
-<p>今年好像没什么好说的，工作没换，现在单位还不错，有自己努力的方向，领导也重视，比之去年也有提升，唯一的感觉就是时间不够用，要学习的东西太多了，但是还学的进去，这一点我很满足，接下来的一年要坚持下去；学业学习上来说，去年报的上外英本，今年上半年都没去上课了，虽然不是翘课，但是关心的力度不够，抽个时间要去趟学校，跟班主任聊聊接下来的学习规划，毕竟还是要考试的；生活上呢，终于感觉到我是爸妈亲生的了啊喂，超幸福美满，这个没得说，还有一个优秀的妹妹，作为谈心的伙伴和学习的榜样也是十分满足；不过，与朋友相处这块近期有些糟糕，这个要好好检讨，以后在这方面要更加成熟；总之目标啊就是努力挣钱啊挣钱啊，上海买房啊买房啊，虽然这座城市生活着挺辛苦的，但是我爱它，所以我要留在这里；至于恋爱结婚什么的，没什么进展也没什么打算，总之先努力工作，努力生活咯。</p>
+<p>修改 mysql 配置文件，增加 skip-grant-tables</p>
 
-<p>还是和往年一样，自从奶奶去世，我一直不喜欢过节，还是会想念她，不愿意听别人提及她，工作累了，与人相处不融洽的时候，很多时候，我都会想起她，想起小时候，为我遮风挡雨，是我最温暖最踏实的依靠，生活虽然艰辛，但那是我一生最快乐的时光，教我做人做事，让我努力，支持我鼓励我教训我，可是我却未能报答这份恩情，每次清明节回去，望着那座坟墓，总是还想听听您喊我的名字；所以呢，我要努力过好自己的人生，才能对得起奶奶的期望，人生的努力，终有一个理由。</p>
-
-<p>好了，接下来要开始走向 25 岁了。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-08-19</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/08/Script-Install-LNMP.html">Use Script Install LNMP</a></h1>
-    <div class="post_at_index">
-      <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-
-<span class="c">#</span>
-
-<span class="k">if</span> <span class="o">[[</span> <span class="nv">$1</span> <span class="o">==</span> <span class="s2">"uninstall"</span> <span class="o">]]</span><span class="p">;</span><span class="k">then
- </span><span class="nb">echo</span> <span class="s2">"starting backup data..."</span>
- <span class="nb">mkdir</span> <span class="nt">-p</span> /www/backup
- service mysqld stop
- service nginxd stop
- service httpd stop
- service wdapache stop
- service pureftpd stop
- <span class="nb">tar </span>zcvf /www/backup/mysqldatdbk.tar.gz /www/wdlinux/mysql/var
- <span class="nb">tar </span>zcvf /www/backup/ngconfbk.tar.gz /www/wdlinux/nginx/conf
- <span class="nb">tar </span>zcvf /www/backup/apconfbk.tar.gz /www/wdlinux/apache/conf
- rpm <span class="nt">-e</span> lanmp_wdcp <span class="nt">--nodeps</span>
- <span class="nb">rm</span> <span class="nt">-fr</span> /www/wdlinux
- <span class="nb">echo
- echo</span> <span class="s2">" lanmp,wdcp remove is OK"</span>
- <span class="nb">echo
- exit </span>0
-<span class="k">fi
-
-</span><span class="nb">echo</span> <span class="s2">"Turn off selinux..."</span>
-setenforce 0
-<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/SELINUX=enforcing/SELINUX=disabled/g'</span> /etc/selinux/config
-<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/^exclude=/#exclude=/g'</span> /etc/yum.conf
-yum <span class="nb">install</span> <span class="nt">-y</span> gcc gcc-c++ make autoconf libtool-ltdl-devel gd-devel freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel patch libmcrypt-devel libmhash-devel ncurses-devel <span class="nb">sudo </span>bzip2 iptables sendmail iptables unzip
-
-<span class="c">#echo "Check the network..."</span>
-<span class="c">#ping -c 2 113.105.167.1</span>
-<span class="c">#if [[ $? != 0 ]];then</span>
-<span class="c"># echo</span>
-<span class="c"># echo "network err"</span>
-<span class="c"># exit 1</span>
-<span class="c">#fi</span>
-ping <span class="nt">-c</span> 3 dl.wdlinux.cn
-<span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> <span class="o">==</span> 2 <span class="o">]]</span><span class="p">;</span><span class="k">then
- </span><span class="nb">echo
- echo</span> <span class="s2">"dns error"</span>
- <span class="nb">exit </span>1
-<span class="k">fi
-
-if</span> <span class="o">[[</span> <span class="o">!</span> <span class="nt">-d</span> /www/wdlinux <span class="o">]]</span><span class="p">;</span><span class="k">then
- </span><span class="nb">echo
- echo</span> <span class="s2">"rpm remove..."</span>
- rpm <span class="nt">-e</span> php <span class="nt">--nodeps</span>
- rpm <span class="nt">-e</span> httpd <span class="nt">--nodeps</span>
- rpm <span class="nt">-e</span> mysql-server <span class="nt">--nodeps</span>
- rpm <span class="nt">-e</span> mysql <span class="nt">--nodeps</span>
-<span class="k">fi
-
-</span><span class="nb">echo</span> <span class="s2">"yum update..."</span>
-yum <span class="nb">install</span> <span class="nt">-y</span> make autoconf <span class="nb">sudo </span>wget libtool-ltdl-devel gd-devel freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel patch libmcrypt-devel libmhash-devel ncurses-devel iptables
-
-<span class="nb">arch</span><span class="o">=</span>i386
-<span class="nv">Aurl</span><span class="o">=</span><span class="s2">"http://dl.wdlinux.cn:5180/rpms"</span>
-<span class="k">if</span> <span class="o">[[</span> <span class="sb">`</span><span class="nb">uname</span> <span class="nt">-m</span><span class="sb">`</span> <span class="o">==</span> <span class="s2">"x86_64"</span> <span class="o">]]</span><span class="p">;</span><span class="k">then
- </span><span class="nb">arch</span><span class="o">=</span><span class="s2">"x86_64"</span>
-<span class="k">fi
-
-function </span>in_finsh <span class="o">{</span>
-        <span class="nb">echo
-        echo</span> <span class="s2">"          configuration ,lamp or lnmp,wdcp install is finshed"</span>
-        <span class="nb">echo</span> <span class="s2">"          visit http://ip"</span>
-        <span class="nb">echo</span> <span class="s2">"          wdcp visit http://ip:8080"</span>
-        <span class="nb">echo</span> <span class="s2">"          more infomation please visit http://www.wdlinux.cn"</span>
-        <span class="nb">echo</span>
-<span class="o">}</span>
-
-<span class="k">function </span>in_check <span class="o">{</span>
-        <span class="k">if</span> <span class="o">[[</span> <span class="nv">$1</span> <span class="o">==</span> 1 <span class="o">]]</span><span class="p">;</span><span class="k">then
-                </span><span class="nb">echo
-                echo</span> <span class="s2">"============  </span><span class="nv">$2</span><span class="s2"> install error  ============="</span>
-                <span class="nb">echo
-                exit </span>1
-        <span class="k">else
-                </span><span class="nb">echo
-                echo</span> <span class="s2">"============  </span><span class="nv">$2</span><span class="s2"> install OK  =============="</span>
-                <span class="nb">echo
-                echo
-        </span><span class="k">fi</span>
-<span class="o">}</span>
-
-<span class="nb">grep</span> <span class="nt">-E</span> <span class="s1">'wdOS 1|5\.'</span> /etc/redhat-release <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
-<span class="nv">v1</span><span class="o">=</span><span class="nv">$?</span>
-<span class="nb">grep</span> <span class="nt">-E</span> <span class="s1">'wdOS 2|6\.'</span> /etc/redhat-release <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
-<span class="nv">v2</span><span class="o">=</span><span class="nv">$?</span>
-<span class="k">if</span> <span class="o">[</span> <span class="nv">$v1</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
- </span><span class="nv">RF</span><span class="o">=</span><span class="s2">"lanmp_wdcp-2-5.</span><span class="nv">$arch</span><span class="s2">.rpm"</span><span class="p">;</span>
-<span class="k">elif</span> <span class="o">[</span> <span class="nv">$v2</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
- </span><span class="nv">RF</span><span class="o">=</span><span class="s2">"lanmp_wdcp-2-5.el6.</span><span class="nv">$arch</span><span class="s2">.rpm"</span><span class="p">;</span>
- <span class="k">if</span> <span class="o">[</span> <span class="nv">$arch</span> <span class="o">==</span> <span class="s2">"x86_64"</span> <span class="o">]</span><span class="p">;</span><span class="k">then
-  </span>wget <span class="nt">-c</span> http://dl.wdlinux.cn:5180/soft/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
-  rpm <span class="nt">-ivh</span> rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
- <span class="k">else
-  </span>wget <span class="nt">-c</span> http://dl.wdlinux.cn:5180/soft/rpmforge-release-0.5.2-2.el6.rf.i686.rpm
-  rpm <span class="nt">-ivh</span> rpmforge-release-0.5.2-2.el6.rf.i686.rpm
- <span class="k">fi
- </span>yum <span class="nb">install</span> <span class="nt">-y</span> mhash-devel libmcrypt-devel
-<span class="k">else
- </span><span class="nb">echo
- echo</span> <span class="s2">"The current system does not support"</span>
- <span class="nb">echo
- exit
-</span><span class="k">fi
-</span>wget <span class="nt">-c</span> http://dl.wdlinux.cn:5180/rpms/<span class="nv">$RF</span>
-rpm <span class="nt">-ivh</span> <span class="nv">$RF</span> <span class="nt">--nodeps</span>
-<span class="nv">I_F</span><span class="o">=</span><span class="nv">$?</span>
-<span class="k">if</span> <span class="o">[</span> <span class="nv">$I_F</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
- </span><span class="nb">echo
-</span><span class="k">fi
-</span>in_check <span class="nv">$I_F</span> lanmp_wdcp
-
-<span class="nb">rm</span> <span class="nt">-f</span> wdcp_v<span class="k">*</span>
-wget <span class="nt">-c</span> http://down.wdlinux.cn/down/wdcp_v2.5.tar.gz <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
-<span class="nb">tar </span>zxvf wdcp_v2.5.tar.gz <span class="nt">-C</span> / <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
-
-in_finsh
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@demo ~]# vim /etc/my.cnf
+<span class="o">[</span>mysqld]
+skip-grant-tables
 </code></pre></div></div>
 
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-08-13</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Shell">Shell</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/08/HowTo-Setup-MariaDB-Galera-Cluster-10-On-CentOS-6-x.html">HowTo Setup MariaDB Galera Cluster 10 On CentOS 6.x</a></h1>
-    <div class="post_at_index">
-      <h2 id="介绍">介绍</h2>
+<p>重启 mysqld</p>
 
-<p>MariaDB Galera Cluster 是一套在 MySQL InnoDB 存储引擎上面实现 multi-master 及数据实时同步的系统架构，业务层面无需做读写分离工作，数据库读写压力都能按照既定的规则分发到 各个节点上去。在数据方面完全兼容 MariaDB 和 MySQL。使用 MariaDB Galera 的解决方案，可以方便快速的搭建出高可用的数据库 Cluster，不是主备模式，而是双活模式，也就是说，没有主节点和备份节点，每个节点都可以看做是主节点，都可以进行读写，由 Galera 来实现底层的数据同步。</p>
-
-<ul>
-  <li>真正的多主架构，任何节点都可以进行读写</li>
-  <li>同步复制，各节点间无延迟且节点宕机不会导致数据丢失</li>
-  <li>紧密耦合，所有节点均保持相同状态</li>
-  <li>自动节点配置，无需手工备份当前数据库并拷贝至新节点</li>
-</ul>
-
-<h2 id="实验环境">实验环境</h2>
-
-<ul>
-  <li>Cluster node4 IP address 172.16.102.168</li>
-  <li>Cluster node5 IP address 172.16.102.165</li>
-  <li>Cluster node6 IP address 172.16.102.164</li>
-  <li>setenforce 0. sed -i ‘s/SELINUX=enforcing/SELINUX=disabled/’ /etc/selinux/config</li>
-  <li>/etc/init.d/iptables stop;chkconfig iptables off</li>
-</ul>
-
-<blockquote>
-  <p>使用 vmware 测试需注意：克隆机器需要删除 <code class="language-plaintext highlighter-rouge">/etc/udev/rules.d/70-persistent-net.rules</code> 以及<code class="language-plaintext highlighter-rouge">/etc/sysconfig/network-scripts/ifcfg-eth0</code>中的网卡 mac 地址选项，不然网卡起不来</p>
-</blockquote>
-
-<h2 id="环境检测">环境检测</h2>
-
-<ul>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>检查 iptables 状态：/etc/init.d/iptables status;chkconfig –list</td>
-          <td>grep iptables</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
-  <li>检查 selinux 状态：getenforce</li>
-  <li>检查 openssh-client 包是否安装：系统中是否有 ssh 命令</li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>检查是否系统中含有 mysql 相关的包：rpm -qa</td>
-          <td>grep mysql，有的话都需要卸载掉</td>
-        </tr>
-      </tbody>
-    </table>
-  </li>
-  <li>检查网络是否通畅：ping www.baidu.com</li>
-</ul>
-
-<h2 id="安装">安装</h2>
-
-<h3 id="1-在所有节点编辑etchosts">1. 在所有节点编辑/etc/hosts</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node4 ~]# vi /etc/hosts
-
-127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
-::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
-
-<span class="c"># add follows</span>
-172.16.102.164 node6
-172.16.102.165 node5
-172.16.102.168 node4
-
-<span class="o">[</span>root@node4 ~]#
-
-<span class="c"># 依次在node5和node6上编辑/etc/hosts</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@demo ~]# service mysqld restart
+Stopping mysqld:                                           <span class="o">[</span>  OK  <span class="o">]</span>
+Starting mysqld:                                           <span class="o">[</span>  OK  <span class="o">]</span>
 </code></pre></div></div>
 
-<h3 id="2-在所有-node-上安装-mariadb-galera">2. 在所有 node 上安装 MariaDB Galera</h3>
+<p>登录 mysql，并修改 root 密码。</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node4 ~]# vi /etc/yum.repos.d/mariadb.repo
- <span class="c"># MariaDB 10.0 CentOS repository list</span>
-<span class="c"># http://mariadb.org/mariadb/repositories/</span>
-<span class="o">[</span>mariadb]
-name <span class="o">=</span> MariaDB
-baseurl <span class="o">=</span> http://yum.mariadb.org/10.0/centos6-amd64
-<span class="nv">gpgkey</span><span class="o">=</span>https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-<span class="nv">gpgcheck</span><span class="o">=</span>1
-<span class="nv">enabled</span><span class="o">=</span>0
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@demo ~]# mysql <span class="nt">-u</span> root
+Welcome to the MySQL monitor.  Commands end with <span class="p">;</span> or <span class="se">\g</span><span class="nb">.</span>
+Your MySQL connection <span class="nb">id </span>is 3
+Server version: 5.5.53 MySQL Community Server <span class="o">(</span>GPL<span class="o">)</span>
 
-<span class="o">[</span>root@node4 ~]# yum <span class="nt">--enablerepo</span><span class="o">=</span>mariadb <span class="nt">-y</span> <span class="nb">install </span>MariaDB-Galera-server
+Copyright <span class="o">(</span>c<span class="o">)</span> 2000, 2016, Oracle and/or its affiliates. All rights reserved.
 
-<span class="c"># 依次在node5和node6上安装 MariaDB-Galera-server</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>注意安装完成之后，不要启动 mysql</p>
-</blockquote>
-
-<h3 id="3-在其中一个节点上编辑etcmycnfdservercnf配置文件">3. 在其中一个节点上编辑/etc/my.cnf.d/server.cnf配置文件</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node4 ~]# vi /etc/my.cnf.d/server.cnf
-<span class="c"># 19 行，取消下面的注释，并修改为需求</span>
-<span class="o">[</span>galera]
-<span class="nv">wsrep_provider</span><span class="o">=</span>/usr/lib64/galera/libgalera_smm.so
-<span class="c"># 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。</span>
-<span class="nv">wsrep_cluster_address</span><span class="o">=</span><span class="s2">"gcomm://node4,node5,node6"</span>
-<span class="nv">binlog_format</span><span class="o">=</span>row
-<span class="nv">default_storage_engine</span><span class="o">=</span>InnoDB
-<span class="nv">innodb_autoinc_lock_mode</span><span class="o">=</span>2
-bind-address<span class="o">=</span>0.0.0.0
-
-<span class="c"># add follows</span>
-<span class="c"># cluster name</span>
-<span class="nv">wsrep_cluster_name</span><span class="o">=</span><span class="s2">"Visionet_MariaDB_Cluster"</span>
-<span class="c"># replication provider</span>
-<span class="nv">wsrep_sst_method</span><span class="o">=</span>rsync
-<span class="c"># own IP address</span>
-<span class="nv">wsrep_node_address</span><span class="o">=</span><span class="s2">"172.16.102.168"</span>
-<span class="nv">wsrep_node_name</span><span class="o">=</span><span class="s2">"node4"</span>
-
-<span class="c"># 启动数据库</span>
-<span class="o">[</span>root@node4 ~]# /etc/rc.d/init.d/mysql bootstrap
-Starting MySQL. SUCCESS!
-
-<span class="c"># 初始化你的数据库</span>
-<span class="o">[</span>root@node4 ~]# mysql_secure_installation
-</code></pre></div></div>
-
-<h3 id="4-在其它节点上编辑etcmycnfdservercnf配置文件">4. 在其它节点上编辑/etc/my.cnf.d/server.cnf配置文件</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node4 ~]# vim /etc/my.cnf.d/server.cnf
-</code></pre></div></div>
-
-<h3 id="node5">node5</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node5 ~]# vi /etc/my.cnf.d/server.cnf
-<span class="c"># 19 行，取消下面的注释，并修改为需求</span>
-<span class="o">[</span>galera]
-<span class="nv">wsrep_provider</span><span class="o">=</span>/usr/lib64/galera/libgalera_smm.so
-<span class="c"># 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。</span>
-<span class="nv">wsrep_cluster_address</span><span class="o">=</span><span class="s2">"gcomm://node4,node5,node6"</span>
-<span class="nv">binlog_format</span><span class="o">=</span>row
-<span class="nv">default_storage_engine</span><span class="o">=</span>InnoDB
-<span class="nv">innodb_autoinc_lock_mode</span><span class="o">=</span>2
-bind-address<span class="o">=</span>0.0.0.0
-
-<span class="c"># add follows</span>
-<span class="c"># cluster name</span>
-<span class="nv">wsrep_cluster_name</span><span class="o">=</span><span class="s2">"Visionet_MariaDB_Cluster"</span>
-<span class="c"># replication provider</span>
-<span class="nv">wsrep_sst_method</span><span class="o">=</span>rsync
-
-<span class="c"># 以下内容注意，注意应设置为当前服务器信息</span>
-<span class="nv">wsrep_node_address</span><span class="o">=</span><span class="s2">"172.16.102.165"</span>
-<span class="nv">wsrep_node_name</span><span class="o">=</span><span class="s2">"node5"</span>
-
-<span class="c"># 启动数据库</span>
-<span class="o">[</span>root@node5 ~]# /etc/rc.d/init.d/mysql start
-Starting MySQL...SST <span class="k">in </span>progress, setting <span class="nb">sleep </span>higher. SUCCESS!
-</code></pre></div></div>
-
-<h3 id="node6">node6</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node6 ~]# vi /etc/my.cnf.d/server.cnf
-<span class="c"># 19 行，取消下面的注释，并修改为需求</span>
-<span class="o">[</span>galera]
-<span class="nv">wsrep_provider</span><span class="o">=</span>/usr/lib64/galera/libgalera_smm.so
-<span class="c"># 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。</span>
-<span class="nv">wsrep_cluster_address</span><span class="o">=</span><span class="s2">"gcomm://node4,node5,node6"</span>
-<span class="nv">binlog_format</span><span class="o">=</span>row
-<span class="nv">default_storage_engine</span><span class="o">=</span>InnoDB
-<span class="nv">innodb_autoinc_lock_mode</span><span class="o">=</span>2
-bind-address<span class="o">=</span>0.0.0.0
-
-<span class="c"># add follows</span>
-<span class="c"># cluster name</span>
-<span class="nv">wsrep_cluster_name</span><span class="o">=</span><span class="s2">"Visionet_MariaDB_Cluster"</span>
-<span class="c"># replication provider</span>
-<span class="nv">wsrep_sst_method</span><span class="o">=</span>rsync
-
-<span class="c"># 以下内容注意，注意应设置为当前服务器信息</span>
-<span class="nv">wsrep_node_address</span><span class="o">=</span><span class="s2">"172.16.102.164"</span>
-<span class="nv">wsrep_node_name</span><span class="o">=</span><span class="s2">"node6"</span>
-
-<span class="c"># 启动数据库</span>
-<span class="o">[</span>root@node6 ~]# /etc/rc.d/init.d/mysql start
-Starting MySQL...SST <span class="k">in </span>progress, setting <span class="nb">sleep </span>higher. SUCCESS!
-</code></pre></div></div>
-
-<blockquote>
-  <p>注意：只需要初始化第一个节点服务器的数据库，其他数据的配置文件会自动同步，所以你给 node4 设置的 root 可以在 node5 和 node6 直接使用，当然这是安装正确的前提。</p>
-</blockquote>
-
-<h2 id="登陆各个节点数据库检查配置是否成功">登陆各个节点数据库检查配置是否成功</h2>
-
-<p>server.cnf 的配置如果没有问题，那么 wsrep_local_state_comment 的状态应该是 Synced。</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node4 ~]# mysql <span class="nt">-u</span> root <span class="nt">-p</span>
-Enter password:
-Welcome to the MariaDB monitor.  Commands end with <span class="p">;</span> or <span class="se">\g</span><span class="nb">.</span>
-Your MariaDB connection <span class="nb">id </span>is 15
-Server version: 10.0.26-MariaDB-wsrep MariaDB Server, wsrep_25.13.raf7f02e
-
-Copyright <span class="o">(</span>c<span class="o">)</span> 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
 
 Type <span class="s1">'help;'</span> or <span class="s1">'\h'</span> <span class="k">for </span>help. Type <span class="s1">'\c'</span> to clear the current input statement.
 
-MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show status like <span class="s1">'wsrep_local_state_comment'</span><span class="p">;</span>
-+---------------------------+--------+
-| Variable_name             | Value  |
-+---------------------------+--------+
-| wsrep_local_state_comment | Synced |
-+---------------------------+--------+
-1 row <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.01 sec<span class="o">)</span>
+mysql&gt; use mysql
+Reading table information <span class="k">for </span>completion of table and column names
+You can turn off this feature to get a quicker startup with <span class="nt">-A</span>
 
-MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span>
+Database changed
+mysql&gt; update user <span class="nb">set </span><span class="nv">password</span><span class="o">=</span>password<span class="o">(</span><span class="s1">'new-pass'</span><span class="o">)</span> where <span class="nv">user</span><span class="o">=</span><span class="s1">'root'</span><span class="p">;</span>
+Query OK, 5 rows affected <span class="o">(</span>0.00 sec<span class="o">)</span>
+Rows matched: 5  Changed: 5  Warnings: 0
 </code></pre></div></div>
 
-<h2 id="结论">结论</h2>
+<p>配置文件去除 skip-grant-tables，并重启服务器。</p>
 
-<p>MariaDB Galera 没有主节点和备份节点，配置成功之后，可以在任何一个 node 节点上操作会自动同步到其他节点，任何一个节点宕机不会影响其他节点的数据和稳定性，配置 HAProxy 设置 VIP 的方式来实现负载均衡，提高服务的高可用性，另外，当宕机节点上线之后，事务会自动同步不丢失。</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@demo ~]# vim /etc/my.cnf
+<span class="o">[</span>root@demo ~]# service mysqld restart
+</code></pre></div></div>
+
+<p>使用新密码登录到 mysql</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@demo ~]# mysql <span class="nt">-h</span> localhost <span class="nt">-u</span> root <span class="nt">-p</span>
+</code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-08-04</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MariaDB">MariaDB</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
+      <cite>2016-12-04</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#MySQL">MySQL</a>
       
       
       
@@ -679,334 +356,367 @@ MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span>
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/08/HowTo-Install-Openfire-on-CentOS.html">HowTo Install Openfire  on CentOS</a></h1>
+    <h1><a class="title" href="/post/2016/12/Tomcat-2-%E5%88%A9%E7%94%A8JDK%E8%87%AA%E8%BA%ABkeytool%E5%AE%9E%E7%8E%B0HTTPS.html">Tomcat 利用 JDK 自身 keytool 实现 HTTPS</a></h1>
     <div class="post_at_index">
-      <h2 id="install-centos-6x-x86_64">Install Centos 6.x x86_64</h2>
-
-<p><em>略.</em></p>
-
-<h2 id="安装依赖软件">安装依赖软件</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">-y</span> <span class="nb">install </span>wget java glibc.i686
-</code></pre></div></div>
-
-<h3 id="下载-openfire-38-到本地">下载 openfire 3.8 到本地</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://download.igniterealtime.org/openfire/openfire-3.8.1-1.i386.rpm
-</code></pre></div></div>
-
-<h3 id="安装-openfire-38">安装 openfire 3.8</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">-y</span> <span class="nb">install</span> ./openfire<span class="k">*</span>rpm
-</code></pre></div></div>
-
-<h3 id="设置服务开启自启动">设置服务开启自启动</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chkconfig openfire on
-
-</code></pre></div></div>
-
-<h3 id="yum-install-mysql-server">Yum Install mysql-server</h3>
-
-<p>详见： <a href="http://blog.ultraera.org/how-to-install-mysql-5-6-on-centos/">How to Install MySQL 5.5/6/7 on RHEL/CentOS 5/6/7</a></p>
-
-<h2 id="创建-openfire-数据库">创建 openfire 数据库</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-u</span> root <span class="nt">-p</span>
-
-create database openfire character <span class="nb">set </span>utf8<span class="p">;</span>
-grant all privileges on openfire.<span class="k">*</span> to <span class="s1">'openfire'</span>@<span class="s1">'127.0.0.1'</span> identified by <span class="s1">'openfire'</span> with grant option<span class="p">;</span>
-</code></pre></div></div>
-
-<h3 id="启动-openfire">启动 openfire</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://Host:9090
-</code></pre></div></div>
-
-<h2 id="之后的初始化步骤请根据实际操作注意设定数据库地址用户名和密码时不要出错">之后的初始化步骤，请根据实际操作，注意设定数据库地址用户名和密码时不要出错</h2>
-
-<h2 id="faq">FAQ</h2>
-
-<p>openfire 安装完毕后无法登录控制台</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>报错：Login failed:make sure your username and password are correct and that you’re an admin or moderator
-
-解决方案如下：
-1.使用Mysql查看工具进入数据库，进入表“ofuser”，将该表清空，然后执行该SQL
-INSERT INTO ofUser <span class="o">(</span>username, plainPassword, name, email, creationDate, modificationDate<span class="o">)</span>
-    VALUES <span class="o">(</span><span class="s1">'admin'</span>, <span class="s1">'admin'</span>, <span class="s1">'Administrator'</span>, <span class="s1">'admin@example.com'</span>, <span class="s1">'0'</span>, <span class="s1">'0'</span><span class="o">)</span><span class="p">;</span>
-
-2.关闭openfire服务，就是从其控制台stop然后再start，再用用户名：admin,密码：admin登录即可
-</code></pre></div></div>
-
-<p>openfire 进程无法启动</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>报错：nohup: failed to run <span class="nb">command</span> <span class="sb">`</span>/opt/openfire/jre/bin/java<span class="s1">': No such file or directory
-
-解决方案如下：
-经检查是由于openfire未能正确识别jre环境变量导致，安装时自带的jre是32位，但操作系统却是64位操作平台。
-，故在/etc/init.d/openfire的启动脚本修改，
-JAVA_HOME="/usr/lib/jvm/jre-$VERSION.x86_64"
-</span></code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-08-02</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Openfire">Openfire</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/08/HowTo-Use-Docker-create-a-Tomcat-Project.html">HowTo Use Docker create a Tomcat Project</a></h1>
-    <div class="post_at_index">
-      <h2 id="1-安装-centos-7x">1. 安装 CentOS 7.x</h2>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>略。
-</code></pre></div></div>
-
-<h2 id="2-安装-docker">2. 安装 docker</h2>
-
-<p>详见： <a href="https://samzong.me/2016/07/07/HowTo-Install-Docker-on-CentOS-6-x/">How to Install Docker on CentOS 6.x</a></p>
-
-<h2 id="3-基础-docker-命令">3. 基础 docker 命令</h2>
-
-<p>获取 centos6 docker 镜像</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@docker ~ docker pull centos6
-Using default tag: latest
-latest: Pulling from library/centos:centos6
-
-43db9dbdcb30: Downloading 41.14 MB/49.33 MB
-43db9dbdcb30: Pull <span class="nb">complete
-</span>2dc64e8f8d4f: Pull <span class="nb">complete
-</span>670a583e1b50: Pull <span class="nb">complete
-</span>183b0bfcd10e: Pull <span class="nb">complete
-</span>Digest: sha256:c6674c44c6439673bf56536c1a15916639c47ea04c3d6296c5df938add67b54b
-Status: Downloaded newer image <span class="k">for </span>centso:centos6
-</code></pre></div></div>
-
-<p>查看当前服务器上的 docker 镜像</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@docker ~]# docker images
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-centos6-visionet    latest              aeed37612ecb        6 hours ago         1.916 GB
-centos              centos6             a3c09d36ab4a        2 days ago          194.6 MB
-registry            latest              c6c14b3960bd        3 days ago          33.28 MB
-</code></pre></div></div>
-
-<p>查找 docker 镜像</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@docker ~]# docker search centos:centos6
-NAME                                     DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
-imagine10255/centos6-lnmp-php56          centos6-lnmp-php56                              10                   <span class="o">[</span>OK]
-lemonbar/centos6-ssh                     Installed openssh-server on centos6, defau...   7                    <span class="o">[</span>OK]
-sergeyzh/centos6-nginx                                                                   2                    <span class="o">[</span>OK]
-guyton/centos6                           From official centos6 container with full ...   2                    <span class="o">[</span>OK]
-paijp/centos6-apache-php-sqlite2         php5.3.3 with sqlite2 and apache on CentOS...   1                    <span class="o">[</span>OK]
-edrans/centos6                                                                           1                    <span class="o">[</span>OK]
-mohri1219/centos6.7-ruby2.2.2-mysql5.6   centos6.7-ruby2.2.2-mysql5.6                    1                    <span class="o">[</span>OK]
-</code></pre></div></div>
-
-<p>删除 centos6 docker 镜像</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@docker ~]# docker rmi IMAGES_NAME
-<span class="o">[</span>root@docker ~]# docker rmi centos:centos6
-</code></pre></div></div>
-
-<p>报错如下</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error response from daemon: conflict: unable to remove repository reference "centos" (must force) - container 705a30cbc002 is using its referenced image 42118e3df429
-</code></pre></div></div>
-
-<p>这是因为之间的运行的进程没有清楚导致该 images 正在使用中，使用一下命令查看占有的进程</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@docker ~]# docker ps <span class="nt">-a</span> ＃ 查看所有的docker进程
-CONTAINER ID        IMAGE               COMMAND               CREATED             STATUS                     PORTS               NAMES
-705a30cbc002        centos:centos6              <span class="s2">"/bin/bash"</span>           6 minutes ago       Exited <span class="o">(</span>0<span class="o">)</span> 6 minutes ago                       centos6
-<span class="o">[</span>root@docker ~]# docker <span class="nb">rm </span>705a30cbc002
-705a30cbc002
-<span class="o">[</span>root@docker ~]# docker rmi centos:centos6
-Untagged: centos:centos6
-Deleted: sha256:42118e3df429f09ca581a9deb3df274601930e428e452f7e4e9f1833c56a100a
-Deleted: sha256:d72d0199021776e77ac14a764a3decd156e9f6f18b37e25b867b0f1ca42fb3d9
-Deleted: sha256:fb178c6cea1453d089ce033b96eba0efdb42274138e042517ea2d5ea7bb51665
-Deleted: sha256:8945af30572845a904adce2aeaf73402c842d86e99e8f10688b25cb27834110b
-Deleted: sha256:ea9f151abb7e06353e73172dad421235611d4f6d0560ec95db26e0dc240642c1
-</code></pre></div></div>
-
-<h2 id="4-运行一个-docker-镜像">4. 运行一个 docker 镜像</h2>
-
-<h3 id="进入交互式程序">进入交互式程序</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@docker ~]# docker run  <span class="nt">-it</span> centos:centos6 /bin/bash
-<span class="o">[</span>root@c1d190f95562 /]# <span class="nb">cat</span> /etc/redhat-release
-CentOS release 6.8 <span class="o">(</span>Final<span class="o">)</span>
-
-<span class="c"># Install openssh-server and httpd</span>
-
-root@d8c122dbe09d:/# yum <span class="nb">install</span> <span class="nt">-y</span> openssh-sever httpd
-root@d8c122dbe09d:/# <span class="nb">exit</span>
-
-<span class="c"># 注意当你执行 exit，从容器之中退出时，容器也会随着关闭，这时如果还继续执行上条命令</span>
-
-<span class="c"># 你会发现之前所有的操作都被还原，因为相对于 docker，又是新开了一个进程</span>
-
-<span class="c"># 在 exit 退出之后，使用一下命令查看上次提交，然后 commit 修改，便可保存之前的修改</span>
-
-<span class="o">[</span>root@docker ~]# docker ps <span class="nt">-l</span>
-<span class="o">[</span>root@docker ~]# docker commit c1d190f95562 centos:centos6-httpd
-sha256:77eb12e36c7bbe9ef874555b1873019022b5258740aa731627e2cd6fa749c325
-<span class="o">[</span>root@docker ~]# docker images
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-centos              centos6-httpd       77eb12e36c7b        3 seconds ago       290.3 MB
-centos6-visionet    latest              aeed37612ecb        6 hours ago         1.916 GB
-centos              centos6             a3c09d36ab4a        2 days ago          194.6 MB
-registry            latest              c6c14b3960bd        3 days ago          33.28 MB
-</code></pre></div></div>
-
-<h2 id="5-编辑-dockerfile">5. 编辑 Dockerfile</h2>
-
-<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># dockfile 的第一行一定是 FROM，指定了父镜像
-</span>
-<span class="n">FROM</span> <span class="n">centos</span>:<span class="n">centos6</span>
-
-<span class="c"># RUN 指的是运行的命令
-</span>
-<span class="n">RUN</span> <span class="n">yum</span> <span class="n">install</span> -<span class="n">y</span> <span class="n">epel</span>-<span class="n">release</span>
-<span class="n">RUN</span> <span class="n">yum</span> <span class="n">install</span> -<span class="n">y</span> <span class="n">bash</span>-<span class="n">completion</span>
-<span class="n">RUN</span> <span class="n">yum</span> <span class="n">install</span> -<span class="n">y</span> <span class="n">openssh</span>-<span class="n">server</span> <span class="n">openssh</span>-<span class="n">client</span> <span class="n">sudo</span>
-<span class="n">RUN</span> <span class="n">sed</span> -<span class="n">i</span> <span class="s1">'s/UsePAM yes/UsePAM no/g'</span> /<span class="n">etc</span>/<span class="n">ssh</span>/<span class="n">sshd_config</span>
-<span class="n">RUN</span> <span class="n">cp</span> /<span class="n">usr</span>/<span class="n">share</span>/<span class="n">zoneinfo</span>/<span class="n">Asia</span>/<span class="n">Shanghai</span> /<span class="n">etc</span>/<span class="n">localtime</span>
-
-<span class="c"># 增加一个用户，并赋予 sudo 权限
-</span>
-<span class="n">RUN</span> <span class="n">useradd</span> <span class="n">visionet</span>
-<span class="n">RUN</span> <span class="n">echo</span> <span class="s2">"visionet:visionet"</span> | <span class="n">chpasswd</span>
-<span class="n">RUN</span> <span class="n">echo</span> <span class="s2">"visionet   ALL=(ALL)       ALL"</span> &gt;&gt; /<span class="n">etc</span>/<span class="n">sudoers</span>
-
-＃ 注意，如果没有执行一下两个命令，<span class="n">sshd</span> 是无法远程登陆的
-<span class="n">RUN</span> <span class="n">ssh</span>-<span class="n">keygen</span> -<span class="n">t</span> <span class="n">dsa</span> -<span class="n">f</span> /<span class="n">etc</span>/<span class="n">ssh</span>/<span class="n">ssh_host_dsa_key</span>
-<span class="n">RUN</span> <span class="n">ssh</span>-<span class="n">keygen</span> -<span class="n">t</span> <span class="n">rsa</span> -<span class="n">f</span> /<span class="n">etc</span>/<span class="n">ssh</span>/<span class="n">ssh_host_rsa_key</span>
-
-＃ <span class="n">EXPOSE</span> <span class="m">22</span>，将 <span class="m">22</span> 端口暴露出来，方便 <span class="n">ssh</span> 远程连接
-<span class="n">RUN</span> <span class="n">mkdir</span> /<span class="n">var</span>/<span class="n">run</span>/<span class="n">sshd</span>
-<span class="n">EXPOSE</span> <span class="m">22</span>
-＃ <span class="n">CMD</span> 为系统内部执行命令
-<span class="n">CMD</span> [<span class="s2">"/usr/sbin/sshd"</span>, <span class="s2">"-D"</span>]
-</code></pre></div></div>
-
-<h2 id="6-生成自定义-docker-镜像">6. 生成自定义 docker 镜像</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># build 编译镜像</span>
-
-<span class="o">[</span>root@docker ~]# docker build <span class="nt">-f</span> dockerfile3 <span class="nt">-t</span> centos:centos6-ssh <span class="nb">.</span>
-Sending build context to Docker daemon 44.54 kB
-Step 1 : FROM centos:centos6
- <span class="nt">---</span><span class="o">&gt;</span> a3c09d36ab4a
-Step 2 : RUN yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
- <span class="nt">---</span><span class="o">&gt;</span> Using cache
- <span class="nt">---</span><span class="o">&gt;</span> 04d81f280a63
-Step 3 : RUN yum <span class="nb">install</span> <span class="nt">-y</span> bash-completion
- <span class="nt">---</span><span class="o">&gt;</span> Using cache
- <span class="nt">---</span><span class="o">&gt;</span> 5ca26894dc9d
-Step 4 : RUN yum <span class="nb">install</span> <span class="nt">-y</span> openssh-server openssh-client <span class="nb">sudo</span>
- <span class="nt">---</span><span class="o">&gt;</span> Using cache
- <span class="nt">---</span><span class="o">&gt;</span> 42278450311e
-Step 5 : RUN <span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/UsePAM yes/UsePAM no/g'</span> /etc/ssh/sshd_config
- <span class="nt">---</span><span class="o">&gt;</span> Using cache
- <span class="nt">---</span><span class="o">&gt;</span> db35bef562a2
-Step 6 : RUN <span class="nb">cp</span> /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
- <span class="nt">---</span><span class="o">&gt;</span> Using cache
- <span class="nt">---</span><span class="o">&gt;</span> dc9f2b82e198
-Step 7 : RUN useradd visionet
- <span class="nt">---</span><span class="o">&gt;</span> Using cache
- <span class="nt">---</span><span class="o">&gt;</span> 06c574a51755
-Step 8 : RUN <span class="nb">echo</span> <span class="s2">"visionet:visionet"</span> | chpasswd
- <span class="nt">---</span><span class="o">&gt;</span> Using cache
- <span class="nt">---</span><span class="o">&gt;</span> 03412f053d04
-Step 9 : RUN <span class="nb">echo</span> <span class="s2">"visionet   ALL=(ALL)       ALL"</span> <span class="o">&gt;&gt;</span> /etc/sudoers
- <span class="nt">---</span><span class="o">&gt;</span> Using cache
- <span class="nt">---</span><span class="o">&gt;</span> bf8476812a62
-Step 10 : RUN ssh-keygen <span class="nt">-t</span> dsa <span class="nt">-f</span> /etc/ssh/ssh_host_dsa_key
- <span class="nt">---</span><span class="o">&gt;</span> Using cache
- <span class="nt">---</span><span class="o">&gt;</span> 2314cce75171
-Step 11 : RUN ssh-keygen <span class="nt">-t</span> rsa <span class="nt">-f</span> /etc/ssh/ssh_host_rsa_key
- <span class="nt">---</span><span class="o">&gt;</span> Using cache
- <span class="nt">---</span><span class="o">&gt;</span> 99304cd9ac15
-Step 12 : RUN <span class="nb">mkdir</span> /var/run/sshd
- <span class="nt">---</span><span class="o">&gt;</span> Using cache
- <span class="nt">---</span><span class="o">&gt;</span> f87283751553
-Step 13 : EXPOSE 22
- <span class="nt">---</span><span class="o">&gt;</span> Using cache
- <span class="nt">---</span><span class="o">&gt;</span> 56c41202dcb9
-Step 14 : CMD /usr/sbin/sshd <span class="nt">-D</span>
- <span class="nt">---</span><span class="o">&gt;</span> Using cache
- <span class="nt">---</span><span class="o">&gt;</span> d6dccb483fa6
-Successfully built d6dccb483fa6
-<span class="o">[</span>root@docker ~]# docker images
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-centos              centos6-ssh         d6dccb483fa6        2 minutes ago         363 MB
-centos              centos6-httpd       77eb12e36c7b        6 minutes ago       290.3 MB
-centos6-visionet    latest              aeed37612ecb        6 hours ago         1.916 GB
-centos              centos6             a3c09d36ab4a        2 days ago          194.6 MB
-registry            latest              c6c14b3960bd        3 days ago          33.28 MB
-
-<span class="c"># 后台运行 docker 容器，并指定 nat 端口转发</span>
-
-<span class="o">[</span>root@docker ~]# docker run <span class="nt">-d</span> <span class="nt">-p</span> 2222:22 <span class="nt">-P</span> <span class="nt">--name</span><span class="o">=</span>sshd centos:centos6-ssh
-b4211f7a304d9e34b72b510230be2c7a76b276886b488f08f3e12896a4d3c172
-
-</code></pre></div></div>
-
-<h2 id="7-ssh-登陆到-docker-容器内部署项目环境">7. ssh 登陆到 docker 容器内，部署项目环境</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># inspect 查看 docker 容器 IP 地址</span>
-
-<span class="o">[</span>root@docker ~]# docker inspect sshd | <span class="nb">grep </span>IPAddress
-<span class="o">[</span>root@docker ~]# ssh visionet@172.17.0.2
-visionet@172.17.0.2<span class="s1">'s password:
-[visionet@b4211f7a304d ~]$
-
-# Install mysql
-
-# Install tomcat server
-
-[visionet@b4211f7a304d ~]$ exit
-[root@docker ~]# docker stop sshd
-sshd
-[root@docker ~]# docker ps -l
-CONTAINER ID        IMAGE                COMMAND               CREATED             STATUS                       PORTS               NAMES
-b4211f7a304d        centos:centos6-ssh   "/usr/sbin/sshd -D"   6 minutes ago       Exited (255) 3 seconds ago                       sshd
-[root@docker ~]# docker commit b4211f7a304d centos:centos6-tomcat
-sha256:b4f114d5484822d9a3ddf1100b76b460985ba5e5d31e936570e8d7dbd8df282c
-[root@docker ~]# docker images
-REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-centos              centos6-tomcat      b4f114d54848        4 seconds ago       363.1 MB
-centos              centos6-httpd       77eb12e36c7b        15 minutes ago      290.3 MB
-centos6-visionet    latest              aeed37612ecb        7 hours ago         1.916 GB
-centos              centos6-ssh         d6dccb483fa6        9 hours ago         363 MB
-centos              centos6             a3c09d36ab4a        2 days ago          194.6 MB
-registry            latest              c6c14b3960bd        3 days ago          33.28 MB
-</span></code></pre></div></div>
-
-<h2 id="8-推送-centoscentos6-tomcat-到私有-docker-仓库">8. 推送 centos:centos6-tomcat 到私有 docker 仓库</h2>
+      <p>因为一个偶然机会，想把自己的 webserver 通过 https 加密访问，这里就采用 JDK 自带的 keytool 工具实现，tomcat 官方也推荐这种方式，英文好的同学走这里：<a href="https://tomcat.apache.org/tomcat-7.0-doc/ssl-howto.html">官方配置</a></p>
 
 <blockquote>
-  <p>docker push</p>
+  <p>demo: CentOS 6.6 &amp; Tomcat 7 &amp; JDK 1.7</p>
+</blockquote>
+
+<h2 id="生成-keystore">生成 keystore</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test conf]# keytool <span class="nt">-genkey</span> <span class="nt">-v</span> <span class="nt">-alias</span> tomcat <span class="nt">-keyalg</span> RSA <span class="nt">-keystore</span> mykeystore
+Enter keystore password:              <span class="c">#设置密码</span>
+Re-enter new password:                <span class="c">#重复一次</span>
+What is your first and last name?
+  <span class="o">[</span>Unknown]:  Alex Lu                <span class="c">#随便填</span>
+What is the name of your organizational unit?
+  <span class="o">[</span>Unknown]:  visionet                <span class="c">#随便填</span>
+What is the name of your organization?
+  <span class="o">[</span>Unknown]:  visionet                <span class="c">#随便填</span>
+What is the name of your City or Locality?
+  <span class="o">[</span>Unknown]:  SH                <span class="c">#随便填</span>
+What is the name of your State or Province?
+  <span class="o">[</span>Unknown]:  SH                <span class="c">#随便填</span>
+What is the two-letter country code <span class="k">for </span>this unit?
+  <span class="o">[</span>Unknown]:  ZH                <span class="c">#随便填</span>
+Is <span class="nv">CN</span><span class="o">=</span>Alex Lu, <span class="nv">OU</span><span class="o">=</span>visionet, <span class="nv">O</span><span class="o">=</span>visionet, <span class="nv">L</span><span class="o">=</span>SH, <span class="nv">ST</span><span class="o">=</span>SH, <span class="nv">C</span><span class="o">=</span>ZH correct?
+  <span class="o">[</span>no]:  Y                    <span class="c">#这里要Y，确认前面信息。</span>
+
+Generating 2,048 bit RSA key pair and self-signed certificate <span class="o">(</span>SHA256withRSA<span class="o">)</span> with a validity of 90 days
+    <span class="k">for</span>: <span class="nv">CN</span><span class="o">=</span>Alex Lu, <span class="nv">OU</span><span class="o">=</span>visionet, <span class="nv">O</span><span class="o">=</span>visionet, <span class="nv">L</span><span class="o">=</span>SH, <span class="nv">ST</span><span class="o">=</span>SH, <span class="nv">C</span><span class="o">=</span>ZH
+Enter key password <span class="k">for</span> &lt;tomcat&gt;
+    <span class="o">(</span>RETURN <span class="k">if </span>same as keystore password<span class="o">)</span>:        <span class="c">#默认回车即可，不需要设置太多密码</span>
+<span class="o">[</span>Storing mykeystore]
+<span class="o">[</span>root@test conf]# <span class="nb">ls
+</span>Catalina  catalina.policy  catalina.properties  context.xml  logging.properties  mykeystore  server.xml  tomcat-users.xml  web.xml
+</code></pre></div></div>
+
+<blockquote>
+  <p>注意：-keystore 是用来指定 keystore 保存位置，如果不加参数默认保存的当前用户家目录为~/.keystore
+       -validity 可以用来指定证书有效期，单位为天，缺省值为 90 天。</p>
+</blockquote>
+
+<h2 id="2-备份tomcatdirconfserverxml">2. 备份$tomcatdir/conf/server.xml</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cp</span> <span class="nv">$tomcatdir</span>/conf/server.xml <span class="nv">$tomcatdir</span>/conf/server.xml
+</code></pre></div></div>
+
+<h2 id="3-修改-serverxml">3. 修改 server.xml</h2>
+
+<h3 id="a-注释以下tomcat-注释用---xxxx----如何也想保留-http-访问可以不注释">a. 注释以下：（tomcat 注释用：&lt;!-- XXXX --&gt; ）,如何也想保留 http 访问，可以不注释</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!--
+&lt;Connector executor="tomcatThreadPool"
+                port="80" protocol="HTTP/1.1"
+                connectionTimeout="20000"
+                redirectPort="8443" /&gt;
+--&gt;</span>
+</code></pre></div></div>
+
+<h3 id="b-取消下面注释">b. 取消下面注释</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;Connector</span> <span class="na">port=</span><span class="s">"443"</span> <span class="na">protocol=</span><span class="s">"HTTP/1.1"</span> <span class="na">SSLEnabled=</span><span class="s">"true"</span>
+                <span class="na">maxThreads=</span><span class="s">"150"</span> <span class="na">scheme=</span><span class="s">"https"</span> <span class="na">secure=</span><span class="s">"true"</span>
+                <span class="na">clientAuth=</span><span class="s">"false"</span> <span class="na">sslProtocol=</span><span class="s">"TLS"</span> <span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<h3 id="c-增加-keystorefile-和-keystorepass">c. 增加 keystoreFile 和 keystorePass</h3>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;Connector</span> <span class="na">port=</span><span class="s">"443"</span> <span class="na">protocol=</span><span class="s">"HTTP/1.1"</span> <span class="na">SSLEnabled=</span><span class="s">"true"</span>
+               <span class="na">maxThreads=</span><span class="s">"150"</span> <span class="na">scheme=</span><span class="s">"https"</span> <span class="na">secure=</span><span class="s">"true"</span>
+               <span class="na">clientAuth=</span><span class="s">"false"</span> <span class="na">sslProtocol=</span><span class="s">"TLS"</span>
+               <span class="na">keystoreFile=</span><span class="s">"conf/mykeystore"</span> <span class="na">keystorePass=</span><span class="s">"123456"</span><span class="nt">/&gt;</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>keystoreFile=跟 keystore 文件位置
+keystorePass=跟当时 keytool 命令执行时输入的密码</p>
+</blockquote>
+
+<h2 id="4-重启-tomcat">4. 重启 tomcat</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test conf]# ../bin/catalina.sh stop <span class="o">&amp;&amp;</span> ../bin/catalina.sh start
+Using CATALINA_BASE:   /home/pms/apache-tomcat-6.0.44
+Using CATALINA_HOME:   /home/pms/apache-tomcat-6.0.44
+Using CATALINA_TMPDIR: /home/pms/apache-tomcat-6.0.44/temp
+Using JRE_HOME:        /home/pms/jdk1.7.0_65
+Using CLASSPATH:       /home/pms/apache-tomcat-6.0.44/bin/bootstrap.jar
+Using CATALINA_BASE:   /home/pms/apache-tomcat-6.0.44
+Using CATALINA_HOME:   /home/pms/apache-tomcat-6.0.44
+Using CATALINA_TMPDIR: /home/pms/apache-tomcat-6.0.44/temp
+Using JRE_HOME:        /home/pms/jdk1.7.0_65
+Using CLASSPATH:       /home/pms/apache-tomcat-6.0.44/bin/bootstrap.jar
+<span class="o">[</span>root@test conf]# netstat <span class="nt">-ntlup</span> | <span class="nb">grep</span> <span class="nt">-e</span> <span class="s2">"80</span><span class="se">\|</span><span class="s2">443"</span>
+tcp        0      0 0.0.0.0:80         0.0.0.0:<span class="k">*</span>          LISTEN      21960/java
+tcp        0      0 0.0.0.0:443        0.0.0.0:<span class="k">*</span>          LISTEN      21960/java
+tcp        0      0 127.0.0.1:8005     0.0.0.0:<span class="k">*</span>          LISTEN      21960/java
+tcp        0      0 0.0.0.0:8009       0.0.0.0:<span class="k">*</span>          LISTEN      21960/java
+<span class="o">[</span>root@test conf]#
+</code></pre></div></div>
+
+<p>OK !</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-12-03</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Tomcat">Tomcat</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/11/AWS-Use-s3cmd%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86S3%E5%AD%98%E5%82%A8.html">AWS Use s3cmd 命令行管理 S3 存储</a></h1>
+    <div class="post_at_index">
+      <p>S3 是 AWS 公有云服务提供的云存储服务，提供海量数据存储服务，同时基于 AWS S3 提供的一系列网络服务接口，也有大量已经开发完成的工具供我们使用，以利用起 AWS 庞大的存储资源，这篇文章的目录选取了其中一个用 Linux 命令行工具<a href="http://s3tools.org">s3cmd</a>来管理 AWS S3 云存储其中的数据。</p>
+
+<p>s3cmd 是非常优秀的 S3 命令行管理工具，用 python 编写，支持 python 2.6 &amp; 2.7，但是尚不支持 python3，但是目前绝大多数的 Linux 发行版默认都是 python2.x 系列。</p>
+
+<blockquote>
+  <p>Demo CentOS 6.x</p>
+</blockquote>
+
+<h2 id="install-s3cmd"><strong>Install s3cmd</strong></h2>
+
+<h3 id="1-无论是-denbian-系还是-rehat-系列软件仓库内已经加入了-s3cmd">1. 无论是 Denbian 系还是 Rehat 系列，软件仓库内已经加入了 s3cmd</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1.1 Ubuntu &amp; Debian</span>
+<span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install</span> <span class="nt">-y</span> s3cmd
+
+<span class="c"># 1.2 RHEL &amp; CentOS</span>
+<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>s3cmd
+</code></pre></div></div>
+
+<h3 id="2-如果您的系统比较特殊软件仓库内找不到-s3cmd还有-s3cmd-的-github-上去获取相关安装信息链接">2. 如果您的系统比较特殊，软件仓库内找不到 s3cmd，还有 s3cmd 的 Github 上去获取相关安装信息：<a href="https://github.com/s3tools/s3cmd">链接</a></h3>
+
+<h2 id="configure-s3cmd"><strong>Configure s3cmd</strong></h2>
+
+<h3 id="1-第一次运行-s3cmd-需要首先预配置相关-s3-信息">1. 第一次运行 s3cmd 需要首先预配置相关 s3 信息</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>s3cmd <span class="nt">--configure</span>
+</code></pre></div></div>
+
+<p>它会问你一系列问题：</p>
+
+<ul>
+  <li>AWS S3 中 IAM 账户的 Access Key 以及 Secret Key (建议单独创建 IAM)</li>
+  <li>对 AWS S3 双向传输的加密密码（自行设定不要忘记）</li>
+  <li>为加密数据设定 GPG 程序的路径（默认即可）</li>
+  <li>是否使用 https 协议（默认即可）</li>
+  <li>如果不是 https 协议，需要设定名字和端口
+配置完成之后，配置信息以普通文本保存在~/.s3cfg</li>
+</ul>
+
+<h3 id="2-china-与-global-的区别">2. China 与 Global 的区别</h3>
+
+<p>笔者在第一次运行时，始终无法添加成功，报错信息如下：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ERROR: Test failed: 403 <span class="o">(</span>InvalidAccessKeyId<span class="o">)</span>: The AWS Accecc Key Id you provided does not exist <span class="k">in </span>our records.
+</code></pre></div></div>
+
+<p>起初以为是 Access Key 不对，在经过多次测试之后，才发现问题，这是因为 s3cmd 内置 s3 的 Domain 为 Global 的信息，而中国与 Global 是独立存在的所以查找不到我们的 Access Key。所以，如果你使用的 Global AWS 那么上面一步应该已经配置好了你的 s3cmd，如果你是 AWS China 的用户，那么你要做以下操作。</p>
+
+<ul>
+  <li>在 Retry configuration? [Y/n]选择“n”</li>
+  <li>Save settings? [y/N] 选择“y”</li>
+  <li>保存设置之后，编辑配置文件（~/.s3cfg ) 修改其中的如下字段，并将其中%(bucket)s 用您实际的某一个存储桶名字代替掉</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bucket_location <span class="o">=</span> %<span class="o">(</span>location<span class="o">)</span>
+host_base <span class="o">=</span> s3.cn-north-1.amazonaws.com.cn
+host_bucket <span class="o">=</span> %<span class="o">(</span>bucket<span class="o">)</span>s.s3.cn-north-1.amazonaws.com.cn
+website_endpoint <span class="o">=</span> http://%<span class="o">(</span>bucket<span class="o">)</span>s.s3-website-%<span class="o">(</span>location<span class="o">)</span>s.amazonaws.com.cn/
+</code></pre></div></div>
+
+<p>例如，你的存储桶的名字为 s3chinatest: 地域为北京。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bucket_location <span class="o">=</span> cn-north-1
+host_base <span class="o">=</span> s3.cn-north-1.amazonaws.com.cn
+host_bucket <span class="o">=</span> s3chinatest.s3.cn-north-1.amazonaws.com.cn
+website_endpoint <span class="o">=</span> http://s3chinatest.s3-website.amazonaws.com.cn/
+</code></pre></div></div>
+
+<h3 id="3-保存配置文件然后用命令测试一下确认-s3cmd-可以正常工作">3. 保存配置文件，然后用命令测试一下，确认 s3cmd 可以正常工作</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd <span class="nb">ls
+</span>2016-11-18 22:30 s3://s3chinatest
+2016-10-29 00:14 s3://bucket2
+</code></pre></div></div>
+
+<h2 id="s3cmd-的基本使用"><strong>s3cmd 的基本使用</strong></h2>
+
+<h3 id="1-查看当前账户下所有现有的桶-bucket">1. 查看当前账户下所有现有的桶 (bucket)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd <span class="nb">ls
+</span>2016-11-18 22:30 s3://s3chinatest
+2016-10-29 00:14 s3://bucket2
+</code></pre></div></div>
+
+<h3 id="2-创建新的-bucket">2. 创建新的 bucket</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd mb s3://s3chinatest2
+
+Bucket ’s3://s3chinatest2/’ created
+</code></pre></div></div>
+
+<h3 id="3-上传文件到-bucket">3. 上传文件到 bucket</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd put file1.txt file2.txt file3.txt s3://s3chinatest2
+upload: <span class="s1">'file1.txt'</span> -&gt; <span class="s1">'s3://s3chinatest2/file1.txt'</span>  <span class="o">[</span>1 of 3]
+ 2432 of 2432   100% <span class="k">in    </span>0s    43.27 kB/s  <span class="k">done
+</span>upload: <span class="s1">'file2.txt'</span> -&gt; <span class="s1">'s3://s3chinatest2/file2.txt'</span>  <span class="o">[</span>2 of 3]
+ 2432 of 2432   100% <span class="k">in    </span>0s    59.83 kB/s  <span class="k">done
+</span>upload: <span class="s1">'file3.txt'</span> -&gt; <span class="s1">'s3://s3chinatest2/file3.txt'</span>  <span class="o">[</span>3 of 3]
+ 2432 of 2432   100% <span class="k">in    </span>0s    58.93 kB/s  <span class="k">done</span>
+
+ <span class="nv">$ </span>s3cmd <span class="nb">ls </span>s3://s3chinatest2
+ 2016-11-18 15:11      2432   s3://s3chinatest2/file1.txt
+2016-11-18 15:11      2432   s3://s3chinatest2/file2.txt
+2016-11-18 15:11      2432   s3://s3chinatest2/file3.txt
+</code></pre></div></div>
+
+<p>上传的文件默认访问权限为私有 (private)，只能用户自己可以访问，使用正确的访问和安全密码即可。
+如果要上传公开访问权限的文件，需要添加 –acl-public 参数。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd put  <span class="nt">--acl-public</span> file4.txt s3://s3chinatest2
+upload: <span class="s1">'file4.txt'</span> -&gt; <span class="s1">'s3://s3chinatest2/file1.txt'</span>  <span class="o">[</span>1 of 1]
+ 2432 of 2432   100% <span class="k">in    </span>0s    43.27 kB/s  <span class="k">done</span>
+</code></pre></div></div>
+
+<h3 id="4-下载-bucket-内的文件">4. 下载 bucket 内的文件</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd get s3://s3chinatest2/file1.txt
+download: <span class="s1">'s3://s3chinatest2/file1.txt'</span> -&gt; <span class="s1">'./file1.txt'</span>  <span class="o">[</span>1 of 1]
+ 2432 of 2432   100% <span class="k">in    </span>0s    27.65 kB/s  <span class="k">done</span>
+
+ <span class="c"># 支持 " * "匹配任意字符</span>
+ <span class="nv">$ </span>s3cmd get s3://s3chinatest2/file<span class="k">*</span>.txt
+download: <span class="s1">'s3://s3chinatest2/file1.txt'</span> -&gt; <span class="s1">'./file1.txt'</span>  <span class="o">[</span>1 of 3]
+ 2432 of 2432   100% <span class="k">in    </span>0s    48.11 kB/s  <span class="k">done
+</span>download: <span class="s1">'s3://s3chinatest2/file2.txt'</span> -&gt; <span class="s1">'./file2.txt'</span>  <span class="o">[</span>2 of 3]
+ 2432 of 2432   100% <span class="k">in    </span>0s    84.76 kB/s  <span class="k">done
+</span>download: <span class="s1">'s3://s3chinatest2/file3.txt'</span> -&gt; <span class="s1">'./file3.txt'</span>  <span class="o">[</span>3 of 3]
+ 2432 of 2432   100% <span class="k">in    </span>0s    75.28 kB/s  <span class="k">done</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>注意若当前目录有相同文件时，可以使用–skip-existing 参数跳过这些文件。</p>
+</blockquote>
+
+<h3 id="5-删除-bucket-内的文件">5. 删除 bucket 内的文件</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># del 与 rm 都可以使用.</span>
+<span class="nv">$ </span>s3cmd del s3://s3chinatest2/file1.txt
+delete: <span class="s1">'s3://s3chinatest2/file1.txt'</span>
+</code></pre></div></div>
+
+<h3 id="6-获取当前-bucket-信息">6. 获取当前 bucket 信息</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># bucket的存储位置及访问权限设置</span>
+s3cmd info s3://s3chinatest2
+s3://s3chinatest2/ <span class="o">(</span>bucket<span class="o">)</span>:
+   Location:  cn-north-1
+   Payer:     BucketOwner
+   Expiration Rule: none
+   policy:    none
+   cors:      none
+   ACL:       2fe63da8137b85d9868d240869945287b285a58b5d7e07e21ac813b486dcabea: FULL_CONTROL
+</code></pre></div></div>
+
+<h3 id="7-上传文件到-bucket-时加密">7. 上传文件到 bucket 时加密</h3>
+
+<p>当用 s3cmd 下载一个加密过的文件时，它会自动检测加密并在下载过程解密，因此下载和访问加密文件时，就像通常所做的一样</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd <span class="nt">-e</span> put t_result.java s3://s3chinatest2
+upload: <span class="s1">'/tmp/tmpfile-S9lUXERAEUdnNaz5zHba'</span> -&gt; <span class="s1">'s3://s3chinatest2/t_result.java'</span>  <span class="o">[</span>1 of 1]
+ 3355 of 3355   100% <span class="k">in    </span>0s    39.25 kB/s  <span class="k">done</span>
+</code></pre></div></div>
+
+<h3 id="8-查看-bucket-使用情况">8. 查看 bucket 使用情况</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd <span class="nb">du </span>s3://s3chinatest2
+8219     3 objects s3://s3chinatest2/
+</code></pre></div></div>
+
+<h3 id="9-删除一个-bucket">9. 删除一个 bucket</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd rb s3://s3chinatest2
+ERROR: S3 error: 409 <span class="o">(</span>BucketNotEmpty<span class="o">)</span>: The bucket you tried to delete is not empty
+<span class="c"># 默认不能删除非空的bucket，所以要先清空存储桶内数据</span>
+
+<span class="nv">$ </span>s3cmd <span class="nb">rm </span>s3://s3chinatest2/<span class="k">*</span>
+delete: <span class="s1">'s3://s3chinatest2/file2.txt'</span>
+delete: <span class="s1">'s3://s3chinatest2/file3.txt'</span>
+delete: <span class="s1">'s3://s3chinatest2/t_result.java'</span>
+
+<span class="nv">$ </span>s3cmd rb s3://s3chinatest2
+Bucket <span class="s1">'s3://s3chinatest2/'</span> removed
+</code></pre></div></div>
+
+<h2 id="other"><em>Other</em></h2>
+
+<ol>
+  <li>关于 s3cmd 还有非常多的功能，这里只是列举简单的一部分，有兴趣的同学，可以使用 man s3cmd 查看详细的帮助文档。</li>
+  <li>s3cmd 适用的场景主要利用脚本做 cron 任务，例如定时备份，然后推送到 s3，降低成本，持久保存。</li>
+  <li>Windows 平台也支持 s3cmd 哦，有兴趣的同学可以去研究下。</li>
+</ol>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-11-30</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#AWS">AWS</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/11/Tomcat-1-java-lang-OutOfMemoryError.html">Tomcat java.lang.OutOfMemoryError</a></h1>
+    <div class="post_at_index">
+      <h3 id="1-什么是-permgen-space-">1. 什么是 <em>PermGen space</em> ?</h3>
+
+<p>PermGen space 的全称是 Permanent Generation space，是指内存的永久保存区域，这块内存主要是被 JVM 存放 Class 和 Meta 信息的，Class 在被 Loader 时就会被放到 PermGen space 中，它和存放类实例 (Instance) 的 Heap 区域不同，GC(Garbage Collection) 不会在主程序运行期对 PermGen space 进行清理，所以如果你的应用中有很 CLASS 的话，就很可能出现 PermGen space 错误，这种错误常见在 web 服务器对 JSP 进行 pre compile 的时候。如果你的 WEB APP 下都用了大量的第三方 jar，其大小超过了 jvm 默认的大小 (4M) 那么就会产生此错误信息了。</p>
+
+<h3 id="2-解决方法">2. 解决方法</h3>
+
+<h4 id="21-手动设置-maxpermsize-大小">2.1 手动设置 MaxPermSize 大小</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 修改$TOMCAT_HOME/bin/catalina.sh，在“echo "Using CATALINA_BASE:   $CATALINA_BASE"”上面加入以下行：</span>
+<span class="nv">JAVA_OPTS</span><span class="o">=</span><span class="s2">"-server -Xms256m -Xmx512m -XX:PermSize=64M -XX:MaxPermSize=128m"</span>
+</code></pre></div></div>
+
+<h3 id="3-java-heap-space">3. Java heap space</h3>
+
+<h4 id="解释">解释</h4>
+
+<p>Heap size 设置
+JVM 堆的设置是指 java 程序运行过程中 JVM 可以调配使用的内存空间的设置.JVM 在启动的时候会自动设置 Heap size 的值，其初始空间 (即-Xms) 是物理内存的 1/64，最大空间 (-Xmx) 是物理内存的 1/4。可以利用 JVM 提供的-Xmn -Xms -Xmx 等选项可进行设置。Heap size 的大小是 Young Generation 和 Tenured Generaion 之和。</p>
+
+<ul>
+  <li>提示：在 JVM 中如果 98％的时间是用于 GC 且可用的 Heap size 不足 2％的时候将抛出此异常信息。</li>
+  <li>提示：Heap Size 最大不要超过可用物理内存的 80％，一般的要将-Xms 和-Xmx 选项设置为相同，而-Xmn 为 1/4 的-Xmx 值。</li>
+</ul>
+
+<blockquote>
+  <p>修改设置方法如 PermGen space</p>
 </blockquote>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-08-02</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Docker">Docker</a>
+      <cite>2016-11-28</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Tomcat">Tomcat</a>
       
       
       
@@ -1015,25 +725,327 @@ registry            latest              c6c14b3960bd        3 days ago          
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/08/%E4%BD%A0%E5%A5%BD-%E5%85%AB%E6%9C%88.html">你好，八月</a></h1>
+    <h1><a class="title" href="/post/2016/11/HowTo-Install-LNMP-on-CentOS-6-x.html">HowTo Install LNMP on CentOS 6.x</a></h1>
     <div class="post_at_index">
-      <p>还剩不到 1 小时就要进入 8 月，也许写完这篇文章就已经 8 月，我其实不擅长写作文，自小如此，所以每次都是特别慢；时间慢慢流逝，听着音乐，随心所致，大概也是件快乐的事情吧。</p>
+      <blockquote>
+  <table>
+    <tbody>
+      <tr>
+        <td>egrep -v “^ *#</td>
+        <td>^*$”     去除所有以#号开头的文件</td>
+      </tr>
+    </tbody>
+  </table>
+</blockquote>
 
-<p>定期自省己身，所行之事，所思之虑，有则改之，无则勉之，坚守吾心，戒嗔戒躁，自打懂得事理之后，便妄以此法施加吾身，奈何小子年幼，定力不坚，常因一时欢愉便抛诸脑后，事后便懊悔不已；虽言，生而为人，便逃不过七情六欲加身，然，时时自省吾身，常思吾之过，常念德行事，方可为人；撰此文，便是警醒己身。</p>
+<h4 id="demo-system">Demo system</h4>
 
-<p>犯错并不是一件可怕的事儿，从小做了不知多少混账事，也没见的把天捅破，可见，所谓捅破天也不是件容易的事儿；首先是工作上的失职，自今年年初，开始搭建自身的团队班子，虽然只有三三两两人，刚开始做小头头，我并没有正确认识到自己的责任，在完成本职工作的同时，也要照顾底下的员工，不光是工作安排，还有学习成长，很多事情吩咐下去之后，自己又要去检查，弄的比自己一人工作时还要劳累；之后，连着手下两名员工都离职了，我开始反省自己，从招聘到工作分配到培养，头大如斗，深感做领导的不易。公司因装修改造，扩展一个会议室，我自己怕麻烦，便将工作推给一个员工，却未考虑他的自身的能力，导致原本清晰简单的事，拖拖拉拉 2 个月才算弄完，还害得这名员工离职，对行政部门的工作也造成了影响，经此事之后，发觉自身管理能力十分不足。另一事，公司微软云资源的账单，之前一人工作时制定的账单每月资源消耗账单，但是由于后将该事务分配与他人，导致最后帐不对本，弄巧成拙，最后还是花费大量时间，重新制作了所有的账单，问题在于自身没有将事务认真贯彻执行下去，而且任务甩出手之后，缺乏关心。另有很多这样大大小小之事，十分头疼，真应该好好学学如何做一个好领导。</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">uname</span> <span class="nt">-a</span>
+Linux Test01 2.6.32-504.el6.x86_64 <span class="c">#1 SMP Wed Oct 15 04:27:16 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux</span>
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span>ip addr | <span class="nb">grep </span>eth0
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000
+    inet 10.0.2.128/24 brd 10.0.2.255 scope global eth0
+</code></pre></div></div>
 
-<p>我不太会写叙述的文章，前面一段文字，自己看着都揪心，也是那些复杂的事儿都过去了，才能有闲工夫来写这些东西，两个助手离职之后，拉来之前同事过来帮忙，现在事情都在往好的方向发展，一点点在建立规则，接下来的工作和学习的重心都会放在大数据上，实在的事是公司给了我很好的学习机会，在这家公司也成长了非常的多，感谢的话言之不尽，唯有努力工作方可回报。</p>
+<h4 id="install-httpd">Install httpd</h4>
 
-<p>谈下关于博客，最近找了一个漂亮的主题，所以一直在折腾怎么弄好看，感觉有点逾越了当初创建博客的初衷；所以，接下来的时间，要整理之前的博文，对知识进行梳理，好记性不如烂笔头，用 XMind 做思维导图，TodoList 工具计划任务清单，博客记录学习内容 FAQ 等，一直认为好的学习方法才能达到事半功倍的效果，要加快成长，每次参加一些培训和技术的研讨会，都恨不得自己早生十年。</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 yum.repos.d]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> httpd
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span>rpm <span class="nt">-qa</span> | <span class="nb">grep </span>httpd
+httpd-2.2.15-39.el6.centos.x86_64
+httpd-tools-2.2.15-39.el6.centos.x86_64
 
-<p>谈下关于减肥，首先这肯定是一个永恒无止尽的话题，之前这段时间因为工作上的乱七八糟导致每天下班时间都到 9-10 多点钟，再加上公司到家地铁要 1 小时，所以健身房也一直没去，再加上饮食不规律，体重又回升到了可怕 85KG，8 月开始，要认真去健身了，该吃吃，该练练，目标体重 75KG。</p>
+<span class="c"># remove welcome page</span>
+<span class="o">[</span>Alex@Test01 yum.repos.d]<span class="nv">$ </span><span class="nb">sudo rm</span> <span class="nt">-f</span> /etc/httpd/conf.d/welcome.conf
+<span class="c"># remove default error page</span>
+<span class="o">[</span>Alex@Test01 yum.repos.d]<span class="nv">$ </span><span class="nb">sudo rm</span> <span class="nt">-f</span> /var/www/error/noindex.html
+</code></pre></div></div>
+
+<h4 id="configure-httpd--replace-the-server-name-to-you-own-one">Configure httpd . Replace the server name to you own one</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]# <span class="nb">sudo </span>vi /etc/httpd/conf/httpd.conf
+<span class="c"># line 44: change</span>
+ ServerTokens Prod
+<span class="c"># line 76: change to ON</span>
+ KeepAlive On
+<span class="c"># line 262: Admin's address</span>
+ ServerAdmin luchuanjia@msn.com
+<span class="c"># line 338: change</span>
+ AllowOverride All
+<span class="c"># line 276: change to your server's name</span>
+ ServerName www.ultraera.org:80
+<span class="c"># line 402: add file name that it can access only with directory's name</span>
+ DirectoryIndex index.html index.htm
+<span class="c"># line 536: change</span>
+ ServerSignature Off
+<span class="c"># line 759: comment out</span>
+<span class="c"># AddDefaultCharset UTF-8</span>
+<span class="o">[</span>Alex@Test01 ~]# <span class="nb">sudo</span> /etc/init.d/httpd start
+ Starting httpd:[  OK  <span class="o">]</span>
+<span class="o">[</span>Alex@Test01 ~]# <span class="nb">sudo </span>chkconfig httpd on     <span class="c"># set httpd start with system.</span>
+</code></pre></div></div>
+
+<h4 id="create-a-html-test-page">create a HTML test page</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]# <span class="nb">sudo </span>vi /var/www/html/index.html
+it<span class="s1">'s ok.
+</span></code></pre></div></div>
+
+<p><img src="http://s3.51cto.com/wyfs02/M00/70/DE/wKioL1XAUfuQoFfwAACC5LJWQgg039.jpg" alt="image" /></p>
+
+<h4 id="install-php">Install PHP</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> php php-mbstring php-pear
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span>rpm <span class="nt">-qa</span> | <span class="nb">grep </span>php
+php-common-5.3.3-46.el6_6.x86_64
+php-5.3.3-46.el6_6.x86_64
+php-mbstring-5.3.3-46.el6_6.x86_64
+php-cli-5.3.3-46.el6_6.x86_64
+php-pear-1.9.4-4.el6.noarch
+
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo </span>vi /etc/httpd/conf/httpd.conf
+<span class="c"># line 402 add file name that it can access only with directory's name</span>
+  DirectoryIndex index.html index.htm index.php
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo </span>vi /etc/php.ini
+<span class="c"># line 946 set your timezone</span>
+date.timezone <span class="o">=</span> <span class="s2">"Asia/Shanghai"</span>
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo</span> /etc/init.d/httpd restart
+ Stopping httpd:[  OK  <span class="o">]</span>
+ Starting httpd:[  OK  <span class="o">]</span>
+</code></pre></div></div>
+
+<h4 id="create-a-php-test-page">create a php test page</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]# <span class="nb">sudo </span>vi /var/www/html/index.php
+
+&lt;?php
+    phpinfo<span class="o">()</span><span class="p">;</span>
+?&gt;
+</code></pre></div></div>
+
+<p><img src="http://s3.51cto.com/wyfs02/M02/70/DE/wKioL1XAUguwJCl2AARE16t4hyw682.jpg" alt="image" /></p>
+
+<h4 id="install-mysql">Install MySQL</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-y</span> <span class="nb">install </span>mysql-server
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span>rpm <span class="nt">-qa</span> | <span class="nb">grep </span>mysql-server
+mysql-server-5.1.73-5.el6_6.x86_64
+
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo </span>vi /etc/my.cnf
+<span class="o">[</span>mysqld]
+<span class="nv">datadir</span><span class="o">=</span>/var/lib/mysql
+<span class="nv">socket</span><span class="o">=</span>/var/lib/mysql/mysql.sock
+<span class="nv">user</span><span class="o">=</span>mysql
+<span class="c"># Disabling symbolic-links is recommended to prevent assorted security risks</span>
+symbolic-links<span class="o">=</span>0
+<span class="c"># add</span>
+character-set-server<span class="o">=</span>utf8
+
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo</span> /etc/rc.d/init.d/mysqld start
+
+Initializing MySQL database:  WARNING: The host <span class="s1">'www.ultraera.org'</span> could not be looked up with resolveip.
+This probably means that your libc libraries are not 100 % compatible
+with this binary MySQL version. The MySQL daemon, mysqld, should work
+normally with the exception that host name resolving will not work.
+This means that you should use IP addresses instead of hostnames
+when specifying MySQL privileges <span class="o">!</span>
+Installing MySQL system tables...
+OK
+Filling <span class="nb">help </span>tables...
+OK
+...
+...
+...
+You can <span class="nb">test </span>the MySQL daemon with mysql-test-run.pl
+<span class="nb">cd</span> /usr/mysql-test <span class="p">;</span> perl mysql-test-run.pl
+
+Please report any problems with the /usr/bin/mysqlbug script!
+
+                                              <span class="o">[</span>  OK  <span class="o">]</span>
+Starting mysqld:                      <span class="o">[</span>  OK  <span class="o">]</span>
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo </span>chkconfig mysqld on
+</code></pre></div></div>
+
+<h4 id="initial-settings-for-mysql">Initial settings for MySQL</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@www ~]#mysql_secure_installation
+NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MySQL
+      SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
+
+In order to log into MySQL to secure it, we<span class="s1">'ll need the current
+password for the root user.  If you'</span>ve just installed MySQL, and
+you haven<span class="s1">'t set the root password yet, the password will be blank,
+so you should just press enter here.
+
+# Enter
+ Enter current password for root (enter for none):
+OK, successfully used password, moving on...
+
+Setting the root password ensures that nobody can log into the MySQL
+root user without the proper authorisation.
+
+# set root password
+ Set root password? [Y/n]y
+ New password:    # input any password
+ Re-enter new password:
+Password updated successfully!
+Reloading privilege tables..
+ ... Success!
+
+By default, a MySQL installation has an anonymous user, allowing anyone
+to log into MySQL without having to have a user account created for
+them.  This is intended only for testing, and to make the installation
+go a bit smoother.  You should remove them before moving into a
+production environment.
+
+# remove anonymous users
+ Remove anonymous users? [Y/n]y
+
+ ... Success!
+
+Normally, root should only be allowed to connect from '</span>localhost<span class="s1">'.  This
+ensures that someone cannot guess at the root password from the network.
+
+# disallow root login remotely
+ Disallow root login remotely? [Y/n]y
+
+ ... Success!
+
+By default, MySQL comes with a database named '</span><span class="nb">test</span><span class="s1">' that anyone can
+access.  This is also intended only for testing, and should be removed
+before moving into a production environment.
+
+# remove test database
+ Remove test database and access to it? [Y/n]y
+
+ - Dropping test database...
+ ... Success!
+ - Removing privileges on test database...
+ ... Success!
+
+Reloading the privilege tables will ensure that all changes made so far
+will take effect immediately.
+
+# reload privilege tables
+ Reload privilege tables now? [Y/n]y
+
+ ... Success!
+
+Cleaning up...
+
+All done!  If you'</span>ve completed all of the above steps, your MySQL
+installation should now be secure.
+
+Thanks <span class="k">for </span>using MySQL!
+
+<span class="c"># try to connect with root</span>
+ <span class="o">[</span>root@www ~]#mysql <span class="nt">-u</span> root <span class="nt">-p</span>
+ Enter password:# MySQL root password
+Welcome to the MySQL monitor.  Commands end with <span class="p">;</span> or <span class="se">\g</span><span class="nb">.</span>
+Your MySQL connection <span class="nb">id </span>is 10
+Server version: 5.1.73 Source distribution
+
+Copyright <span class="o">(</span>c<span class="o">)</span> 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type <span class="s1">'help;'</span> or <span class="s1">'\h'</span> <span class="k">for </span>help. Type <span class="s1">'\c'</span> to clear the current input statement.
+
+<span class="c"># display user list</span>
+ mysql&gt;select user,host,password from mysql.user<span class="p">;</span>
++------+-----------+-------------------------------------------+
+| user | host      | password                                  |
++------+-----------+-------------------------------------------+
+| root | localhost | <span class="k">*****************************************</span> |
+| root | 127.0.0.1 | <span class="k">*****************************************</span> |
++------+-----------+-------------------------------------------+
+2 rows <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+
+<span class="c"># display database list</span>
+ mysql&gt;show databases<span class="p">;</span>
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
++--------------------+
+2 rows <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+mysql&gt;exit
+Bye
+</code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-08-01</cite> <i class="icon-tag"></i>
+      <cite>2016-11-28</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#LNMP">LNMP</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/11/%E4%B8%96%E7%95%8C%E4%B8%8A%E6%9C%80%E6%B2%A1%E7%94%A8%E7%9A%84%E4%B8%9C%E8%A5%BF.html">世界上最没用的东西</a></h1>
+    <div class="post_at_index">
+      <p><a href="https://www.zhihu.com/question/21905681/answer/93684468">知乎</a></p>
+
+<p>@匿名用户</p>
+
+<p>旧手机的充电器</p>
+
+<p>暗恋时的独角戏</p>
+
+<p>情人节后的鲜花</p>
+
+<p>单身狗的第二杯半价</p>
+
+<p>政客上任的许诺</p>
+
+<p>渴望理解的诉说</p>
+
+<p>花前月下的誓言</p>
+
+<p>回忆里微笑的脸</p>
+
+<p>过期的悔恨</p>
+
+<p>懦弱的容忍</p>
+
+<p>寒假前的作息表</p>
+
+<p>满街的宣传口号</p>
+
+<p>天赋不足的认真</p>
+
+<p>无疾而终的情深</p>
+
+<p>所谓寂寞空虚冷</p>
+
+<p>不可说与人知的疼</p>
+
+<p>失败后的借口</p>
+
+<p>酒桌上的朋友</p>
+
+<p>年轻时为你写的诗</p>
+
+<p>心血来潮时的雄心壮志</p>
+
+<p>收藏夹里的心灵鸡汤</p>
+
+<p>总结汇报的官样文章</p>
+
+<p>额度不够的信用卡</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-11-27</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Zero">Zero</a>
       
       
@@ -1043,419 +1055,562 @@ registry            latest              c6c14b3960bd        3 days ago          
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/07/%E5%9C%A8%E7%BD%91%E9%A1%B5%E4%B8%AD%E6%8F%92%E5%85%A5%E6%AD%8C%E6%9B%B2.html">在网页中插入歌曲</a></h1>
+    <h1><a class="title" href="/post/2016/11/Denyhosts%E5%A2%9E%E5%8A%A0%E6%9C%8D%E5%8A%A1%E5%99%A8SSH%E9%BB%91%E5%90%8D%E5%8D%95%E6%9C%BA%E5%88%B6.html">Denyhosts 增加服务器 SSH 黑名单机制</a></h1>
     <div class="post_at_index">
-      <p>纠正下，在下面博文中的错误，关于单曲不能生成外链的问题，现已经纠正。</p>
+      <h2 id="查看当前服务器失败登录的统计">查看当前服务器失败登录的统计</h2>
 
-<p>我试过百度音乐、QQ 音乐、虾米音乐和网易云音乐，目前只有网易云音乐有此功能，先在网易云音乐选择歌曲即可：</p>
-
-<h4 id="分享单曲">分享单曲</h4>
-
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&amp;id=101906&amp;auto=1&amp;height=66"></iframe>
-
-<h4 id="分享专辑歌单">分享专辑，歌单</h4>
-
-<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="450" src="//music.163.com/outchain/player?type=0&amp;id=26096079&amp;auto=1&amp;height=430"></iframe>
-
-<div align="center">
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/1-6UcK4gXBrACw.jpg" />
-</div>
-
-<p><strong>然后，根据页面提示信息，生成你要的 html 代码，并嵌入到你的页面之中。</strong></p>
-<div align="center">
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/2-6UcK4gXBrACw.jpg" />
-</div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-07-31</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Ghost">Ghost</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/07/HowTo-Trun-Off-IPv6-in-CentOS-6-x.html">HowTo Trun Off IPv6 in CentOS 6.x</a></h1>
-    <div class="post_at_index">
-      <h2 id="1-centos-6x">1. CentOS 6.x</h2>
-
-<p>CentOS 6 上是默认打开了 IPv6，但其实在我们实际使用中很难用到它，所以本篇的内容就是如何关闭 IPv6。</p>
-
-<blockquote>
-  <p>可以看到 inet6，说明还没关闭。</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# ifconfig eth0
-eth0      Link encap:Ethernet  HWaddr 00:0C:29:3A:F9:6F
-          inet addr:172.16.102.161  Bcast:172.16.102.255  Mask:255.255.255.0
-          inet6 addr: fe80::20c:29ff:fe3a:f96f/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:199 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:122 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000
-          RX bytes:20124 <span class="o">(</span>19.6 KiB<span class="o">)</span>  TX bytes:17182 <span class="o">(</span>16.7 KiB<span class="o">)</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /var/log/secure | <span class="nb">awk</span> <span class="s1">'/Failed/{print $(NF-3)}'</span> | <span class="nb">sort</span> | <span class="nb">uniq</span> <span class="nt">-c</span> | <span class="nb">sort</span> <span class="nt">-n</span> |  <span class="nb">awk</span> <span class="s1">'{print $2" = "$1}'</span>
 </code></pre></div></div>
 
-<blockquote>
-  <p>修改/etc/modprobe.d/dist.conf</p>
-</blockquote>
+<h2 id="install-denyhosts">Install denyhosts</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# vi /etc/modprobe.d/dist.conf
-<span class="c"># 添加下面两行内容</span>
-<span class="nb">alias </span>net-pf-10 off
-<span class="nb">alias </span>ipv6 off
-<span class="c"># 保存退出，并且重新启动系统</span>
-
-<span class="c"># 开机不启动</span>
-<span class="o">[</span>root@ultraera ~]# chkconfig ip6tables off
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 需要预先安装epel源</span>
+<span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
+<span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> denyhosts
 </code></pre></div></div>
 
-<blockquote>
-  <p>系统重启完成后，检查是否加载 IPv6</p>
-</blockquote>
+<h2 id="配置文件解析">配置文件解析</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# lsmod | <span class="nb">grep </span>v6
+<p>默认配置文件/etc/denyhosts。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 查看的sshd日志文件</span>
+SECURE_LOG <span class="o">=</span> /var/log/secure
+
+<span class="c"># 将阻止IP写入的配置文件</span>
+HOSTS_DENY <span class="o">=</span> /etc/hosts.deny
+
+<span class="c"># 过多久之后清除，其中w代表周，d代表天，h代表小时，s代表秒，m代表分钟。</span>
+PURGE_DENY <span class="o">=</span> 4h
+
+<span class="c"># 阻止的服务名称</span>
+BLOCK_SERVICE  <span class="o">=</span> sshd
+
+<span class="c"># 允许无效用户（在/etc/passwd未列出）登录失败次数,允许无效用户登录失败的次数.</span>
+DENY_THRESHOLD_INVALID <span class="o">=</span> 1
+
+<span class="c"># 允许普通用户登录失败的次数</span>
+DENY_THRESHOLD_VALID <span class="o">=</span> 5
+
+<span class="c"># 允许root登录失败的次数</span>
+DENY_THRESHOLD_ROOT <span class="o">=</span> 2
+DENY_THRESHOLD_RESTRICTED <span class="o">=</span> 1
+
+<span class="c"># 设定 deny host 写入到该资料夹</span>
+WORK_DIR <span class="o">=</span> /var/lib/denyhosts
+
+<span class="c"># 将deny的host或ip纪录到Work_dir中</span>
+<span class="nv">SUSPICIOUS_LOGIN_REPORT_ALLOWED_HOSTS</span><span class="o">=</span>YES
+
+<span class="c"># 是否做域名反解</span>
+<span class="nv">HOSTNAME_LOOKUP</span><span class="o">=</span>YES
+
+<span class="c"># 将DenyHOts启动的pid纪录到LOCK_FILE中，已确保服务正确启动，防止同时启动多个服务。</span>
+LOCK_FILE <span class="o">=</span> /var/lock/subsys/denyhosts
+
+<span class="c"># 设置管理员邮件地址</span>
+ADMIN_EMAIL <span class="o">=</span> luchuanjia@msn.com
+SMTP_HOST <span class="o">=</span> localhost
+SMTP_PORT <span class="o">=</span> 25
+SMTP_FROM <span class="o">=</span> DenyHosts &lt;nobody@localhost&gt;
+SMTP_SUBJECT <span class="o">=</span> DenyHosts Report from <span class="nv">$[</span>HOSTNAME]
+
+<span class="c"># 有效用户登录失败计数归零的时间</span>
+<span class="nv">AGE_RESET_VALID</span><span class="o">=</span>1d
+
+<span class="c"># root用户登录失败计数归零的时间</span>
+<span class="nv">AGE_RESET_ROOT</span><span class="o">=</span>25d
+
+<span class="c"># 用户的失败登录计数重置为0的时间(/usr/share/denyhosts/data/restricted-usernames)</span>
+<span class="nv">AGE_RESET_RESTRICTED</span><span class="o">=</span>25d
+
+<span class="c"># 无效用户登录失败计数归零的时间</span>
+<span class="nv">AGE_RESET_INVALID</span><span class="o">=</span>10d
+
+<span class="c"># denyhosts的日志文件位置</span>
+DAEMON_LOG <span class="o">=</span> /var/log/denyhosts
+
+<span class="c"># denyhosts的轮询时间</span>
+DAEMON_SLEEP <span class="o">=</span> 30s
+
+<span class="c"># 该项与PURGE_DENY 设置一样，也是清除hosts.deny中 ssh用户的时间</span>
+DAEMON_PURGE <span class="o">=</span> 1h
 </code></pre></div></div>
 
-<blockquote>
-  <p>补充</p>
-</blockquote>
-
-<ul>
-  <li>修改/etc/sysconfig/network，追加</li>
-</ul>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">NETWORKING_IPV6</span><span class="o">=</span>no
-</code></pre></div></div>
-
-<ul>
-  <li>修改/etc/hosts文件，把ipv6的那句本地主机名解析的也注释掉</li>
-</ul>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#::1   localhost localhost6 localhost6.localdomain6</span>
-</code></pre></div></div>
-
-<h2 id="2-centos-7x">2. CentOS 7.x</h2>
-
-<h3 id="setup-1-修改-grub-文件在启动引导时不加载-ipv6">Setup 1. 修改 grub 文件，在启动引导时不加载 ipv6</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# vim /etc/default/grub
-
-<span class="c"># 在GRUB_CMDLINE_LINUX=" " ,中增加</span>
-ipv6.disable＝1
-
-<span class="c"># 重新生产启动引导文件，注意，这里重启系统是没用的，需要手动重建引导文件</span>
-<span class="o">[</span>root@ultraera ~]# grub2-mkconfig <span class="nt">-o</span> /boot/grub2/grub.cfg
-<span class="o">[</span>root@ultraera ~]# reboot
-</code></pre></div></div>
-
-<blockquote>
-  <p>验证是否关闭</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# lsmod | <span class="nb">grep </span>ipv6
-</code></pre></div></div>
-
-<h4 id="setup-2-第二种方式">Setup 2. 第二种方式</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 修改/etc/sysctl.conf,增加以下：</span>
-net.ipv6.conf.all.disable_ipv6 <span class="o">=</span> 1
-
-reboot
-</code></pre></div></div>
-
-<blockquote>
-  <p>IPv6 是默认支持的，所以当你要重新开起 IPv6 支持时，将以上添加的指令注释掉即可。
-<strong>之前碰到过安装某些服务时，不能启动，后来检查原因是因为关闭 ipv6 的问题，因为在这些服务的 conf 文件，指定了类似监听 ipv6，因为关闭了 ipv6 导致服务无法启动，将其关闭即可。</strong></p>
-</blockquote>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-07-29</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#CentOS">CentOS</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/07/HowTo-Install-KVM-Manage-Server-webvirtmgr.html">HowTo Install KVM Manage Server webvirtmgr</a></h1>
-    <div class="post_at_index">
-      <p>生产环境的 KVM 宿主机越来越多，需要对宿主机的状态进行调控。这里用 webvirtmgr 进行管理。图形化的 WEB，让人能更方便的查看 kvm 宿主机的情况和操作。</p>
-
-<p><strong><em><a href="https://github.com/retspen/webvirtmgr">GitHub Project.</a></em></strong></p>
-
-<h3 id="install">Install</h3>
-
-<h4 id="安装支持的软件源">安装支持的软件源</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
-</code></pre></div></div>
-
-<h4 id="安装相关软件">安装相关软件</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">-y</span> <span class="nb">install </span>git python-pip libvirt-python libxml2-python python-websockify supervisor nginx
-</code></pre></div></div>
-
-<h4 id="从-git-hub-中下载相关的-webvirtmgr-代码">从 git-hub 中下载相关的 webvirtmgr 代码</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /usr/local/src/
-git clone git://github.com/retspen/webvirtmgr.git
-</code></pre></div></div>
-
-<h4 id="安装-webvirtmgr">安装 webvirtmgr</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>webvirtmgr/
-pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
-</code></pre></div></div>
-
-<h4 id="安装数据库">安装数据库</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install </span>python-sqlite2
-</code></pre></div></div>
-
-<h4 id="对-django-进行环境配置">对 django 进行环境配置</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./manage.py syncdb
-
-You just installed Django<span class="s1">'s auth system, which means you don'</span>t have any superusers defined.
-Would you like to create one now? <span class="o">(</span><span class="nb">yes</span>/no<span class="o">)</span>: <span class="nb">yes
-</span>Username <span class="o">(</span>leave blank to use <span class="s1">'root'</span><span class="o">)</span>: admin
-Email address: luchuanjia@msn.com
-Password:<span class="k">*********</span>
-Password <span class="o">(</span>again<span class="o">)</span>:<span class="k">*********</span>
-
-./manage.py collectstatic <span class="c">#生成配置文件</span>
-./manage.py createsuperuser <span class="c">#添加管理员账号</span>
-</code></pre></div></div>
-
-<h4 id="拷贝-web-到-相关目录">拷贝 web 到 相关目录</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ..
-<span class="nb">rm</span> <span class="nt">-rf</span> /var/www
-<span class="nb">mkdir</span> <span class="nt">-pv</span> /var/www
-<span class="nb">cp</span> <span class="nt">-Rv</span> webvirtmgr /var/www/webvirtmgr
-</code></pre></div></div>
-
-<h4 id="设置-ssh">设置 ssh</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen
-ssh-copy-id 192.168.2.32
-ssh 192.168.2.32 <span class="nt">-L</span> localhost:8000:localhost:8000 <span class="nt">-L</span> localhost:6080:localhost:6080
-</code></pre></div></div>
-
-<h4 id="编辑-nginx-配置文件">编辑 nginx 配置文件</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv</span> /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
-vim /etc/nginx/conf.d/webvirtmgr.conf  <span class="c">#添加下面内容到文件中</span>
-
-server <span class="o">{</span>
-    listen 80 default_server<span class="p">;</span>
-
-    server_name <span class="nv">$hostname</span><span class="p">;</span>
-    <span class="c">#access_log /var/log/nginx/webvirtmgr_access_log;</span>
-
-    location /static/ <span class="o">{</span>
-        root /var/www/webvirtmgr/webvirtmgr<span class="p">;</span> <span class="c"># or /srv instead of /var</span>
-        expires max<span class="p">;</span>
-    <span class="o">}</span>
-
-    location / <span class="o">{</span>
-        proxy_pass http://127.0.0.1:8000<span class="p">;</span>
-        proxy_set_header X-Real-IP <span class="nv">$remote_addr</span><span class="p">;</span>
-        proxy_set_header X-Forwarded-for <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
-        proxy_set_header Host <span class="nv">$host</span>:<span class="nv">$server_port</span><span class="p">;</span>
-        proxy_set_header X-Forwarded-Proto <span class="nv">$remote_addr</span><span class="p">;</span>
-        proxy_connect_timeout 600<span class="p">;</span>
-        proxy_read_timeout 600<span class="p">;</span>
-        proxy_send_timeout 600<span class="p">;</span>
-        client_max_body_size 1024M<span class="p">;</span> <span class="c"># Set higher depending on your needs</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<h4 id="启动-nginx">启动 nginx</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service nginx start
-</code></pre></div></div>
-
-<h4 id="修改防火墙规则--如果关闭-selinux此步可省略">修改防火墙规则 ( 如果关闭 selinux，此步可省略)</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/sbin/setsebool httpd_can_network_connect <span class="nb">true</span>
-</code></pre></div></div>
-
-<h4 id="设置-supervisor">设置 supervisor</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chown</span> <span class="nt">-R</span> nginx:nginx /var/www/webvirtmgr
-vim /etc/supervisord.conf <span class="c">#在文件末尾添加</span>
-
-<span class="o">[</span>program:webvirtmgr]
-<span class="nb">command</span><span class="o">=</span>/usr/bin/python /var/www/webvirtmgr/manage.py run_gunicorn <span class="nt">-c</span> /var/www/webvirtmgr/conf/gunicorn.conf.py
-<span class="nv">directory</span><span class="o">=</span>/var/www/webvirtmgr
-<span class="nv">autostart</span><span class="o">=</span><span class="nb">true
-</span><span class="nv">autorestart</span><span class="o">=</span><span class="nb">true
-</span><span class="nv">logfile</span><span class="o">=</span>/var/log/supervisor/webvirtmgr.log
-<span class="nv">log_stderr</span><span class="o">=</span><span class="nb">true
-</span><span class="nv">user</span><span class="o">=</span>nginx
-
-<span class="o">[</span>program:webvirtmgr-console]
-<span class="nb">command</span><span class="o">=</span>/usr/bin/python /var/www/webvirtmgr/console/webvirtmgr-console
-<span class="nv">directory</span><span class="o">=</span>/var/www/webvirtmgr
-<span class="nv">autostart</span><span class="o">=</span><span class="nb">true
-</span><span class="nv">autorestart</span><span class="o">=</span><span class="nb">true
-</span><span class="nv">stdout_logfile</span><span class="o">=</span>/var/log/supervisor/webvirtmgr-console.log
-<span class="nv">redirect_stderr</span><span class="o">=</span><span class="nb">true
-</span><span class="nv">user</span><span class="o">=</span>nginx
-
-修改/var/www/webvirtmgr/conf/gunicorn.conf.py
-<span class="nb">bind</span> <span class="o">=</span> <span class="s2">"0:8000"</span>
-</code></pre></div></div>
-
-<h4 id="设置开机启动">设置开机启动</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chkconfig supervisord on
-chkconfig nginx on
-vim /etc/rc.local
-      /usr/sbin/setsebool httpd_can_network_connect <span class="nb">true</span>
-</code></pre></div></div>
-
-<h4 id="启动进程">启动进程</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service nginx start
-service supervisord start
-</code></pre></div></div>
-
-<h4 id="访问">访问</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://<span class="nv">$server_ip</span>/login/
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-07-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#KVM">KVM</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/07/Yum%E4%B8%AD-releasever%E5%92%8C-basearch%E7%9A%84%E5%8F%96%E5%80%BC.html">Yum 中$releasever 和$basearch 的取值</a></h1>
-    <div class="post_at_index">
-      <h4 id="查看etcyumreposdcentos-baserepo">查看/etc/yum.repos.d/CentOS-Base.repo</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>base]
-<span class="nv">name</span><span class="o">=</span>CentOS-<span class="nv">$releasever</span> - Base
-<span class="nv">mirrorlist</span><span class="o">=</span>http://mirrorlist.centos.org/?release<span class="o">=</span><span class="nv">$releasever</span>&amp;arch<span class="o">=</span><span class="nv">$basearch</span>&amp;repo<span class="o">=</span>os&amp;infra<span class="o">=</span><span class="nv">$infra</span>
-<span class="c">#baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/</span>
-<span class="nv">gpgcheck</span><span class="o">=</span>1
-<span class="nv">gpgkey</span><span class="o">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
-</code></pre></div></div>
-
-<p>其实在日常使用之中，我们在很多地方，特别是脚本内看到了调用<code class="language-plaintext highlighter-rouge">$releasever</code>和<code class="language-plaintext highlighter-rouge">$basearch</code></p>
+<h2 id="faq">FAQ</h2>
 
 <ol>
-  <li>$releasever 的值，这个表示当前系统的发行版本</li>
+  <li>如果想删除一个已经禁止的主机 IP，并加入到允许主机例表，只在 /etc/hosts.deny 删除是没用的，还需要以下：</li>
 </ol>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera /]# rpm <span class="nt">-qi</span> centos-release
-Name        : centos-release               Relocations: <span class="o">(</span>not relocatable<span class="o">)</span>
-Version     : 6                                 Vendor: CentOS
-Release     : 7.el6.centos.12.3             Build Date: Tue 04 Aug 2015 12:13:46 AM CST
-Install Date: Sat 21 May 2016 03:31:27 AM CST      Build Host: c6b9.bsys.dev.centos.org
-Group       : System Environment/Base       Source RPM: centos-release-6-7.el6.centos.12.3.src.rpm
-Size        : 35634                            License: GPLv2
-Signature   : RSA/SHA1, Tue 04 Aug 2015 12:15:08 AM CST, Key ID 0946fca2c105b9de
-Packager    : CentOS BuildSystem &lt;http://bugs.centos.org&gt;
-Summary     : CentOS release file
-Description :
-CentOS release files
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/var/lib/denyhosts 目录，进入以下操作：
+<span class="c"># 停止denyhosts服务</span>
+<span class="nb">sudo </span>service denyhosts stop
 
-<span class="c"># 其中Version 6 就是我们的版本号</span>
+<span class="c"># 进入denyhosts的目录</span>
+<span class="nb">cd</span> /var/lib/denyhosts
+
+<span class="c"># 查看哪些文件添加了ssh限制,将IP_addr替换成你的IP</span>
+<span class="nb">sudo grep </span>IP_addr /usr/share/denyhosts/data/<span class="k">*</span>
+
+<span class="c"># 然后一个个删除文件中你想取消的主机IP所在的行:</span>
+/usr/share/denyhosts/data/hosts
+/usr/share/denyhosts/data/hosts-restricted
+/usr/share/denyhosts/data/hosts-root
+/usr/share/denyhosts/data/hosts-valid
+/usr/share/denyhosts/data/users-hosts
+
+<span class="c"># 添加你想允许的主机IP地址到allowed-hosts:</span>
+<span class="nb">sudo echo </span>IP_addr <span class="o">&gt;&gt;</span>/usr/share/denyhosts/data/allowed-hostsps
+
+<span class="c"># 启动 DenyHosts服务：</span>
+ service denyhosts start
 </code></pre></div></div>
 
-<p>$basearch 是我们的系统硬件架构 (CPU 指令集),就是我们常说的 i386\i486\i586\i686\</p>
+<h2 id="tips">Tips</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera /]# <span class="nb">arch
-</span>i386
-</code></pre></div></div>
-
-<p>但是，当我在命令行查看是却发现<code class="language-plaintext highlighter-rouge">$releasever</code>和<code class="language-plaintext highlighter-rouge">$basearch</code>是空的。</p>
-
-<p>Google 一下之后，说明 Yum 变量的说明可以在这里（5.3.3. Using Yum Variables）找到，说明如下：</p>
-<blockquote>
-  <p>5.3.3. Using Yum Variables</p>
-</blockquote>
-
-<p>You can use and reference the following built-in variables in yum commands and in all Yum configuration files (that is, /etc/yum.conf and all .repo files in the /etc/yum.repos.d/ directory):</p>
-
-<p>$releasever
-You can use this variable to reference the release version of Red Hat Enterprise Linux. Yum obtains the value of $releasever from the distroverpkg=value line in the /etc/yum.conf configuration file. If there is no such line in /etc/yum.conf, then yum infers the correct value by deriving the version number from the redhat-release package.</p>
-
-<p>$arch
-You can use this variable to refer to the system’s CPU architecture as returned when calling Python’s os.uname() function. Valid values for $arch include: i586, i686 and x86_64.</p>
-
-<p>$basearch
-You can use $basearch to reference the base architecture of the system. For example, i686 and i586 machines both have a base architecture of i386, and AMD64 and Intel64 machines have a base architecture of x86_64.</p>
-
-<p>$YUM0-9
-These ten variables are each replaced with the value of any shell environment variables with the same name. If one of these variables is referenced (in /etc/yum.conf for example) and a shell environment variable with the same name does not exist, then the configuration file variable is not replaced.</p>
-
-<p>To define a custom variable or to override the value of an existing one, create a file with the same name as the variable (without the “$” sign) in the /etc/yum/vars/ directory, and add the desired value on its first line.</p>
-
-<p>For example, repository descriptions often include the operating system name. To define a new variable called $osname, create a new file with “Red Hat Enterprise Linux” on the first line and save it as /etc/yum/vars/osname:</p>
-
-<p><code class="language-plaintext highlighter-rouge">echo "Red Hat Enterprise Linux" &gt; /etc/yum/vars/osname</code></p>
-
-<p>Instead of “Red Hat Enterprise Linux 6”, you can now use the following in the .repo files: name=$osname $releasever</p>
-
-<p>文中说到$releasever 的定义可以查看 /etc/yum.conf 文件的事 distroverpkg=value 行，打开 /etc/yum.conf 看一下，默认文件（我的是 CentOS 6）内容如下：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>main]
-<span class="nv">cachedir</span><span class="o">=</span>/var/cache/yum/<span class="nv">$basearch</span>/<span class="nv">$releasever</span>
-<span class="nv">keepcache</span><span class="o">=</span>0
-<span class="nv">debuglevel</span><span class="o">=</span>2
-<span class="nv">logfile</span><span class="o">=</span>/var/log/yum.log
-<span class="nv">exactarch</span><span class="o">=</span>1
-<span class="nv">obsoletes</span><span class="o">=</span>1
-<span class="nv">gpgcheck</span><span class="o">=</span>1
-<span class="nv">plugins</span><span class="o">=</span>1
-<span class="nv">installonly_limit</span><span class="o">=</span>5
-<span class="nv">bugtracker_url</span><span class="o">=</span>http://bugs.centos.org/set_project.php?project_id<span class="o">=</span>16&amp;ref<span class="o">=</span>http://bugs.centos.org/bug_report_page.php?category<span class="o">=</span>yum
-<span class="nv">distroverpkg</span><span class="o">=</span>centos-release
-</code></pre></div></div>
-
-<p>distroverpkg=centos-release 代表什么？去哪找 centos-release。找到这里我再一次表示困惑。
-不过另一篇文章进行了我的视野：yum 的$releasever 真是太反动了，关键内空如下：
-在 /etc/yum.repos.d/ 目录下的软件库定义文件中，常常会在 baseurl 的路径中提到 $releasever 这个变量，表示当前发行版的大版本号，但大家知道这个变量是在哪设置的吗？我 grep 了整个 etc 目录都没找到，还是看了 yum.conf 才知道的，是在 yum.conf 文件里 distroverpkg 选项定义的。但这个选项就很有问题：
-distroverpkg 和 releasever 名字不同，且看不出什么联系
-distroverpkg 的值，并不是明文，而是“redhat-release”。不知道大家看到这个会有什么想法，反正我是首先想到了 /etc/redhat-release 文件，但我错了。实际上指的是 redhat-release 这个 RPM 包。所谓“distroverpkg=redhat-release”的意思，其实是将 $releasever 设置为 redhat-release 这个 RPM 包的版本号。</p>
-
-<h5 id="小结">小结</h5>
-
-<p>yum 中的$releasever 变量是取 redhat-release-server rpm 包的属性值 ( %{version})。
-[root@ldap01 ~]# rpm -q –qf %{version} redhat-release-server;echo
-6Server</p>
+<ul>
+  <li>尽量是用 key 验证登录服务器</li>
+  <li>尽量从固定 IP 点登录服务器，然后将该地址加入白名单</li>
+</ul>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-07-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Yum">Yum</a>
+      <cite>2016-11-23</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#DenyHosts">DenyHosts</a>
+      , 
+      <a href="/tags.html#Tools">Tools</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/11/Python-1-%E5%9F%BA%E7%A1%80.html">Python 基础</a></h1>
+    <div class="post_at_index">
+      <p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;
+&lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd”&gt;</p>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="exporter-version" content="Evernote Mac 6.10 (454269)" /><meta name="author" content="Alex LU" /><meta name="created" content="2016-09-29 02:27:16 +0000" /><meta name="source" content="desktop.mac" /><meta name="updated" content="2016-09-29 06:27:40 +0000" /><title>Python 学习笔记 (1) --Python 基础</title></head><body>
+<ol>
+<li>输出：print
+<ol>
+<li>python2: print 'Hello Python'</li>
+<li>python3: print('Hello Python')</li>
+<li>python(‘10+20=‘,10+20)</li>
+</ol>
+</li>
+<li>输入：
+<ol>
+<li>python2：raw_input()</li>
+<li>python3: input()</li>
+</ol>
+</li>
+<li>python 的语法比较简单，采用缩进的方式：</li>
+</ol>
+<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">
+<div>a = 100</div>
+<div>if a &gt;= 0:</div>
+<div>     print(a)</div>
+<div>else:</div>
+<div>     print(-a)</div>
+<div><br /></div>
+<div>&amp; diff &amp;</div>
+<div>a = 100</div>
+<div>if a &gt;=0:</div>
+<div>print(a)</div>
+<div>else:</div>
+<div>print(-a)</div>
+</div>
+<ol start="4">
+<li># 开头为注释；: 结尾，缩进的语句视为代码块；Python 大小写是敏感的，约定俗成：4 个空格的缩进，可以吧 tab 设置为 4 个空格。</li>
+<li>Python 的数据类型
+<ol>
+<li>整数：python 可以处理任意大小的整数</li>
+<li>浮点数：也就是小数，之所以称之为浮点数，因为按照科学计数法表示时，一个浮点数的小数点位置是可变的</li>
+<li>字符串：字符串是以’’和””包括起来的任意文本，例如’abc’,”xyz”；如果字符内部同时包含’和”，可以使用\转义字符来标识。
+<ol>
+<li>如果字符串内部有很多换行，用\n不好阅读，python 支持使用’’’…’’' 的格式表示多行‘</li>
+<li>r’…'  python 可以使用 r’’表示’'以内的字符不转义;多行：r’’’…’''</li>
+</ol>
+</li>
+<li>布尔值：布尔值和布尔代数表示的完全一致，一个布尔值只有 True 和 False，python 支持直接使用 True 和 False 表示布尔值，注意大小写，另外最好不要生命变量时使用 True 等，布尔值，经常用于在条件判断之中。
+<ol>
+<li>and : 与运算，所有运算结果都是 True，and 的结果才是 True</li>
+<li>or：或运算，只有 1 个运算结果为 True，or 的结果就是 True</li>
+<li>not：他是一个单目运算符，取相反的值</li>
+</ol>
+</li>
+<li>空值：python 里的一个特殊值，用 None 表示，注意 None 不能理解为 0，因为 0 是有意义的，而 None 是一个特殊的空值</li>
+</ol>
+</li>
+<li>python 的变量
+<ol>
+<li>命名规则：必须是大小写英文，数字和_的组合，且不能用数字开头；</li>
+<li>赋值符号：’=’；等于的符号是’==’</li>
+<li>动态语言：变量本身类型不固定的语言称之为动态语言，反之是静态语言，静态语言在定义变量时必须制定变量的数据类型，如果赋值的时候类型不匹配，就会报错；</li>
+<li>变量在计算机内存中的表示：a=1，指的是 python 在内存中创建了整数 1，然后在内存创建了变量 a，并把它指向了整数 1</li>
+</ol>
+</li>
+<li>python 的常量
+<ol>
+<li>定义：常量就是不能改变的变量，在 python 中，通常使用全部大写的变量名表示常量</li>
+<li>整数的除法是精确的，因为除法计算结果是浮点数，例如 9/3 结果为 3.0 ; 另外一种除法是’//‘地板除，两个整数的除法任然是整数；余数运算’%’</li>
+</ol>
+</li>
+<li>字符编码：字符串是一种数据类型，但是字符串还涉及到一个编码问题，Python3 的字符串是支持多语言的
+<ol>
+<li>ord(‘') 函数 获取字符的整数表示；</li>
+<li>chr(‘') 函数 把编码转换成对应的字符；</li>
+<li>python 的字符串类型是 str，在内存中以 Unicode 表示，一个字符对应若干字节，但是如果要在网络传输或者保存到磁盘，就要把 str 转化为单位的 bytes；
+<ol>
+<li>python 对于 bytes 的数据类型用带 b 前缀的单引号或双引号表示：</li>
+<li>另外，Unicode 表示的 str 可用 encode() 函数，指定编码为 bytes。 ‘ABC’ .encode(‘utf-8')</li>
+<li>decode() 可以吧 bytes 转变为 str。b'ABC' .decode('ascii')</li>
+<li>要计算 str 包含了多少个字符使用 len() 函数：len(‘hello’) ,结果为 5</li>
+</ol>
+</li>
+<li style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">#!/usr/bin/env python3<br />
+# -*- coding: utf-8 -*-</li>
+</ol>
+</li>
+<li>格式化：如何处理格式化输出字符串，在 python 中使用的格式化方式和 C 语言是一致的，用’%’实现：
+<ol>
+<li>%d 表示整数</li>
+<li>%f 表示浮点数</li>
+<li>%s 表示字符串，如果不确定用什么，用%s，它会把任何数据类型转换为字符串</li>
+<li>%x 表示十六进制整数</li>
+<li>%% 表示一个普通的%</li>
+</ol>
+</li>
+<li>数据类型 list 和 tuple
+<ol>
+<li>list 是 python 内置的一种数据类型：列表，list 是一个有序的集合，可以随时添加和删除其中元素。
+<ol>
+<li>classmates = [‘Michael’,’Bob’,’Tracy’]， 可以用len() 函数获取这个 list 的元素的个数</li>
+<li>可以用索引来访问 list 中的每一个位置的元素，记住索引的第一个位置是 0：</li>
+<li>当索引超出范围的时候，python 会报出 IndexError 错误，记得最后一个索引是 len(classmates) -1</li>
+<li>如果直接取出最后一个索引可用 classmates[-1],以此类推</li>
+</ol>
+</li>
+<li>list 是一个可变的有序列表，所以可以去追加，插入指定位置，删除，替换等操作，支持不同数据类型，支持嵌套 list
+<ol>
+<li>追加：classmates.append(‘Adam')</li>
+<li>插入指定位置: classmates.insert(2,’Jack')</li>
+<li>删除 list 末尾的元素：classmates.pop()</li>
+<li>删除指定位置的元素：classmates.pop(1)</li>
+<li>替换元素：classmates[1]=‘Sarch’ ， 直接给相应位置的元素重新赋值即可</li>
+<li>list 的元素支持不同的数据类型，L = [‘abc’,23,23.4]</li>
+<li>list 的元素支持嵌套另外一个 list：s = [‘abc',123,[‘XYZ’,2.34]]，注意这个时候len(s) 的元素是 3 个</li>
+<li>list 也可以没有元素，就是一个空的 list，它的长度为 0</li>
+</ol>
+</li>
+<li>tuple：元组，也是一种有序列表，但是 tuple 一旦初始化就不能修改，他没有 append() 也没有 insert()，这样的方法，其他获取元素的方式和 list 一样，也不能赋值成为另外的元素：
+<ol>
+<li>classmates = (‘Michael’,’Bob’,’Tracy’) 注意 list 用的是’[]’，而tuple用的是’()’</li>
+<li>tuple 有个问题，当你定义 1 个元素的时候，tuple 的 () 和数学公式中的小括号混淆，因此 python 规定，这种情况下面，当定义只有 1 个 tuple 时必须增加一个逗号’,’来消除歧义。</li>
+<li>tuple 的元素也可以为 list 或者 tuple，tuple 的元素不会改变，但是 list 是一个可以改变的有序数列，所以当 tuple 中包含 list 时，这个 tuple 是’可变的'</li>
+</ol>
+</li>
+<li>取出特定元素：L[[‘Apple’,’Google’,’Microsoft’],[‘Java’,’Python’,’C’]] ; L[1][1] = ‘Python'</li>
+</ol>
+</li>
+<li>条件判断
+<ol>
+<li>if：根据 python 的缩进规则，如果 if 语句的判断是 True，就会执行下面的语句，否则什么都不做</li>
+<li>else：也可以个 if 添加 else，意思就是，如果 if 的判断是 false，不要执行 if 的内容，执行 else 的内容</li>
+<li>elif：如果要嵌套多级判断条件的话，使用 elif，elif 是 else if 的缩写</li>
+<li>if 语句执行有个特点，它是自上而下的判断，如果某个判断的结果是 True，那么执行该判断对应的语句，就会忽略掉剩下的所有 elif 和 else，if 判断条件还可以简写：if x: 只要 x 是非零数值、非空字符串、非空 list 等，就判断为 True，</li>
+</ol>
+</li>
+<li>iput(): 需要注意的地方，默认input的返回类型是str，由于str不能直接整数比较，所以在碰到明明输入200，但是不能和201对比时，记住先要把str转化为整数，python提供了int()函数, 转化数据类型为int类型，但是如果输入’abc’则会得到1个ValueError的错误</li>
+<li>循环
+<ol>
+<li>for…in：依次把 list 或者 tuple 的每个元素迭代出来，for x in … ：循环就是把每个元素带入变量 x，然后执行缩进的语句：</li>
+<li>range() 函数：用来生成一个整数序列，再通过 list() 函数转换为 list，例如 range(5) 生成：0,1,2,3,4
+<ol>
+<li>list(range(5)) = [0,1,2,3,4]</li>
+<li>计算 1+...+100 的结果：for x in range(101): sum = sum +x</li>
+</ol>
+</li>
+<li>while 循环：只要条件满足，就不断循环，条件不足时退出循环：
+<ol>
+<li>计算 100 以内所有奇数之和：sum = 0,n = 99, while n &gt; 0: sum =sum +n; n = n-2</li>
+</ol>
+</li>
+<li>break: 在循环中，break 语句可以提前退出循环，当程序执行满足 break 条件的时候，就会退出循环</li>
+<li>continue: 在循环过程中，也可以通过 continue 语句，跳过当前的这次循环。</li>
+<li>注意：循环是让计算机做重复任务的有效方法，break 语句可以在循环过程总直接退出循环，continue 语句可以提前结束本轮循环，并直接进入下一轮循环，这两个语句通常必须配合 if 语句使用，但是尽量不要滥用这两个语句，因为当 break 和 continue 使用过多会导致代码执行逻辑分支过多，容易出错。</li>
+</ol>
+</li>
+<li>dict 和 set
+<ol>
+<li>dict：python 内置了字典：dict 的支持，全称：dictionary，在其他语言中也称之为 map，使用键值存储，具有极快的查找速度。</li>
+<li>对比 list 处理方式：会过滤整个 list 的元素，这导致 list 越长，耗时越长；dict 实现时，只需要创建 key-values 对应表，直接根据名字查找，无论这个表有多大，查找速度都不会变慢，但是内存消耗会大，典型用性能 (内存空间) 换时间。</li>
+<li>dict的初始化: d {‘Michael’:95,’Bob’:75,’Tracy’:85}  # 注意dict使用的是大括号’{}‘</li>
+<li>dict 的数据插入：d [‘Adam’] = 67 </li>
+<li>由于 dict 是根据 key 检索，所以 key 是固定的，一个 key 只能对应 1 个 value，所以当对 1 个 key 多次放入 value 时，后面的值会把前面的值冲掉： （类似变量）</li>
+<li>但是如果查询的 key 不存在，dict 会报错，KeyError，可以用 in 判断 key 是否存在：‘key’in d  : True/False</li>
+<li>通过 dict 的 get 方法，如果 key 不存在，可以返回 None，或者自己指定的值，d.get(‘Key’) , d.get(‘key’,-1)</li>
+<li>d.pop('key’): 删除 1 个 key，注意当 key 被删除是，相应的 value 也会被删除。</li>
+<li>另外注意：dict 内部存放的顺序和 key 放入的顺序是没有关系的：</li>
+<li>dict 应在需要高速查找的地方，正确使用 dict 非常重要，要牢记 1 点，dict 的 key 必须是不可变的对象，因为 dict 是根据 key 来计算 value 的位置，如果每次计算相同的 key 得到的结果不一样，那么 dict 内部就完全混乱了，这个通过 key 计算位置的算法称之为 Hash 算法。</li>
+<li>要保证 hash 的准确性，作为 key 的对象就不能改变，在 python 中，字符串·整数等都是不可变的，但是 list 是可以变的所以不能作为 key</li>
+<li>set：set 和 dict 类似，也是一组 key 的集合，但是不存储 value，由于 key 不能重复，所以，在 set 中，没有重复的 key 值。</li>
+<li>要创建一个set，需要提供一个list作为输入集合。 s = set([1,2,3])   : s = {1,2,3}</li>
+<li>注意 set 也不是有序的，而且重复在 set 存在的元素会被自动过滤：s = set([1,2,3,1,2,3,1,2,3])  s = {1,2,3}</li>
+<li>通过 s.add(key) 可以增加元素到 set 中，可以重复添加，但是不会有效果</li>
+<li>通过 s.remove(key) 可以删除元素</li>
+<li>set 可以看成数学意义上的无序和无重复元素的集合，因此两个 set 可以做数学意义上的交集、并集能操作：
+<ol>
+<li>s1 = set([1,2,3]), s2 = set([2,3,4]) ,交集：s1 &amp; s2 = {2,3} ; s1 | s2 = {1,2,3,4}</li>
+</ol>
+</li>
+<li>set 和 dict 的区别仅在于有没有存储对应的 value，但是 set 和 dict 的原理是一样的，所以，同样不可以放置可变对象，因为无法判断两个对象是否相等，也就无法保证 set 内部的不会重复元素</li>
+<li>不可变对象：str 是不变对象，list 是可变对象；对于可变对象，例如 list，对 list 进行操作，list 的内部会发生变化</li>
+<li>a = ‘abc’ , a.replace(‘a’,’A’) # 这个操作是把所有小写的 a 替换成大写的 A，但是注意 a 的值并没有发生改变，要牢记 a 是变量，’abc'才是字符对象。</li>
+</ol>
+</li>
+</ol>
+</body>
+</html>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-11-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/11/MySQL-5-%E6%B8%85%E7%A9%BA%E8%A1%A8%E5%91%BD%E4%BB%A4%E4%B9%8B-truncate%E4%B8%8Edelete%E5%8C%BA%E5%88%AB.html">MySQL 清空表命令之：truncate 与 delete 区别</a></h1>
+    <div class="post_at_index">
+      <p>在实际工作中，有时我们会想要去清空一张表的所有数据，常用的命令有 delete 和 truncate 这两个命令。</p>
+
+<h3 id="1-delete">1. delete</h3>
+
+<p>在很多情况，我们对于 delete 的应用更多，因为它支持更多的匹配模式，我们可以使用 where 条件语句，清理一些特定的数据，关于 delete 的操作，这里不做过多解释，有空就专门写写 delete 的使用和原理。delete 在清空表时，如果表内有自增 ID 的设定，那么在 delete 清空之后，再插入数据时，自增 ID 不会从 1 开始，默认会继续增加; 除非我们使用 OPTIMIZE TABLE，重置表属性；</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">delete</span> <span class="k">from</span> <span class="n">piwik_tmp</span><span class="p">;</span>
+<span class="n">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="2-truncate">2. truncate</h3>
+
+<p>truncate 在清空表时，会同时将自增 ID 重置，再插入新数据时会从 1 开始，而且 truncate 在清空表时，不关心表的行数，所以执行效率会高于 delete；</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">truncate</span> <span class="k">table</span> <span class="n">piwik_tmp</span><span class="p">;</span>
+<span class="n">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">01</span> <span class="n">sec</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h3 id="3-释放表空间">3. 释放表空间</h3>
+
+<p>但是在 truncate 清空表数据时，myisam 的表和 innodb 的表在使用上有一定的区别；myisam 表会清空所有数据，并释放表空间，即硬盘空间会得到释放。innodb 表也会清空所有数据，但不释放表空间。Innodb 数据库对于已经删除的数据只是标记为删除，并不真正释放所占用的磁盘空间，这就导致 InnoDB 数据库文件不断增长。如果想彻底释放这些已经删除的数据，需要把数据库导出，删除 InnoDB 数据库文件，然后再导入。</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="err">备份数据库：</span>
+<span class="n">mysqldump</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">p</span> <span class="c1">--quick --force --all-databases &gt; mysqldump.sql</span>
+
+<span class="o">#</span> <span class="err">停止数据库</span>
+<span class="n">service</span> <span class="n">mysqld</span> <span class="n">stop</span>
+
+<span class="o">#</span> <span class="err">删除这些大文件</span>
+<span class="n">rm</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">ibdata1</span>
+<span class="n">rm</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">ib_logfile</span><span class="o">*</span>
+
+<span class="o">#</span> <span class="err">手动删除除</span><span class="n">Mysql</span><span class="err">之外所有数据库文件夹，然后启动数据库</span>
+<span class="n">service</span> <span class="n">mysqld</span> <span class="k">start</span>
+
+<span class="o">#</span> <span class="err">还原数据</span>
+<span class="n">mysql</span> <span class="o">-</span><span class="n">uroot</span> <span class="o">-</span><span class="n">proot</span> <span class="o">&lt;</span> <span class="n">mysqldump</span><span class="p">.</span><span class="k">sql</span>
+</code></pre></div></div>
+
+<h3 id="4-innodb_file_per_table">4. innodb_file_per_table</h3>
+
+<p>还有一种方式是在创建数据库的时候设置 innodb_file_per_table，这样 InnoDB 会对每个表创建一个数据文件，然后只需要运行 OPTIMIZE TABLE 命令就可以释放所有已经删除的磁盘空间。</p>
+
+<h4 id="41-修改-mysql-默认配置文件">4.1 修改 mysql 默认配置文件</h4>
+
+<p>编辑 my.ini 或 my.cnf 在 innodb 段中加入 innodb_file_per_table=1 # 1 为启用，0 为禁用</p>
+
+<h4 id="42-查看修改结果">4.2 查看修改结果</h4>
+
+<p>通过 mysql 语句可以查看该变量的值：</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="n">variables</span> <span class="k">like</span> <span class="s1">'%per_table%'</span><span class="p">;</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-11-09</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#MySQL">MySQL</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/10/SSH-LINUX-Security-Settings.html">SSH LINUX Security Settings</a></h1>
+    <div class="post_at_index">
+      <h2 id="ssh-配置安全控制限制登录"><strong>SSH 配置安全控制限制登录</strong></h2>
+
+<h3 id="1-只允许某个-ip-登录拒绝其他所有-ip">1. 只允许某个 IP 登录，拒绝其他所有 IP</h3>
+
+<p>在 /etc/hosts.allow 增加：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sshd: 1.2.3.4
+</code></pre></div></div>
+
+<p>在 /etc/hosts.deny 增肌：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sshd: ALL
+</code></pre></div></div>
+
+<p>用 iptables 也行：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables <span class="nt">-A</span> INPUT <span class="nt">-p</span> tcp <span class="nt">--dport</span> 22 <span class="nt">-j</span> DROP
+iptables <span class="nt">-A</span> INPUT <span class="nt">-p</span> tcp <span class="nt">--dport</span> 22 <span class="nt">-s</span> 1.2.3.4 <span class="nt">-j</span> ACCEPT
+</code></pre></div></div>
+
+<h2 id="2-禁止某个用户通过-ssh-登录">2. 禁止某个用户通过 ssh 登录</h2>
+
+<p>在/etc/ssh/sshd_conf添加</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AllowUsers 用户名
+或者
+AllowGroups 组名
+或者
+DenyUsers 用户名
+</code></pre></div></div>
+
+<h2 id="3-设定登录黑名单">3. 设定登录黑名单</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@6 ~]# vim /etc/pam.d/sshd
+auth required /lib/security/pam_listfile.so <span class="nv">item</span><span class="o">=</span>user <span class="nv">sense</span><span class="o">=</span>deny <span class="nv">file</span><span class="o">=</span>/etc/sshd_user_deny_list <span class="nv">onerr</span><span class="o">=</span>succeed
+<span class="c"># 所有/etc/sshd_user_deny_list里面的用户被拒绝ssh登录</span>
+</code></pre></div></div>
+
+<h2 id="4-sshd_config-配置">4. sshd_config 配置</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 关于 SSH Server 的整体设定，包含使用的 port 啦，以及使用的密码演算方式</span>
+Port 22　　　　　　　　　　# SSH 预设使用 22 这个 port，您也可以使用多的 port ！
+　　　　　　　　　　　　　 <span class="c"># 亦即重复使用 port 这个设定项目即可！</span>
+Protocol 2,1　　　　　　　 <span class="c"># 选择的 SSH 协议版本，可以是 1 也可以是 2 ，</span>
+　　　　　　　　　　　　　 <span class="c"># 如果要同时支持两者，就必须要使用 2,1 这个分隔了！</span>
+<span class="c">#ListenAddress 0.0.0.0　　 # 监听的主机适配卡！举个例子来说，如果您有两个 IP，</span>
+　　　　　　　　　　　　　 <span class="c"># 分别是 192.168.0.100 及 192.168.2.20 ，那么只想要</span>
+　　　　　　　　　　　　　 <span class="c"># 开放 192.168.0.100 时，就可以写如同下面的样式：</span>
+ListenAddress 192.168.0.100          <span class="c"># 只监听来自 192.168.0.100 这个 IP 的SSH联机。</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># 如果不使用设定的话，则预设所有接口均接受 SSH</span>
+PidFile /var/run/sshd.pid　　　　　　# 可以放置 SSHD 这个 PID 的档案！左列为默认值
+LoginGraceTime 600　　　　 <span class="c"># 当使用者连上 SSH server 之后，会出现输入密码的画面，</span>
+　　　　　　　　　　　　　 <span class="c"># 在该画面中，在多久时间内没有成功连上 SSH server ，</span>
+　　　　　　　　　　　　　 <span class="c"># 就断线！时间为秒！</span>
+Compression <span class="nb">yes</span>　　　　　　# 是否可以使用压缩指令？当然可以啰！
+
+<span class="c"># 说明主机的 Private Key 放置的档案，预设使用下面的档案即可！</span>
+HostKey /etc/ssh/ssh_host_key　　　　# SSH version 1 使用的私钥
+HostKey /etc/ssh/ssh_host_rsa_key　　# SSH version 2 使用的 RSA 私钥
+HostKey /etc/ssh/ssh_host_dsa_key　　# SSH version 2 使用的 DSA 私钥
+<span class="c"># 关于 version 1 的一些设定！</span>
+KeyRegenerationInterval 3600　 　　　# 由前面联机的说明可以知道， version 1 会使用
+　　　　　　　　　　　　　　　　　　 <span class="c"># server 的 Public Key ，那么如果这个 Public</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># Key 被偷的话，岂不完蛋？所以需要每隔一段时间</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># 来重新建立一次！这里的时间为秒！</span>
+ServerKeyBits 768 　　　　　　　　　 <span class="c"># 没错！这个就是 Server key 的长度！</span>
+
+<span class="c"># 关于登录文件的讯息数据放置与 daemon 的名称！</span>
+SyslogFacility AUTH　　　　　　　　　# 当有人使用 SSH 登入系统的时候，SSH会记录资
+　　　　　　　　　　　　　　　　　　 <span class="c"># 讯，这个信息要记录在什么 daemon name 底下？</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># 预设是以 AUTH 来设定的，即是 /var/log/secure</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># 里面！什么？忘记了！回到 Linux 基础去翻一下</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># 其它可用的 daemon name 为：DAEMON,USER,AUTH,</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># LOCAL0,LOCAL1,LOCAL2,LOCAL3,LOCAL4,LOCAL5,</span>
+LogLevel INFO　　　　　　　　　　　　# 登录记录的等级！嘿嘿！任何讯息！
+　　　　　　　　　　　　　　　　　　 <span class="c"># 同样的，忘记了就回去参考！</span>
+
+<span class="c"># 登入设定部分</span>
+PermitRootLogin no　　 　　# 是否允许 root 登入！预设是允许的，但是建议设定成 no！
+UserLogin no　　　　　　　 <span class="c"># 在 SSH 底下本来就不接受 login 这个程序的登入！</span>
+StrictModes <span class="nb">yes</span>　　　　　　# 当使用者的 host key 改变之后，Server 就不接受联机，
+　　　　　　　　　　　　　 <span class="c"># 可以抵挡部分的木马程序！</span>
+<span class="c">#RSAAuthentication yes　　 # 是否使用纯的 RSA 认证！？仅针对 version 1 ！</span>
+PubkeyAuthentication <span class="nb">yes</span>　 <span class="c"># 是否允许 Public Key ？当然允许啦！只有 version 2</span>
+AuthorizedKeysFile      .ssh/authorized_keys
+　　　　　　　　　　　　　 <span class="c"># 上面这个在设定若要使用不需要密码登入的账号时，那么那个</span>
+　　　　　　　　　　　　　 <span class="c"># 账号的存放档案所在档名！</span>
+Allowusers root@222.XX.XX.XX. <span class="c">#设置允许root帐号只能以222.XX.XX.XX这个IP进行ssh连接</span>
+
+<span class="c"># 认证部分</span>
+RhostsAuthentication no　　# 本机系统不止使用 .rhosts ，因为仅使用 .rhosts 太
+　　　　　　　　　　　　　 <span class="c"># 不安全了，所以这里一定要设定为 no ！</span>
+IgnoreRhosts <span class="nb">yes</span>　　　　　 <span class="c"># 是否取消使用 ~/.ssh/.rhosts 来做为认证！当然是！</span>
+RhostsRSAAuthentication no <span class="c"># 这个选项是专门给 version 1 用的，使用 rhosts 档案在</span>
+　　　　　　　　　　　　　 <span class="c"># /etc/hosts.equiv配合 RSA 演算方式来进行认证！不要使用</span>
+HostbasedAuthentication no <span class="c"># 这个项目与上面的项目类似，不过是给 version 2 使用的！</span>
+IgnoreUserKnownHosts no　　# 是否忽略家目录内的 ~/.ssh/known_hosts 这个档案所记录
+　　　　　　　　　　　　　 <span class="c"># 的主机内容？当然不要忽略，所以这里就是 no 啦！</span>
+PasswordAuthentication <span class="nb">yes</span> <span class="c"># 密码验证当然是需要的！所以这里写 yes 啰！</span>
+PermitEmptyPasswords no　　# 若上面那一项如果设定为 <span class="nb">yes </span>的话，这一项就最好设定
+　　　　　　　　　　　　　 <span class="c"># 为 no ，这个项目在是否允许以空的密码登入！当然不许！</span>
+ChallengeResponseAuthentication <span class="nb">yes</span>  <span class="c"># 挑战任何的密码认证！所以，任何 login.conf</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># 规定的认证方式，均可适用！</span>
+<span class="c">#PAMAuthenticationViaKbdInt yes      # 是否启用其它的 PAM 模块！启用这个模块将会</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># 导致 PasswordAuthentication 设定失效！</span>
+
+<span class="c"># 与 Kerberos 有关的参数设定！因为我们没有 Kerberos 主机，所以底下不用设定！</span>
+<span class="c">#KerberosAuthentication no</span>
+<span class="c">#KerberosOrLocalPasswd yes</span>
+<span class="c">#KerberosTicketCleanup yes</span>
+<span class="c">#KerberosTgtPassing no</span>
+　
+<span class="c"># 底下是有关在 X-Window 底下使用的相关设定！</span>
+X11Forwarding <span class="nb">yes</span>
+<span class="c">#X11DisplayOffset 10</span>
+<span class="c">#X11UseLocalhost yes</span>
+<span class="c"># 登入后的项目：</span>
+PrintMotd no              <span class="c"># 登入后是否显示出一些信息呢？例如上次登入的时间、地点等</span>
+　　　　　　　　　　　　　# 等，预设是 <span class="nb">yes</span> ，但是，如果为了安全，可以考虑改为 no ！
+PrintLastLog <span class="nb">yes</span>　　　　　# 显示上次登入的信息！可以啊！预设也是 <span class="nb">yes</span> ！
+KeepAlive <span class="nb">yes</span>　　　　　　 <span class="c"># 一般而言，如果设定这项目的话，那么 SSH Server 会传送</span>
+　　　　　　　　　　　　　# KeepAlive 的讯息给 Client 端，以确保两者的联机正常！
+　　　　　　　　　　　　　# 在这个情况下，任何一端死掉后， SSH 可以立刻知道！而不会
+　　　　　　　　　　　　　# 有僵尸程序的发生！
+UsePrivilegeSeparation <span class="nb">yes</span> <span class="c"># 使用者的权限设定项目！就设定为 yes 吧！</span>
+MaxStartups 10　　　　　　# 同时允许几个尚未登入的联机画面？当我们连上 SSH ，
+　　　　　　　　　　　　　# 但是尚未输入密码时，这个时候就是我们所谓的联机画面啦！
+　　　　　　　　　　　　　# 在这个联机画面中，为了保护主机，所以需要设定最大值，
+　　　　　　　　　　　　　# 预设最多十个联机画面，而已经建立联机的不计算在这十个当中
+
+<span class="c"># 关于使用者抵挡的设定项目：</span>
+DenyUsers <span class="k">*</span>　　　　　　　 <span class="c"># 设定受抵挡的使用者名称，如果是全部的使用者，那就是全部</span>
+　　　　　　　　　　　　　# 挡吧！若是部分使用者，可以将该账号填入！例如下列！
+DenyUsers <span class="nb">test
+</span>DenyGroups <span class="nb">test</span>　　　　　 <span class="c"># 与 DenyUsers 相同！仅抵挡几个群组而已！</span>
+
+<span class="c"># 关于 SFTP 服务的设定项目！</span>
+Subsystem       sftp    /usr/lib/ssh/sftp-server
+如果不愿意开放 SFTP 的话，将这一行批注掉即可！
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-10-29</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#SSH">SSH</a>
       
       
       
@@ -1504,7 +1659,7 @@ distroverpkg 的值，并不是明文，而是“redhat-release”。不知道�
             <li class="active"><a>17</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page23">23</a></li>
+          <li><a href="/page24">24</a></li>
         
 
         
@@ -1555,7 +1710,7 @@ distroverpkg 的值，并不是明文，而是“redhat-release”。不知道�
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>18</span>
+    		数据库 <span>19</span>
     	</a></li>
      
     	
@@ -1739,8 +1894,8 @@ distroverpkg 的值，并不是明文，而是“redhat-release”。不知道�
     	</a></li>
      
     	
-      <li><a href="/categories.html#NaN">
-    		NaN <span>1</span>
+      <li><a href="/categories.html#Network">
+    		Network <span>1</span>
     	</a></li>
      
     	
@@ -1784,13 +1939,53 @@ distroverpkg 的值，并不是明文，而是“redhat-release”。不知道�
     	</a></li>
      
     	
+      <li><a href="/categories.html#Kubernetes">
+    		Kubernetes <span>10</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Github">
     		Github <span>1</span>
     	</a></li>
      
     	
+      <li><a href="/categories.html#kubernetes">
+    		kubernetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#腾讯云">
+    		腾讯云 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#阿里云">
+    		阿里云 <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Gitlab">
     		Gitlab <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#前端">
+    		前端 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#DaoCloud Enterprise">
+    		DaoCloud Enterprise <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kubrnetes">
+    		Kubrnetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kafka">
+    		Kafka <span>1</span>
     	</a></li>
      
     	
@@ -1841,9 +2036,21 @@ df = pandas.read_csv(‘somefile.txt’)
         </li>
         
         <li>
-          <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
-          王路
-12 highlights
+          <a href="/post/2022/10/JWT-%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F.html">JWT 内置的方式</a>
+          
+  支持为 API 启用 jwt token 解码的能力 ,  读取网关的 jwt key
+    
+      读取请求 Header 中的 Authorization
+    
+  
+  需要支持为网关配置多 jwt key , and 加密长度 ?
+    
+      解密的性能问题
+      expire_time 过期时间的配置
+      解密后的参数传递
+    
+  
+
 
 
         </li>

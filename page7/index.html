@@ -233,6 +233,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -276,20 +280,98 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2021/08/%E5%B8%B8%E7%94%A8SQL.html">常用 SQL-拼接日期</a></h1>
+    <h1><a class="title" href="/post/2022/01/get-current-timestamp.html">get current timestamp</a></h1>
     <div class="post_at_index">
-      <h2 id="concat_ws">concat_ws</h2>
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">time</span>
+<span class="n">millis</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))</span>
+<span class="k">print</span> <span class="n">millis</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">time</span>
+
+<span class="n">current_milli_time</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))</span>
+
+<span class="n">current_milli_time</span><span class="p">()</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-01-03</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/01/%E8%BD%AC%E8%BD%BD-Apollo%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E9%85%8D%E7%BD%AE%E7%83%AD%E5%8F%91%E5%B8%83.html">Apollo 如何实现配置热发布</a></h1>
+    <div class="post_at_index">
+      <p>配置中心在微服务架构体系中是非常重要的基础设施服务，承担着分布式配置集中管理、配置热发布以及审计等重要的职责。本文主要探讨 Apollo 配置中心的配置热发布特性如何实现。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1641235647447-4020ae67-bd11-4fde-bd75-930cd6bec2de.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>如上图所示，配置发布的主流程如下：</p>
 
 <ul>
-  <li>concat_ws(‘-‘,year,month,day) =&gt; ‘2021-4-15’   拼接日期</li>
+  <li>（1）用户通过 Portal 向 AdminService 发布配置信息；</li>
+  <li>（2）AdminService 在配置发布后会往 ReleaseMessage 表插入一条消息记录；</li>
+  <li>（3）ConfigService 中包含了一个定时线程，该定时线程每秒扫描一次 ReleaseMessage 表，检查表中是否有新的消息记录；</li>
+  <li>（4）如果存在配置更新，ConfigService 就会通知所有的消息监听器；</li>
+  <li>（5）通知 Controller 会根据发布的配置信息通知对应的客户端；</li>
+</ul>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1641235647465-f12e26b4-9ab7-496d-8a0a-227b36142f00.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>这里的配置更新推送其实并不是真正进行信息推送，而是通过长轮询来实现配置的更新。实际上并不是配置的更新推送，而是配置更新通知的推送，客户端拿到通知后需要进一步获取具体的变化的配置信息。</p>
+
+<p>长轮询
+（1）如果使用 Push 方式推送数据会有什么问题？</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1641235647464-e43d03b0-0814-4f71-b730-fae9a30058d3.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>服务端需要与客户端建立长连接，服务端有数据更新的时候可以进行数据推送，数据更新比较及时。但是服务端无法感知客户端的处理能力，可能会造成数据积压。另外集群情况下部分节点不在线会通知失败，等客户端又在线后需要进行补偿推送，节点还有可能存在扩容等各种情况。对于配置中心这种业务场景来说，通过 Push 方式实现数据推动显得复杂了。</p>
+
+<p>（2）如果使用 Pull 方式拉取数据会有什么问题？</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1641235647430-bb402569-7dfe-4001-9084-286881bb78b7.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>Pull 模式主要是通过客户端主动向配置中心进行数据请求，拉取对应的配置信息。由于是客户端主动拉取，因此不会出现数据堆积的问题。但是数据如何去拉，什么时间去拉，拉的频率如何控制，这些都是问题。如果频率过高，而配置并未更新，那么就会对服务端造成不必要的连接压力。如果频率过低，那么配置更新就会存在延时的问题。因此同样不适合配置中心的业务场景。</p>
+
+<p>（3）长轮询</p>
+
+<p>客户端向配置中心进行请求，配置中心不会立即返回响应，而是会 hold 住这个请求直到指定时间超时后进行返回。如果没有配置变更，则返回 Http 状态码 304 给客户端。超时返回后，客户端将再次发起请求。</p>
+
+<p>如果存在配置变更，将返回对应的 namespace 信息，客户端根据 namespace 信息获取对应的配置信息。
+另外为了保证配置的有效性，客户端也会定时请求配置信息，防止配置更新可能出现的异常情况，是一种数据保证的兜底 fallback 机制。另外当获取到配置后，会同步到本地配置文件中。这样即便客户端与配置中心无法通信，客户端也可以从本地配置文件中获取配置信息。</p>
+
+<p>那么问题来了，为什么不直接在长轮询的响应中直接回复配置信息呢？主要是由于本身已经存在了定时拉取配置的步骤，那么为了保证单一原则以及代码上的简洁以及复用。所以通过这种获取配置更新后再进行数据拉取的方式。</p>
+
+<h3 id="apollo-客户端获取配置信息">Apollo 客户端获取配置信息</h3>
+
+<p>我们一起看下客户端如何工作流程，如下图：</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1641235647471-53df92c4-4efc-424b-83a4-c99c9d103a47.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<ul>
+  <li>（1）ConfigServiceLocator：主要负责向 Eruka 注册中心获取 ConfigService 地址列表信息；</li>
+  <li>（2）RemoteConfigLongPollService：从 ConfigServiceLocator 获取到地址列表信息后，通过长轮询的方式获取配置变更信息；</li>
+  <li>（3）RemoteConfigReposity：从 ConfigService 获取变更的配置数据；</li>
+  <li>（4）LocalFileConfigReposity：把配置数据固化到本地，同时作为本地配置数据的来源；</li>
+  <li>（5）DefaultConfig：主要和业务方进行交互，提供配置获取方法，同时可以注册配置变更事件。</li>
 </ul>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-08-08</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SQL">SQL</a>
+      <cite>2022-01-03</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Apollo">Apollo</a>
+      , 
+      <a href="/tags.html#微服务">微服务</a>
       
       
       
@@ -298,62 +380,58 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/07/%E7%9F%A5%E4%B9%8E%E5%91%A8%E5%88%8A-%E5%8D%95%E8%BA%AB%E4%BC%9A%E4%B8%8A%E7%98%BE.html">知乎周刊・单身会上瘾</a></h1>
+    <h1><a class="title" href="/post/2021/11/git%E7%BB%88%E7%AB%AFclone%E5%8A%A0%E9%80%9F.html">Github 使用 SSH 拉取代码加速</a></h1>
     <div class="post_at_index">
-      <ul>
-  <li>我们所有的迷茫与纠结，恰恰因为我们把目光只放在「结婚」或者「不结婚」，我们辗转反侧，因为我们期盼只一种选择便可以带自己过幸福生活。</li>
-</ul>
+      <p>如果你本地也有代理服务比如：<code class="language-plaintext highlighter-rouge">Clash</code>、<code class="language-plaintext highlighter-rouge">Surge</code> 并已完成科学上网，这对访问 Github 起到一定的加速作用，但如果在终端使用，可以还需要一些额外配置，这里以 <code class="language-plaintext highlighter-rouge">Clash</code> 作为示例。</p>
 
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-07-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#读书笔记">读书笔记</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/07/%E5%9C%A8%E8%B0%B7%E6%AD%8C%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E5%AE%89%E8%A3%85.crx%E6%8F%92%E4%BB%B6.html">在谷歌浏览器中安装.crx 插件</a></h1>
-    <div class="post_at_index">
-      <p>下载插件：<a href="https://www.yuque.com/attachments/yuque/0/2021/zip/343806/1626953566160-f0ac0382-2820-497b-ac94-4d45bf856ab6.zip?_lake_card=%7B%22src%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2021%2Fzip%2F343806%2F1626953566160-f0ac0382-2820-497b-ac94-4d45bf856ab6.zip%22%2C%22name%22%3A%22immpkjjlgappgfkkfieppnmlhakdmaab_v0.9.8.74.zip%22%2C%22size%22%3A149152%2C%22type%22%3A%22application%2Fzip%22%2C%22ext%22%3A%22zip%22%2C%22status%22%3A%22done%22%2C%22taskId%22%3A%22uc49f92d7-8f44-47ac-9838-e24bd41e27c%22%2C%22taskType%22%3A%22upload%22%2C%22id%22%3A%22u573c41c9%22%2C%22card%22%3A%22file%22%7D">immpkjjlgappgfkkfieppnmlhakdmaab_v0.9.8.74.zip</a></p>
+<h2 id="1-加速你的浏览器">1. 加速你的浏览器</h2>
 
-<p>首先用户点击谷歌浏览器右上角的自定义及控制按钮，在下拉框中选择工具选项，然后点击扩展程序来启动 Chrome 浏览器的扩展管理器页面。</p>
+<p>默认情形下，你可能不需要做什么（在代理工作正常的情况下），浏览器的加速通过访问 <a href="https://github.com">Github</a> 最为直接。</p>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626952554504-3c460965-2e50-43f0-aae1-ea75eb41a0ea.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+<h2 id="2-加速你的终端-clone">2. 加速你的终端 clone</h2>
 
-<p>在打开的谷歌浏览器的扩展管理器中用户可以看到一些已经安装程序的 Chrome 插件，或者一个 Chrome 插件也没有。</p>
+<p>如果你需要在终端 clone 一个托管在 Github 的项目，默认情形下你可能会发现 终端内并未得到加速，还是一如既往的慢。</p>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626952554502-412d793c-6275-44d2-89af-b4f6f8a46f72.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<p>找到自己已经下载好的 Chrome 离线安装文件 xxx.crx，然后将其从资源管理器中拖动到 Chrome 的扩展管理界面中，这时候用户会发现在扩展管理器的中央部分中会多出一个”拖动以安装“的插件按钮。</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626952554380-ea8d6413-261e-4117-9b6d-809e6f2d03b3.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<p>松开鼠标就可以把当前正在拖动的插件安装到谷歌浏览器中去，但是谷歌考虑用户的安全隐私，在用户松开鼠标后还会给予用户一个确认安装的提示。</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626952554465-85ae5ac6-585c-40b9-80c1-dce5ccc78196.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<p>用户这时候只需要点击添加按钮就可以把该离线 Chrome 插件安装到谷歌浏览器中去，安装成功以后该插件会立即显示在浏览器右上角（如果有插件按钮的话），如果没有插件按钮的话，用户还可以通过 Chrome 扩展管理器找到已经安装的插件。</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626952554429-dc14b5fb-59e8-4426-85ba-c9743bfb12e6.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<p>用户只需要通过上面介绍的五个步骤就可以轻松地把离线谷歌浏览器插件安装到 Chrome 中去，希望这个离线 Chrome 插件的安装方法能够帮助到您或者是您的朋友。</p>
+<p>这是因为终端在默认情况下不会走代理，这里需要你进行一配置</p>
 
 <blockquote>
-  <p>出处 <a href="https://huajiakeji.com/utilities/2014-09/181.html">https://huajiakeji.com/utilities/2014-09/181.html</a></p>
+  <p>这里使用 iTerm2 为例</p>
+</blockquote>
+
+<h3 id="21-获取你的代理终端配置">2.1 获取你的代理终端配置</h3>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/CleanShot%202022-08-08%20at%2018.35.56.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<h3 id="22-使用-https-作为-clone-链接">2.2 使用 HTTPS 作为 clone 链接</h3>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/CleanShot%202022-08-08%20at%2018.37.08.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<p>这时将 <code class="language-plaintext highlighter-rouge">2.1</code> 剪切板获取的命名，放到终端中执行即可。</p>
+
+<blockquote>
+  <p>这样的方式适合拉取一个公开的仓库，或者对隐私仓库不使用 sshkey 进行代码的 <code class="language-plaintext highlighter-rouge">pull&amp;push</code></p>
+</blockquote>
+
+<h3 id="23-使用-git-作为-clone-的方式">2.3 使用 git 作为 clone 的方式</h3>
+
+<p>此时我们需要特殊处理下，给 git 配置上全局代理部分，这里配置下仅对 <code class="language-plaintext highlighter-rouge">github.com</code> 这个域名生效</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c"># 注意将 https://127.0.0.1:7890 后缀端口替换为</span>
+git config <span class="nt">--global</span> http.https://github.com.proxy https://127.0.0.1:7890
+git config <span class="nt">--global</span> https.https://github.com.proxy https://127.0.0.1:7890
+</code></pre></div></div>
+
+<blockquote>
+  <p>clashx pro 默认情况下是 7890; 早期 ss 默认配置为 10086</p>
 </blockquote>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-07-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
+      <cite>2021-11-29</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Git">Git</a>
       
       
       
@@ -362,76 +440,48 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/06/iPhone_iPad-%E4%B8%8D%E8%B6%8A%E7%8B%B1%E5%AE%89%E8%A3%85%E6%97%A7%E7%89%88%E7%A8%8B%E5%BA%8F.html">iPhone/iPad 不越狱安装旧版程序</a></h1>
+    <h1><a class="title" href="/post/2021/11/%E9%92%89%E9%92%89%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F%E5%B7%A5%E5%85%B7.html">钉钉内网穿透工具</a></h1>
     <div class="post_at_index">
-      <h2 id="前言">前言</h2>
+      <blockquote>
+  <p><a href="https://developers.dingtalk.com/document/resourcedownload/http-intranet-penetration?pnamespace=tutorial">https://developers.dingtalk.com/document/resourcedownload/http-intranet-penetration?pnamespace=tutorial</a></p>
+</blockquote>
 
-<p>软件版本迭代是会带来新的功能和 BUG 修复，为给用户带来更好的使用体验，我也是乐于尝鲜的性格，所以在软件推出发布新版本时都会及时更新，但用户体验其实是一个玄学的话题，有时并不能给你带来更好的体验，在 iOS 上，由于苹果商店严格的管理机制导致我们在升级后，想要回退到之前版本变得十分困难。</p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630637171967-d3907c05-e99f-4b27-b4ca-3047423021f8.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
 
-<p>虾米音乐升级到 6.0 版本之后，改变很大，作为一位老虾米非常不适应，所以就瞄准了 6.0 之前的最后一个版本：5.9.4。</p>
+<h2 id="使用方法">使用方法</h2>
 
-<p>解决办法是在 iTunes 下载程序时，使用抓包工具对与苹果应用商店服务器之间的请求进行分析，通过修改下载请求中程序版本识别序列号来下载旧版本。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">dingtalk</span><span class="o">/</span><span class="n">pierced</span><span class="p">.</span><span class="n">git</span>
 
-<h2 id="准备">准备</h2>
+<span class="n">cd</span>  <span class="n">pierced</span><span class="o">/</span><span class="n">mac_64</span>
+<span class="p">.</span><span class="o">/</span><span class="n">ding</span> <span class="o">-</span><span class="n">config</span><span class="o">=</span><span class="p">.</span><span class="o">/</span><span class="n">ding</span><span class="p">.</span><span class="n">cfg</span> <span class="o">-</span><span class="n">subdomain</span><span class="o">=</span><span class="n">abcde</span> <span class="mi">5000</span>
 
-<p>网上较多的解决办法是使用 Fiddler+iTunes 是在 Windows 平台，因为我只有 Mac，所以用 Charles 代替 Fiddler，这里需要注意的是 iTunes 的版本，在笔者写这篇教程的前一天 iTunes 更新到 12.7，在 12.7 中有一个很大的变化移除了 App store，所以请使用低于 12.7 版本的 iTunes。</p>
+<span class="c1"># usage:  命令 -config=配置文件 [不需要修改] -subdomain=项目域名 Port
+# 代理主域名是 abcde.vaiwan.com 暴露的域名就是 subdomain.vaiwan.com
+</span></code></pre></div></div>
 
-<h3 id="charles-安装">Charles 安装</h3>
+<p>通过以上命令：会将本地端口为 5000 代理到 公网域名 abcde.vaiwan.com；启动成功后会展示如下页面，并会打印出对应的请求记录</p>
 
-<p>对于 Charles 版本并没有特殊要求，我这边是通过 brew 安装，你也可以到 Charles 官网下载安装，Charles 是需要付费的软件，但是有 30 天免费使用期限，如果你有长期使用打算，建议购买正版授权。</p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630637171919-e53839a7-fc1d-4796-8f96-1235722dc38c.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/x4dkc.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+<h2 id="调试辅助">调试辅助</h2>
 
-<h3 id="charles-ssl-证书导入系统">Charles SSL 证书导入系统</h3>
+<p>在运行成功后，会看到一个 <code class="language-plaintext highlighter-rouge">Web Interface</code> 运行在本地 <code class="language-plaintext highlighter-rouge">http://127.0.0.1:4040</code> 这是一个非常友好的调试界面，可以让你这边看到每个请求的日志信息</p>
 
-<p>从 Charles 中导出证书文件</p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630637171928-a64116ae-eb01-4308-8a21-c1fe3ab30df5.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/v815e.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+<p>细心的话，你也可以注意到，在每个接口的页面上的右侧有个 <code class="language-plaintext highlighter-rouge">Retry</code> 的按钮，这个是可以方便我们对接口进行重试</p>
 
-<p>在 KeyChain Access 中导入证书</p>
+<h2 id="结语">结语</h2>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/883p7.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<p>选中导入的证书，然后右键选择 ‘Get Info’ ，设置证书信任状态</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/xoalz.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<h2 id="虾米音乐的三次下载">“虾米音乐”的三次下载</h2>
-
-<h3 id="第一次下载">第一次下载</h3>
-
-<p>打开 Charles，开启监听，然后使用搜索虾米音乐，点击 Downloads 按钮。</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/6dt52.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<p>点击下载后，在 Charles 会出现监听到信息，找到一条 ‘p[xx]-buy.itunes.apple.com’ ，其中 xx 是一个随机的数字，选中它，然后右键菜单栏中勾选 ‘Enable SSL Proxying’ 和 ‘Breakpoints’ 。设置完成后，在 iTunes 下载中，清理下载记录。</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/ea85i.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<h3 id="第二次下载">第二次下载</h3>
-
-<p>重新搜索虾米音乐，并点击下载按钮，这时 Charles 会弹出窗口，然后在弹出窗口的右下三个按钮中选择 ‘Execute’ ，这一步是我们请求服务器，紧接着出现的就是服务器给我们的响应，然后选择 ‘Edit Response’ - ‘XML Text’ ，然后向下滚动找到下图中的部分，这里是所有虾米音乐的版本的序列数字，但是这里没有办法直接看到版本号，越大的数字版本号越新。这里可以通过在手机 App store 中查看软件的版本记录，找到大概要回退多少个版本，然后数字从大到小找个半个序列数字记录下来，然后在下面三个按钮中选择 ‘Abort’ ，这时 iTunes 会弹出一个报错窗口，关掉即可。</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/27nit.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<h3 id="第三次下载">第三次下载</h3>
-
-<p>再次重新搜索虾米音乐，并点击下载，在这次 Charles 弹出窗口中我们需要直接修改 ‘Edit Requset’ - ‘XML Text’ ，将如下图中的 ‘appExtVrsid’ 对应的值修改为，我们上一步中记录的序列数字，然后就一直在每次弹出选择时，选择 ‘Execute’ ，直到下载完成记录。</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/h7zzu.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<h2 id="验证">验证</h2>
-
-<p>下载完成后，你的 iTunes App Library 中已经有了一个虾米音乐，连接上你的手机，将其安装到手机上即可，下图是我安装后的版本截图。</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/ppy2m.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+<p>同时支持 MacOS/Windows 使用的前置成本上，要比花生壳的内网穿透简单很多；我主要使用在开发钉钉 bot 阶段，大大减少的发布到服务端和查看日志的时间；感谢钉钉团队提供了这么友好的工具</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-06-25</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
+      <cite>2021-11-19</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Tools">Tools</a>
       
       
       
@@ -440,44 +490,16 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/06/Mac-%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%BD%95%E5%88%B6GiF%E5%B0%8F%E8%A7%86%E9%A2%91.html">Mac 如何快速录制 GiF 小视频</a></h1>
+    <h1><a class="title" href="/post/2021/11/%E5%BE%85%E5%AE%8C%E6%88%90-%E4%BD%BF%E7%94%A8%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%8E%88%E6%9D%83%E7%99%BB%E5%BD%95.html">使用钉钉三方授权登录</a></h1>
     <div class="post_at_index">
-      <p>在平时的沟通中经常有需要用到分享一个连续的操作等，在很多时候截图不能满足我的需求，录制视频文件的话呢，文件过大，不同平台限制过多是一个很麻烦的视频，所以录制 GIF 是一个非常好的解决办法，今天给大家推荐两款软件，关于录制 GIF 和 GIF 编辑。</p>
-
-<h2 id="录制工具-1-kap">录制工具 (1) Kap</h2>
-
-<p>Kap 是一款轻量级开源的 GIF 录制工具，这意味它是免费简单易用; 你可以从官网下载。官网</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/sbuwo.gif?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<p>安装完成，启动 Kap, 它是以一个圆环的形式显示在状态栏上，所有的界面都在这里，你可以点击红框直接开始录制，点击后你的屏幕上会出现一个虚线框，你可以通过拖动四角调整大小。</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/vcaug.gif?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<p>确定好录制范围之后，这时你发现 Kap 上红色录制按钮一个变成一个红色实心圆，再次单击即可开始录制。</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/9txw3.gif?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<p>在你操作完成之后，再次单击，即可结束录制。</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/lws2b.gif?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<h2 id="录制工具-2-macappquicktime-player">录制工具 (2) MacApp：QuickTime Player</h2>
-
-<p>以上管理 Kap 的使用 GIF 录制我是用过 Mac 自带的 QuickTime Player 录制，教程可以直接看 @JasonZone  的教程 链接</p>
-
-<h2 id="gif-编辑">GIF 编辑</h2>
-
-<p>在@JasonZone  最后使用的是一个网站进行了从 mov 转换为 gif 格式的操作，这里推荐一个 Mac 应用 Video to Gif Maker, 可以批量进行多个 GIF 文件转换，也支持在 GIF 增加文字或图片，这很实用。</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/5yogy.gif?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+      <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1637181122961-7f2d1719-4254-429b-b61f-884b0a82aaaf.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-06-12</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
+      <cite>2021-11-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -486,100 +508,65 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/04/%E5%BF%AB%E9%80%9F%E4%BA%86%E8%A7%A3MySQL%E6%97%B6%E9%97%B4%E8%8C%83%E5%9B%B4%E5%8F%82%E6%95%B0.html">快速了解 MySQL 时间范围参数</a></h1>
+    <h1><a class="title" href="/post/2021/11/Creating-DataFrame-using-list.html">Creating DataFrame using list</a></h1>
     <div class="post_at_index">
-      <h2 id="查询-30-天">查询 30 天</h2>
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+  
+<span class="c1"># list of strings
+</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'For'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'is'</span><span class="p">,</span> 
+            <span class="s">'portal'</span><span class="p">,</span> <span class="s">'for'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">]</span>
+  
+<span class="c1"># Calling DataFrame constructor on list
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+</code></pre></div></div>
 
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- 查询 30 天</span>
-<span class="k">select</span> <span class="n">DATE_SUB</span><span class="p">(</span><span class="n">CURDATE</span><span class="p">(),</span> <span class="n">INTERVAL</span> <span class="mi">30</span> <span class="k">DAY</span><span class="p">)</span> <span class="n">frm</span> <span class="k">table</span><span class="p">;</span>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326317905-b923391a-6135-482f-8b43-9a67e1f6245f.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># import pandas as pd
+</span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
 
-<span class="err">今天</span>
+<span class="c1"># list of strings
+</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'For'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'is'</span><span class="p">,</span> <span class="s">'portal'</span><span class="p">,</span> <span class="s">'for'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">]</span>
 
-<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="err">表名</span> <span class="k">where</span> <span class="n">to_days</span><span class="p">(</span><span class="err">时间字段名</span><span class="p">)</span> <span class="o">=</span> <span class="n">to_days</span><span class="p">(</span><span class="n">now</span><span class="p">());</span>
+<span class="c1"># Calling DataFrame constructor on list
+# with indices and columns specified
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span><span class="p">[</span><span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">,</span> <span class="s">'d'</span><span class="p">,</span> <span class="s">'e'</span><span class="p">,</span> <span class="s">'f'</span><span class="p">,</span> <span class="s">'g'</span><span class="p">],</span>
+           <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'Names'</span><span class="p">])</span>
+</code></pre></div></div>
 
-<span class="err">昨天</span>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326330330-97380b9c-a674-479c-a4f4-074ef3128aa3.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
-<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="err">表名</span> <span class="k">WHERE</span> <span class="n">TO_DAYS</span><span class="p">(</span> <span class="n">NOW</span><span class="p">(</span> <span class="p">)</span> <span class="p">)</span> <span class="o">-</span> <span class="n">TO_DAYS</span><span class="p">(</span> <span class="err">时间字段名</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span>
-
-<span class="mi">7</span><span class="err">天</span>
-
-<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="err">表名</span> <span class="k">where</span> <span class="n">DATE_SUB</span><span class="p">(</span><span class="n">CURDATE</span><span class="p">(),</span> <span class="n">INTERVAL</span> <span class="mi">7</span> <span class="k">DAY</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">date</span><span class="p">(</span><span class="err">时间字段名</span><span class="p">)</span>
-
-<span class="err">近</span><span class="mi">30</span><span class="err">天</span>
-
-<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="err">表名</span> <span class="k">where</span> <span class="n">DATE_SUB</span><span class="p">(</span><span class="n">CURDATE</span><span class="p">(),</span> <span class="n">INTERVAL</span> <span class="mi">30</span> <span class="k">DAY</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">date</span><span class="p">(</span><span class="err">时间字段名</span><span class="p">)</span>
-
-<span class="err">本月</span>
-
-<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="err">表名</span> <span class="k">WHERE</span> <span class="n">DATE_FORMAT</span><span class="p">(</span> <span class="err">时间字段名</span><span class="p">,</span> <span class="s1">'%Y%m'</span> <span class="p">)</span> <span class="o">=</span> <span class="n">DATE_FORMAT</span><span class="p">(</span> <span class="n">CURDATE</span><span class="p">(</span> <span class="p">)</span> <span class="p">,</span> <span class="s1">'%Y%m'</span> <span class="p">)</span>
-
-<span class="err">上一月</span>
-
-<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="err">表名</span> <span class="k">WHERE</span> <span class="n">PERIOD_DIFF</span><span class="p">(</span> <span class="n">date_format</span><span class="p">(</span> <span class="n">now</span><span class="p">(</span> <span class="p">)</span> <span class="p">,</span> <span class="s1">'%Y%m'</span> <span class="p">)</span> <span class="p">,</span> <span class="n">date_format</span><span class="p">(</span> <span class="err">时间字段名</span><span class="p">,</span> <span class="s1">'%Y%m'</span> <span class="p">)</span> <span class="p">)</span> <span class="o">=</span><span class="mi">1</span>
-
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Creating DataFrame using multi-dimensional list
+</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
  
-
-<span class="o">#</span><span class="err">查询本季度数据</span>
-<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="nv">`ht_invoice_information`</span> <span class="k">where</span> <span class="n">QUARTER</span><span class="p">(</span><span class="n">create_date</span><span class="p">)</span><span class="o">=</span><span class="n">QUARTER</span><span class="p">(</span><span class="n">now</span><span class="p">());</span>
-<span class="o">#</span><span class="err">查询上季度数据</span>
-<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="nv">`ht_invoice_information`</span> <span class="k">where</span> <span class="n">QUARTER</span><span class="p">(</span><span class="n">create_date</span><span class="p">)</span><span class="o">=</span><span class="n">QUARTER</span><span class="p">(</span><span class="n">DATE_SUB</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="n">interval</span> <span class="mi">1</span> <span class="n">QUARTER</span><span class="p">));</span>
-<span class="o">#</span><span class="err">查询本年数据</span>
-<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="nv">`ht_invoice_information`</span> <span class="k">where</span> <span class="nb">YEAR</span><span class="p">(</span><span class="n">create_date</span><span class="p">)</span><span class="o">=</span><span class="nb">YEAR</span><span class="p">(</span><span class="n">NOW</span><span class="p">());</span>
-<span class="o">#</span><span class="err">查询上年数据</span>
-<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="nv">`ht_invoice_information`</span> <span class="k">where</span> <span class="nb">year</span><span class="p">(</span><span class="n">create_date</span><span class="p">)</span><span class="o">=</span><span class="nb">year</span><span class="p">(</span><span class="n">date_sub</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="n">interval</span> <span class="mi">1</span> <span class="nb">year</span><span class="p">));</span>
-
+<span class="c1"># List1
+</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'tom'</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> <span class="p">[</span><span class="s">'krish'</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
+ <span class="p">[</span><span class="s">'nick'</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span> <span class="p">[</span><span class="s">'juli'</span><span class="p">,</span> <span class="mi">22</span><span class="p">]]</span>
  
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'Name'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">])</span>
+</code></pre></div></div>
 
-<span class="err">查询当前这周的数据</span> 
-<span class="k">SELECT</span> <span class="n">name</span><span class="p">,</span><span class="n">submittime</span> <span class="k">FROM</span> <span class="n">enterprise</span> <span class="k">WHERE</span> <span class="n">YEARWEEK</span><span class="p">(</span><span class="n">date_format</span><span class="p">(</span><span class="n">submittime</span><span class="p">,</span><span class="s1">'%Y-%m-%d'</span><span class="p">))</span> <span class="o">=</span> <span class="n">YEARWEEK</span><span class="p">(</span><span class="n">now</span><span class="p">());</span>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326375589-cd58c20f-3dde-4eeb-a097-19dd3bf3376a.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
-<span class="err">查询上周的数据</span>
-<span class="k">SELECT</span> <span class="n">name</span><span class="p">,</span><span class="n">submittime</span> <span class="k">FROM</span> <span class="n">enterprise</span> <span class="k">WHERE</span> <span class="n">YEARWEEK</span><span class="p">(</span><span class="n">date_format</span><span class="p">(</span><span class="n">submittime</span><span class="p">,</span><span class="s1">'%Y-%m-%d'</span><span class="p">))</span> <span class="o">=</span> <span class="n">YEARWEEK</span><span class="p">(</span><span class="n">now</span><span class="p">())</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-
-<span class="err">查询当前月份的数据</span>
-<span class="k">select</span> <span class="n">name</span><span class="p">,</span><span class="n">submittime</span> <span class="k">from</span> <span class="n">enterprise</span>   <span class="k">where</span> <span class="n">date_format</span><span class="p">(</span><span class="n">submittime</span><span class="p">,</span><span class="s1">'%Y-%m'</span><span class="p">)</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="s1">'%Y-%m'</span><span class="p">)</span>
-
-<span class="err">查询距离当前现在</span><span class="mi">6</span><span class="err">个月的数据</span>
-<span class="k">select</span> <span class="n">name</span><span class="p">,</span><span class="n">submittime</span> <span class="k">from</span> <span class="n">enterprise</span> <span class="k">where</span> <span class="n">submittime</span> <span class="k">between</span> <span class="n">date_sub</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="n">interval</span> <span class="mi">6</span> <span class="k">month</span><span class="p">)</span> <span class="k">and</span> <span class="n">now</span><span class="p">();</span>
-
-<span class="err">查询上个月的数据</span>
-<span class="k">select</span> <span class="n">name</span><span class="p">,</span><span class="n">submittime</span> <span class="k">from</span> <span class="n">enterprise</span>   <span class="k">where</span> <span class="n">date_format</span><span class="p">(</span><span class="n">submittime</span><span class="p">,</span><span class="s1">'%Y-%m'</span><span class="p">)</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="n">DATE_SUB</span><span class="p">(</span><span class="n">curdate</span><span class="p">(),</span> <span class="n">INTERVAL</span> <span class="mi">1</span> <span class="k">MONTH</span><span class="p">),</span><span class="s1">'%Y-%m'</span><span class="p">)</span>
-
-<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="nv">` user `</span> <span class="k">where</span> <span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">pudate</span><span class="p">,</span> <span class="s1">' %Y%m '</span> <span class="p">)</span> <span class="o">=</span> <span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">CURDATE</span><span class="p">(),</span> <span class="s1">' %Y%m '</span> <span class="p">)</span> <span class="p">;</span>
-
-<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="k">user</span> <span class="k">where</span> <span class="n">WEEKOFYEAR</span><span class="p">(</span><span class="n">FROM_UNIXTIME</span><span class="p">(</span><span class="n">pudate</span><span class="p">,</span><span class="s1">'%y-%m-%d'</span><span class="p">))</span> <span class="o">=</span> <span class="n">WEEKOFYEAR</span><span class="p">(</span><span class="n">now</span><span class="p">())</span>
-
-<span class="k">select</span> <span class="o">*</span> 
-<span class="k">from</span> <span class="k">user</span> 
-<span class="k">where</span> <span class="k">MONTH</span> <span class="p">(</span><span class="n">FROM_UNIXTIME</span><span class="p">(</span><span class="n">pudate</span><span class="p">,</span> <span class="s1">' %y-%m-%d '</span> <span class="p">))</span> <span class="o">=</span> <span class="k">MONTH</span> <span class="p">(</span><span class="n">now</span><span class="p">())</span>
-
-<span class="k">select</span> <span class="o">*</span> 
-<span class="k">from</span> <span class="p">[</span> <span class="k">user</span> <span class="p">]</span> 
-<span class="k">where</span> <span class="nb">YEAR</span> <span class="p">(</span><span class="n">FROM_UNIXTIME</span><span class="p">(</span><span class="n">pudate</span><span class="p">,</span> <span class="s1">' %y-%m-%d '</span> <span class="p">))</span> <span class="o">=</span> <span class="nb">YEAR</span> <span class="p">(</span><span class="n">now</span><span class="p">())</span>
-<span class="k">and</span> <span class="k">MONTH</span> <span class="p">(</span><span class="n">FROM_UNIXTIME</span><span class="p">(</span><span class="n">pudate</span><span class="p">,</span> <span class="s1">' %y-%m-%d '</span> <span class="p">))</span> <span class="o">=</span> <span class="k">MONTH</span> <span class="p">(</span><span class="n">now</span><span class="p">())</span>
-
-<span class="k">select</span> <span class="o">*</span> 
-<span class="k">from</span> <span class="p">[</span> <span class="k">user</span> <span class="p">]</span> 
-<span class="k">where</span> <span class="n">pudate</span> <span class="k">between</span> <span class="err">上月最后一天</span>
-<span class="k">and</span> <span class="err">下月第一天</span>
-
-<span class="k">where</span>   <span class="nb">date</span><span class="p">(</span><span class="n">regdate</span><span class="p">)</span>   <span class="o">=</span>   <span class="n">curdate</span><span class="p">();</span>
-
-<span class="k">select</span>   <span class="o">*</span>   <span class="k">from</span>   <span class="n">test</span>   <span class="k">where</span>   <span class="nb">year</span><span class="p">(</span><span class="n">regdate</span><span class="p">)</span><span class="o">=</span><span class="nb">year</span><span class="p">(</span><span class="n">now</span><span class="p">())</span>   <span class="k">and</span>   <span class="k">month</span><span class="p">(</span><span class="n">regdate</span><span class="p">)</span><span class="o">=</span><span class="k">month</span><span class="p">(</span><span class="n">now</span><span class="p">())</span>   <span class="k">and</span>   <span class="k">day</span><span class="p">(</span><span class="n">regdate</span><span class="p">)</span><span class="o">=</span><span class="k">day</span><span class="p">(</span><span class="n">now</span><span class="p">())</span>
-
-<span class="k">SELECT</span> <span class="nb">date</span><span class="p">(</span> <span class="n">c_instime</span> <span class="p">)</span> <span class="p">,</span><span class="n">curdate</span><span class="p">(</span> <span class="p">)</span>
-<span class="k">FROM</span> <span class="nv">`t_score`</span>
-<span class="k">WHERE</span> <span class="mi">1</span>
-<span class="k">LIMIT</span> <span class="mi">0</span> <span class="p">,</span> <span class="mi">30</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Using multi-dimensional list with column name and dtype specified.
+</span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+ 
+<span class="c1"># List1
+</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'tom'</span><span class="p">,</span> <span class="s">'reacher'</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> <span class="p">[</span><span class="s">'krish'</span><span class="p">,</span> <span class="s">'pete'</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
+ <span class="p">[</span><span class="s">'nick'</span><span class="p">,</span> <span class="s">'wilson'</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span> <span class="p">[</span><span class="s">'juli'</span><span class="p">,</span> <span class="s">'williams'</span><span class="p">,</span> <span class="mi">22</span><span class="p">]]</span>
+ 
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'FName'</span><span class="p">,</span> <span class="s">'LName'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">],</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
 </code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-04-18</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SQL">SQL</a>
+      <cite>2021-11-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Pandas">Pandas</a>
+      , 
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -588,58 +575,71 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/04/HQL_SQL%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86.html">HQL/SQL时间处理</a></h1>
+    <h1><a class="title" href="/post/2021/11/Metabase-%E8%B8%A9%E5%9D%91-%E8%B7%B3%E8%BD%AC%E9%93%BE%E6%8E%A5%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98.html">Metabase 踩坑：跳转链接的浏览器缓存</a></h1>
     <div class="post_at_index">
-      <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">--HQL ms</span>
-<span class="n">from_unixtime</span><span class="p">(</span><span class="k">CAST</span><span class="p">(</span><span class="n">obtained_ms</span><span class="o">/</span><span class="mi">1000</span> <span class="k">AS</span> <span class="nb">BIGINT</span><span class="p">),</span> <span class="s1">'yyyy-MM-dd HH:mm:ss'</span><span class="p">)</span>
+      <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635955971186-4f85ab8d-9d1e-46ab-bd20-ee914c91fade.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
-<span class="c1">--SQL ms</span>
-<span class="n">from_unixtime</span><span class="p">(</span><span class="n">time_in_ms</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>
+<h3 id="背景说明">背景说明</h3>
 
-<span class="c1">--SQL date</span>
-<span class="nb">date</span><span class="p">(</span><span class="n">from_unixtime</span><span class="p">(</span><span class="n">time_in_ms</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">))</span> <span class="k">as</span> <span class="n">dt</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-04-16</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SQL">SQL</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/03/%E7%9F%A5%E4%B9%8E%E5%91%A8%E5%88%8A-%E4%B9%94%E5%B8%83%E6%96%AF%E5%BE%80%E4%BA%8B.html">知乎周刊·乔布斯往事</a></h1>
-    <div class="post_at_index">
-      <p><a href="https://www.amazon.cn/s/ref=as_li_ss_tl?_encoding=UTF8\&amp;camp=536\&amp;creative=3132\&amp;field-keywords=%E7%9F%A5%E4%B9%8E%E5%91%A8%E5%88%8A%C2%B7%E4%B9%94%E5%B8%83%E6%96%AF%E5%BE%80%E4%BA%8B\&amp;linkCode=ur2\&amp;tag=llll1-23\&amp;url=search-alias%3Dbooks">知乎</a>
-4 highlights</p>
+<p>最近在使用 Metabase 做一个内部工具的跳转传送门，大概实现的方式是这样：
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635956694248-79aec951-9e6d-4360-b4e9-37bd2cefd740.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
 <ul>
-  <li>
-    <p>那些凡是搞不清楚自己所享受的器物的来历、奥妙、作用、差异、价值、韵味等等，但偏偏就是享受得起，并且还要拼命享受＋拼命炫耀的行为，都是土鳖。</p>
-  </li>
-  <li>
-    <p>格言：故事本身并不重要，怎么讲才更重要。所以有两株枣树这个事实并不重要，怎么来告诉读者有两株枣树比较重要。</p>
-  </li>
-  <li>
-    <p>唯真名士自风流，</p>
-  </li>
-  <li>
-    <p>在众人的眼中，悲伤只有得到外化的表现才是真实的，合理的；没有人去思考这样的悲伤是否为伪造的结果。人们关心的不是他到底悲不悲伤，而是有没有呈现出悲伤的状态来。</p>
-  </li>
+  <li>通过 Metabase 带有的字段支持链接跳转的功能，拼接上查询结果的部分</li>
+  <li>后端服务完成对用户行为的校验，并且完成身份预认证，生成验证 token</li>
+  <li>然后带着预认证的信息跳转到对应的系统内</li>
 </ul>
+
+<h3 id="问题分析">问题分析</h3>
+
+<p>起初用的时候发现还好，不过陆续有同学反馈有些行数的结果不能够进入后台去，而让其他人使用又是没问题；</p>
+
+<p>简单分析了下服务端日志，发现不能正常登录情况是请求根本没有到后端服务器，浏览器直接进行了跳转，而之前签发的 token 是有时效的，超过时间就过期了，所以导致跳转后校验不通过</p>
+
+<p><a href="https://juejin.cn/post/6844904130482274318"><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635957317795-60317ecd-b550-42d6-ab25-3f0b7d9247d9.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></a></p>
+
+<blockquote>
+  <p>有兴趣的同学，可以点击上方的图片链接，去详细介绍的原文看看</p>
+</blockquote>
+
+<h3 id="解决思路">解决思路
+
+</h3>
+
+<p>靠着对前端和浏览器一知半解+Google 出来的结果，<strong>只要欺骗浏览器每次请求的路径不一样，就可以解决这个问题。</strong></p>
+
+<p>所以解铃还须系铃人，当然还是靠着 Metabase 来解决这个问题</p>
+
+<p>:::success
+在 SQL 查询结果中增加一个每次都是不一样的结果字段 <strong>取 unixtimestamp 时间</strong>，然后将结果拼接到 url 中
+:::</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span>
+ <span class="n">UNIX_TIMESTAMP</span><span class="p">(</span><span class="n">now</span><span class="p">())</span> <span class="k">AS</span> <span class="nv">`ts`</span> <span class="o">//</span><span class="err">每次取值当前时间</span>
+<span class="k">FROM</span>
+ <span class="k">table_name</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>解决之后对比</p>
+</blockquote>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635957781278-bd41df03-24be-4640-b77f-54ba77774bea.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<p>🎆🎆🎆  完毕，问题得以解决</p>
+
+<h3 id="其他">其他</h3>
+
+<p>注意在后端服务上去除对时间参数的过滤，因为我是只处理了我想要的字段，所以这样的调整 服务端代码都不用改</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-03-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#读书笔记">读书笔记</a>
+      <cite>2021-11-03</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#BI">BI</a>
+      , 
+      <a href="/tags.html#Metabase">Metabase</a>
       
       
       
@@ -648,22 +648,79 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/03/how-to-set-container-auto-restarting-with-docker.html">how to set container auto-restarting with docker</a></h1>
+    <h1><a class="title" href="/post/2021/10/Python-Version-Manage-pyenv.html">Python Version Manage `pyenv`</a></h1>
     <div class="post_at_index">
-      <h2 id="auto-restarting-with-docker">auto-restarting with docker</h2>
+      <blockquote>
+  <p>to_url : <a href="http://pyenv.run/">http://pyenv.run/</a>
+github offical site <a href="https://github.com/pyenv/pyenv">https://github.com/pyenv/pyenv</a></p>
+</blockquote>
 
-<p>docker run –restart=always my-container</p>
+<p>在 MacOS 的使用方式：brew install pyenv</p>
 
-<h2 id="disable-auto-restarting-with-docker">disable auto-restarting with docker</h2>
+<p>使用 pyenv 还是挺方便的，但是在 Linux 云服务器上配置网络的话就比较麻烦了，比如我在用的阿里云 ECS，中间有些曲折，所以编写下文档记录下来，以防后续使用遇到问题</p>
 
-<p>docker update –restart=no my-container</p>
+<h2 id="安装-pyenv">安装 <code class="language-plaintext highlighter-rouge">pyenv</code></h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 官方推荐</span>
+curl https://pyenv.run | bash
+</code></pre></div></div>
+
+<p>上面一个简单的命令就好了，安装后 pyenv 文件 会在你的 <code class="language-plaintext highlighter-rouge">$HOME/.pyenv</code> ，可以尝试看下脚本文件的内容，这里简单贴出来了；可以看到实际执行的脚本文件是下面这个</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 建议看下脚本</span>
+curl <span class="nt">-L</span> https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+
+<span class="c"># 下载脚本文件</span>
+wget https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer <span class="nt">-O</span> ~/pyenv-installer
+</code></pre></div></div>
+
+<p>如果你的服务器环境比较悲催，访问 GitHub 也是比较麻烦，那么可以看下这个网站  <a href="https://gitclone.com/">https://gitclone.com/</a> ；只需要对 <code class="language-plaintext highlighter-rouge">pyenv-installer</code> 进行简单的修改就可以实现加速下载了</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ......</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-n</span> <span class="s2">"</span><span class="k">${</span><span class="nv">USE_GIT_URI</span><span class="k">}</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+  </span><span class="nv">GITHUB</span><span class="o">=</span><span class="s2">"git://github.com"</span>
+<span class="k">else
+  </span><span class="nv">GITHUB</span><span class="o">=</span><span class="s2">"https://gitclone.com/github.com"</span>
+<span class="k">fi</span>
+
+<span class="c"># .....</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>先通过，<code class="language-plaintext highlighter-rouge">wget</code> 下载脚本文件，然后对脚本中的 <code class="language-plaintext highlighter-rouge">github.com</code> 的域名进行下修改，我试了下修改<code class="language-plaintext highlighter-rouge">https</code>就行了，然后就可以飞快的下载了</p>
+</blockquote>
+
+<p>最后，将 <code class="language-plaintext highlighter-rouge">pyenv</code> 的初始化增加到系统的环境变量中</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s1">'export PATH="$HOME/.pyenv/bin:$PATH"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">echo</span> <span class="s1">'eval "$(pyenv init -)"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
+<span class="nb">echo</span> <span class="s1">'eval "$(pyenv virtualenv-init -)"'</span>  <span class="o">&gt;&gt;</span> ~/.bashrc
+</code></pre></div></div>
+
+<h2 id="使用-pyenv-安装特定版本的-python">使用 <code class="language-plaintext highlighter-rouge">pyenv</code> 安装特定版本的 python</h2>
+
+<p>在网络好的情况下，可以直接通过 <code class="language-plaintext highlighter-rouge">pyenv install 3.9.6</code> 安装对应的版本了，但是因为网络的问题，你会发现一直在下载 Python 包这一步，问题就是 www.python.org/ftp 网络的访问问题</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711398-96703bab-2e76-4f74-8b6d-1dfa212d39b1.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>遇到这个问题，可以尝试 先下载对应版本的安装包；可以使用国内的镜像站进行下载，或者在网络访问正常的地方进行下载包，然后上传到服务器中，这里推荐使用 淘宝的镜像站，把域名中 <a href="https://www.python.org/ftp">https://www.python.org/ftp</a> 替换为 <a href="https://npm.taobao.org/mirrors/">https://npm.taobao.org/mirrors/</a> ，下载到指定的目录</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># v = 你想要安装的python版本，比如 3.8.6</span>
+<span class="nb">export </span><span class="nv">v</span><span class="o">=</span>3.8.6<span class="p">;</span>  <span class="nb">mkdir</span> <span class="nt">-p</span> ~/.pyenv/sources/<span class="nv">$v</span><span class="p">;</span> wget https://npm.taobao.org/mirrors/python/<span class="nv">$v</span>/Python-<span class="nv">$v</span>.tar.xz <span class="nt">-P</span> ~/.pyenv/sources/<span class="nv">$v</span><span class="p">;</span> pyenv <span class="nb">install</span> <span class="nv">$v</span> <span class="nt">-k</span>
+</code></pre></div></div>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711423-9636d877-a9a2-4c9e-8cac-f82aaa3ff5b6.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<blockquote>
+  <p>在 pyenv 命令的最后增加一个 -k  会在安装时，优先检测本地的文件</p>
+</blockquote>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-03-12</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Docker">Docker</a>
+      <cite>2021-10-19</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -672,18 +729,201 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/03/%E7%88%B1%E4%BD%A0%E5%B0%B1%E5%83%8F%E7%88%B1%E7%94%9F%E5%91%BD.html">爱你就像爱生命</a></h1>
+    <h1><a class="title" href="/post/2021/10/MacOS-10.15-%E5%BC%80%E5%90%AF-HiDPI.html">MacOS 10.15 开启 HiDPI</a></h1>
     <div class="post_at_index">
-      <ul>
-  <li>我的灵魂里有很多地方玩世不恭，对人傲慢无礼，但是它有一个核心，这个核心害怕黑暗，柔弱得像绵羊一样。只有顶平等的友爱才能使它得到安慰。你对我是属于这个核心的。</li>
+      <p>以前手抖买了台 HKC 32 寸 2K 显示器，接上 MacBook 发现原生的分辨率设置在 2K 显示器上字体很小，换成 1080P 分辨率显示效果又特别模糊。上网查了一下发现可以为 MacBook 强行开启 HiDPI.</p>
+
+<p>下文的教程结合了 Github 上用户 ZeRo° Xu 在 一键开启 HiDPI 脚本 里的 Github Issue 和一篇博文《为 Mac 连接的 2k 显示器开启 HiDPI》.</p>
+
+<h2 id="什么是-hidpi">什么是 HiDPI</h2>
+
+<blockquote>
+  <p>引用自 Github 用户 ZeRo° Xu :</p>
+</blockquote>
+
+<p>它使用横纵 2 个物理像素也就是 4 个物理像素来显示 1 个像素区域，结果就是图像的–细节得到翻倍，更清晰，边缘更平滑–. 拿 13 寸的 MacBook Pro 举例，它的屏幕物理分辨率是 2560 x 1600, 所以原生的 HiDPI 分辨率就是 1280x800. 更高的一档 1440x900 HiDPI 缩放分辨率，则是虚拟出一个 2880x1800 的分辨率，再进行软缩放输入。所以你能发现苹果的电脑总是有很高的分辨率。好了，既然你的屏幕是 1080p, 本身就没有那么多像素去合成 HiDPI, 如果以原生的显示计算，你这屏幕的 1080p 分辨率应该是 960x540, 这么低的分辨率你是没法用的。这个脚本的功能就是虚拟出比你的屏幕物理分辨率更高的假分辨率……如果你要开启 1080p 的 HiDPI 分辨率，就虚拟一个 3840 x 2160 的假分辨率，然后 macOS 会使用 4 个像素来显示 1 个像素区域，也就是和你物理分辨率一样的 1080p 分辨率。</p>
+
+<h2 id="自动配置-hidpi">自动配置 HiDPI</h2>
+
+<blockquote>
+  <p>上文 链接 里提到一键配置脚本，你不妨先按照脚本的步骤开启 HiDPI 试试。</p>
+</blockquote>
+
+<p>但是脚本并没有适配所有显示器的情况 (至少我的 Dell P2416D 使用后无效) , 所以就有了下面的步骤。</p>
+
+<h2 id="手动配置-hidpi">手动配置 HiDPI</h2>
+
+<blockquote>
+  <p>本教程测试环境：</p>
+</blockquote>
+
+<ul>
+  <li>笔记本：MacBook Pro (Retina, 15-inch, Mid 2018)</li>
+  <li>显示器：HKC 32 寸 2K</li>
+  <li>操作系统：MacOS Catalina (Version 10.15.3)</li>
 </ul>
+
+<h2 id="0-安装-rdm">0. 安装 RDM</h2>
+
+<p>相信很多人已经装过这个工具了，它是用来修改显示分辨率的，如果没装，请在 RDM 下载页面 安装它。</p>
+
+<h2 id="1-关闭-macos-的-sip">1. 关闭 macOS 的 SIP</h2>
+
+<p>SIP 全称为「System Integrity Protection」即「系统完整性保护」, 是苹果公司为防止你胡乱篡改系统文件用的保护机制，请先按照下面步骤把它关闭，以便后续操作：</p>
+
+<ol>
+  <li>关机（最好先手机拍个照把这 4 步记录下来）</li>
+  <li>按<code class="language-plaintext highlighter-rouge">command（⌘）+ R+电源键</code>开机，自动进入恢复模式</li>
+  <li>选择上边菜单栏的<code class="language-plaintext highlighter-rouge">实用工具</code>中的<code class="language-plaintext highlighter-rouge">终端</code></li>
+  <li>输入命令<code class="language-plaintext highlighter-rouge">csrutil disable</code></li>
+</ol>
+
+<p>最后终端显示「Successfully……」等一大堆文字就说明你成功了。你可以输入 reboot 重启。等下文的全部设置都完成后，你如果想恢复 SIP, 就重复步骤 1 到 3, 在第 4 步输入 csrutil enable 就好了。</p>
+
+<h2 id="2-开启-macos-的-hidpi-选项">2. 开启 macOS 的 HiDPI 选项</h2>
+
+<p>再次重启后进入系统，打开终端输入</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>defaults write /Library/Preferences/com.apple.windowserver.plist DisplayResolutionEnabled <span class="nt">-bool</span> <span class="nb">true</span>
+</code></pre></div></div>
+
+<h2 id="3-查询你的外接显示器的编号">3. 查询你的外接显示器的编号</h2>
+
+<blockquote>
+  <p>这一步相当重要，先介绍两个命令</p>
+</blockquote>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ioreg <span class="nt">-l</span> | <span class="nb">grep</span> <span class="s2">"DisplayVendorID"</span>
+ioreg <span class="nt">-l</span> | <span class="nb">grep</span> <span class="s2">"DisplayProductID"</span>
+</code></pre></div></div>
+
+<p>这两条命令用来查询你的显示器供应商 ID DisplayVendorID 和产品 ID DisplayProductID. 接下来你要找到你的显示器对应的 DisplayVendorID 和 DisplayProductID:</p>
+
+<ol>
+  <li>
+    <p>拔掉显示器的 HDMI 或者 DP 线</p>
+  </li>
+  <li>
+    <p>分别输入上面两个命令之后<code class="language-plaintext highlighter-rouge">return(↩)</code>，每个命令会返回一个带有数字的结果。那个数字就是 MacBook 默认的<code class="language-plaintext highlighter-rouge">DisplayVendorID</code>和<code class="language-plaintext highlighter-rouge">DisplayProductID</code>了</p>
+  </li>
+  <li>
+    <p>接入显示器</p>
+  </li>
+  <li>
+    <p>再分别输入那两个命令，每个命令会分别返回两条带有数字的结果。对比刚才 MacBook 默认的结果，另一个数字就是你显示器的<code class="language-plaintext highlighter-rouge">DisplayVendorID</code>和<code class="language-plaintext highlighter-rouge">DisplayProductID</code>了</p>
+  </li>
+  <li>
+    <p>把这两个数字分别转成对应的 16 进制数，用这个 <a href="https://tool.oschina.net/hexconvert">进制转换工具</a>。</p>
+  </li>
+</ol>
+
+<p>现在，回到桌面，新建一个文件夹命名为 DisplayVendorID-[你刚才查到的 DisplayVendorID 的 16 进制数], 例如 DisplayVendorID-10ac.</p>
+
+<p>之后在这个刚建好的文件夹下增加一个文件，命名为 DisplayProductID-[你刚才查到的 DisplayProductID 的 16 进制数], 例如 DisplayProductID-a0c3.</p>
+
+<h3 id="4-为你的显示器生成-plist-文件">4. 为你的显示器生成 plist 文件</h3>
+
+<p>到 这个网站 , 在左侧的空里分别输入显示器型号，DisplayProductID 和 DisplayVendorID, 注意填 16 进制的数字，并且检查下后边 10 进制的数字是不是和你刚才命令查到的一致。如果需要添加自己额外的分辨率，直接在下边新建一条分辨率配置就行。最后，复制右边生成 XML 格式文本，粘贴到刚才新建的文件里。 (也可以直接从网站下载文件，去掉文件名后缀 .plist )</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1606281680751-9a99cf5c-3e0d-4028-af33-ebac7e889ff8.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></p>
+
+<p>XML 文本类似下边这样：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span> <span class="nv">encoding</span><span class="o">=</span><span class="s2">"UTF-8"</span>?&gt;
+&lt;<span class="o">!</span>DOCTYPE plist PUBLIC <span class="s2">"-//Apple//DTD PLIST 1.0//EN"</span> <span class="s2">"http://www.apple.com/DTDs/PropertyList-1.0.dtd"</span><span class="o">&gt;</span>
+&lt;plist <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span><span class="o">&gt;</span>
+&lt;dict&gt;
+    &lt;key&gt;DisplayProductID&lt;/key&gt;
+    &lt;integer&gt;41155&lt;/integer&gt;
+    &lt;key&gt;DisplayVendorID&lt;/key&gt;
+    &lt;integer&gt;4268&lt;/integer&gt;
+    &lt;key&gt;scale-resolutions&lt;/key&gt;
+    &lt;array&gt;
+        &lt;data&gt;AAAKAAAABaAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+        &lt;data&gt;AAAFAAAAAtAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+        &lt;data&gt;AAAPAAAACHAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+        &lt;data&gt;AAAHgAAABDgAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+        &lt;data&gt;AAAMgAAABwgAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+        &lt;data&gt;AAAGQAAAA4QAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+        &lt;data&gt;AAAKAgAABaAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+        &lt;data&gt;AAAKrAAABgAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+        &lt;data&gt;AAAFVgAAAwAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
+    &lt;/array&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre></div></div>
+
+<h3 id="4-复制-plist-配置文件到系统配置目录">4. 复制 plist 配置文件到系统配置目录</h3>
+
+<p>这一步就是把刚才新建的配置文件复制到你系统目录里，你直接复制通常会提示你系统目录是「只读」的，不允许你胡作非为。所以你先要在终端执行下面的命令：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>mount <span class="nt">-uw</span> /
+</code></pre></div></div>
+
+<p>这样，你就可以复制到系统的文件夹了。 (这个命令重启后失效)</p>
+
+<p>接下来打开系统文件夹/System/Library/Displays/Contents/Resources/Overrides/, 你会发现一大堆跟你刚才文件夹命名相似的目录。把你新建的文件夹丢进去，和它们混在一起，假装它原来就是其中一员。重启。</p>
+
+<h3 id="5-修改分辨率">5. 修改分辨率</h3>
+
+<p>重启之后又进入系统，首先打开 RDM, 你会在菜单栏看见它：</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1606281680731-6c912092-1a63-4298-bfbe-54e98f27b67a.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></p>
+
+<p>Main Display 和 Display 2 就分别是你的外接显示器和 MacBook 的显示器分辨率设置 (位置有可能对调，自己尝试一下) . 带有 ⚡️ 符号的分辨率设置项就是开启 HiDPI 后新增出来的。如果你像我一样是 24 寸 2K 显示器，可以给显示器选择 1920x1080⚡️那个配置。</p>
+
+<blockquote>
+  <p>是不是比原生分辨率的 UI 和字体更大更清晰了？</p>
+</blockquote>
+
+<h2 id="小结">小结</h2>
+
+<p>本文教你强行开启 MacBook 的 HiDPI 设置，并针对 2K 显示器新增了配置文件到系统配置目录里，最后用  RDM 自由设置适合你显示器的分辨率。附带问题</p>
+
+<blockquote>
+  <p>用本文的方式开启 HiDPI, 合上 Mac 屏幕，外接显示器黑屏。将外接显示器分辨率切换到屏幕原始分辨率后可以正常地仅使用外接显示器，原因未知。因对我的工作方式没有影响，没有继续研究下去。</p>
+</blockquote>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-03-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#读书笔记">读书笔记</a>
+      <cite>2021-10-12</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/09/node-nvm.html">node nvm</a></h1>
+    <div class="post_at_index">
+      <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="err">安装</span><span class="n">nvm</span>
+<span class="n">wget</span> <span class="o">-</span><span class="n">qO</span><span class="o">-</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="p">.</span><span class="n">githubusercontent</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">nvm</span><span class="o">-</span><span class="n">sh</span><span class="o">/</span><span class="n">nvm</span><span class="o">/</span><span class="n">v0</span><span class="p">.</span><span class="mi">35</span><span class="p">.</span><span class="mi">1</span><span class="o">/</span><span class="n">install</span><span class="p">.</span><span class="n">sh</span> <span class="o">|</span> <span class="n">bash</span>
+
+<span class="o">#</span> <span class="err">修改</span><span class="n">npm</span> <span class="n">registry</span>
+<span class="n">npm</span> <span class="n">config</span> <span class="k">set</span> <span class="n">registry</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">registry</span><span class="p">.</span><span class="n">npm</span><span class="p">.</span><span class="n">taobao</span><span class="p">.</span><span class="n">org</span>
+</code></pre></div></div>
+
+<p>:::info
+nvm 在中国国内使用
+:::</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 安装</span>
+bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://gitee.com/RubyKids/nvm-cn/raw/master/install.sh<span class="si">)</span><span class="s2">"</span>
+
+<span class="c"># 卸载</span>
+bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://gitee.com/RubyKids/nvm-cn/raw/master/uninstall.sh<span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-09-24</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Node">Node</a>
       
       
       
@@ -732,7 +972,7 @@
             <li class="active"><a>7</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page23">23</a></li>
+          <li><a href="/page24">24</a></li>
         
 
         
@@ -783,7 +1023,7 @@
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>18</span>
+    		数据库 <span>19</span>
     	</a></li>
      
     	
@@ -967,8 +1207,8 @@
     	</a></li>
      
     	
-      <li><a href="/categories.html#NaN">
-    		NaN <span>1</span>
+      <li><a href="/categories.html#Network">
+    		Network <span>1</span>
     	</a></li>
      
     	
@@ -1012,13 +1252,53 @@
     	</a></li>
      
     	
+      <li><a href="/categories.html#Kubernetes">
+    		Kubernetes <span>10</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Github">
     		Github <span>1</span>
     	</a></li>
      
     	
+      <li><a href="/categories.html#kubernetes">
+    		kubernetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#腾讯云">
+    		腾讯云 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#阿里云">
+    		阿里云 <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Gitlab">
     		Gitlab <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#前端">
+    		前端 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#DaoCloud Enterprise">
+    		DaoCloud Enterprise <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kubrnetes">
+    		Kubrnetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kafka">
+    		Kafka <span>1</span>
     	</a></li>
      
     	
@@ -1069,9 +1349,21 @@ df = pandas.read_csv(‘somefile.txt’)
         </li>
         
         <li>
-          <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
-          王路
-12 highlights
+          <a href="/post/2022/10/JWT-%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F.html">JWT 内置的方式</a>
+          
+  支持为 API 启用 jwt token 解码的能力 ,  读取网关的 jwt key
+    
+      读取请求 Header 中的 Authorization
+    
+  
+  需要支持为网关配置多 jwt key , and 加密长度 ?
+    
+      解密的性能问题
+      expire_time 过期时间的配置
+      解密后的参数传递
+    
+  
+
 
 
         </li>

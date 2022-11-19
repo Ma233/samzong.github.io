@@ -233,6 +233,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -276,62 +280,1212 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2016/01/Install_mariadb10_centos7.html">How to install MariaDB 10.1 on CentOS 7.x</a></h1>
+    <h1><a class="title" href="/post/2016/04/Mac-1-%E8%B0%83%E6%95%B4Launchpad%E5%9B%BE%E6%A0%87%E5%A4%A7%E5%B0%8F.html">MacTips 调整 Launchpad 图标大小</a></h1>
     <div class="post_at_index">
-      <p>CentOS 7.x 默认的 MariaDB 版本是 5.5，但是在有些情况我们需要用到 10 版本，注意 MariaDB 与 MySQL 版本是不一样的，下面简单降下如何快速安装 MariaDB10.1 到 CentOS 7.x.</p>
+      <p>很多人觉得默认 Launchpad 的应用程序图标很大，空间比较拥挤，不过这个其实是可以通过调整 Launchpad 每一行和每一列图标的数量，来调整 Launchpad 图标大小。</p>
 
-<h4 id="创建-mariadb-101-的-yum-源">创建 MariaDB 10.1 的 Yum 源</h4>
+<p>默认如下图：
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2FQQ20160408-1.jpg" alt="image" /></p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> | sudo tee -a /etc/yum.repos.d/MariaDB.repo
-# MariaDB 10.1 CentOS repository list
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.1/centos7-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-</span><span class="no">EOF
-</span></code></pre></div></div>
+<p>代码块：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 调整每一行显示数量为8个。</span>
+➜ defaults write com.apple.dock springboard-columns <span class="nt">-int</span> 10
+
+＃ 重启Launchpad
+➜ defaults write com.apple.dock ResetLaunchPad <span class="nt">-bool</span> TRUE<span class="p">;</span>killall Dock
+</code></pre></div></div>
+
+<p>修改后如下：
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2FQQ20160408-2.jpg" alt="image" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-04-09</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/04/Mac-2-%E8%A7%A3%E5%86%B3oh-my-zsh%E5%9C%A8%E7%BB%88%E7%AB%AF%E4%B8%8B%E6%89%93%E5%BC%80%E7%BC%93%E6%85%A2.html">MacTips 解决 oh-my-zsh 在 Terminal 下打开缓慢</a></h1>
+    <div class="post_at_index">
+      <p>升级 Mac OS X 10.11 之后，使用 CleanMyMac 3 清理 9GB 的垃圾文件，之后导致打开 iTerm 时加载主机名特别的慢，Mac 的命令行工具我使用的是 iTerm＋ohmyzsh，这个问题困扰了我快两个月，工作比较忙，所以一直用 Zoc 代替，也没有认真的研究，最近有需求用到它，实在不行，研究一下，发现，是因为我清理系统的时候把终端日志的索引文件清理掉了，所以每次打开的时候都要先加载索引导致了首次开启非常慢，解决办法是，只要把终端缓存的日志文件删除即可：</p>
+
+<p>代码块：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 日志文件路径</span>
+<span class="c"># /private/var/log/asl/*.asl</span>
+
+➜  ~ <span class="nb">sudo du</span> <span class="nt">-sh</span> /private/var/log/asl/
+Password:
+2.7G /private/var/log/asl/
+
+➜  ~ <span class="nb">sudo rm</span> <span class="nt">-rf</span> /private/var/log/asl/<span class="k">*</span>.asl
+➜  ~ <span class="nb">sudo du</span> <span class="nt">-sh</span> /private/var/log/asl/
+208M /private/var/log/asl/
+
+</code></pre></div></div>
+
+<p>关闭终端，再次打开，问题解决。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-04-08</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/04/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS-6-%E5%AE%89%E8%A3%85%E6%9B%B4%E9%AB%98%E7%89%88%E6%9C%AC%E7%9A%84PHP.html">如何在 CentOS 6 安装更高版本的 PHP</a></h1>
+    <div class="post_at_index">
+      <p>CentOS 6 默认安装的 PHP 版本是 5.3，但现在很多应用对于 LAMP 中，PHP 的版本最低 5.4，所以本篇文章的主要内容是，如何升级 PHP5.3 到 5.4 以及更高版本</p>
+
+<h2 id="实验环境centos-64">实验环境：CentOS 6.4</h2>
+
+<p>解决办法是采用了 remi 源仓库已经适配的相应 php 版本</p>
 
 <blockquote>
-  <p>注意 MariaDB 会随着时间的推移版本不断更新，你可以到<a href="http://downloads.mariadb.org/mariadb">repo 仓库</a>获取对应版本链接</p>
+  <p>经过测试，该升级办法同样适用目前 CentOS 6.x 所有版本</p>
 </blockquote>
 
-<h4 id="使用-yum-安装-mariadb-101-即可">使用 Yum 安装 MariaDB 10.1 即可</h4>
+<h3 id="安装-remi-源">安装 Remi 源</h3>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>yum <span class="nb">install </span>MariaDB-server MariaDB-client <span class="nt">-y</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 因为remi依赖epel源仓库，所有我们要先安装它。</span>
+<span class="o">[</span>root@visionet8 ~]# yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
+
+<span class="o">[</span>root@visionet8 ~]# wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+<span class="o">[</span>root@visionet8 ~]# rpm <span class="nt">-Uvh</span> remi-release-6.rpm
 </code></pre></div></div>
 
-<h4 id="启动-mariadb-并设置为开机自启动">启动 MariaDB 并设置为开机自启动</h4>
+<h4 id="2-我们看下-remi-的的-yum-配置文件">2. 我们看下 Remi 的的 yum 配置文件</h4>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl start mariadb.service
-<span class="nb">sudo </span>systemctl <span class="nb">enable </span>mariadb.service
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Repository: http://rpms.remirepo.net/</span>
+<span class="c"># Blog:       http://blog.remirepo.net/</span>
+<span class="c"># Forum:      http://forum.remirepo.net/</span>
+
+<span class="o">[</span>remi]
+<span class="nv">name</span><span class="o">=</span>Remi<span class="s1">'s RPM repository for Enterprise Linux 6 - $basearch
+baseurl=http://rpms.remirepo.net/enterprise/6/remi/$basearch/
+#mirrorlist=http://rpms.remirepo.net/enterprise/6/remi/mirror
+enabled=1
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
+
+[remi-php55]
+name=Remi'</span>s PHP 5.5 RPM repository <span class="k">for </span>Enterprise Linux 6 - <span class="nv">$basearch</span>
+<span class="c">#baseurl=http://rpms.remirepo.net/enterprise/6/php55/$basearch/</span>
+<span class="nv">mirrorlist</span><span class="o">=</span>http://rpms.remirepo.net/enterprise/6/php55/mirror
+<span class="c"># NOTICE: common dependencies are in "remi-safe"</span>
+<span class="nv">enabled</span><span class="o">=</span>0
+<span class="nv">gpgcheck</span><span class="o">=</span>1
+<span class="nv">gpgkey</span><span class="o">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
+
+<span class="o">[</span>remi-php56]
+<span class="nv">name</span><span class="o">=</span>Remi<span class="s1">'s PHP 5.6 RPM repository for Enterprise Linux 6 - $basearch
+#baseurl=http://rpms.remirepo.net/enterprise/6/php56/$basearch/
+mirrorlist=http://rpms.remirepo.net/enterprise/6/php56/mirror
+# NOTICE: common dependencies are in "remi-safe"
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
+</span></code></pre></div></div>
+
+<p>经过测试，启用 remi 源之后，默认情况下 php 版本为 5.4，这时我们只需要升级 php 即可。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@visionet8 html]# yum update <span class="nt">-y</span> php<span class="k">*</span>
+Failed to <span class="nb">set </span>locale, defaulting to C
+Loaded plugins: fastestmirror, refresh-packagekit, security
+Loading mirror speeds from cached hostfile
+ <span class="k">*</span> base: mirrors.163.com
+ <span class="k">*</span> epel: mirrors.ustc.edu.cn
+ <span class="k">*</span> extras: mirrors.aliyun.com
+ <span class="k">*</span> remi-safe: mirrors.tuna.tsinghua.edu.cn
+ <span class="k">*</span> updates: mirrors.cn99.com
+remi                                                                               | 2.9 kB     00:00
+remi/primary_db                                                                    | 1.6 MB     00:05
+Setting up Update Process
+Resolving Dependencies
+<span class="nt">--</span><span class="o">&gt;</span> Running transaction check
+<span class="nt">---</span><span class="o">&gt;</span> Package php.x86_64 0:5.3.3-48.el6_8 will be updated
+<span class="nt">---</span><span class="o">&gt;</span> Package php.x86_64 0:5.4.45-12.el6.remi will be an update
+<span class="nt">---</span><span class="o">&gt;</span> Package php-cli.x86_64 0:5.3.3-48.el6_8 will be updated
+<span class="nt">---</span><span class="o">&gt;</span> Package php-cli.x86_64 0:5.4.45-12.el6.remi will be an update
+<span class="nt">---</span><span class="o">&gt;</span> Package php-common.x86_64 0:5.3.3-48.el6_8 will be updated
+<span class="nt">---</span><span class="o">&gt;</span> Package php-common.x86_64 0:5.4.45-12.el6.remi will be an update
+<span class="nt">---</span><span class="o">&gt;</span> Package php-gd.x86_64 0:5.3.3-48.el6_8 will be updated
+<span class="nt">---</span><span class="o">&gt;</span> Package php-gd.x86_64 0:5.4.45-12.el6.remi will be an update
+<span class="nt">--</span><span class="o">&gt;</span> Processing Dependency: libt1.so.5<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for </span>package: php-gd-5.4.45-12.el6.remi.x86_64
+<span class="nt">---</span><span class="o">&gt;</span> Package php-mcrypt.x86_64 0:5.3.3-4.el6 will be updated
+<span class="nt">---</span><span class="o">&gt;</span> Package php-mcrypt.x86_64 0:5.4.45-12.el6.remi will be an update
+<span class="nt">---</span><span class="o">&gt;</span> Package php-mysql.x86_64 0:5.3.3-48.el6_8 will be updated
+<span class="nt">---</span><span class="o">&gt;</span> Package php-mysql.x86_64 0:5.4.45-12.el6.remi will be an update
+<span class="nt">---</span><span class="o">&gt;</span> Package php-pdo.x86_64 0:5.3.3-48.el6_8 will be updated
+<span class="nt">---</span><span class="o">&gt;</span> Package php-pdo.x86_64 0:5.4.45-12.el6.remi will be an update
+<span class="nt">--</span><span class="o">&gt;</span> Running transaction check
+<span class="nt">---</span><span class="o">&gt;</span> Package t1lib.x86_64 0:5.1.2-6.el6_2.1 will be installed
+<span class="nt">--</span><span class="o">&gt;</span> Finished Dependency Resolution
+
+Dependencies Resolved
+
+<span class="o">==========================================================================================================</span>
+ Package                  Arch                 Version                           Repository          Size
+<span class="o">==========================================================================================================</span>
+Updating:
+ php                      x86_64               5.4.45-12.el6.remi                remi               2.8 M
+ php-cli                  x86_64               5.4.45-12.el6.remi                remi               4.1 M
+ php-common               x86_64               5.4.45-12.el6.remi                remi               968 k
+ php-gd                   x86_64               5.4.45-12.el6.remi                remi               152 k
+ php-mcrypt               x86_64               5.4.45-12.el6.remi                remi                60 k
+ php-mysql                x86_64               5.4.45-12.el6.remi                remi               145 k
+ php-pdo                  x86_64               5.4.45-12.el6.remi                remi               129 k
+Installing <span class="k">for </span>dependencies:
+ t1lib                    x86_64               5.1.2-6.el6_2.1                   base               160 k
+
+Transaction Summary
+<span class="o">==========================================================================================================</span>
+Install       1 Package<span class="o">(</span>s<span class="o">)</span>
+Upgrade       7 Package<span class="o">(</span>s<span class="o">)</span>
+
+Total download size: 8.5 M
+Downloading Packages:
+<span class="o">(</span>1/8<span class="o">)</span>: php-5.4.45-12.el6.remi.x86_64.rpm                                           | 2.8 MB     00:07
+<span class="o">(</span>2/8<span class="o">)</span>: php-cli-5.4.45-12.el6.remi.x86_64.rpm                                       | 4.1 MB     00:06
+<span class="o">(</span>3/8<span class="o">)</span>: php-common-5.4.45-12.el6.remi.x86_64.rpm                                    | 968 kB     00:02
+<span class="o">(</span>4/8<span class="o">)</span>: php-gd-5.4.45-12.el6.remi.x86_64.rpm                                        | 152 kB     00:01
+<span class="o">(</span>5/8<span class="o">)</span>: php-mcrypt-5.4.45-12.el6.remi.x86_64.rpm                                    |  60 kB     00:00
+<span class="o">(</span>6/8<span class="o">)</span>: php-mysql-5.4.45-12.el6.remi.x86_64.rpm                                     | 145 kB     00:00
+<span class="o">(</span>7/8<span class="o">)</span>: php-pdo-5.4.45-12.el6.remi.x86_64.rpm                                       | 129 kB     00:01
+<span class="o">(</span>8/8<span class="o">)</span>: t1lib-5.1.2-6.el6_2.1.x86_64.rpm                                            | 160 kB     00:00
+<span class="nt">----------------------------------------------------------------------------------------------------------</span>
+Total                                                                     338 kB/s | 8.5 MB     00:25
+Running rpm_check_debug
+Running Transaction Test
+Transaction Test Succeeded
+Running Transaction
+Warning: RPMDB altered outside of yum.
+  Updating   : php-common-5.4.45-12.el6.remi.x86_64                                                  1/15
+  Updating   : php-cli-5.4.45-12.el6.remi.x86_64                                                     2/15
+  Updating   : php-pdo-5.4.45-12.el6.remi.x86_64                                                     3/15
+  Installing : t1lib-5.1.2-6.el6_2.1.x86_64                                                          4/15
+  Updating   : php-gd-5.4.45-12.el6.remi.x86_64                                                      5/15
+  Updating   : php-mysql-5.4.45-12.el6.remi.x86_64                                                   6/15
+  Updating   : php-5.4.45-12.el6.remi.x86_64                                                         7/15
+  Updating   : php-mcrypt-5.4.45-12.el6.remi.x86_64                                                  8/15
+  Cleanup    : php-5.3.3-48.el6_8.x86_64                                                             9/15
+  Cleanup    : php-mysql-5.3.3-48.el6_8.x86_64                                                      10/15
+  Cleanup    : php-pdo-5.3.3-48.el6_8.x86_64                                                        11/15
+  Cleanup    : php-cli-5.3.3-48.el6_8.x86_64                                                        12/15
+  Cleanup    : php-gd-5.3.3-48.el6_8.x86_64                                                         13/15
+  Cleanup    : php-mcrypt-5.3.3-4.el6.x86_64                                                        14/15
+  Cleanup    : php-common-5.3.3-48.el6_8.x86_64                                                     15/15
+  Verifying  : php-mcrypt-5.4.45-12.el6.remi.x86_64                                                  1/15
+  Verifying  : t1lib-5.1.2-6.el6_2.1.x86_64                                                          2/15
+  Verifying  : php-common-5.4.45-12.el6.remi.x86_64                                                  3/15
+  Verifying  : php-gd-5.4.45-12.el6.remi.x86_64                                                      4/15
+  Verifying  : php-cli-5.4.45-12.el6.remi.x86_64                                                     5/15
+  Verifying  : php-pdo-5.4.45-12.el6.remi.x86_64                                                     6/15
+  Verifying  : php-mysql-5.4.45-12.el6.remi.x86_64                                                   7/15
+  Verifying  : php-5.4.45-12.el6.remi.x86_64                                                         8/15
+  Verifying  : php-5.3.3-48.el6_8.x86_64                                                             9/15
+  Verifying  : php-gd-5.3.3-48.el6_8.x86_64                                                         10/15
+  Verifying  : php-cli-5.3.3-48.el6_8.x86_64                                                        11/15
+  Verifying  : php-pdo-5.3.3-48.el6_8.x86_64                                                        12/15
+  Verifying  : php-common-5.3.3-48.el6_8.x86_64                                                     13/15
+  Verifying  : php-mysql-5.3.3-48.el6_8.x86_64                                                      14/15
+  Verifying  : php-mcrypt-5.3.3-4.el6.x86_64                                                        15/15
+
+Dependency Installed:
+  t1lib.x86_64 0:5.1.2-6.el6_2.1
+
+Updated:
+  php.x86_64 0:5.4.45-12.el6.remi                      php-cli.x86_64 0:5.4.45-12.el6.remi
+  php-common.x86_64 0:5.4.45-12.el6.remi               php-gd.x86_64 0:5.4.45-12.el6.remi
+  php-mcrypt.x86_64 0:5.4.45-12.el6.remi               php-mysql.x86_64 0:5.4.45-12.el6.remi
+  php-pdo.x86_64 0:5.4.45-12.el6.remi
+
+Complete!
 </code></pre></div></div>
 
-<h4 id="初始化-mariadb-设置">初始化 MariaDB 设置</h4>
+<h4 id="测试">测试</h4>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo</span> /usr/bin/mysql_secure_installation
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@visionet8 html]# php <span class="nt">-v</span>
+PHP 5.4.45 <span class="o">(</span>cli<span class="o">)</span> <span class="o">(</span>built: Sep 19 2016 15:31:07<span class="o">)</span>
+Copyright <span class="o">(</span>c<span class="o">)</span> 1997-2014 The PHP Group
+Zend Engine v2.4.0, Copyright <span class="o">(</span>c<span class="o">)</span> 1998-2014 Zend Technologies
+</code></pre></div></div>
 
-<span class="c"># 回答以下问题，请记住你的数据库root用户密码:</span>
+<h4 id="php-55-和-php56">php 5.5 和 php5.6</h4>
 
-Enter current password <span class="k">for </span>root <span class="o">(</span>enter <span class="k">for </span>none<span class="o">)</span>:  回车
-Set root password? <span class="o">[</span>Y/n]: Y
-New password: 你要设置的数据库root密码
-Re-enter new password: 你要设置的数据库root密码
-Remove anonymous <span class="nb">users</span>? <span class="o">[</span>Y/n]: Y
-Disallow root login remotely? <span class="o">[</span>Y/n]: Y
-Remove <span class="nb">test </span>database and access to it? <span class="o">[</span>Y/n]: Y
-Reload privilege tables now? <span class="o">[</span>Y/n]: Y
+<blockquote>
+  <p>若要升级到 5.5 或 5.6，根据 remi 源的配置文件，将 php5.5 的 enable 参数设置为 1，并将默认 enable 修改为 0，然后<code class="language-plaintext highlighter-rouge">yum update php*</code>即可。</p>
+</blockquote>
+
+<h4 id="5-php-7">5. php 7</h4>
+
+<blockquote>
+  <p>安装完成之后发现，在安装 remi 源之后，在<code class="language-plaintext highlighter-rouge">/etc/yum.repos.d</code>除了<code class="language-plaintext highlighter-rouge">remi.repo</code>之外，还有<code class="language-plaintext highlighter-rouge">remi-php70.repo</code>和<code class="language-plaintext highlighter-rouge">remi-php71.repo</code>，测试下，如果要升级到 php7，可以打开相应源仓库的配置文件，之后升级即可。
+<strong>以上功能在升级时，要考虑其他组件的版本兼容性，不要盲目升级。</strong></p>
+</blockquote>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-04-01</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#CentOS">CentOS</a>
+      , 
+      <a href="/tags.html#PHP">PHP</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/03/MySQL-4-MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80.html">MySQL 数据库使用基础</a></h1>
+    <div class="post_at_index">
+      <h2 id="1-测试环境">1. 测试环境</h2>
+
+<ul>
+  <li>MacBook Pro 15’ i7 16GB</li>
+  <li>VMware Fushion 8 Pro</li>
+  <li>MySQL Version 5.1</li>
+  <li>CentOS Linux 6.x</li>
+</ul>
+
+<h2 id="2-实验步骤">2. 实验步骤</h2>
+
+<h3 id="21安装-mysql">2.1 安装 mysql</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera  ~]#  yum  install  mysql  mysql-server  mysql-devel
+
+</code></pre></div></div>
+
+<h3 id="22-启动-mysql并设置开机自启动">2.2 启动 mysql，并设置开机自启动</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera  ~]#  service  mysqld  start
+<span class="o">[</span>root@ultraera  ~]#  chkconfig  mysqld  on
+<span class="o">[</span>root@ultraera  ~]#  chkconfig  --list  |  grep  mysqld
+mysqld 0:off  1:off  2:on  3:on  4:on  5:on  6:off
+
+</code></pre></div></div>
+
+<h3 id="23-相关配置">2.3 相关配置</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/my.cnf         mysql配置文件
+/var/lib/mysql      mysql数据库文件
+port:3306           mysql默认端口
+
+<span class="c"># Tips : MySQL 绝大对数语句都是以分号结尾，注意是英文模式下的分号。字符和字符串用 '' 引起；</span>
+</code></pre></div></div>
+
+<h3 id="24-mysql-初始化及登录">2.4 mysql 初始化及登录</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# mysql_secure_installation
+
+NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MySQL
+      SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
+
+In order to log into MySQL to secure it, we<span class="s1">'ll need the current
+password for the root user.  If you'</span>ve just installed MySQL, and
+you haven<span class="s1">'t set the root password yet, the password will be blank,
+so you should just press enter here.
+
+Enter current password for root (enter for none):        # 首次登陆默认为空
+
+Setting the root password ensures that nobody can log into the MySQL
+root user without the proper authorisation.
+
+You already have a root password set, so you can safely answer '</span>n<span class="s1">'.
+
+Set the root password? [Y/n] y            # 设置root用户密码
+New password:
+Re-enter new password:
+Password updated successfully!
+Reloading privilege tables..
+ ... Success!
+
+
+By default, a MySQL installation has an anonymous user, allowing anyone
+to log into MySQL without having to have a user account created for
+them.  This is intended only for testing, and to make the installation
+go a bit smoother.  You should remove them before moving into a
+production environment.
+
+Remove anonymous users? [Y/n] y        # 删除匿名用户
+ ... Success!
+
+Normally, root should only be allowed to connect from '</span>localhost<span class="s1">'.  This
+ensures that someone cannot guess at the root password from the network.
+
+Disallow root login remotely? [Y/n] y        # 关闭root远程登陆
+ ... Success!
+
+By default, MySQL comes with a database named '</span><span class="nb">test</span><span class="s1">' that anyone can
+access.  This is also intended only for testing, and should be removed
+before moving into a production environment.
+
+Remove test database and access to it? [Y/n] y    # 删除 test 数据库
+ - Dropping test database...
+ERROR 1008 (HY000) at line 1: Can'</span>t drop database <span class="s1">'test'</span><span class="p">;</span> database doesn<span class="s1">'t exist
+ ... Failed!  Not critical, keep moving...
+ - Removing privileges on test database...
+ ... Success!
+
+Reloading the privilege tables will ensure that all changes made so far
+will take effect immediately.
+
+Reload privilege tables now? [Y/n] y    # 保存这些设置
+ ... Success!
+
+
+All done!  If you'</span>ve completed all of the above steps, your MySQL
+installation should now be secure.
+
+Thanks <span class="k">for </span>using MySQL!
+
+Cleaning up...
+<span class="o">[</span>root@ultraera ~]#
+
+<span class="o">[</span>root@ultraera  ~]# 
+<span class="o">[</span>root@ultraera  ~]# mysql  -u  root  -p  <span class="s1">'123456'</span>
+<span class="o">[</span>root@ultraera  ~]# mysql  -u  root  -p  -h  localhost “-h” 指定服务器地址
+</code></pre></div></div>
+
+<h3 id="25-创建查看及删除当前数据库">2.5 创建、查看及删除当前数据库</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">CREATE</span><span class="err">  </span><span class="k">DATABASE</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span>
+<span class="n">Query</span><span class="err">  </span><span class="n">OK</span><span class="p">,</span><span class="err">  </span><span class="mi">1</span><span class="err">  </span><span class="k">row</span><span class="err">  </span><span class="n">affected</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">SHOW</span><span class="err">  </span><span class="n">DATABASES</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">--------------------+</span>
+<span class="o">|</span><span class="err">  </span><span class="k">Database</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">--------------------+</span>
+<span class="o">|</span><span class="err">  </span><span class="n">information_schema</span><span class="err">  </span><span class="o">|</span>
+<span class="o">|</span><span class="err">  </span><span class="n">mysql</span> <span class="o">|</span>
+<span class="o">|</span><span class="err">  </span><span class="n">test</span> <span class="o">|</span>
+<span class="o">|</span><span class="err">  </span><span class="n">ultraera</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">--------------------+</span>
+<span class="mi">4</span><span class="err">  </span><span class="k">rows</span><span class="err">  </span><span class="k">in</span><span class="err">  </span><span class="k">set</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">DROP</span><span class="err">  </span><span class="k">DATABASE</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span>
+<span class="n">Query</span><span class="err">  </span><span class="n">OK</span><span class="p">,</span><span class="err">  </span><span class="mi">0</span><span class="err">  </span><span class="k">rows</span><span class="err">  </span><span class="n">affected</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h3 id="26-创建查看及删除当前表格">2.6 创建、查看及删除当前表格</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span><span class="err">创建表格之前要先选择数据库</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="n">use</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span>
+<span class="k">Database</span><span class="err">  </span><span class="n">changed</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">CREATE</span><span class="err">  </span><span class="k">TABLE</span><span class="err">  </span><span class="n">ultraera</span><span class="p">(</span> <span class="o">#</span><span class="k">create</span><span class="err"> 创建表格，至少</span><span class="mi">1</span><span class="err">列</span>
+<span class="o">-&gt;</span><span class="err">  </span><span class="n">id</span><span class="err">  </span><span class="nb">int</span><span class="err">  </span><span class="k">NOT</span><span class="err">  </span><span class="k">NULL</span><span class="p">,</span> <span class="o">#</span><span class="k">NOT</span><span class="err">  </span><span class="k">NULL</span> <span class="err">不为空</span><span class="p">,</span><span class="nb">int</span><span class="err"> 整型</span>
+<span class="o">-&gt;</span><span class="err">  </span><span class="n">name</span><span class="err">  </span><span class="nb">char</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="err">  </span><span class="k">NOT</span><span class="err">  </span><span class="k">NULL</span><span class="p">,</span> <span class="o">#</span><span class="nb">char</span><span class="p">()</span><span class="err"> 字符型  </span><span class="p">,()</span><span class="err">内定义字符长度</span>
+<span class="o">-&gt;</span><span class="err">  </span><span class="n">age</span><span class="err">  </span><span class="nb">int</span><span class="err">  </span><span class="k">NOT</span><span class="err">  </span><span class="k">NULL</span>
+<span class="o">-&gt;</span><span class="err">  </span><span class="p">);</span>
+<span class="n">Query</span><span class="err">  </span><span class="n">OK</span><span class="p">,</span><span class="err">  </span><span class="mi">0</span><span class="err">  </span><span class="k">rows</span><span class="err">  </span><span class="n">affected</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">01</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">DESC</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">-------+----------+------+-----+---------+----------------+</span>
+<span class="o">|</span><span class="err">  </span><span class="n">Field</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">Type</span> <span class="o">|</span><span class="err">  </span><span class="k">Null</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">Key</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">Default</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------+----------+------+-----+---------+----------------+</span>
+<span class="o">|</span><span class="err">  </span><span class="n">id</span> <span class="o">|</span><span class="err">  </span><span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">NO</span><span class="err">  </span><span class="o">|</span> <span class="o">|</span><span class="err">  </span><span class="k">NULL</span> <span class="o">|</span> <span class="o">|</span>
+<span class="o">|</span><span class="err">  </span><span class="n">name</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="nb">char</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">NO</span><span class="err">  </span><span class="o">|</span> <span class="o">|</span><span class="err">  </span><span class="k">NULL</span> <span class="o">|</span> <span class="o">|</span>
+<span class="o">|</span><span class="err">  </span><span class="n">age</span> <span class="o">|</span><span class="err">  </span><span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">NO</span><span class="err">  </span><span class="o">|</span> <span class="o">|</span><span class="err">  </span><span class="k">NULL</span> <span class="o">|</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------+----------+------+-----+---------+----------------+</span>
+<span class="mi">3</span><span class="err">  </span><span class="k">rows</span><span class="err">  </span><span class="k">in</span><span class="err">  </span><span class="k">set</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">DROP</span><span class="err">  </span><span class="k">TABLE</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="p">;</span>
+<span class="n">Query</span><span class="err">  </span><span class="n">OK</span><span class="p">,</span><span class="err">  </span><span class="mi">0</span><span class="err">  </span><span class="k">rows</span><span class="err">  </span><span class="n">affected</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h3 id="27-修改表格信息">2.7 修改表格信息</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span><span class="p">.</span><span class="err">重命名表格</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">alter</span><span class="err">  </span><span class="k">table</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">rename</span><span class="err">  </span><span class="n">ultraera_org</span><span class="p">;</span>
+<span class="n">b</span><span class="p">.</span><span class="err">新增列</span>
+<span class="k">alter</span><span class="err">  </span><span class="k">table</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">add</span><span class="err">  </span><span class="n">address</span><span class="err">  </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+<span class="k">c</span><span class="p">.</span><span class="err">删除列</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">alter</span><span class="err">  </span><span class="k">table</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">drop</span><span class="err">  </span><span class="k">column</span><span class="err">  </span><span class="n">address</span><span class="p">;</span>
+<span class="n">d</span><span class="p">.</span><span class="err">修改一个列的数据类型</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">alter</span><span class="err">  </span><span class="k">table</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">modify</span><span class="err">  </span><span class="n">name</span><span class="err">  </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+<span class="n">e</span><span class="p">.</span><span class="err">重命名一个列</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">alter</span><span class="err">  </span><span class="k">table</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="n">change</span><span class="err">  </span><span class="k">column</span><span class="err">  </span><span class="n">NAME</span><span class="err">  </span><span class="n">name</span><span class="err">  </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="28-向表格中插入数据">2.8 向表格中插入数据</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span><span class="p">.</span><span class="err">  全局插入</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">insert</span><span class="err">  </span><span class="k">into</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">values</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">'name'</span><span class="p">,</span><span class="mi">18</span><span class="p">);</span>
+<span class="n">b</span><span class="p">.</span><span class="err">  根据列插入</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">insert</span><span class="err">  </span><span class="k">into</span><span class="err">  </span><span class="n">ultraera</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">age</span><span class="p">)</span><span class="err">  </span><span class="k">values</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">'john'</span><span class="p">,</span><span class="mi">19</span><span class="p">);</span>
+<span class="o">###</span> <span class="mi">2</span><span class="p">.</span><span class="mi">9</span> <span class="err">查看表格中的数据：</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">select</span><span class="err">  </span><span class="o">*</span><span class="err">  </span><span class="k">from</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span> <span class="o">#</span><span class="err">  </span><span class="o">*</span><span class="err">匹配所有列，也可以只查询单个列，</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">select</span><span class="err">  </span><span class="n">name</span><span class="err">  </span><span class="k">from</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span>
+
+</code></pre></div></div>
+
+<h3 id="210-where-运算符条件判断查询查询使用方法where列运算符值">2.10 where 运算符：条件判断查询，查询使用方法：where  列  运算符  值</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">where</span><span class="err">支持的运算符：</span><span class="o">=</span><span class="err">等于；</span><span class="o">&gt;</span><span class="err">大于；</span><span class="o">&lt;</span><span class="err">小于；</span><span class="o">&lt;&gt;</span><span class="err">不等于；</span><span class="o">&gt;=</span><span class="err">大于等于；</span><span class="o">&lt;=</span><span class="err">小于等于；</span><span class="k">BETWEEN</span><span class="err">在某范围之内；</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="o">&lt;=</span><span class="mi">1</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="err">  </span><span class="k">between</span><span class="err">  </span><span class="mi">1</span><span class="err">  </span><span class="k">and</span><span class="err">  </span><span class="mi">4</span><span class="p">;</span>
+
+</code></pre></div></div>
+
+<h3 id="211-删除表格中的一条记录同样可以匹配-where-运算符">2.11 删除表格中的一条记录（同样可以匹配 where 运算符）</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">delete</span><span class="err">  </span><span class="k">from</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">where</span><span class="err">  </span><span class="n">id</span><span class="err">  </span><span class="o">=</span><span class="err">  </span><span class="mi">4</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">delete</span><span class="err">  </span><span class="o">*</span><span class="err">  </span><span class="k">from</span><span class="err">  </span><span class="n">ultraera</span><span class="err"> ；</span> <span class="o">#</span><span class="err">清空一个表格的数据；</span>
+
+</code></pre></div></div>
+
+<h3 id="212-更新表中的一个数据">2.12 更新表中的一个数据</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">update</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">set</span><span class="err">  </span><span class="n">age</span><span class="o">=</span><span class="mi">30</span><span class="err">  </span><span class="k">where</span><span class="err">  </span><span class="n">id</span><span class="o">=</span><span class="mi">3</span><span class="p">;</span>
+
+</code></pre></div></div>
+
+<h3 id="213-mysql-增加删除一个用户">2.13 MySQL 增加删除一个用户</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">create</span><span class="err">  </span><span class="k">user</span><span class="err">  </span><span class="n">user1</span><span class="err">  </span><span class="n">identified</span><span class="err">  </span><span class="k">by</span><span class="err">  </span><span class="s1">'123456'</span><span class="p">;</span> <span class="o">#</span><span class="n">user1</span><span class="err">，密码</span><span class="mi">123456</span><span class="err">，新用户没有权限，无法登录数据库</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">drop</span><span class="err">  </span><span class="k">user</span><span class="err">  </span><span class="n">user1</span><span class="p">;</span> <span class="o">#</span><span class="err">删除用户</span><span class="n">user1</span>
+
+</code></pre></div></div>
+
+<h3 id="214-给用户添加删除权限">2.14 给用户添加、删除权限</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">grant</span><span class="err">  </span><span class="k">all</span><span class="err">  </span><span class="k">privileges</span><span class="err">  </span><span class="k">on</span><span class="err">  </span><span class="o">*</span><span class="p">.</span><span class="o">*</span><span class="err">  </span><span class="k">to</span><span class="err">  </span><span class="s1">'user1'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="err">  </span><span class="n">identified</span><span class="err">  </span><span class="k">by</span><span class="err">  </span><span class="s1">'123456'</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">revoke</span><span class="err">  </span><span class="k">all</span><span class="err">  </span><span class="k">privileges</span><span class="err">  </span><span class="k">from</span><span class="err">  </span><span class="n">user1</span><span class="p">;</span>
+
+</code></pre></div></div>
+
+<h3 id="215-使用-mysqldump-进行数据库备份">2.15 使用 mysqldump 进行数据库备份</h3>
+
+<p>数据库重命名：mysql 不能直接对数据库重命名，所以如果想要重名数据库的话，要先导出，接着创建一个新的数据库，然后将导出的 sql 文件再导入到新的数据库中</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> mysqldump  -u  root  -p  ultraera  &gt;  ultraera.sql     <span class="c">#备份</span>
+<span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> mysql  -u  root  -p  new_ultraera  &lt;  ultraera.sql     <span class="c">#恢复到指定数据库</span>
+
 </code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-01-22</cite> <i class="icon-tag"></i>
+      <cite>2016-03-29</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#MySQL">MySQL</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/03/Linux-%E4%B8%AD%E7%9A%84%E4%B8%89%E4%B8%AA%E7%89%B9%E6%AE%8A%E6%9D%83%E9%99%90.html">Linux 中的三个特殊权限</a></h1>
+    <div class="post_at_index">
+      <h2 id="权限介绍">权限介绍</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Linux中除了普通权限之外，还有三个特殊权限。
+SUID:：以文件的所属用户执行，而非执行文件的用户，多用于可执行文件，设置suid后，在权限位中，所属用户的  最后一个权
+限为变为s，添加SUID权限可用“+s”表示。
+例如：passwd
+<span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> which  passwd
+/usr/bin/passwd
+<span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> <span class="nb">ls</span>  <span class="nt">-l</span>  /usr/bin/passwd
+<span class="nt">-rwsr-xr-x</span><span class="nb">.</span>  1  root  root  25980  Feb  22  2012  /usr/bin/passwd
+<span class="o">[</span>adam@ultraera  ~]<span class="err">$</span>
+SGID：主要针对文件夹，在设置了SGID的文件夹中创建任何新文件都继承该文件的所属组，设置sgid后，在权限位中，所属
+组的最后一个权限位变为s，添加SGID权限可用“+s”表示。
+例如：
+<span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> <span class="nb">mkdir  </span>ultraera
+<span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> <span class="nb">ls</span>  <span class="nt">-l</span>
+total  4
+drwxrwxr-x  2  adam  adam  4096  Nov  27  21:09  ultraera
+<span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> <span class="nb">chmod  </span>g+s  ultraera/
+<span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> <span class="nb">ls</span>  <span class="nt">-l</span>
+total  4
+drwxrwsr-x  2  adam  adam  4096  Nov  27  21:09  ultraera
+<span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> su
+Password:
+<span class="o">[</span>root@ultraera  adam]#  <span class="nb">mkdir</span>  <span class="nt">-p</span>  ultraera/test
+<span class="o">[</span>root@ultraera  adam]#  <span class="nb">ls</span>  <span class="nt">-l</span>  ultraera/
+total  4
+drwxr-sr-x  2  root  adam  4096  Nov  27  21:09  <span class="nb">test</span>
+<span class="o">[</span>root@ultraera  adam]#
+sticky：针对文件夹，对目录拥有写权限的用户，仅可以删除其所拥有的文件，无法删除其他用户所拥有的文件，设置了sticky
+之后，在权限位，other的最后一个权限位变为t,添加SGID权限可用“+t”表示。
+例如：
+<span class="o">[</span>root@ultraera  tmp]#  <span class="nb">mkdir  </span>ultraera
+<span class="o">[</span>root@ultraera  tmp]#  <span class="nb">chmod  </span><span class="nv">a</span><span class="o">=</span>rwx,o+t  ultraera/
+<span class="o">[</span>root@ultraera  tmp]#  <span class="nb">ls</span>  <span class="nt">-ld</span>  ultraera/
+drwxrwxrwt  2  root  root  4096  Nov  27  21:29  ultraera/
+<span class="o">[</span>root@ultraera  tmp]#  useradd  user1
+<span class="o">[</span>root@ultraera  tmp]#  useradd  user2
+<span class="o">[</span>root@ultraera  tmp]#  su  user1
+<span class="o">[</span>user1@ultraera  tmp]<span class="nv">$ </span> <span class="nb">touch</span>  ./ultraera/test
+<span class="o">[</span>user1@ultraera  tmp]<span class="nv">$ </span> <span class="nb">ls</span>  <span class="nt">-l</span>  ultraera/
+total  0
+<span class="nt">-rw-rw-r--</span>  1  user1  user1  0  Nov  27  21:31  <span class="nb">test</span>
+<span class="o">[</span>user1@ultraera  tmp]<span class="nv">$ </span> <span class="nb">exit
+exit</span>
+<span class="o">[</span>root@ultraera  tmp]#  su  user2
+<span class="o">[</span>user2@ultraera  tmp]<span class="nv">$ </span> <span class="nb">rm</span>  <span class="nt">-f</span>  ./ultraera/test
+<span class="nb">rm</span>:  cannot  remove  <span class="sb">`</span>./ultraera/test<span class="s1">':  Operation  not  permitted
+[user2@ultraera  tmp]$
+
+
+同样使用chmod来设定特殊权限，与普通权限一样，特殊权限也可以用数字表示：
+suid  ：  4
+sgid  ：  2
+sticky ：  1
+chmod  4644  filename #设置文件suid权限
+chmod  2755  flodername #设置文件夹sgid权限
+chmod  1755  flodername #设置文件夹sticky权限
+
+</span></code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-03-29</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Linux">Linux</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/03/CentOS-6-1-%E4%BD%BF%E7%94%A8createrepo%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E6%BA%90.html">CentOS 使用 createrepo 搭建本地源</a></h1>
+    <div class="post_at_index">
+      <blockquote>
+  <p>Tips: 本地搭建本地 yum 源采用的 rpm 全部来自 CentOS-6.7-bin-DVD1&amp;DVD2</p>
+</blockquote>
+
+<h3 id="1-测试环境">1. 测试环境</h3>
+
+<ul>
+  <li>MacBook Pro 15-inch i7 16GB</li>
+  <li>VMware Fushion 8 Pro</li>
+  <li>CentOS-6.7-i686-minimal.iso</li>
+</ul>
+
+<p>因为配置本地yum源需要修改/目录下的文件及/etc下面的配置文件，建议更换到root用户。</p>
+
+<h3 id="2-实验步骤">2. 实验步骤</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 2.1 因为配置本地yum源需要修改/目录下的文件及/etc下面的配置文件，建议更换到root用户。</span>
+<span class="o">[</span>adam@ultraera ~]<span class="nv">$ </span>su -
+Password:
+<span class="o">[</span>root@ultraera ~]#
+
+<span class="c"># 2.2 首先在本地创建一个存放rpm包的目录，我这里选择直接在/下创建，你可以自定义：</span>
+<span class="o">[</span>root@ultraera ~]# mkdir /yumload
+<span class="o">[</span>root@ultraera ~]# cd /yumload/
+<span class="o">[</span>root@ultraera yumload]# pwd
+/yumload
+<span class="c"># 2.3 接下来把两张DVD中的Packages中的rpm包全部拷贝到/yumload:</span>
+<span class="o">[</span>root@ultraera yumload]# cp /media/CentOS_6.5_Final/Packages/<span class="k">*</span> ./
+<span class="o">[</span>root@ultraera yumload]# ll ./<span class="k">*</span>.rpm | wc -l
+
+<span class="c">#两张DVD一共有的rpm包的数量:</span>
+4802
+
+
+<span class="c"># 2.4 然后使用createrepo指令创建本地repo，CentOS6默认不安装createrepo，需要手动安装，没关系，在我们的DVD光盘中已经集成了createrepo的包，如果报需要依赖安装其他包的使用，依次安装即可。</span>
+
+<span class="o">[</span>root@ultraera yumload]# rpm -ivh createrepo-0.9.9-18.el6.noarch.rpm
+
+<span class="c"># 2.5 创建yum仓库，耐心等待，可以加-v参数列出执行信息</span>
+<span class="o">[</span>root@ultraera yumload]# createrepo /yumload/
+Spawning worker 0 with 4802 pkgs
+Workers Finished
+Gathering worker results
+Saving Primary metadata
+Saving file lists metadata
+Saving other metadata
+Generating sqlite DBs
+Sqlite DBs complete
+<span class="o">[</span>root@ultraera yumload]#
+
+<span class="c"># 2.6 在/etc/yum.repo.d/下创建一个repo文件，文件名可以自定义，但一定要以repo结尾，并添加一下内容：</span>
+<span class="o">[</span>ultraera.org] <span class="c">#仓库名称可以自定义</span>
+<span class="nv">name</span><span class="o">=</span>This is a local repo <span class="c">#描述信息</span>
+<span class="nv">baseurl</span><span class="o">=</span>file:///yumload/ <span class="c">#这里填写仓库的url，注意 有三个正斜线</span>
+<span class="nv">enabled</span><span class="o">=</span>1 <span class="c">#是否开启仓库，1为开启，0为关闭</span>
+<span class="nv">gpgcheck</span><span class="o">=</span>0 <span class="c">#是否检查gpgkey，1为开启，0为关闭</span>
+
+<span class="c"># 2.7 另外如果想要添加软件包group的信息，可以把DVD1中的repodata文件中的*-comps.xml文件，使用ceraterepo -g 加载本地仓库即可，代码如下：</span>
+<span class="o">[</span>root@ultraera repodata]# createrepo -g [字符可能不一样，后缀正确就行]c6-i386-comps.xml /yumload/
+
+
+<span class="c"># 2.8 到这里本地yum源就已经搭建完成了，接下来重新初始化yum缓存：</span>
+<span class="o">[</span>root@ultraera repodata]# yum clean all
+Loaded plugins: fastestmirror, refresh-packagekit, security
+Cleaning repos: ultraera.org
+Cleaning up Everything
+Cleaning up list of fastest mirrors
+<span class="o">[</span>root@ultraera repodata]# yum makecache
+Loaded plugins: fastestmirror, refresh-packagekit, security
+Determining fastest mirrors
+ultraera.org | 2.9 kB 00:00 ...
+ultraera.org/filelists_db | 4.9 MB 00:00 ...
+ultraera.org/primary_db | 3.5 MB 00:00 ...
+ultraera.org/other_db | 2.1 MB 00:00 ...
+Metadata Cache Created
+
+<span class="c"># 2.9 测试group信息是否添加正确可以用如下代码，只要有正确输出信息就表示成功了</span>
+<span class="o">[</span>root@ultraera ~]# yum grouplist
+
+
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-03-28</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Yum">Yum</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/03/HowTo-Install-MongoDB-on-CentOS-6-x.html">HowTo Install MongoDB  on CentOS 6.x</a></h1>
+    <div class="post_at_index">
+      <h2 id="1-overiew">1. Overiew</h2>
+
+<p>在 CentOS Linux 中安装软件的方式有很多种，我会在后续的文章中整理给大家，我比较喜欢的方式是尽量用 Yum 安装，不用自己动手去解决软件包之间的依赖关系，“能 Yum 就 Yum，不能 Yum 想着法 Yum。”  – 这是我遵循的真理；今天给大家整理的就是如何使用 Yum 来安装 Mongodb，在本文中会给出在 32 位与 64 位系统的区别，以及 Mongodb 的版本，本文适用于 CentOS 6/7 的 Linux 发行版本，所以同样适用于红帽体系的 OS，如 RedHat Enterprise Linux 6/7、Fedora。</p>
+
+<h2 id="2-packages">2. Packages</h2>
+
+<p>业内常用的 Mongodb 的 Yum 仓库有 Mongodb-org 与 Mongodb-10gen ,这里提供的 Mongodb-org 的 repository 仓库，支持以下软件包列表：</p>
+
+<ul>
+  <li>
+    <p>2.1 mongodb-org</p>
+
+    <p>这个是源数据包，主要是用来组织自动安装下面的 4 个软件包。</p>
+  </li>
+  <li>
+    <p>2.2 mongodb-org-sever</p>
+
+    <p>这个 Mongodb Server 端，包含了相关的配置和初始化脚本。</p>
+  </li>
+  <li>
+    <p>2.3 mongodb-org-mongos</p>
+
+    <p>这个是 Mongodb 的守护进程。</p>
+  </li>
+  <li>
+    <p>2.4 mongodb-org-shell</p>
+
+    <p>这个是 mongodb 的 shell 环境。</p>
+  </li>
+  <li>
+    <p>2.5 mongodb-org-tools</p>
+
+    <p>这个包里包含了下列 mongodb 的工具：mongoimport bsondump, mongodump, mongoexport, mongofiles, mongooplog, mongoperf, mongorestore, mongostat, and mongotop。</p>
+  </li>
+</ul>
+
+<h2 id="3-添加相对应版本的-mongodb-repo-file">3. 添加相对应版本的 Mongodb repo file</h2>
+
+<h3 id="31-mongodb-26--os-x64">3.1 Mongodb 2.6 + OS x64</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-2.6.repo
+
+<span class="o">[</span>mongodb-org-2.6]
+<span class="nv">name</span><span class="o">=</span>MongoDB 2.6 Repository
+<span class="nv">baseurl</span><span class="o">=</span>http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+<span class="nv">enabled</span><span class="o">=</span>1
+
+</code></pre></div></div>
+
+<h3 id="32-mongodb-26--os-i686">3.2 Mongodb 2.6 + OS i686</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-2.6.repo
+
+<span class="o">[</span>mongodb-org-2.6]
+<span class="nv">name</span><span class="o">=</span>MongoDB 2.6 Repository
+<span class="nv">baseurl</span><span class="o">=</span>http://downloads-distro.mongodb.org/repo/redhat/os/i686/
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+<span class="nv">enabled</span><span class="o">=</span>1
+
+</code></pre></div></div>
+
+<h3 id="33-mongodb-32---os-x64">3.3 Mongodb 3.2  + OS x64</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-3.2.repo
+
+<span class="o">[</span>mongodb-org-3.2]
+<span class="nv">name</span><span class="o">=</span>MongoDB Repository
+<span class="nv">baseurl</span><span class="o">=</span>https://repo.mongodb.org/yum/redhat/<span class="nv">$releasever</span>/mongodb-org/3.2/x86_64/
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+<span class="nv">enabled</span><span class="o">=</span>1
+
+</code></pre></div></div>
+
+<h3 id="34-mongodb-32---os-i686">3.4 Mongodb 3.2  + OS i686</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-3.2.repo
+
+<span class="o">[</span>mongodb-org-3.2]
+<span class="nv">name</span><span class="o">=</span>MongoDB Repository
+<span class="nv">baseurl</span><span class="o">=</span>https://repo.mongodb.org/yum/redhat/<span class="nv">$releasever</span>/mongodb-org/3.2/i686/
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+<span class="nv">enabled</span><span class="o">=</span>1
+
+</code></pre></div></div>
+
+<h2 id="4-install-mongodb">4. Install MongoDB</h2>
+
+<p>安装最新版本的 Mongodb，安装都方式一样，请注意安装相对应的源保证正确安装 Mongodb，请使用如下命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# yum clean all
+<span class="o">[</span>root@vm02 ~]# yum makecache
+<span class="o">[</span>root@vm02 ~]# yum <span class="nb">install </span>mongodb-org
+
+</code></pre></div></div>
+
+<h2 id="5-run-mongodb">5. Run MongoDB</h2>
+
+<h3 id="51-配置-selinux">5.1 配置 SELinux</h3>
+
+<p>SELinux 默认为开启状态，会导致我们的 Mongodb 无法使用，解决方式有两种：</p>
+
+<ol>
+  <li><a href="http://blog.ultraera.org/centos6-x-base-settings/">关闭 SELinux</a></li>
+  <li>添加 Mongodb 通过 SELinux 设定，指令如下：</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>semanage port <span class="nt">-a</span> <span class="nt">-t</span> mongod_port_t <span class="nt">-p</span> tcp 27017
+
+</code></pre></div></div>
+
+<blockquote>
+  <p>Tips: 在 CentOS 7，SELinux 会限定你去修改 Mongodb 的 data 目录及 lib 目录。</p>
+</blockquote>
+
+<h3 id="52-start-mongodb">5.2 Start MongoDB</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# <span class="nb">sudo </span>service mongod start
+Starting mongod:                                           <span class="o">[</span>  OK  <span class="o">]</span>
+<span class="o">[</span>root@vm02 ~]#
+
+</code></pre></div></div>
+
+<h3 id="53-检查-mongodb-日志文件验证服务正常启动-varlogmongodbmongodblog">5.3 检查 MongoDB 日志文件验证服务正常启动， /var/log/mongodb/mongodb.log</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# <span class="nb">cat</span> /var/log/mongodb/mongod.log  <span class="c"># 看到如下内容表示mongodb启动成功了。</span>
+2016-03-24T04:09:28.582+0800 I NETWORK  <span class="o">[</span>initandlisten] waiting <span class="k">for </span>connections on port 27017
+
+</code></pre></div></div>
+
+<h3 id="54-设置-mongodb-开机自启动">5.4 设置 MongoDB 开机自启动</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# chkconfig mongod on
+
+</code></pre></div></div>
+
+<h3 id="55-设置-mongodb-允许其他服务器访问">5.5 设置 MongoDB 允许其他服务器访问</h3>
+
+<p>默认情况下，mongodb 只监听 127.0.0.1，但是实际生产环境中可能需要其他服务器访问，所以这里添加监听其他网络端口，修改 mongodb 的配置文件：/etc/mongodb.conf</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# vim /etc/mongodb.conf
+
+<span class="c"># line 29 增加一行：</span>
+    bindIp: 172.16.102.129
+
+<span class="c"># 注意不要把1270.0.1 去除，这会导致本地无法使用MongoDB .</span>
+
+</code></pre></div></div>
+
+<h2 id="6-use-mongodb">6. Use MongoDB</h2>
+
+<h3 id="61-检查-mongodb-状态">6.1 检查 mongodb 状态</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# service mongod status
+mongod <span class="o">(</span>pid 6502<span class="o">)</span> is running...
+<span class="o">[</span>root@vm02 ~]#
+
+</code></pre></div></div>
+
+<h3 id="62-mongodb-自带检测工具">6.2 mongodb 自带检测工具</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# mongostat
+insert query update delete getmore <span class="nb">command</span> % dirty % used flushes  vsize   res qr|qw ar|aw netIn netOut conn                      <span class="nb">time</span>
+    <span class="k">*</span>0    <span class="k">*</span>0     <span class="k">*</span>0     <span class="k">*</span>0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:09+08:00
+    <span class="k">*</span>0    <span class="k">*</span>0     <span class="k">*</span>0     <span class="k">*</span>0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:10+08:00
+    <span class="k">*</span>0    <span class="k">*</span>0     <span class="k">*</span>0     <span class="k">*</span>0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:11+08:00
+
+</code></pre></div></div>
+
+<h3 id="63-进入-mongodb-命令行模式">6.3 进入 mongodb 命令行模式</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# mongo
+MongoDB shell version: 3.2.4
+connecting to: <span class="nb">test
+</span>Server has startup warnings:
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten]
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten] <span class="k">**</span> WARNING: /sys/kernel/mm/transparent_hugepage/enabled is <span class="s1">'always'</span><span class="nb">.</span>
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten] <span class="k">**</span>        We suggest setting it to <span class="s1">'never'</span>
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten]
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten] <span class="k">**</span> WARNING: /sys/kernel/mm/transparent_hugepage/defrag is <span class="s1">'always'</span><span class="nb">.</span>
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten] <span class="k">**</span>        We suggest setting it to <span class="s1">'never'</span>
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten]
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten] <span class="k">**</span> WARNING: soft rlimits too low. rlimits <span class="nb">set </span>to 1024 processes, 64000 files. Number of processes should be at least 32000 : 0.5 <span class="nb">times </span>number of files.
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten]
+<span class="o">&gt;</span>
+
+</code></pre></div></div>
+
+<h2 id="7-uninstall-mongodb">7. Uninstall MongoDB</h2>
+
+<h3 id="71-关闭-mongodb">7.1 关闭 mongodb</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# service mongod stop
+
+</code></pre></div></div>
+
+<h3 id="72-卸载-mongodb-软件包">7.2 卸载 mongodb 软件包</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# yum erase <span class="si">$(</span>rpm <span class="nt">-qa</span> | <span class="nb">grep </span>mongodb-org<span class="si">)</span>
+
+</code></pre></div></div>
+
+<h3 id="73-删除-mongodb-文件数据库文件和日志文件">7.3 删除 mongodb 文件：数据库文件和日志文件</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# <span class="nb">rm</span> <span class="nt">-rf</span> /var/log/mongodb
+<span class="o">[</span>root@vm02 ~]# <span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/mongo
+
+</code></pre></div></div>
+
+<h2 id="8-faq">8. FAQ</h2>
+
+<p>Q : Mongodb 占用 99%CPU 并且查询速度很慢？</p>
+
+<p>A : 数据库需要首先建立索引，类似图书的目录文件，否则当你在数据库内查找数据的时候，就类似于在整本字典一页页翻查一个字如此。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-03-27</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#MongoDB">MongoDB</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/03/%E5%9C%A8CentOS%E4%B8%AD%E9%85%8D%E7%BD%AE-SFTP-%E7%8E%AF%E5%A2%83.html">在 CentOS 中配置 SFTP 环境</a></h1>
+    <div class="post_at_index">
+      <p>做运维工作的，应该经常会碰到这样的问题，需要新上一个 web 项目，需要上传文件到服务器上，解决方法有很多种，常见的如 sftp 和 ftp，今天讲如何使用 sftp 让系统用户用户上传项目的权限，并且实现 chroot 和无法使用 ssh 登录到系统。</p>
+
+<p>SFTP 是指 SSH 文件传输协议（SSH File Transfer protocol）或安全文件传输协议（Secure File Transfer Protocol），它提供了可信数据流下的文件访问、文件传输以及文件管理功能。当我们为 SFTP 配置 chroot 环境后，只有被许可的用户可以访问，并被限制到他们的家目录中，换言之：被许可的用户将处于牢笼环境中，在此环境中它们甚至不能切换它们的目录。</p>
+
+<h2 id="1-测试环境">1. 测试环境</h2>
+
+<ul>
+  <li>MacBook Pro 15-inch i7 16GB</li>
+  <li>VMware Fushion 8 Pro</li>
+  <li>Transmit ( SFTP tools for Mac )</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# <span class="nb">cat</span> /etc/issue
+CentOS release 6.6 <span class="o">(</span>Final<span class="o">)</span>
+Kernel <span class="se">\r</span> on an <span class="se">\m</span>
+<span class="o">[</span>root@test ~]# rpm <span class="nt">-qa</span> | <span class="nb">grep </span>openssh-server
+openssh-server-5.3p1-104.el6.i686
+</code></pre></div></div>
+
+<h2 id="2-实验步骤">2. 实验步骤</h2>
+
+<h3 id="21-增加一个-sftpusers-用户组">2.1 增加一个 sftpusers 用户组</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# groupadd sftpusers
+</code></pre></div></div>
+
+<h3 id="22-创建一个用户-user01并分配给-sftpusers-用户组">2.2 创建一个用户 user01，并分配给 sftpusers 用户组</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# useradd <span class="nt">-g</span> sftpusers user01
+</code></pre></div></div>
+
+<h3 id="23-修改用户家目录及指定不能登录-shell">2.3 修改用户家目录及指定不能登录 shell</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# <span class="nb">mkdir</span> /sftp/
+<span class="o">[</span>root@test ~]# usermod <span class="nt">-s</span> /sbin/nologin <span class="nt">-d</span> /sftp/user01 <span class="nt">-m</span> user01
+</code></pre></div></div>
+
+<h3 id="24-给用户创建密码注意密码不明文显示">2.4 给用户创建密码（注意密码不明文显示）</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# passwd user01
+Changing password <span class="k">for </span>user user01.
+New password:
+BAD PASSWORD: it is too simplistic/systematic
+BAD PASSWORD: is too simple
+Retype new password:
+passwd: all authentication tokens updated successfully.
+<span class="o">[</span>root@test ~]#
+</code></pre></div></div>
+
+<h3 id="25-修改-ssh-的配置文件如下设置">2.5 修改 ssh 的配置文件，如下设置</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# ll /etc/ssh/sshd_config
+<span class="nt">-rw-------</span><span class="nb">.</span> 1 root root 3879 Oct 15  2014 /etc/ssh/sshd_config
+<span class="o">[</span>root@test ~]# vim /etc/ssh/sshd_config
+
+<span class="c"># line 132</span>
+<span class="c">#Subsystem      sftp    /usr/libexec/openssh/sftp-server    #注释</span>
+Subsystem       sftp    internal-sftp        <span class="c">#修改为internal-sftp</span>
+
+<span class="c"># add this lines at the end of file</span>
+Match Group sftpusers        <span class="c">#指定一下参数仅适用的用户组sftpusers</span>
+    X11Forwarding no
+    AllowTcpForwarding no
+    ChrootDirectory %h       <span class="c">#设置chroot将用户锁在家目录，%h=家目录</span>
+    ForceCommand internal-sftp    <span class="c">#该参数强制执行内部sftp</span>
+</code></pre></div></div>
+
+<h3 id="26-重启-ssh-服务">2.6 重启 ssh 服务</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# /etc/init.d/sshd restart
+Stopping sshd:                                             <span class="o">[</span>  OK  <span class="o">]</span>
+Starting sshd:                                             <span class="o">[</span>  OK  <span class="o">]</span>
+</code></pre></div></div>
+
+<h3 id="27-设置用户家目录权限注意权限不能大于-0755">2.7 设置用户家目录权限，(注意权限不能大于 0755)</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# <span class="nb">chmod </span>0755 /sftp/user01/
+<span class="o">[</span>root@test ~]# <span class="nb">chown </span>root /sftp/user01/
+<span class="o">[</span>root@test ~]# <span class="nb">chgrp</span> <span class="nt">-R</span> sftpusers /sftp/user01/
+</code></pre></div></div>
+
+<h3 id="28-关于上传根目录无法上传文件">2.8 关于上传，根目录无法上传文件</h3>
+
+<p>因为用户家目录属主是 root，并且权限最大 0755，所以没法写，我的解决方法是在在家目录建立一个文件夹，作为上传目录，并把属主给 user01 即可。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# <span class="nb">mkdir</span> /sftp/user01/upload
+<span class="o">[</span>root@test ~]# <span class="nb">chown </span>user01:sftpusers /sftp/user01/upload/
+</code></pre></div></div>
+
+<h2 id="3-测试验证">3. 测试验证</h2>
+
+<h3 id="31-linux-登录测试">3.1 Linux 登录测试</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# su - user01
+This account is currently not available.    <span class="c">#su - 切换失败</span>
+
+<span class="o">[</span>root@test ~]# <span class="nb">cat</span> /etc/passwd | <span class="nb">tail</span> <span class="nt">-1</span>
+user01:x:500:500::/sftp/user01:/sbin/nologin
+
+<span class="o">[</span>root@test ~]# ssh user01@localhost
+The authenticity of host <span class="s1">'localhost (::1)'</span> can<span class="s1">'t be established.
+RSA key fingerprint is f3:fc:31:dc:7d:16:d5:ad:8c:bc:eb:69:8f:b2:0b:c9.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '</span>localhost<span class="s1">' (RSA) to the list of known hosts.
+user01@localhost'</span>s password:
+This service allows sftp connections only.    <span class="c">#ssh登录也失败，ssh设置成功</span>
+Connection to localhost closed.
+
+<span class="o">[</span>root@test ~]# sftp user01@localhost
+Connecting to localhost...
+user01@localhost<span class="s1">'s password:
+sftp&gt; ls
+upload
+sftp&gt; pwd
+Remote working directory: /
+sftp&gt;
+
+</span></code></pre></div></div>
+
+<h3 id="32-sftp-工具测试">3.2 SFTP 工具测试</h3>
+
+<p>我这里使用的是 Mac，但是传统的文件传输工具都差不多，Windows 下有 Winscp、Xftp 等。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-03-24</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#SSH">SSH</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/03/MySQL-6-%E5%88%A9%E7%94%A8Linux%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E5%AE%9A%E6%97%B6%E5%90%8C%E6%AD%A5MySQL.html">利用 Linux 计划任务定时同步 MySQL</a></h1>
+    <div class="post_at_index">
+      <p>说下实际项目场景，公司一个应用已部署主从数据库，业务也正式上线；现在客户公司领导希望可以看到每天的业务数据报表，本设定直接到从库拿数据，然后进行数据处理，生成报表，但是 Java 同事提出需求新增用户和权限表，这样一来，如果直接使用生产库的表会导致后台系统管理人员与领导的账户和权限混淆，经过讨论决定，按照生产库的表结构新增特殊用户表和权限表；这样操作实际是可以在从库上新增表单，且不影响主从库之间的数据同步，但是从安全性的考虑，新增表单设计需要给用户 Insert 权限，为了保证从库只有利用主库同步写入数据，则只能给其他用户 select 权限。</p>
+
+<p><strong>最终决定，因为报表系统的使用率低，直接在报表系统的服务器安装本地 mysql 数据库，通过计划任务定时到从库上同步数据。</strong></p>
+
+<h3 id="1-测试环境">1. 测试环境</h3>
+
+<ul>
+  <li>MacBook Pro 15’ i7 16GB</li>
+  <li>VMware Fushion 8 Pro</li>
+  <li>MySQL Version 5.6</li>
+  <li>CentOS Linux 6.x</li>
+  <li>slave Server : 172.16.102.129</li>
+  <li>local Server : 172.167.102.133</li>
+</ul>
+
+<h3 id="2-利用-mysqldump-导出-sql-文件">2. 利用 mysqldump 导出 sql 文件</h3>
+
+<p>需要注意的是，mysqldump 时会锁表，需要给 mysqldump 传递“–single-transaction”参数，可以使得 mysqldump 时不锁表，如下：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/mysqldump <span class="nt">-h</span> 172.168.102.129 <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> <span class="nt">--single-transaction</span> slave <span class="o">&gt;</span> slave.sql
+</code></pre></div></div>
+
+<h3 id="3-使用-mysql-恢复-sql-文件到数据库中">3. 使用 mysql 恢复 sql 文件到数据库中</h3>
+
+<p>需要注意的是，如果该 local server 的 slave 库中有数据表，当表名与 slave server 的表名相同时，数据表内的数据会被覆盖；如果 local server 的表在 slave.sql 中不存在，则不受影响，正是利用这个特性解决用户需求。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/mysql <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> report &lt; /home/.mysql/slave.sql
+</code></pre></div></div>
+
+<h3 id="4-编写脚本">4. 编写脚本</h3>
+
+<p>首先在本地某一位置作为临时 sql 存储地址：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# <span class="nb">mkdir</span> /home/.mysql     <span class="c"># 这个目录可以自定义</span>
+</code></pre></div></div>
+
+<p>脚本 1：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H"</span><span class="sb">`</span>
+
+<span class="nb">rm</span> <span class="nt">-rf</span> /home/.mysql/<span class="k">*</span>
+
+/usr/bin/mysqldump <span class="nt">-h</span> 172.168.102.129 <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> <span class="nt">--single-transaction</span> slave <span class="o">&gt;</span> /home/.mysql/slave_<span class="nv">$TIME</span>.sql
+
+/usr/bin/mysql <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> report &lt; /home/.mysql/slave_<span class="nv">$TIME</span>.sql
+
+</code></pre></div></div>
+
+<h3 id="5-增加邮件通知功能">5. 增加邮件通知功能</h3>
+
+<p>因为前期同事需要得知备份的执行结果，所以希望数据同步成功后获得邮件提醒，这里使用 sendmail 实现，在 CentOS 里预装是没有安装 sendmail，所以我们需要安装 sendmail 服务，另外一个安装命令行邮件工具 mailx：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# yum <span class="nb">install</span> <span class="nt">-y</span> sendmail mailx
+
+......
+
+<span class="o">[</span>root@report ~]# service sendmail start
+Starting sendmail:                                         <span class="o">[</span>  OK  <span class="o">]</span>
+Starting sm-client:                                        <span class="o">[</span>  OK  <span class="o">]</span>
+<span class="o">[</span>root@report ~]# chkconfig sendmail on
+
+</code></pre></div></div>
+
+<p>完整脚本：report_sync.sh，如下：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H"</span><span class="sb">`</span>
+
+<span class="nb">rm</span> <span class="nt">-rf</span> /home/.mysql/<span class="k">*</span>
+
+/usr/bin/mysqldump <span class="nt">-h</span> 172.168.102.129 <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> <span class="nt">--single-transaction</span> slave <span class="o">&gt;</span> /home/.mysql/slave_<span class="nv">$TIME</span>.sql
+
+/usr/bin/mysql <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> report &lt; /home/.mysql/slave_<span class="nv">$TIME</span>.sql
+
+<span class="c"># send mail to adminuser</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span>
+<span class="k">then
+        </span><span class="nb">echo</span> <span class="s2">"report SQL sync is successfully. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> report-sync-successfully  hello@abc.cn
+<span class="k">else
+        </span><span class="nb">echo</span> <span class="s2">" Error Error report SQL sync is Error. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> report-sync-error  hello@abc.cn
+<span class="k">fi</span>
+
+</code></pre></div></div>
+
+<p>查看下邮件通知：
+<img src="http://blog.ultraera.org:80/content/images/2016/03/24/p01.jpg" alt="image" /></p>
+
+<h3 id="6-计划任务-crontab">6. 计划任务 crontab</h3>
+
+<p>和同事及客户沟通，确认每天 1、5、9、13、17、21 整时到从库拉去数据，Linux 选择使用 crontab 做计划任务，crontab 命令常见于 Unix 和类 Unix 的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“crontab”文件中。通常，crontab 储存的指令被守护进程激活，crond 常常在后台运行，每一分钟检查是否有预定的作业需要执行。这类作业一般称为 cron jobs。</p>
+
+<h4 id="61-安装-crontab">6.1 安装 crontab</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# yum <span class="nb">install</span> <span class="nt">-y</span> vixie-cron
+<span class="o">[</span>root@report ~]# yum <span class="nb">install</span> <span class="nt">-y</span> crontabs
+
+说明：
+vixie-cron软件包是cron的主程序；
+crontabs软件包是用来安装、卸装、或列举用来驱动 crond 守护进程的表格的程序。
+
+cron 是linux的内置服务，但它不自动起来，可以用以下的方法启动、关闭这个服务：
+/sbin/service crond start <span class="c">#启动服务</span>
+/sbin/service crond stop <span class="c">#关闭服务</span>
+/sbin/service crond restart <span class="c">#重启服务</span>
+/sbin/service crond reload <span class="c">#重新载入配置</span>
+
+设置crond开机自启动
+<span class="o">[</span>root@report ~]# chkconfig crond on
+
+</code></pre></div></div>
+
+<h3 id="7-添加计划任务">7. 添加计划任务</h3>
+
+<p>将脚本 report_sync.sh 保存到/usr/bin下：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# <span class="nb">mv </span>report_sync.sh /usr/bin
+</code></pre></div></div>
+
+<p>增加计划任务：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# crontab <span class="nt">-e</span>
+
+<span class="c"># add this word.</span>
+<span class="k">*</span> 1-21/4  <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/bin/report_sync.sh
+
+<span class="c"># 表示在每天的1-21时间内，每4小时执行一个脚本</span>
+
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-03-24</cite> <i class="icon-tag"></i>
       <a href="/tags.html#MySQL">MySQL</a>
       , 
       <a href="/tags.html#CentOS">CentOS</a>
+      , 
+      <a href="/tags.html#Shell">Shell</a>
       
       
       
@@ -340,386 +1494,221 @@ Reload privilege tables now? <span class="o">[</span>Y/n]: Y
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/01/%E5%A6%82%E4%BD%95%E5%81%9A%E4%B8%80%E4%B8%AA%E6%88%90%E7%86%9F%E7%9A%84%E8%87%AA%E5%B7%B1.html">何余生说要感谢身边所有美好的人</a></h1>
+    <h1><a class="title" href="/post/2016/03/Linux-%E7%AC%94%E8%AF%95%E8%AF%95%E9%A2%98.html">Linux 笔试试题</a></h1>
     <div class="post_at_index">
-      <p>在<a href="https://www.zhihu.com/question/59607102/answer/168598394">@知乎</a>上看到一段话：</p>
+      <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>一。选择题（1 题 1 分）
+1. 当登录 Linux 时，一个具有唯一进程 ID 号的 shell 将被调用，这个 ID 是什么 (   )
+A. NID  B. PID  C. UID  D. CID
+答案:B
+2. 用 vi 打开一个文件，如何用字母"new"来代替字母"old" (   )
+A. :s/old/new/g　　　B. :s/old/new　　C. :1,$s/old/new/g　　　D. :r/old/new
+答案:A
+3. 请选择对标准的变量 PS2 正确的描述 (   )
+A. 是一个主 shell 提示符变量    B. 是一个一般的 shell 提示符变量
+C. 是第二主 shell 提示符变量     D. 是一个连续提示符变量
+答案:B
+4. 哪一个命令能用来查找文件 TESTFILE 中只包含四个字符的行？(   )
+A. grep '^????$' TESTFILE    B. grep '????' TESTFILE
+C. grep '^....$' TESTFILE     D. grep '....' TESTFILE
+答案:C
+5. 一个 bash shell 脚本的第一行是什么 (   )
+A. #!/bin/bash  B. #/bin/bash  C. #/bin/csh   D. /bin/bash
+答案:A
+6. 用标准的输出重定向 (&gt;) 像"&gt; file01"能使文件 file01 的数据（   ）
+A. 被移动  B. 被复制  C. 被打印   D. 被覆盖
+答案:D
+7. 下面哪个命令是用来定义 shell 的全局变量 (    )
+A. exportfs  B. alias  C. exports  D. export
+答案:D
+8. 如果想加载一个/dev/sdb1的windows95分区到/mnt/win95目录，需要运行哪个命令(   )
+A. mount -t hpfs /dev/sdb1 /mnt/win95
+B. mount -t hpfs /mnt/win95 /dev/sdb1
+C. mount -t vfat /dev/sdb1 /mnt/win95
+D. mount -t vfat /mnt/win95 /dev/sdb1
+答案:C
+9. 哪个文件存放用户密码信息 (   )
+A. /boot/passwd   B. /etc/shadow   C. /var/passwd  D. /dev/passwd
+答案:B
+10. 假定 kernel 支持 vfat 分区，下面哪一个操作是将/dev/sda1，一个 window98 分区加载到/win 目录 (   )
+A. mount -s win /dev'sda1 /win
+B. mount -fs=msdos /dev/sda1 /win
+C. mount -t vfat /dev/sda1 /win
+D. mount -t windows /win /dev/sda1
+答案:C
+11. 默认情况下管理员创建了一个用户，就会在 (   ) 目录下创建一个用户主目录。
+A. /usr  B. /home   C. /root  D. /etc
+答案:B
+12. 如果要列出一个目录下的所有文件需要使用命令行 (    )。
+A. ls –l  B. ls   C. ls –a   D. ls -d
+答案:C
+13. 利用哪个工具可以设置用户在文件系统中的空间大小 (   )。
+A. turboservice  B. turbofscfg  C. turbonetcfg   D. turboxcfg
+答案:B
+14. 哪个命令可以将普通用户转换成超级用户 (   )
+A. super  B. passwd  C. tar   D. su
+答案:D
+15. 哪个命令用来显示/home及其子目录下文件名(   )
+A. ls -R /home  B. ls -d /home  C. ls -a /home    D. ls -l /home
+答案:A
+16. 在 vi 模式下，哪个命令用来删除光标处的字符 (    )
+A. xd   B. x   C. dd   D. d
+答案:B　　dd删除一行,x删除当前字符
+17. 在一行内运行多个命令需要用什么字符隔开 (   )
+A. @  B. $   C. ;  D. *
+答案:C
+18. 确定 myfile 的文件类型的命令是 (   )
+A. whatis myfile
+B. file myfile
+C. type myfile
+D. type -q myfile
+答案:B
+19. 哪些命令组合起来能统计多少用户登录系统 (    )
+A. who | wc –w   B. who | wc –l   C. who | wc –c   D. who | wc
+答案:BD
+20. 用 "rm -i",系统会提示什么来让你确认 (   )
+A. 命令行的每个选项  B. 是否真的删除  C. 是否有写的权限   D. 文件的位置
+答案:B
+21. Linux 启动的第一个进程 init 启动的第一个脚本程序是 (   )。
+A. /etc/rc.d/init.d   B. /etc/rc.d/rc.sysinit  C. /etc/rc.d/rc5.d  D. /etc/rc.d/rc3.d
+答案:B
+22. 按下 (   ) 键能终止当前运行的命令
+A. Ctrl-C   B. Ctrl-F   C. Ctrl-B   D. Ctrl-D
+答案:a
+23. 用来分离目录名和文件名的字符是 (   )
+A. dash (-)  B. slash (/)  C. period (.)   D. asterisk (*)
+答案:B
+24. 系统的配置文件在 (  ) 目录下
+A. /home   B. /dev  C. /etc   D. /usr
+答案:C
+25. 显示用户的主目录的命令是什么？(   )
+A. echo $HOME  B. echo $USERDIR   C. echo $ENV  D. echo $ECHO
+答案:A
+26. 在 vi 编辑器里，哪个命令能将光标移到第 200 行 (    )
+A. g200  B. G200  C. :200   D. 200g
+答案:C
+:200 可以，200G 也可以
+27. 用"useradd jerry"命令添加一个用户，这个用户的主目录是什么？(   )
+A. /etc/jerry   B. /var/jerry  C. /home/jerry   D. /bin/jerry
+答案:C
+28. 哪一个命令能用来删除当前目录及其子目录下名为'core'的文件 (   )
+A. find . -name core -exec rm {} \ ;
+B. find . -name core -exec rm ;
+C. find . -name core -exec rm {} ;
+D. find . -name core -exec rm {} -;
+答案:A
+29. 以下哪条命令在创建一个 xp 用户的时候将用户加入到 root 组中 (  )
+A. useradd -g xp root  B. useradd -r root xp  C. useradd -g root xp   D. useradd root xp
+答案:C
+30. 不改变运行级别而重新读入 inittab 文件的命令是 (    )。
+A. init s  B. init q  C. init S   D. init Q
+答案:B
+31. 以下哪个命令可以终止一个用户的所有进程 (   )
+A. skillall   B. skill  C. kill   D. killall
+答案:D
+32. 通过修改哪个文件可以在创建用户的时候改变用 户主目录的路径 (   )
+A. /etc/default/passwd   B. /etc/default/useradd  C. /etc/profile  D. /etc/fstab
+答案:B
+33. 以只读方式打开一个文件并进入 vi 编辑器的命令是 (   )
+A. view -r filename   B. view filename   C. vi filename   D. vi -r filename
+答案:B
+34. 以下哪个命令是将缓存中的内容粘贴到光标之前 (   )
+A. a   B. i   C. P   D. p
+答案:C
+35. 以下哪条 vi 命令能将文档 5-20 行间出现的 abc 替换成为 cba (   )
+A. :1,$s/abc/cba/g　　　B. :5,20/abc/cba/g　　C. :5-20s/abc/cba/g　　　D. :5,20s/abc/cba/g
+答案:D
+. 在 vi 中通过哪条命令可以将 ps 命令执行的结果插入到文档中 (   )
+A. :r!ps   B. :!ps   C. :!rps    D. :w!ps
+答案:A
+36. 以下哪个vi命令可以在当前位置插入/etc/passwd文本文件(   )
+A. :r /etc/passwd   B. :i /etc/passwd  C. :w /etc/passwd   D. :s /etc/passwd
+答案:A
+37. vi 中复制整行的命令是 (   )
+A. y1   B. yy   C. ss   D. dd
+答案:B
+38. 以下哪个 vi 命令可以给文档的每行加上一个编号 (    )
+A. :e number   B. :set number  C. :r!date     D. :200g
+答案:B
+38. 以下哪些文件只有根用户才能读写 (   )
+A. /etc/bashrc   B. /etc/profile   C. /etc/shadow    D. /etc/passwd
+答案:BC
+39. 使用 groupdel 删除一个组的时候，命令执行失败，原因可能是 (   )
+A. 该组是系统组   B. 该组是空的   C. 该组中成员非空   D. 该组不存在
+答案:CD
+40. Linux 中文件名构成的规则比较灵活表现在 (   )
+A. 文件名长度多达 256 个字符     B. 可以使用除了/符号外的所有ASCII字符
+C. 不区分大小写            D. 无扩展名限制
+答案:ABD
+41. 对用户的口令进行加解锁的命令是 passwd，参数选项是 (   )
+A. –l  B. –L  C. –u   D. -U
+答案:AC
+42. 如果你对文件和目录的权限不确定，则不能用 (   ) 命令来检测权限
+A. ps   B. ck    C. ls –l   D. chown
+答案:ABD
+43. 选择对/proc文件系统不正确的描述(    )
+A. 通常情况下，不提供中断、IO 端口、CPU 等信息   B. /proc 文件系统可以提供系统核心的许多参数
+C. /proc 是一个虚拟的文件系统            D. 可以得到系统中运行的进程的一些信息
+答案:A
+44. 以下哪些符号可以用来连接多条命令 (   )
+A. ||    B. &amp;&amp;   C. ;   D. |
+答案:ABCD
+45. 在 shell 中，下面哪些字符串当作普通字符串时候需要使用"\"来转义 (   )
+A. 分号 (;)   B. 双引号 (")  C. 单引号 (')   D. 反斜杆 (\)
+答案:BCD
+46. Linux 中提供了几个重要的工具用来改变服务和进程的运行状态和运行级别以及初始化进程，它们是 (   )。
+A. chkconfig  B. service  C. turboservice   D. ksysv
+答案:ABCD
+47. 在/etc/rc.d/init.d目录下的所有脚本至少支持两个运行参数,它们是(    )。
+A. start   B. restart    C. stop   D. reload
+答案:AC
+48. Linux 一般被称为是稳定的服务器系统，它的安全性表现在 (   )
+A. 网络防火墙  B. 用户管理策略 C. 系统、目录、文件的权限控制 D. 封闭源码便于及时修正漏洞等
+答案:ABC
+49. 在 vi 中下列哪些命令不能用来在光标前插入文本 (   )
+A. p [text]　　B. i [text]　　C. o [text]　　　D. a [text]
+答案:ACD
+50. 在本地的文件系统中下列哪些 linux 路径结构是无效的 (   )
+A. \usr/zhang/memo   B. /usr/zhang/memo   C. //usr\zhang/memo   D. \usr\zhang\memo
+答案:ACD
+
+二、简答题（1 题 3 分）
+
+1.常见的 Linux 发行版本都有什么？你最擅长哪一个？它的官网网站是什么？说明你擅长哪一块？
+
+2.Linux 开机启动流程详细步骤是什么？系统安装完，忘记密码如何破解？
+
+4.某一天突然发现 Linux 系统文件只读，该怎么办呢？完整操作步骤。
+
+5.安装一台系统使用 DVD 光盘安装，如何安装 50 台 Linux 系统如何安装呢？思考一下。
+
+6.用虚拟机安装了一台 Linux 系统，突然想克隆一台服务器，克隆后发现无法上网，如何解决？
+
+7.Linux 网卡配置文件路径是什么？要使服务器上外网，必须满足的条件有哪些？需要配置什么？
+
+8.一般可以使用什么软件远程 linux 服务器？通过什么上传文件和下载文件？
+
+9./mnt 目录主要用于什么？/root 目录跟 root 用户有什么关系？/根目录与/boot 目录有什么联系？
+
+10.某一天误操作，执行了 rm  -rf  * ，会有哪些情况发生？请举例。
+
+
+三、公有云题目（1 题 5 分）
+1. 请解释上云的好处是什么？传统业务类型与公有云也为类型有什么区别？请举例说明。
+
+2. 列出你用过的阿里云\AWS\Azure 服务？并讲述他们的作用？
+
+3. 请列出你觉得阿里云\AWS\Azure 目前的特色和不成熟的地方是那些？你觉得应该如何改正。
+
+4. 请用阿里云\AWS\Azure 设计一个视频网站的架构图并进行解释说明。
 
-<p>我感觉到 25 岁过后，大多数人都不会纠结于，没有跟喜欢的人过一生，人长大了就会体谅命运的多种可能性，你喜欢她，她不一定喜欢你，你们互相喜欢，不一定合适，你们情投意合有匹配度满分，也可能因为随机产生的变数失散。</p>
-
-<blockquote>
-  <p><strong>到了一个应该“醒过来”的岁数，还能执着于“我那么喜欢 ta 为什么不是 ta 陪着我过下辈子”的，估计都是人生赢家们，没怎么吃过闷亏，还妄想跟命运说道理。</strong></p>
-</blockquote>
-
-<p>大多数人都是可以认的，但“认了”的同时，我们还会心存一点侥幸，张敬轩唱过的，“祈求旧人万岁，旧情万岁，别随便老去”。</p>
-
-<p>我今天要讲的不是一个爱情的故事。</p>
-
-<p>我今年 25 岁，褪去青涩的旧衣，却又茫然被生活拉扯不知所措，我最近看了很多关于 25 岁该做什么？如何做 5 年规划？如何改变不甘于现状却又不思进取的状态？人这一辈子，到底是想方设法用尽一切精力赚钱，还是一切随缘安稳度日？好像我的 25 岁突然来了，所以昨日看来的未来事都硬生生地堆在眼前，你没准备好，我也没有，所以我们疲于奔波像条狗，所以我他妈好累。</p>
-
-<p>25 岁好像是人生状态最多的时候，有仍在读书，有刚开始工作，有已工作多年的，有已婚，有未婚，有孩子成群，有好多好多的角色，不同于你的角色；身边总有人在催你做很多事，要赶紧谈恋爱，要赶紧结婚，要赶紧事业有成，要赶紧挣钱，很多很多的钱，可是很多人甚至包括你自己都忘记了自己想要做什么，被迫机械庸碌生存，然后消失茫茫人海不见回首，我想说的我们都知道自己该做什么，尽管很多时间我们被前路妖魔鬼怪打的遍体鳞伤昏天暗地奄奄一息，我们忘了自己是谁，想往后退，不停的后退，蜷缩在昏暗地角落，不想被别人任何人打搅，我们受够足够多的伤害，爱情生活或其他，我们认识的生活的种种不美好，我们躺在昨日伤痕中自哀自怜，开始向生活做出妥协，但是前路上所有的荆棘不会少，只会随着时间的推移更加茂盛，扎人更疼，这些我们都知道，但我有能怎样，懦弱又怎样，我他妈就是个废材。</p>
-
-<p>可是少年啊，昔日你们可是屠龙的勇者啊，千军万马一只独木桥，每个人都是剑指群雄，屹立华山之巅，眼神清亮无暇，棱角分明，一身热血滚滚发烫的少年啊，每个人都是不爱荣华爱红颜，纵是红颜易老，伊人已逝，亦要战苍穹下幽冥，心中有火，头顶有光，杀尽天下，寻伊归来。</p>
-
-<p>是啊，我们都喜欢齐天大圣，成为向他一样的英雄，想成为大话西游中那个身披金甲圣衣，脚踏五彩祥云的猴子，逆转时空五百年寻得我们的紫霞仙子，我们喜欢的热血沸腾，却又目光温柔如水，心里隐隐想起曾经的紫霞仙子，暗暗叹息，呢喃着我猜到了开始，却没猜到结局。大话西游再映时，去影院看到这段时，在暗影搓搓里多少少年儿女唏嘘不已泪眼婆娑，不为别的，只为我们的青春和早已寻不到的那个不可能的那个人。</p>
-
-<p>所以，矫情个什么鬼啊，神经病啊，你他妈已经是一个大人了，别再为了一点感情问题就跟丢了魂而似的，你可以有一段糟糕的爱情和随之一段放纵自己自怜自哀的时期，但是你不能放纵自己过一个烂透的人生；如果，她不是对的人，我不是你想要的那个人，就赶紧麻利地让丫从你脑子里滚蛋，太累，感动不了自己，还想去感动谁。</p>
-
-<p>数数年头，我已经工作 5 年时间了，工作都换了 3 个，5 年前我没想过现在的自己会是怎么样，也预料不到自己会在哪里，如果重新选择，我应该还是会选择成为现在的自己；的确很多时候，我们都会迷茫，大多数人都是这样，你跟我说，不知道我是不是适合做现在的工作，如果转行，却又不知道想要做什么什么。其实人这一生啊，多数自己想要的和自己想做的不是一件事，就好像你很难碰到你爱 ta2 也爱你的人，说出来的确会很难受。王小波在《黄金时代》曾写到：“那一天我二十一岁，在我一生的黄金时代。我有好多奢望。我想爱，想吃，还想在一瞬间变成天上半明半暗的云。后来我才知道，生活就是个缓慢受锤的过程，人一天天老下去，奢望也一天天消失，最后变得像挨了锤的牛一样”。少年们总是幻想有一天仗剑走天涯，看一看世界的繁华，可总有一天，他起床发现手里没有剑，哪里也去不了，生活就像一个泥坑，想拔出脚，却动弹不得。那时有的人索性坐下痛哭，有的人抬头看到了星辰。你我都在泥坑，只是有人看到了星辰。</p>
-
-<p>无论怎样，血不能凉。</p>
-
-<p>所以，努力和生活更好的相处，不需要纠结如何去规划，就努力地去生活，如果感受到生命中特别重要的东西，要拼尽所有力气去抓住，不要怀疑自己现在做的对不对，我也不知道如何告诉你该怎样处理这样的状态，我所能告诉你的就是爱自己，遵从内心的选择，然后努力去做，一直努力下去。在我们的人生肯定会遇到迷雾沼泽和望不到顶的大山，可是我们穷尽一生也无法穿越翻越，无法看到峰顶景色以及山的那边的一切，这的确是一件想想就很难过的事情，并且这一切无法逃避，听起来是那么地令人绝望，但是，亲爱的，我们总要去面对，或是大步向前，冲向那未知地泥泞沼泽或满是荆棘望不到顶的大山，要打败可以吃掉我们的大老虎或不知道是什么的怪物，一次又一次，我们会经常失败，摔倒，伤痕累累，可是我们总要爬起来啊，一次又一次，每次都像是用尽整个生命的力量，就算最后我们真的跌倒爬不起来了，也许我们最后真的无法凝聚一丝力量，那至少，我们明白我是真的做不到，而不是不去选择，而不是说从一开始就放弃，至少我们努力让自己变更好，这不是为了哪个人或谁而是为了你自己。</p>
-
-<p>最后，希望你抬起头，看到星辰，</p>
-
-<p>和我。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-01-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2015/11/%E6%9E%81%E7%AE%80%E4%B8%BB%E4%B9%89.html">极简主义</a></h1>
-    <div class="post_at_index">
-      <p>在我的理解和认知能力范围内，极简不仅仅是从生活物品上，更重要的思想和情感上做，人才不会那么累，而我自以为，人生在世这一路上，莫不是在追寻心灵的满足，但是，不如意者常七八，可与言者无二三；所以人生绝大多数时间是孤独的，是时间不充足的，所以尽可能做让自己开心的事情，去喜欢让你怦然心动的姑娘；听一个朋友说：一定是特别的缘分，才可以一路走来变成一家人。香香公主变回了原来的名字，难过么？当然难过，但是这没必要去纠结谁，也没什么好纠结的了啊，放弃了么，当然不会啊！毕竟暗暗喜欢那么久的人，如果可以轻易放弃，当初的意义在哪里呢，其实还是喜欢啊，尽管姑娘不喜欢你，但是那又怎样呢？为热爱的人或是事物洒下热血和热泪，最坏的结果无非就是对方一句“你想怎样”。所以啊，又是新的一天，阳光明媚的，嗯，那就好好工作咯。嘿嘿，我这个心机 boy！</p>
-
-<p>写作的理由有很多种，牛逼的人为了挣钱养家，有追求的人为了曾经的梦想理想，我也有自己的理由：写给自己看，因为我如果靠这个挣钱养家早就饿死了，并且至到如今也没有对写作有追求；为了自己的喜欢而写。初三以前，上海读书，班干部，整日间器宇轩昂，更是无暇去写这些东西；初三转学回老家，我总是在转学，初恋小姑娘仍然留在上海读书，那时没有手机，联系就这么断了；大概是小狗的爱情发作了，突然想写东西，写文章写诗，上课写，上什么课都写，下课写；也疯狂的读书，省下一顿中饭便可以在街心公园的书店买上一本书，所以身份证上的我最帅了，真的是饿瘦了啊；所以看了很多书，韩寒郭敬明沧月饶雪漫等等等整个 80 后作家青春文学群体基本全扫了一遍，当然还有杂七杂八的杂志传记，我喜欢翻犄角旮旯，甚至翻出老板深藏的“时尚杂志”，付钱时老板一脸行家啊的神色此生难忘，果不其然当晚就破了修炼多年的童子功；初中毕业，大多数同学收获了一本本几同学纪念册，我收获了别人眼中怪癖的性格和满满写着中饭的几摞书。中考结束，回校，压抑一年的同学们得到释放近乎癫狂，六层教学楼里撒满了支离破碎的真题教材之类；后来有人在教室烧试卷，我的同桌，也算是上海回来唯一的朋友说：把你的试卷拿来烧了，可是我试卷都扔完了，没东西烧，鬼使神差的就把写的几本诗和文章拿出来烧，完事儿就后悔了，但是烧了又能怎样呢，这大概是我为极简主义做出来的第一个贡献吧，也养成了我删文章的习惯。时间辗转，玩 QQ 的时候用空间写，玩微博的时候写微博，写了删删了写，以至于现在什么都不剩下，但是也算可以吧，回首往事时啥也没有就懒得回首了，人还是要向前看的好，所以在羡慕那些拥有很多回忆的人时，也享受自己潇洒的状态；曾经一个朋友带我参观她的储藏，如数家珍的列出每一件物品和专属的人和故事，羡慕的眼泪都要掉下来了，回想这么多年，我剩下的也只羊一摞摞书了，但是看过的书大多都忘了，所以我什么都不剩下来；有时候觉得自己特别像故事里的小猴子，捡起一个丢下一个，最后什么都没有，小猴子每一个都非常喜欢啊，但最后的舍弃了，我好像懂了什么道理，但又像什么都没懂，这个故事现在看不懂。最后，我想说的是：关于情感的极简我不赞同，我们要做的是内心情感奔涌如潮的人，好的坏的，这些都是你的，做个有故事的人，才会有人给你故事。</p>
-
-<p>关于。我写过很多“关于”的故事，关于工作、关于理想、关于吃饭穿衣、关于我爱的姑娘不爱我啊，关于… ，但是，多数最后都是说先搁着，以后再慢慢写，其实我自己也不知道什么时候会拿出来写，或者根本就忘记了；兴之所至，自然就喷薄着写的欲望。人懒了，不去写也正常。</p>
-
-<p>关于读书。读书，写书评，之前经常做这种事情，读书的时候可谓博览青春文学丛书，不知多少个日日夜夜沉溺其中而感伤感动不已，进而期待自己的爱情；工作几年至今，更多是偏爱纪实历史类的书籍还有不少作者的随笔散文，我是看书特投入的人，经常被感动流泪，如今亦是，早些年间看明晓溪《泡沫之夏》哭了，看饶雪漫《离开》哭了，看读者小文哭了，后来看余华《活着》哭了，看路遥《平凡的世界》和《人生》更是哭的稀里糊涂，当然也会笑；人只要能被伤害或感动就是好的。我看的很感动，但是书评就是写不好，分享给朋友的时候多数都看不上眼，所以后来自己写了也不敢给别人看。</p>
-
-<p>关于听歌，我是一个挺臭屁的人，曾经说过：不要问我为什么这么会装 B，因为我听歌只听宋冬野；后来当我喜欢上逼哥，好妹妹，赵雷，我再也不敢这么说话了。当然我听歌喜欢听民谣，朋友说你不懂民谣，民谣一定要到小地方听到得才算好的，我这只能算城市民谣，所以，我听歌喜欢听城市民谣，生活在水泥钢筋的城市里有着一颗不安定的心；另一个朋友说，他不喜欢民谣，因为民谣里的爱情做爱都买不起避孕套，容易出事儿，我觉得他说的很对，总结的很地道，但是我没有女朋友，随着时间的推移，人在变老变丑，有女朋友的几率会更小，用不到避孕套；所以，我听歌喜欢听做爱买不起避孕套的城市民谣。</p>
-
-<p>关于鬼畜，这个是我的最爱毋庸置疑，三个时间段会一直爱下去，就像爱姑娘一样，我爱她们青葱的小手和大白的奶子，我也爱鬼畜的污污污，爱丞相和王朗，爱天朝第一歌姬，爱天朝第一英文歌姬，爱女孩为什么穿短裙。世间恐怕没多少比这个更好地事情了，因为真的很开心，没心没肺的开心，我喜欢听，哎呦，不错哦，好像周杰伦翻唱过这首龙卷基。<a href="http://www.bilibili.com/video/av4172954/">Link</a></p>
-
-<p>关于我，我是一个小人物，有着平凡的喜怒哀乐，出身平凡之家没什么好谈的，家人身体安康、和睦相处已是万分幸福了。我不喜欢有些人把自己的惰性归咎于出身，诚然，你没法让自己做到最好，但是最起码你要努力让自己变得更好；我永远相信，当面包掉在地上奶酪一定是朝上的。莱蒙托夫有首诗《一只船》这样写：一只船孤独地航行在海上，它既不寻求幸福，也不逃避幸福，它只是向前航行，底下是沉静碧蓝的大海，而头顶是金色的太阳。我努力工作，努力过好自己的人生，不盲目自大，不自暴自弃，我可能究其一生也不达到我想要的生活，甚至绝大情况会比我想象的要糟糕，但是我会努力去做好自己的，做自己想做的在每一天，挥洒青春，尽量犯错。关于爱情和姑娘话题，永远都说不完啊，我喜欢美好的姑娘，但是我不是见一个喜欢一个，我会在很长的一段时间里喜欢一个人，尽管多数是不会有结果。我喜欢的姑娘，我希望我可以像太阳一样，给你温暖，橡树一样成为你的依靠，你应该怀疑，你也可以拒绝，但是我也会像太阳一样周而复始，像树一样扎根于此，你要知道树一旦落地生根，再拔起来可是要命的事情了。</p>
-
-<p>晚安，这个世界和我和你和他们。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2015-11-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2015/07/%E6%97%A0%E9%A2%98.html">无题</a></h1>
-    <div class="post_at_index">
-      <p>自家酿造的葡萄酒味道真的不错，喝过一大杯的我这样说的，你们应该去试试。是的我试图这样可以让自己早点睡下，我是这样做的，效果还是有点，至少，伴着微醺的思维，情感在释放；酒是一个令人着迷的味道，就好喝醉之后，所有的胡言乱语都会被原谅，谁会跟一个喝醉的人较劲，谁会在意一个喝醉的人说的话，who care。</p>
-
-<p>是夜，当你的周遭变得安静，内心的你便开始躁动不安，妄图支配你的灵魂，黑夜中另一个目光灼灼生辉，是的，沉默的夜色，让人的思维感性满负荷，到夜晚，每个人都是满腹豪情的大诗人，博古通今的大学者，柔肠寸断的伤心人，在天桥，在屋顶，在夜排档，在酒吧，在灯光闪耀你却尽量走在黑暗的马路上，不尽相同的人却都在夜里，这些情绪才会如月降临到每个人的心里，眼里，只被你看到。</p>
-
-<p>我一直想办法克制自己的负面情绪，每个人心中都会有一道疤，生长在内心深处，在任何黑暗之处浮现，奶奶的离去，那是我人生之中最大的灾难，她是我的信仰啊，我始终无法忘却那慈祥的目光；我不信鬼神，但是那一刻我匍匐在地向上苍期待，止不住的泪水在流淌，世上若有鬼魂，能否再让我看她一眼；我一直坚信着心朝阳光，要无比勇敢，是啊，怎可以怯懦，让生命如此不被珍惜，我真的好想你，现在我想奶奶从未离去，她将永远活在我的心里，我将永远缅怀哪些美好时光。</p>
-
-<p>生活是不易的，生命亦是无常，每当我想放弃的时候，就会想是不是再坚持一会，或许就能成功。</p>
-
-<p>晚安，奶奶，晚安，我沉痛的思念；</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2015-07-18</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2015/06/%E6%B0%91%E8%B0%A3%E6%98%AF%E7%94%9F.html">民谣是生</a></h1>
-    <div class="post_at_index">
-      <p>民谣是生，摇滚是死，而我在其中穿梭，生不如死。</p>
-
-<p>我来到这个世界 23 年，吃过屎，也吃过佳肴，我吹的牛像我，我装的 b 也像我，但是都不成功遭了雷劈，恍惚觉得，我不应该来到这个世界，这个世界也不是我以为的世界。</p>
-
-<p>我喜欢写诗，就像嗜酒者渴望所有醇香的美酒和女人的奶，我喝过，有酒味；我说：这个是社会会写诗的人不多了，会写诗的又写的比我好的又少了，写的比我好还比我会装逼的那就更少了；我又说：这世界上诗比我写的好比我会装逼，还让我敬佩的人，顾城算一个，海子也算一个，但是他们都死了，所以，我很寂寞。</p>
-
-<p>我喜欢女人，喜欢她们的青葱小手和大白奶子，但是，我更喜欢她们的回眸一笑，沧海沉浮而芳亭傲立，我想我要左手提剑，右手抱着我的女人，对她说：等我前去披荆斩棘，杀得前路朗朗清清，脚踏七彩祥云，带着一身荣光，我就回来娶你，等我。</p>
-
-<p>于是，我心中有火，头上有光，杀佛杀魔，傲立在华山绝巅。我从不把仇人放在眼里，因为，我说我的眼里只有你。但是，这次我的敌人耍懒，他们不用剑用刀，三个人来向我寻仇，我费尽力气杀胜了他们，却跌落山谷。被一个少年救起，我说：少年，给我口水喝吧，少年递过水囊，却把剑插进了我的胸膛，我说为什么？少年说：你是坏人，那为什么救我？我母亲让我来救你，说完，拔出剑，眼神冷漠，像极少年的我。</p>
-
-<p>然后，我死了，我的女人等不了我，我死在无名的臭水沟，身体和灵魂一起腐烂。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2015-06-04</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2015/04/%E8%BF%99%E6%98%AF%E4%B8%80%E9%81%93%E9%AC%BC%E9%97%A8%E5%85%B3.html">这是一道鬼门关</a></h1>
-    <div class="post_at_index">
-      <p>生活的节奏在慢慢恢复正常，像是经历了一道鬼门关，感谢将我带出来的人。</p>
-
-<p>湄公河行动，最近很火的一部电影，前两天，我也去看了；关于炫技，关于剧情，关于赞扬，已经有很多人在说了，所以我想谈的是“你的归属感来自于哪里”以及“方新武杀人事件”。</p>
-
-<p>湄公河行动，我更愿称之为“湄公河事件”，这是一个真实的事件，所以踏入影院的我是带着复杂情绪的，我不喜欢谈政治，熟悉我的朋友应该会有所了解，因为我不懂政治，我不研究这些，我不能仅凭自己的感觉来判断当权者执政者的好坏，这个社会的稳定需要有太多因素；我所要做的是自己想要做的事，但是，不谈政治，我想说说关于“你的归属感来自于哪里”，这是一个很简单的问题，你有一所房子，房子里有你的父母、爱人和子女，无论你在外多少艰苦劳累，到了家看着你爱的人，你所有的苦累都消失殆尽，燃烧熊熊热火，为了他们去奋斗，这就是你的归属感，对于一个人、一个家庭是这样，对于一个国家，要让自己的国民有归属感，像我这样的市井小民，当“湄公河事件”发生，所有人的焦点都在这件事，正如电影中说到：“要给死去的 13 位船员一个公道，要给全国人民一个公道”；电影就像一个情绪放大器，艺术的手段让每一个情绪都被放大，开心会更开心，伤心会更伤心，愤怒也能更愤怒，所以我喜欢看电影和看书听音乐，写书音乐也是艺术的形式，鲍勃迪伦都拿了诺贝尔文学奖；所以在电影情节上国家的态度如此坚决，果敢，令我几度热泪盈眶，燃起对这个国家的希望和热爱，就如某个姑娘说的“我爱中华”，这就是归属感，让我觉得作为一个中国人而无比自豪，无论我将来漂泊何方，那个地方始终如灯塔照亮我的生命，前进和归途的路，所以，我爱你，中国。</p>
-
-<p>方新武杀人事件，相对于高刚，方新武更像是一个孤胆英雄是的人物，这个人物角色也应该是电影中才有的人物，女友因吸毒自杀，凶手潜逃，带着满身的伤远走他乡，伪装不同的角色，逃避着内心的伤痕和过去，将一生献给缉毒事业，他是一个抱着必死之志的人，这样的人最可怕也最可怜，所以当再次遇到占蓬的时候，方新武一直就决定杀他了，其实他在十年前就已经做了这个决定，所以最后在方新武追占蓬时，他把手枪换成了真枪，他一定是要杀了占蓬的了，这是一个复仇式的结尾，他已经无所畏惧了，所以啊，这样的人最可怕也最可怜，可怕是他不怕生死，可怜的是他的人生已经被毁了，除了复仇别无他事，可是我喜欢这样的人物，我不是伪君子，我是真小人，所有时间可以让人放心的话都是屁话，无论时间走过多久，伤害你的人和事永远存在，这就像一个鬼门关啊，现在的结局就是方新武最好的解决了，导演已经给了我们了；如果他没死，那么今后就是另外一个故事了。</p>
-
-<p>我们都喜欢英雄式的人物，因为英雄是有仇必报，不论错与对，这符合我们的价值观。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2015-04-12</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2015/04/%E8%B7%AF%E9%80%94%E4%B8%8A.html">路途上</a></h1>
-    <div class="post_at_index">
-      <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/cqdrw.jpg" alt="image" /></p>
-
-<p>旅途，我一直觉着是个挺感性的词儿，喜欢在路上的状态，长途喜欢火车，短途喜欢公交，每个人都挤在狭小的空间，亲密而陌生，这个时候无事可做，玩手机、听歌，看书，或者看着窗外的风景。人在快速移动的状态下，更容易内心平静下来，我喜欢这种状态，难得能有机会停下来思考，生活一直在不停地不停地催促着你，像个烦人的小精灵，于是，每个人都在紧促的节奏中长大，多数是忙碌，多数做的事无甚意义，多数悲伤的情绪还没来得及释放就又陷入尘土飞扬的生活中；于是，我们开始怀念从前，开始在旅途之中，开始在昼夜之初，多愁善感，深思熟虑；所以，我第二喜欢夜晚一人宁静，第三喜欢旅途路上，第一呢，与喜欢的人在一起。</p>
-
-<p>我是一个话多的人，也是个喜欢听故事的人，路上时间久了，便忍不住与身边的人搭讪；有一次，路上遇到一对年轻男女，与我年龄相若，男生第一次到女方家里，一路谈及二人感情，神采奕奕，羡煞他人；有一次与一位外出寻友的大叔，大叔慷慨与我分享所携特产，又一斤白酒，二人畅饮畅谈，第一次出门去上海，如今年岁已过半百，子女皆成家立业，静极思动，念及多年未见的好友，人生便当如此，足矣；前几日，清明时节，回家扫墓，归途，对面而坐，一对夫妻，大叔年纪轻轻便以离家闯荡江湖，妻子一生相随，其中温情动人自不用言语，膝下两女一儿也已成家；如今，在家务农，平凡快乐，一路大叔慷慨激昂与我讲述走南闯北的故事，阿姨始终静静凝望不语，大叔一直问阿姨要不我站起来你躺会，阿姨一直说我不累，却在我和大叔攀谈时倚在座位上睡着了，而后，大叔起身说去抽根烟，但却久久未归；爱情便当如此，平凡夫妻，爱从不用口来说。</p>
-
-<p>我们一生追寻为何，多数情况自身也不能辨别，或是一生荣光，杀退各路豪杰；或是平淡无奇，一生尽是柴米油盐；或是万花丛中而过，爱尽世间女子；或者从一而终，生死相依；但都是对的，都是好的，只要是我们想要的，但不应伤害他人，这是原则！生活多是苦难，磨砺众生；吃腻山珍海味的人渴望农家小菜，久经沧桑的羡慕新手的初生牛犊的拼劲，经历过爱情的人害怕什么呢？害怕再经历爱情；过往的回忆就像一个躲在黑暗里的蛇，总是在你伤口发热时再咬上一口，其实它没毒，但是肯定会疼，勇敢的你，终会杀了蛇，只要你足够勇敢；当你准备接受爱情的时候，就要接受爱情带来的苦涩，焦虑和怅然若失的情绪，就像你打算接受一个人，就要学会接受他的前面后面上面下面，但是你都要学会接受，要么你还没准备好开始一段爱情和爱上一个人。我一直在想我的姑娘，必定是美好的，因为是我喜欢的，是完人，是仙女，是温柔的月光，是清晨初露的霞光，是令人心动的春色，是呼啸着穿堂而过的清风，是踩着红色高跟鞋踢踏踢踏走进我的胸膛，而我则是历经岁月沧桑依然伴随她左右的踏实臂膀，只要我足够勇敢，我真的足够勇敢了。</p>
-
-<p>20 岁之前我看郭敬明的书很多，真的对我的人生有很大的影响，十分感谢；辍学工作之后，无心向学，不读书，生活更是糟糕，再拾起，亦无当年之感；如今，我开始看韩寒和王路的书，觉得他们的文字很酷，可以够我装逼来用，但是我的内心很正，热情好学，积极向上；其实，如今高度发展的商业模式，的确会让很多人的价值观有失颇比，有一些人投机取巧只为赚钱不顾影响，直观体现就是很多挂作家之名写出乌七八糟的东西反而畅销，快餐式的心灵鸡汤盛行，进而影响更多读者，所以需要筛选文章，但不是否定任何书，文学不应有贵贱之分，区分在读者，读适合自己的书即可；生活如此，对的是自己，其他则毋庸顾虑，凡事需顾虑的，便对自己无甚意义，弃之亦不可惜。</p>
-
-<p>最后套用韩寒的话结尾：</p>
-
-<p><strong>*为热爱的人或事物洒下热血和热泪，最坏的结果无非就是对方一句“你想怎样”。</strong>*</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2015-04-03</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2015/02/%E5%86%99%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2.html">写的第一个前端页面</a></h1>
-    <div class="post_at_index">
-      <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/ne0Eiv.png" alt="ne0Eiv" /></p>
-
-<p>第一次学习前端项目，帮公司写了个前端页面，没想到现在还在使用。</p>
-
-<p>多丑陋的代码 ~</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2015-02-23</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#HTML">HTML</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2014/07/CentOS7_Configure_BIND_DNS_Server.html">CentOS 7 Configure DNS Server</a></h1>
-    <div class="post_at_index">
-      <p>今天介绍下如何在 CentOS 7 下部署 DNS Server，测试环境中服务端搭建在了 CentOS 7，客户端分别在 Windows 和 Linux 实现测试。</p>
-
-<p>因为目的是让自建 DNS 服务器解析公司内部的自定义域名，所以当客户端需要访问外网域名时，DNS 服务器会将解析请求转发给 ISP 的 DNS 服务器，并会将解析结果缓存，并且只对内网主机的解析请求进行转发，而不会对公网的主机解析请求进行转发。</p>
-
-<h4 id="dns-服务介绍">DNS 服务介绍</h4>
-
-<p>DNS 服务由 BIND 提供，启动后服务名为<code class="language-plaintext highlighter-rouge">named</code>，管理工具为<code class="language-plaintext highlighter-rouge">rndc</code>，debug 工具为<code class="language-plaintext highlighter-rouge">dig</code>，主要配置文件在<code class="language-plaintext highlighter-rouge">/etc/named.conf</code>。</p>
-
-<h4 id="安装">安装</h4>
-
-<p>推荐选择<code class="language-plaintext highlighter-rouge">bind-chroot</code>来安装，提高服务的安全性：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ yum <span class="nb">install</span> <span class="nt">-y</span> bind-chroot
-</code></pre></div></div>
-
-<p>安装完成之后，启动<code class="language-plaintext highlighter-rouge">named-chroot</code>服务，并设置为开机自启动：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ systemctl <span class="nb">enable </span>named-chroot.service
-Created symlink from /etc/systemd/system/multi-user.target.wants/named-chroot.service to /usr/lib/systemd/system/named-chroot.service.
-➜  ~ systemctl start named-chroot.service
-➜  ~ netstat <span class="nt">-ntlp</span> | <span class="nb">grep </span>53
-tcp        0      0 127.0.0.1:53            0.0.0.0:<span class="k">*</span>               LISTEN      4515/named
-tcp        0      0 127.0.0.1:953           0.0.0.0:<span class="k">*</span>               LISTEN      4515/named
-</code></pre></div></div>
-
-<h4 id="配置">配置</h4>
-
-<p>首先备份 DNS 服务端的主配置文件，然后修改其中的内容：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">cp</span> /etc/named.conf /etc/named.conf.bak
-➜  ~ vim /etc/named.conf
-
-options <span class="o">{</span>
-        listen-on port 53 <span class="o">{</span> any<span class="p">;</span> <span class="o">}</span><span class="p">;</span>
-        listen-on-v6 port 53 <span class="o">{</span> ::1<span class="p">;</span> <span class="o">}</span><span class="p">;</span>
-        directory       <span class="s2">"/var/named"</span><span class="p">;</span>
-        dump-file       <span class="s2">"/var/named/data/cache_dump.db"</span><span class="p">;</span>
-        statistics-file <span class="s2">"/var/named/data/named_stats.txt"</span><span class="p">;</span>
-        memstatistics-file <span class="s2">"/var/named/data/named_mem_stats.txt"</span><span class="p">;</span>
-        
-        allow-query     <span class="o">{</span> 192.168.16.0/24<span class="p">;</span> 192.168.0.0/23<span class="p">;</span> <span class="o">}</span><span class="p">;</span>
-        recursion <span class="nb">yes</span><span class="p">;</span>
-        allow-recursion <span class="o">{</span> 192.168.16.0/24<span class="p">;</span> 192.168.0.0/23<span class="p">;</span> <span class="o">}</span><span class="p">;</span>
-        
-        forward first<span class="p">;</span>
-        forwarders <span class="o">{</span> 202.96.209.133<span class="p">;</span> 114.114.114.114<span class="p">;</span> <span class="o">}</span><span class="p">;</span>
-        
-        dnssec-enable no<span class="p">;</span>
-        dnssec-validation no<span class="p">;</span>
-        dnssec-lookaside no<span class="p">;</span>
-
-        bindkeys-file <span class="s2">"/etc/named.iscdlv.key"</span><span class="p">;</span>
-        managed-keys-directory <span class="s2">"/var/named/dynamic"</span><span class="p">;</span>
-
-        pid-file <span class="s2">"/run/named/named.pid"</span><span class="p">;</span>
-        session-keyfile <span class="s2">"/run/named/session.key"</span><span class="p">;</span>
-<span class="o">}</span><span class="p">;</span>
-
-logging <span class="o">{</span>
-        channel default_debug <span class="o">{</span>
-                file <span class="s2">"data/named.run"</span><span class="p">;</span>
-                severity dynamic<span class="p">;</span>
-        <span class="o">}</span><span class="p">;</span>
-<span class="o">}</span><span class="p">;</span>
-
-zone <span class="s2">"."</span> IN <span class="o">{</span>
-        <span class="nb">type </span>hint<span class="p">;</span>
-        file <span class="s2">"named.ca"</span><span class="p">;</span>
-<span class="o">}</span><span class="p">;</span>
-
-// 新增一个samzong.local域名.
-zone <span class="s2">"samzong.local"</span> IN <span class="o">{</span>
-    <span class="nb">type </span>master<span class="p">;</span>
-    file <span class="s2">"samzong.local.zone"</span><span class="p">;</span>
-<span class="o">}</span><span class="p">;</span>
-
-include <span class="s2">"/etc/named.rfc1912.zones"</span><span class="p">;</span>
-include <span class="s2">"/etc/named.root.key"</span><span class="p">;</span>
-</code></pre></div></div>
-
-<h4 id="编辑-samzonglocalzone-配置文件">编辑 samzong.local.zone 配置文件</h4>
-
-<p>首先创建 samzong.local.zone 文件：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">cd</span> /var/named
-➜  named <span class="nb">touch </span>samzong.local.zone<span class="p">;</span>
-</code></pre></div></div>
-
-<p>然后编辑文件内容新增：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$TTL</span> 86400
-@ IN SOA @ root.samzong.local. <span class="o">(</span>
-    2016042112 <span class="p">;</span>Serial
-    3600 <span class="p">;</span>Refresh
-    1800 <span class="p">;</span>Retry
-    604800 <span class="p">;</span>Expire
-    43200 <span class="p">;</span>Minimum TTL
-<span class="o">)</span>
-
-        NS  @
-        A       10.0.2.6
-www     A       192.168.16.100
-a   IN  CNAME   www.baidu.com.
-b       A       192.168.16.101
-</code></pre></div></div>
-
-<p>编辑完成之后，重新启动 named-chroot 让服务生效：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  named systemctl restart named-chroot.service
-</code></pre></div></div>
-
-<h4 id="客户端验证">客户端验证</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  named nslookup www.samzong.local
-Server:  192.168.16.6
-Address: 192.168.16.6#53
-
-Name: www.samzong.local
-Address: 192.168.16.100
-</code></pre></div></div>
-
-<h4 id="使用-rndc-管理-dns-解析记录">使用 rndc 管理 DNS 解析记录</h4>
-
-<p>rndc 常用指令：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>status          显示bind服务器的工作状态
-reload          重新加载配置文件和区域文件
-reload zone     重新加载指定的zone
-reconfig        重新读取配制间并加载新增的zone
-querylog        关闭或开启查询日志
-dumpdb          将高速缓存转存到文件,named.conf 有指定文件位置
-freeze          暂停更新所有zone状态
 </code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2014-07-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#CentOS">CentOS</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2014/03/%E6%88%91%E6%98%AF%E4%B8%80%E4%B8%AA%E6%9C%80%E4%B8%8D%E4%BC%9A%E5%86%99%E6%A0%87%E9%A2%98%E7%9A%84%E4%BA%BA.html">我是一个最不会写标题的人</a></h1>
-    <div class="post_at_index">
-      <p>之前一直我以为自己是在纠结到底哪里适合写 IT 学习的博文，新浪、网易亦或腾讯，折腾了许久，其实自己明白，不是在哪里写的问题，根本在于自己能否坚持下来，我本身是一个不怎么能耐下来性子的人，学习 Linux、C 还要考学历，总是做做这个，做做那个，没能认真研究，所以这么久时间还是停留在一个“初学者”的位置。</p>
-
-<p>2014 年，这一年是一开始就让我悲痛到无以复加的一年，陷入迷茫让我不知道自己未来的路怎么走，能走多久，可是，我也清清楚楚地明白，我要努力改变，人生充满了太多的不可思议以及你无能为力的悲剧，今年已经过了近四个月份了，一直没能好好整理自己的心情，太沉溺过去的人是个弱者，人生会有很多我们无能为力的事，这让我们心生沮丧，可是不敢逃离还是面对，事情都已经发生在了过去，某一个时间点，是一个想起来都会让自己泪眼婆娑的时间点，我失去了一个生命中最最重要的人，往事只能回忆，也许到我将离去的时候，我才能够坦然面对人生旅途中走着走着就消失的人，我怀念，无时不刻。</p>
-
-<p>谈恋爱，是我这个年纪最容易被提及的问题，我一直排斥去谈恋爱，很多人不明白为什么会是这样；其实，是因为害怕失去，所以不敢拥有，有过一段失败的经历，让我不敢再次尝试，因为我没有把握，也没有勇气，小心翼翼；我总是夸夸其谈着别人的经历，却对自己不敢触及，我所说的努力让自己变得更好，才配得上爱我的人，只是害怕因为自己不够好，致使爱我的人离我而去，不是不相信另一半，是不相信自己，这个现实到令人发指的社会，我不能自私的以为爱情可以战胜一切，这种人也许别人会感到可怜，但最终会被人鄙夷，好姑娘都应该有一个好的归宿，在我没有能力肩负起爱情的责任时，抱歉，我不能说“爱”。其实，我缺少的，钱只是一小部分，更多的是缺少的是一颗勇敢的心，不够成熟的自己，当我不能够做好自己时，如何能够不负责任地肆意冲进别人的生活，伤害了别人，也羞辱了自己。</p>
-
-<p>生理年龄不代表心里年龄，明白自己想做什么，就应该努力去做，尽管我这么大了，这里也是一个开始，命运之轮是不可琢磨的，任何事在该发生的时候就会发生，早一点，晚一点，都是悲剧，如果我错过了一个深爱的姑娘，那么对不起，我想是我的修炼不够；生活在别处，我在这里，安静地学习，成长，成熟，对现实的忍耐，对未来的憧憬，不惊奇也不平淡，命运之轮不会偏移一丝一毫，我想做的只是让自己蜕变，尽量去做我想做的自己。</p>
-
-<p>近期一直在看《德川家康》，还没看完，深刻感受到，在大势中人的渺小与乏力，如果想要成为你想要成为的人，那么首先，你要学会忍耐，坚持，是一个足以让人发疯的忍耐，一定要坚持，不然所有的努力都是笑话，在成为你想成为的人之前，需要舍弃很多东西，你必须足够理智，你必须谨小慎微，不然所有的努力还是成为笑话；但是，哪怕你所有的事儿都做了，你也只是有可能成功，毕竟，命运这事儿，谁有说的准呢？</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2014-03-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
+      <cite>2016-03-23</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Linux">Linux</a>
       
       
       
@@ -768,7 +1757,7 @@ freeze          暂停更新所有zone状态
             <li class="active"><a>22</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page23">23</a></li>
+          <li><a href="/page24">24</a></li>
         
 
         
@@ -819,7 +1808,7 @@ freeze          暂停更新所有zone状态
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>18</span>
+    		数据库 <span>19</span>
     	</a></li>
      
     	
@@ -1003,8 +1992,8 @@ freeze          暂停更新所有zone状态
     	</a></li>
      
     	
-      <li><a href="/categories.html#NaN">
-    		NaN <span>1</span>
+      <li><a href="/categories.html#Network">
+    		Network <span>1</span>
     	</a></li>
      
     	
@@ -1048,13 +2037,53 @@ freeze          暂停更新所有zone状态
     	</a></li>
      
     	
+      <li><a href="/categories.html#Kubernetes">
+    		Kubernetes <span>10</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Github">
     		Github <span>1</span>
     	</a></li>
      
     	
+      <li><a href="/categories.html#kubernetes">
+    		kubernetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#腾讯云">
+    		腾讯云 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#阿里云">
+    		阿里云 <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Gitlab">
     		Gitlab <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#前端">
+    		前端 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#DaoCloud Enterprise">
+    		DaoCloud Enterprise <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kubrnetes">
+    		Kubrnetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kafka">
+    		Kafka <span>1</span>
     	</a></li>
      
     	
@@ -1105,9 +2134,21 @@ df = pandas.read_csv(‘somefile.txt’)
         </li>
         
         <li>
-          <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
-          王路
-12 highlights
+          <a href="/post/2022/10/JWT-%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F.html">JWT 内置的方式</a>
+          
+  支持为 API 启用 jwt token 解码的能力 ,  读取网关的 jwt key
+    
+      读取请求 Header 中的 Authorization
+    
+  
+  需要支持为网关配置多 jwt key , and 加密长度 ?
+    
+      解密的性能问题
+      expire_time 过期时间的配置
+      解密后的参数传递
+    
+  
+
 
 
         </li>

@@ -1,0 +1,1370 @@
+
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/Blog">
+  <head>
+    <meta charset="utf-8">
+	<link rel="manifest" href="/static/pwa/manifest.json">
+	<title> Home | 船长的课记 </title>
+    
+		
+    <meta name="author" content="船长">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="#2196F3">
+	<meta name="google-site-verification" content="puZt0ZyqB-t67BYdYAgLUyIPBeismG68J0dmEc01QeY" />
+
+	
+    <script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function () {
+				navigator.serviceWorker
+										.register('/sw.js')
+										.then(function(registration) {
+											console.log("Successfully registered service worker", registration.scope);
+										}).catch(function(err) {
+											console.log("Service worker registration failed: ", err);
+										});
+				//navigator.serviceWorker.ready always resolve
+				navigator.serviceWorker.ready.then(function (registration) {
+					console.log('Service worker successfully registered on scope', registration.scope);
+				});
+			});
+		}
+    </script>
+	<script type="text/javascript" src="/assets/themes/evjekylltheme/jquery-3.6.0.slim.min.js"></script>
+
+	<link href="/assets/themes/evjekylltheme/google-code-prettify/desert.css" type="text/css" rel="stylesheet" />
+
+    <!-- Le styles -->
+    <link href="/assets/themes/evjekylltheme/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/themes/evjekylltheme/css/style.css" rel="stylesheet" type="text/css" media="all">
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="/static/images/favicon.ico">
+
+    <!-- atom & rss feed -->
+    <link href="" type="application/atom+xml" rel="alternate" title="Jekyll auto generate ATOM Feed">
+    <link href="" type="application/atom+xml" rel="alternate" title="Site ATOM Feed">
+    <link href="" type="application/rss+xml" rel="alternate" title="Site RSS Feed">
+	<link rel="stylesheet" href="/assets/themes/evjekylltheme/font-awesome-4.4.0/css/font-awesome.min.css">
+	<!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-W2LDG64');</script> -->
+		<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8529425670069509"
+						crossorigin="anonymous"></script> -->
+	<!-- <script async src="https://cdn.splitbee.io/sb.js"></script> -->
+  </head>
+
+  <body>
+	<!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W2LDG64"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
+    <div class="navbar navbar-default navbar-fixed-top">
+				<div class="container">
+          <div class="row mobilepadding">
+					<!-- <a class="navbar-brand" href="/">船长的课记</a> -->
+					<a class="navbar-brand" href="/">SAMZONG</a>
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#mNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="mNavbar">
+  					<ul class="nav navbar-nav">
+  						
+  						
+  						
+
+
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/archive.html">Archive</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/categories.html">Categories</a></li>
+      	
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/friends.html">Friends</a></li>
+      	
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+      	
+      	<li><a href="/tags.html">Tags</a></li>
+      	
+      
+    
+  
+    
+  
+    
+  
+    
+  
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+      
+    
+  
+
+
+
+						  <li class="dropdown">
+							  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Other</a>
+							  <ul class="dropdown-menu">
+									<li><a href="/about.html">About</a></li>
+									<li><a href="https://yuque.com/samzong/note" target="_blank">船长的课记</a></li>
+									<li><a href="https://yuque.com/samzong/ap" target="_blank">果粉日记</a></li>
+									<li><a href="https://yuque.com/samzong/code" target="_blank">Code Snippet</a></li>
+									<li><a href="https://www.yuque.com/samzong/mcx" target="_blank">集</a></li>
+									<li><a href="https://www.yuque.com/zooka" target="_blank">藏金阁</a></li>
+								</ul>
+						  </li>
+  					</ul>
+  					<form id="search-form" class="navbar-form navbar-right" role="search">
+  						<div class="form-group">
+  						<input type="text" class="form-control input-sm" placeholder="Search's Bad" id="query">
+  						</div>
+  					</form>
+  					<div class="nav-icon">
+  						<a href="/feed.xml"><i class="fa fa-rss fa-2x"></i></a>
+  					</div>
+          </div>
+				</div>
+      </div>
+    </div>
+
+    <div class="container">
+			<div class="row mobilepadding">
+        <div class="row">
+					<div class="col-md-12">
+						<div class="searchresult">
+						</div>
+						<div id="search-loader" class="img-wrap">
+						</div>
+					</div>
+        </div>
+				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
+<div class="row">
+  <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2015/04/%E8%BF%99%E6%98%AF%E4%B8%80%E9%81%93%E9%AC%BC%E9%97%A8%E5%85%B3.html">这是一道鬼门关</a></h1>
+    <div class="post_at_index">
+      <p>生活的节奏在慢慢恢复正常，像是经历了一道鬼门关，感谢将我带出来的人。</p>
+
+<p>湄公河行动，最近很火的一部电影，前两天，我也去看了；关于炫技，关于剧情，关于赞扬，已经有很多人在说了，所以我想谈的是“你的归属感来自于哪里”以及“方新武杀人事件”。</p>
+
+<p>湄公河行动，我更愿称之为“湄公河事件”，这是一个真实的事件，所以踏入影院的我是带着复杂情绪的，我不喜欢谈政治，熟悉我的朋友应该会有所了解，因为我不懂政治，我不研究这些，我不能仅凭自己的感觉来判断当权者执政者的好坏，这个社会的稳定需要有太多因素；我所要做的是自己想要做的事，但是，不谈政治，我想说说关于“你的归属感来自于哪里”，这是一个很简单的问题，你有一所房子，房子里有你的父母、爱人和子女，无论你在外多少艰苦劳累，到了家看着你爱的人，你所有的苦累都消失殆尽，燃烧熊熊热火，为了他们去奋斗，这就是你的归属感，对于一个人、一个家庭是这样，对于一个国家，要让自己的国民有归属感，像我这样的市井小民，当“湄公河事件”发生，所有人的焦点都在这件事，正如电影中说到：“要给死去的 13 位船员一个公道，要给全国人民一个公道”；电影就像一个情绪放大器，艺术的手段让每一个情绪都被放大，开心会更开心，伤心会更伤心，愤怒也能更愤怒，所以我喜欢看电影和看书听音乐，写书音乐也是艺术的形式，鲍勃迪伦都拿了诺贝尔文学奖；所以在电影情节上国家的态度如此坚决，果敢，令我几度热泪盈眶，燃起对这个国家的希望和热爱，就如某个姑娘说的“我爱中华”，这就是归属感，让我觉得作为一个中国人而无比自豪，无论我将来漂泊何方，那个地方始终如灯塔照亮我的生命，前进和归途的路，所以，我爱你，中国。</p>
+
+<p>方新武杀人事件，相对于高刚，方新武更像是一个孤胆英雄是的人物，这个人物角色也应该是电影中才有的人物，女友因吸毒自杀，凶手潜逃，带着满身的伤远走他乡，伪装不同的角色，逃避着内心的伤痕和过去，将一生献给缉毒事业，他是一个抱着必死之志的人，这样的人最可怕也最可怜，所以当再次遇到占蓬的时候，方新武一直就决定杀他了，其实他在十年前就已经做了这个决定，所以最后在方新武追占蓬时，他把手枪换成了真枪，他一定是要杀了占蓬的了，这是一个复仇式的结尾，他已经无所畏惧了，所以啊，这样的人最可怕也最可怜，可怕是他不怕生死，可怜的是他的人生已经被毁了，除了复仇别无他事，可是我喜欢这样的人物，我不是伪君子，我是真小人，所有时间可以让人放心的话都是屁话，无论时间走过多久，伤害你的人和事永远存在，这就像一个鬼门关啊，现在的结局就是方新武最好的解决了，导演已经给了我们了；如果他没死，那么今后就是另外一个故事了。</p>
+
+<p>我们都喜欢英雄式的人物，因为英雄是有仇必报，不论错与对，这符合我们的价值观。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2015-04-12</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2015/04/%E8%B7%AF%E9%80%94%E4%B8%8A.html">路途上</a></h1>
+    <div class="post_at_index">
+      <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/cqdrw.jpg" alt="image" /></p>
+
+<p>旅途，我一直觉着是个挺感性的词儿，喜欢在路上的状态，长途喜欢火车，短途喜欢公交，每个人都挤在狭小的空间，亲密而陌生，这个时候无事可做，玩手机、听歌，看书，或者看着窗外的风景。人在快速移动的状态下，更容易内心平静下来，我喜欢这种状态，难得能有机会停下来思考，生活一直在不停地不停地催促着你，像个烦人的小精灵，于是，每个人都在紧促的节奏中长大，多数是忙碌，多数做的事无甚意义，多数悲伤的情绪还没来得及释放就又陷入尘土飞扬的生活中；于是，我们开始怀念从前，开始在旅途之中，开始在昼夜之初，多愁善感，深思熟虑；所以，我第二喜欢夜晚一人宁静，第三喜欢旅途路上，第一呢，与喜欢的人在一起。</p>
+
+<p>我是一个话多的人，也是个喜欢听故事的人，路上时间久了，便忍不住与身边的人搭讪；有一次，路上遇到一对年轻男女，与我年龄相若，男生第一次到女方家里，一路谈及二人感情，神采奕奕，羡煞他人；有一次与一位外出寻友的大叔，大叔慷慨与我分享所携特产，又一斤白酒，二人畅饮畅谈，第一次出门去上海，如今年岁已过半百，子女皆成家立业，静极思动，念及多年未见的好友，人生便当如此，足矣；前几日，清明时节，回家扫墓，归途，对面而坐，一对夫妻，大叔年纪轻轻便以离家闯荡江湖，妻子一生相随，其中温情动人自不用言语，膝下两女一儿也已成家；如今，在家务农，平凡快乐，一路大叔慷慨激昂与我讲述走南闯北的故事，阿姨始终静静凝望不语，大叔一直问阿姨要不我站起来你躺会，阿姨一直说我不累，却在我和大叔攀谈时倚在座位上睡着了，而后，大叔起身说去抽根烟，但却久久未归；爱情便当如此，平凡夫妻，爱从不用口来说。</p>
+
+<p>我们一生追寻为何，多数情况自身也不能辨别，或是一生荣光，杀退各路豪杰；或是平淡无奇，一生尽是柴米油盐；或是万花丛中而过，爱尽世间女子；或者从一而终，生死相依；但都是对的，都是好的，只要是我们想要的，但不应伤害他人，这是原则！生活多是苦难，磨砺众生；吃腻山珍海味的人渴望农家小菜，久经沧桑的羡慕新手的初生牛犊的拼劲，经历过爱情的人害怕什么呢？害怕再经历爱情；过往的回忆就像一个躲在黑暗里的蛇，总是在你伤口发热时再咬上一口，其实它没毒，但是肯定会疼，勇敢的你，终会杀了蛇，只要你足够勇敢；当你准备接受爱情的时候，就要接受爱情带来的苦涩，焦虑和怅然若失的情绪，就像你打算接受一个人，就要学会接受他的前面后面上面下面，但是你都要学会接受，要么你还没准备好开始一段爱情和爱上一个人。我一直在想我的姑娘，必定是美好的，因为是我喜欢的，是完人，是仙女，是温柔的月光，是清晨初露的霞光，是令人心动的春色，是呼啸着穿堂而过的清风，是踩着红色高跟鞋踢踏踢踏走进我的胸膛，而我则是历经岁月沧桑依然伴随她左右的踏实臂膀，只要我足够勇敢，我真的足够勇敢了。</p>
+
+<p>20 岁之前我看郭敬明的书很多，真的对我的人生有很大的影响，十分感谢；辍学工作之后，无心向学，不读书，生活更是糟糕，再拾起，亦无当年之感；如今，我开始看韩寒和王路的书，觉得他们的文字很酷，可以够我装逼来用，但是我的内心很正，热情好学，积极向上；其实，如今高度发展的商业模式，的确会让很多人的价值观有失颇比，有一些人投机取巧只为赚钱不顾影响，直观体现就是很多挂作家之名写出乌七八糟的东西反而畅销，快餐式的心灵鸡汤盛行，进而影响更多读者，所以需要筛选文章，但不是否定任何书，文学不应有贵贱之分，区分在读者，读适合自己的书即可；生活如此，对的是自己，其他则毋庸顾虑，凡事需顾虑的，便对自己无甚意义，弃之亦不可惜。</p>
+
+<p>最后套用韩寒的话结尾：</p>
+
+<p><strong>*为热爱的人或事物洒下热血和热泪，最坏的结果无非就是对方一句“你想怎样”。</strong>*</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2015-04-03</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2015/02/%E5%86%99%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2.html">写的第一个前端页面</a></h1>
+    <div class="post_at_index">
+      <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/ne0Eiv.png" alt="ne0Eiv" /></p>
+
+<p>第一次学习前端项目，帮公司写了个前端页面，没想到现在还在使用。</p>
+
+<p>多丑陋的代码 ~</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2015-02-23</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#HTML">HTML</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2014/07/CentOS7_Configure_BIND_DNS_Server.html">CentOS 7 Configure DNS Server</a></h1>
+    <div class="post_at_index">
+      <p>今天介绍下如何在 CentOS 7 下部署 DNS Server，测试环境中服务端搭建在了 CentOS 7，客户端分别在 Windows 和 Linux 实现测试。</p>
+
+<p>因为目的是让自建 DNS 服务器解析公司内部的自定义域名，所以当客户端需要访问外网域名时，DNS 服务器会将解析请求转发给 ISP 的 DNS 服务器，并会将解析结果缓存，并且只对内网主机的解析请求进行转发，而不会对公网的主机解析请求进行转发。</p>
+
+<h4 id="dns-服务介绍">DNS 服务介绍</h4>
+
+<p>DNS 服务由 BIND 提供，启动后服务名为<code class="language-plaintext highlighter-rouge">named</code>，管理工具为<code class="language-plaintext highlighter-rouge">rndc</code>，debug 工具为<code class="language-plaintext highlighter-rouge">dig</code>，主要配置文件在<code class="language-plaintext highlighter-rouge">/etc/named.conf</code>。</p>
+
+<h4 id="安装">安装</h4>
+
+<p>推荐选择<code class="language-plaintext highlighter-rouge">bind-chroot</code>来安装，提高服务的安全性：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ yum <span class="nb">install</span> <span class="nt">-y</span> bind-chroot
+</code></pre></div></div>
+
+<p>安装完成之后，启动<code class="language-plaintext highlighter-rouge">named-chroot</code>服务，并设置为开机自启动：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ systemctl <span class="nb">enable </span>named-chroot.service
+Created symlink from /etc/systemd/system/multi-user.target.wants/named-chroot.service to /usr/lib/systemd/system/named-chroot.service.
+➜  ~ systemctl start named-chroot.service
+➜  ~ netstat <span class="nt">-ntlp</span> | <span class="nb">grep </span>53
+tcp        0      0 127.0.0.1:53            0.0.0.0:<span class="k">*</span>               LISTEN      4515/named
+tcp        0      0 127.0.0.1:953           0.0.0.0:<span class="k">*</span>               LISTEN      4515/named
+</code></pre></div></div>
+
+<h4 id="配置">配置</h4>
+
+<p>首先备份 DNS 服务端的主配置文件，然后修改其中的内容：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">cp</span> /etc/named.conf /etc/named.conf.bak
+➜  ~ vim /etc/named.conf
+
+options <span class="o">{</span>
+        listen-on port 53 <span class="o">{</span> any<span class="p">;</span> <span class="o">}</span><span class="p">;</span>
+        listen-on-v6 port 53 <span class="o">{</span> ::1<span class="p">;</span> <span class="o">}</span><span class="p">;</span>
+        directory       <span class="s2">"/var/named"</span><span class="p">;</span>
+        dump-file       <span class="s2">"/var/named/data/cache_dump.db"</span><span class="p">;</span>
+        statistics-file <span class="s2">"/var/named/data/named_stats.txt"</span><span class="p">;</span>
+        memstatistics-file <span class="s2">"/var/named/data/named_mem_stats.txt"</span><span class="p">;</span>
+        
+        allow-query     <span class="o">{</span> 192.168.16.0/24<span class="p">;</span> 192.168.0.0/23<span class="p">;</span> <span class="o">}</span><span class="p">;</span>
+        recursion <span class="nb">yes</span><span class="p">;</span>
+        allow-recursion <span class="o">{</span> 192.168.16.0/24<span class="p">;</span> 192.168.0.0/23<span class="p">;</span> <span class="o">}</span><span class="p">;</span>
+        
+        forward first<span class="p">;</span>
+        forwarders <span class="o">{</span> 202.96.209.133<span class="p">;</span> 114.114.114.114<span class="p">;</span> <span class="o">}</span><span class="p">;</span>
+        
+        dnssec-enable no<span class="p">;</span>
+        dnssec-validation no<span class="p">;</span>
+        dnssec-lookaside no<span class="p">;</span>
+
+        bindkeys-file <span class="s2">"/etc/named.iscdlv.key"</span><span class="p">;</span>
+        managed-keys-directory <span class="s2">"/var/named/dynamic"</span><span class="p">;</span>
+
+        pid-file <span class="s2">"/run/named/named.pid"</span><span class="p">;</span>
+        session-keyfile <span class="s2">"/run/named/session.key"</span><span class="p">;</span>
+<span class="o">}</span><span class="p">;</span>
+
+logging <span class="o">{</span>
+        channel default_debug <span class="o">{</span>
+                file <span class="s2">"data/named.run"</span><span class="p">;</span>
+                severity dynamic<span class="p">;</span>
+        <span class="o">}</span><span class="p">;</span>
+<span class="o">}</span><span class="p">;</span>
+
+zone <span class="s2">"."</span> IN <span class="o">{</span>
+        <span class="nb">type </span>hint<span class="p">;</span>
+        file <span class="s2">"named.ca"</span><span class="p">;</span>
+<span class="o">}</span><span class="p">;</span>
+
+// 新增一个samzong.local域名.
+zone <span class="s2">"samzong.local"</span> IN <span class="o">{</span>
+    <span class="nb">type </span>master<span class="p">;</span>
+    file <span class="s2">"samzong.local.zone"</span><span class="p">;</span>
+<span class="o">}</span><span class="p">;</span>
+
+include <span class="s2">"/etc/named.rfc1912.zones"</span><span class="p">;</span>
+include <span class="s2">"/etc/named.root.key"</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h4 id="编辑-samzonglocalzone-配置文件">编辑 samzong.local.zone 配置文件</h4>
+
+<p>首先创建 samzong.local.zone 文件：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">cd</span> /var/named
+➜  named <span class="nb">touch </span>samzong.local.zone<span class="p">;</span>
+</code></pre></div></div>
+
+<p>然后编辑文件内容新增：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$TTL</span> 86400
+@ IN SOA @ root.samzong.local. <span class="o">(</span>
+    2016042112 <span class="p">;</span>Serial
+    3600 <span class="p">;</span>Refresh
+    1800 <span class="p">;</span>Retry
+    604800 <span class="p">;</span>Expire
+    43200 <span class="p">;</span>Minimum TTL
+<span class="o">)</span>
+
+        NS  @
+        A       10.0.2.6
+www     A       192.168.16.100
+a   IN  CNAME   www.baidu.com.
+b       A       192.168.16.101
+</code></pre></div></div>
+
+<p>编辑完成之后，重新启动 named-chroot 让服务生效：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  named systemctl restart named-chroot.service
+</code></pre></div></div>
+
+<h4 id="客户端验证">客户端验证</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  named nslookup www.samzong.local
+Server:  192.168.16.6
+Address: 192.168.16.6#53
+
+Name: www.samzong.local
+Address: 192.168.16.100
+</code></pre></div></div>
+
+<h4 id="使用-rndc-管理-dns-解析记录">使用 rndc 管理 DNS 解析记录</h4>
+
+<p>rndc 常用指令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>status          显示bind服务器的工作状态
+reload          重新加载配置文件和区域文件
+reload zone     重新加载指定的zone
+reconfig        重新读取配制间并加载新增的zone
+querylog        关闭或开启查询日志
+dumpdb          将高速缓存转存到文件,named.conf 有指定文件位置
+freeze          暂停更新所有zone状态
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2014-07-22</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#CentOS">CentOS</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2014/03/%E6%88%91%E6%98%AF%E4%B8%80%E4%B8%AA%E6%9C%80%E4%B8%8D%E4%BC%9A%E5%86%99%E6%A0%87%E9%A2%98%E7%9A%84%E4%BA%BA.html">我是一个最不会写标题的人</a></h1>
+    <div class="post_at_index">
+      <p>之前一直我以为自己是在纠结到底哪里适合写 IT 学习的博文，新浪、网易亦或腾讯，折腾了许久，其实自己明白，不是在哪里写的问题，根本在于自己能否坚持下来，我本身是一个不怎么能耐下来性子的人，学习 Linux、C 还要考学历，总是做做这个，做做那个，没能认真研究，所以这么久时间还是停留在一个“初学者”的位置。</p>
+
+<p>2014 年，这一年是一开始就让我悲痛到无以复加的一年，陷入迷茫让我不知道自己未来的路怎么走，能走多久，可是，我也清清楚楚地明白，我要努力改变，人生充满了太多的不可思议以及你无能为力的悲剧，今年已经过了近四个月份了，一直没能好好整理自己的心情，太沉溺过去的人是个弱者，人生会有很多我们无能为力的事，这让我们心生沮丧，可是不敢逃离还是面对，事情都已经发生在了过去，某一个时间点，是一个想起来都会让自己泪眼婆娑的时间点，我失去了一个生命中最最重要的人，往事只能回忆，也许到我将离去的时候，我才能够坦然面对人生旅途中走着走着就消失的人，我怀念，无时不刻。</p>
+
+<p>谈恋爱，是我这个年纪最容易被提及的问题，我一直排斥去谈恋爱，很多人不明白为什么会是这样；其实，是因为害怕失去，所以不敢拥有，有过一段失败的经历，让我不敢再次尝试，因为我没有把握，也没有勇气，小心翼翼；我总是夸夸其谈着别人的经历，却对自己不敢触及，我所说的努力让自己变得更好，才配得上爱我的人，只是害怕因为自己不够好，致使爱我的人离我而去，不是不相信另一半，是不相信自己，这个现实到令人发指的社会，我不能自私的以为爱情可以战胜一切，这种人也许别人会感到可怜，但最终会被人鄙夷，好姑娘都应该有一个好的归宿，在我没有能力肩负起爱情的责任时，抱歉，我不能说“爱”。其实，我缺少的，钱只是一小部分，更多的是缺少的是一颗勇敢的心，不够成熟的自己，当我不能够做好自己时，如何能够不负责任地肆意冲进别人的生活，伤害了别人，也羞辱了自己。</p>
+
+<p>生理年龄不代表心里年龄，明白自己想做什么，就应该努力去做，尽管我这么大了，这里也是一个开始，命运之轮是不可琢磨的，任何事在该发生的时候就会发生，早一点，晚一点，都是悲剧，如果我错过了一个深爱的姑娘，那么对不起，我想是我的修炼不够；生活在别处，我在这里，安静地学习，成长，成熟，对现实的忍耐，对未来的憧憬，不惊奇也不平淡，命运之轮不会偏移一丝一毫，我想做的只是让自己蜕变，尽量去做我想做的自己。</p>
+
+<p>近期一直在看《德川家康》，还没看完，深刻感受到，在大势中人的渺小与乏力，如果想要成为你想要成为的人，那么首先，你要学会忍耐，坚持，是一个足以让人发疯的忍耐，一定要坚持，不然所有的努力都是笑话，在成为你想成为的人之前，需要舍弃很多东西，你必须足够理智，你必须谨小慎微，不然所有的努力还是成为笑话；但是，哪怕你所有的事儿都做了，你也只是有可能成功，毕竟，命运这事儿，谁有说的准呢？</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2014-03-27</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2012/07/%E7%88%B1%E4%B8%8E%E7%97%9B%E7%9A%84%E8%BE%B9%E7%BC%98.html">Mac 下 Homebrew 的使用</a></h1>
+    <div class="post_at_index">
+      <p>mac 系统也是基于 unix 的系统，所以也继承类很多 unix 的特性，包括软件的编译，安装等。ubuntu 下有快捷命令<code class="language-plaintext highlighter-rouge">apt install</code>来快速安装软件。centos 下有<code class="language-plaintext highlighter-rouge">yum install</code>来快速安装。所以，mac 下也有一种方式，就是使用<code class="language-plaintext highlighter-rouge">brew</code>。</p>
+
+<p>并且，在 Homebrew 和 Cask 的支持下，基本可以全面接待 MacOS 的所有软件安装和更新功能。</p>
+
+<p><code class="language-plaintext highlighter-rouge">brew</code>是 Mac 下的一个包管理工具，它从下载源码解压然后 <code class="language-plaintext highlighter-rouge">./configure &amp;&amp; make install</code> ，同时会包含相关依存库。并自动配置好各种环境变量，而且非常易于卸载。这个对程序员来说简直是福音，简单的指令，就能快速安装和升级本地的各种开发环境。</p>
+
+<p>home brew 官网是 <a href="http://brew.sh/index_zh-cn.html">http://brew.sh/index_zh-cn.html</a></p>
+
+<h2 id="安装-brew">安装 brew</h2>
+
+<p>打开 itrem。输入一条命令即可安装好 brew。</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>这样一个简单的命令，我们就安装好来 brew。来验证一下，输入 brew 命令：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew
+Example usage:
+  brew search TEXT|/REGEX/
+  brew info <span class="o">[</span>FORMULA|CASK...]
+  brew <span class="nb">install </span>FORMULA|CASK...
+  brew update
+  brew upgrade <span class="o">[</span>FORMULA|CASK...]
+  brew uninstall FORMULA|CASK...
+  brew list <span class="o">[</span>FORMULA|CASK...]
+
+Troubleshooting:
+  brew config
+  brew doctor
+  brew <span class="nb">install</span> <span class="nt">--verbose</span> <span class="nt">--debug</span> FORMULA|CASK
+
+Contributing:
+  brew create URL <span class="o">[</span><span class="nt">--no-fetch</span><span class="o">]</span>
+  brew edit <span class="o">[</span>FORMULA|CASK...]
+
+Further <span class="nb">help</span>:
+  brew commands
+  brew <span class="nb">help</span> <span class="o">[</span>COMMAND]
+  man brew
+  https://docs.brew.sh
+</code></pre></div></div>
+
+<p>出现了很多帮助命令，说明我们已经安装成功了。</p>
+
+<h2 id="用-brew-安装程序">用 brew 安装程序</h2>
+
+<p>安装好了 brew 之后，我们就可以用这个命令安装各种源码了。比如安装一下<code class="language-plaintext highlighter-rouge">wget</code>工具。这个工具能在命令行中帮我们下载各种数据。</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>git
+</code></pre></div></div>
+
+<p>这样一个简单的命令就可以了。它会帮我们下载好 git，并且编译执行安装，还会下载各种依赖包，设置好各种配置和参数。</p>
+
+<p>安装好的 <code class="language-plaintext highlighter-rouge">git</code> 会被安装到<code class="language-plaintext highlighter-rouge">/usr/local/Cellar/git/</code>下。并且将<code class="language-plaintext highlighter-rouge">wget</code>命令软链接至 <code class="language-plaintext highlighter-rouge">/usr/local/bin</code> 目录下。这样全局就都可以使用<code class="language-plaintext highlighter-rouge">git</code>命令了。</p>
+
+<blockquote>
+  <p>Homebrew 在 MacOS 10.11 之后 修改了 安装的路径为 <code class="language-plaintext highlighter-rouge">/opt/Homebrew</code>，通过 <code class="language-plaintext highlighter-rouge">brew config</code> 可以看到</p>
+</blockquote>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew config
+HOMEBREW_VERSION: 3.4.10-7-ga4545e5
+ORIGIN: https://github.com/Homebrew/brew
+HEAD: a4545e52315ceedf2deb97ac17d7234708d16e5b
+HOMEBREW_PREFIX: /opt/homebrew
+HOMEBREW_CASK_OPTS: <span class="o">[]</span>
+CPU: 10-core 64-bit arm_firestorm_icestorm
+Clang: 13.1.6 build 1316
+Git: 2.36.0 <span class="o">=&gt;</span> /opt/homebrew/bin/git
+Curl: 7.79.1 <span class="o">=&gt;</span> /usr/bin/curl
+macOS: 12.3.1-arm64
+CLT: 13.3.1.0.1.1648687083
+Xcode: 13.3.1
+Rosetta 2: <span class="nb">false</span>
+</code></pre></div></div>
+
+<h2 id="brew-的常用命令">brew 的常用命令</h2>
+
+<p>常用的命令没几个：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew <span class="nb">install </span>git  <span class="c"># 安装</span>
+➜  ~ brew info git   <span class="c"># 显示软件的各种信息</span>
+➜  ~ brew uninstall git <span class="c"># 卸载</span>
+➜  ~ brew search git <span class="c"># 模糊搜索 brew 支持的软件</span>
+➜  ~ brew list <span class="c"># 列出本机通过 brew 安装的所有软件</span>
+➜  ~ brew update <span class="c"># 更新 brew repo 信息，每次 Install 前也会自动更新</span>
+➜  ~ brew upgrade git <span class="c"># 更新软件 [如果不加软件名，就更新所有可以更新的软件]</span>
+➜  ~ brew cleanup <span class="c"># 清除下载的各种缓存</span>
+➜  ~ brew doctor <span class="c"># 诊断当前 brew 的配置是否有问题，并给出建议</span>
+</code></pre></div></div>
+
+<h2 id="brew-cask">brew cask</h2>
+
+<p><img src="https://camo.githubusercontent.com/f8b75a5e461338a90db6acf4db8f5bc9cf620bfba65a5a490ed10bd08f457b52/68747470733a2f2f692e696d6775722e636f6d2f464e4e4d36574c2e676966" alt="image" /></p>
+
+<p>brew cask 是在 brew 的基础上一个增强的工具，用来安装 Mac 上的 Gui 程序应用包（.dmg/.pkg）, 比如 Chrome、WeChat 等。它先下载解压到统一的目录中（<code class="language-plaintext highlighter-rouge">/opt/homebrew-cask/Caskroom</code>），省掉了自己去下载、解压、拖拽（安装）等蛋疼步骤，同样，卸载相当容易与干净。然后再软链到<code class="language-plaintext highlighter-rouge">~/Applications/</code>目录下，一气呵成。非常方便，而且还包含很多在 AppStore 里没有的常用软件。</p>
+
+<ul>
+  <li>brew cask 的官网是：<a href="http://caskroom.io/">http://caskroom.io</a></li>
+  <li>github 地址是：<a href="https://github.com/caskroom/homebrew-cask">https://github.com/caskroom/homebrew-cask</a></li>
+</ul>
+
+<p>:::information_desk_person: Cask 目前已经内置到 brew 官方安装包内了，无需单独安装；并且官方集成的非常好，大部分情况下，不需要特殊标记就可以看到到对应的软件了</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew search git <span class="nt">--cask</span>   <span class="c"># 在 brew 后 --cask 可指定查询 GUI 类型</span>
+<span class="o">==&gt;</span> Casks
+adobe-digital-editions                   gitscout
+caldigit-docking-utility                 gitter ✔
+caldigit-thunderbolt-charging            gitup
+deepgit                                  gitx
+digital                                  logitech-camera-settings
+font-digital-numbers                     logitech-control-center
+git-it                                   logitech-firmwareupdatetool
+gitahead                                 logitech-g-hub
+gitblade                                 logitech-gaming-software
+gitdock                                  logitech-myharmony
+gitee                                    logitech-options ✔
+giteye                                   logitech-presentation
+gitfiend                                 logitech-unifying
+gitfinder                                plotdigitizer
+gitfox                                   rowanj-gitx
+github                                   smartgit
+github-beta                              snagit
+githubpulse                              snagit4
+gitify                                   subgit
+gitkraken                                webplotdigitizer
+gitnote                                  xit
+gitpigeon
+</code></pre></div></div>
+
+<p>举个简单的例子，iTerm 是我们经常使用的软件：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew <span class="nb">install </span>iTerm <span class="nt">--cask</span>  <span class="c"># 大部分情况下 --cask 是可以省略的，除非在出现同名的情况下</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>使用小技巧</p>
+</blockquote>
+
+<p>如果不清楚这个软件是否符合我们的要求，可以在安装前通过 <code class="language-plaintext highlighter-rouge">brew seach</code> 模糊查询下 具体的软件名称：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew search iterm <span class="nt">--cask</span>
+<span class="o">==&gt;</span> Casks
+font-ia-writer-mono        iterm2-legacy              zterm
+iterm2 ✔                   iterm2-nightly
+iterm2-beta                therm
+</code></pre></div></div>
+
+<p>在确认了具体的软件名称后，可以通过 <code class="language-plaintext highlighter-rouge">brew info</code> 查看更为详细的软件信息，在这里会告诉软件的具体名称和介绍</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew info iterm2
+iterm2: 3.4.15 <span class="o">(</span>auto_updates<span class="o">)</span>
+https://www.iterm2.com/
+/opt/homebrew/Caskroom/iterm2/3.4.15 <span class="o">(</span>119B<span class="o">)</span>
+From: https://github.com/Homebrew/homebrew-cask/blob/HEAD/Casks/iterm2.rb
+<span class="o">==&gt;</span> Name
+iTerm2
+<span class="o">==&gt;</span> Description
+Terminal emulator as alternative to Apple<span class="s1">'s Terminal app
+==&gt; Artifacts
+iTerm.app (App)
+==&gt; Analytics
+install: 25,001 (30 days), 91,481 (90 days), 335,711 (365 days)
+</span></code></pre></div></div>
+
+<p>OK，以上确认后，就可以正常安装了</p>
+
+<h2 id="brew-cu">brew cu</h2>
+
+<p><code class="language-plaintext highlighter-rouge">cu</code> 是 Cask 软件下的另一个优质的辅助工具，全称 <code class="language-plaintext highlighter-rouge">brew-cask-upgrade</code> 可以帮您检测全部 <code class="language-plaintext highlighter-rouge">brew install --cask</code> 的软件的版本更新情况</p>
+
+<h3 id="cu-的安装">cu 的安装</h3>
+
+<ul>
+  <li>Github <a href="https://github.com/buo/homebrew-cask-upgrade">https://github.com/buo/homebrew-cask-upgrade</a></li>
+</ul>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew tap buo/cask-upgrade
+</code></pre></div></div>
+
+<h3 id="使用说明">使用说明</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew cu <span class="c"># 简单即可检测所有软件的更新情况</span>
+<span class="o">==&gt;</span> Options
+Include auto-update <span class="o">(</span><span class="nt">-a</span><span class="o">)</span>: <span class="nb">false
+</span>Include latest <span class="o">(</span><span class="nt">-f</span><span class="o">)</span>: <span class="nb">false</span>
+<span class="o">==&gt;</span> Updating Homebrew
+Already up-to-date.
+<span class="o">==&gt;</span> Finding outdated apps
+       Cask                           Current       Latest        A/U    Result
+ 1/62  another-redis-desktop-manager  1.5.2         1.5.5              <span class="o">[</span>OUTDATED]
+ 2/62  anydesk                        6.3.3         6.5.0              <span class="o">[</span>OUTDATED]
+ 3/62  authy                          1.9.0         2.1.0          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+ 4/62  betterdummy                    1.0.13        1.1.12         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+ 5/62  bob                            0.7.0         0.8.1          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+ 6/62  cakebrew                       1.3           1.3            Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+ 7/62  clipy                          1.2.1         1.2.1              <span class="o">[</span>   OK   <span class="o">]</span>
+ 8/62  dash                           6.2.0         6.2.3          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+ 9/62  devtoys                        0.0.10        0.0.10             <span class="o">[</span>   OK   <span class="o">]</span>
+10/62  feishu                         5.1.5         5.11.5         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+11/62  figma                          112.2.0       114.3.0        Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+12/62  firefox                        94.0.2        99.0.1         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+13/62  folx                           5.25          5.26           Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+14/62  font-fira-code                 6.2           6.2                <span class="o">[</span>   OK   <span class="o">]</span>
+15/62  forticlient-vpn                7.0           7.0                <span class="o">[</span>   OK   <span class="o">]</span>
+16/62  gitter                         1.177         1.177              <span class="o">[</span>   OK   <span class="o">]</span>
+17/62  iina                           1.2.0         1.2.0          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+18/62  iina-plus                      0.6.5         0.6.6              <span class="o">[</span>OUTDATED]
+19/62  imazing                        2.14.6        2.14.8         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+20/62  iterm2                         3.4.15        3.4.15         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+21/62  jellybeansoup-netflix          1.0.5         1.0.5              <span class="o">[</span>   OK   <span class="o">]</span>
+22/62  jetbrains-toolbox              1.22          1.23           Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+23/62  kap                            3.4.2         3.5.4          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+24/62  keyboardholder                 1.5.5         1.6.1              <span class="o">[</span>OUTDATED]
+25/62  kite                           0.20210610.0  0.20210610.0   Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+26/62  logitech-options               9.40.75       9.50.122       Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+27/62  maccy                          0.22.0        0.22.2         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+28/62  microsoft-remote-desktop       10.7.0        10.7.6         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+29/62  netnewswire                    6.1           6.1            Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+30/62  notable                        1.8.4         1.8.4          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+31/62  notion                         2.0.18        2.0.20         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+32/62  obsidian                       0.14.6        0.14.6         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+33/62  one-switch                     1.23          1.25               <span class="o">[</span>OUTDATED]
+34/62  openconnect-gui                1.5.3         1.5.3              <span class="o">[</span>   OK   <span class="o">]</span>
+35/62  openvpn-connect                3.3.2         3.3.5              <span class="o">[</span>OUTDATED]
+36/62  oss-browser                    1.16.0        1.16.0             <span class="o">[</span>   OK   <span class="o">]</span>
+37/62  picgo                          2.3.0         2.3.0              <span class="o">[</span>   OK   <span class="o">]</span>
+38/62  playcover                      0.9.2         1.0.0              <span class="o">[</span>OUTDATED]
+39/62  postman                        9.1.3         9.16.0         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+40/62  proxyman                       3.3.0         3.4.0          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+41/62  resilio-sync                   2.7.3         2.7.3          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+42/62  sensei                         1.5.1         1.5.2          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+43/62  shimo                          5.0.4         5.0.4          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+44/62  shuttle                        1.2.9         1.2.9              <span class="o">[</span>   OK   <span class="o">]</span>
+45/62  skype                          8.79.0.92     8.83.0.408     Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+46/62  slack-beta                     4.23.0        4.26.0         Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+47/62  sourcetree                     4.1.7         4.1.8          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+48/62  spotify                        1.1.73.517    1.1.84.716     Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+49/62  steam                          4.0           4.0            Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+50/62  sunloginclient                 11.0.1.39931  12.5.0.45236       <span class="o">[</span>OUTDATED]
+51/62  switchkey                      1.1.3         1.1.3              <span class="o">[</span>   OK   <span class="o">]</span>
+52/62  telegram                       8.3           8.7            Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+53/62  tencent-lemon                  5.0.7         5.0.7          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+54/62  tencent-meeting                2.20.2.413    3.7.7.457      Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+55/62  typora                         1.0.2         1.2.4          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+56/62  upic                           0.21.1        0.21.1             <span class="o">[</span>   OK   <span class="o">]</span>
+57/62  utm-beta                       3.1.5         3.2.0              <span class="o">[</span>OUTDATED]
+58/62  visual-studio-code-insiders    1.63.0        latest             <span class="o">[</span>   OK   <span class="o">]</span>
+59/62  whatsapp                       2.2204.13     2.2214.12      Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+60/62  wireshark                      3.4.9         3.6.3          Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+61/62  yesplaymusic                   0.4.3         0.4.3              <span class="o">[</span>   OK   <span class="o">]</span>
+62/62  zoom                           5.8.4.2421    5.10.4.6592    Y   <span class="o">[</span>  PASS  <span class="o">]</span>
+
+<span class="o">==&gt;</span> Found outdated apps
+     Cask                           Current       Latest        A/U    Result
+1/9  another-redis-desktop-manager  1.5.2         1.5.5              <span class="o">[</span>OUTDATED]
+2/9  anydesk                        6.3.3         6.5.0              <span class="o">[</span>OUTDATED]
+3/9  iina-plus                      0.6.5         0.6.6              <span class="o">[</span>OUTDATED]
+4/9  keyboardholder                 1.5.5         1.6.1              <span class="o">[</span>OUTDATED]
+5/9  one-switch                     1.23          1.25               <span class="o">[</span>OUTDATED]
+6/9  openvpn-connect                3.3.2         3.3.5              <span class="o">[</span>OUTDATED]
+7/9  playcover                      0.9.2         1.0.0              <span class="o">[</span>OUTDATED]
+8/9  sunloginclient                 11.0.1.39931  12.5.0.45236       <span class="o">[</span>OUTDATED]
+9/9  utm-beta                       3.1.5         3.2.0              <span class="o">[</span>OUTDATED]
+
+Do you want to upgrade 9 apps or enter <span class="o">[</span>i]nteractive mode <span class="o">[</span>y/i/N]?
+</code></pre></div></div>
+
+<p>可以根据提示输入然后选择是否更新：</p>
+
+<ul>
+  <li>y 全部更新，后续不再确认</li>
+  <li>i 依次咨询是否要更新</li>
+  <li>N 全部不更新，退出</li>
+</ul>
+
+<h2 id="brew-mas">brew mas</h2>
+
+<p>mas 是一个帮助在命令行下完成 Mac App Store 软件安装和查询的工具，使用起来也是非常的简单，但相对于 cask 低了很多，可以作为了解，安装方式如下：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew <span class="nb">install </span>mas
+</code></pre></div></div>
+
+<p>支持的命令也基本覆盖了常用需求</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ mas list
+➜  ~ mas search xcode
+➜  ~ mas <span class="nb">install </span>407963104
+➜  ~ mas outdated
+➜  ~ mas upgrade
+</code></pre></div></div>
+
+<p>当然，mas 也支持了 appstore 的账号登录；不过目前看到 mas 的社区更新不怎么积极，目前仍旧未适配 最新的系统，谨慎选择。</p>
+
+<h2 id="brew-软件的备份和恢复">brew 软件的备份和恢复</h2>
+
+<p>随着对系统使用的不断加深，我们已经在一台电脑上建立一套对自己来说的软件生态，所以在更换电脑时，需要安装那些软件是非常头疼的一个事情；如果都是 GUI 软件还好，但研发同学的电脑其实会有大量的 forumal 软件，重装起来还是非常麻烦的。</p>
+
+<p>所以，这里给大家推荐 <code class="language-plaintext highlighter-rouge">homebrew-bundle</code> 来帮助迁移电脑时，快速备份和恢复你的软件环境；整个使用的过程也是非常的便捷。</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 执行 bundle dump 备份软件清单到 Brewfile</span>
+brew bundle dump <span class="nt">--describe</span> <span class="nt">--force</span> <span class="nt">--file</span><span class="o">=</span><span class="s2">"~/Desktop/Brewfile"</span>
+
+<span class="c"># --describe：为列表中的命令行工具加上说明性文字，可以参照 brew info package</span>
+</code></pre></div></div>
+
+<p>根据你电脑的软件多少，这大概会花费几十秒的时间，然后你会得到一份你的电脑软件清单，这里也分享下我的清单</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">cat </span>Desktop/Brewfile
+tap <span class="s2">"bigwig-club/brew"</span>
+tap <span class="s2">"buo/cask-upgrade"</span>
+tap <span class="s2">"heroku/brew"</span>
+...
+<span class="c"># Mozilla CA certificate store</span>
+brew <span class="s2">"ca-certificates"</span>
+<span class="c"># GNU database manager</span>
+brew <span class="s2">"gdbm"</span>
+<span class="c"># Automate deployment, configuration, and upgrading</span>
+brew <span class="s2">"ansible"</span>
+<span class="c"># Library and utilities for processing GIFs</span>
+brew <span class="s2">"giflib"</span>
+...
+<span class="c"># Redis desktop manager</span>
+cask <span class="s2">"another-redis-desktop-manager"</span>
+<span class="c"># Allows connection to a computer remotely</span>
+cask <span class="s2">"anydesk"</span>
+<span class="c"># Two-factor authentication software</span>
+cask <span class="s2">"authy"</span>
+<span class="c"># Dummy Display for Apple Silicon Macs to achieve custom resolutions</span>
+cask <span class="s2">"betterdummy"</span>
+...
+mas <span class="s2">"AngryBirdsReloaded"</span>, <span class="nb">id</span>: 1539172625
+mas <span class="s2">"Asphalt 8+"</span>, <span class="nb">id</span>: 1563005359
+mas <span class="s2">"BombSquad"</span>, <span class="nb">id</span>: 416482767
+mas <span class="s2">"Bridge Constructor+"</span>, <span class="nb">id</span>: 1587908263
+...
+</code></pre></div></div>
+
+<p>整个备份的内容包含  4 个部分，也正好包含了，我上面讲到的所有 brew 命令</p>
+
+<ul>
+  <li>brew tap 中的软件库</li>
+  <li>brew 安装的命令行工具</li>
+  <li>brew cask 安装的 App</li>
+  <li>Mac App Store 安装的 App  <code class="language-plaintext highlighter-rouge">这里也就是用上面的 mas</code></li>
+</ul>
+
+<h3 id="快速恢复软件">快速恢复软件</h3>
+
+<p>以下是你的新 Mac 上要做的事情，你需要把自己的 <code class="language-plaintext highlighter-rouge">Brewfile</code> 转移到新的 Mac 上，软件需要安装基础的工具：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 安装 Homebrew</span>
+➜  ~ /usr/bin/ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
+<span class="c"># 安装 mas</span>
+➜  ~ brew <span class="nb">install </span>mas
+</code></pre></div></div>
+
+<p>基础环境安装好了，之后，就可以进行软件恢复啦</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 批量安装软件 </span>
+➜  ~ brew bundle <span class="nt">--file</span><span class="o">=</span><span class="s2">"~/Desktop/Brewfile"</span>
+</code></pre></div></div>
+
+<p>软件实际恢复的速度取决于你的网络状态，不过 brew bundle 可以重复执行，你是可以中断恢复的。</p>
+
+<h2 id="结语">结语</h2>
+
+<p>好了，以上就是我关于 Mac 下软件安装神器 <code class="language-plaintext highlighter-rouge">brew</code>  的使用分享啦，这里大概涵盖了你 95% 的使用需求，如果你发现仍有疑问，欢迎与我取得联系，或者使用 Google 解决剩下的问题。</p>
+
+<p>文档内容，可能会随着时间推移有不适用的情况，若遇到冲突以官方说明为准。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2012-07-30</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+
+    <!-- Pagination links -->
+    <nav>
+      <ul class="pagination hidden-xs">
+        
+        
+        <li>
+          <a href="/page23">&laquo; Previous</a>
+        </li>
+        
+        
+
+        
+        <li>
+          <a href="/">1</a>
+        </li>
+        
+
+        
+        
+
+        
+        <li><span>...</span></li>
+        <li class="active">
+          <a href="/page24">24</a>
+        </li>
+        
+
+        
+        <li class="disabled">
+          <a>Next &raquo;</a>
+        </li>
+        
+      </ul>
+    </nav>
+  </div>
+  <div class="col-xs-12 col-md-4">
+		<!-- <div>
+			<a class="twitter-timeline" data-width="390" data-height="640" data-theme="light" href="https://twitter.com/samzong_lu?ref_src=twsrc%5Etfw">Tweets by SAMZONG</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+		</div> -->
+    <div>
+      <h2>传送门</h2>
+      <ul>
+        <li><a href="https://yuque.com/samzong">语雀-花园</a></li>
+        <li><a href="https://github.com/samzong">Github</a></li>
+      </ul>
+    </div>
+    <div class="categories">
+      <h2>文章分类</h2>
+      <ul class="tag_box">
+        
+        
+
+
+  
+     
+    	
+      <li><a href="/categories.html#Linux">
+    		Linux <span>22</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#CentOS">
+    		CentOS <span>15</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#HTML">
+    		HTML <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#数据库">
+    		数据库 <span>19</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#MySQL">
+    		MySQL <span>14</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Git">
+    		Git <span>6</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#TortoiseGit">
+    		TortoiseGit <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#MongoDB">
+    		MongoDB <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#PHP">
+    		PHP <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Mac">
+    		Mac <span>16</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#SourceTree">
+    		SourceTree <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#OpenSource">
+    		OpenSource <span>11</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Piwik">
+    		Piwik <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Python">
+    		Python <span>45</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#云服务">
+    		云服务 <span>6</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Azure">
+    		Azure <span>4</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#虚拟化">
+    		虚拟化 <span>7</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#OpenStack">
+    		OpenStack <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#CloudStack">
+    		CloudStack <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Zabbix">
+    		Zabbix <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Tomcat">
+    		Tomcat <span>5</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Redis">
+    		Redis <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Docker">
+    		Docker <span>6</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Shell">
+    		Shell <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Blog">
+    		Blog <span>4</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Ghost">
+    		Ghost <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#PostgreSQL">
+    		PostgreSQL <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#AWS">
+    		AWS <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Aliyun">
+    		Aliyun <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Redmine">
+    		Redmine <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Bigdata">
+    		Bigdata <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Tools">
+    		Tools <span>4</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#VPN">
+    		VPN <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Windows">
+    		Windows <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Jmeter">
+    		Jmeter <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#随笔">
+    		随笔 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#读书笔记">
+    		读书笔记 <span>16</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#SQL">
+    		SQL <span>5</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Node">
+    		Node <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#BI">
+    		BI <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Network">
+    		Network <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#微服务">
+    		微服务 <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#ClickHouse">
+    		ClickHouse <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#闲聊">
+    		闲聊 <span>3</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Hexo">
+    		Hexo <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Javascript">
+    		Javascript <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Telegram">
+    		Telegram <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Metabase">
+    		Metabase <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#学习">
+    		学习 <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kubernetes">
+    		Kubernetes <span>10</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Github">
+    		Github <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#kubernetes">
+    		kubernetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#腾讯云">
+    		腾讯云 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#阿里云">
+    		阿里云 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Gitlab">
+    		Gitlab <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#前端">
+    		前端 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#DaoCloud Enterprise">
+    		DaoCloud Enterprise <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kubrnetes">
+    		Kubrnetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kafka">
+    		Kafka <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#云原生">
+    		云原生 <span>1</span>
+    	</a></li>
+    
+  
+
+
+
+      </ul>
+    </div>
+    <div>
+      <h2>最近文章</h2>
+      <ul>
+        
+        <li>
+          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy To Markdwon</a>
+          
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
+          
+  参考资料：
+
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
+          ```python
+df = pandas.read_csv(‘somefile.txt’)
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
+          
+  暗坑很多
+
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/10/JWT-%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F.html">JWT 内置的方式</a>
+          
+  支持为 API 启用 jwt token 解码的能力 ,  读取网关的 jwt key
+    
+      读取请求 Header 中的 Authorization
+    
+  
+  需要支持为网关配置多 jwt key , and 加密长度 ?
+    
+      解密的性能问题
+      expire_time 过期时间的配置
+      解密后的参数传递
+    
+  
+
+
+
+        </li>
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+			</div>
+
+		</div>
+
+    <footer>
+      <div class="container">
+        <div class="row mobilepadding">
+          			<hr>
+      &copy; 2022 船长. Powered by <a href="http://jekyllrb.com" target="_blank" title="The simple, blog-aware, static site generator.">Jekyll</a>. Theme Creator <a href="https://github.com/einverne" target="_blank" title="Ein Verne's GitHub Repos">Ein Verne</a> . Host on <a href="https://github.com/samzong/samzong.me" target="_blank" title="Samzong's GitHub Repos">Github</a> .
+      <br><br>
+      </div>
+    </div>
+    </footer>
+
+    
+
+
+
+
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+	<script async type="text/javascript" src="/assets/themes/evjekylltheme/webcore.js"></script>
+
+ </body>
+</html>
+

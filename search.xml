@@ -4,7 +4,7 @@
  <title>船长的课记</title>
  <link href="https://samzong.me/" rel="self"/>
  <link href="https://samzong.me"/>
- <updated>2022-11-19T03:41:41-06:00</updated>
+ <updated>2022-11-19T10:32:53-06:00</updated>
  <id>https://samzong.me</id>
  <author>
    <name>船长</name>
@@ -88,6 +88,38 @@ REDASH_DATABASE_URL=postgresql://postgres
  </entry>
  
  <entry>
+   <title>JWT 内置的方式</title>
+   <link href="https://samzong.me/post/2022/10/JWT-%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F.html"/>
+   <updated>2022-10-18T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/10/JWT 内置的方式</id>
+   <content type="html">
+  支持为 API 启用 jwt token 解码的能力 ,  读取网关的 jwt key
+    
+      读取请求 Header 中的 Authorization
+    
+  
+  需要支持为网关配置多 jwt key , and 加密长度 ?
+    
+      解密的性能问题
+      expire_time 过期时间的配置
+      解密后的参数传递
+    
+  
+
+
+
+
+迭代的方向
+
+
+  采用外置的Jwt server 认证服务
+    
+      配置 jwt server url
+      respone 解密后的  json 内容； 进行参数传递
+...</content>
+ </entry>
+ 
+ <entry>
    <title>唧唧复唧唧</title>
    <link href="https://samzong.me/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html"/>
    <updated>2022-10-06T00:00:00-05:00</updated>
@@ -143,6 +175,37 @@ Github 的实现方式
  </entry>
  
  <entry>
+   <title>Kafka 调研及功能设计</title>
+   <link href="https://samzong.me/post/2022/09/Kafka-%E7%AB%9E%E5%93%81%E8%B0%83%E7%A0%94%E5%8F%8A%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1.html"/>
+   <updated>2022-09-27T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/09/Kafka 竞品调研及功能设计</id>
+   <content type="html">调研对象
+
+
+  
+    
+      厂家
+      产品控制台主页
+      应用模式
+    
+  
+  
+    
+      阿里云
+      https://kafka.console.aliyun.com/
+      中间件 PaaS 模块之一
+    
+    
+      腾讯云
+      https://console.cloud.tencent.com/ckafka/overview
+      中间件 PaaS 模块之一
+    
+    
+      华为云
+      https://console.huaweicloud.com/dms/?reg...</content>
+ </entry>
+ 
+ <entry>
    <title>Poetry 使用笔记</title>
    <link href="https://samzong.me/post/2022/09/Poetry-%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0.html"/>
    <updated>2022-09-22T00:00:00-05:00</updated>
@@ -165,6 +228,57 @@ Github 的实现方式
 
 # In my CentOS
 - ...</content>
+ </entry>
+ 
+ <entry>
+   <title>Skoala 部署教程</title>
+   <link href="https://samzong.me/post/2022/09/Skoala-%E9%83%A8%E7%BD%B2%E6%95%99%E7%A8%8B.html"/>
+   <updated>2022-09-20T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/09/Skoala 部署教程</id>
+   <content type="html">使用之前的话
+
+Skoala 的微服务治理和微服务是强依赖的 Ghippo 、Insight 和 Kpanda 作为基石；同时 Skoala 也支持了 Mesh 服务治理能力，所以也需要 Mspider。
+为了保证良好的使用体验，以及减少不可预知的部署问题，请确认以上组件均可正常工作。
+
+检测方式一
+
+访问 UI 界面环境，可以在左侧导航栏能够正确看到所有模块，并且可以正常使用。
+
+
+检测方式二
+
+通过终端查看集群内的 apiserver 是否正常，检查服务 Pod 是否正常运行
+
+# 检测 ghippo
+~ kubectl -n ghippo-system get pods | egr...</content>
+ </entry>
+ 
+ <entry>
+   <title>使用 canal 进行数据库增量同步</title>
+   <link href="https://samzong.me/post/2022/09/%E4%BD%BF%E7%94%A8-canal-%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E5%A2%9E%E9%87%8F%E5%90%8C%E6%AD%A5.html"/>
+   <updated>2022-09-18T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/09/使用 canal 进行数据库增量同步</id>
+   <content type="html">
+
+简介
+
+
+
+canal [kə’næl]，译意为水道/管道/沟渠，主要用途是基于 MySQL 数据库增量日志解析，提供增量数据订阅和消费
+
+早期阿里巴巴因为杭州和美国双机房部署，存在跨机房同步的业务需求，实现方式主要是基于业务 trigger 获取增量变更。从 2010 年开始，业务逐步尝试数据库日志解析获取增量变更进行同步，由此衍生出了大量的数据库增量订阅和消费业务。
+
+基于日志增量订阅和消费的业务包括
+
+
+  数据库镜像
+  数据库实时备份
+  索引构建和实时维护(拆分异构索引、倒排索引等)
+  业务 cache 刷新
+  带业务逻辑的增量数据处理
+
+
+当前的 canal 支持源...</content>
  </entry>
  
  <entry>
@@ -216,6 +330,20 @@ docker0: flags=4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&amp;gt;  mtu 1500
  </entry>
  
  <entry>
+   <title>Contour 学习笔记</title>
+   <link href="https://samzong.me/post/2022/08/Contour-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html"/>
+   <updated>2022-08-10T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/08/Contour 学习笔记</id>
+   <content type="html">Contour 官方的资料
+
+
+  https://hackmd.io/84Xbl4WBTpm7OBhaOAsSiw  Contour Community Meeting Notes
+  https://www.youtube.com/watch?v=fpRzvQWiHjI&amp;amp;list=PLk2K7YhXu5KtYU1UGEYNC8ApH5gsWihDJ  双周例会
+  https://kubernetes.slack.com/archives/C8XRH2R4J  Slack Chat Channel
+  https://bitnami.com/stack/contour/hel...</content>
+ </entry>
+ 
+ <entry>
    <title>通过 pipreqs 获取当前项目的依赖库</title>
    <link href="https://samzong.me/post/2022/07/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html"/>
    <updated>2022-07-24T00:00:00-05:00</updated>
@@ -241,6 +369,24 @@ pipreqs ./ --encoding=utf-8
  </entry>
  
  <entry>
+   <title>Contour &amp; Envoy 指标</title>
+   <link href="https://samzong.me/post/2022/07/Contour-&-Envoy-%E6%8C%87%E6%A0%87.html"/>
+   <updated>2022-07-22T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/07/Contour & Envoy 指标</id>
+   <content type="html">Contour &amp;amp; Envoy 指标
+
+本文档内容与Contour与 Envoy 的metrics相关, 据Contour与envoy的官网内容并参考源码、第三方blog等汇总而成. 因为 Contour 指标较少, 所以在文中全部列出,且个人主观的将其暂分为:必须与可选的； 在envoy中 metrics被称为stats 通过管理接口向公众暴露,因其指标过多,所以按官方建议只选取Cluster与HCM相关指标,并只抽取个人认为比较重要且现阶段需要的指标列出,如需要相看详情,请点击相应链接.
+
+Contour 指标
+
+
+  
+    
+      Required
+      N...</content>
+ </entry>
+ 
+ <entry>
    <title>jq 命令行 Json 处理神器</title>
    <link href="https://samzong.me/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8.html"/>
    <updated>2022-07-22T00:00:00-05:00</updated>
@@ -259,6 +405,62 @@ pipreqs ./ --encoding=utf-8
 说明
 
 jq 是 stedolan 开发的一个轻量级的和灵活的命令行 JSON 处理器，源码请参考 jq 项目主页 。jq 用于处理 JSON 输入，将给定过滤器应用于其 JSON 文本输入并在标准输出上将过滤器的结果生成为 JSON；最简单的过滤器是.，它将 jq 的输入未经修改地复制到其输出中（...</content>
+ </entry>
+ 
+ <entry>
+   <title>微服务引擎网关能力介绍</title>
+   <link href="https://samzong.me/post/2022/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%BC%95%E6%93%8E%E7%BD%91%E5%85%B3%E8%83%BD%E5%8A%9B%E4%BB%8B%E7%BB%8D.html"/>
+   <updated>2022-07-21T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/07/微服务引擎网关能力介绍</id>
+   <content type="html">
+
+产品介绍
+
+什么是 Skoala-gateway ？
+
+Skoala-gateway 是 DCE 5.0 云原生平台上微服务引擎 Skoala 模块内的微服务网关产品，基于云原生平台之上，提供了云原生微服务的南北向流量治理的分布式网关中间件，Skoala-gateway 原生提供了 API管理、接口限流、多种策略安全认证、黑白名单、路由转发、MockAPI等能力，同时提供了企业级高性能和高扩展的云服务能力。
+Skoala-gateway 采用了业界领先的主流微服务网关开源项目 Contour 和 Envoy 的能力，可以做到全面兼容市面上主要的原生平台，如 Kubernetes、Op...</content>
+ </entry>
+ 
+ <entry>
+   <title>i18n 使用构建</title>
+   <link href="https://samzong.me/post/2022/07/i18n-%E4%BD%BF%E7%94%A8%E6%9E%84%E5%BB%BA.html"/>
+   <updated>2022-07-18T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/07/i18n 使用构建</id>
+   <content type="html">难题和调整
+
+
+  产品原型页面翻译，工作量双份，更新和维护困难
+  翻译质量不好校验，文档同学参与困难
+  操作方式比较原始
+
+
+在终端完成翻译工作
+
+
+  基础使用
+    
+      创建项目
+      创建部件（与 git 集成）
+    
+  
+  如何与 git 集成
+    
+      创建唯一身份key
+      使用独立分支
+    
+  
+  安装 weblate 终端应用
+
+
+支持的功能
+
+
+  不同部件中 相同key的翻译不一致时提示
+  对于翻译内容的校验
+  项目挂件 和 新人引导页
+    
+      http://10.6.229.10:8080...</content>
  </entry>
  
  <entry>
@@ -294,6 +496,15 @@ jq 是 stedolan 开发的一个轻量级的和灵活的命令行 JSON 处理器�
 软件付费概念
 
 如果同我们从 Android 手机转为 iPhone 时竟然发现软件还需要花钱买...</content>
+ </entry>
+ 
+ <entry>
+   <title>HTTPProxy API 创建</title>
+   <link href="https://samzong.me/post/2022/06/HTTPProxy-API-%E5%88%9B%E5%BB%BA.html"/>
+   <updated>2022-06-18T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/06/HTTPProxy API 创建</id>
+   <content type="html">
+</content>
  </entry>
  
  <entry>
@@ -375,6 +586,45 @@ minikube start --image-mirror-country cn \
  </entry>
  
  <entry>
+   <title>Kubernetes Operator</title>
+   <link href="https://samzong.me/post/2022/05/Kubernetes-Operator.html"/>
+   <updated>2022-05-17T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/05/Kubernetes Operator</id>
+   <content type="html">https://www.redhat.com/zh/topics/containers/what-is-a-kubernetes-operator
+
+Kubernetes Operator 是一种封装、部署和管理 Kubernetes 应用的方法。我们使用 Kubernetes API（应用编程接口）和 kubectl 工具在 Kubernetes 上部署并管理 Kubernetes 应用。
+
+Kubernetes Operator 是一种特定于应用的控制器，可扩展 Kubernetes API 的功能，来代表 Kubernetes 用户创建、配置和管理复杂应用的实例
+</content>
+ </entry>
+ 
+ <entry>
+   <title>Contour 设计理念</title>
+   <link href="https://samzong.me/post/2022/05/Contour-%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5.html"/>
+   <updated>2022-05-11T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/05/Contour 设计理念</id>
+   <content type="html">Contour 是一个第 7 层 HTTP 中间件反向代理，用于启用 Kubernetes 集群的入口。
+
+没有目标
+
+
+  Contour 不是服务网格
+  Contour 也无意公开 Envoy 的所有功能或配置选项
+  Contour 不适用于代理第 4 层协议，例如 TCP 或 UDP，除非它们需要传递 HTTP。
+
+
+
+  因此，TCP 代理是可用的，但希望代理用于通过 HTTPS。将来可能会添加一些 UDP 支持，以便我们可以支持使用 UDP 作为传输的 QUIC。使用 Contour 代理原始 TCP 或 UDP 流量可能有效，但不是预期用途
+
+
+最终用户
+
+集群管理员
+
+...</content>
+ </entry>
+ 
+ <entry>
    <title>MacOS 隐藏 Dock 栏中特定应用</title>
    <link href="https://samzong.me/post/2022/05/MacOS%E9%9A%90%E8%97%8FDock%E6%A0%8F%E4%B8%AD%E7%89%B9%E5%AE%9A%E5%BA%94%E7%94%A8.html"/>
    <updated>2022-05-07T09:57:54-05:00</updated>
@@ -417,6 +667,104 @@ pip install mkdocs-git-revision-date-plugin
 pip install mkdocs-mermaid2-plugin 
 pip install mkdocs-rss-plugin 
 pip i...</content>
+ </entry>
+ 
+ <entry>
+   <title>阿里云云原生网关</title>
+   <link href="https://samzong.me/post/2022/05/%E9%98%BF%E9%87%8C%E4%BA%91%E4%BA%91%E5%8E%9F%E7%94%9F%E7%BD%91%E5%85%B3.html"/>
+   <updated>2022-05-06T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/05/阿里云云原生网关</id>
+   <content type="html">网关实例创建
+
+
+
+
+网关实例列表
+
+
+
+网关实例详情
+
+
+
+路由管理
+
+
+
+
+
+安全能力
+
+黑名单 、白名单
+
+认证鉴权
+
+
+亮点功能
+
+新手引导
+
+
+
+
+
+
+
+监控看板细致
+
+
+
+
+
+录屏存放处
+
+
+  仅 DaoCloud 可查看
+
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>腾讯云微服务网关</title>
+   <link href="https://samzong.me/post/2022/05/%E8%85%BE%E8%AE%AF%E4%BA%91%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3.html"/>
+   <updated>2022-05-06T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/05/腾讯云微服务网关</id>
+   <content type="html">网关管理
+
+默认这里展示对应的网关列表，未提供网关的创建入口，需要依赖前序的网关应用创建；
+
+
+
+:::warning
+在 微服务的应用中心 进行网关创建
+:::
+
+
+网关的创建过程
+
+
+
+网关绑定的分组管理
+
+一个网关下可以创建多个分组，分别指向不同的 托管 API ，根据访问的 Context 区分
+
+
+分组下的 API 管理
+
+
+  API 类型为： 微服务 API，支持检测自动导入 API；也支持手工编辑
+  API 类型为： 外部 API，仅支持支持手工编辑
+
+
+插件管理
+
+
+  主要支持 2 类型 插件 ：
+    
+      Auth
+      转义 Tag 
+    ...</content>
  </entry>
  
  <entry>
@@ -476,6 +824,27 @@ for key, value in application_parameter.items():
  </entry>
  
  <entry>
+   <title>kubernetes 学习之路</title>
+   <link href="https://samzong.me/post/2022/04/kubernetes-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF.html"/>
+   <updated>2022-04-24T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/04/kubernetes 学习之路</id>
+   <content type="html">基础环境
+
+
+  MacOS M1
+  Paralles Desktop 17
+  Ubuntu 20.04.4
+
+
+ubuntu 安装替换系统源
+
+# 默认注释了源码仓库，如有需要可自行取消注释
+deb https://mirrors.aliyun.com/ubuntu-ports/ xenial main restricted universe multiverse
+# deb-src https://mirrors.aliyun.com/ubuntu-ports/ xenial main main restricted universe multiverse
+deb https:/...</content>
+ </entry>
+ 
+ <entry>
    <title>GitHub Pages 的妙用</title>
    <link href="https://samzong.me/post/2022/04/GitHub-Pages-%E7%9A%84%E5%A6%99%E7%94%A8.html"/>
    <updated>2022-04-22T12:23:00-05:00</updated>
@@ -494,6 +863,26 @@ git push origin gh-pages
 
 
 eeen…....</content>
+ </entry>
+ 
+ <entry>
+   <title>Kubernetes 部署错误解决汇总</title>
+   <link href="https://samzong.me/post/2022/04/Kubernetes-%E9%83%A8%E7%BD%B2%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3%E6%B1%87%E6%80%BB.html"/>
+   <updated>2022-04-21T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/04/Kubernetes 部署错误解决汇总</id>
+   <content type="html">1. kubeadm init失败 ，提示 kubelet 启动失败或 不健康
+
+解决思路：
+
+
+  systemctl status kubelet 查看当前状态
+  通过 journalctl -xeu kubelet 查看 启动时的错误原因，得到错误原因如下
+
+
+root@master1:~# journalctl -xeu kubelet
+-- Subject: A stop job for unit kubelet.service has finished
+-- Defined-By: systemd
+-- Support: http://www.ubuntu.com/supp...</content>
  </entry>
  
  <entry>

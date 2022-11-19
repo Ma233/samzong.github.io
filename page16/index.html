@@ -233,6 +233,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -276,470 +280,82 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2016/11/%E4%B8%96%E7%95%8C%E4%B8%8A%E6%9C%80%E6%B2%A1%E7%94%A8%E7%9A%84%E4%B8%9C%E8%A5%BF.html">世界上最没用的东西</a></h1>
+    <h1><a class="title" href="/post/2017/02/MySQL-8-%E7%B4%A2%E5%BC%95%E5%88%9B%E5%BB%BA-%E5%88%A0%E9%99%A4%E5%92%8C%E6%9F%A5%E7%9C%8B.html">MySQL 索引创建、删除和查看</a></h1>
     <div class="post_at_index">
-      <p><a href="https://www.zhihu.com/question/21905681/answer/93684468">知乎</a></p>
+      <h4 id="1-索引的作用"><strong>1. 索引的作用</strong></h4>
 
-<p>@匿名用户</p>
+<p>在索引列上，数据库利用各种各样的快速定位技术，能够大大的提高查询效率，特别是当数据量非常大和查询设计到多个表时，索引的利用能够将效率提高成千上万倍，当然要合理的利用索引。</p>
 
-<p>旧手机的充电器</p>
+<h4 id="2-创建索引"><strong>2. 创建索引</strong></h4>
 
-<p>暗恋时的独角戏</p>
+<p>​ 在执行 CREATE TABLE 时可以创建索引，也可以在之后单独使用 CREATE INDEX 或 ALTER TABLE 来为表增加索引。</p>
 
-<p>情人节后的鲜花</p>
+<h6 id="21-alter-table">2.1 ALTER TABLE</h6>
 
-<p>单身狗的第二杯半价</p>
+<p>​ ALTER TABLE 用来创建普通索引、UNIQUE 索引或 PRIMARY KEY 索引。</p>
 
-<p>政客上任的许诺</p>
-
-<p>渴望理解的诉说</p>
-
-<p>花前月下的誓言</p>
-
-<p>回忆里微笑的脸</p>
-
-<p>过期的悔恨</p>
-
-<p>懦弱的容忍</p>
-
-<p>寒假前的作息表</p>
-
-<p>满街的宣传口号</p>
-
-<p>天赋不足的认真</p>
-
-<p>无疾而终的情深</p>
-
-<p>所谓寂寞空虚冷</p>
-
-<p>不可说与人知的疼</p>
-
-<p>失败后的借口</p>
-
-<p>酒桌上的朋友</p>
-
-<p>年轻时为你写的诗</p>
-
-<p>心血来潮时的雄心壮志</p>
-
-<p>收藏夹里的心灵鸡汤</p>
-
-<p>总结汇报的官样文章</p>
-
-<p>额度不够的信用卡</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-11-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/11/Denyhosts%E5%A2%9E%E5%8A%A0%E6%9C%8D%E5%8A%A1%E5%99%A8SSH%E9%BB%91%E5%90%8D%E5%8D%95%E6%9C%BA%E5%88%B6.html">Denyhosts 增加服务器 SSH 黑名单机制</a></h1>
-    <div class="post_at_index">
-      <h2 id="查看当前服务器失败登录的统计">查看当前服务器失败登录的统计</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /var/log/secure | <span class="nb">awk</span> <span class="s1">'/Failed/{print $(NF-3)}'</span> | <span class="nb">sort</span> | <span class="nb">uniq</span> <span class="nt">-c</span> | <span class="nb">sort</span> <span class="nt">-n</span> |  <span class="nb">awk</span> <span class="s1">'{print $2" = "$1}'</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ALTER TABLE tb_name ADD INDEX index_Name (column_list);
+ALTER TABLE tb_name ADD UNIQUE (column_list);
+ALTER TABLE tb_name ADD PRIMARY KEY (column_list);
 </code></pre></div></div>
 
-<h2 id="install-denyhosts">Install denyhosts</h2>
+<p>​ tb_name 是要增加索引的表名，column_list 是要增加索引的列，多列用逗号隔开，index_Name 是可选，缺省为第一个索引列赋名称，ALTER TABLE 允许在单个语句中更改多个表，因此可以也可以同时创建多个索引。</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 需要预先安装epel源</span>
-<span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
-<span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> denyhosts
+<h6 id="22-create-index">2.2 CREATE INDEX</h6>
+
+<p>​ CREATE INDEX 可对表增加普通索引或者 UNIQUE 索引。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CREATE INDEX index_Name ON tb_name(column_list);
+CREATE UNIQUE INDEX index_Name ON tb_name(column_list);
 </code></pre></div></div>
 
-<h2 id="配置文件解析">配置文件解析</h2>
+<p>​ tb_name、index_Name 和 column_list 具有 ALTER TABLE 语句中相同的含义，索引名称不可自定义，也不能创建 PRIMARY KEY。</p>
 
-<p>默认配置文件/etc/denyhosts。</p>
+<h4 id="3-索引类型"><strong>3. 索引类型</strong></h4>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 查看的sshd日志文件</span>
-SECURE_LOG <span class="o">=</span> /var/log/secure
+<p>​ 在创建索引时，可以规定索引能否包含重复的值，如果不包含，则索引应该为 PRIMARY KEY 或 UNIQUE 索引，对于单列唯一索引，这能保证单列不包含重复的值，对于多列唯一索引，保证多值的组合不重复。</p>
 
-<span class="c"># 将阻止IP写入的配置文件</span>
-HOSTS_DENY <span class="o">=</span> /etc/hosts.deny
+<p>​ PRIMAY KEY 索引与 UNIQUE 索引非常类似，实际上 PRIMAY KEY 索引仅是一个具有名称 PRIMAY 的 UNIQUE 索引，这表示一个表只能包含一个 PRIMAY KEY 索引，因为一个表中不可能具有两个同名的索引。</p>
 
-<span class="c"># 过多久之后清除，其中w代表周，d代表天，h代表小时，s代表秒，m代表分钟。</span>
-PURGE_DENY <span class="o">=</span> 4h
+<h4 id="4-删除索引"><strong>4. 删除索引</strong></h4>
 
-<span class="c"># 阻止的服务名称</span>
-BLOCK_SERVICE  <span class="o">=</span> sshd
+<p>​ 可以使用 ALTER TABLE 或 DROP INDEX 语句来删除索引：</p>
 
-<span class="c"># 允许无效用户（在/etc/passwd未列出）登录失败次数,允许无效用户登录失败的次数.</span>
-DENY_THRESHOLD_INVALID <span class="o">=</span> 1
-
-<span class="c"># 允许普通用户登录失败的次数</span>
-DENY_THRESHOLD_VALID <span class="o">=</span> 5
-
-<span class="c"># 允许root登录失败的次数</span>
-DENY_THRESHOLD_ROOT <span class="o">=</span> 2
-DENY_THRESHOLD_RESTRICTED <span class="o">=</span> 1
-
-<span class="c"># 设定 deny host 写入到该资料夹</span>
-WORK_DIR <span class="o">=</span> /var/lib/denyhosts
-
-<span class="c"># 将deny的host或ip纪录到Work_dir中</span>
-<span class="nv">SUSPICIOUS_LOGIN_REPORT_ALLOWED_HOSTS</span><span class="o">=</span>YES
-
-<span class="c"># 是否做域名反解</span>
-<span class="nv">HOSTNAME_LOOKUP</span><span class="o">=</span>YES
-
-<span class="c"># 将DenyHOts启动的pid纪录到LOCK_FILE中，已确保服务正确启动，防止同时启动多个服务。</span>
-LOCK_FILE <span class="o">=</span> /var/lock/subsys/denyhosts
-
-<span class="c"># 设置管理员邮件地址</span>
-ADMIN_EMAIL <span class="o">=</span> luchuanjia@msn.com
-SMTP_HOST <span class="o">=</span> localhost
-SMTP_PORT <span class="o">=</span> 25
-SMTP_FROM <span class="o">=</span> DenyHosts &lt;nobody@localhost&gt;
-SMTP_SUBJECT <span class="o">=</span> DenyHosts Report from <span class="nv">$[</span>HOSTNAME]
-
-<span class="c"># 有效用户登录失败计数归零的时间</span>
-<span class="nv">AGE_RESET_VALID</span><span class="o">=</span>1d
-
-<span class="c"># root用户登录失败计数归零的时间</span>
-<span class="nv">AGE_RESET_ROOT</span><span class="o">=</span>25d
-
-<span class="c"># 用户的失败登录计数重置为0的时间(/usr/share/denyhosts/data/restricted-usernames)</span>
-<span class="nv">AGE_RESET_RESTRICTED</span><span class="o">=</span>25d
-
-<span class="c"># 无效用户登录失败计数归零的时间</span>
-<span class="nv">AGE_RESET_INVALID</span><span class="o">=</span>10d
-
-<span class="c"># denyhosts的日志文件位置</span>
-DAEMON_LOG <span class="o">=</span> /var/log/denyhosts
-
-<span class="c"># denyhosts的轮询时间</span>
-DAEMON_SLEEP <span class="o">=</span> 30s
-
-<span class="c"># 该项与PURGE_DENY 设置一样，也是清除hosts.deny中 ssh用户的时间</span>
-DAEMON_PURGE <span class="o">=</span> 1h
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DROP INDEX index_Name On tb_name;
+ALTER TABLE tb_Name DROP TABLE index_Name;
+ALTER TABLE tb_Name DROP PRIMAY KEY;
 </code></pre></div></div>
 
-<h2 id="faq">FAQ</h2>
+<p>​ 第一条和第二条作用是一样的，删除 tb_Name 中 index_Name 索引；第三条仅适用于删除 PRIMAY KEY 时，因为一个只可能有一个 PRIMAY KEY 索引。</p>
 
-<ol>
-  <li>如果想删除一个已经禁止的主机 IP，并加入到允许主机例表，只在 /etc/hosts.deny 删除是没用的，还需要以下：</li>
-</ol>
+<p>​ 另外，如果在表中删除了某列，则索引会受到影响，对于多列组合的索引，如果删除其中某列，则该列也会在索引中删除，如果删除所有列，则该索引也会被删除。</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/var/lib/denyhosts 目录，进入以下操作：
-<span class="c"># 停止denyhosts服务</span>
-<span class="nb">sudo </span>service denyhosts stop
+<h4 id="5-查看索引"><strong>5. 查看索引</strong></h4>
 
-<span class="c"># 进入denyhosts的目录</span>
-<span class="nb">cd</span> /var/lib/denyhosts
-
-<span class="c"># 查看哪些文件添加了ssh限制,将IP_addr替换成你的IP</span>
-<span class="nb">sudo grep </span>IP_addr /usr/share/denyhosts/data/<span class="k">*</span>
-
-<span class="c"># 然后一个个删除文件中你想取消的主机IP所在的行:</span>
-/usr/share/denyhosts/data/hosts
-/usr/share/denyhosts/data/hosts-restricted
-/usr/share/denyhosts/data/hosts-root
-/usr/share/denyhosts/data/hosts-valid
-/usr/share/denyhosts/data/users-hosts
-
-<span class="c"># 添加你想允许的主机IP地址到allowed-hosts:</span>
-<span class="nb">sudo echo </span>IP_addr <span class="o">&gt;&gt;</span>/usr/share/denyhosts/data/allowed-hostsps
-
-<span class="c"># 启动 DenyHosts服务：</span>
- service denyhosts start
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show index from tb_name;
+mysql&gt; show keys from tb_name;
 </code></pre></div></div>
-
-<h2 id="tips">Tips</h2>
 
 <ul>
-  <li>尽量是用 key 验证登录服务器</li>
-  <li>尽量从固定 IP 点登录服务器，然后将该地址加入白名单</li>
+  <li>Table : 表名</li>
+  <li>Non_unique：如果索引不能包含重复值为 0，如果可以为 1</li>
+  <li>Key_name：索引的名称</li>
+  <li>Seq_in_index：索引中列的序号，从 1 开始</li>
+  <li>Column_name：列的名称</li>
+  <li>Collation：列以什么方式存储在索引中，在 MySQL 中有值‘A’(升序) 和 NULL(无分类)</li>
+  <li>Cardinality：索引中唯一值的数量估计值，通过运行 ANALYZE TABLE 或者 myisamchk -a 可以更新，基数根据被存储的整数的统计数据来计数，所以，即使对于小型表，该值也没有必要是精确的，基数越大，当进行联合时，MySQL 使用该索引的机会就越大。</li>
+  <li>Sub_part：如果列只是被部分编入，则为编入索引的字符数目，如果整列被编入索引，则为 NULL</li>
+  <li>Packed：关键字如何被压缩，没有压缩为 NULL</li>
+  <li>Null：如果列含有 NULL 为 YES，如果没有则为 NO</li>
+  <li>Index_type：用过的索引方法，BTREE，FULLTEXT，HASH，RTREE</li>
+  <li>Comment：备注</li>
 </ul>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-11-23</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#DenyHosts">DenyHosts</a>
-      , 
-      <a href="/tags.html#Tools">Tools</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/11/Python-1-%E5%9F%BA%E7%A1%80.html">Python 基础</a></h1>
-    <div class="post_at_index">
-      <p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;
-&lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd”&gt;</p>
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="exporter-version" content="Evernote Mac 6.10 (454269)" /><meta name="author" content="Alex LU" /><meta name="created" content="2016-09-29 02:27:16 +0000" /><meta name="source" content="desktop.mac" /><meta name="updated" content="2016-09-29 06:27:40 +0000" /><title>Python 学习笔记 (1) --Python 基础</title></head><body>
-<ol>
-<li>输出：print
-<ol>
-<li>python2: print 'Hello Python'</li>
-<li>python3: print('Hello Python')</li>
-<li>python(‘10+20=‘,10+20)</li>
-</ol>
-</li>
-<li>输入：
-<ol>
-<li>python2：raw_input()</li>
-<li>python3: input()</li>
-</ol>
-</li>
-<li>python 的语法比较简单，采用缩进的方式：</li>
-</ol>
-<div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">
-<div>a = 100</div>
-<div>if a &gt;= 0:</div>
-<div>     print(a)</div>
-<div>else:</div>
-<div>     print(-a)</div>
-<div><br /></div>
-<div>&amp; diff &amp;</div>
-<div>a = 100</div>
-<div>if a &gt;=0:</div>
-<div>print(a)</div>
-<div>else:</div>
-<div>print(-a)</div>
-</div>
-<ol start="4">
-<li># 开头为注释；: 结尾，缩进的语句视为代码块；Python 大小写是敏感的，约定俗成：4 个空格的缩进，可以吧 tab 设置为 4 个空格。</li>
-<li>Python 的数据类型
-<ol>
-<li>整数：python 可以处理任意大小的整数</li>
-<li>浮点数：也就是小数，之所以称之为浮点数，因为按照科学计数法表示时，一个浮点数的小数点位置是可变的</li>
-<li>字符串：字符串是以’’和””包括起来的任意文本，例如’abc’,”xyz”；如果字符内部同时包含’和”，可以使用\转义字符来标识。
-<ol>
-<li>如果字符串内部有很多换行，用\n不好阅读，python 支持使用’’’…’’' 的格式表示多行‘</li>
-<li>r’…'  python 可以使用 r’’表示’'以内的字符不转义;多行：r’’’…’''</li>
-</ol>
-</li>
-<li>布尔值：布尔值和布尔代数表示的完全一致，一个布尔值只有 True 和 False，python 支持直接使用 True 和 False 表示布尔值，注意大小写，另外最好不要生命变量时使用 True 等，布尔值，经常用于在条件判断之中。
-<ol>
-<li>and : 与运算，所有运算结果都是 True，and 的结果才是 True</li>
-<li>or：或运算，只有 1 个运算结果为 True，or 的结果就是 True</li>
-<li>not：他是一个单目运算符，取相反的值</li>
-</ol>
-</li>
-<li>空值：python 里的一个特殊值，用 None 表示，注意 None 不能理解为 0，因为 0 是有意义的，而 None 是一个特殊的空值</li>
-</ol>
-</li>
-<li>python 的变量
-<ol>
-<li>命名规则：必须是大小写英文，数字和_的组合，且不能用数字开头；</li>
-<li>赋值符号：’=’；等于的符号是’==’</li>
-<li>动态语言：变量本身类型不固定的语言称之为动态语言，反之是静态语言，静态语言在定义变量时必须制定变量的数据类型，如果赋值的时候类型不匹配，就会报错；</li>
-<li>变量在计算机内存中的表示：a=1，指的是 python 在内存中创建了整数 1，然后在内存创建了变量 a，并把它指向了整数 1</li>
-</ol>
-</li>
-<li>python 的常量
-<ol>
-<li>定义：常量就是不能改变的变量，在 python 中，通常使用全部大写的变量名表示常量</li>
-<li>整数的除法是精确的，因为除法计算结果是浮点数，例如 9/3 结果为 3.0 ; 另外一种除法是’//‘地板除，两个整数的除法任然是整数；余数运算’%’</li>
-</ol>
-</li>
-<li>字符编码：字符串是一种数据类型，但是字符串还涉及到一个编码问题，Python3 的字符串是支持多语言的
-<ol>
-<li>ord(‘') 函数 获取字符的整数表示；</li>
-<li>chr(‘') 函数 把编码转换成对应的字符；</li>
-<li>python 的字符串类型是 str，在内存中以 Unicode 表示，一个字符对应若干字节，但是如果要在网络传输或者保存到磁盘，就要把 str 转化为单位的 bytes；
-<ol>
-<li>python 对于 bytes 的数据类型用带 b 前缀的单引号或双引号表示：</li>
-<li>另外，Unicode 表示的 str 可用 encode() 函数，指定编码为 bytes。 ‘ABC’ .encode(‘utf-8')</li>
-<li>decode() 可以吧 bytes 转变为 str。b'ABC' .decode('ascii')</li>
-<li>要计算 str 包含了多少个字符使用 len() 函数：len(‘hello’) ,结果为 5</li>
-</ol>
-</li>
-<li style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">#!/usr/bin/env python3<br />
-# -*- coding: utf-8 -*-</li>
-</ol>
-</li>
-<li>格式化：如何处理格式化输出字符串，在 python 中使用的格式化方式和 C 语言是一致的，用’%’实现：
-<ol>
-<li>%d 表示整数</li>
-<li>%f 表示浮点数</li>
-<li>%s 表示字符串，如果不确定用什么，用%s，它会把任何数据类型转换为字符串</li>
-<li>%x 表示十六进制整数</li>
-<li>%% 表示一个普通的%</li>
-</ol>
-</li>
-<li>数据类型 list 和 tuple
-<ol>
-<li>list 是 python 内置的一种数据类型：列表，list 是一个有序的集合，可以随时添加和删除其中元素。
-<ol>
-<li>classmates = [‘Michael’,’Bob’,’Tracy’]， 可以用len() 函数获取这个 list 的元素的个数</li>
-<li>可以用索引来访问 list 中的每一个位置的元素，记住索引的第一个位置是 0：</li>
-<li>当索引超出范围的时候，python 会报出 IndexError 错误，记得最后一个索引是 len(classmates) -1</li>
-<li>如果直接取出最后一个索引可用 classmates[-1],以此类推</li>
-</ol>
-</li>
-<li>list 是一个可变的有序列表，所以可以去追加，插入指定位置，删除，替换等操作，支持不同数据类型，支持嵌套 list
-<ol>
-<li>追加：classmates.append(‘Adam')</li>
-<li>插入指定位置: classmates.insert(2,’Jack')</li>
-<li>删除 list 末尾的元素：classmates.pop()</li>
-<li>删除指定位置的元素：classmates.pop(1)</li>
-<li>替换元素：classmates[1]=‘Sarch’ ， 直接给相应位置的元素重新赋值即可</li>
-<li>list 的元素支持不同的数据类型，L = [‘abc’,23,23.4]</li>
-<li>list 的元素支持嵌套另外一个 list：s = [‘abc',123,[‘XYZ’,2.34]]，注意这个时候len(s) 的元素是 3 个</li>
-<li>list 也可以没有元素，就是一个空的 list，它的长度为 0</li>
-</ol>
-</li>
-<li>tuple：元组，也是一种有序列表，但是 tuple 一旦初始化就不能修改，他没有 append() 也没有 insert()，这样的方法，其他获取元素的方式和 list 一样，也不能赋值成为另外的元素：
-<ol>
-<li>classmates = (‘Michael’,’Bob’,’Tracy’) 注意 list 用的是’[]’，而tuple用的是’()’</li>
-<li>tuple 有个问题，当你定义 1 个元素的时候，tuple 的 () 和数学公式中的小括号混淆，因此 python 规定，这种情况下面，当定义只有 1 个 tuple 时必须增加一个逗号’,’来消除歧义。</li>
-<li>tuple 的元素也可以为 list 或者 tuple，tuple 的元素不会改变，但是 list 是一个可以改变的有序数列，所以当 tuple 中包含 list 时，这个 tuple 是’可变的'</li>
-</ol>
-</li>
-<li>取出特定元素：L[[‘Apple’,’Google’,’Microsoft’],[‘Java’,’Python’,’C’]] ; L[1][1] = ‘Python'</li>
-</ol>
-</li>
-<li>条件判断
-<ol>
-<li>if：根据 python 的缩进规则，如果 if 语句的判断是 True，就会执行下面的语句，否则什么都不做</li>
-<li>else：也可以个 if 添加 else，意思就是，如果 if 的判断是 false，不要执行 if 的内容，执行 else 的内容</li>
-<li>elif：如果要嵌套多级判断条件的话，使用 elif，elif 是 else if 的缩写</li>
-<li>if 语句执行有个特点，它是自上而下的判断，如果某个判断的结果是 True，那么执行该判断对应的语句，就会忽略掉剩下的所有 elif 和 else，if 判断条件还可以简写：if x: 只要 x 是非零数值、非空字符串、非空 list 等，就判断为 True，</li>
-</ol>
-</li>
-<li>iput(): 需要注意的地方，默认input的返回类型是str，由于str不能直接整数比较，所以在碰到明明输入200，但是不能和201对比时，记住先要把str转化为整数，python提供了int()函数, 转化数据类型为int类型，但是如果输入’abc’则会得到1个ValueError的错误</li>
-<li>循环
-<ol>
-<li>for…in：依次把 list 或者 tuple 的每个元素迭代出来，for x in … ：循环就是把每个元素带入变量 x，然后执行缩进的语句：</li>
-<li>range() 函数：用来生成一个整数序列，再通过 list() 函数转换为 list，例如 range(5) 生成：0,1,2,3,4
-<ol>
-<li>list(range(5)) = [0,1,2,3,4]</li>
-<li>计算 1+...+100 的结果：for x in range(101): sum = sum +x</li>
-</ol>
-</li>
-<li>while 循环：只要条件满足，就不断循环，条件不足时退出循环：
-<ol>
-<li>计算 100 以内所有奇数之和：sum = 0,n = 99, while n &gt; 0: sum =sum +n; n = n-2</li>
-</ol>
-</li>
-<li>break: 在循环中，break 语句可以提前退出循环，当程序执行满足 break 条件的时候，就会退出循环</li>
-<li>continue: 在循环过程中，也可以通过 continue 语句，跳过当前的这次循环。</li>
-<li>注意：循环是让计算机做重复任务的有效方法，break 语句可以在循环过程总直接退出循环，continue 语句可以提前结束本轮循环，并直接进入下一轮循环，这两个语句通常必须配合 if 语句使用，但是尽量不要滥用这两个语句，因为当 break 和 continue 使用过多会导致代码执行逻辑分支过多，容易出错。</li>
-</ol>
-</li>
-<li>dict 和 set
-<ol>
-<li>dict：python 内置了字典：dict 的支持，全称：dictionary，在其他语言中也称之为 map，使用键值存储，具有极快的查找速度。</li>
-<li>对比 list 处理方式：会过滤整个 list 的元素，这导致 list 越长，耗时越长；dict 实现时，只需要创建 key-values 对应表，直接根据名字查找，无论这个表有多大，查找速度都不会变慢，但是内存消耗会大，典型用性能 (内存空间) 换时间。</li>
-<li>dict的初始化: d {‘Michael’:95,’Bob’:75,’Tracy’:85}  # 注意dict使用的是大括号’{}‘</li>
-<li>dict 的数据插入：d [‘Adam’] = 67 </li>
-<li>由于 dict 是根据 key 检索，所以 key 是固定的，一个 key 只能对应 1 个 value，所以当对 1 个 key 多次放入 value 时，后面的值会把前面的值冲掉： （类似变量）</li>
-<li>但是如果查询的 key 不存在，dict 会报错，KeyError，可以用 in 判断 key 是否存在：‘key’in d  : True/False</li>
-<li>通过 dict 的 get 方法，如果 key 不存在，可以返回 None，或者自己指定的值，d.get(‘Key’) , d.get(‘key’,-1)</li>
-<li>d.pop('key’): 删除 1 个 key，注意当 key 被删除是，相应的 value 也会被删除。</li>
-<li>另外注意：dict 内部存放的顺序和 key 放入的顺序是没有关系的：</li>
-<li>dict 应在需要高速查找的地方，正确使用 dict 非常重要，要牢记 1 点，dict 的 key 必须是不可变的对象，因为 dict 是根据 key 来计算 value 的位置，如果每次计算相同的 key 得到的结果不一样，那么 dict 内部就完全混乱了，这个通过 key 计算位置的算法称之为 Hash 算法。</li>
-<li>要保证 hash 的准确性，作为 key 的对象就不能改变，在 python 中，字符串·整数等都是不可变的，但是 list 是可以变的所以不能作为 key</li>
-<li>set：set 和 dict 类似，也是一组 key 的集合，但是不存储 value，由于 key 不能重复，所以，在 set 中，没有重复的 key 值。</li>
-<li>要创建一个set，需要提供一个list作为输入集合。 s = set([1,2,3])   : s = {1,2,3}</li>
-<li>注意 set 也不是有序的，而且重复在 set 存在的元素会被自动过滤：s = set([1,2,3,1,2,3,1,2,3])  s = {1,2,3}</li>
-<li>通过 s.add(key) 可以增加元素到 set 中，可以重复添加，但是不会有效果</li>
-<li>通过 s.remove(key) 可以删除元素</li>
-<li>set 可以看成数学意义上的无序和无重复元素的集合，因此两个 set 可以做数学意义上的交集、并集能操作：
-<ol>
-<li>s1 = set([1,2,3]), s2 = set([2,3,4]) ,交集：s1 &amp; s2 = {2,3} ; s1 | s2 = {1,2,3,4}</li>
-</ol>
-</li>
-<li>set 和 dict 的区别仅在于有没有存储对应的 value，但是 set 和 dict 的原理是一样的，所以，同样不可以放置可变对象，因为无法判断两个对象是否相等，也就无法保证 set 内部的不会重复元素</li>
-<li>不可变对象：str 是不变对象，list 是可变对象；对于可变对象，例如 list，对 list 进行操作，list 的内部会发生变化</li>
-<li>a = ‘abc’ , a.replace(‘a’,’A’) # 这个操作是把所有小写的 a 替换成大写的 A，但是注意 a 的值并没有发生改变，要牢记 a 是变量，’abc'才是字符对象。</li>
-</ol>
-</li>
-</ol>
-</body>
-</html>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-11-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/11/MySQL-5-%E6%B8%85%E7%A9%BA%E8%A1%A8%E5%91%BD%E4%BB%A4%E4%B9%8B-truncate%E4%B8%8Edelete%E5%8C%BA%E5%88%AB.html">MySQL 清空表命令之：truncate 与 delete 区别</a></h1>
-    <div class="post_at_index">
-      <p>在实际工作中，有时我们会想要去清空一张表的所有数据，常用的命令有 delete 和 truncate 这两个命令。</p>
-
-<h3 id="1-delete">1. delete</h3>
-
-<p>在很多情况，我们对于 delete 的应用更多，因为它支持更多的匹配模式，我们可以使用 where 条件语句，清理一些特定的数据，关于 delete 的操作，这里不做过多解释，有空就专门写写 delete 的使用和原理。delete 在清空表时，如果表内有自增 ID 的设定，那么在 delete 清空之后，再插入数据时，自增 ID 不会从 1 开始，默认会继续增加; 除非我们使用 OPTIMIZE TABLE，重置表属性；</p>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">delete</span> <span class="k">from</span> <span class="n">piwik_tmp</span><span class="p">;</span>
-<span class="n">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="2-truncate">2. truncate</h3>
-
-<p>truncate 在清空表时，会同时将自增 ID 重置，再插入新数据时会从 1 开始，而且 truncate 在清空表时，不关心表的行数，所以执行效率会高于 delete；</p>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">truncate</span> <span class="k">table</span> <span class="n">piwik_tmp</span><span class="p">;</span>
-<span class="n">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">01</span> <span class="n">sec</span><span class="p">)</span>
-
-</code></pre></div></div>
-
-<h3 id="3-释放表空间">3. 释放表空间</h3>
-
-<p>但是在 truncate 清空表数据时，myisam 的表和 innodb 的表在使用上有一定的区别；myisam 表会清空所有数据，并释放表空间，即硬盘空间会得到释放。innodb 表也会清空所有数据，但不释放表空间。Innodb 数据库对于已经删除的数据只是标记为删除，并不真正释放所占用的磁盘空间，这就导致 InnoDB 数据库文件不断增长。如果想彻底释放这些已经删除的数据，需要把数据库导出，删除 InnoDB 数据库文件，然后再导入。</p>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="err">备份数据库：</span>
-<span class="n">mysqldump</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">p</span> <span class="c1">--quick --force --all-databases &gt; mysqldump.sql</span>
-
-<span class="o">#</span> <span class="err">停止数据库</span>
-<span class="n">service</span> <span class="n">mysqld</span> <span class="n">stop</span>
-
-<span class="o">#</span> <span class="err">删除这些大文件</span>
-<span class="n">rm</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">ibdata1</span>
-<span class="n">rm</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">ib_logfile</span><span class="o">*</span>
-
-<span class="o">#</span> <span class="err">手动删除除</span><span class="n">Mysql</span><span class="err">之外所有数据库文件夹，然后启动数据库</span>
-<span class="n">service</span> <span class="n">mysqld</span> <span class="k">start</span>
-
-<span class="o">#</span> <span class="err">还原数据</span>
-<span class="n">mysql</span> <span class="o">-</span><span class="n">uroot</span> <span class="o">-</span><span class="n">proot</span> <span class="o">&lt;</span> <span class="n">mysqldump</span><span class="p">.</span><span class="k">sql</span>
-</code></pre></div></div>
-
-<h3 id="4-innodb_file_per_table">4. innodb_file_per_table</h3>
-
-<p>还有一种方式是在创建数据库的时候设置 innodb_file_per_table，这样 InnoDB 会对每个表创建一个数据文件，然后只需要运行 OPTIMIZE TABLE 命令就可以释放所有已经删除的磁盘空间。</p>
-
-<h4 id="41-修改-mysql-默认配置文件">4.1 修改 mysql 默认配置文件</h4>
-
-<p>编辑 my.ini 或 my.cnf 在 innodb 段中加入 innodb_file_per_table=1 # 1 为启用，0 为禁用</p>
-
-<h4 id="42-查看修改结果">4.2 查看修改结果</h4>
-
-<p>通过 mysql 语句可以查看该变量的值：</p>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="n">variables</span> <span class="k">like</span> <span class="s1">'%per_table%'</span><span class="p">;</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-11-09</cite> <i class="icon-tag"></i>
+      <cite>2017-02-09</cite> <i class="icon-tag"></i>
       <a href="/tags.html#MySQL">MySQL</a>
       
       
@@ -749,830 +365,744 @@ DAEMON_PURGE <span class="o">=</span> 1h
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/10/SSH-LINUX-Security-Settings.html">SSH LINUX Security Settings</a></h1>
+    <h1><a class="title" href="/post/2017/01/HowTo-Monitor-Tomcat-Head-Memory-for-Zabbix.html">HowTo Monitor Tomcat HeadMemory for Zabbix</a></h1>
     <div class="post_at_index">
-      <h2 id="ssh-配置安全控制限制登录"><strong>SSH 配置安全控制限制登录</strong></h2>
-
-<h3 id="1-只允许某个-ip-登录拒绝其他所有-ip">1. 只允许某个 IP 登录，拒绝其他所有 IP</h3>
-
-<p>在 /etc/hosts.allow 增加：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sshd: 1.2.3.4
-</code></pre></div></div>
-
-<p>在 /etc/hosts.deny 增肌：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sshd: ALL
-</code></pre></div></div>
-
-<p>用 iptables 也行：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables <span class="nt">-A</span> INPUT <span class="nt">-p</span> tcp <span class="nt">--dport</span> 22 <span class="nt">-j</span> DROP
-iptables <span class="nt">-A</span> INPUT <span class="nt">-p</span> tcp <span class="nt">--dport</span> 22 <span class="nt">-s</span> 1.2.3.4 <span class="nt">-j</span> ACCEPT
-</code></pre></div></div>
-
-<h2 id="2-禁止某个用户通过-ssh-登录">2. 禁止某个用户通过 ssh 登录</h2>
-
-<p>在/etc/ssh/sshd_conf添加</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AllowUsers 用户名
-或者
-AllowGroups 组名
-或者
-DenyUsers 用户名
-</code></pre></div></div>
-
-<h2 id="3-设定登录黑名单">3. 设定登录黑名单</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@6 ~]# vim /etc/pam.d/sshd
-auth required /lib/security/pam_listfile.so <span class="nv">item</span><span class="o">=</span>user <span class="nv">sense</span><span class="o">=</span>deny <span class="nv">file</span><span class="o">=</span>/etc/sshd_user_deny_list <span class="nv">onerr</span><span class="o">=</span>succeed
-<span class="c"># 所有/etc/sshd_user_deny_list里面的用户被拒绝ssh登录</span>
-</code></pre></div></div>
-
-<h2 id="4-sshd_config-配置">4. sshd_config 配置</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 关于 SSH Server 的整体设定，包含使用的 port 啦，以及使用的密码演算方式</span>
-Port 22　　　　　　　　　　# SSH 预设使用 22 这个 port，您也可以使用多的 port ！
-　　　　　　　　　　　　　 <span class="c"># 亦即重复使用 port 这个设定项目即可！</span>
-Protocol 2,1　　　　　　　 <span class="c"># 选择的 SSH 协议版本，可以是 1 也可以是 2 ，</span>
-　　　　　　　　　　　　　 <span class="c"># 如果要同时支持两者，就必须要使用 2,1 这个分隔了！</span>
-<span class="c">#ListenAddress 0.0.0.0　　 # 监听的主机适配卡！举个例子来说，如果您有两个 IP，</span>
-　　　　　　　　　　　　　 <span class="c"># 分别是 192.168.0.100 及 192.168.2.20 ，那么只想要</span>
-　　　　　　　　　　　　　 <span class="c"># 开放 192.168.0.100 时，就可以写如同下面的样式：</span>
-ListenAddress 192.168.0.100          <span class="c"># 只监听来自 192.168.0.100 这个 IP 的SSH联机。</span>
-　　　　　　　　　　　　　　　　　　 <span class="c"># 如果不使用设定的话，则预设所有接口均接受 SSH</span>
-PidFile /var/run/sshd.pid　　　　　　# 可以放置 SSHD 这个 PID 的档案！左列为默认值
-LoginGraceTime 600　　　　 <span class="c"># 当使用者连上 SSH server 之后，会出现输入密码的画面，</span>
-　　　　　　　　　　　　　 <span class="c"># 在该画面中，在多久时间内没有成功连上 SSH server ，</span>
-　　　　　　　　　　　　　 <span class="c"># 就断线！时间为秒！</span>
-Compression <span class="nb">yes</span>　　　　　　# 是否可以使用压缩指令？当然可以啰！
-
-<span class="c"># 说明主机的 Private Key 放置的档案，预设使用下面的档案即可！</span>
-HostKey /etc/ssh/ssh_host_key　　　　# SSH version 1 使用的私钥
-HostKey /etc/ssh/ssh_host_rsa_key　　# SSH version 2 使用的 RSA 私钥
-HostKey /etc/ssh/ssh_host_dsa_key　　# SSH version 2 使用的 DSA 私钥
-<span class="c"># 关于 version 1 的一些设定！</span>
-KeyRegenerationInterval 3600　 　　　# 由前面联机的说明可以知道， version 1 会使用
-　　　　　　　　　　　　　　　　　　 <span class="c"># server 的 Public Key ，那么如果这个 Public</span>
-　　　　　　　　　　　　　　　　　　 <span class="c"># Key 被偷的话，岂不完蛋？所以需要每隔一段时间</span>
-　　　　　　　　　　　　　　　　　　 <span class="c"># 来重新建立一次！这里的时间为秒！</span>
-ServerKeyBits 768 　　　　　　　　　 <span class="c"># 没错！这个就是 Server key 的长度！</span>
-
-<span class="c"># 关于登录文件的讯息数据放置与 daemon 的名称！</span>
-SyslogFacility AUTH　　　　　　　　　# 当有人使用 SSH 登入系统的时候，SSH会记录资
-　　　　　　　　　　　　　　　　　　 <span class="c"># 讯，这个信息要记录在什么 daemon name 底下？</span>
-　　　　　　　　　　　　　　　　　　 <span class="c"># 预设是以 AUTH 来设定的，即是 /var/log/secure</span>
-　　　　　　　　　　　　　　　　　　 <span class="c"># 里面！什么？忘记了！回到 Linux 基础去翻一下</span>
-　　　　　　　　　　　　　　　　　　 <span class="c"># 其它可用的 daemon name 为：DAEMON,USER,AUTH,</span>
-　　　　　　　　　　　　　　　　　　 <span class="c"># LOCAL0,LOCAL1,LOCAL2,LOCAL3,LOCAL4,LOCAL5,</span>
-LogLevel INFO　　　　　　　　　　　　# 登录记录的等级！嘿嘿！任何讯息！
-　　　　　　　　　　　　　　　　　　 <span class="c"># 同样的，忘记了就回去参考！</span>
-
-<span class="c"># 登入设定部分</span>
-PermitRootLogin no　　 　　# 是否允许 root 登入！预设是允许的，但是建议设定成 no！
-UserLogin no　　　　　　　 <span class="c"># 在 SSH 底下本来就不接受 login 这个程序的登入！</span>
-StrictModes <span class="nb">yes</span>　　　　　　# 当使用者的 host key 改变之后，Server 就不接受联机，
-　　　　　　　　　　　　　 <span class="c"># 可以抵挡部分的木马程序！</span>
-<span class="c">#RSAAuthentication yes　　 # 是否使用纯的 RSA 认证！？仅针对 version 1 ！</span>
-PubkeyAuthentication <span class="nb">yes</span>　 <span class="c"># 是否允许 Public Key ？当然允许啦！只有 version 2</span>
-AuthorizedKeysFile      .ssh/authorized_keys
-　　　　　　　　　　　　　 <span class="c"># 上面这个在设定若要使用不需要密码登入的账号时，那么那个</span>
-　　　　　　　　　　　　　 <span class="c"># 账号的存放档案所在档名！</span>
-Allowusers root@222.XX.XX.XX. <span class="c">#设置允许root帐号只能以222.XX.XX.XX这个IP进行ssh连接</span>
-
-<span class="c"># 认证部分</span>
-RhostsAuthentication no　　# 本机系统不止使用 .rhosts ，因为仅使用 .rhosts 太
-　　　　　　　　　　　　　 <span class="c"># 不安全了，所以这里一定要设定为 no ！</span>
-IgnoreRhosts <span class="nb">yes</span>　　　　　 <span class="c"># 是否取消使用 ~/.ssh/.rhosts 来做为认证！当然是！</span>
-RhostsRSAAuthentication no <span class="c"># 这个选项是专门给 version 1 用的，使用 rhosts 档案在</span>
-　　　　　　　　　　　　　 <span class="c"># /etc/hosts.equiv配合 RSA 演算方式来进行认证！不要使用</span>
-HostbasedAuthentication no <span class="c"># 这个项目与上面的项目类似，不过是给 version 2 使用的！</span>
-IgnoreUserKnownHosts no　　# 是否忽略家目录内的 ~/.ssh/known_hosts 这个档案所记录
-　　　　　　　　　　　　　 <span class="c"># 的主机内容？当然不要忽略，所以这里就是 no 啦！</span>
-PasswordAuthentication <span class="nb">yes</span> <span class="c"># 密码验证当然是需要的！所以这里写 yes 啰！</span>
-PermitEmptyPasswords no　　# 若上面那一项如果设定为 <span class="nb">yes </span>的话，这一项就最好设定
-　　　　　　　　　　　　　 <span class="c"># 为 no ，这个项目在是否允许以空的密码登入！当然不许！</span>
-ChallengeResponseAuthentication <span class="nb">yes</span>  <span class="c"># 挑战任何的密码认证！所以，任何 login.conf</span>
-　　　　　　　　　　　　　　　　　　 <span class="c"># 规定的认证方式，均可适用！</span>
-<span class="c">#PAMAuthenticationViaKbdInt yes      # 是否启用其它的 PAM 模块！启用这个模块将会</span>
-　　　　　　　　　　　　　　　　　　 <span class="c"># 导致 PasswordAuthentication 设定失效！</span>
-
-<span class="c"># 与 Kerberos 有关的参数设定！因为我们没有 Kerberos 主机，所以底下不用设定！</span>
-<span class="c">#KerberosAuthentication no</span>
-<span class="c">#KerberosOrLocalPasswd yes</span>
-<span class="c">#KerberosTicketCleanup yes</span>
-<span class="c">#KerberosTgtPassing no</span>
-　
-<span class="c"># 底下是有关在 X-Window 底下使用的相关设定！</span>
-X11Forwarding <span class="nb">yes</span>
-<span class="c">#X11DisplayOffset 10</span>
-<span class="c">#X11UseLocalhost yes</span>
-<span class="c"># 登入后的项目：</span>
-PrintMotd no              <span class="c"># 登入后是否显示出一些信息呢？例如上次登入的时间、地点等</span>
-　　　　　　　　　　　　　# 等，预设是 <span class="nb">yes</span> ，但是，如果为了安全，可以考虑改为 no ！
-PrintLastLog <span class="nb">yes</span>　　　　　# 显示上次登入的信息！可以啊！预设也是 <span class="nb">yes</span> ！
-KeepAlive <span class="nb">yes</span>　　　　　　 <span class="c"># 一般而言，如果设定这项目的话，那么 SSH Server 会传送</span>
-　　　　　　　　　　　　　# KeepAlive 的讯息给 Client 端，以确保两者的联机正常！
-　　　　　　　　　　　　　# 在这个情况下，任何一端死掉后， SSH 可以立刻知道！而不会
-　　　　　　　　　　　　　# 有僵尸程序的发生！
-UsePrivilegeSeparation <span class="nb">yes</span> <span class="c"># 使用者的权限设定项目！就设定为 yes 吧！</span>
-MaxStartups 10　　　　　　# 同时允许几个尚未登入的联机画面？当我们连上 SSH ，
-　　　　　　　　　　　　　# 但是尚未输入密码时，这个时候就是我们所谓的联机画面啦！
-　　　　　　　　　　　　　# 在这个联机画面中，为了保护主机，所以需要设定最大值，
-　　　　　　　　　　　　　# 预设最多十个联机画面，而已经建立联机的不计算在这十个当中
-
-<span class="c"># 关于使用者抵挡的设定项目：</span>
-DenyUsers <span class="k">*</span>　　　　　　　 <span class="c"># 设定受抵挡的使用者名称，如果是全部的使用者，那就是全部</span>
-　　　　　　　　　　　　　# 挡吧！若是部分使用者，可以将该账号填入！例如下列！
-DenyUsers <span class="nb">test
-</span>DenyGroups <span class="nb">test</span>　　　　　 <span class="c"># 与 DenyUsers 相同！仅抵挡几个群组而已！</span>
-
-<span class="c"># 关于 SFTP 服务的设定项目！</span>
-Subsystem       sftp    /usr/lib/ssh/sftp-server
-如果不愿意开放 SFTP 的话，将这一行批注掉即可！
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-10-29</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SSH">SSH</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/10/HowTo-Install-PostgreSQL-9-5-on-CentOS-6-x.html">HowTo Install PostgreSQL 9.5 on CentOS 6.x</a></h1>
-    <div class="post_at_index">
-      <h2 id="centos-6">CentOS 6</h2>
-
-<h3 id="1-install-postgresql-repository-and-the-postgresql-server-by-running-the-following">1. Install PostgreSQL repository and the PostgreSQL server by running the following</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>yum <span class="nb">install </span>https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-6-x86_64/pgdg-centos95-9.5-2.noarch.rpm
-
-<span class="nb">sudo </span>yum <span class="nb">install </span>postgresql95-serve
-</code></pre></div></div>
-
-<h3 id="2-create-the-postgresql-database-cluster">2. Create the PostgreSQL database cluster</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sduo service postgresql-9.5 initdb
-</code></pre></div></div>
-
-<h3 id="3-enable-automatic-postgresql-server-startup">3. Enable automatic PostgreSQL server startup</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>chkconfig postgresql-9.5 on
-</code></pre></div></div>
-
-<h3 id="4-start-the-postgresql-server">4. Start the PostgreSQL server</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service postgresql-9.5 start
-</code></pre></div></div>
-
-<h2 id="centos-7">CentOS 7</h2>
-
-<h3 id="install-postgresql-repository-and-the-postgresql-server-by-running-the-following">Install PostgreSQL repository and the PostgreSQL server by running the following</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>yum <span class="nb">install </span>https://download.postgresql.org/pub/repos/yum/9.5 /redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
-
-<span class="nb">sudo </span>yum <span class="nb">install </span>postgresql95-serve
-</code></pre></div></div>
-
-<h3 id="create-the-postgresql-database-cluster">Create the PostgreSQL database cluster</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo</span> /usr/pgsql-9.5/bin/postgresql95-setup initdb
-</code></pre></div></div>
-
-<h3 id="enable-automatic-postgresql-server-startup">Enable automatic PostgreSQL server startup</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl <span class="nb">enable </span>postgresql-9.5
-</code></pre></div></div>
-
-<h3 id="start-the-postgresql-server">Start the PostgreSQL server</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl start postgresql-9.5
-</code></pre></div></div>
-
-<h2 id="configurations-for-centos">Configurations for CentOS</h2>
-
-<p>When installing in CentOs env. you will also need to make the following configurations.</p>
-
-<h3 id="change-authentication-to-md5">Change authentication to md5</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>vi /var/lib/pgsql/9.5/data/pg_hba.conf
-</code></pre></div></div>
-
-<h3 id="change-method-to-md5">Change METHOD to md5</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># IPv4 local connections:</span>
-host    all             all             127.0.0.1/32            md5
-
-<span class="c"># IPv6 local connections:</span>
-host    all             all             ::1/128                 md5
-</code></pre></div></div>
-
-<h3 id="3-restart-postgresql">3. Restart PostgreSQL</h3>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-10-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#PostgreSQL">PostgreSQL</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/10/%E5%86%99%E7%9A%84%E5%BE%AE%E5%8D%9A.html">微博随笔</a></h1>
-    <div class="post_at_index">
-      <ol>
-  <li>
-    <p>20 岁之前我看郭敬明的书很多，真的对我的人生有很大的影响，20 岁以后，我开始看韩寒和王路的书，觉得他们的文字很酷，可以够我装逼来用，因为我看不来那些国外名著大师之作啊，文化水平达不到不能怪谁。</p>
-  </li>
-  <li>
-    <p>我的姑娘，必定是美好的，是完人，是仙女，是温柔的月光，是清晨初露的霞光，是令人心动的春风，是呼啸着穿堂而过的夏日阳光，是踩着红色高跟鞋踢踏踢踏走进我的胸膛，是历经岁月沧桑依然伴随左右的踏实臂膀。[大叔一直问阿姨要不我站起来你躺会，阿姨一直说我不累，却在我和大叔攀谈依靠在座位上睡着了。]</p>
-  </li>
-  <li>
-    <p>当你准备接受爱情的时候，就要接受爱情带来的苦涩，焦虑和怅然若失的情绪，就像你打算接受一个人，就要学会接受他的前面后面上面下面，可能下面会比较小，但是你都要学会接受，要么你还准备好开始一段爱情和爱上一个人。</p>
-  </li>
-  <li>
-    <p>如今社会高度发展的经济文化，的确会让很多人的价值观有失颇比，直观体现就是很多挂作家之名写出乌七八糟的东西反而畅销，进而影响更多读者，所以需要筛选文章，读适合自己的，生活如此，对的是自己，其他则毋庸顾虑，凡事需顾虑的，便对自己无甚意义，弃之亦不可惜。</p>
-  </li>
-  <li>
-    <p>sometimes the only way to move forward is to revisit the things in your past.that were holding you back.you have yo deal with them head on, no matter how scary they may be.beacuse once we do , you’ll see that you can go further than you ever imageined. 《The Flash》－ S02E17</p>
-  </li>
-  <li>
-    <p>莱蒙托夫有首诗《一只船》这样写：一只船孤独地航行在海上，它既不寻求幸福，也不逃避幸福，它只是向前航行，底下是沉静碧蓝的大海，而头顶是金色的太阳。</p>
-  </li>
-  <li>
-    <p>内心是有难过的地方，每次我望见那一方矮矮的坟墓，都感到距离这么近那么远。</p>
-  </li>
-  <li>
-    <p>我真不喜欢有些人把自己的惰性归咎于出生命运</p>
-  </li>
-  <li>
-    <p>你没法让自己做到最好，最起码要努力变的更好</p>
-  </li>
-  <li>
-    <p>我希望我可以像太阳一样，给你温暖，像树一样成为你的依靠</p>
-  </li>
-  <li>
-    <p>或是彼此太过沉默，曾经一起走过的那段时光也变得模糊了。其实，我们每个人都会经历很多这样的分离，没有海誓山盟，没有悲恸不已，就是那种不可寻的时间；猛然间才发现我早已失去了你，朋友，愿你一切都好！腐朽的生命会令我们忘记许多人，却夺不去那些美好时光，或已忘记，但它永远真切的存在。</p>
-  </li>
-  <li>
-    <p>踏上西行的列车，我说睡吧睡吧，醒来就是另一片天空，没有让你忧伤的人儿</p>
-  </li>
-  <li>
-    <p>每一个存在都是有意义的，当我们的时间用来羡慕、嫉妒、,抱怨的时候，我们存在的意义在哪里？“我就是我，是颜色不一样的烟火”——《我》，我们缺乏的是看清自己的勇气，加油！/微笑</p>
-  </li>
-  <li>
-    <p>一定是特别的缘分，才可以一路走来变成一家人，所以啊，没什么好忧伤的</p>
-  </li>
-  <li>
-    <p>这世间有很多个我，所以我泯然于众我，我与我并没有什么不同，不同的是心，得之我幸，失之我命，得失心重，所以不知己身已入局，正所谓当局者迷，所谓难，只是因为你觉得难，若不舍千万不要放手。</p>
-  </li>
-  <li>
-    <p>我始终觉得每个人在特定的时间都有很多事情要去做，这个世界上没有你想像中的有那么多童话，你不会是这世界的唯一，在每一刻亦或一个瞬间，有人多人，你只是其中的一个，现实就是如此，你可以幻想可是不能沉沦，感情是无法用言语来形容，你感到伤悲，很多年后你一定会忘记你曾经觉得一辈子都无法忘记的</p>
-  </li>
-  <li>
-    <p>感情是不可以用言语文字来形容的，我们掌控所有，甚至无法掌控自己，我们能做的只是不要迷失自我，做自己该做的，做自己想做的，做了就不会后悔，年轻的时光，是我们最美好的，应该好好珍惜，因为之后，生活不在简单纯洁，每个人都背负了太多，也许曾经触手可及的是现在的梦想。我一直相信，相信自己。</p>
-  </li>
-  <li>
-    <p>一个人的时候，可以听听歌，看看书，可以站在车水马龙的路边看着霓虹灯在闪烁，然后在身边转身看灯光下自己的影子，感谢你一直陪着我，一个人的时候可以把所有忧伤都表现出来，一个人的时候可以暴躁任性，总之一个人的时候可以无法无天。</p>
-  </li>
-  <li>
-    <p>妄思不能静，混事乱七八糟，可汗，自省吾身吾言吾行吾思</p>
-  </li>
-  <li>
-    <p>我所有的自负都来自我的自卑，所有的英雄气概都来自于我内心的软弱，所有的振振有词都因为心中满是怀疑。我假装无情，其实是痛恨自己的深情。我以为人生的意义在于四处游荡流亡，其实只是掩饰至今没有找到愿意驻足的地方。——马良《坦白书》</p>
-  </li>
-  <li>
-    <p>我猜，只是猜，每个人的一生都会遇见某些人，喜欢上她。有些人在合适的时间里遇到，就像是在春天遇到花开，所以一切都很好，他们会相恋、订婚、结婚、一起生活。而有的人在错误的时间遇到，就像是在冬天，隔着冰看见浮上来换气的鱼，所以只能看着，鱼换完气，沉到水下去，就看不见了，再也没有后续。但是我们能说在春天遇到花是对的，而在冬天遇到鱼是错的么？在错误的时间里遇到，就能克制自己不喜欢那个人么？是不是仍然会用尽了力气想去接近，想尽办法掩饰自己，甚至伪装成另外一条鱼。——江南《龙族》​</p>
-  </li>
-  <li>
-    <p>可人不是断气的时候才真的死了。有人说人会死三次，第一次是他断气的时候，从生物学上他死了；第二次是他下葬的时候，人们来参加他的葬礼，怀念他的一生，然后在社会上他死了，不再会有他的位置；第三次是最后一个记得他的人把他忘记的时候，那时候他才真正的死了。——江南《龙族》</p>
-  </li>
-</ol>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-10-14</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/09/HowTo-Use-pt-query-digest.html">HowTo Use pt-query-digest</a></h1>
-    <div class="post_at_index">
-      <h3 id="1-简介">1. 简介</h3>
-
-<p>索引可以我们更快速的执行查询，但是肯定存在不合理的索引，如果想找到那些索引不是很合适的查询，并在它们成为问题前进行优化，则可以使用 pt-query-digest 的查询审查“review”功能，分析其 EXPLAIN 出来的执行计划。</p>
-
-<p>pt-query-digest 是用于分析 mysql 慢查询的一个工具，它可以分析 binlog、General log、slowlog，也可以通过 SHOWPROCESSLIST 或者通过 tcpdump 抓取的 MySQL 协议数据来进行分析。可以把分析结果输出到文件中，分析过程是先对查询语句的条件进行参数化，然后对参数化以后的查询进行分组统计，统计出各查询的执行时间、次数、占比等，可以借助分析结果找出问题进行优化。</p>
-
-<h3 id="2-install-percona-toolkit--pt-query-digest">2. Install Percona Toolkit &amp; pt-query-digest</h3>
-
-<p>percona-toolkit 是一组高级命令行工具的集合，用来执行各种通过手工执行非常复杂和麻烦的 mysql 和系统任务。这些任务包括：</p>
-
-<ul>
-  <li>检查 master 和 slave 数据的一致性</li>
-  <li>有效地对记录进行归档</li>
-  <li>查找重复的索引</li>
-  <li>对服务器信息进行汇总</li>
-  <li>分析来自日志和 tcpdump 的查询</li>
-  <li>当系统出问题的时候收集重要的系统信息</li>
-</ul>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultrera ~]# wget percona.com/get/percona-toolkit.tar.gz
-<span class="nt">--2016-09-22</span> 09:17:00--  http://percona.com/get/percona-toolkit.tar.gz
-Resolving percona.com... 74.121.199.234, 74.121.199.234
-Connecting to percona.com|74.121.199.234|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://www.percona.com/get/percona-toolkit.tar.gz <span class="o">[</span>following]
-<span class="nt">--2016-09-22</span> 09:17:02--  https://www.percona.com/get/percona-toolkit.tar.gz
-Resolving www.percona.com... 74.121.199.234, 74.121.199.234
-Connecting to www.percona.com|74.121.199.234|:443... connected.
-HTTP request sent, awaiting response... 302 Found
-Location: https://www.percona.com/downloads/percona-toolkit/2.2.19/tarball/percona-toolkit-2.2.19.tar.gz <span class="o">[</span>following]
-<span class="nt">--2016-09-22</span> 09:17:03--  https://www.percona.com/downloads/percona-toolkit/2.2.19/tarball/percona-toolkit-2.2.19.tar.gz
-Reusing existing connection to www.percona.com:443.
-HTTP request sent, awaiting response... 200 OK
-Length: 1425623 <span class="o">(</span>1.4M<span class="o">)</span> <span class="o">[</span>application/x-gzip]
-Saving to: “percona-toolkit.tar.gz”
-
-100%[<span class="o">=======================&gt;]</span> 1,425,623    766K/s   <span class="k">in </span>1.8s
-
-2016-09-22 09:17:05 <span class="o">(</span>766 KB/s<span class="o">)</span> - “percona-toolkit.tar.gz” saved <span class="o">[</span>1425623/1425623]
-
-<span class="o">[</span>root@ultrera ~]# <span class="nb">tar </span>xf percona-toolkit.tar.gz
-<span class="o">[</span>root@ultrera ~]# <span class="nb">ls
-</span>percona-toolkit-2.2.19  percona-toolkit.tar.gz
-<span class="o">[</span>root@ultrera ~]# <span class="nb">cd </span>percona-toolkit-2.2.19
-<span class="o">[</span>root@ultrera percona-toolkit-2.2.19]# perl Makefile.PL
-Warning: prerequisite DBD::mysql 3 not found.
-Writing Makefile <span class="k">for </span>percona-toolkit
-<span class="o">[</span>root@ultrera percona-toolkit-2.2.19]# make
-<span class="nb">cp </span>bin/pt-mysql-summary blib/script/pt-mysql-summary
-....
-Manifying blib/man1/pt-index-usage.1p
-Manifying blib/man1/pt-duplicate-key-checker.1p
-Manifying blib/man1/pt-config-diff.1p
-Manifying blib/man1/pt-stalk.1p
-<span class="o">[</span>root@ultrera percona-toolkit-2.2.19]# make <span class="nb">install
-</span>Installing /usr/local/share/man/man1/pt-query-digest.1p
-...
-Installing /usr/local/bin/pt-query-digest
-...
-Appending installation info to /usr/lib64/perl5/perllocal.pod
-</code></pre></div></div>
+      <p>最近项目上由于 BUG 问题导致 Tomcat 程序在运行过程中经常内存泄漏，而本身监控系统之中没有更好的检测到 Tomcat 堆空间 (Head Memory) 的使用情况导致报警频发，这篇文章主要讲述，如何在 Zabbix 之中调用 jmx 监控服务器上 Tomcat 堆空间的使用情况并增加对应报警功能。</p>
 
 <blockquote>
-  <p>运行工具可能会遇到下面的错误：Can’t locate Time/HiRes.pm in @INC</p>
+  <p>测试环境：
+CentOS 6.8 
+Zabbix 2.4 
+Tomcat 7.0</p>
 </blockquote>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 解决办法：</span>
-<span class="o">[</span>root@ultrera ~]# yum <span class="nb">install</span> <span class="nt">-y</span> perl-Time-HiRes
-<span class="o">[</span>root@ultrera ~]# pt-query-digest <span class="nt">--version</span>
-pt-query-digest 2.2.19
-</code></pre></div></div>
+<p>实验前提默认是各位已经安装 Zabbix Server 服务器，并且至少有一台 Zabbix agent 服务器正常监控。关于如何搭建 Zabbix 监控集群，会有专门文章描述。</p>
 
-<h3 id="3-开启-mysql-慢日志">3. 开启 mysql 慢日志</h3>
-
-<h4 id="a-查看当前slow_query_log状态">a. 查看当前‘slow_query_log’状态</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like <span class="s1">'%query%'</span><span class="p">;</span>
-+------------------------------+---------------------------------+
-| Variable_name                | Value                           |
-+------------------------------+---------------------------------+
-| binlog_rows_query_log_events | OFF                             |
-| ft_query_expansion_limit     | 20                              |
-| have_query_cache             | YES                             |
-| long_query_time              | 10.000000                       |
-| query_alloc_block_size       | 8192                            |
-| query_cache_limit            | 1048576                         |
-| query_cache_min_res_unit     | 4096                            |
-| query_cache_size             | 1048576                         |
-| query_cache_type             | OFF                             |
-| query_cache_wlock_invalidate | OFF                             |
-| query_prealloc_size          | 8192                            |
-| slow_query_log               | OFF                             |
-| slow_query_log_file          | /var/lib/mysql/ultrera-slow.log |
-+------------------------------+---------------------------------+
-13 rows <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-
-mysql&gt; show variables like <span class="s1">'log_queries_not_using_indexes'</span><span class="p">;</span>
-+-------------------------------+-------+
-| Variable_name                 | Value |
-+-------------------------------+-------+
-| log_queries_not_using_indexes | OFF   |
-+-------------------------------+-------+
-1 row <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-</code></pre></div></div>
-
-<h4 id="b-启动-slow_log-配置">b. 启动 slow_log, 配置</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 设定记录大于2s的sql</span>
-mysql&gt; <span class="nb">set </span>global <span class="nv">long_query_time</span><span class="o">=</span>2<span class="p">;</span>
-Query OK, 0 rows affected <span class="o">(</span>0.00 sec<span class="o">)</span>
-
-<span class="c"># 设定log存放路径</span>
-mysql&gt; <span class="nb">set </span>global <span class="nv">slow_query_log_file</span><span class="o">=</span><span class="s1">'/tmp/ultraera-slow.log'</span><span class="p">;</span>
-Query OK, 0 rows affected <span class="o">(</span>0.00 sec<span class="o">)</span>
-
-<span class="c"># 启用慢日志</span>
-mysql&gt; <span class="nb">set </span>global <span class="nv">slow_query_log</span><span class="o">=</span>ON<span class="p">;</span>
-Query OK, 0 rows affected <span class="o">(</span>0.00 sec<span class="o">)</span>
-
-<span class="c"># 同时记录没有使用索引的sql</span>
-mysql&gt; <span class="nb">set </span>global <span class="nv">log_queries_not_using_indexes</span><span class="o">=</span>on<span class="p">;</span>
-Query OK, 0 rows affected <span class="o">(</span>0.00 sec<span class="o">)</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>等待一段时间，slow.log 增大的非常快，实际生产中，注意不要被 slow.log 将磁盘撑满，影响到正常生产使用。</p>
-</blockquote>
-
-<h3 id="4-分析">4. 分析</h3>
-
-<p>pt-query-digest 可以从普通 MySQL 日志，慢查询日志以及二进制日志中分析查询，甚至可以从 SHOW PROCESSLIST 和 MySQL 协议的 tcpdump 中进行分析，如果没有指定文件，它从标准输入流（STDIN）中读取数据。</p>
-
-<h4 id="a-简单使用方法">a. 简单使用方法</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest slow.logs
-</code></pre></div></div>
-
-<p>输出信息如下：</p>
-
-<p><img src="http://images.cnitblog.com/blog/288950/201312/14135450-6f7a732598054f7aa311e95cbd4df3b1.png" alt="image" /></p>
+<h4 id="zabbix-java-gateway-的工作机制">zabbix-java-gateway 的工作机制</h4>
 
 <ul>
-1. Overall 这个部分是一个大致的概要信息 (类似 loadrunner 给出的概要信息)，通过它可以对当前 MySQL 的查询性能做一个初步的评估，比如各个指标的最大值 (max)，平均值 (min)，95% 分布值，中位数 (median)，标准偏差 (stddev)
-<li>查询的执行时间（Exec time）</li>
-<li>锁占用的时间（Lock time）</li>
-<li>MySQL 执行器需要检查的行数（Rows examine）</li>
-<li>最后返回给客户端的行数（Rows sent）</li>
-<li>查询的大小。</li>
-</ul>
-<ul>
-2. Profile
-<li>Rank：整个分析中该“语句”的排名，一般也就是性能最慢的</li>
-<li>Query ID：每个查询都有一个</li>
-<li>Response time： “语句”的响应时间以及整体占比情况。</li>
-<li>Calls：“语句”的执行次数</li>
-<li>R/Call：每次执行的平均响应时间。 </li>
-<li>V/M</li>
-</ul>
-<h5 id="详细信息">详细信息</h5>
-<p>列出上面 Profile 中每个 Query ID 的详细信息</p>
-
-<h4 id="b-从-tcpdump-包中分析通过-tcpdump-命令抓取一定时间网络数据包然后进行分析">b. 从 tcpdump 包中分析：通过 tcpdump 命令抓取一定时间网络数据包，然后进行分析</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest <span class="nt">--type</span> tcpdump mysql.tcp.txt
-</code></pre></div></div>
-
-<h4 id="c-pt-query-digest-还支持很对其他的数据包分析形势但是我们主要使用的还是针对慢日志进行分析">c. pt-query-digest 还支持很对其他的数据包分析形势，但是我们主要使用的还是针对慢日志进行分析</h4>
-
-<blockquote>
-  <p>更多的帮助文档，请查看官方文档：<a href="http://www.percona.com/doc/percona-toolkit/2.2/pt-query-digest.html">http://www.percona.com/doc/percona-toolkit/2.2/pt-query-digest.html</a></p>
-</blockquote>
-
-<h3 id="5-使用-anemometer-将-pt-query-digest-的-mysql-慢查询可视化">5. 使用 Anemometer 将 pt-query-digest 的 MySQL 慢查询可视化</h3>
-
-<ul>
-  <li>需要安装 php 5.3 and over</li>
-  <li>需要预先配置 mysql 数据库</li>
-  <li>需要预先安装好 pt-query-digest</li>
+  <li>首先我们需要配置我们的 Tomcat 服务启用监控服务，这个是默认不启用的</li>
+  <li>之后需要在 Zabbix 的管理页面添加对应 Tomcat 服务器的 jmx 监控接口</li>
+  <li>最后 zabbix 端会自动获取 zabbix-java-gateway 的数据并根据相应模板进行展
+示</li>
+  <li>工作流：[Zabbix-Server]–&gt;(port:10053 on zabbix server)–&gt; [zabbix-java-gateway] –(port:12345 on tomcatserver)–&gt; [JMX enabled]</li>
 </ul>
 
-<h4 id="51-安装">5.1 安装</h4>
+<h4 id="1-install-zabbix-java-gateway-on-zabbix-server">1. Install zabbix-java-gateway on Zabbix Server</h4>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultrera ~]# git clone https://github.com/box/Anemometer.git anemometer
+<p>因为我的 zabbix 是使用 zabbix 2.4 官方源安装，所以只需要用 yum 在安装即可：</p>
 
-<span class="o">[</span>root@ultrera ~]# <span class="nb">mv </span>anemometer /var/www/html
-<span class="o">[</span>root@ultrera ~]# <span class="nb">cd</span> /var/www/html/anemometer/
-<span class="o">[</span>root@ultrera anemometer]# mysql <span class="nt">-h</span> localhost <span class="nt">-u</span> root <span class="nt">-p</span> &lt; mysql56-install.sql
-<span class="o">[</span>root@ultrera anemometer]# mysql <span class="nt">-h</span> localhost <span class="nt">-u</span> root <span class="nt">-p</span> <span class="nt">-e</span> <span class="s2">"grant all privileges on slow_query_log.* to 'anemometer'@'%' identified by 'anemometer';"</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@6 ~]# sudo  yum install -y zabbix-java-gateway
 </code></pre></div></div>
 
-<h4 id="52-配置">5.2 配置</h4>
+<p>如果你没有官方源可能先安装该源，注意我的服务器 zabbix 版本是 2.4 如果你是不同的版本，请到[<a href="http://repo.zabbix.com/zabbix/">这里</a>] 查找对应版本。</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultrera anemometer]# <span class="nb">cp </span>conf/sample.config.inc.php conf/config.inc.php
-<span class="o">[</span>root@ultrera anemometer]# vim conf/config.inc.php
-
-<span class="c"># line 48,49 and line 284,285</span>
-设置数据库的用户名和密码<span class="p">;</span>
-
-<span class="o">[</span>root@ultrera anemometer]# vim conf/config.inc.php
-<span class="c"># line 7,8</span>
-设置数据库的用户名和密码<span class="p">;</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 查看zabbix server版本
+[root@6 ~]# zabbix_server --version
+Zabbix server v2.4.8 (revision 59539) (20 April 2016)
+Compilation time: May  4 2016 01:32:12
 </code></pre></div></div>
 
-<h4 id="53-导入">5.3 导入</h4>
+<p>在使用 yum 安装 zabbix-java-gateway 源时，会自动关联安装 openjdk，尽管这段程序没多大影响，如果你想保证系统 JAVA 环境不受到改变的话，可以在/etc/profile 文件最后，增加如下内容：</p>
 
-<p>将 pt-query-digest 的分析结果到 anemometer；</p>
-
-<blockquote>
-  <p>pt-query-digest version &lt; 2.2</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>pt-query-digest <span class="nt">--user</span><span class="o">=</span>anemometer <span class="nt">--password</span><span class="o">=</span>superSecurePass <span class="se">\</span>
-                  <span class="nt">--review</span> <span class="nv">h</span><span class="o">=</span>db.example.com,D<span class="o">=</span>slow_query_log,t<span class="o">=</span>global_query_review <span class="se">\</span>
-                  <span class="nt">--review-history</span> <span class="nv">h</span><span class="o">=</span>db.example.com,D<span class="o">=</span>slow_query_log,t<span class="o">=</span>global_query_review_history <span class="se">\</span>
-                  <span class="nt">--no-report</span> <span class="nt">--limit</span><span class="o">=</span>0% <span class="se">\</span>
-                  <span class="nt">--filter</span><span class="o">=</span><span class="s2">" </span><span class="se">\$</span><span class="s2">event-&gt;{Bytes} = length(</span><span class="se">\$</span><span class="s2">event-&gt;{arg}) and </span><span class="se">\$</span><span class="s2">event-&gt;{hostname}=</span><span class="se">\"</span><span class="nv">$HOSTNAME</span><span class="se">\"</span><span class="s2">"</span> <span class="se">\</span>
-                  /var/lib/mysql/db.example.com-slow.log
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># add follows to the end
+export JAVA_HOME=/usr/java/default
+export PATH=$PATH:$JAVA_HOME/bin
+export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
 </code></pre></div></div>
 
-<blockquote>
-  <p>pt-query-digest version &gt;= 2.2</p>
-</blockquote>
+<h4 id="2-confiure-tomcat-host-with-enable-jmx">2. Confiure Tomcat host with enable jmx</h4>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest <span class="nt">--user</span><span class="o">=</span>anemometer <span class="nt">--password</span><span class="o">=</span>superSecurePass <span class="se">\</span>
-                  <span class="nt">--review</span> <span class="nv">h</span><span class="o">=</span>db.example.com,D<span class="o">=</span>slow_query_log,t<span class="o">=</span>global_query_review <span class="se">\</span>
-                  <span class="nt">--history</span> <span class="nv">h</span><span class="o">=</span>db.example.com,D<span class="o">=</span>slow_query_log,t<span class="o">=</span>global_query_review_history <span class="se">\</span>
-                  <span class="nt">--no-report</span> <span class="nt">--limit</span><span class="o">=</span>0% <span class="se">\</span>
-                  <span class="nt">--filter</span><span class="o">=</span><span class="s2">" </span><span class="se">\$</span><span class="s2">event-&gt;{Bytes} = length(</span><span class="se">\$</span><span class="s2">event-&gt;{arg}) and </span><span class="se">\$</span><span class="s2">event-&gt;{hostname}=</span><span class="se">\"</span><span class="nv">$HOSTNAME</span><span class="se">\"</span><span class="s2">"</span> <span class="se">\</span>
-                  /var/lib/mysql/db.example.com-slow.log
+<p>首先在$tomcatdir/bin/catalina.sh 文件开头处增加如下：</p>
 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/sh
 
-Pipeline process 11 <span class="o">(</span>aggregate fingerprint<span class="o">)</span> caused an error: Argument <span class="s2">"57A"</span> isn<span class="s1">'t numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 27.
-Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57B" isn'</span>t numeric <span class="k">in </span>numeric gt <span class="o">(&gt;)</span> at <span class="o">(</span><span class="nb">eval </span>40<span class="o">)</span> line 6, &lt;<span class="o">&gt;</span> line 28.
-Pipeline process 11 <span class="o">(</span>aggregate fingerprint<span class="o">)</span> caused an error: Argument <span class="s2">"57C"</span> isn<span class="s1">'t numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 29.
-</span></code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-09-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/09/%E7%94%9F%E8%80%85%E5%AD%A4%E7%8B%AC.html">生者孤独</a></h1>
-    <div class="post_at_index">
-      <p>张楚说：孤独是可耻的。
-我一直不愿承认的，我是一个孤独的人；或者这个世界上，没有人不会感到孤独吧；我的孤独，就好像在喧闹的人群中，突然就孤独了。</p>
-
-<p>小王子说：有一天，我看了四十四次日落！
-李寻欢问阿飞：你看这棵树上的梅花已经开了，你可知道已经开了多少朵？
-孔乙己问：你可知道茴的四种写法？
-鲁迅说：楼下一个男人病的要死，那间壁的一家唱着留声机；对面是弄孩子，楼上有两人狂笑，还有打牌声，河中的穿上有女人哭着她死去的母亲，人类的悲欢并不相通，我只是觉得她们吵闹。
-大话西游中说：你看那个人，好像一条狗！</p>
-
-<p>一千个读者，有一千个哈姆雷特！
-一个人走的太远太久了，便看腻了人潮似海。
-如果问，你所理解的孤独是什么？大概每个人都有自己的答案吧。
-突然觉得，原本以为亲密无间的伙伴并没有把我当朋友。
-小心翼翼地与人相处，把她当作真诚的伙伴，害怕隔阂，害怕犯错。
-或许，你所害怕的不是失去某个朋友，而是不够勇敢地去面对一个人的孤独。
-有人说，最孤独的事，不是不能跟一个人在一起，而是你根本不知道想跟谁在一起…</p>
-
-<p>其实，我们生来就是孤独;
-生命的本质就是孤独，不管你拥有什么，我们生来就是孤独。
-出现在这个世界本来就是一个偶然的事，谣言嘈杂的社会，人来人往，浮光掠影，匆匆碌碌。
-这个世界永远都是陌生的，理解是奢侈的，你永远想不起来来时的路，你永远无法让一个人不离你而去。
-不管你拥有什么，我们生来就是孤独。</p>
-
-<p>当我年轻的时候我想变成任何人，除了我自己。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-09-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/09/HowTo-Install-a-Tomcat-Server-7.html">HowTo Install a Tomcat Server 7</a></h1>
-    <div class="post_at_index">
-      <p>本文件是采用的模板是 CentOS 6，同样适用于 CentOS 系列其他发行版本。</p>
-
-<h4 id="1-测试环境">1. 测试环境</h4>
-
-<ul>
-  <li>VMware Fushion 8 Pro # windows Use <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></li>
-  <li><a href="http://mirrors.aliyun.com/centos/6.8/isos/x86_64/CentOS-6.8-x86_64-minimal.iso">CentOS-6.8-x86_64-minimal.iso</a></li>
-  <li><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">JDK 7</a></li>
-  <li><a href="http://ftp.riken.jp/net/apache/tomcat/tomcat-7/">Tomcat 7</a></li>
-</ul>
-
-<h4 id="2-install-java-se-development-kit-7-jdk7">2. Install Java SE Development Kit 7 (JDK7)</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# curl <span class="nt">-LO</span> <span class="nt">-H</span> <span class="s2">"Cookie: oraclelicense=accept-securebackup-cookie"</span> <span class="se">\</span>
-<span class="s2">"http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-linux-x64.rpm"</span>
-<span class="o">[</span>root@ultraera ~]# rpm <span class="nt">-Uvh</span> jdk-7u75-linux-x64.rpm
-Preparing...                <span class="c">########################################### [100%]</span>
-   1:jdk                    <span class="c">########################################### [100%]</span>
-Unpacking JAR files...
-        rt.jar...
-        jsse.jar...
-        charsets.jar...
-        tools.jar...
-        localedata.jar...
-        jfxrt.jar...
+CATALINA_OPTS="-Dcom.sun.management.jmxremote \
+-Dcom.sun.management.jmxremote.authenticate=false \
+-Dcom.sun.management.jmxremote.ssl=false \
+-Dcom.sun.management.jmxremote.port=12345"
 </code></pre></div></div>
 
-<h4 id="3-build-java-environment">3. Build Java Environment</h4>
+<p>然后，启动 Tomcat，你会发现多了一个 12345 端口，这就是 jmx 的监听端口，请保证 zabbix-java-gateway 可以访问到这台服务器。</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# vi /etc/profile
-<span class="c"># add follows to the end</span>
-<span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/java/default
-<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$JAVA_HOME</span>/bin
-<span class="nb">export </span><span class="nv">CLASSPATH</span><span class="o">=</span>.:<span class="nv">$JAVA_HOME</span>/jre/lib:<span class="nv">$JAVA_HOME</span>/lib:<span class="nv">$JAVA_HOME</span>/lib/tools.jar
-<span class="o">[</span>root@ultraera ~]# <span class="nb">source</span> /etc/profile
-<span class="o">[</span>root@ultraera ~]# java <span class="nt">-version</span>
-java version <span class="s2">"1.7.0_75"</span>
-Java<span class="o">(</span>TM<span class="o">)</span> SE Runtime Environment <span class="o">(</span>build 1.7.0_75-b13<span class="o">)</span>
-Java HotSpot<span class="o">(</span>TM<span class="o">)</span> 64-Bit Server VM <span class="o">(</span>build 24.75-b04, mixed mode<span class="o">)</span>
-</code></pre></div></div>
-
-<h4 id="4-download-tomcat7">4. Download Tomcat7</h4>
-
-<p>Make sure the latest one and download it from the site below.
-=》 <a href="http://ftp.riken.jp/net/apache/tomcat/tomcat-7/">http://ftp.riken.jp/net/apache/tomcat/tomcat-7/</a></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# wget http://ftp.riken.jp/net/apache/tomcat/tomcat-7/v7.0.70/bin/apache-tomcat-7.0.70.tar.gz
-<span class="o">[</span>root@ultraera ~]# <span class="nb">tar </span>zxvf apache-tomcat-7.0.70.tar.gz
-<span class="o">[</span>root@ultraera ~]# <span class="nb">mv </span>apache-tomcat-7.0.70 /usr/tomcat7
-<span class="o">[</span>root@ultraera ~]# useradd <span class="nt">-M</span> <span class="nt">-d</span> /usr/tomcat7 tomcat7
-<span class="o">[</span>root@ultraera ~]# <span class="nb">chown</span> <span class="nt">-R</span> tomcat7. /usr/tomcat7
-</code></pre></div></div>
-
-<h4 id="5-create-a-script--use-service-manage-tomcat7">5. create a script , use service manage tomcat7</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# <span class="nb">cat</span> /etc/rc.d/init.d/tomcat7
- <span class="c">#!/bin/bash</span>
-
-<span class="c"># Tomcat7: Start/Stop Tomcat 7</span>
-<span class="c">#</span>
-<span class="c"># chkconfig: - 90 10</span>
-<span class="c"># description: Tomcat is a Java application Server.</span>
-
-<span class="nb">.</span> /etc/init.d/functions
-<span class="nb">.</span> /etc/sysconfig/network
-
-<span class="nv">CATALINA_HOME</span><span class="o">=</span>/usr/tomcat7
-<span class="nv">TOMCAT_USER</span><span class="o">=</span>tomcat7
-
-<span class="nv">LOCKFILE</span><span class="o">=</span>/var/lock/subsys/tomcat7
-
-<span class="nv">RETVAL</span><span class="o">=</span>0
-start<span class="o">(){</span>
-    <span class="nb">echo</span> <span class="s2">"Starting Tomcat7: "</span>
-    su - <span class="nv">$TOMCAT_USER</span> <span class="nt">-c</span> <span class="s2">"</span><span class="nv">$CATALINA_HOME</span><span class="s2">/bin/startup.sh"</span>
-    <span class="nv">RETVAL</span><span class="o">=</span><span class="nv">$?</span>
-    <span class="nb">echo</span>
-    <span class="o">[</span> <span class="nv">$RETVAL</span> <span class="nt">-eq</span> 0 <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">touch</span> <span class="nv">$LOCKFILE</span>
-    <span class="k">return</span> <span class="nv">$RETVAL</span>
-<span class="o">}</span>
-
-stop<span class="o">(){</span>
-    <span class="nb">echo</span> <span class="s2">"Shutting down Tomcat7: "</span>
-    <span class="nv">$CATALINA_HOME</span>/bin/shutdown.sh
-    <span class="nv">RETVAL</span><span class="o">=</span><span class="nv">$?</span>
-    <span class="nb">echo</span>
-    <span class="o">[</span> <span class="nv">$RETVAL</span> <span class="nt">-eq</span> 0 <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-f</span> <span class="nv">$LOCKFILE</span>
-    <span class="k">return</span> <span class="nv">$RETVAL</span>
-<span class="o">}</span>
-
-<span class="k">case</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="k">in
-    </span>start<span class="p">)</span>
-        start
-        <span class="p">;;</span>
-    stop<span class="p">)</span>
-        stop
-        <span class="p">;;</span>
-    restart<span class="p">)</span>
-        stop
-        start
-        <span class="p">;;</span>
-    <span class="k">*</span><span class="p">)</span>
-        <span class="nb">echo</span> <span class="s2">$"Usage: </span><span class="nv">$0</span><span class="s2"> {start|stop|restart}"</span>
-        <span class="nb">exit </span>1
-        <span class="p">;;</span>
-<span class="k">esac</span>
-<span class="nb">exit</span> <span class="nv">$?</span>
-</code></pre></div></div>
-
-<h4 id="6-add-tomcat7-to-system-service">6. Add tomcat7 to system service</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# <span class="nb">chmod </span>755 /etc/rc.d/init.d/tomcat7
-<span class="o">[</span>root@ultraera ~]# /etc/rc.d/init.d/tomcat7 start
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@6 ~]# /tomcat7/bin/startup.sh
 Starting Tomcat7:
-Using CATALINA_BASE:   /usr/tomcat7
-Using CATALINA_HOME:   /usr/tomcat7
-Using CATALINA_TMPDIR: /usr/tomcat7/temp
-Using JRE_HOME:        /usr/java/default
-Using CLASSPATH:       /usr/tomcat7/bin/bootstrap.jar:/usr/tomcat7/bin/tomcat-juli.jar
+Using CATALINA_BASE:   /tomcat7
+Using CATALINA_HOME:   /tomcat7
+Using CATALINA_TMPDIR: /tomcat7/temp
+Using JRE_HOME:        /usr
+Using CLASSPATH:       /tomcat7/bin/bootstrap.jar:/tomcat7/bin/tomcat-juli.jar
 Tomcat started.
-<span class="o">[</span>root@ultraera ~]# netstat <span class="nt">-ntlp</span> | <span class="nb">grep </span>java
-tcp        0      0 ::ffff:127.0.0.1:8005       :::<span class="k">*</span>                        LISTEN      6326/java
-tcp        0      0 :::8009                     :::<span class="k">*</span>                        LISTEN      6326/java
-tcp        0      0 :::8080                    :::<span class="k">*</span>                        LISTEN      6326/java
-<span class="o">[</span>root@ultraera ~]# ps axu | <span class="nb">grep </span>java
-tomcat7       6326  8.3 85.6 5229768 2910176 ?     Sl   Aug22 3216:38 /usr/bin/java <span class="nt">-Djava</span>.util.logging.config.file<span class="o">=</span>/usr/tomcat7/conf/logging.properties <span class="nt">-Djava</span>.util.logging.manager<span class="o">=</span>org.apache.juli.ClassLoaderLogManager <span class="nt">-server</span> <span class="nt">-Djava</span>.endorsed.dirs<span class="o">=</span>/usr/tomcat7/endorsed <span class="nt">-classpath</span> /usr/tomcat7/bin/bootstrap.jar:/usr/tomcat7/bin/tomcat-juli.jar <span class="nt">-Dcatalina</span>.base<span class="o">=</span>/usr/tomcat7 <span class="nt">-Dcatalina</span>.home<span class="o">=</span>/usr/tomcat7 <span class="nt">-Djava</span>.io.tmpdir<span class="o">=</span>/usr/tomcat7/temp org.apache.catalina.startup.Bootstrap start
-<span class="o">[</span>root@ultraera ~]# chkconfig <span class="nt">--add</span> tomcat7
-<span class="o">[</span>root@ultraera ~]# chkconfig tomcat7 on
+
+[root@6 ~]# netstat -ntlp | grep 12345
+tcp  0      0 :::12345   :::*     LISTEN      8793/java
+[root@6 ~]#
 </code></pre></div></div>
 
-<h4 id="7-打开浏览器测试-tomcat-server-搭建完成默认页面如下">7. 打开浏览器测试 Tomcat Server 搭建完成，默认页面如下</h4>
+<h4 id="fix-1---zabbix-agent-与-server-存在复杂网络环境">==<em>fix 1</em> == : zabbix agent 与 server 存在复杂网络环境</h4>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/09/tomcat7.jpg" alt="image" /></p>
+<p>这里疏忽了 1 个问题，如果您的 zabbix server 与 agent 端之间有防火墙规则，而按照我上面的所述只是增加了 12345 这个端口，那么很可能，您在/var/log/zabbix/zabbix_java_gateway.log 中会看到“No route to host”的报错，这是因为 JMX 不光开启了 12345 端口，还开启了另外两个随机端口，而在获取监控数据时会使用到其中一个，这就导致了无法通过固定的防火墙规则来开放该端口。其实有另外一个替代方式来使该监听端口固定下来——使用 Tomcat 提供的额外组件 catalina-jmx-remote.jar，这个组件是需要另外下载的：</p>
 
-<h4 id="8-使用-curl-测试">8. 使用 curl 测试</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 查看当前Tomcat版本.
+[root@6 bin]# ./catalina.sh version
+Using CATALINA_BASE:   /tomcat7
+Using CATALINA_HOME:   /tomcat7
+Using CATALINA_TMPDIR: /tomcat7/temp
+Using JRE_HOME:        /usr
+Using CLASSPATH:       /tomcat7/bin/bootstrap.jar:/tomcat7/bin/tomcat-juli.jar
+Server version: Apache Tomcat/7.0.64
+Server built:   Aug 19 2015 17:18:06 UTC
+Server number:  7.0.64.0
+OS Name:        Linux
+OS Version:     2.6.32-642.11.1.el6.x86_64
+Architecture:   amd64
+JVM Version:    1.8.0_111-b15
+JVM Vendor:     Oracle Corporation
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# curl <span class="nt">-I</span> http://localhost:8080
-HTTP/1.1 200 OK
-Server: Apache-Coyote/1.1
-Content-Type: text/html<span class="p">;</span><span class="nv">charset</span><span class="o">=</span>ISO-8859-1
-Transfer-Encoding: chunked
-Date: Sun, 18 Sep 2016 11:14:06 GMT
+# 下载 catalina-jmx-remote.jar # 请注意下载版本不要高于当前tomcat版本.
+wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-7/v7.0.57/bin/extras/catalina-jmx-remote.jar -O lib/catalina-jmx-remote.jar
 </code></pre></div></div>
 
-<h4 id="9-tomcat-文件树">9. Tomcat 文件树</h4>
+<p>增加如下内容，在 conf/server.xml 中：</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera /usr/tomcat7]# tree
-<span class="nb">.</span>
-├── bin
-│   ├── bootstrap.jar
-│   ├── catalina.bat
-│   ├── catalina.sh
-│   ├── catalina-tasks.xml
-│   ├── commons-daemon.jar
-│   ├── commons-daemon-native.tar.gz
-│   ├── configtest.bat
-│   ├── configtest.sh
-│   ├── daemon.sh
-│   ├── digest.bat
-│   ├── digest.sh
-│   ├── setclasspath.bat
-│   ├── setclasspath.sh
-│   ├── shutdown.bat
-│   ├── shutdown.sh
-│   ├── startup.bat
-│   ├── startup.sh
-│   ├── tomcat-juli.jar
-│   ├── tomcat-native.tar.gz
-│   ├── tool-wrapper.bat
-│   ├── tool-wrapper.sh
-│   ├── version.bat
-│   └── version.sh
-├── conf
-│   ├── catalina.policy
-│   ├── catalina.properties
-│   ├── context.xml
-│   ├── logging.properties
-│   ├── server.xml
-│   ├── tomcat-users.xml
-│   └── web.xml
-├── lib
-├── LICENSE
-├── logs
-│   ├── catalina.2016-09-18.log
-│   ├── catalina.out
-│   ├── host-manager.2016-09-18.log
-│   ├── localhost.2016-09-18.log
-│   └── manager.2016-09-18.log
-├── NOTICE
-├── RELEASE-NOTES
-├── RUNNING.txt
-├── temp
-├── webapps
-│   └── ROOT
-└── work
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Listener className="org.apache.catalina.mbeans.JmxRemoteLifecycleListener"
+          rmiRegistryPortPlatform="12345" rmiServerPortPlatform="12346" /&gt;
+</code></pre></div></div>
+
+<p>因为我们已经在conf/server.xml定义了rmiRegistryPortPlatform，所以要将bin/catalina.sh中CATALINA_OPTS的com.sun.management.jmxremote.port去掉，否则会因为jmxremote.port配置有优先级更高而导致配置失效。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CATALINA_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+</code></pre></div></div>
+
+<p>完成之后，重启 tomcat 这时会发现 jmx 默认端口已经固定为 12345 何 12346，而 server 依然可以正常获取监控数据。</p>
+
+<h4 id="3-configure-zabbix-server">3. Configure Zabbix Server</h4>
+<p>首先需要修改 zabbix_server.conf 启用 zabbix-java-gateway，让 zabbix 可以检测到服务，修改如下：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Option: JavaGateway
+ #       IP address (or hostname) of Zabbix Java gateway.
+ #       Only required if Java pollers are started.
+ #
+ # Mandatory: no
+ # Default:
+JavaGateway=10.211.55.4 # 设置为你的zabbixsever IP
+
+### Option: JavaGatewayPort
+
+# Port that Zabbix Java gateway listens on
+
+#
+
+# Mandatory: no
+
+# Range: 1024-32767
+
+# Default
+
+ JavaGatewayPort=10053 # 设置服务端监听接口
+
+### Option: StartJavaPollers
+
+# Number of pre-forked instances of Java pollers
+
+#
+
+# Mandatory: no
+
+# Range: 0-1000
+
+# Default
+
+ StartJavaPollers=5 # 设置多线程启动
+
+</code></pre></div></div>
+<p>然后修改 zabbix_java_gateway.conf 配置如下：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+### Option: zabbix.listenIP
+
+# IP address to listen on
+
+#
+
+# Mandatory: no
+
+# Default
+
+ LISTEN_IP="10.211.55.4" # 配置监听IP
+
+### Option: zabbix.listenPort
+
+# Port to listen on
+
+#
+
+# Mandatory: no
+
+# Range: 1024-32767
+
+# Default
+
+ LISTEN_PORT=10053 # 配置监听端口
+
+### Option: zabbix.pidFile
+
+# Name of PID file
+
+# If omitted, Zabbix Java Gateway is started as a console application
+
+#
+
+# Mandatory: no
+
+# Default
+
+# PID_FILE=
+
+ PID_FILE="/var/run/zabbix/zabbix_java.pid"
+
+### Option: zabbix.startPollers
+
+# Number of worker threads to start
+
+#
+
+# Mandatory: no
+
+# Range: 1-1000
+
+# Default
+
+# 不能大于zabbix_server.conf的值，否则可能导致当连接Java gateway时没有多余的线程进行处理
+
+ START_POLLERS=5
+
+</code></pre></div></div>
+
+<p>最后启动启动 zabbix-java-gateway，并重启 zabbix-server</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+[root@6 ~]# service zabbix-java-gateway start
+Starting zabbix java gateway:              [  OK  ]
+[root@6 ~]# service zabbix-server restart
+Stopping zabbix server:              [  OK  ]
+Starting zabbix server:              [  OK  ]
+
+</code></pre></div></div>
+
+<p>我在尝试重启发现一问题，zabbix-java-gateway 通过 service 命令管理 stop 不能删除 pid 文件导致服务无法启动，如果你也碰到，解决办法如下：</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+[root@6 zabbix]# vim /etc/rc.d/init.d/zabbix-java-gateway
+
+# line 97, 注释修改为如下
+
+# kill `cat $PID_FILE` &amp;&amp; rm $PID_FILE
+
+        rm -f $PID_FILE
+
+</code></pre></div></div>
+
+<h4 id="4-adding-jmx-host-on-zabbix-web-consloe">4. Adding jmx host on Zabbix Web consloe</h4>
+<p>首先，上传 Template Tomcat Head Memory 模板，这个我做了一个简单的模板，只针对了堆内存空间的监控，并针对使用率超过 60% 以及 80%，不同的警报。需要的同学可以直接从我这里下载，然后在 Configuration-Templates 导入到 zabbix 模板库内。
+下载请点击：<a href="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zbx_template_app_tomcat_head_memory.xml">Template App Tomcat Head Memory</a></p>
+
+<p>然后，增加服务器的 jmx 监控
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-jmx-settings.png" alt="image" /></p>
+
+<p>关联模板
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-host-select-template.png" alt="image" /></p>
+
+<h4 id="5-view-the-head-memory-monitoring">5. View the Head Memory Monitoring.</h4>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-view-monitor.png" alt="image" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-01-18</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zabbix">Zabbix</a>
+      , 
+      <a href="/tags.html#Tomcat">Tomcat</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2017/01/%E6%AF%8F%E6%97%A5%E5%A4%87%E4%BB%BDMySQL%E5%8D%95%E8%A1%A8%E6%95%B0%E6%8D%AE.html">每日备份 MySQL 单表数据</a></h1>
+    <div class="post_at_index">
+      <p>最近愈近年底，客户业务涉及对账操作，所以同事提出需求需要单独备份某张表数据，并且每日备份；思考之后解决办法如下：</p>
+
+<ol>
+  <li>mysqldump 导出单张表的表结构及数据</li>
+  <li>新增数据库，专做临时每日数据备份库</li>
+  <li>导入该表数据到新增数据库内</li>
+  <li>重命名导入的表名（预防计划任务下次导入时数据覆盖）</li>
+  <li>编写脚本，添加 Linux 计划任务</li>
+</ol>
+
+<h4 id="1-mysqldump-导出但张表的表结构及数据">1. mysqldump 导出但张表的表结构及数据</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump -h dbServer -PdbServerPort -u db_user -p -d dbName tbName &gt; tbName.sql
+</code></pre></div></div>
+
+<h4 id="2-新增数据库专做临时每日数据备份库">2. 新增数据库，专做临时每日数据备份库</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># loginTo your DBserver
+mysql&gt; create database bakdbName character set utf8;
+</code></pre></div></div>
+
+<h4 id="3-导入该表数据到新增数据库内">3. 导入该表数据到新增数据库内</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql -h dbServer -P dbServerPort -u db_user -p bakdbName &lt; tbName.sql
+</code></pre></div></div>
+
+<h4 id="4--重命名导入的表名">4 . 重命名导入的表名</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql -u db_user -p -e "rename table bakdbName.tbName to bakdbName.tbName_$DATE"
+</code></pre></div></div>
+
+<h4 id="5-编写脚本">5. 编写脚本</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@testServer01 ~]# cat /usr/local/bin/bakTable.sh
+#!/bin/bash
+
+#Create by SAMZONG
+
+DATE=`date +%Y%m%d`
+TMPDIR=/tmp/baksql
+
+# modify your DB configure
+DBSERVER1=localhost
+DBSERVER1_PORT=3306
+DBSERVER1_USER=root
+DBSERVER1_PASSWORD=password
+MASTER_DBNAME=zabbix
+MASTER_TBNAME=users
+
+DBSERVER2=localhost
+DBSERVER2_PORT=3306
+DBSERVER2_USER=root
+DBSERVER2_PASSWORD=password
+BAKDBNAME=z3
+
+# creat tmp folder
+if [ ! -d $TMPDIR ]; then
+ mkdir $TMPDIR
+fi
+
+# dump tbName
+mysqldump -h $DBSERVER1 -P $DBSERVER1_PORT -u $DBSERVER1_USER -p"$DBSERVER1_PASSWORD" -d $MASTER_DBNAME  $MASTER_TBNAME &gt; $TMPDIR/$MASTER_TBNAME.sql
+
+
+# insert tbNAME to bakdbName
+if [ $? -eq 0  ]; then
+ mysql -h $DBSERVER2 -P $DBSERVER2_PORT -u $DBSERVER2_USER -p"$DBSERVER2_PASSWORD" $BAKDBNAME &lt; $TMPDIR/$MASTER_TBNAME.sql
+
+ if [ $? -eq 0 ]; then
+  # rename tbName
+  mysql -h $DBSERVER2 -P $DBSERVER2_PORT -u $DBSERVER2_USER -p"$DBSERVER2_PASSWORD" -e "rename table "$BAKDBNAME"."$MASTER_TBNAME" to "$BAKDBNAME"."$MASTER_TBNAME"_"$DATE";"
+ fi
+
+fi
+</code></pre></div></div>
+
+<h4 id="6-添加到-linux-计划任务">6. 添加到 Linux 计划任务</h4>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>00 00 * * * /usr/local/bin/bakTable.sh
 </code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-09-19</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Tomcat">Tomcat</a>
+      <cite>2017-01-15</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#MySQL">MySQL</a>
+      , 
+      <a href="/tags.html#Shell">Shell</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2017/01/%E7%94%9F%E6%B4%BB%E5%9C%A8%E5%88%AB%E5%A4%84.html">生活在别处</a></h1>
+    <div class="post_at_index">
+      <p>生活在别处，第一次看到这句话的时候是初中，便在之后的许多年间未曾忘记。</p>
+
+<p>第一我不懂为何“生活在别处”，生活如何在别处？生活不应再当下？生活如影随行，在你忙忙碌碌烦烦烦烦时，生活就在这里，在你快快乐乐时，生活还在这里，我一直以为所见所行就是生活；可是，随着生长，你依旧在这里，而生活早已飘落别处。</p>
+
+<p>“生活在别处”是法国诗人兰波的一句名言，而他用一生践行了这句话，他一生都在出走，从法国到英国而后非洲，兰波一生都在出走，直到最后死去；他是一位无法被归类的诗人，放荡不羁，与魏尔伦的爱情，新世界的开创者，兰波一生都在尝试不同的人生，就像他说的：“我愿成为任何人”。</p>
+
+<blockquote>
+  <p><em>《全蝕狂愛》1995，描述了兰波的故事，与魏尔伦的爱情。由李奥纳多扮演。</em></p>
+</blockquote>
+
+<p>我不会写故事，更多的用来记录我的生活，本来今天晚上准备写些什么，如何关于整理笔记之类，下班日常刷知乎，看到《这个杀手不太冷》中一句话，“生活一直是那么艰难吗？还是只有小时候是这样？” “一直是。”脑海里就浮现了“生活在别处”这句话，随着人生阅历的成长，对这几句话的理解，也是不断加深；所以，回来写下这段文字。</p>
+
+<p>我一直试着找出自身的问题，我一直努力和生活更好地相处，我其实并不知道如何规划，我能感受到生命中特别重要的东西，要拼尽所有力气去抓住；我不喜欢去做承诺，我所能做的就是一直努力去做；在我们的人生中肯定会存在一些望不到顶的大山，可能我穷尽一生也无法看到山顶的景色和山的那边的一切，这的确是一件想想就很难过的事情，并且这一切无法逃避，听起来是那么地令人绝望，但是，亲爱的，我们总要去面对，或是大步向前，冲向那满是荆棘望不到顶的大山，要打败可以吃掉我们的大老虎，一次又一次，我们会经常失败，摔倒，伤痕累累，可是我总要爬起来，一次又一次，每次都像是用尽整个生命的力量，也许我们真的最后跌倒爬不起来了，也许我们最后真的无法凝聚一丝力量，那至少，我们明白我是真的做不到，而不是说从一开始就放弃，努力让自己变更好；嗯，方向也很重要。</p>
+
+<p>好了，我还要去整理笔记，然后早点睡觉，今天心情不太好，可身边总有些美丽的人，谢谢！</p>
+
+<p>最后，生活一直是那么艰难吗？</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-01-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2017/01/Docker-Hub-%E5%9B%BD%E5%86%85%E5%8A%A0%E9%80%9F.html">Docker Hub 国内加速</a></h1>
+    <div class="post_at_index">
+      <p>因为 Docker Hub 没有在国内部署站点或者增加了国内的 CDN，这导致国内的开发者在使用 docker pull 获取 images 的时候速度非常的慢，甚至于因为网络的原因会失败。</p>
+
+<p>但是 Docker Hub 有着非常丰富的镜像资源，所以我这一直是个问题困扰着我，一次偶然机会发现了<a href="https://www.daocloud.io">DaoCloud</a>提供了国内镜像加速服务，并且提供的 Docker Hub Mirror 详细的文档。</p>
+
+<h4 id="1-注册-daocloud-账号">1. 注册 DaoCloud 账号</h4>
+
+<p>首先，你需要到一 DaoCloud 账号，注册很方便，点击地址：<a href="https://account.daocloud.io/signup">signup</a>
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/o6wh3.jpg" alt="image" /></p>
+
+<h4 id="2-登录到你的-daocloud-账号内然后入下图操作">2. 登录到你的 DaoCloud 账号内，然后入下图操作</h4>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/n9mt7.jpg" alt="image" /></p>
+
+<h4 id="3-查看你的-daocloud-加速器地址">3. 查看你的 DaoCloud 加速器地址</h4>
+
+<p><a href="https://www.daocloud.io/mirror#accelerator-doc">链接</a></p>
+
+<p>选择你相对应平台的的加速器设置
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/4wuea.jpg" alt="image" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-01-07</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Docker">Docker</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/12/HowTo-Mount-OSS-Bucket-On-ECS.html">HowTo Mount OSS Bucket On ECS</a></h1>
+    <div class="post_at_index">
+      <blockquote>
+  <p>From <a href="https://github.com/aliyun/ossfs">阿里云官方 Github</a>
+Demo: CentOS 6.8 on ECS</p>
+</blockquote>
+
+<p>ossfs 是通过磁盘挂载的形式，将 oss 存储挂载到 linux、类 unix 等操作系统，而且不仅仅可以挂载阿里云内的 ECS 上，理论上所有网络能到达 oss 的都可以挂载，但还是要以实际问题为准。</p>
+
+<h2 id="1download--install">1.Download &amp; Install</h2>
+
+<p><a href="https://github.com/aliyun/ossfs/releases">官方版本发布页面</a>，请根据你的系统类型进行选择，我这演示的环境是 CentOS 6.8；ossfs 目前最新的版本是 v1.79.9，您可以根据自己当时版本进行选择，建议选择最新版本。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 请先将包上传到服务器上</span>
+ <span class="nb">sudo </span>yum localinstall ossfs_1.79.9_centos6.5_x86_64.rpm
+</code></pre></div></div>
+
+<blockquote>
+  <p>注意使用 localinstall，因为在安装过程，yum 可以很好的解决依赖关系，会节省我们很多时间</p>
+</blockquote>
+
+<h2 id="2-oss--bucket">2. OSS &amp; Bucket</h2>
+
+<p>需要获取以下信息，在后面我们都会用到的：</p>
+
+<ul>
+  <li>
+    <p>Bucket 名称
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/QQ20161111-0.jpg" alt="image" /></p>
+  </li>
+  <li>
+    <p>Access Key ID</p>
+  </li>
+  <li>
+    <p>Access Key Secret</p>
+
+    <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/0256A9CB-A0FA-43BC-82AF-4DE17D4852B6.png" alt="image" />
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/QQ20161111-2.jpg" alt="image" /></p>
+  </li>
+  <li>
+    <p>Location，这需要注意点，不要加上 Bucket 的名字，区域对应表如下，注意你的 Bucket 所在区域：</p>
+  </li>
+</ul>
+
+<div><table><thead><tr><th style="color:green">Region 中文名称</th><th style="text-align:left;color: green;">Region 英文表示</th><th style="text-align:left;color: green;">外网 Endpoint</th><th style="text-align:left;color: green;">ECS 访问的内网 Endpoint</th></tr></thead><tbody><tr><td>华东 1</td><td style="text-align:left">oss-cn-hangzhou</td><td style="text-align:left">oss-cn-hangzhou.aliyuncs.com</td><td style="text-align:left">oss-cn-hangzhou-internal.aliyuncs.com</td></tr><tr><td>华东 2</td><td style="text-align:left">oss-cn-shanghai</td><td style="text-align:left">oss-cn-shanghai.aliyuncs.com</td><td style="text-align:left">oss-cn-shanghai-internal.aliyuncs.com</td></tr><tr><td>华北 1</td><td style="text-align:left">oss-cn-qingdao</td><td style="text-align:left">oss-cn-qingdao.aliyuncs.com</td><td style="text-align:left">oss-cn-qingdao-internal.aliyuncs.com</td></tr><tr><td>华北 2</td><td style="text-align:left">oss-cn-beijing</td><td style="text-align:left">oss-cn-beijing.aliyuncs.com</td><td style="text-align:left">oss-cn-beijing-internal.aliyuncs.com</td></tr><tr><td>华南 1</td><td style="text-align:left">oss-cn-shenzhen</td><td style="text-align:left">oss-cn-shenzhen.aliyuncs.com</td><td style="text-align:left">oss-cn-shenzhen-internal.aliyuncs.com</td></tr><tr><td>香港数据中心</td><td style="text-align:left">oss-cn-hongkong</td><td style="text-align:left">oss-cn-hongkong.aliyuncs.com</td><td style="text-align:left">oss-cn-hongkong-internal.aliyuncs.com</td></tr><tr><td>美国硅谷数据中心</td><td style="text-align:left">oss-us-west-1</td><td style="text-align:left">oss-us-west-1.aliyuncs.com</td><td style="text-align:left">oss-us-west-1-internal.aliyuncs.com</td></tr><tr><td>美国弗吉尼亚数据中心</td><td style="text-align:left">oss-us-east-1</td><td style="text-align:left">oss-us-east-1.aliyuncs.com</td><td style="text-align:left">oss-us-east-1-internal.aliyuncs.com</td></tr><tr><td>亚太（新加坡）数据中心</td><td style="text-align:left">oss-ap-southeast-1</td><td style="text-align:left">oss-ap-southeast-1.aliyuncs.com</td><td style="text-align:left">oss-ap-southeast-1-internal.aliyuncs.com</td></tr><tr><td>亚太东北 1（日本）数据中心</td><td style="text-align:left">oss-ap-northeast-1</td><td style="text-align:left">oss-ap-northeast-1.aliyuncs.com</td><td style="text-align:left">oss-ap-northeast-1-internal.aliyuncs.com</td></tr></tbody></table></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 设置bucket/access key/id的信息，将其存放在/etc/passwd-ossfs 文件中</span>
+<span class="c"># 注意这个文件的权限必须正确设置，建议设为 640</span>
+
+<span class="nb">sudo echo </span>my-bucket:my-access-key-id:my-access-key-secret <span class="o">&gt;</span> /etc/passwd-ossfs
+<span class="nb">sudo chmod </span>640 /etc/passwd-ossfs
+
+</code></pre></div></div>
+
+<h2 id="3-mount--uasge">3. Mount &amp; Uasge</h2>
+
+<p>将 oss bucket mount 到指定目录：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 我碰到安装后找不到 ossfs 命令，查看下因为 ossfs 没有 x 权限，目录路径为/usr/local/bin，如果您也碰到这个问题，可以增加 x 权限后再测试</span>
+<span class="nb">sudo </span>ossfs my-bucket /mnt/ossdir <span class="nt">-ourl</span><span class="o">=</span>http://oss-location.aliyuncs.com
+
+<span class="c"># 如果使用 ossfs 的机器是阿里云 ECS，可以使用内网域名来避免流量收费和 提高速度</span>
+
+<span class="nb">sudo </span>ossfs my-bucket /tmp/ossfs <span class="nt">-ourl</span><span class="o">=</span>&lt;http://oss-location-internal.aliyuncs.com&gt;
+
+</code></pre></div></div>
+
+<p>磁盘空间达到上百 T：
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/11/0B78E099-5488-4839-AE48-09A074E7415D.png" alt="image" /></p>
+
+<p>umount：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 注意用户身份</span>
+
+umount /tmp/ossfs <span class="c"># root user</span>
+<span class="nb">sudo </span>fusermount <span class="nt">-u</span> /tmp/ossfs <span class="c"># non-root user</span>
+
+</code></pre></div></div>
+
+<h2 id="4-debug--faq">4. Debug &amp; FAQ</h2>
+
+<p>当遇到错误的时候，可以试着打开 Debug 日志信息，然后分析问题原因：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 使用 -o dbglevel=debug -f -d 参数打印日志信息</span>
+
+<span class="nb">sudo </span>ossfs my-bucket /tmp/ossfs <span class="nt">-ourl</span><span class="o">=</span>&lt;http://oss-location-internal.aliyuncs.com&gt; <span class="nt">-o</span> <span class="nv">dbglevel</span><span class="o">=</span>debug <span class="nt">-f</span> <span class="nt">-d</span> <span class="o">&gt;</span> /mnt/ossfs.log 2&gt;&amp;1
+
+</code></pre></div></div>
+
+<p>更多的问题，请移步查看<a href="https://github.com/aliyun/ossfs/wiki/FAQ">官方的 FAQ 文档</a>。</p>
+
+<h2 id="5-about">5. About</h2>
+
+<p>ossfs 提供的功能和性能和本地文件系统相比，具有一些局限性。具体包括：</p>
+
+<ul>
+  <li>随机或者追加写文件会导致整个文件的重写。</li>
+  <li>元数据操作，例如 list directory，性能较差，因为需要远程访问 oss 服务器。</li>
+  <li>文件/文件夹的rename操作不是原子的。</li>
+  <li>多个客户端挂载同一个 oss bucket 时，依赖用户自行协调各个客户端的行为。例如避免多个客户端写同一个文件等等。</li>
+  <li>不支持 hard link。</li>
+  <li>不适合用在高并发读/写的场景，这样会让系统的load升高</li>
+</ul>
+
+<blockquote>
+  <p>另外，ossfs 的稳定性很大一部分依赖于网络环境，建议的使用场景更多是作为临时数据迁移或定期备份，虽然 ossfs 挂载到系统中会有着几百 TB 的空间，但是稳定性并不高。</p>
+</blockquote>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-12-20</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Aliyun">Aliyun</a>
+      , 
+      <a href="/tags.html#CentOS">CentOS</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/12/%E4%B8%8A%E6%B5%B7%E5%A4%A9%E5%86%B7%E4%BA%86.html">上海天冷了</a></h1>
+    <div class="post_at_index">
+      <p>上海天冷了啊！上海天冷了啊啊！！上海天冷了啊啊！！！</p>
+
+<p>重要的事情说三遍，这是一个好习惯，有了冬天的感觉，早上起床的时候有感觉，下班路上有感觉，现在坐在键盘前打字也很有感觉；前几天在微博上写了几句话：如今算是最好的季节，褪去夏日的燥热与汗渍，又不像冬日那么干冷凛冽，穿的衣服也是刚刚好，单条牛仔裤加个风衣或冲锋衣既藏住身上的赘肉，又不失潇洒，正是装逼好时节，而最最好的是这个季节的女子，美丽更胜其它季节。朋友嘲笑说其实想看黑丝，哈哈！谁知才过几天，就感受到了那种“干冷凛冽”。但是，我喜欢这种感觉，就像我喜欢这座城市，我说我喜欢冬天，自小就喜欢，我说我喜欢这座城市，就像自小就喜欢；我说不出来为什么喜欢，就像很多说不出来为什么喜欢，就像有些人，就像有些事，就像有些讨厌，人终是要顺了自己的心意，不然不会开心，但是要懂事，不懂事就不可爱了。</p>
+
+<!-- more -->
+
+<p>最近一直比较忙，弄得心烦意乱。</p>
+
+<p>生活上，最近外公有生病，母亲十分挂念，原本外公外婆年岁已高且身体不好，家里几位舅父却又不有作为，也令母亲十分苦恼，本来她身体也有不好，我却不能帮上她一二，内心也是颇为着急挂念，只能尽力安慰。说起外公外婆，也是难过不已，近两年，因些事每年都要回去两三趟，而又匆忙，故无多时间陪陪他们，外婆已多年卧病在床，起居生活全有外公照顾，我一次尝试想搀扶外婆起床，是异常艰难，可外公 80 多岁老人一扶就是 8 年多。有时，自己也想，若是自己到了这般年纪，该如何处置，想想也难过不已，想二位老人，到了这个年纪，早已不在乎吃穿用度如何如何，多年孤苦在家，更想要的子女多多陪伴，所以每次母亲打电话回去都哭泣不止；最怕“子欲养而亲不待”的事，我也劝说母亲有空就多多回老家陪陪，而母亲却担心我的婚娶生活，更令我难过不已，暗恨自己无用；昨今两日，父母又相继回老家，也希望外公身体早日恢复。</p>
+
+<p>工作上，自从去年与领导夸下豪言便一直不敢懈怠，但实际做下来的确是要比想象中困难许多，本来自己就不是聪明，这段时间做项目需求，改了许多稿总算通过，开心，感叹领导是好性格，如此耐心指导我；而前段时间，这个项目好几处也是几近失控，和其他公司的人沟通协调处理等一团糟，还好如今都渐回正轨；第一项目还未做完，就打退堂鼓，幸亏领导的指导，同事的帮助，当然还有我的好妹妹，每次感觉扛不住的找她聊聊发发牢骚，都能耐心听并给我加油打气。感谢这些人，当然也感谢自己，总有各种办法给自己恢复元气，今早，用思维导图把最近的烦心事要做的事全部写出来，然后一条一条的分析处理，最后恢复了好心情，又一如既往的工作生活。</p>
+
+<p>又 23 点过半了，要抓紧早睡了，调整正常作息才能更充沛的工作生活，记录走出了这一段不好的日子，恢复元气的自己，但是不能懈怠，毕竟“革命尚未成功，同志仍需努力”。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-12-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/12/%E5%91%8A%E5%88%AB.html">告别</a></h1>
+    <div class="post_at_index">
+      <p>你们一起看过很多风景</p>
+
+<p>走过很多路</p>
+
+<p>因为小事争吵</p>
+
+<p>为了让对方委曲求全过</p>
+
+<p>你们花光了所有力气</p>
+
+<p>竟还是没有逃过分开的命运</p>
+
+<p>于是从此以后</p>
+
+<p>你走那条路都会想起当时的嬉笑怒骂</p>
+
+<p>你经过街角的那间咖啡馆会记得甜得发腻的糖霜</p>
+
+<p>可是人啊</p>
+
+<p>总要学会告别</p>
+
+<p>无论如何</p>
+
+<p>我们的生命中</p>
+
+<p>都逃脱不了</p>
+
+<p>永无休止的告别</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/pk6qu.JPG" alt="img" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-12-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/12/%E8%A1%80%E6%88%98%E9%92%A2%E9%94%AF%E5%B2%AD.html">血战钢锯岭</a></h1>
+    <div class="post_at_index">
+      <p>历史才是最好的教科书，我们从一段又一段历史中汲取经验和教训，尽量让人生走得不去更加艰难，而这毫无疑问战争是最好的老师，最残酷的史实，人类从千百的历史中依然没能学会和平，战争，让这个世界变得满目疮痍。</p>
+
+<p>今天去看了《血战钢锯岭》，有多久没有感动到流下眼泪，很好，前半段在讲述道斯如何与军队抗争，坚守自己的信仰，信仰是个好东西，但愿你我都有。后半段战争的场面极其的血腥暴力，电影尚是如此，真实又怎样想象，人生从来没有 NG，因为真实，才最有力量；我们都喜欢甜美的故事，我也为了道斯的爱情而感动，也因战争的残酷而愤怒。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/gjt1b.jpg" alt="道斯和妻子吻别" />
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/w4nzi.jpg" alt="道斯冒着枪林弹雨拯救受伤的士兵" /></p>
+
+<p>这是我最喜欢的电影了，最让我感动的话是在军事法庭上道斯说：世界已经分崩离析，我要把它拼成原来的样子。看到这里心都碎了，这个世界上总有些人，哪怕与所有人为敌，所有人不信任，经受磨难羞辱，也坚持自己的信仰，这才是英雄；放下枪的人才是勇敢，他教会我们，我们应该成为怎样的人，不能忘记历史带给我们的伤痛，不能忘记而不是去恨，珍惜美好生活，不要战争。</p>
+
+<p>在这段时期，同样想起的是南京大屠杀，同样是二战时期日军留下的暴行，他们是魔鬼，他们终将会受到应有的惩罚；首先，我们都不能忘记，这是我们的伤痛，真实的历史远比想象的更加残酷，哪些被迫害的人，哪些南京大屠杀纪念馆的人名册，这些人是多么的绝望啊，数以千万计的道斯奋战的美好世界，怎能让战争败类去迫害，我不喜欢战争，任何一个国家。</p>
+
+<p>同样的选择给我，我会选择拿起枪，鲁迅先生说过：学医是救不了中国的，我终于不是道斯，看到咫尺近前的战友被日本人用刺刀刺死，却选择不拿起枪，我做不到；实际上，我也是一个有信仰的人，我的信仰的是我在乎的人，我愿意为了他们奋不顾身直到死亡，因为，他们是我的逆鳞啊！</p>
+
+<p>小时候，常听老人家说，要忆苦思甜，实际上应该是要铭记战争带给我们的伤痛，要铭记那段时期，勇敢的坚持的信仰，更加重要的是珍惜现在的美好。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-12-11</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/12/HowTo-Install-Python3-on-CentOS-6-x.html">HowTo Install Python3 on CentOS 6.x</a></h1>
+    <div class="post_at_index">
+      <p>接触过 Python2.x 与 Python3.x 的应该知道，它们二者的区别也是蛮大的，而随着 Python3.x 的盛行，越来越多的应用运行与 Python3.x 的环境之上，但是我们的 CentOS 的系列，目前都默认安装时 Python2.x（CentOS 7.x 也是），所以不得不我们需要自己行动手安装 Python 3.x 的环境。</p>
+
+<p>Mirosoft 平台与 Mac 平台，不在考虑范围，他们都有相应的软件包与图形化安装工具，可以很好的解决这个问题，所以今天我们的环境是在 CentOS 6.x 系列上进行。</p>
+
+<blockquote>
+  <p>Demo : CentOS 6.8</p>
+</blockquote>
+
+<h2 id="method-1-build--install-from-source-file">Method 1. Build &amp; Install From Source-File</h2>
+
+<ul>
+  <li>Python3.x 源码文件下载，请选择适合的版本。 <a href="https://www.python.org/ftp/python/">下载页面</a></li>
+  <li>我这里使用版本 Python 3.5</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>cent@demo ~]<span class="nv">$ </span>wget https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tgz
+</code></pre></div></div>
+
+<p>安装系统基本工具：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># yum-utils</span>
+<span class="o">[</span>cent@demo ~]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> yum-utils
+
+<span class="c"># 构建python 编译环境</span>
+<span class="o">[</span>cent@demo ~]<span class="nv">$ </span><span class="nb">sudo </span>yum-builddep python
+</code></pre></div></div>
+
+<p>开始编译 &amp; 安装</p>
+
+<p>并且源码安装的同时，会将 pip3 与 setuptools 一同安装。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>cent@demo ~]<span class="nv">$ </span><span class="nb">tar </span>xf Python-3.5.0.tgz
+<span class="o">[</span>cent@demo ~]<span class="nv">$ </span><span class="nb">cd </span>Python-3.5.0
+<span class="o">[</span>cent@demo ~]<span class="nv">$ </span>./configure
+<span class="o">[</span>cent@demo ~]<span class="nv">$ </span>make
+<span class="o">[</span>cent@demo ~]<span class="nv">$ </span><span class="nb">sudo </span>make <span class="nb">install</span>
+</code></pre></div></div>
+
+<p>检查版本</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>cent@demo ~]<span class="nv">$ </span>python3 <span class="nt">-V</span>
+Python 3.5.0
+
+<span class="c"># 如果希望系统默认为Python3</span>
+<span class="o">[</span>cent@demo ~]<span class="nv">$ </span><span class="nb">alias </span><span class="nv">python</span><span class="o">=</span><span class="s1">'usr/bin/python3.5'</span>
+</code></pre></div></div>
+
+<h2 id="method-2-install-from-epel-repos">Method 2. Install From EPEL repos</h2>
+
+<p>也许有的同学会说，编译安装，那是上古时期的做法了，yum 在线安装才是王道，当然这种说法也有可取之处，所以接下来讲下如何使用 yum 安装，需要注意的是 yum 安装是需要时间测试和增加到相应的源仓库，一般会稍慢于源码安装的方式，这里采用 EPEL 源，这是一个非常棒的第三方源仓库，之前的文章中也多次提到，这里就不做过多描述，请看下面的命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>cent@demo ~]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
+<span class="o">[</span>cent@demo ~]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> python34
+
+<span class="c"># 因为yum安装时没能同时安装pip与setuptools，所以我们要手动安装，这里采用拿第三方包解决问题</span>
+
+<span class="o">[</span>cent@demo ~]<span class="nv">$ </span>curl <span class="nt">-O</span> https://bootstrap.pypa.io/get-pip.py
+<span class="o">[</span>cent@demo ~]<span class="nv">$ </span><span class="nb">sudo </span>python3 get-pip.py
+
+<span class="o">[</span>cent@demo ~]<span class="nv">$ </span> python3 <span class="nt">-V</span>
+Python 3.4.3
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-12-08</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      , 
+      <a href="/tags.html#CentOS">CentOS</a>
       
       
       
@@ -1621,7 +1151,7 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
             <li class="active"><a>16</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page23">23</a></li>
+          <li><a href="/page24">24</a></li>
         
 
         
@@ -1672,7 +1202,7 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>18</span>
+    		数据库 <span>19</span>
     	</a></li>
      
     	
@@ -1856,8 +1386,8 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
     	</a></li>
      
     	
-      <li><a href="/categories.html#NaN">
-    		NaN <span>1</span>
+      <li><a href="/categories.html#Network">
+    		Network <span>1</span>
     	</a></li>
      
     	
@@ -1901,13 +1431,53 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
     	</a></li>
      
     	
+      <li><a href="/categories.html#Kubernetes">
+    		Kubernetes <span>10</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Github">
     		Github <span>1</span>
     	</a></li>
      
     	
+      <li><a href="/categories.html#kubernetes">
+    		kubernetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#腾讯云">
+    		腾讯云 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#阿里云">
+    		阿里云 <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Gitlab">
     		Gitlab <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#前端">
+    		前端 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#DaoCloud Enterprise">
+    		DaoCloud Enterprise <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kubrnetes">
+    		Kubrnetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kafka">
+    		Kafka <span>1</span>
     	</a></li>
      
     	
@@ -1958,9 +1528,21 @@ df = pandas.read_csv(‘somefile.txt’)
         </li>
         
         <li>
-          <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
-          王路
-12 highlights
+          <a href="/post/2022/10/JWT-%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F.html">JWT 内置的方式</a>
+          
+  支持为 API 启用 jwt token 解码的能力 ,  读取网关的 jwt key
+    
+      读取请求 Header 中的 Authorization
+    
+  
+  需要支持为网关配置多 jwt key , and 加密长度 ?
+    
+      解密的性能问题
+      expire_time 过期时间的配置
+      解密后的参数传递
+    
+  
+
 
 
         </li>

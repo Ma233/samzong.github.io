@@ -233,6 +233,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -276,34 +280,196 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2021/03/macOS-10.15-%E5%BC%80%E5%90%AF-HiDPI.html">macOS 10.15 开启 HiDPI</a></h1>
+    <h1><a class="title" href="/post/2021/04/%E5%BF%AB%E9%80%9F%E4%BA%86%E8%A7%A3MySQL%E6%97%B6%E9%97%B4%E8%8C%83%E5%9B%B4%E5%8F%82%E6%95%B0.html">快速了解 MySQL 时间范围参数</a></h1>
     <div class="post_at_index">
-      <p>以前手抖买了台 HKC 32 寸 2K 显示器，接上 MacBook 发现原生的分辨率设置在 2K 显示器上字体很小，换成 1080P 分辨率显示效果又特别模糊。上网查了一下发现可以为 MacBook 强行开启 HiDPI.</p>
+      <h2 id="查询-30-天">查询 30 天</h2>
 
-<p>下文的教程结合了 Github 上用户 ZeRo° Xu 在 一键开启 HiDPI 脚本 里的 Github Issue 和一篇博文 《为 Mac 连接的 2k 显示器开启 HiDPI》.</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- 查询 30 天</span>
+<span class="k">select</span> <span class="n">DATE_SUB</span><span class="p">(</span><span class="n">CURDATE</span><span class="p">(),</span> <span class="n">INTERVAL</span> <span class="mi">30</span> <span class="k">DAY</span><span class="p">)</span> <span class="n">frm</span> <span class="k">table</span><span class="p">;</span>
 
-<h2 id="什么是-hidpi">什么是 HiDPI</h2>
 
-<p>引用自 Github 用户 ZeRo° Xu :</p>
+<span class="err">今天</span>
 
-<blockquote>
-  <p>它使用横纵 2 个物理像素也就是 4 个物理像素来显示 1 个像素区域，结果就是图像的–细节得到翻倍，更清晰，边缘更平滑–. 拿 13 寸的 MacBook Pro 举例，它的屏幕物理分辨率是 2560 x 1600, 所以原生的 HiDPI 分辨率就是 1280x800. 更高的一档 1440x900 HiDPI 缩放分辨率，则是虚拟出一个 2880x1800 的分辨率，再进行软缩放输入。所以你能发现苹果的电脑总是有很高的分辨率。好了，既然你的屏幕是 1080p, 本身就没有那么多像素去合成 HiDPI, 如果以原生的显示计算，你这屏幕的 1080p 分辨率应该是 960x540, 这么低的分辨率你是没法用的。这个脚本的功能就是虚拟出比你的屏幕物理分辨率更高的假分辨率……如果你要开启 1080p 的 HiDPI 分辨率，就虚拟一个 3840 x 2160 的假分辨率，然后 macOS 会使用 4 个像素来显示 1 个像素区域，也就是和你物理分辨率一样的 1080p 分辨率。</p>
-</blockquote>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="err">表名</span> <span class="k">where</span> <span class="n">to_days</span><span class="p">(</span><span class="err">时间字段名</span><span class="p">)</span> <span class="o">=</span> <span class="n">to_days</span><span class="p">(</span><span class="n">now</span><span class="p">());</span>
 
-<h2 id="自动配置-hidpi">自动配置 HiDPI</h2>
+<span class="err">昨天</span>
 
-<p>上文 链接 里提到一键配置脚本，你不妨先按照脚本的步骤开启 HiDPI 试试。</p>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="err">表名</span> <span class="k">WHERE</span> <span class="n">TO_DAYS</span><span class="p">(</span> <span class="n">NOW</span><span class="p">(</span> <span class="p">)</span> <span class="p">)</span> <span class="o">-</span> <span class="n">TO_DAYS</span><span class="p">(</span> <span class="err">时间字段名</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span>
 
-<p>但是脚本并没有适配所有显示器的情况 (至少我的 Dell P2416D 使用后无效) , 所以就有了下面的步骤。</p>
+<span class="mi">7</span><span class="err">天</span>
 
-<h2 id="手动配置-hidpi">手动配置 HiDPI</h2>
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="err">表名</span> <span class="k">where</span> <span class="n">DATE_SUB</span><span class="p">(</span><span class="n">CURDATE</span><span class="p">(),</span> <span class="n">INTERVAL</span> <span class="mi">7</span> <span class="k">DAY</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">date</span><span class="p">(</span><span class="err">时间字段名</span><span class="p">)</span>
 
-<p>本教程测试环境：</p>
+<span class="err">近</span><span class="mi">30</span><span class="err">天</span>
+
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="err">表名</span> <span class="k">where</span> <span class="n">DATE_SUB</span><span class="p">(</span><span class="n">CURDATE</span><span class="p">(),</span> <span class="n">INTERVAL</span> <span class="mi">30</span> <span class="k">DAY</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">date</span><span class="p">(</span><span class="err">时间字段名</span><span class="p">)</span>
+
+<span class="err">本月</span>
+
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="err">表名</span> <span class="k">WHERE</span> <span class="n">DATE_FORMAT</span><span class="p">(</span> <span class="err">时间字段名</span><span class="p">,</span> <span class="s1">'%Y%m'</span> <span class="p">)</span> <span class="o">=</span> <span class="n">DATE_FORMAT</span><span class="p">(</span> <span class="n">CURDATE</span><span class="p">(</span> <span class="p">)</span> <span class="p">,</span> <span class="s1">'%Y%m'</span> <span class="p">)</span>
+
+<span class="err">上一月</span>
+
+<span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="err">表名</span> <span class="k">WHERE</span> <span class="n">PERIOD_DIFF</span><span class="p">(</span> <span class="n">date_format</span><span class="p">(</span> <span class="n">now</span><span class="p">(</span> <span class="p">)</span> <span class="p">,</span> <span class="s1">'%Y%m'</span> <span class="p">)</span> <span class="p">,</span> <span class="n">date_format</span><span class="p">(</span> <span class="err">时间字段名</span><span class="p">,</span> <span class="s1">'%Y%m'</span> <span class="p">)</span> <span class="p">)</span> <span class="o">=</span><span class="mi">1</span>
+
+ 
+
+<span class="o">#</span><span class="err">查询本季度数据</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="nv">`ht_invoice_information`</span> <span class="k">where</span> <span class="n">QUARTER</span><span class="p">(</span><span class="n">create_date</span><span class="p">)</span><span class="o">=</span><span class="n">QUARTER</span><span class="p">(</span><span class="n">now</span><span class="p">());</span>
+<span class="o">#</span><span class="err">查询上季度数据</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="nv">`ht_invoice_information`</span> <span class="k">where</span> <span class="n">QUARTER</span><span class="p">(</span><span class="n">create_date</span><span class="p">)</span><span class="o">=</span><span class="n">QUARTER</span><span class="p">(</span><span class="n">DATE_SUB</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="n">interval</span> <span class="mi">1</span> <span class="n">QUARTER</span><span class="p">));</span>
+<span class="o">#</span><span class="err">查询本年数据</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="nv">`ht_invoice_information`</span> <span class="k">where</span> <span class="nb">YEAR</span><span class="p">(</span><span class="n">create_date</span><span class="p">)</span><span class="o">=</span><span class="nb">YEAR</span><span class="p">(</span><span class="n">NOW</span><span class="p">());</span>
+<span class="o">#</span><span class="err">查询上年数据</span>
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="nv">`ht_invoice_information`</span> <span class="k">where</span> <span class="nb">year</span><span class="p">(</span><span class="n">create_date</span><span class="p">)</span><span class="o">=</span><span class="nb">year</span><span class="p">(</span><span class="n">date_sub</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="n">interval</span> <span class="mi">1</span> <span class="nb">year</span><span class="p">));</span>
+
+ 
+
+<span class="err">查询当前这周的数据</span> 
+<span class="k">SELECT</span> <span class="n">name</span><span class="p">,</span><span class="n">submittime</span> <span class="k">FROM</span> <span class="n">enterprise</span> <span class="k">WHERE</span> <span class="n">YEARWEEK</span><span class="p">(</span><span class="n">date_format</span><span class="p">(</span><span class="n">submittime</span><span class="p">,</span><span class="s1">'%Y-%m-%d'</span><span class="p">))</span> <span class="o">=</span> <span class="n">YEARWEEK</span><span class="p">(</span><span class="n">now</span><span class="p">());</span>
+
+<span class="err">查询上周的数据</span>
+<span class="k">SELECT</span> <span class="n">name</span><span class="p">,</span><span class="n">submittime</span> <span class="k">FROM</span> <span class="n">enterprise</span> <span class="k">WHERE</span> <span class="n">YEARWEEK</span><span class="p">(</span><span class="n">date_format</span><span class="p">(</span><span class="n">submittime</span><span class="p">,</span><span class="s1">'%Y-%m-%d'</span><span class="p">))</span> <span class="o">=</span> <span class="n">YEARWEEK</span><span class="p">(</span><span class="n">now</span><span class="p">())</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+
+<span class="err">查询当前月份的数据</span>
+<span class="k">select</span> <span class="n">name</span><span class="p">,</span><span class="n">submittime</span> <span class="k">from</span> <span class="n">enterprise</span>   <span class="k">where</span> <span class="n">date_format</span><span class="p">(</span><span class="n">submittime</span><span class="p">,</span><span class="s1">'%Y-%m'</span><span class="p">)</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="s1">'%Y-%m'</span><span class="p">)</span>
+
+<span class="err">查询距离当前现在</span><span class="mi">6</span><span class="err">个月的数据</span>
+<span class="k">select</span> <span class="n">name</span><span class="p">,</span><span class="n">submittime</span> <span class="k">from</span> <span class="n">enterprise</span> <span class="k">where</span> <span class="n">submittime</span> <span class="k">between</span> <span class="n">date_sub</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="n">interval</span> <span class="mi">6</span> <span class="k">month</span><span class="p">)</span> <span class="k">and</span> <span class="n">now</span><span class="p">();</span>
+
+<span class="err">查询上个月的数据</span>
+<span class="k">select</span> <span class="n">name</span><span class="p">,</span><span class="n">submittime</span> <span class="k">from</span> <span class="n">enterprise</span>   <span class="k">where</span> <span class="n">date_format</span><span class="p">(</span><span class="n">submittime</span><span class="p">,</span><span class="s1">'%Y-%m'</span><span class="p">)</span><span class="o">=</span><span class="n">date_format</span><span class="p">(</span><span class="n">DATE_SUB</span><span class="p">(</span><span class="n">curdate</span><span class="p">(),</span> <span class="n">INTERVAL</span> <span class="mi">1</span> <span class="k">MONTH</span><span class="p">),</span><span class="s1">'%Y-%m'</span><span class="p">)</span>
+
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="nv">` user `</span> <span class="k">where</span> <span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">pudate</span><span class="p">,</span> <span class="s1">' %Y%m '</span> <span class="p">)</span> <span class="o">=</span> <span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">CURDATE</span><span class="p">(),</span> <span class="s1">' %Y%m '</span> <span class="p">)</span> <span class="p">;</span>
+
+<span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="k">user</span> <span class="k">where</span> <span class="n">WEEKOFYEAR</span><span class="p">(</span><span class="n">FROM_UNIXTIME</span><span class="p">(</span><span class="n">pudate</span><span class="p">,</span><span class="s1">'%y-%m-%d'</span><span class="p">))</span> <span class="o">=</span> <span class="n">WEEKOFYEAR</span><span class="p">(</span><span class="n">now</span><span class="p">())</span>
+
+<span class="k">select</span> <span class="o">*</span> 
+<span class="k">from</span> <span class="k">user</span> 
+<span class="k">where</span> <span class="k">MONTH</span> <span class="p">(</span><span class="n">FROM_UNIXTIME</span><span class="p">(</span><span class="n">pudate</span><span class="p">,</span> <span class="s1">' %y-%m-%d '</span> <span class="p">))</span> <span class="o">=</span> <span class="k">MONTH</span> <span class="p">(</span><span class="n">now</span><span class="p">())</span>
+
+<span class="k">select</span> <span class="o">*</span> 
+<span class="k">from</span> <span class="p">[</span> <span class="k">user</span> <span class="p">]</span> 
+<span class="k">where</span> <span class="nb">YEAR</span> <span class="p">(</span><span class="n">FROM_UNIXTIME</span><span class="p">(</span><span class="n">pudate</span><span class="p">,</span> <span class="s1">' %y-%m-%d '</span> <span class="p">))</span> <span class="o">=</span> <span class="nb">YEAR</span> <span class="p">(</span><span class="n">now</span><span class="p">())</span>
+<span class="k">and</span> <span class="k">MONTH</span> <span class="p">(</span><span class="n">FROM_UNIXTIME</span><span class="p">(</span><span class="n">pudate</span><span class="p">,</span> <span class="s1">' %y-%m-%d '</span> <span class="p">))</span> <span class="o">=</span> <span class="k">MONTH</span> <span class="p">(</span><span class="n">now</span><span class="p">())</span>
+
+<span class="k">select</span> <span class="o">*</span> 
+<span class="k">from</span> <span class="p">[</span> <span class="k">user</span> <span class="p">]</span> 
+<span class="k">where</span> <span class="n">pudate</span> <span class="k">between</span> <span class="err">上月最后一天</span>
+<span class="k">and</span> <span class="err">下月第一天</span>
+
+<span class="k">where</span>   <span class="nb">date</span><span class="p">(</span><span class="n">regdate</span><span class="p">)</span>   <span class="o">=</span>   <span class="n">curdate</span><span class="p">();</span>
+
+<span class="k">select</span>   <span class="o">*</span>   <span class="k">from</span>   <span class="n">test</span>   <span class="k">where</span>   <span class="nb">year</span><span class="p">(</span><span class="n">regdate</span><span class="p">)</span><span class="o">=</span><span class="nb">year</span><span class="p">(</span><span class="n">now</span><span class="p">())</span>   <span class="k">and</span>   <span class="k">month</span><span class="p">(</span><span class="n">regdate</span><span class="p">)</span><span class="o">=</span><span class="k">month</span><span class="p">(</span><span class="n">now</span><span class="p">())</span>   <span class="k">and</span>   <span class="k">day</span><span class="p">(</span><span class="n">regdate</span><span class="p">)</span><span class="o">=</span><span class="k">day</span><span class="p">(</span><span class="n">now</span><span class="p">())</span>
+
+<span class="k">SELECT</span> <span class="nb">date</span><span class="p">(</span> <span class="n">c_instime</span> <span class="p">)</span> <span class="p">,</span><span class="n">curdate</span><span class="p">(</span> <span class="p">)</span>
+<span class="k">FROM</span> <span class="nv">`t_score`</span>
+<span class="k">WHERE</span> <span class="mi">1</span>
+<span class="k">LIMIT</span> <span class="mi">0</span> <span class="p">,</span> <span class="mi">30</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-04-18</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#SQL">SQL</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/04/HQL_SQL%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86.html">HQL/SQL时间处理</a></h1>
+    <div class="post_at_index">
+      <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">--HQL ms</span>
+<span class="n">from_unixtime</span><span class="p">(</span><span class="k">CAST</span><span class="p">(</span><span class="n">obtained_ms</span><span class="o">/</span><span class="mi">1000</span> <span class="k">AS</span> <span class="nb">BIGINT</span><span class="p">),</span> <span class="s1">'yyyy-MM-dd HH:mm:ss'</span><span class="p">)</span>
+
+<span class="c1">--SQL ms</span>
+<span class="n">from_unixtime</span><span class="p">(</span><span class="n">time_in_ms</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>
+
+<span class="c1">--SQL date</span>
+<span class="nb">date</span><span class="p">(</span><span class="n">from_unixtime</span><span class="p">(</span><span class="n">time_in_ms</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">))</span> <span class="k">as</span> <span class="n">dt</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-04-16</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#SQL">SQL</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/03/%E7%9F%A5%E4%B9%8E%E5%91%A8%E5%88%8A-%E4%B9%94%E5%B8%83%E6%96%AF%E5%BE%80%E4%BA%8B.html">知乎周刊·乔布斯往事</a></h1>
+    <div class="post_at_index">
+      <p><a href="https://www.amazon.cn/s/ref=as_li_ss_tl?_encoding=UTF8\&amp;camp=536\&amp;creative=3132\&amp;field-keywords=%E7%9F%A5%E4%B9%8E%E5%91%A8%E5%88%8A%C2%B7%E4%B9%94%E5%B8%83%E6%96%AF%E5%BE%80%E4%BA%8B\&amp;linkCode=ur2\&amp;tag=llll1-23\&amp;url=search-alias%3Dbooks">知乎</a>
+4 highlights</p>
 
 <ul>
-  <li>笔记本：MacBook Pro (Retina, 15-inch, Mid 2018)</li>
-  <li>显示器：HKC 32 寸 2K</li>
-  <li>操作系统：MacOS Catalina (Version 10.15.3)</li>
+  <li>
+    <p>那些凡是搞不清楚自己所享受的器物的来历、奥妙、作用、差异、价值、韵味等等，但偏偏就是享受得起，并且还要拼命享受＋拼命炫耀的行为，都是土鳖。</p>
+  </li>
+  <li>
+    <p>格言：故事本身并不重要，怎么讲才更重要。所以有两株枣树这个事实并不重要，怎么来告诉读者有两株枣树比较重要。</p>
+  </li>
+  <li>
+    <p>唯真名士自风流，</p>
+  </li>
+  <li>
+    <p>在众人的眼中，悲伤只有得到外化的表现才是真实的，合理的；没有人去思考这样的悲伤是否为伪造的结果。人们关心的不是他到底悲不悲伤，而是有没有呈现出悲伤的状态来。</p>
+  </li>
+</ul>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-03-27</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/03/how-to-set-container-auto-restarting-with-docker.html">how to set container auto-restarting with docker</a></h1>
+    <div class="post_at_index">
+      <h2 id="auto-restarting-with-docker">auto-restarting with docker</h2>
+
+<p>docker run –restart=always my-container</p>
+
+<h2 id="disable-auto-restarting-with-docker">disable auto-restarting with docker</h2>
+
+<p>docker update –restart=no my-container</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-03-12</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Docker">Docker</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/03/%E7%88%B1%E4%BD%A0%E5%B0%B1%E5%83%8F%E7%88%B1%E7%94%9F%E5%91%BD.html">爱你就像爱生命</a></h1>
+    <div class="post_at_index">
+      <ul>
+  <li>我的灵魂里有很多地方玩世不恭，对人傲慢无礼，但是它有一个核心，这个核心害怕黑暗，柔弱得像绵羊一样。只有顶平等的友爱才能使它得到安慰。你对我是属于这个核心的。</li>
 </ul>
 
       
@@ -311,7 +477,7 @@
     <br/>
     <div>
       <cite>2021-03-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
+      <a href="/tags.html#读书笔记">读书笔记</a>
       
       
       
@@ -320,362 +486,41 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/02/requests-post-data-%E6%97%B6%E5%AF%B9json%E9%9C%80%E8%A6%81%E7%89%B9%E6%AE%8A%E6%B3%A8%E6%84%8F.html">requests post data 时对 json 需要特殊注意</a></h1>
+    <h1><a class="title" href="/post/2021/03/%E6%9C%AA%E7%A9%BF%E7%9A%84%E7%BA%A2%E5%AB%81%E8%A1%A3-%E6%B2%89%E6%B5%AE.html">未穿的红嫁衣·沉浮</a></h1>
     <div class="post_at_index">
-      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="n">url</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
-<span class="n">headers</span> <span class="o">=</span> <span class="n">headers</span>
-
-<span class="c1"># 通过以下方式录入的 type(data) = dict
-</span>
-<span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">data</span><span class="p">[</span><span class="s">"username"</span><span class="p">]</span> <span class="o">=</span> <span class="n">username</span>
-<span class="n">data</span><span class="p">[</span><span class="s">"password"</span><span class="p">]</span> <span class="o">=</span> <span class="n">password</span>
-
-
-<span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
-
-<span class="c1"># 以上处理方式会自动把数据转为 json format
-</span></code></pre></div></div>
-
-<blockquote>
-  <p>注意在方便插入数据的同时，也要关注数据类型转化的问题，研发初学者容易出的错误</p>
-</blockquote>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-02-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/02/python3-traceback.html">python3 traceback</a></h1>
-    <div class="post_at_index">
-      <p>打印堆栈信息，方便调试</p>
-
-<h2 id="方式一">方式一</h2>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">traceback</span>
-
-<span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span>
-    <span class="k">except</span> <span class="nb">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">traceback</span><span class="p">.</span><span class="n">format_exc</span><span class="p">()</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-    <span class="k">finally</span><span class="p">:</span>
-        <span class="k">pass</span>
-</code></pre></div></div>
-
-<h3 id="方式二">方式二</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">logging</span>
-
-<span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="mi">1</span> <span class="o">/</span> <span class="mi">0</span>
-    <span class="k">except</span> <span class="nb">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="c1"># msg = traceback.format_exc()
-</span>        <span class="n">msg</span> <span class="o">=</span> <span class="n">logging</span><span class="p">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-    <span class="k">finally</span><span class="p">:</span>
-        <span class="k">pass</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-02-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/02/pprint-beautiful-json-format.html">pprint beautiful json format</a></h1>
-    <div class="post_at_index">
-      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pprint</span>
-
-<span class="n">pp</span> <span class="o">=</span> <span class="n">pprint</span><span class="p">.</span><span class="n">PrettyPrinter</span><span class="p">(</span><span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">pp</span><span class="p">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">json</span><span class="p">())</span>
-</code></pre></div></div>
-
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">   </span><span class="err">'data':</span><span class="w"> </span><span class="p">[</span><span class="w">   </span><span class="p">{</span><span class="w">   </span><span class="err">'_serializer':</span><span class="w"> </span><span class="err">'v</span><span class="mi">2</span><span class="err">.book'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'content_updated_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2020-10-21</span><span class="err">T</span><span class="mi">05</span><span class="err">:</span><span class="mi">17</span><span class="err">:</span><span class="mi">0</span><span class="mf">1.890</span><span class="err">Z'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'created_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2020-10-20</span><span class="err">T</span><span class="mi">15</span><span class="err">:</span><span class="mi">37</span><span class="err">:</span><span class="mf">45.000</span><span class="err">Z'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'creator_id':</span><span class="w"> </span><span class="mi">343806</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'description':</span><span class="w"> </span><span class="err">'附件和有趣的东西'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'id':</span><span class="w"> </span><span class="mi">1906752</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'items_count':</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'likes_count':</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'name':</span><span class="w"> </span><span class="err">'资源库'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'namespace':</span><span class="w"> </span><span class="err">'samzonglu/mgg</span><span class="mi">8</span><span class="err">fc'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'public':</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'slug':</span><span class="w"> </span><span class="err">'mgg</span><span class="mi">8</span><span class="err">fc'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'type':</span><span class="w"> </span><span class="err">'Resource'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'updated_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2020-10-21</span><span class="err">T</span><span class="mi">05</span><span class="err">:</span><span class="mi">17</span><span class="err">:</span><span class="mi">0</span><span class="mf">1.000</span><span class="err">Z'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'user':</span><span class="w"> </span><span class="p">{</span><span class="w">   </span><span class="err">'_serializer':</span><span class="w"> </span><span class="err">'v</span><span class="mi">2</span><span class="err">.user'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'avatar_url':</span><span class="w"> </span><span class="err">'https://cdn.nlark.com/yuque/</span><span class="mi">0</span><span class="err">/</span><span class="mi">2020</span><span class="err">/png/</span><span class="mi">343806</span><span class="err">/</span><span class="mi">1603164657666</span><span class="err">-avatar/</span><span class="mi">86</span><span class="err">b</span><span class="mi">58</span><span class="err">a</span><span class="mi">0e-7</span><span class="err">e</span><span class="mi">5</span><span class="err">a</span><span class="mi">-49</span><span class="err">ed-b</span><span class="mi">28</span><span class="err">f</span><span class="mi">-25</span><span class="err">a</span><span class="mi">11</span><span class="err">b</span><span class="mi">64</span><span class="err">c</span><span class="mi">920</span><span class="err">.png'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'created_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2019-05-11</span><span class="err">T</span><span class="mi">09</span><span class="err">:</span><span class="mi">04</span><span class="err">:</span><span class="mf">37.000</span><span class="err">Z'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'description':</span><span class="w"> </span><span class="err">'读史以明志'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'followers_count':</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'following_count':</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'id':</span><span class="w"> </span><span class="mi">343806</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'login':</span><span class="w"> </span><span class="err">'samzonglu'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'name':</span><span class="w"> </span><span class="err">'samzong.lu'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'type':</span><span class="w"> </span><span class="err">'User'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'updated_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2020-10-20</span><span class="err">T</span><span class="mi">23</span><span class="err">:</span><span class="mi">51</span><span class="err">:</span><span class="mi">0</span><span class="mf">2.000</span><span class="err">Z'</span><span class="p">},</span><span class="w">
-                    </span><span class="err">'user_id':</span><span class="w"> </span><span class="mi">343806</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'watches_count':</span><span class="w"> </span><span class="mi">1</span><span class="p">},</span><span class="w">
-                </span><span class="p">{</span><span class="w">   </span><span class="err">'_serializer':</span><span class="w"> </span><span class="err">'v</span><span class="mi">2</span><span class="err">.book'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'content_updated_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2020-10-20</span><span class="err">T</span><span class="mi">06</span><span class="err">:</span><span class="mi">31</span><span class="err">:</span><span class="mf">42.400</span><span class="err">Z'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'created_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2020-10-14</span><span class="err">T</span><span class="mi">02</span><span class="err">:</span><span class="mi">11</span><span class="err">:</span><span class="mi">0</span><span class="mf">9.000</span><span class="err">Z'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'creator_id':</span><span class="w"> </span><span class="mi">343806</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'description':</span><span class="w"> </span><span class="err">'Python</span><span class="mi">3</span><span class="err">'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'id':</span><span class="w"> </span><span class="mi">1880166</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'items_count':</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'likes_count':</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'name':</span><span class="w"> </span><span class="err">'学习笔记'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'namespace':</span><span class="w"> </span><span class="err">'samzonglu/nbasax'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'public':</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'slug':</span><span class="w"> </span><span class="err">'nbasax'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'type':</span><span class="w"> </span><span class="err">'Book'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'updated_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2020-10-21</span><span class="err">T</span><span class="mi">07</span><span class="err">:</span><span class="mi">05</span><span class="err">:</span><span class="mi">0</span><span class="mf">7.000</span><span class="err">Z'</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'user':</span><span class="w"> </span><span class="p">{</span><span class="w">   </span><span class="err">'_serializer':</span><span class="w"> </span><span class="err">'v</span><span class="mi">2</span><span class="err">.user'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'avatar_url':</span><span class="w"> </span><span class="err">'https://cdn.nlark.com/yuque/</span><span class="mi">0</span><span class="err">/</span><span class="mi">2020</span><span class="err">/png/</span><span class="mi">343806</span><span class="err">/</span><span class="mi">1603164657666</span><span class="err">-avatar/</span><span class="mi">86</span><span class="err">b</span><span class="mi">58</span><span class="err">a</span><span class="mi">0e-7</span><span class="err">e</span><span class="mi">5</span><span class="err">a</span><span class="mi">-49</span><span class="err">ed-b</span><span class="mi">28</span><span class="err">f</span><span class="mi">-25</span><span class="err">a</span><span class="mi">11</span><span class="err">b</span><span class="mi">64</span><span class="err">c</span><span class="mi">920</span><span class="err">.png'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'created_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2019-05-11</span><span class="err">T</span><span class="mi">09</span><span class="err">:</span><span class="mi">04</span><span class="err">:</span><span class="mf">37.000</span><span class="err">Z'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'description':</span><span class="w"> </span><span class="err">'读史以明志'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'followers_count':</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'following_count':</span><span class="w"> </span><span class="mi">14</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'id':</span><span class="w"> </span><span class="mi">343806</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'login':</span><span class="w"> </span><span class="err">'samzonglu'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'name':</span><span class="w"> </span><span class="err">'samzong.lu'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'type':</span><span class="w"> </span><span class="err">'User'</span><span class="p">,</span><span class="w">
-                                </span><span class="err">'updated_at':</span><span class="w"> </span><span class="err">'</span><span class="mi">2020-10-20</span><span class="err">T</span><span class="mi">23</span><span class="err">:</span><span class="mi">51</span><span class="err">:</span><span class="mi">0</span><span class="mf">2.000</span><span class="err">Z'</span><span class="p">},</span><span class="w">
-                    </span><span class="err">'user_id':</span><span class="w"> </span><span class="mi">343806</span><span class="p">,</span><span class="w">
-                    </span><span class="err">'watches_count':</span><span class="w"> </span><span class="mi">1</span><span class="p">}]}</span><span class="w">
-</span></code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-02-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/02/macOs-Terminal-%E4%B8%89%E5%89%91%E5%AE%A2.html">macOs Terminal 三剑客</a></h1>
-    <div class="post_at_index">
-      <h3 id="安装-homebrew">安装 Homebrew</h3>
-
-<p>MacOS 首先需要安装下基础依赖：</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xcode-select —-install
-</code></pre></div></div>
-
-<p>执行完成上一步之后，接下来就可以安装 Homebrew</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-</code></pre></div></div>
-
-<h3 id="增加-homebrew-安装图形化软件库">增加 Homebrew 安装图形化软件库</h3>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew tap caskroom/cask
-</code></pre></div></div>
-
-<p>安装 iTerm 2，当然也可以用来安装其他很多软件</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew cask install iterm2
-</code></pre></div></div>
-
-<h3 id="安装-zsh">安装 Zsh</h3>
-
-<p>首先使用 homebrew 安装新版本的 zsh，Mac 自带了 zsh 但是使用体验不好</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew install zsh
-</code></pre></div></div>
-
-<p>Mac 的默认 shell 还是 bash，所以需要将其修改为 zsh</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chsh -s /usr/local/bin/zsh
-</code></pre></div></div>
-
-<h3 id="安装-oh-my-zsh">安装 oh-my-zsh</h3>
-
-<p>执行以下命令即可，耐心等待</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-</code></pre></div></div>
-
-<h3 id="结语">结语</h3>
-
-<p>iTerm 是一个非常优秀和方便的终端工具，可以实现非常多的功能，配合 Google Search 可以发掘出非常多的用法</p>
-
-<p>Ohmyzsh 是增加 Mac 终端的丰富的指令，有很多优秀的功能等等</p>
-
-<p>Homebrew 是 MacOS 是一个强大的命令行软件管理工具，可以做到很多图形化应用不一定能实现的功能</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-02-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/02/dingtalk-orgBot-sign-generate.html">dingtalk orgBot sign generate</a></h1>
-    <div class="post_at_index">
-      <p>需要使用到 hmac 以及 time 库</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#/usr/bin/env python3
-# -*- coding: UTF-8 -*-
-</span>
-
-<span class="kn">import</span> <span class="nn">hmac</span>
-<span class="kn">import</span> <span class="nn">hashlib</span>
-<span class="kn">import</span> <span class="nn">base64</span>
-<span class="kn">import</span> <span class="nn">time</span>
-
-<span class="n">timestamp</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">))</span>
-
-<span class="n">timestamp</span> <span class="o">=</span> <span class="s">''</span>
-
-<span class="n">app_secret</span> <span class="o">=</span> <span class="s">'BvuHQ-bTB2PiChlyCD3rgdNgHfMSYb0m4iQ_T1mEmG8ImBPQ1DSN3qwRU2-GblxR'</span>
-<span class="n">app_secret_enc</span> <span class="o">=</span> <span class="n">app_secret</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">)</span>
-<span class="n">string_to_sign</span> <span class="o">=</span> <span class="s">'{}</span><span class="se">\n</span><span class="s">{}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">)</span>
-<span class="n">string_to_sign_enc</span> <span class="o">=</span> <span class="n">string_to_sign</span><span class="p">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">)</span>
-<span class="n">hmac_code</span> <span class="o">=</span> <span class="n">hmac</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="n">app_secret_enc</span><span class="p">,</span> <span class="n">string_to_sign_enc</span><span class="p">,</span> <span class="n">digestmod</span><span class="o">=</span><span class="n">hashlib</span><span class="p">.</span><span class="n">sha256</span><span class="p">).</span><span class="n">digest</span><span class="p">()</span>
-<span class="n">sign</span> <span class="o">=</span> <span class="n">base64</span><span class="p">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">hmac_code</span><span class="p">).</span><span class="n">decode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">)</span>
-
-<span class="k">print</span><span class="p">(</span><span class="n">sign</span><span class="p">)</span>
-
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-02-09</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/02/python-django-%E7%BC%96%E5%86%99%E5%85%AC%E5%85%B1%E6%A8%A1%E5%9D%97%E5%9C%A8app%E4%B8%AD%E5%BC%95%E7%94%A8.html">python django 编写公共模块在 app 中引用</a></h1>
-    <div class="post_at_index">
-      <h2 id="使用方法一">使用方法一</h2>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-<span class="n">sys</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">'../dingtalk'</span><span class="p">)</span>
-
-<span class="kn">from</span> <span class="nn">dingtalk</span> <span class="kn">import</span> <span class="n">DingTalk</span>
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="n">sys</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">(</span><span class="s">'../dingtalk'</span><span class="p">))</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-02-07</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/01/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入 excel</a></h1>
-    <div class="post_at_index">
-      <p>以下是使用的方法：
-<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1611155030404-b12d4cd7-6fa1-44ca-b183-bdf1e796ebeb.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-01-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/01/year-the-new-start.html">2021 年 - 全新出发</a></h1>
-    <div class="post_at_index">
-      <h2 id="写在开始之前的话">写在开始之前的话</h2>
-
-<p>已经停更了接近 3 年的博客，感觉像是走了另一个方向的路，有点迷失方向的感觉；这三年算是人生中变化很多的地方吧。</p>
-
-<p>不过也有不少地方其实没变化，比如：</p>
-
-<ul>
-  <li><del>报名学车 到现在还是没有学成</del> , 过去了半年的时间，驾照到手，车子也到手了，日子在好转 ~</li>
-  <li><del>转职安心做一名研发，可水平还是吊儿郎当</del>, 拜托了前半年的工作焦虑状态，现在算是进到了一个新的环境</li>
+      <ul>
+  <li>
+    <p>历史学家是一群古怪的动物，吃饱了饭没事儿干，没完没了地咀嚼那逝去的岁月，犹如牛之““反刍””。</p>
+  </li>
+  <li>
+    <p>木秀于林，风必摧之；堆出于岸，流必湍之；行高于人，众必非之。风生于地，起于青萍之末；侵淫溪谷，盛怒于土囊之口。无边落木萧萧下，不尽长江滚滚来。尔曹身与名俱灭，不废江河万古流。</p>
+  </li>
+  <li>
+    <p>历史本身是残酷的，以无数人的鲜血写成的，惨不忍睹。而芸芸众生所看到的，只不过是历史的表层：戏剧！””</p>
+  </li>
+  <li>
+    <p>人情有所不能忍者，匹夫见辱，拔剑而起，挺身而斗，此不足为勇也。天下有大勇者，卒然临之而不惊，无故加之而不怒。此其所挟持者甚大，而其志甚远也！””东坡先生曾如此谆谆教导。</p>
+  </li>
+  <li>
+    <p>一切优秀的文学作品都是在写‘‘史’’，忠实地记录历史，鲜活地复原历史，为未来保留历史。</p>
+  </li>
+  <li>
+    <p>天涯孤旅，最需要的是一位理想的旅伴，攀登时互相扶持，跋涉中彼此激励，危难处相濡以沫。朝夕相处，耳鬓厮磨，可以使本来不同的爱好和志趣趋于一致；</p>
+  </li>
+  <li>
+    <p>一个女人的美一半是先天造就的，另一半是由修养和气质酿成的。她的任何一件衣服，穿上去都好像世界上只此一件，是专门为她而做的。</p>
+  </li>
+  <li>
+    <p>生、熟、冷、热、荤、素、煎、烤、爆、炒、炸、涮、烩、炖、煨、焗，皆可</p>
+  </li>
 </ul>
 
-<p><code class="language-plaintext highlighter-rouge">现在忙了点，不过还好，有时候觉得糟糕透了，坚持过去也就没什么大不了</code></p>
-
-<p>这三年，也是有了很大的变化，最大的变化可能是：成为了一名全职的产品经理，而竟然我有一半的时间还在纠结是不是要回去。</p>
-
-<blockquote>
-  <p>思绪有点乱，后面再继续写吧</p>
-</blockquote>
-
-<h2 id="关于-hexo">关于 hexo</h2>
-
-<p>博客这边的确有很长时间没有更新，接下来应该会做些优化。</p>
-
-<hr />
-
-<h2 id="最后">最后</h2>
-
-<p>好多话想要说，一地鸡毛。</p>
-
       
     </div>
     <br/>
     <div>
-      <cite>2021-01-01</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#随笔">随笔</a>
+      <cite>2021-03-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
       
       
       
@@ -684,76 +529,117 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2020/12/%E6%A3%80%E6%9F%A5%E6%82%A8%E7%9A%84App%E6%98%AF%E5%90%A6%E5%B7%B2%E6%94%AF%E6%8C%81AppleSilicon.html">检查您的 App 是否已支持 AppleSilicon</a></h1>
+    <h1><a class="title" href="/post/2021/03/%E6%9C%80%E5%90%8E%E7%9A%84%E8%80%8D%E7%8C%B4%E4%BA%BA.html">最后的耍猴人</a></h1>
     <div class="post_at_index">
-      <p><img src="assets/check-you-favorites-app-is-ready-on-applesilicon" alt="image" />这里带来 2 个网站，方便大家来检查您所使用和关注的 App 是否已经支持了最新的 Apple M1 芯片</p>
-
-<blockquote>
-  <p><strong>目前支持的形式有：</strong></p>
-</blockquote>
-
-<ul>
-  <li>已原生支持</li>
-  <li>使用 Rosetta 2 支持运行的 适配 Intel 引用</li>
-  <li>完全不支持 (包括崩溃、无法启动等各种症状)</li>
+      <ul>
+  <li>
+    <p>这些耍猴的人这么苦是为什么？他们虽然用的是最底层、最辛苦的方式赚钱，但其中透露出一种骨气，这是河南新野耍猴人的人格力量。</p>
+  </li>
+  <li>
+    <p>在景德镇，一个 16 岁的女孩看完猴戏，对他说：““老爷爷，你这一生给多少人带来了快乐啊！””杨林贵听后，那天一路上都很开心。</p>
+  </li>
+  <li>
+    <p>花卷馍。</p>
+  </li>
+  <li>
+    <p>法律要是缺失了良知作为基础，那么可怕的冷漠就会占据上风，取而代之的就是权力的滥用。</p>
+  </li>
+  <li>
+    <p>中国是一个地域广阔的国家，地区贫富差异至今还很大，我们每个人不能以自己生活的地区的生活方式去理解另一个地区人的生活方式。他们的很多生活方式是我们所看不到的。在一个贫穷的地方，一个人能找到一种不违反法律和伦理的方式生存下来，能自食其力，就很不容易了。这就像生活在当下的我们，不能去评价、指责古代人的生活方式和文明程度一样。</p>
+  </li>
+  <li>
+    <p>英国大法官培根说过：““一次不公正裁判的罪恶甚于十次犯罪，因为犯罪污染的只是水流，而枉法裁判污染的却是水源。””</p>
+  </li>
+  <li>
+    <p>人处在世俗之中，不可避免地有高低贵贱之分，对于那些善良弱势的人，我们只有通过宽容、理解、帮扶，才能给他们带来改变的希望。</p>
+  </li>
 </ul>
-
-<h2 id="网友整理-games-on-apple-sillicon">网友整理 Games on Apple Sillicon</h2>
-
-<p><a href="https://docs.google.com/spreadsheets/d/1er-NivvuIheDmIKBVRu3S_BzA_lZT5z3Z-CxQZ-uPVs/">https://docs.google.com/spreadsheets/d/1er-NivvuIheDmIKBVRu3S_BzA_lZT5z3Z-CxQZ-uPVs/</a></p>
-
-<blockquote>
-  <p>目前已补充了 App 清单</p>
-</blockquote>
-
-<hr />
-
-<h2 id="httpsisapplesiliconreadycom"><a href="https://isapplesiliconready.com/">https://isapplesiliconready.com/</a></h2>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/2020-11-24-142803.png?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<p>如果你有希望给关注的软件，可以提交给站点维护者，点击页面右上角的 <code class="language-plaintext highlighter-rouge">REQUEST AN APP</code></p>
-
-<blockquote>
-  <p><a href="https://isapplesiliconready.com/request/">https://isapplesiliconready.com/request/</a></p>
-</blockquote>
-
-<hr />
-
-<h2 id="httpsdoesitarmcom"><a href="https://doesitarm.com/">https://doesitarm.com/</a></h2>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/2020-11-24-143231.png?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<p>如果你想要关注某一个软件的适配进度，可以在  <code class="language-plaintext highlighter-rouge">Tell me with this changes</code>输入你的邮箱，这样当软件有适配变更时，会第一时间邮件通知你</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/2020-11-24-143450.png?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<h2 id="如何在命令行使用-rosseta-2">如何在命令行使用 <code class="language-plaintext highlighter-rouge">rosseta 2</code></h2>
-
-<p><code class="language-plaintext highlighter-rouge">arch -x86_64</code> 后面追加你需要执行的命令，注意每一个都需要哦</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 安装 Homebrew</span>
-<span class="nb">arch</span> <span class="nt">-x86_64</span> /bin/bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install.sh<span class="si">)</span><span class="s2">"</span>
-
-
-<span class="c"># brew update </span>
-<span class="nb">arch</span> <span class="nt">-86_64</span> brew update
-
-
-<span class="c"># 安装 htop</span>
-<span class="nb">arch</span> <span class="nt">-x86_64</span> brew <span class="nb">install </span>htop
-
-
-<span class="c"># 安装 cask app</span>
-<span class="nb">arch</span> <span class="nt">-x86_64</span> brew cask <span class="nb">install </span>virtualbox
-</code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2020-12-25</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
+      <cite>2021-03-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/03/%E6%88%91%E6%89%80%E7%90%86%E8%A7%A3%E7%9A%84%E7%94%9F%E6%B4%BB.html">我所理解的生活</a></h1>
+    <div class="post_at_index">
+      <ul>
+  <li>
+    <p>前程————红灯永远不能照亮你的前程，照亮你前程的，是你的才能。</p>
+  </li>
+  <li>
+    <p>但关注现实的电影也容易因为审查的原因妥协或者被修改得面目全非，哎，你们想怎样。</p>
+  </li>
+  <li>
+    <p>Some of us get dipped in flat, some in satin, some in gloss…But every once in a while you find someone who’s iridescent, and when you do, nothing will ever compare. 有人住高楼，有人在深沟，有人光万丈，有人一身锈，世人万千种，浮云莫去求，斯人若彩虹，遇上方知有。</p>
+  </li>
+  <li>
+    <p>当然，我还想要更多小孩，如果有男孩，那就活该要受苦了，他得扎到这个现实里，奋力拼搏，养活自己并尽力改变社会，争取给天下的小女儿们创造更温良的环境。</p>
+  </li>
+  <li>
+    <p>展露光芒，就不应该怪别人没有眼光。</p>
+  </li>
+</ul>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-03-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/03/%E6%88%91%E4%BB%AC%E7%94%9F%E6%B4%BB%E5%9C%A8%E5%B7%A8%E5%A4%A7%E7%9A%84%E5%B7%AE%E8%B7%9D%E9%87%8C.html">我们生活在巨大的差距里</a></h1>
+    <div class="post_at_index">
+      <ul>
+  <li>知道自己无知不是完全的无知，完全的无知是不知道自己无知的无知。</li>
+</ul>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-03-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/03/%E6%84%BF%E6%9C%89%E4%BA%BA%E9%99%AA%E4%BD%A0%E9%A2%A0%E6%B2%9B%E6%B5%81%E7%A6%BB.html">愿有人陪你颠沛流离</a></h1>
+    <div class="post_at_index">
+      <ul>
+  <li>
+    <p>不管昨夜你是多么泣不成声，早晨醒来城市依旧车水马龙。</p>
+  </li>
+  <li>
+    <p>原因，我们一路奋战，为的不是变成别人，为的不是改变世界，而是不让世界改变，能够用自己的力量平稳地站在大地上，并且尽可能地保护身边的人。</p>
+  </li>
+</ul>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-03-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
       
       
       
@@ -802,7 +688,7 @@
             <li class="active"><a>9</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page23">23</a></li>
+          <li><a href="/page24">24</a></li>
         
 
         
@@ -853,7 +739,7 @@
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>18</span>
+    		数据库 <span>19</span>
     	</a></li>
      
     	
@@ -1037,8 +923,8 @@
     	</a></li>
      
     	
-      <li><a href="/categories.html#NaN">
-    		NaN <span>1</span>
+      <li><a href="/categories.html#Network">
+    		Network <span>1</span>
     	</a></li>
      
     	
@@ -1082,13 +968,53 @@
     	</a></li>
      
     	
+      <li><a href="/categories.html#Kubernetes">
+    		Kubernetes <span>10</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Github">
     		Github <span>1</span>
     	</a></li>
      
     	
+      <li><a href="/categories.html#kubernetes">
+    		kubernetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#腾讯云">
+    		腾讯云 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#阿里云">
+    		阿里云 <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Gitlab">
     		Gitlab <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#前端">
+    		前端 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#DaoCloud Enterprise">
+    		DaoCloud Enterprise <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kubrnetes">
+    		Kubrnetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kafka">
+    		Kafka <span>1</span>
     	</a></li>
      
     	
@@ -1139,9 +1065,21 @@ df = pandas.read_csv(‘somefile.txt’)
         </li>
         
         <li>
-          <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
-          王路
-12 highlights
+          <a href="/post/2022/10/JWT-%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F.html">JWT 内置的方式</a>
+          
+  支持为 API 启用 jwt token 解码的能力 ,  读取网关的 jwt key
+    
+      读取请求 Header 中的 Authorization
+    
+  
+  需要支持为网关配置多 jwt key , and 加密长度 ?
+    
+      解密的性能问题
+      expire_time 过期时间的配置
+      解密后的参数传递
+    
+  
+
 
 
         </li>

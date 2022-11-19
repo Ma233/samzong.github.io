@@ -233,6 +233,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -276,65 +280,137 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2021/11/Creating-DataFrame-using-list.html">Creating DataFrame using list</a></h1>
+    <h1><a class="title" href="/post/2022/03/awesome-hexo-plugins.html">Awesome Hexo Plugin</a></h1>
     <div class="post_at_index">
-      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-  
-<span class="c1"># list of strings
-</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'For'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'is'</span><span class="p">,</span> 
-            <span class="s">'portal'</span><span class="p">,</span> <span class="s">'for'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">]</span>
-  
-<span class="c1"># Calling DataFrame constructor on list
-</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+      <p>About my blog use hexo plugin</p>
+
+<h2 id="hexo-hide-posts">hexo-hide-posts</h2>
+
+<p><a href="https://github.com/prinsss/hexo-hide-posts">hexo-hide-posts</a> is A plugin to hide specific posts from your Hexo blog and make them only accessible by links</p>
+
+<h3 id="installation">Installation</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>hexo-hide-posts <span class="nt">--save</span>
 </code></pre></div></div>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326317905-b923391a-6135-482f-8b43-9a67e1f6245f.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+<p>Usage</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># import pandas as pd
-</span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<p>Add <code class="language-plaintext highlighter-rouge">hidden: true</code> to the <a href="https://hexo.io/docs/front-matter">front-matter</a> of posts which you want to hide.</p>
 
-<span class="c1"># list of strings
-</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'For'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'is'</span><span class="p">,</span> <span class="s">'portal'</span><span class="p">,</span> <span class="s">'for'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">]</span>
+<p>e.g. Edit <code class="language-plaintext highlighter-rouge">source/_posts/lorem-ipsum.md</code>:</p>
 
-<span class="c1"># Calling DataFrame constructor on list
-# with indices and columns specified
-</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span><span class="p">[</span><span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">,</span> <span class="s">'d'</span><span class="p">,</span> <span class="s">'e'</span><span class="p">,</span> <span class="s">'f'</span><span class="p">,</span> <span class="s">'g'</span><span class="p">],</span>
-           <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'Names'</span><span class="p">])</span>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
+layout: post
+title: 'Lorem Ipsum'
+date: '2019/8/10 11:45:14'
+hidden: true
+---
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 </code></pre></div></div>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326330330-97380b9c-a674-479c-a4f4-074ef3128aa3.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+<p>This post will not be shown anywhere, but you can still access it by <code class="language-plaintext highlighter-rouge">https://hexo.test/lorem-ipsum/</code>. (If you want to completely prevent a post from rendering, just set it as a <a href="https://hexo.io/docs/writing.html#Drafts">draft</a>.)</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Creating DataFrame using multi-dimensional list
-</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
- 
-<span class="c1"># List1
-</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'tom'</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> <span class="p">[</span><span class="s">'krish'</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
- <span class="p">[</span><span class="s">'nick'</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span> <span class="p">[</span><span class="s">'juli'</span><span class="p">,</span> <span class="mi">22</span><span class="p">]]</span>
- 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'Name'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">])</span>
+<p>To get a list of hidden posts, you can run <code class="language-plaintext highlighter-rouge">hexo hidden:list</code> from command line.</p>
+
+<p>For developers, <code class="language-plaintext highlighter-rouge">all_posts</code> and <code class="language-plaintext highlighter-rouge">hidden_posts</code> added to <a href="https://hexo.io/api/locals">Local Variables</a> may be useful.</p>
+
+<h3 id="config">Config</h3>
+
+<p>In your site’s <code class="language-plaintext highlighter-rouge">_config.yml</code>:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># hexo-hide-posts</span>
+<span class="na">hide_posts</span><span class="pi">:</span>
+  <span class="na">enable</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="c1"># Change the filter name to fit your need</span>
+  <span class="na">filter</span><span class="pi">:</span> <span class="s">hidden</span>
+  <span class="c1"># Generators which you want to expose all posts (include hidden ones) to.</span>
+  <span class="c1"># Common generators: index, tag, category, archive, sitemap, feed, etc.</span>
+  <span class="na">public_generators</span><span class="pi">:</span> <span class="pi">[]</span>
+  <span class="c1"># Add "noindex" meta tag to prevent hidden posts from being indexed by search engines</span>
+  <span class="na">noindex</span><span class="pi">:</span> <span class="no">true</span>
 </code></pre></div></div>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326375589-cd58c20f-3dde-4eeb-a097-19dd3bf3376a.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+<h2 id="hexo-generator-restful">hexo-generator-restful</h2>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Using multi-dimensional list with column name and dtype specified.
-</span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
- 
-<span class="c1"># List1
-</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'tom'</span><span class="p">,</span> <span class="s">'reacher'</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> <span class="p">[</span><span class="s">'krish'</span><span class="p">,</span> <span class="s">'pete'</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
- <span class="p">[</span><span class="s">'nick'</span><span class="p">,</span> <span class="s">'wilson'</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span> <span class="p">[</span><span class="s">'juli'</span><span class="p">,</span> <span class="s">'williams'</span><span class="p">,</span> <span class="mi">22</span><span class="p">]]</span>
- 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'FName'</span><span class="p">,</span> <span class="s">'LName'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">],</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+<p><a href="https://github.com/yscoder/hexo-generator-restful">hexo-generator-restful</a> is generate restful json data for Hexo plugins.</p>
+
+<h3 id="install">Install</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>hexo-generator-restful <span class="nt">--save</span>
 </code></pre></div></div>
+
+<h3 id="config-plugin">Config Plugin</h3>
+
+<p>以下为默认配置，属性值为 <code class="language-plaintext highlighter-rouge">false</code> 表示不生成。</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">restful</span><span class="pi">:</span>
+  <span class="c1"># site 可配置为数组选择性生成某些属性</span>
+  <span class="c1"># site: ['title', 'subtitle', 'description', 'author', 'since', email', 'favicon', 'avatar']</span>
+  <span class="na">site</span><span class="pi">:</span> <span class="no">true</span>        <span class="c1"># hexo.config mix theme.config</span>
+  <span class="na">posts_size</span><span class="pi">:</span> <span class="m">10</span>    <span class="c1"># 文章列表分页，0 表示不分页</span>
+  <span class="na">posts_props</span><span class="pi">:</span>      <span class="c1"># 文章列表项的需要生成的属性</span>
+    <span class="na">title</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">slug</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">date</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">updated</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">comments</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">path</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">excerpt</span><span class="pi">:</span> <span class="no">false</span>
+    <span class="na">cover</span><span class="pi">:</span> <span class="no">true</span>      <span class="c1"># 封面图，取文章第一张图片</span>
+    <span class="na">content</span><span class="pi">:</span> <span class="no">false</span>
+    <span class="na">keywords</span><span class="pi">:</span> <span class="no">false</span>
+    <span class="na">categories</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">tags</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="na">categories</span><span class="pi">:</span> <span class="no">true</span>         <span class="c1"># 分类数据</span>
+  <span class="na">use_category_slug</span><span class="pi">:</span> <span class="no">false</span> <span class="c1"># Use slug for filename of category data</span>
+  <span class="na">tags</span><span class="pi">:</span> <span class="no">true</span>               <span class="c1"># 标签数据</span>
+  <span class="na">use_tag_slug</span><span class="pi">:</span> <span class="no">false</span>      <span class="c1"># Use slug for filename of tag data</span>
+  <span class="na">post</span><span class="pi">:</span> <span class="no">true</span>               <span class="c1"># 文章数据</span>
+  <span class="na">pages</span><span class="pi">:</span> <span class="no">false</span>             <span class="c1"># 额外的 Hexo 页面数据，如 About</span>
+</code></pre></div></div>
+
+<h3 id="get-hexo-config">Get Hexo Config</h3>
+
+<p>获取所有 Hexo 配置（站点配置和主题配置）。</p>
+
+<blockquote>
+  <p>Request</p>
+</blockquote>
+
+<pre><code class="language-request">GET /api/site.json
+</code></pre>
+
+<blockquote>
+  <p>Response</p>
+</blockquote>
+
+<p><a href="https://samzong.me/api/site.json">/api/site.json</a></p>
+
+<h3 id="get-posts">Get Posts</h3>
+
+<p>如果配置 <code class="language-plaintext highlighter-rouge">posts_size: 0</code> 则不分页，以下请求会获取全部文章。</p>
+
+<blockquote>
+  <p>Request</p>
+</blockquote>
+
+<pre><code class="language-request">GET /api/posts.json
+</code></pre>
+
+<blockquote>
+  <p>Response</p>
+</blockquote>
+
+<p>示例为分页配置下的数据，会包含分页属性 <code class="language-plaintext highlighter-rouge">total</code>、<code class="language-plaintext highlighter-rouge">pageSize</code>、<code class="language-plaintext highlighter-rouge">pageCount</code>，不分页的数据不包含这三项。</p>
+
+<p><a href="https://samzong.me/api/posts.json">/api/posts.json</a></p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-11-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Pandas">Pandas</a>
-      , 
-      <a href="/tags.html#Python">Python</a>
+      <cite>2022-03-27</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Hexo">Hexo</a>
       
       
       
@@ -343,87 +419,19 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/11/Metabase-%E8%B8%A9%E5%9D%91-%E8%B7%B3%E8%BD%AC%E9%93%BE%E6%8E%A5%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98.html">Metabase 踩坑：跳转链接的浏览器缓存</a></h1>
-    <div class="post_at_index">
-      <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635955971186-4f85ab8d-9d1e-46ab-bd20-ee914c91fade.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<h3 id="背景说明">背景说明</h3>
-
-<p>最近在使用 Metabase 做一个内部工具的跳转传送门，大概实现的方式是这样：
-<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635956694248-79aec951-9e6d-4360-b4e9-37bd2cefd740.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<ul>
-  <li>通过 Metabase 带有的字段支持链接跳转的功能，拼接上查询结果的部分</li>
-  <li>后端服务完成对用户行为的校验，并且完成身份预认证，生成验证 token</li>
-  <li>然后带着预认证的信息跳转到对应的系统内</li>
-</ul>
-
-<h3 id="问题分析">问题分析</h3>
-
-<p>起初用的时候发现还好，不过陆续有同学反馈有些行数的结果不能够进入后台去，而让其他人使用又是没问题；</p>
-
-<p>简单分析了下服务端日志，发现不能正常登录情况是请求根本没有到后端服务器，浏览器直接进行了跳转，而之前签发的 token 是有时效的，超过时间就过期了，所以导致跳转后校验不通过</p>
-
-<p><a href="https://juejin.cn/post/6844904130482274318"><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635957317795-60317ecd-b550-42d6-ab25-3f0b7d9247d9.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></a></p>
-
-<blockquote>
-  <p>有兴趣的同学，可以点击上方的图片链接，去详细介绍的原文看看</p>
-</blockquote>
-
-<h3 id="解决思路">解决思路
-
-</h3>
-
-<p>靠着对前端和浏览器一知半解+Google 出来的结果，<strong>只要欺骗浏览器每次请求的路径不一样，就可以解决这个问题。</strong></p>
-
-<p>所以解铃还须系铃人，当然还是靠着 Metabase 来解决这个问题</p>
-
-<p>:::success
-在 SQL 查询结果中增加一个每次都是不一样的结果字段 <strong>取 unixtimestamp 时间</strong>，然后将结果拼接到 url 中
-:::</p>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span>
- <span class="n">UNIX_TIMESTAMP</span><span class="p">(</span><span class="n">now</span><span class="p">())</span> <span class="k">AS</span> <span class="nv">`ts`</span> <span class="o">//</span><span class="err">每次取值当前时间</span>
-<span class="k">FROM</span>
- <span class="k">table_name</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>解决之后对比</p>
-</blockquote>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635957781278-bd41df03-24be-4640-b77f-54ba77774bea.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<p>🎆🎆🎆  完毕，问题得以解决</p>
-
-<h3 id="其他">其他</h3>
-
-<p>注意在后端服务上去除对时间参数的过滤，因为我是只处理了我想要的字段，所以这样的调整 服务端代码都不用改</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-11-03</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#BI">BI</a>
-      , 
-      <a href="/tags.html#Metabase">Metabase</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/10/Python-Version-Manage-pyenv.html">Python Version Manage `pyenv`</a></h1>
+    <h1><a class="title" href="/post/2022/03/Python-%E5%A4%9A%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7.html">Pyenv Python 多版本管理利器</a></h1>
     <div class="post_at_index">
       <blockquote>
   <p>to_url : <a href="http://pyenv.run/">http://pyenv.run/</a>
 github offical site <a href="https://github.com/pyenv/pyenv">https://github.com/pyenv/pyenv</a></p>
 </blockquote>
 
-<p>在 MacOS 的使用方式：brew install pyenv</p>
+<p>在 MacOS 的使用方式：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>pyenv
+</code></pre></div></div>
+
+<hr />
 
 <p>使用 pyenv 还是挺方便的，但是在 Linux 云服务器上配置网络的话就比较麻烦了，比如我在用的阿里云 ECS，中间有些曲折，所以编写下文档记录下来，以防后续使用遇到问题</p>
 
@@ -465,6 +473,8 @@ wget https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer <sp
 <span class="nb">echo</span> <span class="s1">'eval "$(pyenv virtualenv-init -)"'</span>  <span class="o">&gt;&gt;</span> ~/.bashrc
 </code></pre></div></div>
 
+<hr />
+
 <h2 id="使用-pyenv-安装特定版本的-python">使用 <code class="language-plaintext highlighter-rouge">pyenv</code> 安装特定版本的 python</h2>
 
 <p>在网络好的情况下，可以直接通过 <code class="language-plaintext highlighter-rouge">pyenv install 3.9.6</code> 安装对应的版本了，但是因为网络的问题，你会发现一直在下载 Python 包这一步，问题就是 www.python.org/ftp 网络的访问问题</p>
@@ -487,7 +497,7 @@ wget https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer <sp
     </div>
     <br/>
     <div>
-      <cite>2021-10-19</cite> <i class="icon-tag"></i>
+      <cite>2022-03-27</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Python">Python</a>
       
       
@@ -497,167 +507,261 @@ wget https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer <sp
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/10/MacOS-10.15-%E5%BC%80%E5%90%AF-HiDPI.html">MacOS 10.15 开启 HiDPI</a></h1>
+    <h1><a class="title" href="/post/2022/03/Poetry-%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0.html">Poetry 使用笔记</a></h1>
     <div class="post_at_index">
-      <p>以前手抖买了台 HKC 32 寸 2K 显示器，接上 MacBook 发现原生的分辨率设置在 2K 显示器上字体很小，换成 1080P 分辨率显示效果又特别模糊。上网查了一下发现可以为 MacBook 强行开启 HiDPI.</p>
-
-<p>下文的教程结合了 Github 上用户 ZeRo° Xu 在 一键开启 HiDPI 脚本 里的 Github Issue 和一篇博文《为 Mac 连接的 2k 显示器开启 HiDPI》.</p>
-
-<h2 id="什么是-hidpi">什么是 HiDPI</h2>
+      <p>poetry 是目前比较流行的 Python 环境管理工具 和 包管理工具，对多项目开发时的环境隔离有非常大的帮助，同时集成了包管理能力。</p>
 
 <blockquote>
-  <p>引用自 Github 用户 ZeRo° Xu :</p>
+  <p>官方网站  <a href="https://python-poetry.org/">https://python-poetry.org/</a>   集成了所有 Poetry 最新的使用文档，以下仅在我的环境上经过验证</p>
 </blockquote>
 
-<p>它使用横纵 2 个物理像素也就是 4 个物理像素来显示 1 个像素区域，结果就是图像的–细节得到翻倍，更清晰，边缘更平滑–. 拿 13 寸的 MacBook Pro 举例，它的屏幕物理分辨率是 2560 x 1600, 所以原生的 HiDPI 分辨率就是 1280x800. 更高的一档 1440x900 HiDPI 缩放分辨率，则是虚拟出一个 2880x1800 的分辨率，再进行软缩放输入。所以你能发现苹果的电脑总是有很高的分辨率。好了，既然你的屏幕是 1080p, 本身就没有那么多像素去合成 HiDPI, 如果以原生的显示计算，你这屏幕的 1080p 分辨率应该是 960x540, 这么低的分辨率你是没法用的。这个脚本的功能就是虚拟出比你的屏幕物理分辨率更高的假分辨率……如果你要开启 1080p 的 HiDPI 分辨率，就虚拟一个 3840 x 2160 的假分辨率，然后 macOS 会使用 4 个像素来显示 1 个像素区域，也就是和你物理分辨率一样的 1080p 分辨率。</p>
+<h2 id="安装方式">安装方式</h2>
 
-<h2 id="自动配置-hidpi">自动配置 HiDPI</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In Pip
+</span><span class="o">-</span> <span class="n">安装</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">poetry</span> <span class="c1"># pip3
+</span><span class="o">-</span> <span class="n">更新</span> <span class="n">poetry</span> <span class="bp">self</span> <span class="n">update</span>
+
+<span class="c1"># In my Mac
+</span><span class="o">-</span> <span class="n">安装</span> <span class="n">brew</span> <span class="n">install</span> <span class="n">poetry</span>
+<span class="o">-</span> <span class="n">更新</span> <span class="n">brew</span> <span class="n">upgrade</span> <span class="n">poetry</span>
+
+<span class="c1"># In my CentOS
+</span><span class="o">-</span> <span class="n">安装</span> <span class="n">curl</span> <span class="o">-</span><span class="n">sSL</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="p">.</span><span class="n">githubusercontent</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">python</span><span class="o">-</span><span class="n">poetry</span><span class="o">/</span><span class="n">poetry</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">get</span><span class="o">-</span><span class="n">poetry</span><span class="p">.</span><span class="n">py</span> <span class="o">|</span> <span class="n">python</span> <span class="o">-</span>
+<span class="o">-</span> <span class="n">更新</span> <span class="n">poetry</span> <span class="bp">self</span> <span class="n">update</span>
+</code></pre></div></div>
+
+<h2 id="配置技巧相关">配置技巧相关</h2>
+
+<p>在开始使用前，建议先对 poetry 的配置有些了解，并调整为适合你的方式，主要是调整一下虚拟环境的安装位置</p>
 
 <blockquote>
-  <p>上文 链接 里提到一键配置脚本，你不妨先按照脚本的步骤开启 HiDPI 试试。</p>
+  <p><code class="language-plaintext highlighter-rouge">poetry config</code> poetry 相关的查看和编辑的命令</p>
 </blockquote>
 
-<p>但是脚本并没有适配所有显示器的情况 (至少我的 Dell P2416D 使用后无效) , 所以就有了下面的步骤。</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">~</span> <span class="n">poetry</span> <span class="n">config</span> <span class="o">--</span><span class="nb">list</span>  <span class="c1"># 获取当前 poetry 的配置情况
+</span>
+<span class="n">cache</span><span class="o">-</span><span class="nb">dir</span> <span class="o">=</span> <span class="s">"/Users/$username/Library/Caches/pypoetry"</span>
+<span class="n">experimental</span><span class="p">.</span><span class="n">new</span><span class="o">-</span><span class="n">installer</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">installer</span><span class="p">.</span><span class="n">parallel</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">virtualenvs</span><span class="p">.</span><span class="n">create</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">virtualenvs</span><span class="p">.</span><span class="ow">in</span><span class="o">-</span><span class="n">project</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">virtualenvs</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="s">"{cache-dir}/virtualenvs"</span>  <span class="c1"># /Users/$username/Library/Caches/pypoetry/virtualenvs
+</span>
+</code></pre></div></div>
 
-<h2 id="手动配置-hidpi">手动配置 HiDPI</h2>
+<table>
+  <thead>
+    <tr>
+      <th><strong>配置项目</strong></th>
+      <th><strong>配置内容</strong></th>
+      <th><strong>配置项说明</strong></th>
+      <th><strong>建议配置</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cache-dir</td>
+      <td>String</td>
+      <td>缓存目录配置，使用 poetry 安装的包源文件都会缓存到这个目录。</td>
+      <td>不建议更改</td>
+    </tr>
+    <tr>
+      <td>installer.parallel</td>
+      <td>boolean</td>
+      <td>此配置会被忽略</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>virtualenvs.create</td>
+      <td>boolean</td>
+      <td>默认为 true，如果当前工程的虚拟环境不存在，就创建一个</td>
+      <td>不建议更改</td>
+    </tr>
+    <tr>
+      <td>virtualenvs.in-project</td>
+      <td>boolean</td>
+      <td>None：poetry 会在系统特定目录创建一个.venv 目录，由下面的 path 参数指定<br />true：poetry 会在项目根目录创建一个.venv 目录<br />false：poetry 将会忽略已存在的.venv 目录</td>
+      <td><strong>《建议修改》</strong><br /><br />推荐这种方式，在项目根目录创建虚拟环境，这样就算移动目录位置也不影响虚拟环境的使用</td>
+    </tr>
+    <tr>
+      <td>virtualenvs.path</td>
+      <td>string</td>
+      <td>默认是{cache-dir}/virtualenvs，虚拟环境创建的目录，如果上面的 in-project 为 true，此配置就无效</td>
+      <td>不建议更改</td>
+    </tr>
+  </tbody>
+</table>
 
 <blockquote>
-  <p>本教程测试环境：</p>
+  <p>建议 在使用前 启用 virtualenvs.in-project，这样会在每个项目下有一个.venv 方便隔离管理</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># poetry 配置说明
+</span><span class="n">poetry</span> <span class="n">config</span> <span class="n">virtualenvs</span><span class="p">.</span><span class="ow">in</span><span class="o">-</span><span class="n">project</span> <span class="n">true</span>
+</code></pre></div></div>
+
+<h2 id="poetry-常用指令说明">poetry 常用指令说明</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>Poetry Command</strong></th>
+      <th><strong>解释</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$ poetry –version</td>
+      <td>显示您的 Poetry 安装版本。</td>
+    </tr>
+    <tr>
+      <td>$ poetry new</td>
+      <td>创建一个新的 Poetry 项目。</td>
+    </tr>
+    <tr>
+      <td>$ poetry init</td>
+      <td>将 Poetry 添加到现有项目中。</td>
+    </tr>
+    <tr>
+      <td>$ poetry run</td>
+      <td>使用 Poetry 执行给定的命令。</td>
+    </tr>
+    <tr>
+      <td>$ poetry add</td>
+      <td>添加一个包 pyproject.toml 并安装它。</td>
+    </tr>
+    <tr>
+      <td>$ poetry update</td>
+      <td>更新项目的依赖项。</td>
+    </tr>
+    <tr>
+      <td>$ poetry install</td>
+      <td>安装依赖项。</td>
+    </tr>
+    <tr>
+      <td>$ poetry show</td>
+      <td>列出已安装的软件包。</td>
+    </tr>
+    <tr>
+      <td>$ poetry lock</td>
+      <td>将最新版本的依赖项固定到 poetry.lock.</td>
+    </tr>
+    <tr>
+      <td>$ poetry lock –no-update</td>
+      <td>刷新 poetry.lock 文件而不更新任何依赖版本。</td>
+    </tr>
+    <tr>
+      <td>$ poetry check</td>
+      <td>验证 pyproject.toml。</td>
+    </tr>
+    <tr>
+      <td>$ poetry config –list</td>
+      <td>显示 Poetry 配置。</td>
+    </tr>
+    <tr>
+      <td>$ poetry env list</td>
+      <td>列出项目的虚拟环境。</td>
+    </tr>
+    <tr>
+      <td>$ poetry export</td>
+      <td>导出 poetry.lock 为其他格式。</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="新项目初始化流程">新项目初始化流程</h2>
+
+<blockquote>
+  <p>这里以 初始化一个  FastAPI 项目作为 实例</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  fastapi poetry new fastapi-demo
+Created package fastapi_demo <span class="k">in </span>fastapi-demo
+➜  fastapi <span class="nb">ls</span> <span class="nt">-lh</span> fastapi-demo
+total 8
+<span class="nt">-rw-r--r--</span>  1 samzonglu  staff     0B  2 15 14:28 README.rst
+drwxr-xr-x  3 samzonglu  staff    96B  2 15 14:28 fastapi_demo
+<span class="nt">-rw-r--r--</span>  1 samzonglu  staff   304B  2 15 14:28 pyproject.toml
+drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
+
+➜  fastapi <span class="nb">cd </span>fastapi-demo
+➜  fastapi-demo poetry <span class="nb">env </span>use 3.10.2  <span class="c"># 配置项目的虚拟环境</span>
+
+</code></pre></div></div>
+
+<h2 id="requirementstxt-已存在项目使用-poetry">requirements.txt 已存在项目使用 poetry</h2>
+
+<p>这里会遇到一个问题，已存在的项目基本都已经有了 requirements.txt，所以 poetry 最好可以直接读取它</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry add <span class="sb">`</span><span class="nb">cat </span>requirements.txt<span class="sb">`</span>
+</code></pre></div></div>
+
+<p>将项目依赖导出为  requirements.txt</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry <span class="nb">export</span> <span class="nt">--output</span> requirements.txt
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-03-27</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      , 
+      <a href="/tags.html#Poetry">Poetry</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/03/%E6%96%B0%E7%9A%84%E7%9B%AE%E6%A0%87.html">2022 新的目标</a></h1>
+    <div class="post_at_index">
+      <p>年轻的人儿啊！要记得星空多美丽 ~</p>
+
+<blockquote>
+  <p>岁月如歌，大肠包小肠</p>
+</blockquote>
+
+<hr />
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/4817FA7F-3FF7-43C0-A6DE-96F1568C4259_1_105_c.jpeg" alt="image" /></p>
+
+<h2 id="终局">终局</h2>
+
+<p>新年结束，已经走完了 3 个月了，瞎忙碌碌无为，内心的焦灼，不断在每个独处时拷问心神，久久回响不息</p>
+
+<p>迷惘和挫败的情绪，积累了好久。</p>
+
+<p>最近重读了 柏拉图的理想国，耐着性子，花了接近一个月的时间才断断续续的看完。</p>
+
+<p>终于有个好消息，终于想清楚了，今年的目标。</p>
+
+<h2 id="新开始">新开始</h2>
+
+<blockquote>
+  <p>要做的是两件事</p>
 </blockquote>
 
 <ul>
-  <li>笔记本：MacBook Pro (Retina, 15-inch, Mid 2018)</li>
-  <li>显示器：HKC 32 寸 2K</li>
-  <li>操作系统：MacOS Catalina (Version 10.15.3)</li>
+  <li>回归产品的初心，不负自己</li>
+  <li>确认真正想做的事情；既然想好了，就有大量的准备工作要开展，先留在心里</li>
 </ul>
 
-<h2 id="0-安装-rdm">0. 安装 RDM</h2>
+<h2 id="人生不如戏">人生不如戏</h2>
 
-<p>相信很多人已经装过这个工具了，它是用来修改显示分辨率的，如果没装，请在 RDM 下载页面 安装它。</p>
+<p>回想了下，找不到方向时，的确需要花很长的时间来走弯路。</p>
 
-<h2 id="1-关闭-macos-的-sip">1. 关闭 macOS 的 SIP</h2>
-
-<p>SIP 全称为「System Integrity Protection」即「系统完整性保护」, 是苹果公司为防止你胡乱篡改系统文件用的保护机制，请先按照下面步骤把它关闭，以便后续操作：</p>
-
-<ol>
-  <li>关机（最好先手机拍个照把这 4 步记录下来）</li>
-  <li>按<code class="language-plaintext highlighter-rouge">command（⌘）+ R+电源键</code>开机，自动进入恢复模式</li>
-  <li>选择上边菜单栏的<code class="language-plaintext highlighter-rouge">实用工具</code>中的<code class="language-plaintext highlighter-rouge">终端</code></li>
-  <li>输入命令<code class="language-plaintext highlighter-rouge">csrutil disable</code></li>
-</ol>
-
-<p>最后终端显示「Successfully……」等一大堆文字就说明你成功了。你可以输入 reboot 重启。等下文的全部设置都完成后，你如果想恢复 SIP, 就重复步骤 1 到 3, 在第 4 步输入 csrutil enable 就好了。</p>
-
-<h2 id="2-开启-macos-的-hidpi-选项">2. 开启 macOS 的 HiDPI 选项</h2>
-
-<p>再次重启后进入系统，打开终端输入</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>defaults write /Library/Preferences/com.apple.windowserver.plist DisplayResolutionEnabled <span class="nt">-bool</span> <span class="nb">true</span>
-</code></pre></div></div>
-
-<h2 id="3-查询你的外接显示器的编号">3. 查询你的外接显示器的编号</h2>
-
-<blockquote>
-  <p>这一步相当重要，先介绍两个命令</p>
-</blockquote>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ioreg <span class="nt">-l</span> | <span class="nb">grep</span> <span class="s2">"DisplayVendorID"</span>
-ioreg <span class="nt">-l</span> | <span class="nb">grep</span> <span class="s2">"DisplayProductID"</span>
-</code></pre></div></div>
-
-<p>这两条命令用来查询你的显示器供应商 ID DisplayVendorID 和产品 ID DisplayProductID. 接下来你要找到你的显示器对应的 DisplayVendorID 和 DisplayProductID:</p>
-
-<ol>
-  <li>
-    <p>拔掉显示器的 HDMI 或者 DP 线</p>
-  </li>
-  <li>
-    <p>分别输入上面两个命令之后<code class="language-plaintext highlighter-rouge">return(↩)</code>，每个命令会返回一个带有数字的结果。那个数字就是 MacBook 默认的<code class="language-plaintext highlighter-rouge">DisplayVendorID</code>和<code class="language-plaintext highlighter-rouge">DisplayProductID</code>了</p>
-  </li>
-  <li>
-    <p>接入显示器</p>
-  </li>
-  <li>
-    <p>再分别输入那两个命令，每个命令会分别返回两条带有数字的结果。对比刚才 MacBook 默认的结果，另一个数字就是你显示器的<code class="language-plaintext highlighter-rouge">DisplayVendorID</code>和<code class="language-plaintext highlighter-rouge">DisplayProductID</code>了</p>
-  </li>
-  <li>
-    <p>把这两个数字分别转成对应的 16 进制数，用这个 <a href="https://tool.oschina.net/hexconvert">进制转换工具</a>。</p>
-  </li>
-</ol>
-
-<p>现在，回到桌面，新建一个文件夹命名为 DisplayVendorID-[你刚才查到的 DisplayVendorID 的 16 进制数], 例如 DisplayVendorID-10ac.</p>
-
-<p>之后在这个刚建好的文件夹下增加一个文件，命名为 DisplayProductID-[你刚才查到的 DisplayProductID 的 16 进制数], 例如 DisplayProductID-a0c3.</p>
-
-<h3 id="4-为你的显示器生成-plist-文件">4. 为你的显示器生成 plist 文件</h3>
-
-<p>到 这个网站 , 在左侧的空里分别输入显示器型号，DisplayProductID 和 DisplayVendorID, 注意填 16 进制的数字，并且检查下后边 10 进制的数字是不是和你刚才命令查到的一致。如果需要添加自己额外的分辨率，直接在下边新建一条分辨率配置就行。最后，复制右边生成 XML 格式文本，粘贴到刚才新建的文件里。 (也可以直接从网站下载文件，去掉文件名后缀 .plist )</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1606281680751-9a99cf5c-3e0d-4028-af33-ebac7e889ff8.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></p>
-
-<p>XML 文本类似下边这样：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span> <span class="nv">encoding</span><span class="o">=</span><span class="s2">"UTF-8"</span>?&gt;
-&lt;<span class="o">!</span>DOCTYPE plist PUBLIC <span class="s2">"-//Apple//DTD PLIST 1.0//EN"</span> <span class="s2">"http://www.apple.com/DTDs/PropertyList-1.0.dtd"</span><span class="o">&gt;</span>
-&lt;plist <span class="nv">version</span><span class="o">=</span><span class="s2">"1.0"</span><span class="o">&gt;</span>
-&lt;dict&gt;
-    &lt;key&gt;DisplayProductID&lt;/key&gt;
-    &lt;integer&gt;41155&lt;/integer&gt;
-    &lt;key&gt;DisplayVendorID&lt;/key&gt;
-    &lt;integer&gt;4268&lt;/integer&gt;
-    &lt;key&gt;scale-resolutions&lt;/key&gt;
-    &lt;array&gt;
-        &lt;data&gt;AAAKAAAABaAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-        &lt;data&gt;AAAFAAAAAtAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-        &lt;data&gt;AAAPAAAACHAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-        &lt;data&gt;AAAHgAAABDgAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-        &lt;data&gt;AAAMgAAABwgAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-        &lt;data&gt;AAAGQAAAA4QAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-        &lt;data&gt;AAAKAgAABaAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-        &lt;data&gt;AAAKrAAABgAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-        &lt;data&gt;AAAFVgAAAwAAAAABACAAAA<span class="o">==</span>&lt;/data&gt;
-    &lt;/array&gt;
-&lt;/dict&gt;
-&lt;/plist&gt;
-</code></pre></div></div>
-
-<h3 id="4-复制-plist-配置文件到系统配置目录">4. 复制 plist 配置文件到系统配置目录</h3>
-
-<p>这一步就是把刚才新建的配置文件复制到你系统目录里，你直接复制通常会提示你系统目录是「只读」的，不允许你胡作非为。所以你先要在终端执行下面的命令：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>mount <span class="nt">-uw</span> /
-</code></pre></div></div>
-
-<p>这样，你就可以复制到系统的文件夹了。 (这个命令重启后失效)</p>
-
-<p>接下来打开系统文件夹/System/Library/Displays/Contents/Resources/Overrides/, 你会发现一大堆跟你刚才文件夹命名相似的目录。把你新建的文件夹丢进去，和它们混在一起，假装它原来就是其中一员。重启。</p>
-
-<h3 id="5-修改分辨率">5. 修改分辨率</h3>
-
-<p>重启之后又进入系统，首先打开 RDM, 你会在菜单栏看见它：</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1606281680731-6c912092-1a63-4298-bfbe-54e98f27b67a.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="img" /></p>
-
-<p>Main Display 和 Display 2 就分别是你的外接显示器和 MacBook 的显示器分辨率设置 (位置有可能对调，自己尝试一下) . 带有 ⚡️ 符号的分辨率设置项就是开启 HiDPI 后新增出来的。如果你像我一样是 24 寸 2K 显示器，可以给显示器选择 1920x1080⚡️那个配置。</p>
-
-<blockquote>
-  <p>是不是比原生分辨率的 UI 和字体更大更清晰了？</p>
-</blockquote>
-
-<h2 id="小结">小结</h2>
-
-<p>本文教你强行开启 MacBook 的 HiDPI 设置，并针对 2K 显示器新增了配置文件到系统配置目录里，最后用  RDM 自由设置适合你显示器的分辨率。附带问题</p>
-
-<blockquote>
-  <p>用本文的方式开启 HiDPI, 合上 Mac 屏幕，外接显示器黑屏。将外接显示器分辨率切换到屏幕原始分辨率后可以正常地仅使用外接显示器，原因未知。因对我的工作方式没有影响，没有继续研究下去。</p>
-</blockquote>
+<p>可是，不能放弃啊！</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-10-12</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
+      <cite>2022-03-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#随笔">随笔</a>
       
       
       
@@ -666,112 +770,105 @@ ioreg <span class="nt">-l</span> | <span class="nb">grep</span> <span class="s2"
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/09/node-nvm.html">node nvm</a></h1>
+    <h1><a class="title" href="/post/2022/02/FastAPI-%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3.html">FastAPI 使用文档</a></h1>
     <div class="post_at_index">
-      <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="err">安装</span><span class="n">nvm</span>
-<span class="n">wget</span> <span class="o">-</span><span class="n">qO</span><span class="o">-</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="p">.</span><span class="n">githubusercontent</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">nvm</span><span class="o">-</span><span class="n">sh</span><span class="o">/</span><span class="n">nvm</span><span class="o">/</span><span class="n">v0</span><span class="p">.</span><span class="mi">35</span><span class="p">.</span><span class="mi">1</span><span class="o">/</span><span class="n">install</span><span class="p">.</span><span class="n">sh</span> <span class="o">|</span> <span class="n">bash</span>
+      <h2 id="安装基础环境">安装基础环境
 
-<span class="o">#</span> <span class="err">修改</span><span class="n">npm</span> <span class="n">registry</span>
-<span class="n">npm</span> <span class="n">config</span> <span class="k">set</span> <span class="n">registry</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">registry</span><span class="p">.</span><span class="n">npm</span><span class="p">.</span><span class="n">taobao</span><span class="p">.</span><span class="n">org</span>
+</h2>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">poetry</span> <span class="k">add</span> <span class="n">fastapi</span>
 </code></pre></div></div>
 
-<p>:::info
-nvm 在中国国内使用
+<h2 id="首个程序文件">首个程序文件</h2>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-02-24</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/02/%E4%B8%80%E4%B8%AAPython%E9%A1%B9%E7%9B%AE%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1.html">一个 Python 项目的目录结构设计</a></h1>
+    <div class="post_at_index">
+      <h2 id="参考的目录结构设计">参考的目录结构设计</h2>
+
+<blockquote>
+  <p>thanks <a href="https://www.justdopython.com/2020/01/18/python-web-flask-project-125/">https://www.justdopython.com/2020/01/18/python-web-flask-project-125/</a></p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">project</span><span class="o">/</span>
+  <span class="n">forms</span><span class="o">/</span>
+    <span class="n">myform</span><span class="p">.</span><span class="n">py</span>
+    <span class="p">...</span>
+  <span class="n">models</span><span class="o">/</span>
+    <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+    <span class="n">profile</span><span class="p">.</span><span class="n">py</span>
+    <span class="n">user</span><span class="p">.</span><span class="n">py</span>
+    <span class="p">...</span>
+  <span class="n">routes</span><span class="o">/</span>
+    <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+    <span class="n">home</span><span class="p">.</span><span class="n">py</span>
+    <span class="n">profile</span><span class="p">.</span><span class="n">py</span>
+    <span class="p">...</span>
+  <span class="n">static</span><span class="o">/</span>
+    <span class="p">...</span>
+  <span class="n">services</span><span class="o">/</span>
+    <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+    <span class="p">...</span>
+  <span class="n">templates</span><span class="o">/</span>
+    <span class="n">createprofile</span><span class="p">.</span><span class="n">html</span>
+    <span class="n">profile</span><span class="p">.</span><span class="n">html</span>
+    <span class="p">...</span>
+  <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+  <span class="n">config</span><span class="p">.</span><span class="n">py</span>
+  <span class="o">*</span><span class="n">utils</span><span class="o">/*</span>
+    <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+    <span class="n">jwt_decode</span><span class="p">.</span><span class="n">py</span>
+    <span class="p">...</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>forms（表单）：存放表单对象</li>
+  <li>models（模型）：存放数据模型，即库表在程序中的映射对象，以及对象之间的关系
+    <ul>
+      <li>不同的表，分开存储</li>
+    </ul>
+  </li>
+  <li>routes（路由）：存放请求路由以及处理逻辑</li>
+  <li>static（静态文件）：Flask 约定存放静态文件的目录</li>
+  <li>templates（模板）：Flask 约定存放页面模板的目录</li>
+  <li>services（服务）：存放业务逻辑或者其他服务类功能</li>
+  <li><strong>init</strong>.py：Flask app 初始化方法
+    <ul>
+      <li>在每个目录下都增加对应的 <strong>init</strong>.py 将目录变成 package 方便调用</li>
+      <li>并在 <strong>init</strong>.py 完成一些程序的初始化</li>
+    </ul>
+  </li>
+  <li>config.py：项目配置文件
+    <ul>
+      <li>区分配置类型</li>
+    </ul>
+  </li>
+  <li><strong>增加 utils/</strong>将工具类的放在 utils 内实现，方便使用</li>
+</ul>
+
+<p>:::danger
+需要后续考虑的问题，一个项目较为复杂时，如果分解多应用的问题，留在后面考虑
 :::</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 安装</span>
-bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://gitee.com/RubyKids/nvm-cn/raw/master/install.sh<span class="si">)</span><span class="s2">"</span>
-
-<span class="c"># 卸载</span>
-bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://gitee.com/RubyKids/nvm-cn/raw/master/uninstall.sh<span class="si">)</span><span class="s2">"</span>
-</code></pre></div></div>
-
       
     </div>
     <br/>
     <div>
-      <cite>2021-09-24</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Node">Node</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/09/01-%E5%BF%AB%E9%80%9F%E4%BA%86%E8%A7%A3%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93.html">01 快速了解连接数据库</a></h1>
-    <div class="post_at_index">
-      <p>SQLAlchemy 是 ORM 框架，目前主流且比较通用，在程序中用来处理数据库相关的能力，本文是用于学习和理解 SQLAlchemy 的记录，主要使用的编程语言是 Python</p>
-
-<blockquote>
-  <p>Python3 AND MySQL 5.6</p>
-</blockquote>
-
-<h2 id="安装">安装</h2>
-
-<p>目前较为场景的关系型数据库是 MySQL，这里介绍 在 Python 中安装和 MySQL 的链接方式</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip3 <span class="nb">install </span>sqlalchemy pymysql
-</code></pre></div></div>
-
-<blockquote>
-  <p>快速连接数据库</p>
-</blockquote>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># easy script.
-</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
-<span class="k">from</span> <span class="n">sqlalchemy</span> <span class="n">impory</span> <span class="n">text</span>
-
-<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s">'mysql+pymysql://root:pass@localhost/dbName'</span><span class="p">)</span>
-
-<span class="n">conn</span> <span class="o">=</span> <span class="n">engine</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
-
-<span class="n">sql</span> <span class="o">=</span> <span class="n">text</span><span class="p">(</span><span class="s">"select version();"</span><span class="p">)</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">sql</span><span class="p">.</span><span class="n">fetchall</span><span class="p">()</span>
-
-<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h2 id="简单的查询">简单的查询</h2>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">from</span> <span class="n">sqlalchemy</span> <span class="n">impory</span> <span class="n">text</span>
-
-<span class="n">sql</span> <span class="o">=</span> <span class="n">text</span><span class="p">(</span><span class="s">"select * from userTable where create_date&gt;=:start_time AND login_cnt=:times"</span><span class="p">)</span>
-<span class="c1"># start_time 开始时间
-# times 登录次数
-</span>
-<span class="c1"># sql 执行时动态入参
-</span>
-<span class="n">start_time</span><span class="p">,</span><span class="n">times</span> <span class="o">=</span> <span class="s">'2021-06-01 00:00:00'</span><span class="p">,</span> <span class="mi">3</span>
-
-<span class="n">res</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">create_date</span> <span class="o">=</span> <span class="n">start_time</span><span class="p">.</span><span class="n">pydatetime</span><span class="p">(),</span> <span class="n">loign_cnt</span><span class="o">=</span><span class="n">times</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h2 id="对于查询结果的说明">对于查询结果的说明</h2>
-
-<p>获取所有的查询结果，返回的数据为 tuple 的列表 <code class="language-plaintext highlighter-rouge">data = res.fetachAll()</code></p>
-
-<blockquote>
-  <p>使用 pandas 将查询结果保存到 csv 中</p>
-</blockquote>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">'user_id'</span><span class="p">,],)</span>  <span class="c1"># data 是要写入的数据，columns 是列头，List
-</span>
-
-<span class="n">df</span><span class="p">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">'~/export_filepath.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-09-24</cite> <i class="icon-tag"></i>
+      <cite>2022-02-11</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Python">Python</a>
       
       
@@ -781,78 +878,29 @@ bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</sp
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/09/%E4%BD%BF%E7%94%A8Python3%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%A4%A7%E5%9E%8Bjson%E6%96%87%E4%BB%B6.html">使用 Python3 格式化大型 json 文件</a></h1>
+    <h1><a class="title" href="/post/2022/01/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a></h1>
     <div class="post_at_index">
-      <p>当单个甚至单行 Json 文件大小超过 100M 时，无论是哪个文本编辑器在处理时都会显得吃力，接下来介绍一种非常方便的方式，快速格式化大型 Json 文件。</p>
+      <ul>
+  <li>strip() 删除字符串中的内容，删除后仍旧是 str</li>
+  <li>split() 分割字符串，根据特定的标识，分割后=list</li>
+</ul>
 
-<p>:::info
-Python 自带 json-tool 在转换是会导致中文乱码，以下在原有基础上进行了优化，并增加中文支持
-:::</p>
+<blockquote>
+  <p>两者处理过程中都不会修改原字符串的内容</p>
+</blockquote>
 
-<h2 id="no-bb-show-code">No BB, Show Code</h2>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python3</span>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"""
-Command-line tool to validate and pretty-print JSON
-
-Usage::
-
-    $ python3 json-tool.json import.json  output.json
-
-    Need Python 3.
-
-"""</span>
-<span class="kn">import</span> <span class="nn">argparse</span>
-<span class="kn">import</span> <span class="nn">collections</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-
-
-<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-    <span class="n">prog</span> <span class="o">=</span> <span class="s">'python -m json.tool'</span>
-    <span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="s">'A simple command line interface for json module '</span>
-                   <span class="s">'to validate and pretty-print JSON objects.'</span><span class="p">)</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="p">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="n">prog</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span>
-    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">'infile'</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s">'?'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="p">.</span><span class="n">FileType</span><span class="p">(),</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s">'a JSON file to be validated or pretty-printed'</span><span class="p">)</span>
-    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">'outfile'</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s">'?'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="p">.</span><span class="n">FileType</span><span class="p">(</span><span class="s">'w'</span><span class="p">),</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s">'write the output of infile to outfile'</span><span class="p">)</span>
-    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">'--sort-keys'</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">'store_true'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s">'sort the output of dictionaries alphabetically by key'</span><span class="p">)</span>
-    <span class="n">options</span> <span class="o">=</span> <span class="n">parser</span><span class="p">.</span><span class="n">parse_args</span><span class="p">()</span>
-
-    <span class="n">infile</span> <span class="o">=</span> <span class="n">options</span><span class="p">.</span><span class="n">infile</span> <span class="ow">or</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span>
-    <span class="n">outfile</span> <span class="o">=</span> <span class="n">options</span><span class="p">.</span><span class="n">outfile</span> <span class="ow">or</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdout</span>
-    <span class="n">sort_keys</span> <span class="o">=</span> <span class="n">options</span><span class="p">.</span><span class="n">sort_keys</span>
-    <span class="k">with</span> <span class="n">infile</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">sort_keys</span><span class="p">:</span>
-                <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span>
-                                <span class="n">object_pairs_hook</span><span class="o">=</span><span class="n">collections</span><span class="p">.</span><span class="n">OrderedDict</span><span class="p">)</span>
-        <span class="k">except</span> <span class="nb">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="nb">SystemExit</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-    <span class="k">with</span> <span class="n">outfile</span><span class="p">:</span>
-        <span class="n">json</span><span class="p">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="n">sort_keys</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">outfile</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
-
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
-</code></pre></div></div>
-
-<h2 id="running">RUNNING</h2>
-
-<p>将以上代码文件保存为 json-tool.json，然后使用 Python3 运行即可</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 json-tool.json 190720_190730.json 06.json
-</code></pre></div></div>
+<span class="nb">str</span><span class="p">.</span><span class="n">strip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串末尾的","
+</span><span class="nb">str</span><span class="p">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串末尾的","
+</span><span class="nb">str</span><span class="p">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串开通的","
+</span></code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-09-05</cite> <i class="icon-tag"></i>
+      <cite>2022-01-21</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Python">Python</a>
       
       
@@ -862,95 +910,117 @@ Usage::
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/09/dataframe-Pandas.html">dataframe - Pandas</a></h1>
+    <h1><a class="title" href="/post/2022/01/ClickHouse-%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E4%BD%BF%E7%94%A8.html">ClickHouse 常用函数使用</a></h1>
     <div class="post_at_index">
-      <p><a href="https://www.cnblogs.com/timotong/p/9678490.html">https://www.cnblogs.com/timotong/p/9678490.html</a></p>
+      <h2 id="1-调整时区">1. 调整时区</h2>
+
+<p>用于调整时区为查询者的时区</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- clickhouse</span>
+<span class="n">toString</span><span class="p">(</span><span class="n">toDateTime</span><span class="p">(</span><span class="n">event_time</span><span class="p">),</span> <span class="s1">'Asia/Shanghai'</span><span class="p">)</span> <span class="k">AS</span> <span class="n">event_time</span>
+
+<span class="c1">-- mysql howto</span>
+<span class="k">SELECT</span>  <span class="n">CONVERT_TZ</span><span class="p">(</span><span class="s1">'2020-04-06 02:00:00'</span><span class="p">,</span><span class="s1">'UTC'</span><span class="p">,</span><span class="s1">'Asia/Hong_Kong'</span><span class="p">)</span> <span class="k">as</span> <span class="n">event_time</span>
+</code></pre></div></div>
+
+<h2 id="2-提前-json-中的字符串">2. 提前 Json 中的字符串</h2>
+
+<p>通过 <code class="language-plaintext highlighter-rouge">JSONExtractRaw</code>对多层 Json 结构的数据进行 <code class="language-plaintext highlighter-rouge">精准提取</code></p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- clickhouse</span>
+<span class="n">JSONExtractRaw</span><span class="p">(</span><span class="n">_data</span><span class="p">,</span><span class="s1">'properties'</span><span class="p">)</span> <span class="k">as</span> <span class="n">properties</span><span class="p">,</span>
+<span class="n">JSONExtractRaw</span><span class="p">(</span><span class="n">JSONExtractRaw</span><span class="p">(</span><span class="n">_data</span><span class="p">,</span><span class="s1">'properties'</span><span class="p">),</span><span class="s1">'app_env'</span><span class="p">)</span> <span class="k">as</span> <span class="n">app_env</span>
+
+<span class="c1">-- mysql howto</span>
+<span class="n">json_extract</span><span class="p">(</span><span class="n">_data</span><span class="p">,</span><span class="s1">'$.properties'</span><span class="p">)</span> <span class="k">as</span> <span class="n">properties</span><span class="p">,</span>
+<span class="n">json_extract</span><span class="p">(</span><span class="n">json_extract</span><span class="p">(</span><span class="n">_data</span><span class="p">,</span><span class="s1">'$.properties'</span><span class="p">),</span><span class="s1">'$.app_env'</span><span class="p">)</span> <span class="k">as</span> <span class="n">app_env</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>提取字符串，然后剔除双引号 <code class="language-plaintext highlighter-rouge">""</code></p>
+</blockquote>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- clickhouse</span>
+<span class="n">JSONExtractString</span><span class="p">(</span><span class="n">JSONExtractRaw</span><span class="p">(</span><span class="n">_data</span><span class="p">,</span><span class="s1">'app_env'</span><span class="p">))</span> <span class="k">as</span> <span class="n">app_env</span>
+
+<span class="c1">-- mysql</span>
+<span class="n">json_unquote</span><span class="p">(</span><span class="n">json_extract</span><span class="p">(</span><span class="n">_data</span><span class="p">,</span><span class="s1">'$.app_env'</span><span class="p">))</span> <span class="k">as</span> <span class="n">app_env</span>
+</code></pre></div></div>
+
+<h2 id="3-判断字段不为空">3. 判断字段不为空</h2>
+
+<p>使用在 where 条件中，判断字段 为空或者不为空</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">where</span>
+ <span class="mi">1</span><span class="o">=</span><span class="mi">1</span>
+ <span class="k">and</span> <span class="n">notEmpty</span><span class="p">(</span><span class="n">client_version</span><span class="p">)</span>  <span class="c1">--不为空</span>
+  <span class="k">and</span> <span class="n">empty</span><span class="p">(</span><span class="n">app_version</span><span class="p">)</span> <span class="c1">--为空</span>
+</code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-09-05</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
+      <cite>2022-01-20</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#ClickHouse">ClickHouse</a>
       , 
-      <a href="/tags.html#Pandas">Pandas</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/08/Python-%E6%8A%93%E5%87%BA%E6%9D%A5%E9%9A%8F%E6%9C%BA%E4%B8%8B%E8%BD%BD%E8%AE%B0%E5%BD%95.html">Python 抓出来随机下载记录</a></h1>
-    <div class="post_at_index">
-      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="s">'https://appest-public.s3.amazonaws.com/download/mac/TickTick_3.9.00_{}.dmg'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">resp</span><span class="p">.</span><span class="n">status_code</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">resp</span><span class="p">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-            <span class="k">break</span>
-    <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>:::info
-背景
-:::</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-08-25</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/08/MySQL-REGEXP-%E6%B4%BB%E5%AD%A6%E6%B4%BB%E7%94%A8.html">MySQL REGEXP 活学活用</a></h1>
-    <div class="post_at_index">
-      <p><code class="language-plaintext highlighter-rouge">REGEXP</code> 在 MySQL 中使用的正则表达式标识符，有着非常丰富的使用路径，代替<code class="language-plaintext highlighter-rouge">like</code>将有非常大的使用空间</p>
-
-<h2 id="强制增加定位域名备案">强制增加定位域名备案</h2>
-
-<blockquote>
-  <p>增加域名备案到页脚</p>
-</blockquote>
-
-<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">"width: 100%; text-align: center; position:absolute; bottom:0; margin: auto;"</span><span class="nt">&gt;</span>
-   
-       Copyright 2021 © 上海微企信息技术股份有限公司。<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://beian.miit.gov.cn"</span><span class="nt">&gt;</span>沪 ICP 备 12042952 号 -18`  All Rights Reserved
-   
-<span class="nt">&lt;/div&gt;</span>
-</code></pre></div></div>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626796098224-66dfb621-323e-4e68-b1e2-fedfa40b43d9.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<blockquote>
-  <p>修改页面 height 默认展示底部 footer</p>
-</blockquote>
-
-<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">body</span><span class="o">,</span><span class="nt">body</span><span class="o">&gt;[</span><span class="nt">ui-view</span><span class="o">],</span><span class="nt">html</span><span class="o">,</span><span class="nt">html</span><span class="o">&gt;[</span><span class="nt">ui-view</span><span class="o">]</span> <span class="p">{</span>
-    <span class="nl">width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
-    <span class="nl">height</span><span class="p">:</span> <span class="m">99%</span>  <span class="err">#</span> <span class="n">原100</span><span class="err">%</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626796019003-27d5c0b3-dfe4-4c26-ae28-a334a5ed8039.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-08-09</cite> <i class="icon-tag"></i>
       <a href="/tags.html#SQL">SQL</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/01/MySQL-Case-WHEN.html">MySQL Case WHEN</a></h1>
+    <div class="post_at_index">
+      <pre><code class="language-SQL">CASE
+ WHEN a=1 THEN 'HELLO'
+ WHEN a=2 THEN ’TELL‘
+ ELSE 'ELLE'
+END 'Col_name'
+</code></pre>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-01-04</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#SQL">SQL</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/01/python-flask-form.html">python flask form</a></h1>
+    <div class="post_at_index">
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">form_data</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">form</span>  <span class="c1"># 获取表单中的提交的数据，这个是定义了一个 post 接口，入参会放在 form_data 这里接口可以在 Google Chrome DevTools 中的 Doc
+</span><span class="n">args_data</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">args</span> <span class="c1"># 获取的是 url 中的参数 tips: ?method=12312&amp;token=123121 &gt; 这里获取到的是一个 List
+</span><span class="n">json_data</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">get_json</span><span class="p">()</span> <span class="c1"># 获取的是从 `POST` 收到的对应 json，这里的接口文档会放在 Google Chrome DevTools 中的 XHR
+</span>
+
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">method</span> <span class="nb">int</span><span class="p">):</span>   <span class="c1"># 这里是定义一个函数的入参时，指定了对应的类型
+</span>
+
+<span class="n">app</span><span class="p">.</span><span class="n">api_add</span><span class="p">(</span><span class="s">'/api/intface/&lt;name&gt;/&lt;json&gt;'</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="p">[</span><span class="s">'GET'</span><span class="p">,</span> <span class="s">'POST'</span><span class="p">])</span>
+
+<span class="o">-</span> <span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="n">指这里的动态内容会当做动态值传给</span> <span class="n">name</span><span class="p">,</span> <span class="n">json同理</span>
+<span class="o">-</span> <span class="n">method</span> <span class="n">定义的是接口支持的请求方式</span>
+
+
+<span class="c1"># python flask request 注意管理 参数的生效时机，其中有个 `g` 可以关注下，具体可以多了解点介绍
+</span></code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-01-03</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -999,7 +1069,7 @@ Usage::
             <li class="active"><a>6</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page23">23</a></li>
+          <li><a href="/page24">24</a></li>
         
 
         
@@ -1050,7 +1120,7 @@ Usage::
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>18</span>
+    		数据库 <span>19</span>
     	</a></li>
      
     	
@@ -1234,8 +1304,8 @@ Usage::
     	</a></li>
      
     	
-      <li><a href="/categories.html#NaN">
-    		NaN <span>1</span>
+      <li><a href="/categories.html#Network">
+    		Network <span>1</span>
     	</a></li>
      
     	
@@ -1279,13 +1349,53 @@ Usage::
     	</a></li>
      
     	
+      <li><a href="/categories.html#Kubernetes">
+    		Kubernetes <span>10</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Github">
     		Github <span>1</span>
     	</a></li>
      
     	
+      <li><a href="/categories.html#kubernetes">
+    		kubernetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#腾讯云">
+    		腾讯云 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#阿里云">
+    		阿里云 <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Gitlab">
     		Gitlab <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#前端">
+    		前端 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#DaoCloud Enterprise">
+    		DaoCloud Enterprise <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kubrnetes">
+    		Kubrnetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kafka">
+    		Kafka <span>1</span>
     	</a></li>
      
     	
@@ -1336,9 +1446,21 @@ df = pandas.read_csv(‘somefile.txt’)
         </li>
         
         <li>
-          <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
-          王路
-12 highlights
+          <a href="/post/2022/10/JWT-%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F.html">JWT 内置的方式</a>
+          
+  支持为 API 启用 jwt token 解码的能力 ,  读取网关的 jwt key
+    
+      读取请求 Header 中的 Authorization
+    
+  
+  需要支持为网关配置多 jwt key , and 加密长度 ?
+    
+      解密的性能问题
+      expire_time 过期时间的配置
+      解密后的参数传递
+    
+  
+
 
 
         </li>

@@ -233,6 +233,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -276,273 +280,151 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2016/05/MySQL-3-mysqldump%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0.html">mysqldump 常用参数</a></h1>
+    <h1><a class="title" href="/post/2016/07/HowTo-Use-Remi-Install-Redis.html">HowTo Use Remi Install Redis</a></h1>
     <div class="post_at_index">
-      <p>常用的 mysqldump 命令组合。</p>
+      <h2 id="setup-1-install">Setup 1. Install</h2>
 
-<h2 id="备份数据库">备份数据库</h2>
+<p>Frist, To install remi Repo and epel Repo.</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump db_name <span class="o">&gt;</span> bak_name.sql
-mysqldump <span class="nt">-A</span> <span class="nt">-u</span> <span class="o">[</span>dbuser] <span class="nt">-p</span> db_name <span class="o">&gt;</span> bak_name.sql
-mysqldump <span class="nt">-d</span> <span class="nt">-A</span> <span class="nt">--add-drop-table</span> <span class="nt">-uroot</span> <span class="nt">-p</span> <span class="o">&gt;</span>xxx.sql
+<h3 id="remi-el6-for-centosrhel-6x">Remi EL6 for CentOS/RHEL 6.x</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-Uvh</span> https://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+rpm <span class="nt">-Uvh</span> http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 </code></pre></div></div>
 
-<h2 id="备份所有库到一个单独的文件">备份所有库到一个单独的文件</h2>
+<h3 id="remi-el5-for-centosrhel-5x">Remi EL5 for CentOS/RHEL 5.x</h3>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-e</span> <span class="s1">'show databases'</span> | <span class="nb">sed</span> <span class="nt">-n</span> <span class="s1">'2,$p'</span> | xargs <span class="nt">-I</span> DB <span class="s1">'mysqldump DB &gt; DB.sql'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-Uvh</span> https://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm
+rpm <span class="nt">-Uvh</span> http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
 </code></pre></div></div>
 
-<h3 id="1-导出结构不导出数据">1. 导出结构不导出数据</h3>
+<h3 id="有时间我们会碰到-remirepo-无法使用报错就像这样">有时间我们会碰到 remi.repo 无法使用报错，就像这样</h3>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　--opt　-d　db_name　-u　root　-p　&gt;　xxx.sql
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://remi.schlundtech.de/enterprise/latest/remi/x86_64/repodata/repomd.xml: <span class="o">[</span>Errno 14] PYCURL ERROR 22 - <span class="s2">"The requested URL returned error: 404 Not Found"</span>
 </code></pre></div></div>
 
-<h3 id="2-导出数据不导出结构">2. 导出数据不导出结构</h3>
+<h3 id="这时我们需要修改etcyumreposdremirepo像这样">这时我们需要修改/etc/yum.repos.d/remi.repo，像这样</h3>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　-t　db_name　-uroot　-p　&gt;　xxx.sql
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">baseurl</span><span class="o">=</span>http://rpms.famillecollet.com/enterprise/5/remi/<span class="nv">$basearch</span>/
+<span class="c">#mirrorlist=http://rpms.famillecollet.com/enterprise/5/remi/mirror/$basearch/</span>
 </code></pre></div></div>
 
-<h3 id="3-导出数据和表结构">3. 导出数据和表结构</h3>
+<h4 id="如果发现安装后-yum-makecache-没看到相应的源站点请检查-repo-文件的-enable-参数是否为-11-为开启0-为关闭状态">如果发现安装后 yum makecache 没看到相应的源站点，请检查 repo 文件的 enable 参数是否为 1，1 为开启，0 为关闭状态</h4>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　db_name　-uroot　-p　&gt;　xxx.sql
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>repoName]
+<span class="nv">name</span><span class="o">=</span>repoName repo
+<span class="nv">baseurl</span><span class="o">=</span>http://repoPath
+<span class="nv">gpgcheck</span><span class="o">=</span>0                <span class="c"># 是否启用gpgkey检查</span>
+<span class="nv">enabled</span><span class="o">=</span>0                 <span class="c"># 是否启用该源</span>
 </code></pre></div></div>
 
-<h3 id="4-导出特定表的结构">4. 导出特定表的结构</h3>
+<h3 id="install-redis">Install Redis</h3>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　-uroot　-p　-B　db_name　--table　tb_name　&gt;　xxx.sql
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> redis
+
+<span class="o">[</span>root@zabbix yum.repos.d]# rpm <span class="nt">-qi</span> redis
+Name        : redis
+Version     : 3.2.1
+Release     : 2.el5.remi
+Architecture: x86_64
+Install Date: Thu 28 Jul 2016 12:00:41 PM CST
+Group       : Applications/Databases
+Size        : 2113279
+License     : BSD
+Signature   : DSA/SHA1, Fri 24 Jun 2016 01:30:12 PM CST, Key ID 004e6f4700f97f56
+Source RPM  : redis-3.2.1-2.el5.remi.src.rpm
+Build Date  : Fri 24 Jun 2016 01:28:27 PM CST
+Build Host  : builder.remirepo.net
+Relocations : <span class="o">(</span>not relocatable<span class="o">)</span>
+Packager    : http://blog.remirepo.net/
+Vendor      : Remi Collet
+URL         : http://redis.io
+Summary     : A persistent key-value database
 </code></pre></div></div>
 
-<h2 id="导入数据">导入数据</h2>
+<h2 id="setup-2-基本配置项">Setup 2. 基本配置项</h2>
 
-<p>因为 mysqldump 导出的是完整的 SQL 语句，所以用 mysql 客户程序很容易就能把数据导入了：</p>
+<h3 id="redis-配置默认文件etcredisconf">Redis 配置默认文件/etc/redis.conf</h3>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-u</span> db_user <span class="nt">-p</span> db_name  &lt; xxx.sql
-mysql&gt; <span class="nb">source</span> /path/xxx.sql
+<p>设置 Redis 的运行模式，yes 表示后台运行，no 表示不开启后台运行。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>daemonize <span class="nb">yes</span>
 </code></pre></div></div>
 
-<h2 id="mysqldump-参数详解">mysqldump 参数详解</h2>
+<p>指定 redis 监听端口，默认为 6379</p>
 
-<p><code class="language-plaintext highlighter-rouge">–all-databases , -A</code>
-导出全部数据库
-mysqldump -uroot -p –all-databases</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>port 6379
+</code></pre></div></div>
 
-<p><code class="language-plaintext highlighter-rouge">–all-tablespaces , -Y</code>
-导出全部表空间
-mysqldump -uroot -p –all-databases –all-tablespaces</p>
+<p>设置 bind_ip，默认监听接口，默认是监听本地，如果未配置的情况下，只有本地可以访问 redis，如果取消，则默认监听所有接口</p>
 
-<p><code class="language-plaintext highlighter-rouge">–no-tablespaces , -y</code>
-不导出任何表空间信息
-mysqldump -uroot -p –all-databases –no-tablespaces</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># bind 127.0.0.1</span>
+</code></pre></div></div>
 
-<p><code class="language-plaintext highlighter-rouge">–add-drop-database</code>
-每个数据库创建之前添加 drop 数据库语句
-mysqldump -uroot -p –all-databases –add-drop-database</p>
+<p>指定日志记录级别</p>
 
-<p><code class="language-plaintext highlighter-rouge">–add-drop-table</code>
-每个数据表创建之前添加 drop 数据表语句。(默认为打开状态，使用–skip-add-drop-table 取消选项)
-mysqldump -uroot -p –all-databases (默认添加 drop 语句)
-mysqldump -uroot -p –all-databases –skip-add-drop-table (取消 drop 语句)</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># debug  记录很多信息，用于开发和测试</span>
+<span class="c"># varbose 很多精简的有用信息，不像 debug 会记录那么多</span>
+<span class="c"># notice 普通的 verbose，常用于生产环境</span>
+<span class="c"># warning 只有非常重要或者严重的信息会记录到日志</span>
 
-<p><code class="language-plaintext highlighter-rouge">–add-locks</code>
-在每个表导出之前增加 LOCK TABLES 并且之后 UNLOCK TABLE。(默认为打开状态，使用–skip-add-locks 取消选项)
-mysqldump -uroot -p –all-databases(默认添加 LOCK 语句)
-mysqldump -uroot -p –all-databases –skip-add-locks (取消 LOCK 语句)</p>
+loglevel verbose
+</code></pre></div></div>
 
-<p><code class="language-plaintext highlighter-rouge">–comments</code>
-附加注释信息。
-默认为打开，可以用–skip-comments 取消 mysqldump -uroot -p –all-databases (默认记录注释)mysqldump -uroot -p –all-databases “code”
-skip-comments (取消注释)</p>
+<p>配置 log 文件名称和全路径地址，默认为 stdout，即标准输出，输出到/dev/null，可以手动指定 redis 日志文件地址，建议级别不要太高，否则会产生大量日志，注意避免磁盘因此撑满。</p>
 
-<p><code class="language-plaintext highlighter-rouge">–compact</code>
-导出更少的输出信息 (用于调试),去掉注释和头尾等结构，可以使用选项：–skip-add-drop-table –skip-add-locks –skip-comments –skip-disable-keys
-mysqldump -uroot -p –all-databases –compact</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>logfile stdout
+</code></pre></div></div>
 
-<p><code class="language-plaintext highlighter-rouge">–complete-insert, -c</code>
-使用完整的 insert 语句 (包含列名称)。这么做能提高插入效率，但是可能会受到 max_allowed_packet 参数的影响而导致插入失败。
-mysqldump -uroot -p –all-databases –complete-insert</p>
+<p>＃ 可用数据库数，默认值为 16，默认数据库存储在 DB 0 号 ID 库中，无特殊需求，建议仅设置一个数据库
+＃ 查询数据库使用  SELECT ‘dbid’，dbid 介于 0 到 ‘databases’-1 之间。</p>
 
-<p><code class="language-plaintext highlighter-rouge">–compress, -C</code>
-在客户端和服务器之间启用压缩传递所有信息
-mysqldump -uroot -p –all-databases –compress</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>database 16
+</code></pre></div></div>
 
-<p><code class="language-plaintext highlighter-rouge">–databases, -B</code>
-导出几个数据库。参数后面所有名字参量都被看作数据库名。
-mysqldump -uroot -p –databases test mysql</p>
+<ul>
+  <li>安全限定，要求客户端在处理任何命令时都要验证身份和设置密码。</li>
+  <li>默认不启用，若要启用，需要将下行取消注释，并将 foobared 设置自定一的密码接即可。</li>
+  <li>因为 redis 加密是通过配置文件进行，所以目前各大云厂家的 redis PAAS 服务，都不支持 redis 加密，在程序开发时需要注意。</li>
+</ul>
 
-<p><code class="language-plaintext highlighter-rouge">–debug</code>
-输出 debug 信息，用于调试。
-默认值为：d:t:o,/tmp/mysqldump.trace
-mysqldump -uroot -p –all-databases –debug
-mysqldump -uroot -p –all-databases –debug=”d:t:o,/tmp/debug.trace”</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># requirepass foobared</span>
 
-<p><code class="language-plaintext highlighter-rouge">–debug-info</code>
-输出调试信息并退出
-mysqldump -uroot -p –all-databases –debug-info</p>
+<span class="c"># 如果开启了安全验证，这时通过redis-cli登录时需要首先执行auth，否则不能正常使用。</span>
+redis-cli&gt; auth foobared
+</code></pre></div></div>
 
-<p><code class="language-plaintext highlighter-rouge">–default-character-set</code>
-设置默认字符集，默认值为 utf8
-mysqldump -uroot -p –all-databases –default-character-set=latin1</p>
+<p>向 redis 内插入一条数据</p>
 
-<p><code class="language-plaintext highlighter-rouge">–delayed-insert</code>
-采用延时插入方式（INSERT DELAYED）导出数据
-mysqldump -uroot -p –all-databases –delayed-insert</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt;  <span class="nb">set</span> <span class="o">[</span>key] <span class="o">[</span>values]
+</code></pre></div></div>
 
-<p><code class="language-plaintext highlighter-rouge">–events, -E</code>
-导出事件
-mysqldump -uroot -p –all-databases –events</p>
+<p>获取 key 的值</p>
 
-<p><code class="language-plaintext highlighter-rouge">–flush-logs</code>
-开始导出之前刷新日志
-请注意：假如一次导出多个数据库 (使用选项–databases 或者–all-databases)，将会逐个数据库刷新日志。除使用–lock-all-tables 或者–master-data 外。在这种情况下，日志将会被刷新一次，相应的所以表同时被锁定。因此，如果打算同时导出和刷新日志应该使用–lock-all-tables 或者–master-data 和–flush-logs.
-mysqldump -uroot -p –all-databases –flush-logs</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt; get key
+</code></pre></div></div>
 
-<p><code class="language-plaintext highlighter-rouge">–flush-privileges</code>
-在导出 mysql 数据库之后，发出一条 FLUSH PRIVILEGES 语句。为了正确恢复，该选项应该用于导出 mysql 数据库和依赖 mysql 数据库数据的任何时候。
-mysqldump -uroot -p –all-databases –flush-privileges</p>
+<p>查看 redis 的 db 信息</p>
 
-<p><code class="language-plaintext highlighter-rouge">–force</code>
-在导出过程中忽略出现的 SQL 错误
-mysqldump -uroot -p –all-databases –force</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt; info
+</code></pre></div></div>
 
-<p><code class="language-plaintext highlighter-rouge">–host, -h</code>
-需要导出的主机信息
-mysqldump -uroot -p –host=localhost –all-databases</p>
+<h2 id="setup-3-others">Setup 3. Others</h2>
 
-<p><code class="language-plaintext highlighter-rouge">–ignore-table</code></p>
-
-<p>不导出指定表。
-指定忽略多个表时，需要重复多次，每次一个表。每个表必须同时指定数据库和表名。
-例如：–ignore-table=database.table1 –ignore-table=database.table2 ……
-mysqldump -uroot -p –host=localhost –all-databases –ignore-table=mysql.user</p>
-
-<p><code class="language-plaintext highlighter-rouge">–lock-all-tables, -x</code>
-提交请求锁定所有数据库中的所有表，以保证数据的一致性。
-这是一个全局读锁，并且自动关闭–single-transaction 和–lock-tables 选项。
-mysqldump -uroot -p –host=localhost –all-databases –lock-all-tables</p>
-
-<p><code class="language-plaintext highlighter-rouge">–lock-tables, -l</code>
-开始导出前，锁定所有表。
-用 READ LOCAL 锁定表以允许 MyISAM 表并行插入。对于支持事务的表例如 InnoDB 和 BDB，–single-transaction 是一个更好的选择，因为它根本不需要锁定表。
-请注意当导出多个数据库时，–lock-tables 分别为每个数据库锁定表。因此，该选项不能保证导出文件中的表在数据库之间的逻辑一致性。不同数据库表的导出状态可以完全不同。
-mysqldump -uroot -p –host=localhost –all-databases –lock-tables</p>
-
-<p><code class="language-plaintext highlighter-rouge">–no-create-db, -n</code>
-只导出数据，而不添加 CREATE DATABASE 语句。
-mysqldump -uroot -p –host=localhost –all-databases –no-create-db</p>
-
-<p><code class="language-plaintext highlighter-rouge">–no-create-info,-t</code>
-只导出数据，而不添加 CREATE TABLE 语句
-mysqldump -uroot -p –host=localhost –all-databases –no-create-info</p>
-
-<p>` –no-data, -d `
-不导出任何数据，只导出数据库表结构
-mysqldump -uroot -p –host=localhost –all-databases –no-data</p>
-
-<p>` –password, -p `
-连接数据库密码</p>
-
-<p>` –port, -P `
-连接数据库端口号</p>
-
-<p>` –user, -u `
-指定连接的用户名。</p>
+<ul>
+  <li>redis-dump</li>
+  <li>master/slave</li>
+  <li>slow log</li>
+</ul>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-05-04</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/05/HowTo-Install-Python-2-7-8-on-CentOS-6-x.html">HowTo Install Python 2.7.8 on CentOS 6.x</a></h1>
-    <div class="post_at_index">
-      <p>CentOS 6.5 still come with Python 2.6 and I need 2.7, below a simple tutorial how to achieve this with no pain and not messing with installed Python.</p>
-
-<p>Update CentOS and install development tools</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">-y</span> update
-yum groupinstall <span class="nt">-y</span> <span class="s1">'development tools'</span>
-</code></pre></div></div>
-
-<p>Also you need the packages below to enable SSL, bz2, zlib for Python and some utils:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> zlib-devel bzip2-devel openssl-devel xz-libs wget
-</code></pre></div></div>
-
-<h2 id="installing-python-278-from-source">Installing Python 2.7.8 from source</h2>
-
-<p>Download Python and extract it</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://www.python.org/ftp/python/2.7.8/Python-2.7.8.tar.xz
-xz <span class="nt">-d</span> Python-2.7.8.tar.xz
-<span class="nb">tar</span> <span class="nt">-xvf</span> Python-2.7.8.tar
-</code></pre></div></div>
-
-<h2 id="installation-process">Installation process</h2>
-
-<p>Since we already installed all the dependencies we are ready to go:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Enter the directory:</span>
-<span class="nb">cd </span>Python-2.7.8
-
-<span class="c"># Run the configure:</span>
-./configure <span class="nt">--prefix</span><span class="o">=</span>/usr/local
-
-<span class="c"># compile and install it:</span>
-make
-make altinstall
-
-<span class="c"># Checking Python version:</span>
-<span class="o">[</span>root@nicetry ~]# python2.7 <span class="nt">-V</span>
-Python 2.7.8
-</code></pre></div></div>
-
-<p>If you need set <code class="language-plaintext highlighter-rouge">PATH</code> variable check the line below:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/usr/local/bin:</span><span class="nv">$PATH</span><span class="s2">"</span>
-</code></pre></div></div>
-
-<h2 id="installing-pip-and-virtualenv">Installing pip and virtualenv</h2>
-
-<p>Now we have Python installed, but something is missing isn’t? Yes! We need pip and virtualenv.</p>
-
-<h3 id="install-setuptools">Install setuptools</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget <span class="nt">--no-check-certificate</span> https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz
-
-<span class="c"># Extract the files:</span>
-<span class="nb">tar</span> <span class="nt">-xvf</span> setuptools-1.4.2.tar.gz
-<span class="nb">cd </span>setuptools-1.4.2
-
-<span class="c"># Install setuptools using the Python 2.7.8:</span>
-python2.7 setup.py <span class="nb">install</span>
-</code></pre></div></div>
-
-<h3 id="install-pip">Install pip</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py | python2.7 -
-</code></pre></div></div>
-
-<h3 id="and-finally-virtualenv">And finally virtualenv</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip2.7 <span class="nb">install </span>virtualenv
-</code></pre></div></div>
-
-<p>And that’s all, we have Python 2.7.8 installed on CentOS.</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-05-04</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
+      <cite>2016-07-06</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Yum">Yum</a>
+      , 
+      <a href="/tags.html#Redis">Redis</a>
       , 
       <a href="/tags.html#CentOS">CentOS</a>
       
@@ -553,512 +435,64 @@ python2.7 setup.py <span class="nb">install</span>
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/04/HowTo-Add-Piwik-Tracking-to-Ghost.html">HowTo Add Piwik Tracking to Ghost</a></h1>
+    <h1><a class="title" href="/post/2016/07/HowTo-Use-Fuse-sshfs-to-Mount-Remote-Filesystems.html">HowTo Use Fuse-sshfs to Mount Remote Filesystems</a></h1>
     <div class="post_at_index">
-      <p>This is what about piwik on wiki. <a href="https://en.wikipedia.org/wiki/Piwik">goto</a></p>
+      <p>传统我们服务器之间文件共享的方式有采用 NFS、Samba 等等，但是在我看来配置都有一定的复杂性，当然复杂也有它们的优势，这里推荐一个依赖于 SSH 的文件共享工具，Fuse-sshfs。
+SSH 是一个强大且安全的工具，我们除了可以用它来远程管理主机外，还可以通过它建立 SSH tunnel 作 Proxy 用，远程传输文件等等。而这里我想要介绍另外一个功能，那就是结合 sshfs 这个工具可以把远程主机的文件系统映射到本地主机上，透过 SSH 把远程文件系统挂载到本机上，这样我们可以不必使用 scp 工具就可以做到直接复制及删除远程主机的文件了，就像操作本地磁盘一样方便。
+sshfs 是基于 FUSE 构建的 SSH 文件系统客户端程序，通过它远程主机的配置无需作任何改变，就可以透过 SSH 协议来挂载远程文件系统了，非常方便及安全。</p>
 
-<h2 id="step-1---getting-your-piwik-tracking-code">Step 1 - Getting your Piwik Tracking code</h2>
+<h2 id="install-fuse-sshfs">Install fuse-sshfs</h2>
 
-<p>The first step to having Piwik tracking your Ghost blog will be to add a new website in Piwik, if you are unfamiliar with this process you can checkout the Piwik documention on Managing Websites. With your Ghost blog added into Piwik you will end up with tracking code that will look similar to the following:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;<span class="o">!</span><span class="nt">--</span> Piwik <span class="nt">--</span><span class="o">&gt;</span>
-&lt;script <span class="nb">type</span><span class="o">=</span><span class="s2">"text/javascript"</span><span class="o">&gt;</span>
-    var _paq <span class="o">=</span> _paq <span class="o">||</span> <span class="o">[]</span><span class="p">;</span>
-    <span class="o">(</span><span class="k">function</span><span class="o">(){</span> var <span class="nv">u</span><span class="o">=((</span><span class="s2">"https:"</span> <span class="o">==</span> document.location.protocol<span class="o">)</span> ? <span class="s2">"https://{</span><span class="nv">$PIWIK_URL</span><span class="s2">}/"</span> : <span class="s2">"http://{</span><span class="nv">$PIWIK_URL</span><span class="s2">}/"</span><span class="o">)</span><span class="p">;</span>
-    _paq.push<span class="o">([</span><span class="s1">'setSiteId'</span>, <span class="o">{</span><span class="nv">$IDSITE</span><span class="o">}])</span><span class="p">;</span>
-    _paq.push<span class="o">([</span><span class="s1">'setTrackerUrl'</span>, u+<span class="s1">'piwik.php'</span><span class="o">])</span><span class="p">;</span>
-    _paq.push<span class="o">([</span><span class="s1">'trackPageView'</span><span class="o">])</span><span class="p">;</span>
-    _paq.push<span class="o">([</span><span class="s1">'enableLinkTracking'</span><span class="o">])</span><span class="p">;</span>
-    var <span class="nv">d</span><span class="o">=</span>document, <span class="nv">g</span><span class="o">=</span>d.createElement<span class="o">(</span><span class="s1">'script'</span><span class="o">)</span>, <span class="nv">s</span><span class="o">=</span>d.getElementsByTagName<span class="o">(</span><span class="s1">'script'</span><span class="o">)[</span>0]<span class="p">;</span> g.type<span class="o">=</span><span class="s1">'text/javascript'</span><span class="p">;</span> g.defer<span class="o">=</span><span class="nb">true</span><span class="p">;</span> g.async<span class="o">=</span><span class="nb">true</span><span class="p">;</span> g.src<span class="o">=</span>u+<span class="s1">'piwik.js'</span><span class="p">;</span>
-    s.parentNode.insertBefore<span class="o">(</span>g,s<span class="o">)</span><span class="p">;</span> <span class="o">})()</span><span class="p">;</span>
-&lt;/script&gt;
-&lt;<span class="o">!</span><span class="nt">--</span> End Piwik Code <span class="nt">--</span><span class="o">&gt;</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>cent@localhost ~]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> epel-relese
+<span class="o">[</span>cent@localhost ~]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nt">--enablerepo</span><span class="o">=</span>epel <span class="nb">install</span> <span class="nt">-y</span> fuse-sshfs
 </code></pre></div></div>
 
-<blockquote>
-  <p>Where <code class="language-plaintext highlighter-rouge">$PIWIK_URL</code> will be the domain name you have setup for Piwik.</p>
-</blockquote>
+<h2 id="挂载远程-ssh-文件系统">挂载远程 ssh 文件系统</h2>
 
-<h2 id="step-2---adding-piwik-tracking-code-to-ghost-theme-file">Step 2 - Adding Piwik Tracking Code To Ghost Theme File</h2>
-
-<p>Piwik recommends that you add the tracking code right above the <code class="language-plaintext highlighter-rouge">&amp;#60;/body&amp;#62;</code> tag, which you can find in your Ghost’s <code class="language-plaintext highlighter-rouge">default.hbs</code> theme file. You will find the <code class="language-plaintext highlighter-rouge">default.hbs</code> file in <code class="language-plaintext highlighter-rouge">/path/to/ghost/content/themes/your-theme/default.hbs</code>
-How you add the tracking code to your <code class="language-plaintext highlighter-rouge">default.hbs</code> will depend on if you are editing the file on your local computer or directly on the server. If you are editing your theme locally you can edit this file in any text editor and when you are finished upload this file to your server. Otherwise if you are editing this file directly on the server you can use the command line editor, <code class="language-plaintext highlighter-rouge">vim</code>, to add the tracking code.</p>
-
-<h2 id="step-3---restart-ghost">Step 3 - Restart Ghost</h2>
-
-<p>For the changes in your theme to take effect you will need to restart Ghost. Restarting Ghost will load up a fresh copy of your theme files, with your Piwik tracking code. How you restart Ghost depends on how you started Ghost. If you followed our <a href="https://www.howtoinstallghost.com/how-to-start-ghost-with-forever/">https://www.howtoinstallghost.com/how-to-start-ghost-with-forever/</a> Keep Ghost Running with forever<code class="language-plaintext highlighter-rouge">, then you can restart Ghost with</code> forever restart ghost`.
-Within a few moments you will start to see data coming in for your Ghost blog!
-If you have any questions about setting this up or run into any issues please leave us a comment below and we will do what we can to help.</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-04-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Piwik">Piwik</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/04/HowTo-Install-piwik-with-nginx-on-centos-6-x.html">HowTo Install piwik with nginx on centos 6.x</a></h1>
-    <div class="post_at_index">
-      <h3 id="this-is-my-nginx-config">This is my nginx config</h3>
-
-<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">server</span> {
- <span class="n">listen</span> <span class="n">blog</span>.<span class="n">ultraera</span>.<span class="n">org</span>:<span class="m">80</span>;
- <span class="n">server_name</span> <span class="n">blog</span>.<span class="n">ultraera</span>.<span class="n">org</span>;
-
- <span class="n">location</span> / {
-  <span class="n">proxy_set_header</span> <span class="n">X</span>-<span class="n">Real</span>-<span class="n">IP</span> $<span class="n">remote_addr</span>;
-  <span class="n">proxy_set_header</span> <span class="n">Host</span> $<span class="n">http_host</span>;
-  <span class="n">proxy_pass</span>   <span class="n">http</span>://<span class="m">127</span>.<span class="m">0</span>.<span class="m">0</span>.<span class="m">1</span>:<span class="m">2368</span>;
- }
-}
-
-<span class="n">server</span> {
- <span class="n">listen</span> <span class="n">piwik</span>.<span class="n">ultraera</span>.<span class="n">org</span>:<span class="m">80</span>;
- <span class="n">server_name</span> <span class="n">piwik</span>.<span class="n">ultraera</span>.<span class="n">org</span>;
-
- <span class="n">location</span> / {
-  <span class="n">proxy_set_header</span> <span class="n">X</span>-<span class="n">Real</span>-<span class="n">IP</span> $<span class="n">remote_addr</span>;
-  <span class="n">proxy_set_header</span> <span class="n">Host</span> $<span class="n">http_host</span>;
-  <span class="n">proxy_pass</span>   <span class="n">http</span>://<span class="m">127</span>.<span class="m">0</span>.<span class="m">0</span>.<span class="m">1</span>:<span class="m">2080</span>;
- }
-}
-
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-04-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Piwik">Piwik</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/04/%E4%BD%BF%E7%94%A8SoureceTree%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84git%E9%A1%B9%E7%9B%AE.html">使用 SoureceTree 管理你的 git 项目</a></h1>
-    <div class="post_at_index">
-      <h2 id="update">Update</h2>
-
-<ul>
-  <li>update: Windows 用户在初始化 Souretree 工具时，需要用到 Atlassian ID，新建用户时需要加载 google 验证码，这一步需要 VPN 的支持，请注意。</li>
-  <li>找到一个版本的 SourceTree 工具可以不需要以上验证也能使用，下载链接：<a href="http://pan.baidu.com/s/1eRDMgEY">SourceTreeSetup_1.6.14.exe</a> 密码：c5l4</li>
-</ul>
-
-<h3 id="补充-1git-学习网站">补充 1：Git 学习网站</h3>
-
-<ol>
-  <li><a href="http://backlogtool.com/git-guide/cn/">猴子都能学会的 git 教程</a></li>
-  <li><a href="http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html">常用 Git 命令清单</a></li>
-  <li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">廖雪峰的 git 教程</a></li>
-  <li><a href="http://zoomq.qiniudn.com/ZQScrapBook/ZqFLOSS/data/20081210180347/">Why Git is Better than X</a></li>
-</ol>
-
-<h3 id="补充-2利用-git-协同开发">补充 2：利用 Git 协同开发</h3>
-
-<ol>
-  <li><a href="https://ourai.ws/posts/working-with-git-in-team/">团队中的 Git 实践</a></li>
-  <li><a href="http://www.ruanyifeng.com/blog/2015/08/git-use-process.html">Git 使用规范流程</a></li>
-  <li><a href="http://nvie.com/files/Git-branching-model.pdf">Git 分支管理模型</a></li>
-  <li><a href="http://marklodato.github.io/visual-git-guide/index-zh-cn.html">图解 Git</a></li>
-</ol>
-
-<h2 id="关于-sourcetree">关于 SourceTree</h2>
-
-<p>SourceTree 是一款免费且同时支持 Windows 和 Mac 的 git 项目管理软件，本文旨在给大家介绍这款应用的基础使用，并用它来管理你的项目</p>
-
-<blockquote>
-  <p>官网： <a href="https://www.sourcetreeapp.com/">https://www.sourcetreeapp.com/</a></p>
-</blockquote>
-
-<h2 id="git-帐号建立">git 帐号建立</h2>
-
-<h3 id="新员工入职之后你的公司邮箱内会收到一封来自-gitlab-的邮件如下图">新员工入职之后，你的公司邮箱内会收到一封来自 Gitlab 的邮件，如下图</h3>
-
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree02.jpg" alt="image" /></p>
-
-<h3 id="点击邮件中的click-here-to-set-your-password设置-gitlab-登陆密码">点击邮件中的“Click here to set your password”，设置 gitlab 登陆密码</h3>
-
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsouretree03.jpg" alt="image" /></p>
-
-<h3 id="登陆-gitlab-帐号将会出现这个界面">登陆 gitlab 帐号，将会出现这个界面</h3>
-
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree05.jpg" alt="image" /></p>
-
-<h3 id="设定个人信息">设定个人信息</h3>
-
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsouretree06.jpg" alt="image" /></p>
-
-<h3 id="sshkey">sshKey</h3>
-
-<h4 id="在-linux-和-mac-上生成-sshkey">在 Linux 和 Mac 上生成 sshkey</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ ssh-keygen <span class="nt">-t</span> rsa
-Generating public/private rsa key pair.
-Enter file <span class="k">in </span>which to save the key <span class="o">(</span>/Users/Alex/.ssh/id_rsa<span class="o">)</span>:
-Enter passphrase <span class="o">(</span>empty <span class="k">for </span>no passphrase<span class="o">)</span>:
-Enter same passphrase again:
-Your identification has been saved <span class="k">in</span> /Users/Alex/.ssh/id_rsa.
-Your public key has been saved <span class="k">in</span> /Users/Alex/.ssh/id_rsa.pub.
-The key fingerprint is:
-SHA256:98jE3jhBhFT5nQlZRj34a3WOk1t6XF+Dbf/hliXl4WQ Alex@Alex-Mac
-The key<span class="s1">'s randomart image is:
-+---[RSA 2048]----+
-|       ..oo. +=. |
-|        ... oo ..|
-|          .. o.o.|
-|         o  . +E+|
-|        S =   **=|
-|         = * .=BB|
-|          * o oOO|
-|           .  +o*|
-|              .oo|
-+----[SHA256]-----+
-➜  ~ cat ~/.ssh/id_rsa.pub
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VIEkDvxKLFGcHsT7Ur4zXwEi9YiW2tVRrBSjcMALxuBjVm2IxYV6Lk8SLuGadyYy5telWGJmHsQ3VIPRuKwpzTkLN643kjqc6JFSlnZG/XoP9SPtCOsp2ql4u0s7Auc2bZay4RaTDXbcpJVU9OA0xM8Zy4oTTNYdZ4tvGittVmn+wLrhN255J7clORF5126dmDYxV3E8ZboaDdQpdLGIWmDNcBJQvl0CLwpKUCi7EUDqDVtm4bNgwIX9fEIkTxGdaWjBW1iXBk8TGXWkgB+Qp8B1IwaJ4GHUwUhQrefWvw9XeJ Alex@Alex-Mac
-➜  ~
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>cent@localhost ~]<span class="nv">$ </span><span class="nb">mkdir</span> ./mnt
+<span class="o">[</span>cent@localhost ~]<span class="nv">$ </span>sshfs root@192.168.16.230:/home/ ./mnt
+root@192.168.16.230<span class="s1">'s password:
+[cent@localhost ~]$ mount
+root@192.168.16.230:/home/ on /home/cent/mnt type fuse.sshfs (rw,nosuid,nodev,user=cent)
 </span></code></pre></div></div>
 
-<h4 id="52-在-windows-上生成-sshkey">5.2 在 Windows 上生成 sshkey</h4>
+<h2 id="卸载远程-ssh-文件系统">卸载远程 ssh 文件系统</h2>
 
-<h4 id="因为-windows-没有自带-openssl-模块所以在-windows-环境中使用第三方工具-puttygenexe-生成-sshkey-下载地址">因为 windows 没有自带 openssl 模块，所以在 Windows 环境中使用第三方工具 puttygen.exe 生成 sshkey <a href="http://the.earth.li/~sgtatham/putty/0.67/x86/puttygen.exe">下载地址</a></h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>cent@localhost ~]<span class="nv">$ </span>fusermount <span class="nt">-u</span> ./mnt
+</code></pre></div></div>
 
-<h4 id="步骤如下">步骤如下</h4>
+<h2 id="常用参数">常用参数</h2>
 
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree13.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree14.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree15.jpg" alt="image" /></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-C</span> 压缩，或者-o <span class="nv">compression</span><span class="o">=</span><span class="nb">yes</span>
+<span class="nt">-o</span> reconnect 自动重连
+<span class="nt">-o</span> transform_symlinks 表示转换绝对链接符号为相对链接符号
+<span class="nt">-o</span> follow_symlinks 沿用服务器上的链接符号
+<span class="nt">-o</span> <span class="nv">cache</span><span class="o">=</span><span class="nb">yes</span>
+<span class="nt">-o</span> allow_other 这个参数最重要，必须写，否则任何文件都是Permission Deny
+</code></pre></div></div>
 
-<h4 id="当-sourcetree-首次启动时会弹出加载-sshkey-的提示按提示操作找到之前保存的-privateppk-文件">当 sourcetree 首次启动时，会弹出加载 sshkey 的提示，按提示操作，找到之前保存的 private.ppk 文件</h4>
+<h2 id="缺点"> 缺点</h2>
 
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree12.jpg" alt="image" /></p>
+<p>当然 sshfs 也不尽是优点，例如远程主机失去响应后本地挂载点卡死并影响本地系统使用，需要手工找出 sshfs 进程并杀死，因网速问题造成操作响应缓慢等等，不过一般在稳定快速的网络中不太会遇上，对比其强大的功能，还是可以接受的，正所谓暇不掩瑜。</p>
 
-<h4 id="53-上传-sshkey">5.3 上传 sshkey</h4>
+<ol>
+  <li>所以 sshfs 适合内部网络比较稳定的地方</li>
+  <li>配合 ssh 免密登录使用会更好哦</li>
+  <li>可以看到的是 sshfs 默认挂载是 rw 的权限，但是通过 sshfs –help 可以看到有非常详尽的参数配置可以选择，大家可以仔细研究下。</li>
+</ol>
 
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree07.jpg" alt="image" /></p>
+<h2 id="附-1">附 1</h2>
 
-<h3 id="6-回到-dashboard点击项目名称进入详情">6. 回到 dashboard，点击项目名称进入详情</h3>
-
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree08.jpg" alt="image" /></p>
-
-<h3 id="7-使用-souretree-将项目从-git-服务器-clone-到本地">7. 使用 souretree 将项目从 git 服务器 clone 到本地</h3>
-
-<h4 id="71-安装-souretree-软件-略">7.1 安装 souretree 软件 ［略］</h4>
-
-<h4 id="72-clone-项目到本地">7.2 clone 项目到本地</h4>
-
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree09.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree10.jpg" alt="image" /></p>
-
-<h3 id="8-进入项目工作台">8. 进入项目工作台</h3>
-
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree11.jpg" alt="image" /></p>
-
-<h4 id="9-关于-sourcetree-工具的使用下面是一些-git-操作的释疑">9. 关于 sourcetree 工具的使用，下面是一些 git 操作的释疑</h4>
-
-<ul>
-  <li>检出仓库：将在本地创建一个 git 仓库的克隆版本</li>
-  <li>工作流：本地仓库由 git 维护的三棵“树”组成。第一个是 工作目录，它持有实际文件；第二个是 缓存区（Index），它像个缓存区域，临时保存改动；最后是 HEAD，指向最近一次提交后的结果。</li>
-  <li>提交：可以计划改动（把它们添加到缓存区),将改动提交到了 HEAD，但是还没到提交到远端仓库。</li>
-  <li>拉取：从远端仓库拉取最新版本状态，特别是在其他人员有所改动之后。</li>
-  <li>推送：改动现在已经在本地仓库的 HEAD 中了。这时可以使用它将这些改动提交到远端仓库。</li>
-  <li>分支：分支是用来将特性开发分离出来的。在创建仓库的时候，master 是“默认的”。创建分支将可以从主线开发上分离开来，然后在不影响主线的同时继续工作，完成后再将它们合并到主分支上。</li>
-  <li>合并：将分支功能并入主分支。</li>
-</ul>
+<p><a href="http://igikorn.com/sshfs-windows-8/">Link</a> 在 windows 下可以使用 sshfs.</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-04-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SourceTree">SourceTree</a>
+      <cite>2016-07-04</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#SSH">SSH</a>
       , 
-      <a href="/tags.html#Git">Git</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/04/Mac-1-%E8%B0%83%E6%95%B4Launchpad%E5%9B%BE%E6%A0%87%E5%A4%A7%E5%B0%8F.html">MacTips 调整 Launchpad 图标大小</a></h1>
-    <div class="post_at_index">
-      <p>很多人觉得默认 Launchpad 的应用程序图标很大，空间比较拥挤，不过这个其实是可以通过调整 Launchpad 每一行和每一列图标的数量，来调整 Launchpad 图标大小。</p>
-
-<p>默认如下图：
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2FQQ20160408-1.jpg" alt="image" /></p>
-
-<p>代码块：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 调整每一行显示数量为8个。</span>
-➜ defaults write com.apple.dock springboard-columns <span class="nt">-int</span> 10
-
-＃ 重启Launchpad
-➜ defaults write com.apple.dock ResetLaunchPad <span class="nt">-bool</span> TRUE<span class="p">;</span>killall Dock
-</code></pre></div></div>
-
-<p>修改后如下：
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2FQQ20160408-2.jpg" alt="image" /></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-04-09</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/04/Mac-2-%E8%A7%A3%E5%86%B3oh-my-zsh%E5%9C%A8%E7%BB%88%E7%AB%AF%E4%B8%8B%E6%89%93%E5%BC%80%E7%BC%93%E6%85%A2.html">MacTips 解决 oh-my-zsh 在 Terminal 下打开缓慢</a></h1>
-    <div class="post_at_index">
-      <p>升级 Mac OS X 10.11 之后，使用 CleanMyMac 3 清理 9GB 的垃圾文件，之后导致打开 iTerm 时加载主机名特别的慢，Mac 的命令行工具我使用的是 iTerm＋ohmyzsh，这个问题困扰了我快两个月，工作比较忙，所以一直用 Zoc 代替，也没有认真的研究，最近有需求用到它，实在不行，研究一下，发现，是因为我清理系统的时候把终端日志的索引文件清理掉了，所以每次打开的时候都要先加载索引导致了首次开启非常慢，解决办法是，只要把终端缓存的日志文件删除即可：</p>
-
-<p>代码块：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 日志文件路径</span>
-<span class="c"># /private/var/log/asl/*.asl</span>
-
-➜  ~ <span class="nb">sudo du</span> <span class="nt">-sh</span> /private/var/log/asl/
-Password:
-2.7G /private/var/log/asl/
-
-➜  ~ <span class="nb">sudo rm</span> <span class="nt">-rf</span> /private/var/log/asl/<span class="k">*</span>.asl
-➜  ~ <span class="nb">sudo du</span> <span class="nt">-sh</span> /private/var/log/asl/
-208M /private/var/log/asl/
-
-</code></pre></div></div>
-
-<p>关闭终端，再次打开，问题解决。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-04-08</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/04/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS-6-%E5%AE%89%E8%A3%85%E6%9B%B4%E9%AB%98%E7%89%88%E6%9C%AC%E7%9A%84PHP.html">如何在 CentOS 6 安装更高版本的 PHP</a></h1>
-    <div class="post_at_index">
-      <p>CentOS 6 默认安装的 PHP 版本是 5.3，但现在很多应用对于 LAMP 中，PHP 的版本最低 5.4，所以本篇文章的主要内容是，如何升级 PHP5.3 到 5.4 以及更高版本</p>
-
-<h2 id="实验环境centos-64">实验环境：CentOS 6.4</h2>
-
-<p>解决办法是采用了 remi 源仓库已经适配的相应 php 版本</p>
-
-<blockquote>
-  <p>经过测试，该升级办法同样适用目前 CentOS 6.x 所有版本</p>
-</blockquote>
-
-<h3 id="安装-remi-源">安装 Remi 源</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 因为remi依赖epel源仓库，所有我们要先安装它。</span>
-<span class="o">[</span>root@visionet8 ~]# yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
-
-<span class="o">[</span>root@visionet8 ~]# wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-<span class="o">[</span>root@visionet8 ~]# rpm <span class="nt">-Uvh</span> remi-release-6.rpm
-</code></pre></div></div>
-
-<h4 id="2-我们看下-remi-的的-yum-配置文件">2. 我们看下 Remi 的的 yum 配置文件</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Repository: http://rpms.remirepo.net/</span>
-<span class="c"># Blog:       http://blog.remirepo.net/</span>
-<span class="c"># Forum:      http://forum.remirepo.net/</span>
-
-<span class="o">[</span>remi]
-<span class="nv">name</span><span class="o">=</span>Remi<span class="s1">'s RPM repository for Enterprise Linux 6 - $basearch
-baseurl=http://rpms.remirepo.net/enterprise/6/remi/$basearch/
-#mirrorlist=http://rpms.remirepo.net/enterprise/6/remi/mirror
-enabled=1
-gpgcheck=0
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
-
-[remi-php55]
-name=Remi'</span>s PHP 5.5 RPM repository <span class="k">for </span>Enterprise Linux 6 - <span class="nv">$basearch</span>
-<span class="c">#baseurl=http://rpms.remirepo.net/enterprise/6/php55/$basearch/</span>
-<span class="nv">mirrorlist</span><span class="o">=</span>http://rpms.remirepo.net/enterprise/6/php55/mirror
-<span class="c"># NOTICE: common dependencies are in "remi-safe"</span>
-<span class="nv">enabled</span><span class="o">=</span>0
-<span class="nv">gpgcheck</span><span class="o">=</span>1
-<span class="nv">gpgkey</span><span class="o">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
-
-<span class="o">[</span>remi-php56]
-<span class="nv">name</span><span class="o">=</span>Remi<span class="s1">'s PHP 5.6 RPM repository for Enterprise Linux 6 - $basearch
-#baseurl=http://rpms.remirepo.net/enterprise/6/php56/$basearch/
-mirrorlist=http://rpms.remirepo.net/enterprise/6/php56/mirror
-# NOTICE: common dependencies are in "remi-safe"
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
-</span></code></pre></div></div>
-
-<p>经过测试，启用 remi 源之后，默认情况下 php 版本为 5.4，这时我们只需要升级 php 即可。</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@visionet8 html]# yum update <span class="nt">-y</span> php<span class="k">*</span>
-Failed to <span class="nb">set </span>locale, defaulting to C
-Loaded plugins: fastestmirror, refresh-packagekit, security
-Loading mirror speeds from cached hostfile
- <span class="k">*</span> base: mirrors.163.com
- <span class="k">*</span> epel: mirrors.ustc.edu.cn
- <span class="k">*</span> extras: mirrors.aliyun.com
- <span class="k">*</span> remi-safe: mirrors.tuna.tsinghua.edu.cn
- <span class="k">*</span> updates: mirrors.cn99.com
-remi                                                                               | 2.9 kB     00:00
-remi/primary_db                                                                    | 1.6 MB     00:05
-Setting up Update Process
-Resolving Dependencies
-<span class="nt">--</span><span class="o">&gt;</span> Running transaction check
-<span class="nt">---</span><span class="o">&gt;</span> Package php.x86_64 0:5.3.3-48.el6_8 will be updated
-<span class="nt">---</span><span class="o">&gt;</span> Package php.x86_64 0:5.4.45-12.el6.remi will be an update
-<span class="nt">---</span><span class="o">&gt;</span> Package php-cli.x86_64 0:5.3.3-48.el6_8 will be updated
-<span class="nt">---</span><span class="o">&gt;</span> Package php-cli.x86_64 0:5.4.45-12.el6.remi will be an update
-<span class="nt">---</span><span class="o">&gt;</span> Package php-common.x86_64 0:5.3.3-48.el6_8 will be updated
-<span class="nt">---</span><span class="o">&gt;</span> Package php-common.x86_64 0:5.4.45-12.el6.remi will be an update
-<span class="nt">---</span><span class="o">&gt;</span> Package php-gd.x86_64 0:5.3.3-48.el6_8 will be updated
-<span class="nt">---</span><span class="o">&gt;</span> Package php-gd.x86_64 0:5.4.45-12.el6.remi will be an update
-<span class="nt">--</span><span class="o">&gt;</span> Processing Dependency: libt1.so.5<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for </span>package: php-gd-5.4.45-12.el6.remi.x86_64
-<span class="nt">---</span><span class="o">&gt;</span> Package php-mcrypt.x86_64 0:5.3.3-4.el6 will be updated
-<span class="nt">---</span><span class="o">&gt;</span> Package php-mcrypt.x86_64 0:5.4.45-12.el6.remi will be an update
-<span class="nt">---</span><span class="o">&gt;</span> Package php-mysql.x86_64 0:5.3.3-48.el6_8 will be updated
-<span class="nt">---</span><span class="o">&gt;</span> Package php-mysql.x86_64 0:5.4.45-12.el6.remi will be an update
-<span class="nt">---</span><span class="o">&gt;</span> Package php-pdo.x86_64 0:5.3.3-48.el6_8 will be updated
-<span class="nt">---</span><span class="o">&gt;</span> Package php-pdo.x86_64 0:5.4.45-12.el6.remi will be an update
-<span class="nt">--</span><span class="o">&gt;</span> Running transaction check
-<span class="nt">---</span><span class="o">&gt;</span> Package t1lib.x86_64 0:5.1.2-6.el6_2.1 will be installed
-<span class="nt">--</span><span class="o">&gt;</span> Finished Dependency Resolution
-
-Dependencies Resolved
-
-<span class="o">==========================================================================================================</span>
- Package                  Arch                 Version                           Repository          Size
-<span class="o">==========================================================================================================</span>
-Updating:
- php                      x86_64               5.4.45-12.el6.remi                remi               2.8 M
- php-cli                  x86_64               5.4.45-12.el6.remi                remi               4.1 M
- php-common               x86_64               5.4.45-12.el6.remi                remi               968 k
- php-gd                   x86_64               5.4.45-12.el6.remi                remi               152 k
- php-mcrypt               x86_64               5.4.45-12.el6.remi                remi                60 k
- php-mysql                x86_64               5.4.45-12.el6.remi                remi               145 k
- php-pdo                  x86_64               5.4.45-12.el6.remi                remi               129 k
-Installing <span class="k">for </span>dependencies:
- t1lib                    x86_64               5.1.2-6.el6_2.1                   base               160 k
-
-Transaction Summary
-<span class="o">==========================================================================================================</span>
-Install       1 Package<span class="o">(</span>s<span class="o">)</span>
-Upgrade       7 Package<span class="o">(</span>s<span class="o">)</span>
-
-Total download size: 8.5 M
-Downloading Packages:
-<span class="o">(</span>1/8<span class="o">)</span>: php-5.4.45-12.el6.remi.x86_64.rpm                                           | 2.8 MB     00:07
-<span class="o">(</span>2/8<span class="o">)</span>: php-cli-5.4.45-12.el6.remi.x86_64.rpm                                       | 4.1 MB     00:06
-<span class="o">(</span>3/8<span class="o">)</span>: php-common-5.4.45-12.el6.remi.x86_64.rpm                                    | 968 kB     00:02
-<span class="o">(</span>4/8<span class="o">)</span>: php-gd-5.4.45-12.el6.remi.x86_64.rpm                                        | 152 kB     00:01
-<span class="o">(</span>5/8<span class="o">)</span>: php-mcrypt-5.4.45-12.el6.remi.x86_64.rpm                                    |  60 kB     00:00
-<span class="o">(</span>6/8<span class="o">)</span>: php-mysql-5.4.45-12.el6.remi.x86_64.rpm                                     | 145 kB     00:00
-<span class="o">(</span>7/8<span class="o">)</span>: php-pdo-5.4.45-12.el6.remi.x86_64.rpm                                       | 129 kB     00:01
-<span class="o">(</span>8/8<span class="o">)</span>: t1lib-5.1.2-6.el6_2.1.x86_64.rpm                                            | 160 kB     00:00
-<span class="nt">----------------------------------------------------------------------------------------------------------</span>
-Total                                                                     338 kB/s | 8.5 MB     00:25
-Running rpm_check_debug
-Running Transaction Test
-Transaction Test Succeeded
-Running Transaction
-Warning: RPMDB altered outside of yum.
-  Updating   : php-common-5.4.45-12.el6.remi.x86_64                                                  1/15
-  Updating   : php-cli-5.4.45-12.el6.remi.x86_64                                                     2/15
-  Updating   : php-pdo-5.4.45-12.el6.remi.x86_64                                                     3/15
-  Installing : t1lib-5.1.2-6.el6_2.1.x86_64                                                          4/15
-  Updating   : php-gd-5.4.45-12.el6.remi.x86_64                                                      5/15
-  Updating   : php-mysql-5.4.45-12.el6.remi.x86_64                                                   6/15
-  Updating   : php-5.4.45-12.el6.remi.x86_64                                                         7/15
-  Updating   : php-mcrypt-5.4.45-12.el6.remi.x86_64                                                  8/15
-  Cleanup    : php-5.3.3-48.el6_8.x86_64                                                             9/15
-  Cleanup    : php-mysql-5.3.3-48.el6_8.x86_64                                                      10/15
-  Cleanup    : php-pdo-5.3.3-48.el6_8.x86_64                                                        11/15
-  Cleanup    : php-cli-5.3.3-48.el6_8.x86_64                                                        12/15
-  Cleanup    : php-gd-5.3.3-48.el6_8.x86_64                                                         13/15
-  Cleanup    : php-mcrypt-5.3.3-4.el6.x86_64                                                        14/15
-  Cleanup    : php-common-5.3.3-48.el6_8.x86_64                                                     15/15
-  Verifying  : php-mcrypt-5.4.45-12.el6.remi.x86_64                                                  1/15
-  Verifying  : t1lib-5.1.2-6.el6_2.1.x86_64                                                          2/15
-  Verifying  : php-common-5.4.45-12.el6.remi.x86_64                                                  3/15
-  Verifying  : php-gd-5.4.45-12.el6.remi.x86_64                                                      4/15
-  Verifying  : php-cli-5.4.45-12.el6.remi.x86_64                                                     5/15
-  Verifying  : php-pdo-5.4.45-12.el6.remi.x86_64                                                     6/15
-  Verifying  : php-mysql-5.4.45-12.el6.remi.x86_64                                                   7/15
-  Verifying  : php-5.4.45-12.el6.remi.x86_64                                                         8/15
-  Verifying  : php-5.3.3-48.el6_8.x86_64                                                             9/15
-  Verifying  : php-gd-5.3.3-48.el6_8.x86_64                                                         10/15
-  Verifying  : php-cli-5.3.3-48.el6_8.x86_64                                                        11/15
-  Verifying  : php-pdo-5.3.3-48.el6_8.x86_64                                                        12/15
-  Verifying  : php-common-5.3.3-48.el6_8.x86_64                                                     13/15
-  Verifying  : php-mysql-5.3.3-48.el6_8.x86_64                                                      14/15
-  Verifying  : php-mcrypt-5.3.3-4.el6.x86_64                                                        15/15
-
-Dependency Installed:
-  t1lib.x86_64 0:5.1.2-6.el6_2.1
-
-Updated:
-  php.x86_64 0:5.4.45-12.el6.remi                      php-cli.x86_64 0:5.4.45-12.el6.remi
-  php-common.x86_64 0:5.4.45-12.el6.remi               php-gd.x86_64 0:5.4.45-12.el6.remi
-  php-mcrypt.x86_64 0:5.4.45-12.el6.remi               php-mysql.x86_64 0:5.4.45-12.el6.remi
-  php-pdo.x86_64 0:5.4.45-12.el6.remi
-
-Complete!
-</code></pre></div></div>
-
-<h4 id="测试">测试</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@visionet8 html]# php <span class="nt">-v</span>
-PHP 5.4.45 <span class="o">(</span>cli<span class="o">)</span> <span class="o">(</span>built: Sep 19 2016 15:31:07<span class="o">)</span>
-Copyright <span class="o">(</span>c<span class="o">)</span> 1997-2014 The PHP Group
-Zend Engine v2.4.0, Copyright <span class="o">(</span>c<span class="o">)</span> 1998-2014 Zend Technologies
-</code></pre></div></div>
-
-<h4 id="php-55-和-php56">php 5.5 和 php5.6</h4>
-
-<blockquote>
-  <p>若要升级到 5.5 或 5.6，根据 remi 源的配置文件，将 php5.5 的 enable 参数设置为 1，并将默认 enable 修改为 0，然后<code class="language-plaintext highlighter-rouge">yum update php*</code>即可。</p>
-</blockquote>
-
-<h4 id="5-php-7">5. php 7</h4>
-
-<blockquote>
-  <p>安装完成之后发现，在安装 remi 源之后，在<code class="language-plaintext highlighter-rouge">/etc/yum.repos.d</code>除了<code class="language-plaintext highlighter-rouge">remi.repo</code>之外，还有<code class="language-plaintext highlighter-rouge">remi-php70.repo</code>和<code class="language-plaintext highlighter-rouge">remi-php71.repo</code>，测试下，如果要升级到 php7，可以打开相应源仓库的配置文件，之后升级即可。
-<strong>以上功能在升级时，要考虑其他组件的版本兼容性，不要盲目升级。</strong></p>
-</blockquote>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-04-01</cite> <i class="icon-tag"></i>
       <a href="/tags.html#CentOS">CentOS</a>
-      , 
-      <a href="/tags.html#PHP">PHP</a>
       
       
       
@@ -1067,239 +501,152 @@ Zend Engine v2.4.0, Copyright <span class="o">(</span>c<span class="o">)</span> 
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/03/MySQL-4-MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80.html">MySQL 数据库使用基础</a></h1>
+    <h1><a class="title" href="/post/2016/06/MySQL-1-%E5%B8%B8%E7%94%A8%E4%BC%98%E5%8C%96.html">MySQL 常用配置优化</a></h1>
     <div class="post_at_index">
-      <h2 id="1-测试环境">1. 测试环境</h2>
+      <blockquote>
+  <p><strong>环境：MySQL 5.5 &amp; MySQL 5.6 &amp; RHEL/CentOS 5/6/7</strong></p>
+</blockquote>
+
+<h2 id="1-mysql-系统配置优化">1. MySQL 系统配置优化</h2>
+
+<p>网络配置方面：修改/etc/sysctl.conf</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 增加tcp支持的队列数</span>
+net.ipv4.tcp_max_syn_backlog <span class="o">=</span> 65535
+<span class="c"># 减少断开时</span>
+</code></pre></div></div>
+
+<p>打开文件限制 修改/etc/security/limits.conf</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 增加：</span>
+<span class="k">*</span> <span class="nb">sort </span>nofile 65535
+<span class="k">*</span> hard nofile 65535
+</code></pre></div></div>
+
+<h2 id="2--mysql-配置文件优化">2.  MySQL 配置文件优化</h2>
 
 <ul>
-  <li>MacBook Pro 15’ i7 16GB</li>
-  <li>VMware Fushion 8 Pro</li>
-  <li>MySQL Version 5.1</li>
-  <li>CentOS Linux 6.x</li>
+  <li>
+    <p>配置文件位置：/etc/my.cnf /etc/mysql/my.cnf</p>
+  </li>
+  <li>
+    <p>如果/etc下没有my.cnf，需要拷贝一份</p>
+  </li>
 </ul>
 
-<h2 id="2-实验步骤">2. 实验步骤</h2>
-
-<h3 id="21安装-mysql">2.1 安装 mysql</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera  ~]#  yum  install  mysql  mysql-server  mysql-devel
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cp</span> /usr/share/mysql/my-medium.cnf /etc/my.cnf
 </code></pre></div></div>
 
-<h3 id="22-启动-mysql并设置开机自启动">2.2 启动 mysql，并设置开机自启动</h3>
+<ul>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>配置文件查找顺序：mysql -verbose –help</td>
+          <td>grep -A 1 ‘Default options’</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>常用配置说明：</li>
+</ul>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera  ~]#  service  mysqld  start
-<span class="o">[</span>root@ultraera  ~]#  chkconfig  mysqld  on
-<span class="o">[</span>root@ultraera  ~]#  chkconfig  --list  |  grep  mysqld
-mysqld 0:off  1:off  2:on  3:on  4:on  5:on  6:off
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_buffer_pool_size
 </code></pre></div></div>
 
-<h3 id="23-相关配置">2.3 相关配置</h3>
+<p>设置 mysql 数据库 innodb 存储缓冲池的大小，如果是独立的 mysql 服务，建议设置为物理内存的 75％左右，如果和 apahce 等服务一起运行时，则根据实际需求设定，尽可能大。</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/my.cnf         mysql配置文件
-/var/lib/mysql      mysql数据库文件
-port:3306           mysql默认端口
-
-<span class="c"># Tips : MySQL 绝大对数语句都是以分号结尾，注意是英文模式下的分号。字符和字符串用 '' 引起；</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_buffer_pool_instances
 </code></pre></div></div>
 
-<h3 id="24-mysql-初始化及登录">2.4 mysql 初始化及登录</h3>
+<p>这是 mysql5.5 中新增的一个参数，用于控制缓冲池的个数，默认情况下只有 1 个缓冲池，设置多个缓冲池可以增加并发性，提事物运算效率。</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# mysql_secure_installation
-
-NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MySQL
-      SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
-
-In order to log into MySQL to secure it, we<span class="s1">'ll need the current
-password for the root user.  If you'</span>ve just installed MySQL, and
-you haven<span class="s1">'t set the root password yet, the password will be blank,
-so you should just press enter here.
-
-Enter current password for root (enter for none):        # 首次登陆默认为空
-
-Setting the root password ensures that nobody can log into the MySQL
-root user without the proper authorisation.
-
-You already have a root password set, so you can safely answer '</span>n<span class="s1">'.
-
-Set the root password? [Y/n] y            # 设置root用户密码
-New password:
-Re-enter new password:
-Password updated successfully!
-Reloading privilege tables..
- ... Success!
-
-
-By default, a MySQL installation has an anonymous user, allowing anyone
-to log into MySQL without having to have a user account created for
-them.  This is intended only for testing, and to make the installation
-go a bit smoother.  You should remove them before moving into a
-production environment.
-
-Remove anonymous users? [Y/n] y        # 删除匿名用户
- ... Success!
-
-Normally, root should only be allowed to connect from '</span>localhost<span class="s1">'.  This
-ensures that someone cannot guess at the root password from the network.
-
-Disallow root login remotely? [Y/n] y        # 关闭root远程登陆
- ... Success!
-
-By default, MySQL comes with a database named '</span><span class="nb">test</span><span class="s1">' that anyone can
-access.  This is also intended only for testing, and should be removed
-before moving into a production environment.
-
-Remove test database and access to it? [Y/n] y    # 删除 test 数据库
- - Dropping test database...
-ERROR 1008 (HY000) at line 1: Can'</span>t drop database <span class="s1">'test'</span><span class="p">;</span> database doesn<span class="s1">'t exist
- ... Failed!  Not critical, keep moving...
- - Removing privileges on test database...
- ... Success!
-
-Reloading the privilege tables will ensure that all changes made so far
-will take effect immediately.
-
-Reload privilege tables now? [Y/n] y    # 保存这些设置
- ... Success!
-
-
-All done!  If you'</span>ve completed all of the above steps, your MySQL
-installation should now be secure.
-
-Thanks <span class="k">for </span>using MySQL!
-
-Cleaning up...
-<span class="o">[</span>root@ultraera ~]#
-
-<span class="o">[</span>root@ultraera  ~]# 
-<span class="o">[</span>root@ultraera  ~]# mysql  -u  root  -p  <span class="s1">'123456'</span>
-<span class="o">[</span>root@ultraera  ~]# mysql  -u  root  -p  -h  localhost “-h” 指定服务器地址
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_log_buffer_size
 </code></pre></div></div>
 
-<h3 id="25-创建查看及删除当前数据库">2.5 创建、查看及删除当前数据库</h3>
+<p>设定日志缓冲区的大小，由于体制最长每秒就会刷新，不需要太大。</p>
 
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">CREATE</span><span class="err">  </span><span class="k">DATABASE</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span>
-<span class="n">Query</span><span class="err">  </span><span class="n">OK</span><span class="p">,</span><span class="err">  </span><span class="mi">1</span><span class="err">  </span><span class="k">row</span><span class="err">  </span><span class="n">affected</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">SHOW</span><span class="err">  </span><span class="n">DATABASES</span><span class="p">;</span>
-<span class="o">+</span><span class="c1">--------------------+</span>
-<span class="o">|</span><span class="err">  </span><span class="k">Database</span> <span class="o">|</span>
-<span class="o">+</span><span class="c1">--------------------+</span>
-<span class="o">|</span><span class="err">  </span><span class="n">information_schema</span><span class="err">  </span><span class="o">|</span>
-<span class="o">|</span><span class="err">  </span><span class="n">mysql</span> <span class="o">|</span>
-<span class="o">|</span><span class="err">  </span><span class="n">test</span> <span class="o">|</span>
-<span class="o">|</span><span class="err">  </span><span class="n">ultraera</span> <span class="o">|</span>
-<span class="o">+</span><span class="c1">--------------------+</span>
-<span class="mi">4</span><span class="err">  </span><span class="k">rows</span><span class="err">  </span><span class="k">in</span><span class="err">  </span><span class="k">set</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">DROP</span><span class="err">  </span><span class="k">DATABASE</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span>
-<span class="n">Query</span><span class="err">  </span><span class="n">OK</span><span class="p">,</span><span class="err">  </span><span class="mi">0</span><span class="err">  </span><span class="k">rows</span><span class="err">  </span><span class="n">affected</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_flush_log_at_trx_commit
 </code></pre></div></div>
 
-<h3 id="26-创建查看及删除当前表格">2.6 创建、查看及删除当前表格</h3>
+<p>关键参数，对于 innodb 的 IO 效率影响很大，默认值为 1，可以取值 0：不自动同步 log 到磁盘，由 mysql 每秒自动执行，1：将所有事物直接写到磁盘，可以用在保证数据绝对安全的地方，会影响效率，2：先将事物纪录保存在内存中，有 mysql 每秒统一写入磁盘，建议设定为 2</p>
 
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span><span class="err">创建表格之前要先选择数据库</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="n">use</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span>
-<span class="k">Database</span><span class="err">  </span><span class="n">changed</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">CREATE</span><span class="err">  </span><span class="k">TABLE</span><span class="err">  </span><span class="n">ultraera</span><span class="p">(</span> <span class="o">#</span><span class="k">create</span><span class="err"> 创建表格，至少</span><span class="mi">1</span><span class="err">列</span>
-<span class="o">-&gt;</span><span class="err">  </span><span class="n">id</span><span class="err">  </span><span class="nb">int</span><span class="err">  </span><span class="k">NOT</span><span class="err">  </span><span class="k">NULL</span><span class="p">,</span> <span class="o">#</span><span class="k">NOT</span><span class="err">  </span><span class="k">NULL</span> <span class="err">不为空</span><span class="p">,</span><span class="nb">int</span><span class="err"> 整型</span>
-<span class="o">-&gt;</span><span class="err">  </span><span class="n">name</span><span class="err">  </span><span class="nb">char</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="err">  </span><span class="k">NOT</span><span class="err">  </span><span class="k">NULL</span><span class="p">,</span> <span class="o">#</span><span class="nb">char</span><span class="p">()</span><span class="err"> 字符型  </span><span class="p">,()</span><span class="err">内定义字符长度</span>
-<span class="o">-&gt;</span><span class="err">  </span><span class="n">age</span><span class="err">  </span><span class="nb">int</span><span class="err">  </span><span class="k">NOT</span><span class="err">  </span><span class="k">NULL</span>
-<span class="o">-&gt;</span><span class="err">  </span><span class="p">);</span>
-<span class="n">Query</span><span class="err">  </span><span class="n">OK</span><span class="p">,</span><span class="err">  </span><span class="mi">0</span><span class="err">  </span><span class="k">rows</span><span class="err">  </span><span class="n">affected</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">01</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">DESC</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span>
-<span class="o">+</span><span class="c1">-------+----------+------+-----+---------+----------------+</span>
-<span class="o">|</span><span class="err">  </span><span class="n">Field</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">Type</span> <span class="o">|</span><span class="err">  </span><span class="k">Null</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">Key</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">Default</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="n">Extra</span> <span class="o">|</span>
-<span class="o">+</span><span class="c1">-------+----------+------+-----+---------+----------------+</span>
-<span class="o">|</span><span class="err">  </span><span class="n">id</span> <span class="o">|</span><span class="err">  </span><span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">NO</span><span class="err">  </span><span class="o">|</span> <span class="o">|</span><span class="err">  </span><span class="k">NULL</span> <span class="o">|</span> <span class="o">|</span>
-<span class="o">|</span><span class="err">  </span><span class="n">name</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="nb">char</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">NO</span><span class="err">  </span><span class="o">|</span> <span class="o">|</span><span class="err">  </span><span class="k">NULL</span> <span class="o">|</span> <span class="o">|</span>
-<span class="o">|</span><span class="err">  </span><span class="n">age</span> <span class="o">|</span><span class="err">  </span><span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">NO</span><span class="err">  </span><span class="o">|</span> <span class="o">|</span><span class="err">  </span><span class="k">NULL</span> <span class="o">|</span> <span class="o">|</span>
-<span class="o">+</span><span class="c1">-------+----------+------+-----+---------+----------------+</span>
-<span class="mi">3</span><span class="err">  </span><span class="k">rows</span><span class="err">  </span><span class="k">in</span><span class="err">  </span><span class="k">set</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">DROP</span><span class="err">  </span><span class="k">TABLE</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="p">;</span>
-<span class="n">Query</span><span class="err">  </span><span class="n">OK</span><span class="p">,</span><span class="err">  </span><span class="mi">0</span><span class="err">  </span><span class="k">rows</span><span class="err">  </span><span class="n">affected</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_read_io_threads<span class="p">;</span>
+ innodb_write_io_threadsm<span class="p">;</span>
 </code></pre></div></div>
 
-<h3 id="27-修改表格信息">2.7 修改表格信息</h3>
+<p>mysql5.5 新增的两个参数，决定了 Innodb 读写的 io 进程数量，默认为 4，可以根据 CPU 的实际性能设定。</p>
 
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span><span class="p">.</span><span class="err">重命名表格</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">alter</span><span class="err">  </span><span class="k">table</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">rename</span><span class="err">  </span><span class="n">ultraera_org</span><span class="p">;</span>
-<span class="n">b</span><span class="p">.</span><span class="err">新增列</span>
-<span class="k">alter</span><span class="err">  </span><span class="k">table</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">add</span><span class="err">  </span><span class="n">address</span><span class="err">  </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
-<span class="k">c</span><span class="p">.</span><span class="err">删除列</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">alter</span><span class="err">  </span><span class="k">table</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">drop</span><span class="err">  </span><span class="k">column</span><span class="err">  </span><span class="n">address</span><span class="p">;</span>
-<span class="n">d</span><span class="p">.</span><span class="err">修改一个列的数据类型</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">alter</span><span class="err">  </span><span class="k">table</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">modify</span><span class="err">  </span><span class="n">name</span><span class="err">  </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
-<span class="n">e</span><span class="p">.</span><span class="err">重命名一个列</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">alter</span><span class="err">  </span><span class="k">table</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="n">change</span><span class="err">  </span><span class="k">column</span><span class="err">  </span><span class="n">NAME</span><span class="err">  </span><span class="n">name</span><span class="err">  </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_file_per_table
 </code></pre></div></div>
 
-<h3 id="28-向表格中插入数据">2.8 向表格中插入数据</h3>
+<p>关键参数，控制 Innodb 每一个表实用独立的表空间，默认为 off，也就是所有的表都会建立在共享空间，不利于资源回收</p>
 
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span><span class="p">.</span><span class="err">  全局插入</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">insert</span><span class="err">  </span><span class="k">into</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">values</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">'name'</span><span class="p">,</span><span class="mi">18</span><span class="p">);</span>
-<span class="n">b</span><span class="p">.</span><span class="err">  根据列插入</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">insert</span><span class="err">  </span><span class="k">into</span><span class="err">  </span><span class="n">ultraera</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">age</span><span class="p">)</span><span class="err">  </span><span class="k">values</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">'john'</span><span class="p">,</span><span class="mi">19</span><span class="p">);</span>
-<span class="o">###</span> <span class="mi">2</span><span class="p">.</span><span class="mi">9</span> <span class="err">查看表格中的数据：</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">select</span><span class="err">  </span><span class="o">*</span><span class="err">  </span><span class="k">from</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span> <span class="o">#</span><span class="err">  </span><span class="o">*</span><span class="err">匹配所有列，也可以只查询单个列，</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">select</span><span class="err">  </span><span class="n">name</span><span class="err">  </span><span class="k">from</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span>
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_stats_on_metadata
 </code></pre></div></div>
 
-<h3 id="210-where-运算符条件判断查询查询使用方法where列运算符值">2.10 where 运算符：条件判断查询，查询使用方法：where  列  运算符  值</h3>
+<p>决定了 mysql 在什么情况下会刷新 innodb 表的统计信息，可以关闭，管理员选取时间手动刷新。存在的目的保证优化器正确找到索引。</p>
 
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">where</span><span class="err">支持的运算符：</span><span class="o">=</span><span class="err">等于；</span><span class="o">&gt;</span><span class="err">大于；</span><span class="o">&lt;</span><span class="err">小于；</span><span class="o">&lt;&gt;</span><span class="err">不等于；</span><span class="o">&gt;=</span><span class="err">大于等于；</span><span class="o">&lt;=</span><span class="err">小于等于；</span><span class="k">BETWEEN</span><span class="err">在某范围之内；</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">;</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">;</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">;</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="o">&lt;=</span><span class="mi">1</span><span class="p">;</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="err">  </span><span class="k">between</span><span class="err">  </span><span class="mi">1</span><span class="err">  </span><span class="k">and</span><span class="err">  </span><span class="mi">4</span><span class="p">;</span>
+<p>mysql 最大连接数限制</p>
 
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">max_connections</span><span class="o">=</span>5000
 </code></pre></div></div>
 
-<h3 id="211-删除表格中的一条记录同样可以匹配-where-运算符">2.11 删除表格中的一条记录（同样可以匹配 where 运算符）</h3>
+<p>不区分表名称大小写</p>
 
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">delete</span><span class="err">  </span><span class="k">from</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">where</span><span class="err">  </span><span class="n">id</span><span class="err">  </span><span class="o">=</span><span class="err">  </span><span class="mi">4</span><span class="p">;</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">delete</span><span class="err">  </span><span class="o">*</span><span class="err">  </span><span class="k">from</span><span class="err">  </span><span class="n">ultraera</span><span class="err"> ；</span> <span class="o">#</span><span class="err">清空一个表格的数据；</span>
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">lower_case_table_names</span><span class="o">=</span>1
 </code></pre></div></div>
 
-<h3 id="212-更新表中的一个数据">2.12 更新表中的一个数据</h3>
+<p>修改默认字符编码</p>
 
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">update</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">set</span><span class="err">  </span><span class="n">age</span><span class="o">=</span><span class="mi">30</span><span class="err">  </span><span class="k">where</span><span class="err">  </span><span class="n">id</span><span class="o">=</span><span class="mi">3</span><span class="p">;</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># mysql 5.1</span>
+default-character-set<span class="o">=</span>utf8
 
+<span class="c"># mysql 5.5 &amp; mysql 5.6</span>
+character-set-server<span class="o">=</span>utf8
 </code></pre></div></div>
 
-<h3 id="213-mysql-增加删除一个用户">2.13 MySQL 增加删除一个用户</h3>
+<p>最大错误操作次数 : 默认是 10，尽量调大，否则容易导致 mysql 对来访主机锁定</p>
 
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">create</span><span class="err">  </span><span class="k">user</span><span class="err">  </span><span class="n">user1</span><span class="err">  </span><span class="n">identified</span><span class="err">  </span><span class="k">by</span><span class="err">  </span><span class="s1">'123456'</span><span class="p">;</span> <span class="o">#</span><span class="n">user1</span><span class="err">，密码</span><span class="mi">123456</span><span class="err">，新用户没有权限，无法登录数据库</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">drop</span><span class="err">  </span><span class="k">user</span><span class="err">  </span><span class="n">user1</span><span class="p">;</span> <span class="o">#</span><span class="err">删除用户</span><span class="n">user1</span>
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>max_connect_errors <span class="o">=</span> 10000
 </code></pre></div></div>
 
-<h3 id="214-给用户添加删除权限">2.14 给用户添加、删除权限</h3>
+<p>设置 mysql 时区：默认 mysql 使用的系统时区，其实我们也可以在 mysql 内设定时区</p>
 
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">grant</span><span class="err">  </span><span class="k">all</span><span class="err">  </span><span class="k">privileges</span><span class="err">  </span><span class="k">on</span><span class="err">  </span><span class="o">*</span><span class="p">.</span><span class="o">*</span><span class="err">  </span><span class="k">to</span><span class="err">  </span><span class="s1">'user1'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="err">  </span><span class="n">identified</span><span class="err">  </span><span class="k">by</span><span class="err">  </span><span class="s1">'123456'</span><span class="p">;</span>
-<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">revoke</span><span class="err">  </span><span class="k">all</span><span class="err">  </span><span class="k">privileges</span><span class="err">  </span><span class="k">from</span><span class="err">  </span><span class="n">user1</span><span class="p">;</span>
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>default-time_zone <span class="o">=</span> <span class="s1">'+8:00'</span>
 </code></pre></div></div>
 
-<h3 id="215-使用-mysqldump-进行数据库备份">2.15 使用 mysqldump 进行数据库备份</h3>
+<p>以上配置，如何在 mysql 内，检测是否生效</p>
 
-<p>数据库重命名：mysql 不能直接对数据库重命名，所以如果想要重名数据库的话，要先导出，接着创建一个新的数据库，然后将导出的 sql 文件再导入到新的数据库中</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> mysqldump  -u  root  -p  ultraera  &gt;  ultraera.sql     <span class="c">#备份</span>
-<span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> mysql  -u  root  -p  new_ultraera  &lt;  ultraera.sql     <span class="c">#恢复到指定数据库</span>
-
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>show variables like <span class="s1">'%max_connections%'</span>
+show variables like <span class="s1">'%time_zone%'</span>
+show variables like <span class="s1">'%max_connect_errors%'</span>
+show variables like <span class="s1">'%character-set-server%'</span>
+show variables like <span class="s1">'%lower_case_table_names%'</span>
 </code></pre></div></div>
+
+<p>修改/etc/my.cnf这是需要重启mysql才能生效，但是很多时候，我们不方便重启mysql，这时我们需要在mysql临时修改配置，注意并不是所有选项都可以在运行中修改，以修改时区为例：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 修改全局设置</span>
+<span class="nb">set </span>global <span class="nv">time_zone</span><span class="o">=</span><span class="s1">'+8:00'</span>
+
+<span class="c"># 修改当前会话</span>
+<span class="nb">set </span><span class="nv">time_zone</span><span class="o">=</span><span class="s1">'+8:00'</span>
+</code></pre></div></div>
+
+<h3 id="3--第三方工具对-mysql-配置进行优化">3.  第三方工具对 mysql 配置进行优化</h3>
+
+<ul>
+  <li><a href="http://toolspercona.com">http://toolspercona.com</a></li>
+</ul>
+
+<p>先回答问题，然后根据问题你给出的答案，网站会给你一个参考配置。</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-03-29</cite> <i class="icon-tag"></i>
+      <cite>2016-06-15</cite> <i class="icon-tag"></i>
       <a href="/tags.html#MySQL">MySQL</a>
       
       
@@ -1309,75 +656,411 @@ Cleaning up...
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/03/Linux-%E4%B8%AD%E7%9A%84%E4%B8%89%E4%B8%AA%E7%89%B9%E6%AE%8A%E6%9D%83%E9%99%90.html">Linux 中的三个特殊权限</a></h1>
+    <h1><a class="title" href="/post/2016/06/Tomcat-3-%E4%BC%98%E5%8C%96%E8%AE%BE%E5%AE%9A.html">Tomcat 优化设定</a></h1>
     <div class="post_at_index">
-      <h2 id="权限介绍">权限介绍</h2>
+      <ul>
+  <li>设置 JVM 空间大小，Xms 和 Xmx 一样大：JVM 初始分配的内存由-Xms 指定，默认是物理内存的 1/64；JVM 最大分配的内存由-Xmx 指定，默认是物理内存的 1/4。默认空余堆内存小于 40% 时，JVM 就会增大堆直到-Xmx 的最大限制；空余堆内存大于 70% 时，JVM 会减少堆直到-Xms 的最小限制。因此服务器一般设置-Xms、 -Xmx 相等以避免在每次 GC 后调整堆的大小。</li>
+  <li>关闭 dns 查询</li>
+  <li>增加线程数量</li>
+  <li>maxThreads、acceptCount：增加并发，同时增加这两个的数量</li>
+  <li>
+    <p>内存优化： /tomcatbin/catalina.sh</p>
+  </li>
+  <li>JAVA_OPTS=”-XX:PermSize=64M -XX:MaxPermSize=128m -Xms512m -Xmx1024m -Duser.timezone=Asia/Shanghai”</li>
+  <li>缓存优化</li>
+  <li>并发优化，线程优化</li>
+  <li>&lt;Connector port=”80” protocol=”HTTP/1.1” maxThreads=”600” minSpareThreads=”100” maxSpareThreads=”500” acceptCount=”700”</li>
+  <li>connectionTimeout=”20000” redirectPort=”8443” /&gt;</li>
+  <li>关闭 DNS 查询 :修改 server.xml 文件中的 Connector 元素，修改属性 enableLookups 参数值：enableLookups=”false”</li>
+  <li>使用 apr 插件，提高 tomcat 响应时间</li>
+</ul>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Linux中除了普通权限之外，还有三个特殊权限。
-SUID:：以文件的所属用户执行，而非执行文件的用户，多用于可执行文件，设置suid后，在权限位中，所属用户的  最后一个权
-限为变为s，添加SUID权限可用“+s”表示。
-例如：passwd
-<span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> which  passwd
-/usr/bin/passwd
-<span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> <span class="nb">ls</span>  <span class="nt">-l</span>  /usr/bin/passwd
-<span class="nt">-rwsr-xr-x</span><span class="nb">.</span>  1  root  root  25980  Feb  22  2012  /usr/bin/passwd
-<span class="o">[</span>adam@ultraera  ~]<span class="err">$</span>
-SGID：主要针对文件夹，在设置了SGID的文件夹中创建任何新文件都继承该文件的所属组，设置sgid后，在权限位中，所属
-组的最后一个权限位变为s，添加SGID权限可用“+s”表示。
-例如：
-<span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> <span class="nb">mkdir  </span>ultraera
-<span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> <span class="nb">ls</span>  <span class="nt">-l</span>
-total  4
-drwxrwxr-x  2  adam  adam  4096  Nov  27  21:09  ultraera
-<span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> <span class="nb">chmod  </span>g+s  ultraera/
-<span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> <span class="nb">ls</span>  <span class="nt">-l</span>
-total  4
-drwxrwsr-x  2  adam  adam  4096  Nov  27  21:09  ultraera
-<span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> su
-Password:
-<span class="o">[</span>root@ultraera  adam]#  <span class="nb">mkdir</span>  <span class="nt">-p</span>  ultraera/test
-<span class="o">[</span>root@ultraera  adam]#  <span class="nb">ls</span>  <span class="nt">-l</span>  ultraera/
-total  4
-drwxr-sr-x  2  root  adam  4096  Nov  27  21:09  <span class="nb">test</span>
-<span class="o">[</span>root@ultraera  adam]#
-sticky：针对文件夹，对目录拥有写权限的用户，仅可以删除其所拥有的文件，无法删除其他用户所拥有的文件，设置了sticky
-之后，在权限位，other的最后一个权限位变为t,添加SGID权限可用“+t”表示。
-例如：
-<span class="o">[</span>root@ultraera  tmp]#  <span class="nb">mkdir  </span>ultraera
-<span class="o">[</span>root@ultraera  tmp]#  <span class="nb">chmod  </span><span class="nv">a</span><span class="o">=</span>rwx,o+t  ultraera/
-<span class="o">[</span>root@ultraera  tmp]#  <span class="nb">ls</span>  <span class="nt">-ld</span>  ultraera/
-drwxrwxrwt  2  root  root  4096  Nov  27  21:29  ultraera/
-<span class="o">[</span>root@ultraera  tmp]#  useradd  user1
-<span class="o">[</span>root@ultraera  tmp]#  useradd  user2
-<span class="o">[</span>root@ultraera  tmp]#  su  user1
-<span class="o">[</span>user1@ultraera  tmp]<span class="nv">$ </span> <span class="nb">touch</span>  ./ultraera/test
-<span class="o">[</span>user1@ultraera  tmp]<span class="nv">$ </span> <span class="nb">ls</span>  <span class="nt">-l</span>  ultraera/
-total  0
-<span class="nt">-rw-rw-r--</span>  1  user1  user1  0  Nov  27  21:31  <span class="nb">test</span>
-<span class="o">[</span>user1@ultraera  tmp]<span class="nv">$ </span> <span class="nb">exit
-exit</span>
-<span class="o">[</span>root@ultraera  tmp]#  su  user2
-<span class="o">[</span>user2@ultraera  tmp]<span class="nv">$ </span> <span class="nb">rm</span>  <span class="nt">-f</span>  ./ultraera/test
-<span class="nb">rm</span>:  cannot  remove  <span class="sb">`</span>./ultraera/test<span class="s1">':  Operation  not  permitted
-[user2@ultraera  tmp]$
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="o">(</span>1<span class="o">)</span>安装APR tomcat-native
+    apr-1.3.8.tar.gz   安装在/usr/local/apr
+    <span class="c">#tar zxvf apr-1.3.8.tar.gz</span>
+    <span class="c">#cd apr-1.3.8</span>
+    <span class="c">#./configure;make;make install</span>
 
+    apr-util-1.3.9.tar.gz  安装在/usr/local/apr/lib
+    <span class="c">#tar zxvf apr-util-1.3.9.tar.gz</span>
+    <span class="c">#cd apr-util-1.3.9</span>
+    <span class="c">#./configure --with-apr=/usr/local/apr ----with-java-home=JDK;make;make install</span>
 
-同样使用chmod来设定特殊权限，与普通权限一样，特殊权限也可以用数字表示：
-suid  ：  4
-sgid  ：  2
-sticky ：  1
-chmod  4644  filename #设置文件suid权限
-chmod  2755  flodername #设置文件夹sgid权限
-chmod  1755  flodername #设置文件夹sticky权限
+    <span class="c">#cd apache-tomcat-6.0.20/bin</span>
+    <span class="c">#tar zxvf tomcat-native.tar.gz</span>
+    <span class="c">#cd tomcat-native/jni/native</span>
+    <span class="c">#./configure --with-apr=/usr/local/apr;make;make install</span>
 
-</span></code></pre></div></div>
+  <span class="o">(</span>2<span class="o">)</span>设置 Tomcat 整合 APR
+    修改 tomcat 的启动 shell （startup.sh），在该文件中加入启动参数：
+      <span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">"</span><span class="nv">$CATALINA_OPTS</span><span class="s2"> -Djava.library.path=/usr/local/apr/lib"</span> 。
+
+  <span class="o">(</span>3<span class="o">)</span>判断安装成功:
+    如果看到下面的启动日志，表示成功。
+      2007-4-26 15:34:32 org.apache.coyote.http11.Http11AprProtocol init
+</code></pre></div></div>
+
+<ul>
+  <li>开启 manager 管理</li>
+  <li>使用<a href="http://visualvm.Java.net/download.html">http://visualvm.Java.net/download.html</a> 工具监控 tomcat 的性能</li>
+  <li>JAVA_OPTS=’-Dcom.sun.management.jmxremote.port=8999 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false’</li>
+  <li>设置自动更新 autodeploy＝false</li>
+</ul>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-03-29</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Linux">Linux</a>
+      <cite>2016-06-15</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Tomcat">Tomcat</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/06/%E4%BD%BF%E7%94%A8mosh%E4%BB%A3%E6%9B%BFssh%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8.html">使用 mosh 代替 ssh 连接服务器</a></h1>
+    <div class="post_at_index">
+      <p>身为一名服务器运维人员，每天打交道最多的就是服务器了，最常用的连接服务器的工具就是 SSH，因为 SSH 是一个不可持续的连接，当网络出现波动时，SSH 断开会导致当前正在运行的服务中断，对工作产生非常大的影响，无意间看到了 Mosh 这个东西，安装使用下，发现网络波动这种事情不会导致服务器连接断开了，特意查了下，原来 Mosh 使用的是 UDP 方式传输：虽然也支持使用 SSH 配置进行认证登录，但是数据传输本身是使用 UDP 方式的，Mosh 支持在会话中断时，不会立即退出，而是启用一个计时器，当网络恢复后会自动连接，同时会延续之前的会话，不会重新开启一个。</p>
+
+<h2 id="mosh-主页">Mosh <a href="https://mosh.mit.edu/#getting">主页</a></h2>
+
+<h2 id="1-安装配置">1. 安装配置</h2>
+
+<p>需要在服务端和客户端同时安装 Mosh：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>＃ 以centos 6.x 为例：
+<span class="o">[</span>user@host ~]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
+<span class="o">[</span>user@host ~]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> mosh
+</code></pre></div></div>
+
+<h2 id="2-采用-ssh-配置进行认证登录只需要将-ssh-替换为-mosh-即可">2. 采用 SSH 配置进行认证登录，只需要将 ssh 替换为 mosh 即可</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>user@host ~]<span class="nv">$ </span>mosh user@host
+
+<span class="c"># 如何需要指定特定的ssh port或者使用ssh keyfile. 可以使用-ssh参数：</span>
+<span class="o">[</span>user@host ~]<span class="nv">$ </span>mosh <span class="nt">-ssh</span><span class="o">=</span><span class="s2">"ssh -i ~/.ssh/id_rsa -p 10002"</span> user@host
+</code></pre></div></div>
+
+<h2 id="3-other">3. Other</h2>
+
+<p>另外 Mosh 还支持使用临时 key 的方式认证，需要服务器端创建临时 key，然后客户端通过这个 key 进行登录，该 key 在会话结束的十分钟后自动失效。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 创建临时key</span>
+<span class="o">[</span>user@host ~]<span class="nv">$ </span>mosh-server
+MOSH CONNECT 53371 asdAADfdse234LSDSdIbow
+mosh-server <span class="o">(</span>mosh 1.2.4<span class="o">)</span>
+Copyright 2012 Keith Winstein &lt;mosh-devel@mit.edu&gt;
+License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+<span class="o">[</span>mosh-server detached, pid <span class="o">=</span> 27290]
+
+<span class="c"># 然后在client定义MOSH_KEY</span>
+<span class="o">[</span>user@host ~]<span class="nv">$ </span><span class="nb">export </span><span class="nv">MOSH_KEY</span><span class="o">=</span>asdAADfdse234LSDSdIbow
+<span class="c"># 注意mosh-client只能跟上具体的ip和临时端口，不支持主机名和域名方式</span>
+
+<span class="c"># 使用临时key连接服务器</span>
+<span class="o">[</span>user@host ~]<span class="nv">$ </span>mosh-client 10.0.2.4 53371
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-06-15</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#SSH">SSH</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/05/Azure-HowTo-Use-Azure-CLI-on-Mac.html">HowTo Use Azure CLI on Mac</a></h1>
+    <div class="post_at_index">
+      <h2 id="install-azure-cli-on-mac-and-centos">Install azure-cli on Mac and CentOS</h2>
+
+<h3 id="in-mac">In Mac</h3>
+
+<ol>
+  <li>Install brew.</li>
+  <li>brew install nodejs</li>
+  <li>echo “registry = <a href="https://registry.npm.taobao.org">https://registry.npm.taobao.org</a>” &gt; ~/.npmrc</li>
+  <li>npm install azure-cli -g</li>
+</ol>
+
+<h3 id="in-centos">In CentOS</h3>
+
+<ol>
+  <li>Install epel</li>
+  <li>yum install -y nodejs npm</li>
+  <li>echo “registry = <a href="https://registry.npm.taobao.org">https://registry.npm.taobao.org</a>” &gt; ~/.npmrc</li>
+  <li>npm install azure-cli -g</li>
+</ol>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-05-24</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Azure">Azure</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/05/Azure-3-HowTo-Use-Azure-CLI-on-Mac.html">Azure CLI Import AcountInfo</a></h1>
+    <div class="post_at_index">
+      <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/05/D50E240D-1468-486F-8CA7-C5D3DC7463DE.png" alt="image" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-05-24</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Azure">Azure</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/05/HowTo-Monitoring-MySQL-server-for-Zabbix.html">HowTo Monitoring MySQL server for Zabbix</a></h1>
+    <div class="post_at_index">
+      <h2 id="安装插件包">安装插件包</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install </span>http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm <span class="nt">-y</span>
+yum <span class="nb">install </span>percona-zabbix-templates.noarch <span class="nt">-y</span>
+yum <span class="nb">install </span>php<span class="k">*</span> <span class="nt">-y</span>
+</code></pre></div></div>
+
+<h2 id="导入模板">导入模板</h2>
+
+<p>把/var/lib/zabbix/percona/templates/zabbix_agent_template_percona_mysql_server_ht_2.0.9-sver1.1.6.xml 文件拷贝出来，通过 Zabbix 的监控页面导入：
+ConfigurationTemplatesImport(在右上角)
+选择导出的模板文件，点击 Import 完成导入</p>
+
+<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/05/zabbix-mysql01.png" alt="image" /></p>
+
+<h2 id="安装-agent">安装 Agent</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-ivh</span> http://repo.zabbix.com/zabbix/2.4/rhel/6/x86_64/zabbix-release-2.4-1.el6.noarch.rpm
+yum <span class="nb">install </span>zabbix-agent
+vim /etc/zabbix/zabbix-agentd.conf
+<span class="c">#配置监控服务器地址</span>
+<span class="nv">Server</span><span class="o">=</span>192.168.1.15
+<span class="c">#导入配置文件</span>
+<span class="nb">cp</span> /var/lib/zabbix/percona/templates/userparameter_percona_mysql.conf /etc/zabbix/zabbix_agentd.d/
+<span class="c">#重启agent</span>
+service zabbix-agent restart
+
+</code></pre></div></div>
+
+<h2 id="mysql-新建用户">Mysql 新建用户</h2>
+
+<p>登陆 Mysql 数据库，新建一个本地的只有查询权限的 mysql 用户
+grant select on <em>.</em> to ‘percona’@’localhost’ identified by ‘percona’;
+flush tables;</p>
+
+<h2 id="配置-percona-插件">配置 Percona 插件</h2>
+
+<p>修改插件使用的 mysql 用户名密码
+sed -i s/cactiuser/percona/g /var/lib/zabbix/percona/scripts/ss_get_mysql_stats.php</p>
+
+<h2 id="测试">测试</h2>
+
+<p>测试是否可以获取到值
+cd /var/lib/zabbix/percona/scripts/
+./get_mysql_stats_wrapper.sh gg
+如果获取到值，则说明配置成功
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/05/zabbix-mysql02.png" alt="image" /></p>
+
+<p>注意：执行完脚本后，请手动删除/tmp/文件夹下生成的*-mysql_cacti_stats.txt 文件，然后让程序自己调用创建新文件。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-05-20</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#MySQL">MySQL</a>
+      , 
+      <a href="/tags.html#Zabbix">Zabbix</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/05/HowTo-Install-CloudStack-4-8-on-CentOS-6-x.html">HowTo Install CloudStack 4.8 on CentOS 6.x</a></h1>
+    <div class="post_at_index">
+      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="c"># Install  CloudStack.sh</span>
+
+<span class="c"># setting static ip in : /etc/sysconfig/network-scripts/ifcfg-eth0</span>
+
+<span class="c"># Check Service</span>
+
+<span class="c"># Install</span>
+
+<span class="c"># hostname --fqdn</span>
+
+<span class="c"># service network restart</span>
+
+<span class="c"># trun off selinux in : /etc/selinux/config</span>
+<span class="c">#SELinux=disabed</span>
+
+<span class="c"># trun off iptables.</span>
+service iptables stop
+service ip6tables stop
+
+chkconfig iptables off
+chkconfig ip6tables off
+
+<span class="c">#NTP</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> ntp
+chkconfig ntpd on
+service ntpd start
+
+<span class="c"># adding cloudstack repos</span>
+<span class="o">[</span>cloudstack]
+<span class="nv">name</span><span class="o">=</span>cloudstack
+<span class="nv">baseurl</span><span class="o">=</span>http://cloudstack.apt-get.eu/centos/6/4.5/
+<span class="nv">enabled</span><span class="o">=</span>1
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+
+<span class="c">#NFS</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> nfs-utils
+
+<span class="c"># /etc/exports</span>
+/secondary <span class="k">*</span><span class="o">(</span>rw,async,no_root_squash,no_subtree_check<span class="o">)</span>
+/primary <span class="k">*</span><span class="o">(</span>rw,async,no_root_squash,no_subtree_check<span class="o">)</span>
+<span class="c"># add top to /etc/sysconfig/nfs</span>
+<span class="nv">LOCKD_TCPPORT</span><span class="o">=</span>32803
+<span class="nv">LOCKD_UDPPORT</span><span class="o">=</span>32769
+<span class="nv">MOUNTD_PORT</span><span class="o">=</span>892
+<span class="nv">RQUOTAD_PORT</span><span class="o">=</span>875
+<span class="nv">STATD_PORT</span><span class="o">=</span>662
+<span class="nv">STATD_OUTGOING_PORT</span><span class="o">=</span>2020
+<span class="c"># add iptable rules to /etc/sysconfig/iptables</span>
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 111 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 111 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 2049 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 32803 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 32769 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 892 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 892 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 875 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 875 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 662 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 662 <span class="nt">-j</span> ACCEPT
+<span class="c"># service iptables restart</span>
+service rpcbind start
+service nfs start
+chkconfig rpcbind on
+chkconfig nfs on
+
+<span class="c"># MySQL server</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> mysql-server
+<span class="c"># adding configure file in /etc/my.cnf : [mysqld]</span>
+<span class="nv">innodb_rollback_on_timeout</span><span class="o">=</span>1
+<span class="nv">innodb_lock_wait_timeout</span><span class="o">=</span>600
+<span class="nv">max_connections</span><span class="o">=</span>350
+log-bin<span class="o">=</span>mysql-bin
+binlog-format <span class="o">=</span> <span class="s1">'ROW'</span>
+
+service mysqld start
+chkconfig mysqld on
+mysql_secure_installation  <span class="c"># remeber the root pass.</span>
+
+<span class="c"># Cloudstack-management</span>
+yum <span class="nt">-y</span> <span class="nb">install </span>cloudstack-management
+cloudstack-setup-databases cloud:[password]@localhost <span class="nt">--deploy-as</span><span class="o">=</span>root:[password]
+cloudstack-setup-management
+
+<span class="c">#System Template Setup</span>
+/usr/share/cloudstack-common/scripts/storage/secondary/cloud-install-sys-tmplt <span class="nt">-m</span> /secondary <span class="nt">-u</span> http://cloudstack.apt-get.eu/systemvm/4.6/systemvm64template-4.6.0-kvm.qcow2.bz2 <span class="nt">-h</span> kvm <span class="nt">-F</span>
+
+
+<span class="c"># Install kvm</span>
+yum <span class="nt">-y</span> <span class="nb">install </span>cloudstack-agent
+
+<span class="c"># qemu configuration : /etc/libvirt/qemu.conf</span>
+<span class="nv">vnc_listen</span><span class="o">=</span>0.0.0.0
+<span class="c"># Libvirt Configuration : /etc/libvirt/libvirtd.conf</span>
+listen_tls <span class="o">=</span> 0
+listen_tcp <span class="o">=</span> 1
+tcp_port <span class="o">=</span> <span class="s2">"16059"</span>
+auth_tcp <span class="o">=</span> <span class="s2">"none"</span>
+mdns_adv <span class="o">=</span> 0
+<span class="c">#  /etc/sysconfig/libvirtd</span>
+<span class="nv">LIBVIRTD_ARGS</span><span class="o">=</span><span class="s2">"--listen"</span>
+
+service libvirtd restart
+
+lsmod | <span class="nb">grep </span>kvm:
+kvm_intel              55496  0
+kvm                   337772  1 kvm_intel
+
+
+<span class="c">##### UI Setting ####</span>
+http://[ip]:8080/client
+
+
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-05-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#CloudStack">CloudStack</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/05/OpenStak-%E4%BB%8B%E7%BB%8D.html">OpenStak 介绍</a></h1>
+    <div class="post_at_index">
+      <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide01.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide02.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide03.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide04.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide05.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide07.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide08.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide09.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide10.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide11.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide12.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide13.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide14.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide15.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide16.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide17.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide18.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide19.jpg" alt="image" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-05-15</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#OpenStack">OpenStack</a>
       
       
       
@@ -1426,7 +1109,7 @@ chmod  1755  flodername #设置文件夹sticky权限
             <li class="active"><a>20</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page23">23</a></li>
+          <li><a href="/page24">24</a></li>
         
 
         
@@ -1477,7 +1160,7 @@ chmod  1755  flodername #设置文件夹sticky权限
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>18</span>
+    		数据库 <span>19</span>
     	</a></li>
      
     	
@@ -1661,8 +1344,8 @@ chmod  1755  flodername #设置文件夹sticky权限
     	</a></li>
      
     	
-      <li><a href="/categories.html#NaN">
-    		NaN <span>1</span>
+      <li><a href="/categories.html#Network">
+    		Network <span>1</span>
     	</a></li>
      
     	
@@ -1706,13 +1389,53 @@ chmod  1755  flodername #设置文件夹sticky权限
     	</a></li>
      
     	
+      <li><a href="/categories.html#Kubernetes">
+    		Kubernetes <span>10</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Github">
     		Github <span>1</span>
     	</a></li>
      
     	
+      <li><a href="/categories.html#kubernetes">
+    		kubernetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#腾讯云">
+    		腾讯云 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#阿里云">
+    		阿里云 <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Gitlab">
     		Gitlab <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#前端">
+    		前端 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#DaoCloud Enterprise">
+    		DaoCloud Enterprise <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kubrnetes">
+    		Kubrnetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kafka">
+    		Kafka <span>1</span>
     	</a></li>
      
     	
@@ -1763,9 +1486,21 @@ df = pandas.read_csv(‘somefile.txt’)
         </li>
         
         <li>
-          <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
-          王路
-12 highlights
+          <a href="/post/2022/10/JWT-%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F.html">JWT 内置的方式</a>
+          
+  支持为 API 启用 jwt token 解码的能力 ,  读取网关的 jwt key
+    
+      读取请求 Header 中的 Authorization
+    
+  
+  需要支持为网关配置多 jwt key , and 加密长度 ?
+    
+      解密的性能问题
+      expire_time 过期时间的配置
+      解密后的参数传递
+    
+  
+
 
 
         </li>

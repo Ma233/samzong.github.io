@@ -233,6 +233,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -276,1274 +280,90 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2022/04/%E6%B7%98%E5%AE%9DPython-SDK%E4%BC%98%E5%8C%96%E6%94%AF%E6%8C%81Python3.html">淘宝 Python SDK 优化支持 Python3</a></h1>
+    <h1><a class="title" href="/post/2022/05/%E6%BB%A1%E8%B6%B3%E9%A2%84%E6%9C%9F%E7%9A%84%E6%96%87%E6%A1%A3%E7%AB%99-Mkdocs.html">满足预期的文档站 Mkdocs</a></h1>
     <div class="post_at_index">
-      <p>淘宝开放平台的 SDK，Python 的 SDK 是在 2012 年，仅支持 Python2.7 及以上，但不支持 Python3；二现在是 2102 年了，像我这样的新手都是直接从 Python3 开始的</p>
+      <h2 id="组合三件套">组合三件套</h2>
 
 <ul>
-  <li>我已经把这个项目开放在 GitHub <a href="https://github.com/SAMZONG/taobao-openapi">https://github.com/SAMZONG/taobao-openapi</a></li>
-  <li>同时放在了 Python pypi 软件仓库 <a href="https://pypi.org/project/taobao-openapi/">https://pypi.org/project/taobao-openapi/</a></li>
+  <li>Mkdocs # 热门的静态博客框架</li>
+  <li>Mkdocs-material # Mkdocs 颜值担当的主题</li>
+  <li>MkDocs Awesome Pages Plugin   # Mkdocs 动态的 Navgation 插件</li>
 </ul>
 
-<h2 id="install--usage">Install &amp; Usage</h2>
+<h3 id="依赖的插件">依赖的插件</h3>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>taobao-openapi
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>mkdocs 
+pip <span class="nb">install </span>mkdocs-material 
+pip <span class="nb">install </span>mkdocs-git-revision-date-plugin 
+pip <span class="nb">install </span>mkdocs-mermaid2-plugin 
+pip <span class="nb">install </span>mkdocs-rss-plugin 
+pip <span class="nb">install </span>mkdocs-minify-plugin 
+pip <span class="nb">install </span>mkdocs-macros-plugin 
+pip <span class="nb">install </span>mkdocs-git-revision-date-localized-plugin 
+pip <span class="nb">install </span>mkdocs-awesome-pages-plugin 
 </code></pre></div></div>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="kn">import</span> <span class="nn">taobao</span><span class="o">-</span><span class="n">openapi</span> <span class="k">as</span> <span class="n">tbapi</span>
+<h3 id="github-repo">Github repo</h3>
 
-</code></pre></div></div>
+<p>Private Teamplate <a href="https://github.com/SAMZONG/mkdocs-template">https://github.com/SAMZONG/mkdocs-template</a></p>
 
-<h2 id="持续补充-sdk-能力">持续补充 SDK 能力</h2>
-
-<p>淘宝开放平台后台下载获取到的 SDK 文件，会根据应用的权限生产对应的 SDK 包，所以你可能获取到的是几十个或者上百个</p>
-
-<p>NOTE: <strong>如果你有其他的 SDK 没有在文档中找到，可以反馈给我或者提 <code class="language-plaintext highlighter-rouge">Pull requests</code>，大家一起扩充 SDK</strong></p>
-
-<ul>
-  <li>v1.0.6 fix 文档错误</li>
-  <li>v1.0.4 增加更多接口</li>
-  <li>v1.0.3 增加更多接口</li>
-  <li>v1.0.2 添加 Wdt QimenCloud-openapi</li>
-  <li>v1.0.1 适配 taobao-openapi</li>
-</ul>
-
-<h2 id="使用说明">使用说明</h2>
-
-<pre><code class="language-python3">
-import top.api
-import json
-
-app_key = 
-app_secret = 
-session_key = 
-
-def trade_rates_get_request():
- req = top.api.TraderatesGetRequest()
- req.set_app_info(top.appinfo(app_key, app_secret))
- 
- req.fields = "tid,oid,role,nick,result,created,rated_nick,item_title,item_price,content,reply,num_iid"
- req.rate_type = "get"
- req.role = "buyer"
- 
- try:
-  resp = req.getResponse(session_key)
- except Exception as e:
-  print(e)
-
-
-if __name__ == '__main__':
- result = trade_rates_get_request()
- print(result)
-
-</code></pre>
-
-<h2 id="适配部分介绍">适配部分介绍</h2>
+<h3 id="awesome-plugin-常用参数">Awesome Plugin 常用参数</h3>
 
 <blockquote>
-  <p>以下为了省时间，基本引用了 <a href="https://blog.csdn.net/starryhwj/article/details/103026402">https://blog.csdn.net/starryhwj/article/details/103026402</a> 补充了 8
-同时感谢 <a href="https://github.com/ymj4023">@ymj4023</a></p>
+  <p>在文档内的路径展示</p>
 </blockquote>
 
-<h3 id="1-python3-int-替代了-long">1. Python3 int 替代了 long</h3>
-
-<pre><code class="language-python3">FROM: str(long(time.time() * 1000))
-
-TO: P_TIMESTAMP: str(int(time.time() * 1000))
-</code></pre>
-
-<h3 id="2-用-items-替代-iteritems">2. 用 items 替代 iteritems</h3>
-
-<pre><code class="language-python3">FROM: for key, value in application_parameter.iteritems():
-
-TO: for key, value in application_parameter.items():
-</code></pre>
-
-<h3 id="3-dict-方法优化">3. dict 方法优化</h3>
-
-<p>查阅资料，发现有人说到 dict methods dict.keys(), dict.items() and dict.values() return“views”instead of lists.这样就显而易见知道怎么改了：</p>
-
-<pre><code class="language-python3">FROM: keys = keys.sort()
-
-TO: keys = sorted(keys)
-</code></pre>
-
-<h3 id="4-unicode-对象需要编码">4. unicode 对象需要编码</h3>
-
-<p>英文意思很明确，unicode 对象在哈希之前必须进行编码转换，想起之前又看到过中文字符在 python 中是以 unicode 存在的，所以：</p>
-
-<pre><code class="language-python3">FROM: sign = hashlib.md5(parameters)).hexdigest().upper()
-
-TO: sign = hashlib.md5(parameters.encode("utf-8")).hexdigest().upper()
-</code></pre>
-
-<h3 id="5-soketpy-httpconnection">5. soket.py HttpConnection</h3>
-
-<p>这是花费时间最长的一个错误。首先，直接看最后，错误在 soket.py 里，心凉了半截，难道这里的调用都不一样了，再网上看又是 python 3.X 的 http 模块，去百度了半天也没有发现类似的错误，只能自己硬着头皮去看模块，功夫不负有心人，其实也很简单，在类 HTTPConnection 的初始化函数是这样定义的：</p>
-
-<pre><code class="language-python3">FROM: connection = httplib.HTTPConnection(self.__domain, self.__port, False, timeout)
-
-TO: connection = httplib.HTTPConnection(self.__domain, self.__port, timeout)
-</code></pre>
-
-<blockquote>
-  <p>比较下参数发现，python 2 比 3 多了一个参数，去掉即可，这个错误主要是是报错的地方和修改的地方不在一起，所以很难插出原因。</p>
-</blockquote>
-
-<h3 id="6-urllib-方法升级">6. urllib 方法升级</h3>
-
-<p>官方文档是这样解释的：urllib has been split up in Python 3. The urllib.urlencode() function is now urllib.parse.urlencode(), and the urllib.urlopen() function is now urllib.request.urlopen()</p>
-
-<pre><code class="language-python3">FROM: url = N_REST + "?" + urllib.parse.urlencode(sys_parameters)
-
-TO: url = N_REST + "?" + urllib.urlencode(sys_parameters)
-</code></pre>
-
-<h3 id="7-jsonobj-异常抛出">7. jsonobj 异常抛出</h3>
-
-<p>这个错误是在 API 调用出异常的时候暴露出来的。原因前面已经提到了，稍微查了下替代的方法：</p>
-
-<pre><code class="language-python3">if "error_response" in jsonobj:
-
-if P_CODE in jsonobj["error_response"]:
-</code></pre>
-
-<h3 id="8-is-not-修改为-">8. is not 修改为 !=</h3>
-
-<p>在 if 需要使用反向时，应该是 != ，而不是使用  is not；这个也是 PyCharm 给的建议，所以在使用时，所以简单调整下就好了</p>
-
-<pre><code class="language-python3">FROM: if respone.status is not 200:
-
-TO: if response.status != 200:
-</code></pre>
-
-<hr />
-
-<p>以上调整之后，基本就可以正常跑起来了，基本是可以支持 Python3 的使用，我试过了 Python3.6-3.9，都是 OK 的。</p>
-
-<h2 id="pypi-howto">pypi HowTo</h2>
-
-<p>把你的库上传到 pypi 之前，主要依赖的是 setup.py，下方是对应的 demo</p>
-
-<ul>
-  <li>打包 python3 steup.py sdist</li>
-  <li>twine upload dist/*</li>
-</ul>
-
-<blockquote>
-  <p>注意：需要先安装 setuptools twine</p>
-</blockquote>
-
-<pre><code class="language-python3"># /usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-import setuptools
-from distutils.core import setup
-import codecs
-import os
-import sys
-
-try:
- from setuptools import setup, find_packages
-except:
- from distutils import setup
-
-with open('README.md', 'r', encoding="utf-8") as fp:
- readme = fp.read()
-
-VERSION = "1.0.0"
-LICENSE = "MIT"
-
-setup(
- name='taobao-openapi',
- version=VERSION,
- description=(
-  '集合了淘宝开放平台的商铺 OPEN API，并适配了 Python3'
- ),
- long_description=readme,
- long_description_content_type='text/markdown',
- author='samzong.lu',
- author_email='samzong.lu@gmail.com',
- maintainer='samzong.lu',
- maintainer_email='samzong.lu@gmail.com',
- license=LICENSE,
- packages=find_packages(),
- platforms=["all"],
- url='https://github.com/SAMZONG/taobao-sdk-python3',
- install_requires=[
-  "requests"
-  ],
- classifiers=[
-  'Development Status :: 4 - Beta',
-  'Operating System :: OS Independent',
-  'Intended Audience :: Developers',
-  'License :: OSI Approved :: BSD License',
-  'Programming Language :: Python',
-  'Programming Language :: Python :: Implementation',
-  'Programming Language :: Python :: 3',
-  'Programming Language :: Python :: 3.4',
-  'Programming Language :: Python :: 3.5',
-  'Programming Language :: Python :: 3.6',
-  'Programming Language :: Python :: 3.7',
-  'Programming Language :: Python :: 3.8',
-  'Programming Language :: Python :: 3.9',
-  'Topic :: Software Development :: Libraries'
-  ],
- )
-</code></pre>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-14</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/04/Python-Pip-%E5%9B%BD%E5%86%85%E5%8A%A0%E9%80%9F.html">Python Pip 国内加速</a></h1>
-    <div class="post_at_index">
-      <p>目前国内还是有比较多的镜像站，截止目前使用下比较稳定的只有下面这个 清华的镜像站了</p>
-
-<ul>
-  <li><a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></li>
-</ul>
-
-<h2 id="安装特定包时加速">安装特定包时加速</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-pip <span class="nb">install </span>pandas <span class="nt">-i</span> http://pypi.douban.com/simple
-</code></pre></div></div>
-
-<h2 id="修改默认的-pip-源">修改默认的 pip 源</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c"># mkdir ~/.pip</span>
-
-<span class="c"># cat ~/.pip/pip.conf  &lt;&lt;EOF</span>
-<span class="o">[</span>global]
-index-url <span class="o">=</span> https://pypi.tuna.tsinghua.edu.cn/simple
-<span class="o">[</span><span class="nb">install</span><span class="o">]</span>
-trusted-host <span class="o">=</span> pypi.tuna.tsinghua.edu.cn
-EOF
-</code></pre></div></div>
-
-<p>文件保存后，pip 的源就更新成功了，使用 <code class="language-plaintext highlighter-rouge">pip config list</code> 确认下是否切换成功</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-14</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/04/Git-%E4%BF%AE%E5%A4%8D%E5%8E%86%E5%8F%B2%E9%94%99%E8%AF%AF%E7%9A%84Author%E4%BF%A1%E6%81%AF.html">Git 修复历史错误的 Author 信息</a></h1>
-    <div class="post_at_index">
-      <h2 id="git-author-的作用">git author 的作用</h2>
-
-<p>一般情况下 git 仓库，都是通过 author 中的 <code class="language-plaintext highlighter-rouge">user.email</code> 的判定提交者的身份；而这个配置一般在新电脑上需要初始化配置，否则还是容易出错。</p>
-
-<ul>
-  <li>个人软件仓库使用了公司的 author 信息 [信息泄漏的风险]</li>
-  <li>和其他开发者使用了相同的 author 信息 [影响 commit 追踪]</li>
-</ul>
-
-<h2 id="-修改为正确的-author-信息">✅ 修改为正确的 author 信息</h2>
-
-<blockquote>
-  <p>注意修改全局需要增加 <code class="language-plaintext highlighter-rouge">--global</code> 参数</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 修改系统默认（影响全部项目）谨慎使用
-git config <span class="nt">--global</span> user.name <span class="s2">"samzong"</span>
-git config <span class="nt">--global</span> user.email <span class="s2">"samzong.lu@gmail.com"</span>
-
-// 修改单个项目
-git config user.name <span class="s2">"samzong"</span>
-git config user.email <span class="s2">"samzong.lu@gmail.com"</span>
-</code></pre></div></div>
-
-<p>但是，通过以上的变更后，仅对后续的操作生效；所以这样可以帮助你回到正确的轨道上，但无法解决历史遗留的错误问题！</p>
-
-<p>下面我将演示如何解决这个问题</p>
-
-<h2 id="修订最近一次提交-amend">修订最近一次提交 (–amend)</h2>
-
-<p><code class="language-plaintext highlighter-rouge">git commit</code> 提供了 –amend 的参数，作用是对 commit 进行修正，如果你是最近一次提交出错，那么可以直接使用下方命令完成补救。</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 📢 注意替换 user.name &amp; user.email 为正确的选项</span>
-git commit <span class="nt">--amend</span> <span class="nt">--author</span><span class="o">=</span><span class="s2">"{user.name} &lt;{user.email}&gt;"</span>
-</code></pre></div></div>
-
-<p>以上变更完成后，你会发现最近一次的提交被修正成功了，可以使用 <code class="language-plaintext highlighter-rouge">git log -1</code> 来对比前后的 author 信息的变更；确认无误后，将你的修改推送到目标仓库中即可；</p>
-
-<blockquote>
-  <p>如果修改后的结果不满意，是可以再次修订</p>
-</blockquote>
-
-<h2 id="修改更早之前的提交-谨慎使用">修改更早之前的提交 (谨慎使用)</h2>
-
-<p>写在前面的话，如果你知道 rebase 的作用，请谨慎使用的同时记住，可以在任何过程中终止你的操作，这非常重要，使用如下命令</p>
-
-<pre><code class="language-bashe">git rebase --abort
-</code></pre>
-
-<p>如果需要修改更早之前的提交，那就需要结合 <code class="language-plaintext highlighter-rouge">git rebase</code> 的能力，来实现了</p>
-
-<blockquote>
-  <p>rebase 是个危险的操作，其产生的风险也就是目前我们要做的修改历史；<strong>仅建议在测试项目或者个人项目中使用，涉及到多人协作的开源、商业化项目谨慎使用</strong></p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## 使用 git log 找到你想要修改的提交</span>
-git log
-</code></pre></div></div>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>commit 145a3eb180c3f45fd99c2d61cad6439177cbc319
-Author: samzong.lu &lt;samzong.lu@gmail.com&gt;
-Date:   Sun Mar 20 22:22:58 2022 +0800
-
-commit 7e04c7ebaf06b2eea1951a29b79a571090cd1d8b  <span class="o">{</span>commit_id<span class="o">}</span>
-Author: samzong.lu &lt;samzong.lu@gmail.com&gt;
-Date:   Sun Mar 20 22:19:48 2022 +0800
-</code></pre></div></div>
-
-<p>找到你想要更新的 commit_id, 然后使用 rebase 命令来进行处理</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git rebase <span class="nt">-i</span> <span class="o">{</span>commit_id<span class="o">}</span>
-</code></pre></div></div>
-
-<p>然后继续使用 <code class="language-plaintext highlighter-rouge">git commit --amend</code> 来修改 author 信息，可以增加 –no-edit 来提效，表示无需弹出修改 commit info 的窗口</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit <span class="nt">--amend</span> <span class="nt">--author</span><span class="o">=</span><span class="s2">"{user.name} &lt;{user.email}&gt;"</span>
-</code></pre></div></div>
-
-<p>最后使用 <code class="language-plaintext highlighter-rouge">git rebase --coutine</code> 继续完成剩余的提交</p>
-
-<h2 id="更高级做法-filter-branch">更高级做法 <code class="language-plaintext highlighter-rouge">filter-branch</code></h2>
-
-<p><code class="language-plaintext highlighter-rouge">filter-branch</code> 虽然被官方推荐，但也不是可以轻易使用的工具；本次的目的只是修改 author 中邮箱，所以一定要加上 <code class="language-plaintext highlighter-rouge">--commit-filter</code>，官方的脚本实例我直接 copy 在下方了</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git filter-branch <span class="nt">--commit-filter</span> <span class="s1">'
-        if [ "$GIT_AUTHOR_EMAIL" = "schacon@localhost" ];
-        then
-                GIT_AUTHOR_NAME="Scott Chacon";
-                GIT_AUTHOR_EMAIL="schacon@example.com";
-                git commit-tree "$@";
-        else
-                git commit-tree "$@";
-        fi'</span> HEAD
-</code></pre></div></div>
-
-<h2 id="push-到-repo-的注意事项">push 到 repo 的注意事项</h2>
-
-<p>注意以上的消息会导致提交包含了“它们父提交的 SHA-1 校验”和“这个命令修改历史中的每一个提交的 SHA-1 校验”，再加上修改后的 author 信息，所以在 push 时会遇到警告，可以使用下方命令强制提交</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push <span class="nt">--force</span> origin <span class="o">{</span>branch_name<span class="o">}</span>
-</code></pre></div></div>
-
-<p>在多人协作的场景可能会出现覆盖他人代码的情况，请注意协商并 fetch 分支的变更，确保最新状态</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-11</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Git">Git</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/04/awsome-telegram-bot.html">Awsome Telegram Bot</a></h1>
-    <div class="post_at_index">
-      <h2 id="关于电报群">关于电报群</h2>
-
-<p>从 2014 年开始使用电报群，在这个不存在的通讯工具中，结识不少有趣的朋友，也发现了大量有价值的群组或 BOT，可以很方便你的生活</p>
-
-<blockquote>
-  <p>P.S. 不要过分关注那些黑产、广告和色情信息，它们虽然利用了这个工具，但是也只是其中一小部分</p>
-</blockquote>
-
-<h2 id="我在电报做的事情">我在电报做的事情</h2>
-
-<ul>
-  <li>美剧、电影和图书，所以最新的资源基本在电报群出现了，远比各种关注微信公众号套娃的营销号好很多</li>
-  <li>技术群，感谢技术群里的各位大佬给的帮助，尤其感谢 Taiwan 的几个技术社群，会有人认真解答你的问题
-    <ul>
-      <li>Go/Php 各类开发群</li>
-      <li>开源软件的沟通群，在这里你可以和开发者们进行沟通，并且提供你的建议，甚至讨论 PR</li>
-    </ul>
-  </li>
-  <li>各类 BOT
-    <ul>
-      <li>Temp Mail 生成临时邮箱</li>
-      <li>资料查询</li>
-      <li>GitHub 助手</li>
-      <li>短连接</li>
-      <li>网站服务监控</li>
-    </ul>
-  </li>
-  <li>羊毛群/合租群/VPN群，这里不用详细说明</li>
-</ul>
-
-<h2 id="使用的一些技巧">使用的一些技巧</h2>
-
-<ul>
-  <li>你需要一个 !+86 的手机号，保障你与所有的网友的友好交流，可以考虑使用 G 家 Voice 买个美区号方便</li>
-  <li>DO NOT USE CHINESE ! 这会让你发现不一样的 Telegram</li>
-</ul>
-
-<h2 id="develop-in-telegram">Develop in Telegram</h2>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/7a0Bjv.png" alt="7a0Bjv" /></p>
-
-<ul>
-  <li><a href="https://telegra.ph/">telegra.ph</a> 匿名博客，Writing is Sharing ~</li>
-  <li><a href="https://core.telegram.org/bots/api">telegram.bot_api</a> 定制开发你的 webhook</li>
-</ul>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Telegram">Telegram</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/03/Javascript-Tips.html">Javascript Tips</a></h1>
-    <div class="post_at_index">
-      <ul>
-  <li>alert 弹窗提醒一段文本</li>
-  <li>a = prompt(“input desc”)  接收输入，并把内容赋值给 a</li>
-  <li>confirm 弹出确认窗口，让用户确认，这是给出的结果就是 yes/no</li>
-  <li>console.log(‘AAS’) 输出一段日志</li>
-  <li>let a = 1  声明 变量 a=1，number 类型</li>
-  <li>const ABB = 123 声明一个常量 ABB, 不可以重新赋值</li>
-  <li>undefined 和 null 都是空的意思，但是这两个又不相同</li>
-  <li>a ?? “hello” ;  <code class="language-plaintext highlighter-rouge">??</code> 叫做 空值运算符，指当 a 未被赋值时，将 hello 赋值给 a，如果 a 已经被赋值了，则不变 ; a 需要被声明，在 JavaScript 中 声明 和 赋值 是两件事情</li>
-</ul>
-
-<h2 id="js-的数据类型">js 的数据类型</h2>
-
-<ul>
-  <li>js 是弱类型语言，1 == ‘1’ =&gt; true; 但是  1 === ‘1’ =&gt; false；   6 / “2” =&gt; 3, typeof is number</li>
-</ul>
-
-<h2 id="支持判断">支持判断</h2>
-
-<p>if  /elif else</p>
-
-<h2 id="支持的循环方式">支持的循环方式</h2>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="k">do</span> <span class="p">{</span>
-    <span class="c1">// Hello</span>
-<span class="p">}</span> <span class="nx">whIle</span> <span class="p">()</span>
-
-<span class="k">for</span> <span class="p">(</span><span class="nx">a</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="nx">a</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span><span class="nx">a</span><span class="o">+=</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
- <span class="c1">// Hello</span>
-<span class="p">}</span>
-
-<span class="nx">a</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
-<span class="k">switch</span> <span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">case</span> <span class="p">(</span><span class="nx">a</span> <span class="o">=</span> <span class="mi">100</span><span class="p">):{</span>
-        <span class="c1">//Hello</span>
-        <span class="k">break</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="nl">default</span><span class="p">:</span>
-        <span class="nx">alert</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h2 id="函数声明">函数声明</h2>
-
-<p>必须要使用 function</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="kd">function</span> <span class="nx">showMessage</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">alert</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hello Javascript !</span><span class="dl">'</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<ul>
-  <li>函数中变量的作用域：这部分与 Python 和 C 一致，分别为 内部变量 和 外部变量；关系存在在继承的概念</li>
-  <li>函数的参数，入参定义在 () 内，当函数声明了入参后，在对应调用时，就需要传递符合条件的参数
-    <ul>
-      <li>支持函数的默认值的设定</li>
-    </ul>
-  </li>
-  <li>函数的返回值，同样使用 return 作为返回值处理</li>
-  <li>函数 function is  an action, 所以函数的命名通常是 使用动词；javascipt 的命名方式 官方建议为 驼峰的方式</li>
-</ul>
-
-<blockquote>
-  <p>函数的特殊部分</p>
-</blockquote>
-
-<ul>
-  <li>函数表达式   let  sayHi = function () { alert(‘Hi’)}  利用声明 <code class="language-plaintext highlighter-rouge">let</code> 创建了一个函数，并把他赋值给了变量 sayHi</li>
-  <li>回调函数</li>
-</ul>
-
-<hr />
-
-<p>[ ] 今天学习的内容到此 回调函数  <a href="https://zh.javascript.info/function-expressions">https://zh.javascript.info/function-expressions</a></p>
-
-<h2 id="严格模式">严格模式</h2>
-
-<ul>
-  <li>三连表达式     cond ? resultA : resultB   //  1 &gt; 0 ? alert(true) : alert(false)   cond 为真展示resultA, 反之展示resultB</li>
-  <li>空值运算符     a ?? b       =&gt;  a ?? b 的结果是 a，除非 a 为 null/undefined，这时结果是 b</li>
-</ul>
-
-<h2 id="开发行为规范">开发行为规范</h2>
-
-<blockquote>
-  <p>BDD</p>
-</blockquote>
-
-<p>在 BDD 中，规范先行，实现在后。最后我们同时拥有了规范和代码。</p>
-
-<p>规范有三种使用方式：</p>
-
-<ul>
-  <li>作为 测试 —— 保证代码正确工作。</li>
-  <li>作为 文档 —— describe 和 it 的标题告诉我们函数做了什么。</li>
-  <li>作为 案例 —— 测试实际工作的例子展示了一个函数可以被怎样使用。</li>
-</ul>
-
-<p>有了规范，我们可以安全地改进、修改甚至重写函数，并确保它仍然正确地工作。</p>
-
-<p>这在一个函数会被用在多个地方的大型项目中尤其重要。当我们改变这样一个函数时，没有办法手动检查每个使用它们的地方是否仍旧正确。</p>
-
-<p>如果没有测试，一般有两个办法：</p>
-
-<ul>
-  <li>展示修改，无论修改了什么。然后我们的用户遇到了 bug，这应该是我们没有手动完成某些检查。</li>
-  <li>如果对出错的惩罚比较严重，并且没有测试，那么大家会很害怕修改这样的函数，然后这些代码就会越来越陈旧，没有人会想接触它。这很不利于发展。自动化测试则有助于避免这样的问题！</li>
-</ul>
-
-<p>如果这个项目被测试代码覆盖了，就不会出现这种问题。在任何修改之后，我们都可以运行测试，并在几秒钟内看到大量的检查。</p>
-
-<p>另外，一个经过良好测试的代码通常都有更好的架构。</p>
-
-<p>当然，这是因为覆盖了自动化测试的代码更容易修改和改进。但还有另一个原因。</p>
-
-<p>要编写测试，代码的组织方式应确保每个函数都有一个清晰描述的任务、定义良好的输入和输出。这意味着从一开始就有一个好的架构。</p>
-
-<p>在实际开发中有时候可能并不容易，有时很难在写实际代码之前编写规范，因为还不清楚它应该如何表现。但一般来说，编写测试使得开发更快更稳定。</p>
-
-<h2 id="object-对象的基础知识">Object 对象的基础知识</h2>
-
-<p>在 js 中 对象可以说非常常见的用到，所以相对来讲 定义一个对象也是非常的方便</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>   <span class="nx">构造函数</span> <span class="nx">的语法</span>
-<span class="kd">let</span> <span class="nx">user</span> <span class="o">=</span> <span class="p">{}</span>     <span class="nx">构造</span> <span class="dl">"</span><span class="s2">字面量的语法</span><span class="dl">"</span>
-</code></pre></div></div>
-
-<p>在对象中，包含的是 一个个属性，这些属性又以 键值对 的形式出现在 {} 中</p>
-
-<ul>
-  <li>定义一个有属性的对象  let user = {name:’alex’, age: 18}
-    <ul>
-      <li>增加属性 user.city = ‘Shanghai’  =&gt;   user[‘love package’] = ‘Apple’</li>
-      <li>删除一个属性 delete user.age</li>
-    </ul>
-  </li>
-  <li>计算属性  ：当创建一个对象时，我可以在对象字面量中使用方括号，这叫做计算属性；计算属性的含义是 [fruit] 是从 变量 fruit 中获取的</li>
-  <li>判断一个 属性是否在对象中    ”key” in Object  ，这里的 key 需要时一个值，否则会被认为一个变量</li>
-  <li>遍历一个对象采用的方式是  for  (let key in Object) : 这里的做法是 声明[let] 变量key ，并且把Object 中的每一个key的值遍历赋予key</li>
-  <li>取出对象中一个 key 的值可以采用的方式 Object[key] 或者 Object.key；但是Object.key 会出现对 <code class="language-plaintext highlighter-rouge">多词属性</code>
-    <ul>
-      <li>单词属性   name , age</li>
-      <li>多词属性   “like birds” ，这时使用 Object.key 的方式就不可行了</li>
-    </ul>
-  </li>
-</ul>
-
-<blockquote>
-  <p>JavaScirpt 中的垃圾回收机制</p>
-</blockquote>
-
-<p>当一个对象中的属性被建立后，如果这些属性被多个对象引用时，其他一个对象被重新赋值了，那么这些属性还是可以被访问的；但是当所有对象被重置后，这些无法被访问的属性 就变得不可以，这也会占用我们内存，而这类也会被 回收。</p>
-
-<h3 id="对象的方法-this">对象的方法 <code class="language-plaintext highlighter-rouge">this</code></h3>
-
-<p>this 是用来标识当前对象的，这个对象可以是个函数 ; 为了访问该对象，方法中可以使用 this 关键字。</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>this 设计到编程的一种形式： **面向对象编程** OOP ; 当我们在代码中用对象表示实体时，就是所谓的 面向对象编程，简称为“OOP”。
-</code></pre></div></div>
-
-<ul>
-  <li>this 的优势：在 JavaScript 中，this 关键字与其他大多数编程语言中的不同。JavaScript 中的 this 可以用于任何函数，即使它不是对象的方法。</li>
-  <li>this 的值是在代码运行时计算出来的，它取决于代码上下文。不用函数调用 this 时的到结果不一致的</li>
-  <li>箭头函数   function sum (a,b) =&gt; a*b；这类箭头函数是没有自己的 this，如果在箭头函数中使用 this，会把 this 当成一个真正的对象去处理，这不好</li>
-</ul>
-
-<p>在 JavaScript 中，this 是“自由”的，它的值是在调用时计算出来的，它的值并不取决于方法声明的位置，而是取决于在“点符号前”的是什么对象。在运行时对 this 求值的这个概念既有优点也有缺点。一方面，函数可以被重用于不同的对象。另一方面，更大的灵活性造成了更大的出错的可能。这里我们的立场并不是要评判编程语言的这个设计是好是坏。而是要了解怎样使用它，如何趋利避害。</p>
-
-<h3 id="对象的-构造和操作符-new">对象的 构造和操作符 <code class="language-plaintext highlighter-rouge">new</code></h3>
-
-<ul>
-  <li>构造函数在技术上，也是属于常规函数，不过有 2 个约定：
-    <ul>
-      <li>命名以大写字母开头，这是一个共同的约定，用来标明一个函数将被使用 <code class="language-plaintext highlighter-rouge">new</code> 来运行</li>
-      <li>他们只能有 <code class="language-plaintext highlighter-rouge">new</code> 操作符来执行</li>
-    </ul>
-  </li>
-</ul>
-
-<p>构造器不能被再次调用，因为他保存在任何地址，知识被创建后 后续 调用使用；所以 构造函数的封装一个 单一对象的代码，而无需将来重用</p>
-
-<h3 id="javascript--可选链">JavaScript  <code class="language-plaintext highlighter-rouge">?.</code> 可选链</h3>
-
-<p>可选链 ?. 语法有三种形式：</p>
-
-<ul>
-  <li>obj?.prop —— 如果 obj 存在则返回 obj.prop，否则返回 undefined。</li>
-  <li>obj?.[prop] —— 如果 obj 存在则返回 obj[prop]，否则返回 undefined。</li>
-  <li>obj.method?.() —— 如果 obj.method 存在则调用 obj.method()，否则返回 undefined。</li>
-</ul>
-
-<p>正如我们所看到的，这些语法形式用起来都很简单直接。?. 检查左边部分是否为 null/undefined，如果不是则继续运算。 ?. 链使我们能够安全地访问嵌套属性。但是，我们应该谨慎地使用 ?.，仅在当左边部分不存在也没问题的情况下使用为宜。以保证在代码中有编程上的错误出现时，也不会对我们隐藏。</p>
-
-<h2 id="symbol-类型">Symbol  类型</h2>
-
-<p>根据规范，Obj 的属性键 只能是 字符串类型或者 Symbol 类型；不能是 Number，也不能是 Boolean。</p>
-
-<p>Symbol 值 表示 唯一的标识符，现在可以通过 Symbol() 来创建这种类型的值；Symbol 的特性是唯一，即使我们创建了相同描述的 Symbol，他们的值不相同的；比如以下：</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">id1</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">(</span><span class="dl">'</span><span class="s1">id</span><span class="dl">'</span><span class="p">)</span>
-<span class="kd">let</span> <span class="nx">id2</span> <span class="o">=</span> <span class="nb">Symbol</span><span class="p">(</span><span class="dl">'</span><span class="s1">id</span><span class="dl">'</span><span class="p">)</span>
-
-<span class="nx">id1</span> <span class="o">==</span> <span class="nx">id2</span>   <span class="c1">// 结果是 false</span>
-</code></pre></div></div>
-
-<p>Symbol 的另外一个特性是不会被自动转化为字符串；其实在 javascript 中大多数的数值都是可以进行字符串的 <code class="language-plaintext highlighter-rouge">隐式转换</code> ，但是使用 Symbol() 定义的一个字符，是不能够直接转化为 字符串的，可以使用 <code class="language-plaintext highlighter-rouge">Symbol('id').toString()</code> 来输出字符串。</p>
-
-<h2 id="原始类型的方法">原始类型的方法</h2>
-
-<p>在 JavaScript 中有 7 种原始类型：string，number，bigint，boolean，symbol，null 和 undefined。</p>
-
-<ul>
-  <li>字符串处理方法</li>
-  <li>Number 的处理方法</li>
-</ul>
-
-<h2 id="数组方法的备忘笔记">数组方法的备忘笔记</h2>
-
-<p>数组方法备忘单：</p>
-
-<ul>
-  <li>添加/删除元素：
-    <ul>
-      <li><strong>push(…items) —— 向尾端添加元素</strong></li>
-      <li><strong>pop() —— 从尾端提取一个元素</strong></li>
-      <li><strong>shift() —— 从首端提取一个元素</strong></li>
-      <li><strong>unshift(…items) —— 向首端添加元素</strong></li>
-      <li>splice(pos, deleteCount, …items) 从 pos 开始删除 deleteCount 个元素，并插入 items。 <code class="language-plaintext highlighter-rouge">用来控制数组的增删改查</code></li>
-      <li>slice(start, end) —— 创建一个新数组，将从索引 start 到索引 end（但不包括 end）的元素复制进去 <code class="language-plaintext highlighter-rouge">取出部分数组的内容产生新数组</code></li>
-      <li>concat(…items) —— 返回一个新数组：复制当前数组的所有元素，并向其中添加 items。如果 items 中的任意一项是一个数组，那么就取其元素。 <code class="language-plaintext highlighter-rouge">拼接多个数组，产生一个新的数组</code></li>
-    </ul>
-  </li>
-</ul>
-
-<p>*搜索元素：</p>
-
-<ul>
-  <li>indexOf/lastIndexOf(item, pos) —— 从索引 pos 开始搜索 item，搜索到则返回该项的索引，否则返回 -1。</li>
-  <li>includes(value) —— 如果数组有 value，则返回 true，否则返回 false。</li>
-  <li>find/filter(func) —— 通过 func 过滤元素，返回使 func 返回 true 的第一个值/所有值。</li>
-  <li>
-    <p>findIndex 和 find 类似，但返回索引而不是值。</p>
-  </li>
-  <li>遍历元素：
-    <ul>
-      <li>forEach(func) —— 对每个元素都调用 func，不返回任何内容。</li>
-    </ul>
-  </li>
-</ul>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="kd">let</span> <span class="nx">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">Apple</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">Orage</span><span class="dl">'</span><span class="p">,</span><span class="dl">'</span><span class="s1">Prism</span><span class="dl">'</span><span class="p">]</span>
-
-<span class="k">for</span> <span class="p">(</span> <span class="kd">let</span> <span class="nx">fruit</span> <span class="k">of</span> <span class="nx">fruits</span> <span class="p">)</span> <span class="p">{</span><span class="nx">alert</span><span class="p">(</span><span class="nx">fruit</span><span class="p">);</span> <span class="p">}</span>
-<span class="c1">// 遍历数组 使用 for .. of 不能获取到当前元素的索引，知识获取到元素的值；但是大多数情况下是够用的，而且这样些代码更短，质量会高一些</span>
-
-<span class="k">for</span> <span class="p">(</span><span class="kd">let</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="nx">fruits</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span> <span class="p">)</span> <span class="p">{</span><span class="nx">alert</span><span class="p">(</span><span class="nx">fruits</span><span class="p">[</span><span class="nx">i</span><span class="p">])}</span>
-<span class="c1">// 这个方式就是标准的通过遍历元素的索引，然后通过索引获取到对应的数组元素的值</span>
-</code></pre></div></div>
-
-<ul>
-  <li>转换数组：
-    <ul>
-      <li>map(func) —— 根据对每个元素调用 func 的结果创建一个新数组。</li>
-      <li>sort(func) —— 对数组进行原位（in-place）排序，然后返回它。</li>
-      <li>reverse() —— 原位（in-place）反转数组，然后返回它。</li>
-      <li>split/join —— 将字符串转换为数组并返回。</li>
-      <li>reduce/reduceRight(func, initial) —— 通过对每个元素调用 func 计算数组上的单个值，并在调用之间传递中间结果。</li>
-    </ul>
-  </li>
-  <li>其他：
-    <ul>
-      <li>Array.isArray(arr) 检查 arr 是否是一个数组。</li>
-    </ul>
-  </li>
-</ul>
-
-<p>请注意，sort，reverse 和 splice 方法修改的是数组本身；这些是最常用的方法，它们覆盖 99％ 的用例。但是还有其他几个：</p>
-
-<ul>
-  <li>arr.some(fn)/arr.every(fn) 检查数组。</li>
-</ul>
-
-<p>与 map 类似，对数组的每个元素调用函数 fn。如果任何/所有结果为 true，则返回 true，否则返回 false。</p>
-
-<table>
-  <tbody>
-    <tr>
-      <td>这两个方法的行为类似于</td>
-      <td> </td>
-      <td>和 &amp;&amp; 运算符：如果 fn 返回一个真值，arr.some() 立即返回 true 并停止迭代其余数组项；如果 fn 返回一个假值，arr.every() 立即返回 false 并停止对其余数组项的迭代。</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>我们可以使用 every 来比较数组：</p>
-
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">arraysEqual</span><span class="p">(</span><span class="nx">arr1</span><span class="p">,</span> <span class="nx">arr2</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">arr1</span><span class="p">.</span><span class="nx">length</span> <span class="o">===</span> <span class="nx">arr2</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span> <span class="nx">arr1</span><span class="p">.</span><span class="nx">every</span><span class="p">((</span><span class="nx">value</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">value</span> <span class="o">===</span> <span class="nx">arr2</span><span class="p">[</span><span class="nx">index</span><span class="p">]);</span>
-<span class="p">}</span>
-
-<span class="nx">alert</span><span class="p">(</span> <span class="nx">arraysEqual</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]));</span> <span class="c1">// true</span>
-</code></pre></div></div>
-
-<ul>
-  <li>arr.fill(value, start, end) —— 从索引 start 到 end，用重复的 value 填充数组。</li>
-  <li>arr.copyWithin(target, start, end) —— 将从位置 start 到 end 的所有元素复制到 自身 的 target 位置（覆盖现有元素）。</li>
-  <li>arr.flat(depth)/arr.flatMap(fn) 从多维数组创建一个新的扁平数组。</li>
-  <li>Array.of(element0[, element1[, …[, elementN]]]) 基于可变数量的参数创建一个新的 Array 实例，而不需要考虑参数的数量或类型。</li>
-</ul>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-03-28</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Javascript">Javascript</a>
-      , 
-      <a href="/tags.html#HTML">HTML</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/03/awesome-hexo-plugins.html">Awesome Hexo Plugin</a></h1>
-    <div class="post_at_index">
-      <p>About my blog use hexo plugin</p>
-
-<h2 id="hexo-hide-posts">hexo-hide-posts</h2>
-
-<p><a href="https://github.com/prinsss/hexo-hide-posts">hexo-hide-posts</a> is A plugin to hide specific posts from your Hexo blog and make them only accessible by links</p>
-
-<h3 id="installation">Installation</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>hexo-hide-posts <span class="nt">--save</span>
-</code></pre></div></div>
-
-<p>Usage</p>
-
-<p>Add <code class="language-plaintext highlighter-rouge">hidden: true</code> to the <a href="https://hexo.io/docs/front-matter">front-matter</a> of posts which you want to hide.</p>
-
-<p>e.g. Edit <code class="language-plaintext highlighter-rouge">source/_posts/lorem-ipsum.md</code>:</p>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
-layout: post
-title: 'Lorem Ipsum'
-date: '2019/8/10 11:45:14'
-hidden: true
----
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-</code></pre></div></div>
-
-<p>This post will not be shown anywhere, but you can still access it by <code class="language-plaintext highlighter-rouge">https://hexo.test/lorem-ipsum/</code>. (If you want to completely prevent a post from rendering, just set it as a <a href="https://hexo.io/docs/writing.html#Drafts">draft</a>.)</p>
-
-<p>To get a list of hidden posts, you can run <code class="language-plaintext highlighter-rouge">hexo hidden:list</code> from command line.</p>
-
-<p>For developers, <code class="language-plaintext highlighter-rouge">all_posts</code> and <code class="language-plaintext highlighter-rouge">hidden_posts</code> added to <a href="https://hexo.io/api/locals">Local Variables</a> may be useful.</p>
-
-<h3 id="config">Config</h3>
-
-<p>In your site’s <code class="language-plaintext highlighter-rouge">_config.yml</code>:</p>
-
-<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># hexo-hide-posts</span>
-<span class="na">hide_posts</span><span class="pi">:</span>
-  <span class="na">enable</span><span class="pi">:</span> <span class="no">true</span>
-  <span class="c1"># Change the filter name to fit your need</span>
-  <span class="na">filter</span><span class="pi">:</span> <span class="s">hidden</span>
-  <span class="c1"># Generators which you want to expose all posts (include hidden ones) to.</span>
-  <span class="c1"># Common generators: index, tag, category, archive, sitemap, feed, etc.</span>
-  <span class="na">public_generators</span><span class="pi">:</span> <span class="pi">[]</span>
-  <span class="c1"># Add "noindex" meta tag to prevent hidden posts from being indexed by search engines</span>
-  <span class="na">noindex</span><span class="pi">:</span> <span class="no">true</span>
-</code></pre></div></div>
-
-<h2 id="hexo-generator-restful">hexo-generator-restful</h2>
-
-<p><a href="https://github.com/yscoder/hexo-generator-restful">hexo-generator-restful</a> is generate restful json data for Hexo plugins.</p>
-
-<h3 id="install">Install</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install </span>hexo-generator-restful <span class="nt">--save</span>
-</code></pre></div></div>
-
-<h3 id="config-plugin">Config Plugin</h3>
-
-<p>以下为默认配置，属性值为 <code class="language-plaintext highlighter-rouge">false</code> 表示不生成。</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">restful</span><span class="pi">:</span>
-  <span class="c1"># site 可配置为数组选择性生成某些属性</span>
-  <span class="c1"># site: ['title', 'subtitle', 'description', 'author', 'since', email', 'favicon', 'avatar']</span>
-  <span class="na">site</span><span class="pi">:</span> <span class="no">true</span>        <span class="c1"># hexo.config mix theme.config</span>
-  <span class="na">posts_size</span><span class="pi">:</span> <span class="m">10</span>    <span class="c1"># 文章列表分页，0 表示不分页</span>
-  <span class="na">posts_props</span><span class="pi">:</span>      <span class="c1"># 文章列表项的需要生成的属性</span>
-    <span class="na">title</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">slug</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">date</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">updated</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">comments</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">path</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">excerpt</span><span class="pi">:</span> <span class="no">false</span>
-    <span class="na">cover</span><span class="pi">:</span> <span class="no">true</span>      <span class="c1"># 封面图，取文章第一张图片</span>
-    <span class="na">content</span><span class="pi">:</span> <span class="no">false</span>
-    <span class="na">keywords</span><span class="pi">:</span> <span class="no">false</span>
-    <span class="na">categories</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">tags</span><span class="pi">:</span> <span class="no">true</span>
-  <span class="na">categories</span><span class="pi">:</span> <span class="no">true</span>         <span class="c1"># 分类数据</span>
-  <span class="na">use_category_slug</span><span class="pi">:</span> <span class="no">false</span> <span class="c1"># Use slug for filename of category data</span>
-  <span class="na">tags</span><span class="pi">:</span> <span class="no">true</span>               <span class="c1"># 标签数据</span>
-  <span class="na">use_tag_slug</span><span class="pi">:</span> <span class="no">false</span>      <span class="c1"># Use slug for filename of tag data</span>
-  <span class="na">post</span><span class="pi">:</span> <span class="no">true</span>               <span class="c1"># 文章数据</span>
-  <span class="na">pages</span><span class="pi">:</span> <span class="no">false</span>             <span class="c1"># 额外的 Hexo 页面数据，如 About</span>
-</code></pre></div></div>
-
-<h3 id="get-hexo-config">Get Hexo Config</h3>
-
-<p>获取所有 Hexo 配置（站点配置和主题配置）。</p>
-
-<blockquote>
-  <p>Request</p>
-</blockquote>
-
-<pre><code class="language-request">GET /api/site.json
-</code></pre>
-
-<blockquote>
-  <p>Response</p>
-</blockquote>
-
-<p><a href="https://samzong.me/api/site.json">/api/site.json</a></p>
-
-<h3 id="get-posts">Get Posts</h3>
-
-<p>如果配置 <code class="language-plaintext highlighter-rouge">posts_size: 0</code> 则不分页，以下请求会获取全部文章。</p>
-
-<blockquote>
-  <p>Request</p>
-</blockquote>
-
-<pre><code class="language-request">GET /api/posts.json
-</code></pre>
-
-<blockquote>
-  <p>Response</p>
-</blockquote>
-
-<p>示例为分页配置下的数据，会包含分页属性 <code class="language-plaintext highlighter-rouge">total</code>、<code class="language-plaintext highlighter-rouge">pageSize</code>、<code class="language-plaintext highlighter-rouge">pageCount</code>，不分页的数据不包含这三项。</p>
-
-<p><a href="https://samzong.me/api/posts.json">/api/posts.json</a></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-03-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Hexo">Hexo</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/03/Python-%E5%A4%9A%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7.html">Pyenv Python 多版本管理利器</a></h1>
-    <div class="post_at_index">
-      <blockquote>
-  <p>to_url : <a href="http://pyenv.run/">http://pyenv.run/</a>
-github offical site <a href="https://github.com/pyenv/pyenv">https://github.com/pyenv/pyenv</a></p>
-</blockquote>
-
-<p>在 MacOS 的使用方式：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>pyenv
-</code></pre></div></div>
-
-<hr />
-
-<p>使用 pyenv 还是挺方便的，但是在 Linux 云服务器上配置网络的话就比较麻烦了，比如我在用的阿里云 ECS，中间有些曲折，所以编写下文档记录下来，以防后续使用遇到问题</p>
-
-<h2 id="安装-pyenv">安装 <code class="language-plaintext highlighter-rouge">pyenv</code></h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 官方推荐</span>
-curl https://pyenv.run | bash
-</code></pre></div></div>
-
-<p>上面一个简单的命令就好了，安装后 pyenv 文件 会在你的 <code class="language-plaintext highlighter-rouge">$HOME/.pyenv</code> ，可以尝试看下脚本文件的内容，这里简单贴出来了；可以看到实际执行的脚本文件是下面这个</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 建议看下脚本</span>
-curl <span class="nt">-L</span> https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-
-<span class="c"># 下载脚本文件</span>
-wget https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer <span class="nt">-O</span> ~/pyenv-installer
-</code></pre></div></div>
-
-<p>如果你的服务器环境比较悲催，访问 GitHub 也是比较麻烦，那么可以看下这个网站  <a href="https://gitclone.com/">https://gitclone.com/</a> ；只需要对 <code class="language-plaintext highlighter-rouge">pyenv-installer</code> 进行简单的修改就可以实现加速下载了</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ......</span>
-<span class="k">if</span> <span class="o">[</span> <span class="nt">-n</span> <span class="s2">"</span><span class="k">${</span><span class="nv">USE_GIT_URI</span><span class="k">}</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
-  </span><span class="nv">GITHUB</span><span class="o">=</span><span class="s2">"git://github.com"</span>
-<span class="k">else
-  </span><span class="nv">GITHUB</span><span class="o">=</span><span class="s2">"https://gitclone.com/github.com"</span>
-<span class="k">fi</span>
-
-<span class="c"># .....</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docs
+├── .pages.yaml     <span class="c"># 站点顶部导航配置文件，控制顺序和名称，一般不增加</span>
+├── README.md       <span class="c"># 默认情况下 目录下 README.md 作为 default 页面</span>
+├── SUMMARY.md
+├── dce5.0          <span class="c"># 子文件夹，支持多级目录，自动检测配置</span>
+│   ├── .pages.yaml
+│   ├── 01kpanda.md <span class="c"># 子文件自动检测，可以通过文件名前缀数字控制排序</span>
+│   ├── 02ghippo.md
+│   ├── 03clusterpedia.md
+│   ├── ...
+├── design
+│   ├── .pages.yaml <span class="c"># 每个目录下都有一个 `.pages.yaml` 用来进行目录的配置</span>
+│   ├── README.md
+│   ├── ...
+~~~
+
+通过对每个文件下的特定处理，默认情况下 <span class="sb">`</span>.pages.yaml<span class="sb">`</span> 为空即可，如需要特殊处理，可以在文档添加下方参数:
+
+<span class="sb">```</span>yaml
+title: Products     <span class="c"># 文件夹展示的标题</span>
+order: 1            <span class="c"># 文件夹的顺序，数字越小越靠前</span>
+hide: <span class="nb">false</span>         <span class="c"># 是否隐藏，默认不隐藏</span>
+nav:                <span class="c"># 采用自定义导航</span>
+    - filename.md
+    - filename2.md
+    - ...
 </code></pre></div></div>
 
 <blockquote>
-  <p>先通过，<code class="language-plaintext highlighter-rouge">wget</code> 下载脚本文件，然后对脚本中的 <code class="language-plaintext highlighter-rouge">github.com</code> 的域名进行下修改，我试了下修改<code class="language-plaintext highlighter-rouge">https</code>就行了，然后就可以飞快的下载了</p>
+  <p><code class="language-plaintext highlighter-rouge">nav</code> 的配置方式，还有更多高级用法，可以参考插件做的的 Github 介绍 <a href="https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin#customize-navigation">传送门</a></p>
 </blockquote>
 
-<p>最后，将 <code class="language-plaintext highlighter-rouge">pyenv</code> 的初始化增加到系统的环境变量中</p>
+<h2 id="mkdocsyaml-的配置变更">mkdocs.yaml 的配置变更</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s1">'export PATH="$HOME/.pyenv/bin:$PATH"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
-<span class="nb">echo</span> <span class="s1">'eval "$(pyenv init -)"'</span> <span class="o">&gt;&gt;</span> ~/.bashrc
-<span class="nb">echo</span> <span class="s1">'eval "$(pyenv virtualenv-init -)"'</span>  <span class="o">&gt;&gt;</span> ~/.bashrc
-</code></pre></div></div>
+<ol>
+  <li>不要设定 <code class="language-plaintext highlighter-rouge">nav</code> OR <code class="language-plaintext highlighter-rouge">page</code></li>
+  <li>在 <code class="language-plaintext highlighter-rouge">plugin</code> 增加下方配置</li>
+</ol>
 
-<hr />
-
-<h2 id="使用-pyenv-安装特定版本的-python">使用 <code class="language-plaintext highlighter-rouge">pyenv</code> 安装特定版本的 python</h2>
-
-<p>在网络好的情况下，可以直接通过 <code class="language-plaintext highlighter-rouge">pyenv install 3.9.6</code> 安装对应的版本了，但是因为网络的问题，你会发现一直在下载 Python 包这一步，问题就是 www.python.org/ftp 网络的访问问题</p>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711398-96703bab-2e76-4f74-8b6d-1dfa212d39b1.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<p>遇到这个问题，可以尝试 先下载对应版本的安装包；可以使用国内的镜像站进行下载，或者在网络访问正常的地方进行下载包，然后上传到服务器中，这里推荐使用 淘宝的镜像站，把域名中 <a href="https://www.python.org/ftp">https://www.python.org/ftp</a> 替换为 <a href="https://npm.taobao.org/mirrors/">https://npm.taobao.org/mirrors/</a> ，下载到指定的目录</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># v = 你想要安装的python版本，比如 3.8.6</span>
-<span class="nb">export </span><span class="nv">v</span><span class="o">=</span>3.8.6<span class="p">;</span>  <span class="nb">mkdir</span> <span class="nt">-p</span> ~/.pyenv/sources/<span class="nv">$v</span><span class="p">;</span> wget https://npm.taobao.org/mirrors/python/<span class="nv">$v</span>/Python-<span class="nv">$v</span>.tar.xz <span class="nt">-P</span> ~/.pyenv/sources/<span class="nv">$v</span><span class="p">;</span> pyenv <span class="nb">install</span> <span class="nv">$v</span> <span class="nt">-k</span>
-</code></pre></div></div>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711423-9636d877-a9a2-4c9e-8cac-f82aaa3ff5b6.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<blockquote>
-  <p>在 pyenv 命令的最后增加一个 -k  会在安装时，优先检测本地的文件</p>
-</blockquote>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-03-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/03/Poetry-%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0.html">Poetry 使用笔记</a></h1>
-    <div class="post_at_index">
-      <p>poetry 是目前比较流行的 Python 环境管理工具 和 包管理工具，对多项目开发时的环境隔离有非常大的帮助，同时集成了包管理能力。</p>
-
-<blockquote>
-  <p>官方网站  <a href="https://python-poetry.org/">https://python-poetry.org/</a>   集成了所有 Poetry 最新的使用文档，以下仅在我的环境上经过验证</p>
-</blockquote>
-
-<h2 id="安装方式">安装方式</h2>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In Pip
-</span><span class="o">-</span> <span class="n">安装</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">poetry</span> <span class="c1"># pip3
-</span><span class="o">-</span> <span class="n">更新</span> <span class="n">poetry</span> <span class="bp">self</span> <span class="n">update</span>
-
-<span class="c1"># In my Mac
-</span><span class="o">-</span> <span class="n">安装</span> <span class="n">brew</span> <span class="n">install</span> <span class="n">poetry</span>
-<span class="o">-</span> <span class="n">更新</span> <span class="n">brew</span> <span class="n">upgrade</span> <span class="n">poetry</span>
-
-<span class="c1"># In my CentOS
-</span><span class="o">-</span> <span class="n">安装</span> <span class="n">curl</span> <span class="o">-</span><span class="n">sSL</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="p">.</span><span class="n">githubusercontent</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">python</span><span class="o">-</span><span class="n">poetry</span><span class="o">/</span><span class="n">poetry</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">get</span><span class="o">-</span><span class="n">poetry</span><span class="p">.</span><span class="n">py</span> <span class="o">|</span> <span class="n">python</span> <span class="o">-</span>
-<span class="o">-</span> <span class="n">更新</span> <span class="n">poetry</span> <span class="bp">self</span> <span class="n">update</span>
-</code></pre></div></div>
-
-<h2 id="配置技巧相关">配置技巧相关</h2>
-
-<p>在开始使用前，建议先对 poetry 的配置有些了解，并调整为适合你的方式，主要是调整一下虚拟环境的安装位置</p>
-
-<blockquote>
-  <p><code class="language-plaintext highlighter-rouge">poetry config</code> poetry 相关的查看和编辑的命令</p>
-</blockquote>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">~</span> <span class="n">poetry</span> <span class="n">config</span> <span class="o">--</span><span class="nb">list</span>  <span class="c1"># 获取当前 poetry 的配置情况
-</span>
-<span class="n">cache</span><span class="o">-</span><span class="nb">dir</span> <span class="o">=</span> <span class="s">"/Users/$username/Library/Caches/pypoetry"</span>
-<span class="n">experimental</span><span class="p">.</span><span class="n">new</span><span class="o">-</span><span class="n">installer</span> <span class="o">=</span> <span class="n">true</span>
-<span class="n">installer</span><span class="p">.</span><span class="n">parallel</span> <span class="o">=</span> <span class="n">true</span>
-<span class="n">virtualenvs</span><span class="p">.</span><span class="n">create</span> <span class="o">=</span> <span class="n">true</span>
-<span class="n">virtualenvs</span><span class="p">.</span><span class="ow">in</span><span class="o">-</span><span class="n">project</span> <span class="o">=</span> <span class="n">true</span>
-<span class="n">virtualenvs</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="s">"{cache-dir}/virtualenvs"</span>  <span class="c1"># /Users/$username/Library/Caches/pypoetry/virtualenvs
-</span>
-</code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th><strong>配置项目</strong></th>
-      <th><strong>配置内容</strong></th>
-      <th><strong>配置项说明</strong></th>
-      <th><strong>建议配置</strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>cache-dir</td>
-      <td>String</td>
-      <td>缓存目录配置，使用 poetry 安装的包源文件都会缓存到这个目录。</td>
-      <td>不建议更改</td>
-    </tr>
-    <tr>
-      <td>installer.parallel</td>
-      <td>boolean</td>
-      <td>此配置会被忽略</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>virtualenvs.create</td>
-      <td>boolean</td>
-      <td>默认为 true，如果当前工程的虚拟环境不存在，就创建一个</td>
-      <td>不建议更改</td>
-    </tr>
-    <tr>
-      <td>virtualenvs.in-project</td>
-      <td>boolean</td>
-      <td>None：poetry 会在系统特定目录创建一个.venv 目录，由下面的 path 参数指定<br />true：poetry 会在项目根目录创建一个.venv 目录<br />false：poetry 将会忽略已存在的.venv 目录</td>
-      <td><strong>《建议修改》</strong><br /><br />推荐这种方式，在项目根目录创建虚拟环境，这样就算移动目录位置也不影响虚拟环境的使用</td>
-    </tr>
-    <tr>
-      <td>virtualenvs.path</td>
-      <td>string</td>
-      <td>默认是{cache-dir}/virtualenvs，虚拟环境创建的目录，如果上面的 in-project 为 true，此配置就无效</td>
-      <td>不建议更改</td>
-    </tr>
-  </tbody>
-</table>
-
-<blockquote>
-  <p>建议 在使用前 启用 virtualenvs.in-project，这样会在每个项目下有一个.venv 方便隔离管理</p>
-</blockquote>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># poetry 配置说明
-</span><span class="n">poetry</span> <span class="n">config</span> <span class="n">virtualenvs</span><span class="p">.</span><span class="ow">in</span><span class="o">-</span><span class="n">project</span> <span class="n">true</span>
-</code></pre></div></div>
-
-<h2 id="poetry-常用指令说明">poetry 常用指令说明</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th><strong>Poetry Command</strong></th>
-      <th><strong>解释</strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>$ poetry –version</td>
-      <td>显示您的 Poetry 安装版本。</td>
-    </tr>
-    <tr>
-      <td>$ poetry new</td>
-      <td>创建一个新的 Poetry 项目。</td>
-    </tr>
-    <tr>
-      <td>$ poetry init</td>
-      <td>将 Poetry 添加到现有项目中。</td>
-    </tr>
-    <tr>
-      <td>$ poetry run</td>
-      <td>使用 Poetry 执行给定的命令。</td>
-    </tr>
-    <tr>
-      <td>$ poetry add</td>
-      <td>添加一个包 pyproject.toml 并安装它。</td>
-    </tr>
-    <tr>
-      <td>$ poetry update</td>
-      <td>更新项目的依赖项。</td>
-    </tr>
-    <tr>
-      <td>$ poetry install</td>
-      <td>安装依赖项。</td>
-    </tr>
-    <tr>
-      <td>$ poetry show</td>
-      <td>列出已安装的软件包。</td>
-    </tr>
-    <tr>
-      <td>$ poetry lock</td>
-      <td>将最新版本的依赖项固定到 poetry.lock.</td>
-    </tr>
-    <tr>
-      <td>$ poetry lock –no-update</td>
-      <td>刷新 poetry.lock 文件而不更新任何依赖版本。</td>
-    </tr>
-    <tr>
-      <td>$ poetry check</td>
-      <td>验证 pyproject.toml。</td>
-    </tr>
-    <tr>
-      <td>$ poetry config –list</td>
-      <td>显示 Poetry 配置。</td>
-    </tr>
-    <tr>
-      <td>$ poetry env list</td>
-      <td>列出项目的虚拟环境。</td>
-    </tr>
-    <tr>
-      <td>$ poetry export</td>
-      <td>导出 poetry.lock 为其他格式。</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="新项目初始化流程">新项目初始化流程</h2>
-
-<blockquote>
-  <p>这里以 初始化一个  FastAPI 项目作为 实例</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  fastapi poetry new fastapi-demo
-Created package fastapi_demo <span class="k">in </span>fastapi-demo
-➜  fastapi <span class="nb">ls</span> <span class="nt">-lh</span> fastapi-demo
-total 8
-<span class="nt">-rw-r--r--</span>  1 samzonglu  staff     0B  2 15 14:28 README.rst
-drwxr-xr-x  3 samzonglu  staff    96B  2 15 14:28 fastapi_demo
-<span class="nt">-rw-r--r--</span>  1 samzonglu  staff   304B  2 15 14:28 pyproject.toml
-drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
-
-➜  fastapi <span class="nb">cd </span>fastapi-demo
-➜  fastapi-demo poetry <span class="nb">env </span>use 3.10.2  <span class="c"># 配置项目的虚拟环境</span>
-
-</code></pre></div></div>
-
-<h2 id="requirementstxt-已存在项目使用-poetry">requirements.txt 已存在项目使用 poetry</h2>
-
-<p>这里会遇到一个问题，已存在的项目基本都已经有了 requirements.txt，所以 poetry 最好可以直接读取它</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry add <span class="sb">`</span><span class="nb">cat </span>requirements.txt<span class="sb">`</span>
-</code></pre></div></div>
-
-<p>将项目依赖导出为  requirements.txt</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry <span class="nb">export</span> <span class="nt">--output</span> requirements.txt
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">plugins</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">awesome-pages</span><span class="pi">:</span>
+       <span class="na">filename</span><span class="pi">:</span> <span class="s">.pages.yaml</span>
+       <span class="na">collapse_single_pages</span><span class="pi">:</span> <span class="no">true</span>
+       <span class="na">strict</span><span class="pi">:</span> <span class="no">false</span>
 </code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-03-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      , 
-      <a href="/tags.html#Poetry">Poetry</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/03/%E6%96%B0%E7%9A%84%E7%9B%AE%E6%A0%87.html">2022 新的目标</a></h1>
-    <div class="post_at_index">
-      <p>年轻的人儿啊！要记得星空多美丽 ~</p>
-
-<blockquote>
-  <p>岁月如歌，大肠包小肠</p>
-</blockquote>
-
-<hr />
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/4817FA7F-3FF7-43C0-A6DE-96F1568C4259_1_105_c.jpeg" alt="image" /></p>
-
-<h2 id="终局">终局</h2>
-
-<p>新年结束，已经走完了 3 个月了，瞎忙碌碌无为，内心的焦灼，不断在每个独处时拷问心神，久久回响不息</p>
-
-<p>迷惘和挫败的情绪，积累了好久。</p>
-
-<p>最近重读了 柏拉图的理想国，耐着性子，花了接近一个月的时间才断断续续的看完。</p>
-
-<p>终于有个好消息，终于想清楚了，今年的目标。</p>
-
-<h2 id="新开始">新开始</h2>
-
-<blockquote>
-  <p>要做的是两件事</p>
-</blockquote>
-
-<ul>
-  <li>回归产品的初心，不负自己</li>
-  <li>确认真正想做的事情；既然想好了，就有大量的准备工作要开展，先留在心里</li>
-</ul>
-
-<h2 id="人生不如戏">人生不如戏</h2>
-
-<p>回想了下，找不到方向时，的确需要花很长的时间来走弯路。</p>
-
-<p>可是，不能放弃啊！</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-03-10</cite> <i class="icon-tag"></i>
+      <cite>2022-05-06</cite> <i class="icon-tag"></i>
       <a href="/tags.html#随笔">随笔</a>
       
       
@@ -1553,23 +373,928 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
     <hr/>
     
     
-    <h1><a class="title" href="/post/2022/02/FastAPI-%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3.html">FastAPI 使用文档</a></h1>
+    <h1><a class="title" href="/post/2022/05/%E9%98%BF%E9%87%8C%E4%BA%91%E4%BA%91%E5%8E%9F%E7%94%9F%E7%BD%91%E5%85%B3.html">阿里云云原生网关</a></h1>
     <div class="post_at_index">
-      <h2 id="安装基础环境">安装基础环境
+      <h2 id="网关实例创建">网关实例创建</h2>
 
-</h2>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651751157994-b8bad510-7fef-48dc-ba3f-4e96ec9c6dbe.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" />
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651751173701-d1044f1f-21fb-441c-8cdc-a8ba41913007.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">poetry</span> <span class="k">add</span> <span class="n">fastapi</span>
-</code></pre></div></div>
+<h2 id="网关实例列表">网关实例列表</h2>
 
-<h2 id="首个程序文件">首个程序文件</h2>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651751221116-d98942f3-f7eb-4244-8086-ede693eca03d.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<h2 id="网关实例详情">网关实例详情</h2>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651751326158-94a6461b-ff77-437b-857c-e1774a2e482c.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<h3 id="路由管理">路由管理</h3>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651751386156-58785fc8-8d40-4d24-8b2a-3414bd53291e.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" />
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651751449469-5d5eb436-96c5-4b85-ad53-6fba732eb89f.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" />
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651751401698-9b1809ca-57c0-4376-a2e5-d02e6ffbb2fa.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<h3 id="安全能力">安全能力</h3>
+
+<p>黑名单 、白名单
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651751516295-30c3ce1e-6400-4b89-92da-712db2d8a34e.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" />
+认证鉴权
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651751537843-095ea821-7ffc-42b9-b04a-0ca2f48d3aee.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<h2 id="亮点功能">亮点功能</h2>
+
+<h3 id="新手引导">新手引导</h3>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651751256171-49237364-fde0-484c-a00a-cd0b6cbdf525.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651751264690-58877025-fe7c-4439-bdfd-594a8bd0925d.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" />
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651751275224-a0019c3d-84c4-4c06-bc3e-256eb9095df1.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" />
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651751286625-cbcafb8b-d9dc-46fe-8817-78b31e99fb30.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<h3 id="监控看板细致">监控看板细致</h3>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651751708626-6e3ba807-52d0-4b12-8d87-ed60fb4af3cb.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651751732800-991894a3-1c2b-40be-9c3a-da2cfeecebca.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<h2 id="录屏存放处">录屏存放处</h2>
+
+<blockquote>
+  <p>仅 DaoCloud 可查看</p>
+</blockquote>
+
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-02-24</cite> <i class="icon-tag"></i>
+      <cite>2022-05-06</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#云原生网关">云原生网关</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/05/%E8%85%BE%E8%AE%AF%E4%BA%91%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%BD%91%E5%85%B3.html">腾讯云微服务网关</a></h1>
+    <div class="post_at_index">
+      <h2 id="网关管理">网关管理</h2>
+
+<p>默认这里展示对应的网关列表，未提供网关的创建入口，需要依赖前序的网关应用创建；</p>
+
+<h2><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651835188355-19fc2743-a4c8-4656-a5eb-ddda1c009412.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></h2>
+
+<p>:::warning
+在 微服务的应用中心 进行网关创建
+:::
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651835152102-06d0d818-2fa9-4de2-bc7c-8ff54598a977.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<h3 id="网关的创建过程">网关的创建过程</h3>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651837425558-4d08bdb8-0b33-4d15-93f0-50d8f6aff20f.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="text" /></p>
+
+<h3 id="网关绑定的分组管理">网关绑定的分组管理</h3>
+
+<p>一个网关下可以创建多个分组，分别指向不同的 托管 API ，根据访问的 Context 区分
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651835588311-0c5f3792-dd31-4f1e-92da-1b50419eab32.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<h3 id="分组下的-api-管理">分组下的 API 管理</h3>
+
+<ul>
+  <li>API 类型为： 微服务 API，支持检测自动导入 API；也支持手工编辑</li>
+  <li>API 类型为： 外部 API，仅支持支持手工编辑</li>
+</ul>
+
+<h2 id="插件管理">插件管理</h2>
+
+<ul>
+  <li>主要支持 2 类型 插件 ：
+    <ul>
+      <li>Auth</li>
+      <li>转义 Tag <特色></特色></li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651835272534-895b305a-c811-4def-867c-7be69c7febd1.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<h2 id="网关监控">网关监控</h2>
+
+<p>监控部分均是自研，实现的内容也比较简单</p>
+
+<h3 id="基于网关的监控">基于网关的监控</h3>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651836406548-7e7da58e-e9d8-424f-ac5e-d1d755793217.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<h3 id="基于-api-的统计监控">基于 API 的统计监控</h3>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1651836565750-f2e14946-a137-4929-808c-096c61cebaf6.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<h2 id="录屏存放处">录屏存放处</h2>
+
+<blockquote>
+  <p>仅 DaoCloud 可查看</p>
+</blockquote>
+
+<p><a href="https://yongyu2000hotmailcom.sharepoint.cn/:f:/s/ndx/Emsrgwa4Z7xMsT4P8GMd31IB5p1zTy__gNKWn10_ynvvIQ?e=GFNejD">https://yongyu2000hotmailcom.sharepoint.cn/:f:/s/ndx/Emsrgwa4Z7xMsT4P8GMd31IB5p1zTy__gNKWn10_ynvvIQ?e=GFNejD</a></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-05-06</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#云原生网关">云原生网关</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/05/Alfred-Workflow-%E6%8E%A8%E8%8D%90.html">Alfred Workflow 推荐</a></h1>
+    <div class="post_at_index">
+      <h2 id="alfred-介绍">Alfred 介绍</h2>
+
+<p>Alfred 是 Mac 上一款著名的效率应用，强大的功能和众多的扩展能让你在实际操作中大幅提升工作效率，网络上也有大量关于的 Alfred 的评测和技巧的文章。</p>
+
+<p><img src="https://cdn.sspai.com/attachment/origin/2016/02/19/311872.png?imageView2/2/w/1120/q/90/interlace/1/ignore-error/1" alt="image" /></p>
+
+<h2 id="workflow-介绍">Workflow 介绍</h2>
+
+<p>Workflow 工作流；将一件事情的多个步骤，通过一个的规则相连，并依次执行，最终完成，这个方式就是工作流；Alfred Workflow 就是一个将我们日常工作流 实现的一个工具，可以让我们在 Alfred 中更加方便的完成我们的工作；现实生活中的工作流可能更为复杂，但本质还是如此。正是基于这种现实背景，alfred 从 2.0 版本起加入了 workflow，简单的示例说明。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/mUZ6OI.png?x-oss-process=image/resize,w_960,m_lfit" alt="mUZ6OI" /></p>
+
+<h2 id="我的推荐">我的推荐</h2>
+
+<p>整理常用的一些 Workflow 分享，提高工作和生活的效率小技巧。</p>
+
+<h3 id="5-星推荐">5 星推荐</h3>
+
+<ul>
+  <li><a href="https://www.packal.org/workflow/timezones-2">https://www.packal.org/workflow/timezones-2</a></li>
+  <li><a href="https://www.packal.org/workflow/homebrew-and-cask-alfred">https://www.packal.org/workflow/homebrew-and-cask-alfred</a></li>
+  <li><a href="https://www.packal.org/workflow/mac-app-store-search">https://www.packal.org/workflow/mac-app-store-search</a></li>
+  <li><a href="https://github.com/xiaotu9639/alfred-yuque-workflow">https://github.com/xiaotu9639/alfred-yuque-workflow</a></li>
+  <li><a href="https://github.com/whyliam/whyliam.workflows.youdao">https://github.com/whyliam/whyliam.workflows.youdao</a> 有道翻译
+    <ul>
+      <li>zhiyu_id: 12ba82650be566f5</li>
+      <li>zhiyu_key:XWkQjLboE4llgQuWZMR1e0d03Au9w8ob</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="4-星推荐">4 星推荐</h3>
+
+<ul>
+  <li><a href="https://www.packal.org/workflow/alfred-markdown-table">https://www.packal.org/workflow/alfred-markdown-table</a></li>
+  <li><a href="https://www.packal.org/workflow/pretty-json">https://www.packal.org/workflow/pretty-json</a></li>
+  <li><a href="https://www.packal.org/workflow/who">https://www.packal.org/workflow/who</a></li>
+</ul>
+
+<h2 id="如何获取-workflow-">如何获取 Workflow ?</h2>
+
+<p>可以到这个网站 <a href="https://www.packal.org/">https://www.packal.org/</a>  有非常丰富的 Workflow 或者 主题可以选择，丰富你的 Alfred 使用</p>
+
+<p>如果你有能力制作一些优秀的 Workflow，也可以在这里分享</p>
+
+<h2 id="更多关于-alfred-的使用教程">更多关于 Alfred 的使用教程</h2>
+
+<p>网络上已经有大量的 视频和文本的使用教程了，所以我这里直接引用我学习时使用的教程</p>
+
+<h2 id="视频教程">视频教程</h2>
+
+<iframe width="640" height="360" src="//player.bilibili.com/player.html?aid=894481262&amp;bvid=BV1GP4y1g7HJ&amp;cid=700510300&amp;page=1" scrolling="no" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+<h2 id="文本教程">文本教程</h2>
+
+<p><a href="https://ihtcboy.com/2020/02/09/2020-02-09_%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84macOS%E7%B3%BB%E5%88%97%EF%BC%9A%E9%AB%98%E6%95%88Alfred%E8%BF%9B%E9%98%B6/">程序员的 macOS 系列：高效 Alfred 进阶</a></p>
+
+<p>同时，也推荐下这位优秀博主，如果关注 iOS 开发，可以关注他更新的内容</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-05-03</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/05/youtube-dl-%E4%B8%8B%E8%BD%BD-YouTube-%E8%A7%86%E9%A2%91.html">youtube-dl 下载 YouTube 视频</a></h1>
+    <div class="post_at_index">
+      <blockquote>
+  <p>截止 2022.5 <code class="language-plaintext highlighter-rouge">youtube-dl</code> 已经较长时间未更新了，建议采用 <a href="https://github.com/yt-dlp/yt-dlp"><code class="language-plaintext highlighter-rouge">yt-dlp</code></a>, 将命令进行替换即可</p>
+</blockquote>
+
+<h2 id="安装新版本的-yt-dlp">安装新版本的 <code class="language-plaintext highlighter-rouge">yt-dlp</code></h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>yt-dlp/taps/yt-dlp
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">yt-dlp</code> 是从 <code class="language-plaintext highlighter-rouge">youtube-dl</code> 分支出来的版本，提供持续更新和向前兼容，在友好型上做了优化；仅需要将所有安装命令中 <code class="language-plaintext highlighter-rouge">youtube-dl</code> 替换为 <code class="language-plaintext highlighter-rouge">yt-dlp</code></p>
+
+<p>如果你还是喜欢使用 youtube-dl，可以使用以下命令将程序默认替换，同时不影响你的使用：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">alias </span>youtube-dl<span class="o">=</span>yt-dlp
+➜  ~ <span class="nb">echo</span> <span class="s2">"alias youtube-dl=yt-dlp"</span>  <span class="o">&gt;&gt;</span> ~/.zshrc  <span class="c"># or ~/.bashrc</span>
+</code></pre></div></div>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/JwWiwh.png?x-oss-process=image/resize,w_960,m_lfit" /></p>
+
+<hr />
+
+<h2 id="youtube-dl-下载-youtube-视频">youtube-dl 下载 YouTube 视频</h2>
+
+<p>视频下载命令行工具里，网友推荐通常都是『国外视频用 youtube-dl』，有这两个工具国内外主流视频网站的视频基本就横扫了，适合想收藏或者喜欢下载后用本地播放器的 Geek 群体。</p>
+
+<ul>
+  <li><a href="http://rg3.github.io/youtube-dl/download.html">youtube-dl</a></li>
+</ul>
+
+<p>命令行工具本身其实不复杂，理解了它们的语法就能开始使用了，结合 Alfred 还可以把常用的命令设置成触发的动作，提升交互体验和效率。然而很多人一看网站的介绍估计和我最初的感受差不多，还要部署一堆使用环境啊。</p>
+
+<h2 id="xcode-的命令行工具">Xcode 的命令行工具</h2>
+
+<p>Homebrew 环境安装前先检查一下 Xcode 的命令行工具是否已经安装，如果 macOS 系统更新过可能也需要重新安装一次，「终端」（应用程序 - 实用工具 - 终端）中输入 <code class="language-plaintext highlighter-rouge">xcode-select --install</code>。</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ xcode-select <span class="nt">--install</span>
+xcode-select: error: <span class="nb">command </span>line tools are already installed, use <span class="s2">"Software Update"</span> to <span class="nb">install </span>updates
+➜  ~
+</code></pre></div></div>
+
+<p><em>先前配置时已经安装过 Xcode 命令行工具，所以会出现上面的提示信息。</em></p>
+
+<h2 id="homebrew-依赖">Homebrew 依赖</h2>
+
+<p><a href="https://brew.sh/index_zh-cn.html">Homebrew</a> 是一个 macOS 上的软件包管理工具，通过命令行的方式安装和卸载软件，大部分的流行软件都提供了 Homebrew 的安装方式，也是开源世界里安装和更新软件的主流方式；</p>
+
+<h3 id="homebrew"><a href="https://brew.sh/index_zh-cn.html">Homebrew</a></h3>
+
+<p>只需要在联网的情况下运行一行命令：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>更多关于 Homebrew 的使用相关，可以查看我的另一篇文章  <a href="https://samzong.me/2022/05/03/Mac%E4%B8%8Bhomebrew%E7%9A%84%E4%BD%BF%E7%94%A8/">Mac 下 Homebrew 的使用</a></p>
+</blockquote>
+
+<h2 id="安装-youtube-dl">安装 youtube-dl</h2>
+
+<p>上面刚学习到的命令可以先用起来，先看看 youtube-dl 的软件信息，在终端里输入 <code class="language-plaintext highlighter-rouge">brew info youtube-dl</code>，了解一下 youtube-dl 的依存环境和需要搭档的其他应用。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/S4sQmN.png?x-oss-process=image/resize,w_960,m_lfit" /></p>
+
+<p>从终端运行的反馈能看到，youtube-dl 的使用环境是 Python3，合并视频片断还会用到 <code class="language-plaintext highlighter-rouge">ffmpeg</code>  这个组件，也就是说安装完 youtube-dl，还要再运行一次 <code class="language-plaintext highlighter-rouge">brew install ffmpeg</code></p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>youtube-dl
+brew <span class="nb">install </span>ffmpeg
+</code></pre></div></div>
+
+<h2 id="youtube-dl-的基本用法">youtube-dl 的基本用法</h2>
+
+<p>前 3 步结束已经可以用命令行下载视频了，这里介绍几个常用的命令，更多的命令用法在官网都有介绍，查看 Github 更全的操作指引 <a href="https://github.com/ytdl-org/youtube-dl/blob/master/README.md#description">Document</a></p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ youtube-dl <span class="nt">-h</span> | <span class="nb">grep </span>Options
+Options:
+  General Options:
+  Network Options:
+  Download Options:
+  Filesystem Options:
+  Thumbnail Options:
+  Verbosity / Simulation Options:
+  Video Format Options:
+  Subtitle Options:
+  Authentication Options:
+  Adobe Pass Options:
+  Post-processing Options:
+</code></pre></div></div>
+
+<h3 id="导出视频指定文件名称">导出视频指定文件名称</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>youtube-dl https://www.youtube.com/watch?v<span class="o">=</span>Ga4UCK627nU <span class="nt">-o</span> <span class="s2">"~/Downloads/aaa.mp4"</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">youtube-dl</code> 还提供了 一些变量的方式，可以作用在文件名上，比较常用的如下：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># %(title)s.%(ext)s 则是指定了文件名的格式，%(title)s 是视频的标题，%(ext)s 则是视频的文件扩展名</span>
+youtube-dl https://www.youtube.com/watch?v<span class="o">=</span>Ga4UCK627nU <span class="nt">-o</span> <span class="s2">"~/Downloads/%(title)s.%(ext)s"</span>
+</code></pre></div></div>
+
+<p>通过 <code class="language-plaintext highlighter-rouge">视频名.扩展名</code> 这样可以规范化导出文档的名称；还有其他非常丰富的变量支持，可以去这里找到你想要的 <a href="https://github.com/ytdl-org/youtube-dl/blob/master/README.md#output-template">Output Template</a></p>
+
+<h3 id="查询视频支持的版本">查询视频支持的版本</h3>
+
+<p>导出的画质不如意，希望自定义导出画质，可以采用这个方式，使用 <code class="language-plaintext highlighter-rouge">-F</code> 查看视频资源支持的类型，通过 <code class="language-plaintext highlighter-rouge">-f</code> 指定对应的版本进行下载</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/eUUy9N.png?x-oss-process=image/resize,w_960,m_lfit" /></p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ youtube-dl <span class="nt">-F</span> https://www.youtube.com/watch<span class="se">\?</span>v<span class="se">\=</span>BYkHLlKFEsM
+<span class="o">[</span>youtube] BYkHLlKFEsM: Downloading webpage
+<span class="o">[</span>info] Available formats <span class="k">for </span>BYkHLlKFEsM:
+format code  extension  resolution note
+249          webm       audio only tiny   53k , webm_dash container, opus @ 53k <span class="o">(</span>48000Hz<span class="o">)</span>, 2.44MiB
+250          webm       audio only tiny   70k , webm_dash container, opus @ 70k <span class="o">(</span>48000Hz<span class="o">)</span>, 3.22MiB
+140          m4a        audio only tiny  129k , m4a_dash container, mp4a.40.2@129k <span class="o">(</span>44100Hz<span class="o">)</span>, 5.93MiB
+251          webm       audio only tiny  136k , webm_dash container, opus @136k <span class="o">(</span>48000Hz<span class="o">)</span>, 6.27MiB
+160          mp4        256x144    144p   32k , mp4_dash container, avc1.4d400c@  32k, 30fps, video only, 1.48MiB
+278          webm       256x144    144p   75k , webm_dash container, vp9@  75k, 30fps, video only, 3.45MiB
+133          mp4        426x240    240p   48k , mp4_dash container, avc1.4d4015@  48k, 30fps, video only, 2.21MiB
+242          webm       426x240    240p   76k , webm_dash container, vp9@  76k, 30fps, video only, 3.51MiB
+134          mp4        638x360    360p   80k , mp4_dash container, avc1.4d401e@  80k, 30fps, video only, 3.70MiB
+243          webm       638x360    360p  115k , webm_dash container, vp9@ 115k, 30fps, video only, 5.28MiB
+135          mp4        852x480    480p  120k , mp4_dash container, avc1.4d401f@ 120k, 30fps, video only, 5.50MiB
+244          webm       852x480    480p  161k , webm_dash container, vp9@ 161k, 30fps, video only, 7.41MiB
+136          mp4        1278x720   720p  217k , mp4_dash container, avc1.4d401f@ 217k, 30fps, video only, 9.97MiB
+247          webm       1278x720   720p  273k , webm_dash container, vp9@ 273k, 30fps, video only, 12.52MiB
+248          webm       1916x1080  1080p  896k , webm_dash container, vp9@ 896k, 30fps, video only, 41.01MiB
+137          mp4        1916x1080  1080p  923k , mp4_dash container, avc1.640028@ 923k, 30fps, video only, 42.24MiB
+18           mp4        638x360    360p  350k , avc1.42001E, 30fps, mp4a.40.2 <span class="o">(</span>44100Hz<span class="o">)</span>, 16.07MiB <span class="o">(</span>best<span class="o">)</span>
+
+➜  ~ youtube-dl <span class="nt">-f</span> 137 https://www.youtube.com/watch<span class="se">\?</span>v<span class="se">\=</span>BYkHLlKFEsM  <span class="c"># 下载对应的 format code</span>
+➜  ~ youtube-dl <span class="nt">-f</span> best https://www.youtube.com/watch<span class="se">\?</span>v<span class="se">\=</span>BYkHLlKFEsM  <span class="c"># 下载最佳的版本</span>
+</code></pre></div></div>
+
+<h3 id="仅导出音频文件">仅导出音频文件</h3>
+
+<p>:::information_source: 经常拿过来做个人的歌曲库导出，<code class="language-plaintext highlighter-rouge">youtube-dl -x</code> 提供了 -x 参数来进行指定 仅导出音频，<code class="language-plaintext highlighter-rouge">--extract-audio</code> 这里需要使用到 <code class="language-plaintext highlighter-rouge">ffmpeg</code> 。</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>youtube-dl <span class="nt">-x</span> https://www.youtube.com/watch?v<span class="o">=</span>Ga4UCK627nU <span class="nt">-o</span> <span class="s2">"~/Downloads/%(title)s.%(ext)s"</span>
+</code></pre></div></div>
+
+<p>默认下载的音频文件类型，可能无法满足你，这个时候，可以使用 <code class="language-plaintext highlighter-rouge">--audio-format</code> 参数，来指定对应的音频格式（使用 ffmpeg 自动转码），目前支持个格式类型有：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Specify audio format: <span class="s2">"best"</span>, <span class="s2">"aac"</span>,<span class="s2">"flac"</span>, <span class="s2">"mp3"</span>, <span class="s2">"m4a"</span>, <span class="s2">"opus"</span>, <span class="s2">"vorbis"</span>,or <span class="s2">"wav"</span><span class="p">;</span> <span class="s2">"best"</span> by default
+</code></pre></div></div>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>youtube-dl <span class="nt">-x</span> https://www.youtube.com/watch?v<span class="o">=</span>Ga4UCK627nU <span class="nt">-o</span> <span class="s2">"~/Downloads/%(title)s.%(ext)s"</span> <span class="nt">--audio-format</span> mp3
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-05-03</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/05/%E6%B7%98%E5%AE%9DPython-SDK%E4%BC%98%E5%8C%96%E6%94%AF%E6%8C%81Python3.html">淘宝 Python SDK 优化支持 Python3</a></h1>
+    <div class="post_at_index">
+      <p>淘宝开放平台的 SDK，Python 的 SDK 是在 2012 年，仅支持 Python2.7 及以上，但不支持 Python3；二现在是 2102 年了，像我这样的新手都是直接从 Python3 开始的，</p>
+
+<h4 id="1-python3-int-替代了-long">1. Python3 int 替代了 long</h4>
+
+<p><code class="language-plaintext highlighter-rouge">P_TIMESTAMP: str(int(time.time() * 1000))</code></p>
+
+<h4 id="2-用-items-替代-iteritems">2. 用 items 替代 iteritems</h4>
+
+<p><code class="language-plaintext highlighter-rouge">for key, value in application_parameter.items():</code></p>
+
+<h4 id="3-查阅资料发现有人说到-dict-methods-dictkeys-dictitems-and-dictvalues-returnviewsinstead-of-lists这样就显而易见知道怎么改了">3. 查阅资料，发现有人说到 dict methods dict.keys(), dict.items() and dict.values() return“views”instead of lists.这样就显而易见知道怎么改了</h4>
+
+<p><code class="language-plaintext highlighter-rouge">keys = sorted(keys)</code></p>
+
+<h4 id="4-英文意思很明确unicode-对象在哈希之前必须进行编码转换想起之前又看到过中文字符在-python-中是以-unicode-存在的所以">4. 英文意思很明确，unicode 对象在哈希之前必须进行编码转换，想起之前又看到过中文字符在 python 中是以 unicode 存在的，所以</h4>
+
+<p><code class="language-plaintext highlighter-rouge">sign = hashlib.md5(parameters.encode("utf-8")).hexdigest().upper()</code></p>
+
+<h4 id="5-这是花费时间最长的一个错误首先直接看最后错误在-soketpy-里心凉了半截难道这里的调用都不一样了再网上看又是-python-3x-的-http-模块去百度了半天也没有发现类似的错误只能自己硬着头皮去看模块功夫不负有心人其实也很简单在类-httpconnection-的初始化函数是这样定义的">5. 这是花费时间最长的一个错误。首先，直接看最后，错误在 soket.py 里，心凉了半截，难道这里的调用都不一样了，再网上看又是 python 3.X 的 http 模块，去百度了半天也没有发现类似的错误，只能自己硬着头皮去看模块，功夫不负有心人，其实也很简单，在类 HTTPConnection 的初始化函数是这样定义的</h4>
+
+<p><code class="language-plaintext highlighter-rouge">connection = httplib.HTTPConnection(self.__domain, self.__port, timeout)</code></p>
+
+<blockquote>
+  <p>比较下参数发现，python 2 比 3 多了一个参数，去掉即可，这个错误主要是是报错的地方和修改的地方不在一起，所以很难插出原因。</p>
+</blockquote>
+
+<h4 id="6-官方文档是这样解释的urllib-has-been-split-up-in-python-3-the-urlliburlencode-function-is-now-urllibparseurlencode-and-the-urlliburlopen-function-is-now-urllibrequesturlopen">6. 官方文档是这样解释的：urllib has been split up in Python 3. The urllib.urlencode() function is now urllib.parse.urlencode(), and the urllib.urlopen() function is now urllib.request.urlopen()</h4>
+
+<p><code class="language-plaintext highlighter-rouge">url = N_REST + "?" + urllib.parse.urlencode(sys_parameters)</code></p>
+
+<h4 id="7-这个错误是在-api-调用出异常的时候暴露出来的原因前面已经提到了稍微查了下替代的方法">7. 这个错误是在 API 调用出异常的时候暴露出来的。原因前面已经提到了，稍微查了下替代的方法</h4>
+
+<p><code class="language-plaintext highlighter-rouge">if "error_response" in jsonobj:</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">if P_CODE in jsonobj["error_response"]:</code></p>
+
+<h4 id="8-在-if-需要使用反向时应该是--而不是使用-is-not这个也是-pycharm-给的建议所以在使用时所以简单调整下就好了">8. 在 if 需要使用反向时，应该是 != ，而不是使用  is not；这个也是 PyCharm 给的建议，所以在使用时，所以简单调整下就好了</h4>
+
+<p><code class="language-plaintext highlighter-rouge">if response.status != 200:</code></p>
+
+<p>以上调整之后，基本就可以正常跑起来了，基本是可以支持 Python3 的使用，我试过了 Python3.6-3.9，都是 OK 的。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-05-03</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/04/kubernetes-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF.html">kubernetes 学习之路</a></h1>
+    <div class="post_at_index">
+      <h2 id="基础环境">基础环境</h2>
+
+<ul>
+  <li>MacOS M1</li>
+  <li>Paralles Desktop 17</li>
+  <li>Ubuntu 20.04.4</li>
+</ul>
+
+<h3 id="ubuntu-安装替换系统源">ubuntu 安装替换系统源</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 默认注释了源码仓库，如有需要可自行取消注释</span>
+deb https://mirrors.aliyun.com/ubuntu-ports/ xenial main restricted universe multiverse
+<span class="c"># deb-src https://mirrors.aliyun.com/ubuntu-ports/ xenial main main restricted universe multiverse</span>
+deb https://mirrors.aliyun.com/ubuntu-ports/ xenial-updates main restricted universe multiverse
+<span class="c"># deb-src https://mirrors.aliyun.com/ubuntu-ports/ xenial-updates main restricted universe multiverse</span>
+deb https://mirrors.aliyun.com/ubuntu-ports/ xenial-backports main restricted universe multiverse
+<span class="c"># deb-src https://mirrors.aliyun.com/ubuntu-ports/ xenial-backports main restricted universe multiverse</span>
+deb https://mirrors.aliyun.com/ubuntu-ports/ xenial-security main restricted universe multiverse
+<span class="c"># deb-src https://mirrors.aliyun.com/ubuntu-ports/ xenial-security main restricted universe multiverse</span>
+</code></pre></div></div>
+
+<h3 id="ubuntu-基础系统优化">ubuntu 基础系统优化</h3>
+
+<blockquote>
+  <p>时区问题处理</p>
+</blockquote>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 调整为为北京时区</span>
+<span class="nb">sudo cp</span> /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+<span class="c"># 增加时间自动同步</span>
+<span class="nb">sudo </span>crontab <span class="nt">-e</span>
+<span class="k">*</span>/15 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/sbin/ntpdate 1.cn.pool.ntp.org  <span class="o">&gt;</span>/dev/null 2&gt;&amp;1
+</code></pre></div></div>
+
+<h3 id="kubernetes-镜像源替换">Kubernetes 镜像源替换</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get update <span class="o">&amp;&amp;</span> apt-get <span class="nb">install</span> <span class="nt">-y</span> apt-transport-https
+curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add - 
+<span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> &gt;/etc/apt/sources.list.d/kubernetes.list
+deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main
+</span><span class="no">EOF
+</span>apt-get update
+apt-get <span class="nb">install</span> <span class="nt">-y</span> kubelet kubeadm kubectl
+</code></pre></div></div>
+
+<h3 id="docker-安装及源替换">docker 安装及源替换</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># step 1: 安装必要的一些系统工具</span>
+<span class="nb">sudo </span>apt-get update
+<span class="nb">sudo </span>apt-get <span class="nt">-y</span> <span class="nb">install </span>apt-transport-https ca-certificates curl software-properties-common
+
+<span class="c"># step 2: 安装GPG证书</span>
+curl <span class="nt">-fsSL</span> http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | <span class="nb">sudo </span>apt-key add -
+
+<span class="c"># Step 3: 写入软件源信息</span>
+<span class="nb">sudo </span>add-apt-repository <span class="s2">"deb http://mirrors.aliyun.com/docker-ce/linux/ubuntu </span><span class="si">$(</span>lsb_release <span class="nt">-cs</span><span class="si">)</span><span class="s2"> stable"</span>
+
+<span class="c"># Step 4: 更新并安装 Docker-CE</span>
+<span class="nb">sudo </span>apt-get <span class="nt">-y</span> update
+<span class="nb">sudo </span>apt-get <span class="nt">-y</span> <span class="nb">install </span>docker-ce docker-ce-cli containerd.io
+</code></pre></div></div>
+
+<p>docker 的安装源配置</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> &gt; /etc/docker/daemon.json
+{
+  "registry-mirrors": [
+    "https://hub-mirror.c.163.com",
+    "https://mirror.baidubce.com"
+  ],
+  "exec-opts": ["native.cgroupdriver=systemd"]
+}
+</span><span class="no">EOF
+
+</span>systemctl daemon-reload
+systemctl restart docker
+</code></pre></div></div>
+
+<blockquote>
+  <p>docker cgroupdriver 在多个 node 和 master 之间不一致，会导致 node join 失败</p>
+</blockquote>
+
+<h2 id="kubernetes-部署机器">Kubernetes 部署机器</h2>
+
+<ul>
+  <li>4核 4G 3台
+    <ul>
+      <li>10.211.55.7 <strong>master1</strong></li>
+      <li>10.211.55.9 node1</li>
+      <li>10.211.55.10 node2</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># This is the network config written by 'subiquity'</span>
+<span class="na">network</span><span class="pi">:</span>
+  <span class="na">ethernets</span><span class="pi">:</span>
+    <span class="na">enp0s5</span><span class="pi">:</span>
+      <span class="na">addresses</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">10.211.55.10/24</span><span class="pi">]</span>
+      <span class="na">dhcp4</span><span class="pi">:</span> <span class="s">no</span>
+      <span class="na">gateway4</span><span class="pi">:</span> <span class="s">10.211.55.1</span>
+      <span class="na">nameservers</span><span class="pi">:</span>
+      <span class="na">addresses</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">114.114.114.114</span><span class="pi">]</span>
+  <span class="na">version</span><span class="pi">:</span> <span class="m">2</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>为了防止多台机器之间的 DHCP IP 冲突，全部限定静态 IP
+&lt; 采用的是 Parallels Desktop Clone pvm 的方式 产生的多台机器</p>
+</blockquote>
+
+<h3 id="kubernetes从k8sgcrio仓库拉取镜像失败">Kubernetes从k8s.gcr.io仓库拉取镜像失败</h3>
+
+<p>这是因为 k8s 部署是在 google 自家的所以… ，好在国内基本都有对应的镜像仓库，这里以 阿里云为例：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@master1:~# kubeadm config images list
+k8s.gcr.io/kube-apiserver:v1.23.5
+k8s.gcr.io/kube-controller-manager:v1.23.5
+k8s.gcr.io/kube-scheduler:v1.23.5
+k8s.gcr.io/kube-proxy:v1.23.5
+k8s.gcr.io/pause:3.6
+k8s.gcr.io/etcd:3.5.1-0
+k8s.gcr.io/coredns/coredns:v1.8.6
+</code></pre></div></div>
+
+<p>使用 docker pull 分布拉取这些 image，将 <code class="language-plaintext highlighter-rouge">k8s.gcr.io</code> 替换为 <code class="language-plaintext highlighter-rouge">registry.aliyuncs.com/google_containers/</code></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 原为</span>
+docker pull k8s.gcr.io/kube-apiserver:v1.23.5
+<span class="c"># 改为</span>
+docker pull registry.aliyuncs.com/google_containers/kube-apiserver:v1.23.5
+</code></pre></div></div>
+
+<p>然后，依次将所有需要的 image 都拉取下来，使用 docker image list 查看拉取的镜像</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@master1:~# docker image <span class="nb">ls
+</span>REPOSITORY                                                        TAG       IMAGE ID       CREATED        SIZE
+registry.aliyuncs.com/google_containers/kube-apiserver            v1.23.5   dc83c48dbe3b   5 weeks ago    132MB
+registry.aliyuncs.com/google_containers/kube-controller-manager   v1.23.5   de8edc9077c1   5 weeks ago    122MB
+registry.aliyuncs.com/google_containers/kube-scheduler            v1.23.5   48609f8bab08   5 weeks ago    53MB
+registry.aliyuncs.com/google_containers/kube-proxy                v1.23.5   48d3a9e595bc   5 weeks ago    109MB
+registry.aliyuncs.com/google_containers/etcd                      3.5.1-0   1040f7790951   5 months ago   132MB
+registry.aliyuncs.com/google_containers/coredns                   v1.8.6    edaa71f2aee8   6 months ago   46.8MB
+registry.aliyuncs.com/google_containers/pause                     3.6       7d46a07936af   7 months ago   484kB
+
+</code></pre></div></div>
+
+<p>由于 kubeadm 认的是 <code class="language-plaintext highlighter-rouge">k8s.gcr.io</code>，所以还需改回去 Tag ，修改方式采用 docker tag 的方式处理</p>
+
+<h3 id="kubeadm-初始化-k8s-环境">kubeadm 初始化 k8s 环境</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@master1:~# kubeadm init <span class="nt">--kubernetes-version</span><span class="o">=</span>v1.23.5 <span class="nt">--pod-network-cidr</span><span class="o">=</span>10.244.0.0/16
+<span class="o">[</span>init] Using Kubernetes version: v1.23.5
+<span class="o">[</span>preflight] Running pre-flight checks
+<span class="o">[</span>preflight] Pulling images required <span class="k">for </span>setting up a Kubernetes cluster
+<span class="o">[</span>preflight] This might take a minute or two, depending on the speed of your internet connection
+<span class="o">[</span>preflight] You can also perform this action <span class="k">in </span>beforehand using <span class="s1">'kubeadm config images pull'</span>
+<span class="o">[</span>certs] Using certificateDir folder <span class="s2">"/etc/kubernetes/pki"</span>
+<span class="o">[</span>certs] Generating <span class="s2">"ca"</span> certificate and key
+<span class="o">[</span>certs] Generating <span class="s2">"apiserver"</span> certificate and key
+<span class="o">[</span>certs] apiserver serving cert is signed <span class="k">for </span>DNS names <span class="o">[</span>kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local master1] and IPs <span class="o">[</span>10.96.0.1 10.211.55.7]
+<span class="o">[</span>certs] Generating <span class="s2">"apiserver-kubelet-client"</span> certificate and key
+<span class="o">[</span>certs] Generating <span class="s2">"front-proxy-ca"</span> certificate and key
+<span class="o">[</span>certs] Generating <span class="s2">"front-proxy-client"</span> certificate and key
+<span class="o">[</span>certs] Generating <span class="s2">"etcd/ca"</span> certificate and key
+<span class="o">[</span>certs] Generating <span class="s2">"etcd/server"</span> certificate and key
+<span class="o">[</span>certs] etcd/server serving cert is signed <span class="k">for </span>DNS names <span class="o">[</span>localhost master1] and IPs <span class="o">[</span>10.211.55.7 127.0.0.1 ::1]
+<span class="o">[</span>certs] Generating <span class="s2">"etcd/peer"</span> certificate and key
+<span class="o">[</span>certs] etcd/peer serving cert is signed <span class="k">for </span>DNS names <span class="o">[</span>localhost master1] and IPs <span class="o">[</span>10.211.55.7 127.0.0.1 ::1]
+<span class="o">[</span>certs] Generating <span class="s2">"etcd/healthcheck-client"</span> certificate and key
+<span class="o">[</span>certs] Generating <span class="s2">"apiserver-etcd-client"</span> certificate and key
+<span class="o">[</span>certs] Generating <span class="s2">"sa"</span> key and public key
+<span class="o">[</span>kubeconfig] Using kubeconfig folder <span class="s2">"/etc/kubernetes"</span>
+<span class="o">[</span>kubeconfig] Writing <span class="s2">"admin.conf"</span> kubeconfig file
+<span class="o">[</span>kubeconfig] Writing <span class="s2">"kubelet.conf"</span> kubeconfig file
+<span class="o">[</span>kubeconfig] Writing <span class="s2">"controller-manager.conf"</span> kubeconfig file
+<span class="o">[</span>kubeconfig] Writing <span class="s2">"scheduler.conf"</span> kubeconfig file
+<span class="o">[</span>kubelet-start] Writing kubelet environment file with flags to file <span class="s2">"/var/lib/kubelet/kubeadm-flags.env"</span>
+<span class="o">[</span>kubelet-start] Writing kubelet configuration to file <span class="s2">"/var/lib/kubelet/config.yaml"</span>
+<span class="o">[</span>kubelet-start] Starting the kubelet
+<span class="o">[</span>control-plane] Using manifest folder <span class="s2">"/etc/kubernetes/manifests"</span>
+<span class="o">[</span>control-plane] Creating static Pod manifest <span class="k">for</span> <span class="s2">"kube-apiserver"</span>
+<span class="o">[</span>control-plane] Creating static Pod manifest <span class="k">for</span> <span class="s2">"kube-controller-manager"</span>
+<span class="o">[</span>control-plane] Creating static Pod manifest <span class="k">for</span> <span class="s2">"kube-scheduler"</span>
+<span class="o">[</span>etcd] Creating static Pod manifest <span class="k">for </span><span class="nb">local </span>etcd <span class="k">in</span> <span class="s2">"/etc/kubernetes/manifests"</span>
+<span class="o">[</span>wait-control-plane] Waiting <span class="k">for </span>the kubelet to boot up the control plane as static Pods from directory <span class="s2">"/etc/kubernetes/manifests"</span><span class="nb">.</span> This can take up to 4m0s
+<span class="o">[</span>apiclient] All control plane components are healthy after 4.511137 seconds
+<span class="o">[</span>upload-config] Storing the configuration used <span class="k">in </span>ConfigMap <span class="s2">"kubeadm-config"</span> <span class="k">in </span>the <span class="s2">"kube-system"</span> Namespace
+<span class="o">[</span>kubelet] Creating a ConfigMap <span class="s2">"kubelet-config-1.23"</span> <span class="k">in </span>namespace kube-system with the configuration <span class="k">for </span>the kubelets <span class="k">in </span>the cluster
+NOTE: The <span class="s2">"kubelet-config-1.23"</span> naming of the kubelet ConfigMap is deprecated. Once the UnversionedKubeletConfigMap feature gate graduates to Beta the default name will become just <span class="s2">"kubelet-config"</span><span class="nb">.</span> Kubeadm upgrade will handle this transition transparently.
+<span class="o">[</span>upload-certs] Skipping phase. Please see <span class="nt">--upload-certs</span>
+<span class="o">[</span>mark-control-plane] Marking the node master1 as control-plane by adding the labels: <span class="o">[</span>node-role.kubernetes.io/master<span class="o">(</span>deprecated<span class="o">)</span> node-role.kubernetes.io/control-plane node.kubernetes.io/exclude-from-external-load-balancers]
+<span class="o">[</span>mark-control-plane] Marking the node master1 as control-plane by adding the taints <span class="o">[</span>node-role.kubernetes.io/master:NoSchedule]
+<span class="o">[</span>bootstrap-token] Using token: k2qw1l.lpnjzo138zfynmb1
+<span class="o">[</span>bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+<span class="o">[</span>bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to get nodes
+<span class="o">[</span>bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to post CSRs <span class="k">in </span>order <span class="k">for </span>nodes to get long term certificate credentials
+<span class="o">[</span>bootstrap-token] configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+<span class="o">[</span>bootstrap-token] configured RBAC rules to allow certificate rotation <span class="k">for </span>all node client certificates <span class="k">in </span>the cluster
+<span class="o">[</span>bootstrap-token] Creating the <span class="s2">"cluster-info"</span> ConfigMap <span class="k">in </span>the <span class="s2">"kube-public"</span> namespace
+<span class="o">[</span>kubelet-finalize] Updating <span class="s2">"/etc/kubernetes/kubelet.conf"</span> to point to a rotatable kubelet client certificate and key
+<span class="o">[</span>addons] Applied essential addon: CoreDNS
+<span class="o">[</span>addons] Applied essential addon: kube-proxy
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  <span class="nb">mkdir</span> <span class="nt">-p</span> <span class="nv">$HOME</span>/.kube
+  <span class="nb">sudo cp</span> <span class="nt">-i</span> /etc/kubernetes/admin.conf <span class="nv">$HOME</span>/.kube/config
+  <span class="nb">sudo chown</span> <span class="si">$(</span><span class="nb">id</span> <span class="nt">-u</span><span class="si">)</span>:<span class="si">$(</span><span class="nb">id</span> <span class="nt">-g</span><span class="si">)</span> <span class="nv">$HOME</span>/.kube/config
+
+Alternatively, <span class="k">if </span>you are the root user, you can run:
+
+  <span class="nb">export </span><span class="nv">KUBECONFIG</span><span class="o">=</span>/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run <span class="s2">"kubectl apply -f [podnetwork].yaml"</span> with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can <span class="nb">join </span>any number of worker nodes by running the following on each as root:
+
+kubeadm <span class="nb">join </span>10.211.55.7:6443 <span class="nt">--token</span> k2qw1l.lpnjzo138zfynmb1 <span class="se">\</span>
+ <span class="nt">--discovery-token-ca-cert-hash</span> sha256:974a7569ca2d243dc907ca121adbdba9407ae462ea72791342ccf2048ee46b31
+</code></pre></div></div>
+
+<h2 id="k8s-系统优化">k8s 系统优化</h2>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 增加到文件最后，进行系统层级优化</span>
+
+net.ipv4.ip_forward <span class="o">=</span> 1
+vm.swappiness <span class="o">=</span> 1
+net.bridge.bridge-nf-call-arptables <span class="o">=</span> 1
+net.bridge.bridge-nf-call-ip6tables <span class="o">=</span> 1
+net.bridge.bridge-nf-call-iptables <span class="o">=</span> 1
+net.ipv4.ip_local_reserved_ports <span class="o">=</span> 30000-32767
+vm.max_map_count <span class="o">=</span> 262144
+fs.inotify.max_user_instances <span class="o">=</span> 524288
+kernel.pid_max <span class="o">=</span> 65535
+</code></pre></div></div>
+
+<p>Kubesphere registry 仓库：</p>
+
+<p>registry.cn-beijing.aliyuncs.com/kubesphereio/</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-24</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#kubernetes">kubernetes</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/04/GitHub-Pages-%E7%9A%84%E5%A6%99%E7%94%A8.html">GitHub Pages 的妙用</a></h1>
+    <div class="post_at_index">
+      <h2 id="本来是想好好工作的">本来是想好好工作的</h2>
+
+<p>最近换了新工作（后面找个时间好好说说），大量接触 k8s &amp; docker，开始写了比较多的 yaml 和 Dockerfile；散落在电脑上的话，还是很不方便，有个仓库管理起来的话，就会很方便了，于是有了这个项目 <a href="https://github.com/SAMZONG/k8s-yaml">samzong/k8s-yaml</a></p>
+
+<p>k8s-yaml 一开始的定义就是 public，希望给更多其他的人提供帮助，索性就再增加了一个网页吧</p>
+
+<h2 id="一分钟快速搭建网站">一分钟快速搭建网站</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch gh-pages
+<span class="nb">echo</span> <span class="s2">"## Hello gh-pages"</span> <span class="o">&gt;</span> index.md
+git push origin gh-pages
+</code></pre></div></div>
+
+<p>eeen…. 这样就 ok！</p>
+
+<p><code class="language-plaintext highlighter-rouge">gh-pages</code> 是每个 GitHub 仓库的默认 github pages 分支，当你创建这个分支并推动到 GitHub 时，会自动触发 Pages 的构建任务，大约 30s 左右，你就会得到一个网站</p>
+
+<blockquote>
+  <p><a href="http://[github_username">http://[github_username</a>].github.io/[github_repo_name]</p>
+</blockquote>
+
+<h2 id="简单的配置">简单的配置</h2>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/X4tbDt.png?x-oss-process=image/resize,w_960,m_lfit" alt="X4tbDt" /></p>
+
+<p>上图简单指引了如何打开 GitHub Pages 的配置路径，下面对主要的几个模块进行说明：</p>
+
+<ol>
+  <li>Source  - 指定的 以那个分支作为 built 源和文件夹，默认是 gh-pages, 建议不动，统一认知</li>
+  <li>Theme Chooser - 选择对应的博客主题，大概有 10 个，都比较普通，根据自己喜好来，可以自定义，这里不展开 (Google Jekyll themes 一大堆</li>
+  <li>Custom Domain - 可以指定默认的特定的域名，需要配置 <code class="language-plaintext highlighter-rouge">/CNAME</code>，需要和这里的域名一致，同时域名解析需要配置好 CNAME</li>
+  <li>Enforce HTTPS - 启用 HTTPS，默认不启动，建议启用</li>
+</ol>
+
+<blockquote>
+  <p>CNAME 配置，将指定的域名指向到 <code class="language-plaintext highlighter-rouge">[github_username].github.io</code></p>
+</blockquote>
+
+<p>经过简单的配置，这个仓库的网站，已经完成了你想要的；在 <code class="language-plaintext highlighter-rouge">index.md</code> 内修改为你想要的内容。</p>
+
+<h2 id="高级功能结合-github-issue-的评论功能">高级功能：结合 GitHub issue 的评论功能</h2>
+
+<p>这里采用的 评论组件是 <a href="https://utteranc.es/">utterances</a>, 提供轻量级的博客评论功能，并且评论是直接创建 GitHub issue，方便管理</p>
+
+<p>这里不赘述安装细节的，比较简单，直接去看下面几个网站即可</p>
+
+<ul>
+  <li><a href="https://utteranc.es/">https://utteranc.es/</a></li>
+  <li><a href="https://roife.github.io/2021/02/12/use-utterances-for-comment/">https://roife.github.io/2021/02/12/use-utterances-for-comment/</a></li>
+  <li><a href="https://www.evanlin.com/jekyll-remove-disqus/">https://www.evanlin.com/jekyll-remove-disqus/</a></li>
+</ul>
+
+<blockquote>
+  <p>注意需要增加的文件</p>
+</blockquote>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir _layouts
+wget https://raw.githubusercontent.com/SAMZONG/k8s-yaml/gh-pages/_layouts/post.html -o _layouts/post.html
+</code></pre></div></div>
+
+<p>index.md 增加 layout 参数，追加在最顶部</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">layout</span><span class="pi">:</span> <span class="s">post</span>
+<span class="nn">---</span>
+</code></pre></div></div>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add _layouts/post.html
+git add index.md
+
+git commit <span class="nt">-m</span> <span class="s2">"add comment module with utterances"</span>
+git push origin gh-pages
+</code></pre></div></div>
+
+<h2 id="end">End</h2>
+
+<p>以上就是全部的部署内容了，可以去看下我的网站和项目</p>
+
+<ul>
+  <li><a href="https://k8s-yaml.samzong.me">https://k8s-yaml.samzong.me</a></li>
+</ul>
+
+<p>如果你觉得喜欢，求 fork，求 star</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-22</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Github">Github</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/04/Kubernetes-%E9%83%A8%E7%BD%B2%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3%E6%B1%87%E6%80%BB.html">Kubernetes 部署错误解决汇总</a></h1>
+    <div class="post_at_index">
+      <h3 id="1-kubeadm-init失败-提示-kubelet-启动失败或-不健康">1. <code class="language-plaintext highlighter-rouge">kubeadm init</code>失败 ，提示 kubelet 启动失败或 不健康</h3>
+
+<p>解决思路：</p>
+
+<ul>
+  <li>systemctl status kubelet 查看当前状态</li>
+  <li>通过 journalctl -xeu kubelet 查看 启动时的错误原因，得到错误原因如下</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@master1:~# journalctl <span class="nt">-xeu</span> kubelet
+<span class="nt">--</span> Subject: A stop job <span class="k">for </span>unit kubelet.service has finished
+<span class="nt">--</span> Defined-By: systemd
+<span class="nt">--</span> Support: http://www.ubuntu.com/support
+<span class="nt">--</span>
+<span class="nt">--</span> A stop job <span class="k">for </span>unit kubelet.service has finished.
+<span class="nt">--</span>
+<span class="nt">--</span> The job identifier is 33099 and the job result is <span class="k">done</span><span class="nb">.</span>
+Apr 21 00:55:30 master1 systemd[1]: Started kubelet: The Kubernetes Node Agent.
+<span class="nt">--</span> Subject: A start job <span class="k">for </span>unit kubelet.service has finished successfully
+<span class="nt">--</span> Defined-By: systemd
+<span class="nt">--</span> Support: http://www.ubuntu.com/support
+<span class="nt">--</span>
+<span class="nt">--</span> A start job <span class="k">for </span>unit kubelet.service has finished successfully.
+<span class="nt">--</span>
+<span class="nt">--</span> The job identifier is 33099.
+Apr 21 00:55:30 master1 kubelet[13732]: Flag <span class="nt">--network-plugin</span> has been deprecated, will be removed along with dockershim.
+Apr 21 00:55:30 master1 kubelet[13732]: Flag <span class="nt">--network-plugin</span> has been deprecated, will be removed along with dockershim.
+Apr 21 00:55:30 master1 kubelet[13732]: I0421 00:55:30.937042   13732 server.go:446] <span class="s2">"Kubelet version"</span> <span class="nv">kubeletVersion</span><span class="o">=</span><span class="s2">"v1.23.5"</span>
+Apr 21 00:55:30 master1 kubelet[13732]: I0421 00:55:30.937252   13732 server.go:874] <span class="s2">"Client rotation is on, will bootstrap in background"</span>
+Apr 21 00:55:30 master1 kubelet[13732]: I0421 00:55:30.938245   13732 certificate_store.go:130] Loading cert/key pair from <span class="s2">"/var/lib/kubelet/pki/kubelet-client-curr&gt;
+Apr 21 00:55:30 master1 kubelet[13732]: I0421 00:55:30.938707   13732 dynamic_cafile_content.go:156] "</span>Starting controller<span class="s2">" name="</span>client-ca-bundle::/etc/kubernetes/p&gt;
+Apr 21 00:55:30 master1 kubelet[13732]: W0421 00:55:30.971257   13732 machine.go:65] Cannot <span class="nb">read </span>vendor <span class="nb">id </span>correctly, <span class="nb">set </span>empty.
+Apr 21 00:55:30 master1 kubelet[13732]: I0421 00:55:30.971823   13732 server.go:693] <span class="s2">"--cgroups-per-qos enabled, but --cgroup-root was not specified.  defaulting to&gt;
+Apr 21 00:55:30 master1 kubelet[13732]: E0421 00:55:30.971921   13732 server.go:302] "</span>Failed to run kubelet<span class="s2">" err="</span>failed to run Kubelet: running with swap on is not&gt;
+Apr 21 00:55:30 master1 systemd[1]: kubelet.service: Main process exited, <span class="nv">code</span><span class="o">=</span>exited, <span class="nv">status</span><span class="o">=</span>1/FAILURE
+<span class="nt">--</span> Subject: Unit process exited
+<span class="nt">--</span> Defined-By: systemd
+<span class="nt">--</span> Support: http://www.ubuntu.com/support
+<span class="nt">--</span>
+<span class="nt">--</span> An <span class="nv">ExecStart</span><span class="o">=</span> process belonging to unit kubelet.service has exited.
+<span class="nt">--</span>
+<span class="nt">--</span> The process<span class="s1">' exit code is '</span>exited<span class="s1">' and its exit status is 1.
+</span></code></pre></div></div>
+
+<blockquote>
+  <p>问题原因： 注意看 <code class="language-plaintext highlighter-rouge">**"Failed to run kubelet"** 后面的 err原因 : err=**"failed to run Kubelet: running with swap on is not&gt;**</code></p>
+</blockquote>
+
+<p>这里是因为 主机上的 swap 还是打开的，所以导致 kubelet 启动失败； 原因是：在 Kubernetes 1.22 之前，节点不支持使用虚拟内存，如果在节点上检测到虚拟内存，kubelet 将默认无法启动。</p>
+
+<blockquote>
+  <p>知识扩展</p>
+</blockquote>
+
+<ol>
+  <li>什么是 swap memory ？ 一般称为虚拟内存，虚拟内存的作用是</li>
+</ol>
+
+<h3 id="1-多次使用-kubeadm-init时报错提示文件已存在端口被占用">1. 多次使用 <code class="language-plaintext highlighter-rouge">kubeadm init</code>时报错，提示文件已存在，端口被占用</h3>
+
+<p>错误原因：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@master1:~# kubeadm init
+<span class="o">[</span>init] Using Kubernetes version: v1.23.5
+<span class="o">[</span>preflight] Running pre-flight checks
+error execution phase preflight: <span class="o">[</span>preflight] Some fatal errors occurred:
+ <span class="o">[</span>ERROR Port-6443]: Port 6443 is <span class="k">in </span>use
+ <span class="o">[</span>ERROR Port-10259]: Port 10259 is <span class="k">in </span>use
+ <span class="o">[</span>ERROR Port-10257]: Port 10257 is <span class="k">in </span>use
+ <span class="o">[</span>ERROR FileAvailable--etc-kubernetes-manifests-kube-apiserver.yaml]: /etc/kubernetes/manifests/kube-apiserver.yaml already exists
+ <span class="o">[</span>ERROR FileAvailable--etc-kubernetes-manifests-kube-controller-manager.yaml]: /etc/kubernetes/manifests/kube-controller-manager.yaml already exists
+ <span class="o">[</span>ERROR FileAvailable--etc-kubernetes-manifests-kube-scheduler.yaml]: /etc/kubernetes/manifests/kube-scheduler.yaml already exists
+ <span class="o">[</span>ERROR FileAvailable--etc-kubernetes-manifests-etcd.yaml]: /etc/kubernetes/manifests/etcd.yaml already exists
+ <span class="o">[</span>ERROR Port-10250]: Port 10250 is <span class="k">in </span>use
+ <span class="o">[</span>ERROR Port-2379]: Port 2379 is <span class="k">in </span>use
+ <span class="o">[</span>ERROR Port-2380]: Port 2380 is <span class="k">in </span>use
+ <span class="o">[</span>ERROR DirAvailable--var-lib-etcd]: /var/lib/etcd is not empty
+<span class="o">[</span>preflight] If you know what you are doing, you can make a check non-fatal with <span class="sb">`</span><span class="nt">--ignore-preflight-errors</span><span class="o">=</span>...<span class="sb">`</span>
+To see the stack trace of this error execute with <span class="nt">--v</span><span class="o">=</span>5 or higher
+</code></pre></div></div>
+
+<h4 id="解决方法">解决方法</h4>
+
+<ul>
+  <li>需要将之前产生的文件进行清楚，一个简单的命令</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubeadm reset
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-21</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Kubernetes">Kubernetes</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/04/%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E7%AB%9E%E5%93%81.html">需要了解的 K8s 发行版本</a></h1>
+    <div class="post_at_index">
+      <h2 id="k8s-的发行版本">K8s 的发行版本</h2>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/6ngC8v.png" alt="6ngC8v" /></p>
+
+<p>开始学习喜欢的东西，上面的每一个都要了解</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-19</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#K8s">K8s</a>
       
       
       
@@ -1616,7 +1341,7 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
             
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page23">23</a></li>
+          <li><a href="/page24">24</a></li>
         
 
         
@@ -1667,7 +1392,7 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>18</span>
+    		数据库 <span>19</span>
     	</a></li>
      
     	
@@ -1851,8 +1576,8 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
     	</a></li>
      
     	
-      <li><a href="/categories.html#NaN">
-    		NaN <span>1</span>
+      <li><a href="/categories.html#Network">
+    		Network <span>1</span>
     	</a></li>
      
     	
@@ -1896,13 +1621,53 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
     	</a></li>
      
     	
+      <li><a href="/categories.html#Kubernetes">
+    		Kubernetes <span>10</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Github">
     		Github <span>1</span>
     	</a></li>
      
     	
+      <li><a href="/categories.html#kubernetes">
+    		kubernetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#腾讯云">
+    		腾讯云 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#阿里云">
+    		阿里云 <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Gitlab">
     		Gitlab <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#前端">
+    		前端 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#DaoCloud Enterprise">
+    		DaoCloud Enterprise <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kubrnetes">
+    		Kubrnetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kafka">
+    		Kafka <span>1</span>
     	</a></li>
      
     	
@@ -1953,9 +1718,21 @@ df = pandas.read_csv(‘somefile.txt’)
         </li>
         
         <li>
-          <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
-          王路
-12 highlights
+          <a href="/post/2022/10/JWT-%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F.html">JWT 内置的方式</a>
+          
+  支持为 API 启用 jwt token 解码的能力 ,  读取网关的 jwt key
+    
+      读取请求 Header 中的 Authorization
+    
+  
+  需要支持为网关配置多 jwt key , and 加密长度 ?
+    
+      解密的性能问题
+      expire_time 过期时间的配置
+      解密后的参数传递
+    
+  
+
 
 
         </li>

@@ -233,6 +233,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -276,41 +280,79 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2021/03/%E6%9C%AA%E7%A9%BF%E7%9A%84%E7%BA%A2%E5%AB%81%E8%A1%A3-%E6%B2%89%E6%B5%AE.html">未穿的红嫁衣·沉浮</a></h1>
+    <h1><a class="title" href="/post/2021/09/01-%E5%BF%AB%E9%80%9F%E4%BA%86%E8%A7%A3%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93.html">01 快速了解连接数据库</a></h1>
     <div class="post_at_index">
-      <ul>
-  <li>
-    <p>历史学家是一群古怪的动物，吃饱了饭没事儿干，没完没了地咀嚼那逝去的岁月，犹如牛之““反刍””。</p>
-  </li>
-  <li>
-    <p>木秀于林，风必摧之；堆出于岸，流必湍之；行高于人，众必非之。风生于地，起于青萍之末；侵淫溪谷，盛怒于土囊之口。无边落木萧萧下，不尽长江滚滚来。尔曹身与名俱灭，不废江河万古流。</p>
-  </li>
-  <li>
-    <p>历史本身是残酷的，以无数人的鲜血写成的，惨不忍睹。而芸芸众生所看到的，只不过是历史的表层：戏剧！””</p>
-  </li>
-  <li>
-    <p>人情有所不能忍者，匹夫见辱，拔剑而起，挺身而斗，此不足为勇也。天下有大勇者，卒然临之而不惊，无故加之而不怒。此其所挟持者甚大，而其志甚远也！””东坡先生曾如此谆谆教导。</p>
-  </li>
-  <li>
-    <p>一切优秀的文学作品都是在写‘‘史’’，忠实地记录历史，鲜活地复原历史，为未来保留历史。</p>
-  </li>
-  <li>
-    <p>天涯孤旅，最需要的是一位理想的旅伴，攀登时互相扶持，跋涉中彼此激励，危难处相濡以沫。朝夕相处，耳鬓厮磨，可以使本来不同的爱好和志趣趋于一致；</p>
-  </li>
-  <li>
-    <p>一个女人的美一半是先天造就的，另一半是由修养和气质酿成的。她的任何一件衣服，穿上去都好像世界上只此一件，是专门为她而做的。</p>
-  </li>
-  <li>
-    <p>生、熟、冷、热、荤、素、煎、烤、爆、炒、炸、涮、烩、炖、煨、焗，皆可</p>
-  </li>
-</ul>
+      <p>SQLAlchemy 是 ORM 框架，目前主流且比较通用，在程序中用来处理数据库相关的能力，本文是用于学习和理解 SQLAlchemy 的记录，主要使用的编程语言是 Python</p>
+
+<blockquote>
+  <p>Python3 AND MySQL 5.6</p>
+</blockquote>
+
+<h2 id="安装">安装</h2>
+
+<p>目前较为场景的关系型数据库是 MySQL，这里介绍 在 Python 中安装和 MySQL 的链接方式</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip3 <span class="nb">install </span>sqlalchemy pymysql
+</code></pre></div></div>
+
+<blockquote>
+  <p>快速连接数据库</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># easy script.
+</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+<span class="k">from</span> <span class="n">sqlalchemy</span> <span class="n">impory</span> <span class="n">text</span>
+
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s">'mysql+pymysql://root:pass@localhost/dbName'</span><span class="p">)</span>
+
+<span class="n">conn</span> <span class="o">=</span> <span class="n">engine</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+
+<span class="n">sql</span> <span class="o">=</span> <span class="n">text</span><span class="p">(</span><span class="s">"select version();"</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">sql</span><span class="p">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="简单的查询">简单的查询</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">from</span> <span class="n">sqlalchemy</span> <span class="n">impory</span> <span class="n">text</span>
+
+<span class="n">sql</span> <span class="o">=</span> <span class="n">text</span><span class="p">(</span><span class="s">"select * from userTable where create_date&gt;=:start_time AND login_cnt=:times"</span><span class="p">)</span>
+<span class="c1"># start_time 开始时间
+# times 登录次数
+</span>
+<span class="c1"># sql 执行时动态入参
+</span>
+<span class="n">start_time</span><span class="p">,</span><span class="n">times</span> <span class="o">=</span> <span class="s">'2021-06-01 00:00:00'</span><span class="p">,</span> <span class="mi">3</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">create_date</span> <span class="o">=</span> <span class="n">start_time</span><span class="p">.</span><span class="n">pydatetime</span><span class="p">(),</span> <span class="n">loign_cnt</span><span class="o">=</span><span class="n">times</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="对于查询结果的说明">对于查询结果的说明</h2>
+
+<p>获取所有的查询结果，返回的数据为 tuple 的列表 <code class="language-plaintext highlighter-rouge">data = res.fetachAll()</code></p>
+
+<blockquote>
+  <p>使用 pandas 将查询结果保存到 csv 中</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">'user_id'</span><span class="p">,],)</span>  <span class="c1"># data 是要写入的数据，columns 是列头，List
+</span>
+
+<span class="n">df</span><span class="p">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s">'~/export_filepath.csv'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-03-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#读书笔记">读书笔记</a>
+      <cite>2021-09-24</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -319,38 +361,79 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/03/%E6%9C%80%E5%90%8E%E7%9A%84%E8%80%8D%E7%8C%B4%E4%BA%BA.html">最后的耍猴人</a></h1>
+    <h1><a class="title" href="/post/2021/09/%E4%BD%BF%E7%94%A8Python3%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%A4%A7%E5%9E%8Bjson%E6%96%87%E4%BB%B6.html">使用 Python3 格式化大型 json 文件</a></h1>
     <div class="post_at_index">
-      <ul>
-  <li>
-    <p>这些耍猴的人这么苦是为什么？他们虽然用的是最底层、最辛苦的方式赚钱，但其中透露出一种骨气，这是河南新野耍猴人的人格力量。</p>
-  </li>
-  <li>
-    <p>在景德镇，一个 16 岁的女孩看完猴戏，对他说：““老爷爷，你这一生给多少人带来了快乐啊！””杨林贵听后，那天一路上都很开心。</p>
-  </li>
-  <li>
-    <p>花卷馍。</p>
-  </li>
-  <li>
-    <p>法律要是缺失了良知作为基础，那么可怕的冷漠就会占据上风，取而代之的就是权力的滥用。</p>
-  </li>
-  <li>
-    <p>中国是一个地域广阔的国家，地区贫富差异至今还很大，我们每个人不能以自己生活的地区的生活方式去理解另一个地区人的生活方式。他们的很多生活方式是我们所看不到的。在一个贫穷的地方，一个人能找到一种不违反法律和伦理的方式生存下来，能自食其力，就很不容易了。这就像生活在当下的我们，不能去评价、指责古代人的生活方式和文明程度一样。</p>
-  </li>
-  <li>
-    <p>英国大法官培根说过：““一次不公正裁判的罪恶甚于十次犯罪，因为犯罪污染的只是水流，而枉法裁判污染的却是水源。””</p>
-  </li>
-  <li>
-    <p>人处在世俗之中，不可避免地有高低贵贱之分，对于那些善良弱势的人，我们只有通过宽容、理解、帮扶，才能给他们带来改变的希望。</p>
-  </li>
-</ul>
+      <p>当单个甚至单行 Json 文件大小超过 100M 时，无论是哪个文本编辑器在处理时都会显得吃力，接下来介绍一种非常方便的方式，快速格式化大型 Json 文件。</p>
+
+<p>:::info
+Python 自带 json-tool 在转换是会导致中文乱码，以下在原有基础上进行了优化，并增加中文支持
+:::</p>
+
+<h2 id="no-bb-show-code">No BB, Show Code</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"""
+Command-line tool to validate and pretty-print JSON
+
+Usage::
+
+    $ python3 json-tool.json import.json  output.json
+
+    Need Python 3.
+
+"""</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">prog</span> <span class="o">=</span> <span class="s">'python -m json.tool'</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="s">'A simple command line interface for json module '</span>
+                   <span class="s">'to validate and pretty-print JSON objects.'</span><span class="p">)</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="p">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="n">prog</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">'infile'</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s">'?'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="p">.</span><span class="n">FileType</span><span class="p">(),</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s">'a JSON file to be validated or pretty-printed'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">'outfile'</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s">'?'</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">argparse</span><span class="p">.</span><span class="n">FileType</span><span class="p">(</span><span class="s">'w'</span><span class="p">),</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s">'write the output of infile to outfile'</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">'--sort-keys'</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s">'store_true'</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s">'sort the output of dictionaries alphabetically by key'</span><span class="p">)</span>
+    <span class="n">options</span> <span class="o">=</span> <span class="n">parser</span><span class="p">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">infile</span> <span class="o">=</span> <span class="n">options</span><span class="p">.</span><span class="n">infile</span> <span class="ow">or</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span>
+    <span class="n">outfile</span> <span class="o">=</span> <span class="n">options</span><span class="p">.</span><span class="n">outfile</span> <span class="ow">or</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdout</span>
+    <span class="n">sort_keys</span> <span class="o">=</span> <span class="n">options</span><span class="p">.</span><span class="n">sort_keys</span>
+    <span class="k">with</span> <span class="n">infile</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sort_keys</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">,</span>
+                                <span class="n">object_pairs_hook</span><span class="o">=</span><span class="n">collections</span><span class="p">.</span><span class="n">OrderedDict</span><span class="p">)</span>
+        <span class="k">except</span> <span class="nb">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="nb">SystemExit</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">outfile</span><span class="p">:</span>
+        <span class="n">json</span><span class="p">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">outfile</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="n">sort_keys</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">outfile</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h2 id="running">RUNNING</h2>
+
+<p>将以上代码文件保存为 json-tool.json，然后使用 Python3 运行即可</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 json-tool.json 190720_190730.json 06.json
+</code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-03-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#读书笔记">读书笔记</a>
+      <cite>2021-09-05</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -359,32 +442,18 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/03/%E6%88%91%E6%89%80%E7%90%86%E8%A7%A3%E7%9A%84%E7%94%9F%E6%B4%BB.html">我所理解的生活</a></h1>
+    <h1><a class="title" href="/post/2021/09/dataframe-Pandas.html">dataframe - Pandas</a></h1>
     <div class="post_at_index">
-      <ul>
-  <li>
-    <p>前程————红灯永远不能照亮你的前程，照亮你前程的，是你的才能。</p>
-  </li>
-  <li>
-    <p>但关注现实的电影也容易因为审查的原因妥协或者被修改得面目全非，哎，你们想怎样。</p>
-  </li>
-  <li>
-    <p>Some of us get dipped in flat, some in satin, some in gloss…But every once in a while you find someone who’s iridescent, and when you do, nothing will ever compare. 有人住高楼，有人在深沟，有人光万丈，有人一身锈，世人万千种，浮云莫去求，斯人若彩虹，遇上方知有。</p>
-  </li>
-  <li>
-    <p>当然，我还想要更多小孩，如果有男孩，那就活该要受苦了，他得扎到这个现实里，奋力拼搏，养活自己并尽力改变社会，争取给天下的小女儿们创造更温良的环境。</p>
-  </li>
-  <li>
-    <p>展露光芒，就不应该怪别人没有眼光。</p>
-  </li>
-</ul>
+      <p><a href="https://www.cnblogs.com/timotong/p/9678490.html">https://www.cnblogs.com/timotong/p/9678490.html</a></p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-03-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#读书笔记">读书笔记</a>
+      <cite>2021-09-05</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      , 
+      <a href="/tags.html#Pandas">Pandas</a>
       
       
       
@@ -393,18 +462,30 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/03/%E6%88%91%E4%BB%AC%E7%94%9F%E6%B4%BB%E5%9C%A8%E5%B7%A8%E5%A4%A7%E7%9A%84%E5%B7%AE%E8%B7%9D%E9%87%8C.html">我们生活在巨大的差距里</a></h1>
+    <h1><a class="title" href="/post/2021/08/Python-%E6%8A%93%E5%87%BA%E6%9D%A5%E9%9A%8F%E6%9C%BA%E4%B8%8B%E8%BD%BD%E8%AE%B0%E5%BD%95.html">Python 抓出来随机下载记录</a></h1>
     <div class="post_at_index">
-      <ul>
-  <li>知道自己无知不是完全的无知，完全的无知是不知道自己无知的无知。</li>
-</ul>
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">'https://appest-public.s3.amazonaws.com/download/mac/TickTick_3.9.00_{}.dmg'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">resp</span><span class="p">.</span><span class="n">status_code</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="p">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="k">break</span>
+    <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>:::info
+背景
+:::</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-03-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#读书笔记">读书笔记</a>
+      <cite>2021-08-25</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
       
       
       
@@ -413,23 +494,43 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/03/%E6%84%BF%E6%9C%89%E4%BA%BA%E9%99%AA%E4%BD%A0%E9%A2%A0%E6%B2%9B%E6%B5%81%E7%A6%BB.html">愿有人陪你颠沛流离</a></h1>
+    <h1><a class="title" href="/post/2021/08/MySQL-REGEXP-%E6%B4%BB%E5%AD%A6%E6%B4%BB%E7%94%A8.html">MySQL REGEXP 活学活用</a></h1>
     <div class="post_at_index">
-      <ul>
-  <li>
-    <p>不管昨夜你是多么泣不成声，早晨醒来城市依旧车水马龙。</p>
-  </li>
-  <li>
-    <p>原因，我们一路奋战，为的不是变成别人，为的不是改变世界，而是不让世界改变，能够用自己的力量平稳地站在大地上，并且尽可能地保护身边的人。</p>
-  </li>
-</ul>
+      <p><code class="language-plaintext highlighter-rouge">REGEXP</code> 在 MySQL 中使用的正则表达式标识符，有着非常丰富的使用路径，代替<code class="language-plaintext highlighter-rouge">like</code>将有非常大的使用空间</p>
+
+<h2 id="强制增加定位域名备案">强制增加定位域名备案</h2>
+
+<blockquote>
+  <p>增加域名备案到页脚</p>
+</blockquote>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">"width: 100%; text-align: center; position:absolute; bottom:0; margin: auto;"</span><span class="nt">&gt;</span>
+   
+       Copyright 2021 © 上海微企信息技术股份有限公司。<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://beian.miit.gov.cn"</span><span class="nt">&gt;</span>沪 ICP 备 12042952 号 -18`  All Rights Reserved
+   
+<span class="nt">&lt;/div&gt;</span>
+</code></pre></div></div>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626796098224-66dfb621-323e-4e68-b1e2-fedfa40b43d9.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<blockquote>
+  <p>修改页面 height 默认展示底部 footer</p>
+</blockquote>
+
+<div class="language-css highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">body</span><span class="o">,</span><span class="nt">body</span><span class="o">&gt;[</span><span class="nt">ui-view</span><span class="o">],</span><span class="nt">html</span><span class="o">,</span><span class="nt">html</span><span class="o">&gt;[</span><span class="nt">ui-view</span><span class="o">]</span> <span class="p">{</span>
+    <span class="nl">width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
+    <span class="nl">height</span><span class="p">:</span> <span class="m">99%</span>  <span class="err">#</span> <span class="n">原100</span><span class="err">%</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626796019003-27d5c0b3-dfe4-4c26-ae28-a334a5ed8039.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-03-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#读书笔记">读书笔记</a>
+      <cite>2021-08-09</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#SQL">SQL</a>
       
       
       
@@ -438,154 +539,208 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2021/03/%E5%B7%A8%E5%A9%B4%E5%9B%BD.html">巨婴国</a></h1>
+    <h1><a class="title" href="/post/2021/08/%E5%B8%B8%E7%94%A8SQL.html">常用 SQL-拼接日期</a></h1>
     <div class="post_at_index">
-      <ul>
-  <li>
-    <p>我们集体停留在婴儿期 经典的中国式图景中，主角，都是像被抽掉了脊梁骨的人，譬如你很难在中国画中找到一个昂然挺立的身体。对此表现力最好的，是岳敏君的作品。抽巴的人生，凝缩在抽巴的身体中。很多人反感岳敏君的画，但你走在大街上，满眼望去都是这样的图景。本我、自我和超我，这是弗洛伊德的人格结构理论。放到国人身上，它可具体表达为：全能自恋性的本我、绝对禁止性的超我和软塌塌的自我。全能自恋性本我即，我是神，世界应完全按照我的意愿运转。绝对禁止性超我即，你的一切自发行为，都是不对的。两者冲突太强，以至于作为协调者的自我没法协调，所以变得软塌塌了。</p>
-  </li>
-  <li>
-    <p>我们集体停留在婴儿期 经典的中国式图景中，主角，都是像被抽掉了脊梁骨的人，譬如你很难在中国画中找到一个昂然挺立的身体。对此表现力最好的，是岳敏君的作品。抽巴的人生，凝缩在抽巴的身体中。很多人反感岳敏君的画，但你走在大街上，满眼望去都是这样的图景。本我、自我和超我，这是弗洛伊德的人格结构理论。放到国人身上，它可具体表达为：全能自恋性的本我、绝对禁止性的超我和软塌塌的自我。全能自恋性本我即，我是神，世界应完全按照我的意愿运转。绝对禁止性超我即，你的一切自发行为，都是不对的。两者冲突太强，以至于作为协调者的自我没法协调，所以变得软塌塌了。</p>
-  </li>
-</ul>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-03-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#读书笔记">读书笔记</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/03/%E5%85%B6%E5%AE%9E-%E4%BD%A0%E6%89%80%E7%9F%A5%E9%81%93%E7%9A%84%E4%B8%96%E7%95%8C%E5%BE%88%E9%99%8C%E7%94%9F.html">其实，你所知道的世界很陌生</a></h1>
-    <div class="post_at_index">
-      <ul>
-  <li>
-    <p>一座城市到另一座城市，从一个国度到另一个国度，从一个人到另一个人，谁不是只身而来只身而去。最重要的总不在行李上。</p>
-  </li>
-  <li>
-    <p>人的一生，注定要和很多人分道扬镳，哪怕是一度关系极近的朋友。你宽容得甚至于软弱，必定遭到欺侮。你勇敢得足以拒绝，才不受到羁绊。</p>
-  </li>
-  <li>
-    <p>你要知道，你拥有的，就是最好的。不是因为一件东西好，你才千方百计去拥有它。而是因为你已拥有了它，才一心一意觉得它最好。这个世界上，总有你无法得到的东西。如果你一心想去得到你没有的东西，你的欲望就永远无法得到满足。而一旦满足，你便眼中尽是它的不好，而转身被别的东西所吸引。问题是，你现在所拥有的，真的不如你未得到的好吗？为什么一个二十岁的小姑娘中意的那个男人就不能是全天下最好的男人呢？要知道，是因为我中意你，所以你就是全天下最好。而不是你已是全天下最好的，我才中意你。</p>
-  </li>
-  <li>
-    <p>乡下的中华田园犬</p>
-  </li>
-  <li>
-    <p>李义山诗云：““此情可待成追忆，只是当时已惘然。””一个人的生长，或是期许风花雪月，无奈久候不至；或是阅尽梦幻泡影，尔后刊落声华。</p>
-  </li>
-  <li>
-    <p>水平上，你尽可以仰视一个人；但态度上，你应平视所有人。</p>
-  </li>
-  <li>
-    <p>Tomorrow is another day? No, tomorrow is the same</p>
-  </li>
-  <li>
-    <p>生命当如此。““亲爱的，明天是世界末日噢。””““那又怎样，今天中午，我还要吃面。””————霸道！豪气干云。</p>
-  </li>
-  <li>
-    <p>人生短暂，不必花工夫理会二流的东西，除了消遣。</p>
-  </li>
-  <li>
-    <p>《唐诗三百首》、《诗经》、《论语》、《史记》、《庄子》。</p>
-  </li>
-  <li>
-    <p>基情：超越一般友情但又未达到同性爱情的一种介乎两者之间的同性间微秒的情愫。</p>
-  </li>
-  <li>
-    <p>读史也是这样，只是史书没有小字给你读，你得慢慢体会揣摩。从孔老夫子笔削春秋那一刻就注定了正史都是打过马赛克的，只有““骑兵””没有““步兵””，背后删掉的故事需要你在月黑风高的夜晚静静体会才能略微窥知一二。</p>
-  </li>
-  <li>
-    <p>马赛克丰富了人类的</p>
-  </li>
-</ul>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-03-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#读书笔记">读书笔记</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/03/%E4%BA%BA%E9%97%B4%E5%A4%B1%E6%A0%BC.html">人间失格</a></h1>
-    <div class="post_at_index">
-      <p>天使从空中飞过，听从神的旨意隐去双翅，像乘着降落伞一般飘落到世界的各个角落。我落在北国的雪原，你落在南国的蜜柑田，而这群少年落在了上野公园。我们之间的差别仅仅如此。少年们啊，无论你们今后度过多少岁月，都请不要介意自己的容貌，不要吸食香烟，若非节日，也别喝酒。长大后，请多加爱惜那性格内向、不爱浓妆的姑娘。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-03-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#读书笔记">读书笔记</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/03/%E4%BA%BA%E7%94%9F%E7%9A%84%E6%9E%B7%E9%94%81.html">人生的枷锁</a></h1>
-    <div class="post_at_index">
-      <p>英国作家毛姆在《人生的枷锁》中，有一段论述青春的话很好：</p>
-
-<p>一个人一生必须艰苦跋涉，越过一大片土地贫瘠、地势险峻的原野，方能跨入现实的门槛。说青春是幸福的，这只是一种幻想，是已经失去了青春的人们的一种幻想。但是，年轻人知道自己是不幸的，因为他们脑子里充满了灌输给他们的种种不切实际的幻想。他们一旦同现实接触，总是碰的头破血流。看来，他们似乎是某种阴谋的牺牲品，因为他们所读的书（由于必要的选择很理想）；还有长辈们之间的谈话（他们是透过玫瑰色的雾霭来回首青春的），这一切都为他们准备好了一个不真实的生活。</p>
-
-<p><strong>他们必须自己发现，他们所读过的书，所听到的话，全是谎言！谎言！谎言！而每一次的发现，都是往那具已被钉在生活十字架上的身躯再打入一枚钉子。奇怪的是，每一个经历过痛苦幻灭的人，由于受到他自身抑制不了的力量的驱使，又总是无意中增添了这种幻灭的痛苦。</strong></p>
-
-<p>对于菲利普来说，和海沃德的交往是一件最糟糕的事。他任何东西都不肯亲眼去观察，而只是通过书本只是来认识。他是危险的，因为他欺骗他自己，达到了如痴如狂、诚心诚意的程度。</p>
-
-<p>他真诚地将自己的淫荡误认为是浪漫的感情，把自己的优柔寡断误认为是艺术家的气质，把自己的偷懒误认为是哲学家的冷静。他的思想因为追求风雅而变的庸俗起来。他把一切事物都看得比实物大，轮廓模糊，还给它们蒙上一层多愁善感的金色雾霭。他扯谎，自己却没有意识到。别人为他指出来时，他却说谎言是美好的。他是个理想主义者。</p>
-
-<p>于是，我想，话题又回到了我们所相信的东西是否真实，是否在愚弄自己。我们不能说我们读到的听到的都是欺骗。因为那是别人的理想。理想和现实，想象和实践本来就是有差距的。我们只是不能按着我们读到的和听到的做。因为青春是自己的。想象也应该是自己的。青春是面对现实去想象的能力而不是按着别人的想象来欺骗自己。</p>
-
-<hr />
-
-<p>@知乎 - 熊群</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-03-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#读书笔记">读书笔记</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/03/%E4%B8%89%E7%94%9F%E4%B8%89%E4%B8%96%E5%8D%81%E9%87%8C%E6%A1%83%E8%8A%B1.html">三生三世十里桃花</a></h1>
-    <div class="post_at_index">
-      <p><a href="https://www.amazon.cn/s/ref=as_li_ss_tl?_encoding=UTF8\&amp;camp=536\&amp;creative=3132\&amp;field-keywords=%E4%B8%89%E7%94%9F%E4%B8%89%E4%B8%96%E5%8D%81%E9%87%8C%E6%A1%83%E8%8A%B1\&amp;linkCode=ur2\&amp;tag=llll1-23\&amp;url=search-alias%3Dbooks">唐七</a>
-1 highlight</p>
+      <h2 id="concat_ws">concat_ws</h2>
 
 <ul>
-  <li>一个人便是这样了，处处都只想着所爱之人好，所爱之人好了，自己便也好了。这正是情爱的妙处，即便受罪吃苦头，倘若心里头有一个人揣着，天大的罪天大的苦头，也不过一场甜蜜的煎熬。</li>
+  <li>concat_ws(‘-‘,year,month,day) =&gt; ‘2021-4-15’   拼接日期</li>
 </ul>
 
       
     </div>
     <br/>
     <div>
-      <cite>2021-03-10</cite> <i class="icon-tag"></i>
+      <cite>2021-08-08</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#SQL">SQL</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/07/%E7%9F%A5%E4%B9%8E%E5%91%A8%E5%88%8A-%E5%8D%95%E8%BA%AB%E4%BC%9A%E4%B8%8A%E7%98%BE.html">知乎周刊・单身会上瘾</a></h1>
+    <div class="post_at_index">
+      <ul>
+  <li>我们所有的迷茫与纠结，恰恰因为我们把目光只放在「结婚」或者「不结婚」，我们辗转反侧，因为我们期盼只一种选择便可以带自己过幸福生活。</li>
+</ul>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-07-22</cite> <i class="icon-tag"></i>
       <a href="/tags.html#读书笔记">读书笔记</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/07/%E5%9C%A8%E8%B0%B7%E6%AD%8C%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E5%AE%89%E8%A3%85.crx%E6%8F%92%E4%BB%B6.html">在谷歌浏览器中安装.crx 插件</a></h1>
+    <div class="post_at_index">
+      <p>下载插件：<a href="https://www.yuque.com/attachments/yuque/0/2021/zip/343806/1626953566160-f0ac0382-2820-497b-ac94-4d45bf856ab6.zip?_lake_card=%7B%22src%22%3A%22https%3A%2F%2Fwww.yuque.com%2Fattachments%2Fyuque%2F0%2F2021%2Fzip%2F343806%2F1626953566160-f0ac0382-2820-497b-ac94-4d45bf856ab6.zip%22%2C%22name%22%3A%22immpkjjlgappgfkkfieppnmlhakdmaab_v0.9.8.74.zip%22%2C%22size%22%3A149152%2C%22type%22%3A%22application%2Fzip%22%2C%22ext%22%3A%22zip%22%2C%22status%22%3A%22done%22%2C%22taskId%22%3A%22uc49f92d7-8f44-47ac-9838-e24bd41e27c%22%2C%22taskType%22%3A%22upload%22%2C%22id%22%3A%22u573c41c9%22%2C%22card%22%3A%22file%22%7D">immpkjjlgappgfkkfieppnmlhakdmaab_v0.9.8.74.zip</a></p>
+
+<p>首先用户点击谷歌浏览器右上角的自定义及控制按钮，在下拉框中选择工具选项，然后点击扩展程序来启动 Chrome 浏览器的扩展管理器页面。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626952554504-3c460965-2e50-43f0-aae1-ea75eb41a0ea.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>在打开的谷歌浏览器的扩展管理器中用户可以看到一些已经安装程序的 Chrome 插件，或者一个 Chrome 插件也没有。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626952554502-412d793c-6275-44d2-89af-b4f6f8a46f72.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>找到自己已经下载好的 Chrome 离线安装文件 xxx.crx，然后将其从资源管理器中拖动到 Chrome 的扩展管理界面中，这时候用户会发现在扩展管理器的中央部分中会多出一个”拖动以安装“的插件按钮。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626952554380-ea8d6413-261e-4117-9b6d-809e6f2d03b3.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>松开鼠标就可以把当前正在拖动的插件安装到谷歌浏览器中去，但是谷歌考虑用户的安全隐私，在用户松开鼠标后还会给予用户一个确认安装的提示。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626952554465-85ae5ac6-585c-40b9-80c1-dce5ccc78196.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>用户这时候只需要点击添加按钮就可以把该离线 Chrome 插件安装到谷歌浏览器中去，安装成功以后该插件会立即显示在浏览器右上角（如果有插件按钮的话），如果没有插件按钮的话，用户还可以通过 Chrome 扩展管理器找到已经安装的插件。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1626952554429-dc14b5fb-59e8-4426-85ba-c9743bfb12e6.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>用户只需要通过上面介绍的五个步骤就可以轻松地把离线谷歌浏览器插件安装到 Chrome 中去，希望这个离线 Chrome 插件的安装方法能够帮助到您或者是您的朋友。</p>
+
+<blockquote>
+  <p>出处 <a href="https://huajiakeji.com/utilities/2014-09/181.html">https://huajiakeji.com/utilities/2014-09/181.html</a></p>
+</blockquote>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-07-22</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/06/iPhone_iPad-%E4%B8%8D%E8%B6%8A%E7%8B%B1%E5%AE%89%E8%A3%85%E6%97%A7%E7%89%88%E7%A8%8B%E5%BA%8F.html">iPhone/iPad 不越狱安装旧版程序</a></h1>
+    <div class="post_at_index">
+      <h2 id="前言">前言</h2>
+
+<p>软件版本迭代是会带来新的功能和 BUG 修复，为给用户带来更好的使用体验，我也是乐于尝鲜的性格，所以在软件推出发布新版本时都会及时更新，但用户体验其实是一个玄学的话题，有时并不能给你带来更好的体验，在 iOS 上，由于苹果商店严格的管理机制导致我们在升级后，想要回退到之前版本变得十分困难。</p>
+
+<p>虾米音乐升级到 6.0 版本之后，改变很大，作为一位老虾米非常不适应，所以就瞄准了 6.0 之前的最后一个版本：5.9.4。</p>
+
+<p>解决办法是在 iTunes 下载程序时，使用抓包工具对与苹果应用商店服务器之间的请求进行分析，通过修改下载请求中程序版本识别序列号来下载旧版本。</p>
+
+<h2 id="准备">准备</h2>
+
+<p>网上较多的解决办法是使用 Fiddler+iTunes 是在 Windows 平台，因为我只有 Mac，所以用 Charles 代替 Fiddler，这里需要注意的是 iTunes 的版本，在笔者写这篇教程的前一天 iTunes 更新到 12.7，在 12.7 中有一个很大的变化移除了 App store，所以请使用低于 12.7 版本的 iTunes。</p>
+
+<h3 id="charles-安装">Charles 安装</h3>
+
+<p>对于 Charles 版本并没有特殊要求，我这边是通过 brew 安装，你也可以到 Charles 官网下载安装，Charles 是需要付费的软件，但是有 30 天免费使用期限，如果你有长期使用打算，建议购买正版授权。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/x4dkc.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<h3 id="charles-ssl-证书导入系统">Charles SSL 证书导入系统</h3>
+
+<p>从 Charles 中导出证书文件</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/v815e.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>在 KeyChain Access 中导入证书</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/883p7.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>选中导入的证书，然后右键选择 ‘Get Info’ ，设置证书信任状态</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/xoalz.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<h2 id="虾米音乐的三次下载">“虾米音乐”的三次下载</h2>
+
+<h3 id="第一次下载">第一次下载</h3>
+
+<p>打开 Charles，开启监听，然后使用搜索虾米音乐，点击 Downloads 按钮。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/6dt52.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>点击下载后，在 Charles 会出现监听到信息，找到一条 ‘p[xx]-buy.itunes.apple.com’ ，其中 xx 是一个随机的数字，选中它，然后右键菜单栏中勾选 ‘Enable SSL Proxying’ 和 ‘Breakpoints’ 。设置完成后，在 iTunes 下载中，清理下载记录。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/ea85i.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<h3 id="第二次下载">第二次下载</h3>
+
+<p>重新搜索虾米音乐，并点击下载按钮，这时 Charles 会弹出窗口，然后在弹出窗口的右下三个按钮中选择 ‘Execute’ ，这一步是我们请求服务器，紧接着出现的就是服务器给我们的响应，然后选择 ‘Edit Response’ - ‘XML Text’ ，然后向下滚动找到下图中的部分，这里是所有虾米音乐的版本的序列数字，但是这里没有办法直接看到版本号，越大的数字版本号越新。这里可以通过在手机 App store 中查看软件的版本记录，找到大概要回退多少个版本，然后数字从大到小找个半个序列数字记录下来，然后在下面三个按钮中选择 ‘Abort’ ，这时 iTunes 会弹出一个报错窗口，关掉即可。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/27nit.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<h3 id="第三次下载">第三次下载</h3>
+
+<p>再次重新搜索虾米音乐，并点击下载，在这次 Charles 弹出窗口中我们需要直接修改 ‘Edit Requset’ - ‘XML Text’ ，将如下图中的 ‘appExtVrsid’ 对应的值修改为，我们上一步中记录的序列数字，然后就一直在每次弹出选择时，选择 ‘Execute’ ，直到下载完成记录。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/h7zzu.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<h2 id="验证">验证</h2>
+
+<p>下载完成后，你的 iTunes App Library 中已经有了一个虾米音乐，连接上你的手机，将其安装到手机上即可，下图是我安装后的版本截图。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/ppy2m.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-06-25</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/06/Mac-%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%BD%95%E5%88%B6GiF%E5%B0%8F%E8%A7%86%E9%A2%91.html">Mac 如何快速录制 GiF 小视频</a></h1>
+    <div class="post_at_index">
+      <p>在平时的沟通中经常有需要用到分享一个连续的操作等，在很多时候截图不能满足我的需求，录制视频文件的话呢，文件过大，不同平台限制过多是一个很麻烦的视频，所以录制 GIF 是一个非常好的解决办法，今天给大家推荐两款软件，关于录制 GIF 和 GIF 编辑。</p>
+
+<h2 id="录制工具-1-kap">录制工具 (1) Kap</h2>
+
+<p>Kap 是一款轻量级开源的 GIF 录制工具，这意味它是免费简单易用; 你可以从官网下载。官网</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/sbuwo.gif?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>安装完成，启动 Kap, 它是以一个圆环的形式显示在状态栏上，所有的界面都在这里，你可以点击红框直接开始录制，点击后你的屏幕上会出现一个虚线框，你可以通过拖动四角调整大小。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/vcaug.gif?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>确定好录制范围之后，这时你发现 Kap 上红色录制按钮一个变成一个红色实心圆，再次单击即可开始录制。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/9txw3.gif?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>在你操作完成之后，再次单击，即可结束录制。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/lws2b.gif?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<h2 id="录制工具-2-macappquicktime-player">录制工具 (2) MacApp：QuickTime Player</h2>
+
+<p>以上管理 Kap 的使用 GIF 录制我是用过 Mac 自带的 QuickTime Player 录制，教程可以直接看 @JasonZone  的教程 链接</p>
+
+<h2 id="gif-编辑">GIF 编辑</h2>
+
+<p>在@JasonZone  最后使用的是一个网站进行了从 mov 转换为 gif 格式的操作，这里推荐一个 Mac 应用 Video to Gif Maker, 可以批量进行多个 GIF 文件转换，也支持在 GIF 增加文字或图片，这很实用。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/5yogy.gif?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-06-12</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
       
       
       
@@ -634,7 +789,7 @@
             <li class="active"><a>8</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page23">23</a></li>
+          <li><a href="/page24">24</a></li>
         
 
         
@@ -685,7 +840,7 @@
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>18</span>
+    		数据库 <span>19</span>
     	</a></li>
      
     	
@@ -869,8 +1024,8 @@
     	</a></li>
      
     	
-      <li><a href="/categories.html#NaN">
-    		NaN <span>1</span>
+      <li><a href="/categories.html#Network">
+    		Network <span>1</span>
     	</a></li>
      
     	
@@ -914,13 +1069,53 @@
     	</a></li>
      
     	
+      <li><a href="/categories.html#Kubernetes">
+    		Kubernetes <span>10</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Github">
     		Github <span>1</span>
     	</a></li>
      
     	
+      <li><a href="/categories.html#kubernetes">
+    		kubernetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#腾讯云">
+    		腾讯云 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#阿里云">
+    		阿里云 <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Gitlab">
     		Gitlab <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#前端">
+    		前端 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#DaoCloud Enterprise">
+    		DaoCloud Enterprise <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kubrnetes">
+    		Kubrnetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kafka">
+    		Kafka <span>1</span>
     	</a></li>
      
     	
@@ -971,9 +1166,21 @@ df = pandas.read_csv(‘somefile.txt’)
         </li>
         
         <li>
-          <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
-          王路
-12 highlights
+          <a href="/post/2022/10/JWT-%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F.html">JWT 内置的方式</a>
+          
+  支持为 API 启用 jwt token 解码的能力 ,  读取网关的 jwt key
+    
+      读取请求 Header 中的 Authorization
+    
+  
+  需要支持为网关配置多 jwt key , and 加密长度 ?
+    
+      解密的性能问题
+      expire_time 过期时间的配置
+      解密后的参数传递
+    
+  
+
 
 
         </li>

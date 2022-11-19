@@ -233,6 +233,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -276,370 +280,82 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2016/07/Manage-Tomcat-Service-Use-Shell-Script.html">Manage Tomcat Service Use Shell Script</a></h1>
+    <h1><a class="title" href="/post/2016/10/HowTo-Install-PostgreSQL-9-5-on-CentOS-6-x.html">HowTo Install PostgreSQL 9.5 on CentOS 6.x</a></h1>
     <div class="post_at_index">
-      <h4 id="tomcat-项目管理交互式脚本">Tomcat 项目管理交互式脚本</h4>
+      <h2 id="centos-6">CentOS 6</h2>
 
-<ul>
-  <li>Install pssh</li>
-  <li>Use Key Login Server Hosts</li>
-  <li>~/.ssh/config 配置使用 host 名登录服务</li>
-  <li>指定 Server Group Files 存放位置</li>
-</ul>
+<h3 id="1-install-postgresql-repository-and-the-postgresql-server-by-running-the-following">1. Install PostgreSQL repository and the PostgreSQL server by running the following</h3>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>yum <span class="nb">install </span>https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-6-x86_64/pgdg-centos95-9.5-2.noarch.rpm
 
-<span class="c"># Author Alex LU</span>
-<span class="c"># Date 2016-07-20</span>
-<span class="c"># Version 1.0</span>
-
-<span class="c"># HostFile</span>
-<span class="nv">HostDIR</span><span class="o">=</span>~/.ssh/host/
-
-<span class="c"># war包上传到该目录</span>
-<span class="c"># /warfolder</span>
-
-:<span class="s1">'
-jobs_select (){
-    STRING=``cat $vmname | grep group
-    if [ -z "$STRING" ]
-    then
-        job_tomcat
-    else
-        job2_tomcat
-    fi
-}
-'</span>
-
-<span class="k">function </span>HOST<span class="o">()</span>
-<span class="o">{</span>
-    <span class="nb">echo</span> <span class="s2">""</span>
-    <span class="nb">echo</span> <span class="s2">"############ Host List ###############"</span>
-    <span class="nb">echo</span> <span class="s2">"ckgroup:ck01,ck02,ck03,ck04"</span>
-    <span class="nb">echo</span> <span class="s2">"sjgroup:sj01,sj02,sj03,sj04"</span>
-    <span class="nb">echo</span> <span class="s2">"ddgroup:dd01,dd02,dd03,dd04"</span>
-    <span class="nb">echo</span> <span class="s2">"htgroup:ht01,ht02"</span>
-    <span class="nb">echo</span> <span class="s2">"othergroup:report,tg"</span>
-    <span class="nb">echo</span> <span class="s2">"######################################"</span>
-    <span class="nb">echo</span> <span class="s2">""</span>
-    <span class="nb">echo</span> <span class="s2">" Tips: 如果要选择ck01，则输入ck01即可，如果输入ck组，输入ckgroup即可,如果要退出当前脚本输入exit"</span>
-    <span class="nb">echo</span> <span class="s2">" Tips: 退回上一步请输入back"</span>
-    <span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"请输入你的选择:"</span> vmname
-
-    <span class="k">case</span> <span class="s2">"</span><span class="nv">$vmname</span><span class="s2">"</span> <span class="k">in
-        </span>ck01|ck02|ck03|ck04|sj01|sj02|sj03|sj04|dd01|dd02|dd03|dd04|report|tg|ht01|ht02<span class="p">)</span>
-            job_tomcat <span class="nv">$vmname</span>
-            <span class="p">;;</span>
-        ckgroup|sjgroup|htgroup|ddgroup|othergroup<span class="p">)</span>
-            job2_tomcat <span class="nv">$vmname</span>
-            <span class="p">;;</span>
-        <span class="nb">exit</span><span class="p">)</span>
-            <span class="nb">exit </span>0<span class="p">;</span>
-            <span class="p">;;</span>
-        back<span class="p">)</span>
-            clear
-            <span class="nb">echo</span> <span class="s2">""</span>
-            <span class="nb">echo</span> <span class="s2">"Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"</span>
-            main
-            <span class="p">;;</span>
-        <span class="k">*</span><span class="p">)</span>
-            <span class="nb">echo</span> <span class="s2">"请输入的选择!"</span>
-            HOST
-            <span class="p">;;</span>
-    <span class="k">esac</span>
-<span class="o">}</span>
-
-<span class="k">function </span>job_tomcat <span class="o">()</span>
-<span class="o">{</span>
-    <span class="nb">echo</span> <span class="s2">""</span>
-    <span class="nb">echo</span> <span class="s2">"############ 动作 ###############"</span>
-    <span class="nb">echo</span> <span class="s2">"  1. 查看当前tomcat7状态"</span>
-    <span class="nb">echo</span> <span class="s2">"  2. 关闭tomcat7"</span>
-    <span class="nb">echo</span> <span class="s2">"  3. 启动tomcat7"</span>
-    <span class="nb">echo</span> <span class="s2">"  4. 重启tomcat7"</span>
-    <span class="nb">echo</span> <span class="s2">"  5. 获取最近200行日志"</span>
-    <span class="nb">echo</span> <span class="s2">"  6. 重新选择主机"</span>
-    <span class="nb">echo</span> <span class="s2">"  7. 回到顶层目录"</span>
-    <span class="nb">echo</span> <span class="s2">""</span>
-    <span class="nb">echo</span> <span class="s2">"#################################"</span>
-
-    <span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"请输入你的选择:"</span> service_tomcat
-
-    <span class="k">case</span> <span class="nv">$service_tomcat</span> <span class="k">in
-        </span>1<span class="p">)</span>
-        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"ps aux | grep tomcat"</span>
-        job_tomcat
-        <span class="p">;;</span>
-        2<span class="p">)</span>
-        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 stop"</span>
-        <span class="c"># tips： 下面grep的字符串要和你的tomcat项目名称契合</span>
-        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"ps aux | grep tomcat7 | awk '{print </span><span class="nv">$2</span><span class="s2">}' | xargs kill -9 "</span>
-        <span class="c"># tips: 下面用到的路径为绝对路径，请更改为自己tomcat的目录，也可以在前面增加自定义变量</span>
-        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/work/*"</span>
-        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/logs/*"</span>
-        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/temp/*"</span>
-        job_tomcat
-        <span class="p">;;</span>
-        3<span class="p">)</span>
-        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 start"</span>
-        job_tomcat
-        <span class="p">;;</span>
-        4<span class="p">)</span>
-        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 stop"</span>
-        <span class="c"># tips： 下面grep的字符串要和你的tomcat项目名称契合</span>
-        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"ps aux | grep tomcat7 | awk '{print </span><span class="nv">$2</span><span class="s2">}' | xargs kill -9 "</span>
-        <span class="c"># tips: 下面用到的路径为绝对路径，请更改为自己tomcat的目录，也可以在前面增加自定义变量</span>
-        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/work/*"</span>
-        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/logs/*"</span>
-        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/temp/*"</span>
-        <span class="nb">sleep </span>1
-        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 start"</span>
-        job_tomcat
-        <span class="p">;;</span>
-        5<span class="p">)</span>
-        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"tail -n 200 /tomcat7/logs/catalina.out"</span>
-        job_tomcat
-        <span class="p">;;</span>
-        6<span class="p">)</span>
-        <span class="nb">echo</span> <span class="s2">""</span>
-        HOST
-        <span class="p">;;</span>
-        7<span class="p">)</span>
-        clear
-        <span class="nb">echo</span> <span class="s2">""</span>
-        <span class="nb">echo</span> <span class="s2">"Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"</span>
-        main
-        <span class="p">;;</span>
-        <span class="k">*</span><span class="p">)</span>
-        <span class="nb">echo</span> <span class="s2">"请输入正确的选项！"</span>
-        job_tomcat
-        <span class="p">;;</span>
-    <span class="k">esac</span>
-<span class="o">}</span>
-
-<span class="k">function </span>job2_tomcat <span class="o">()</span>
-<span class="o">{</span>
-    <span class="nb">echo</span> <span class="s2">""</span>
-    <span class="nb">echo</span> <span class="s2">"############ 动作 ###############"</span>
-    <span class="nb">echo</span> <span class="s2">"  1. 查看当前tomcat7状态"</span>
-    <span class="nb">echo</span> <span class="s2">"  2. 关闭tomcat7"</span>
-    <span class="nb">echo</span> <span class="s2">"  3. 启动tomcat7"</span>
-    <span class="nb">echo</span> <span class="s2">"  4. 重启tomcat7"</span>
-    <span class="nb">echo</span> <span class="s2">"  5. 获取最近200行日志"</span>
-    <span class="nb">echo</span> <span class="s2">"  6. 重新选择主机"</span>
-    <span class="nb">echo</span> <span class="s2">"  7. 回到顶层目录"</span>
-    <span class="nb">echo</span> <span class="s2">""</span>
-    <span class="nb">echo</span> <span class="s2">"################################"</span>
-
-    <span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"请输入你的选择:"</span> service_tomcat
-
-    <span class="k">case</span> <span class="nv">$service_tomcat</span> <span class="k">in
-        </span>1<span class="p">)</span>
-        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"ps aux | grep tomcat"</span>
-        job2_tomcat
-        <span class="p">;;</span>
-        2<span class="p">)</span>
-        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 stop"</span>
-        <span class="c"># tips： 下面grep的字符串要和你的tomcat项目名称契合</span>
-        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"ps aux | grep tomcat7 | awk '{print </span><span class="nv">$2</span><span class="s2">}' | xargs kill -9 "</span>
-        <span class="c"># tips: 下面用到的路径为绝对路径，请更改为自己tomcat的目录，也可以在前面增加自定义变量</span>
-        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/work/*"</span>
-        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/logs/*"</span>
-        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/temp/*"</span>
-        job2_tomcat
-        <span class="p">;;</span>
-        3<span class="p">)</span>
-        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 start"</span>
-        job2_tomcat
-        <span class="p">;;</span>
-        4<span class="p">)</span>
-        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 stop"</span>
-        <span class="c"># tips： 下面grep的字符串要和你的tomcat项目名称契合</span>
-        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"ps aux | grep tomcat7 | awk '{print </span><span class="nv">$2</span><span class="s2">}' | xargs kill -9 "</span>
-        <span class="c"># tips: 下面用到的路径为绝对路径，请更改为自己tomcat的目录，也可以在前面增加自定义变量</span>
-        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/work/*"</span>
-        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/logs/*"</span>
-        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/temp/*"</span>
-        <span class="nb">sleep </span>1
-        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 start"</span>
-        job2_tomcat
-        <span class="p">;;</span>
-        5<span class="p">)</span>
-        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"tail -n 200 /tomcat7/logs/catalina.out"</span>
-        job2_tomcat
-        <span class="p">;;</span>
-        6<span class="p">)</span>
-        <span class="nb">echo</span> <span class="s2">""</span>
-        HOST
-        <span class="p">;;</span>
-        7<span class="p">)</span>
-        clear
-        <span class="nb">echo</span> <span class="s2">""</span>
-        <span class="nb">echo</span> <span class="s2">"Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"</span>
-        main
-        <span class="p">;;</span>
-        <span class="k">*</span><span class="p">)</span>
-        <span class="nb">echo</span> <span class="s2">"请输入正确的选项！"</span>
-        job_tomcat
-        <span class="p">;;</span>
-    <span class="k">esac</span>
-<span class="o">}</span>
-
-<span class="k">function </span>HOST2<span class="o">()</span>
-<span class="o">{</span>
-    <span class="nb">echo</span> <span class="s2">""</span>
-    <span class="nb">echo</span> <span class="s2">"############ Host List ###############"</span>
-    <span class="nb">echo</span> <span class="s2">"ckgroup:ck01,ck02,ck03,ck04"</span>
-    <span class="nb">echo</span> <span class="s2">"sjgroup:sj01,sj02,sj03,sj04"</span>
-    <span class="nb">echo</span> <span class="s2">"ddgroup:dd01,dd02,dd03,dd04"</span>
-    <span class="nb">echo</span> <span class="s2">"htgroup:ht01,ht02"</span>
-    <span class="nb">echo</span> <span class="s2">"othergroup:report,tg"</span>
-    <span class="nb">echo</span> <span class="s2">"######################################"</span>
-    <span class="nb">echo</span> <span class="s2">""</span>
-<span class="c"># 确认是否所有项目包发布后立即启动</span>
-    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[7m 更新订单服务器的war包时，会自动启动tomcat程序，为了释放war包，修改order.no，请设置war包内order.no＝0 ,其它服务器tomcat不会自启动，请使用命令操作 </span><span class="se">\0</span><span class="s2">33[0m"</span>
-    <span class="nb">echo</span> <span class="s2">" Tips: 如果要选择ck01，则输入ck01即可，如果输入ck组，输入ckgroup即可,如果要退出当前脚本输入exit"</span>
-    <span class="nb">echo</span> <span class="s2">" Tips: 退回上一步请输入back"</span>
-    <span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"请输入你的选择:"</span> vmname
-    <span class="k">case</span> <span class="s2">"</span><span class="nv">$vmname</span><span class="s2">"</span> <span class="k">in
-        </span>ck01|ck02|ck03|ck04|sj01|sj02|sj03|sj04|dd01|dd02|dd03|dd04|report|tg|ht01|ht02<span class="p">)</span>
-            <span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"请输入war包的名称,例如:dzcx_ck.war :"</span> warname
-            pscp_tomcat <span class="nv">$vmname</span> <span class="nv">$warname</span>
-            <span class="p">;;</span>
-        ckgroup|sjgroup|htgroup|othergroup<span class="p">)</span>
-            <span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"请输入war包的名称,例如:dzcx_ck.war :"</span> warname
-            pscp2_tomcat <span class="nv">$vmname</span> <span class="nv">$warname</span>
-            <span class="p">;;</span>
-        ddgroup<span class="p">)</span>
-            <span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"请输入war包的名称,例如:dzcx_ck.war :"</span> warname
-            pscp3_tomcat <span class="nv">$vmname</span> <span class="nv">$warname</span>
-            <span class="p">;;</span>
-        <span class="nb">exit</span><span class="p">)</span>
-            <span class="nb">exit </span>0<span class="p">;</span>
-            <span class="p">;;</span>
-        back<span class="p">)</span>
-            clear
-            <span class="nb">echo</span> <span class="s2">""</span>
-            <span class="nb">echo</span> <span class="s2">"Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"</span>
-            main
-            <span class="p">;;</span>
-        <span class="k">*</span><span class="p">)</span>
-            <span class="nb">echo</span> <span class="s2">"请输入的选择!"</span>
-            HOST
-            <span class="p">;;</span>
-    <span class="k">esac</span>
-<span class="o">}</span>
-
-<span class="k">function </span>pscp_tomcat <span class="o">()</span>
-<span class="o">{</span>
-    <span class="c"># single host</span>
-    pscp.pssh <span class="nt">-H</span> <span class="nv">$vmname</span> /warfolder/<span class="s2">"</span><span class="nv">$warname</span><span class="s2">"</span> /tomcat7/webapps/
-    HOST2
-<span class="o">}</span>
-
-<span class="k">function </span>pscp2_tomcat <span class="o">()</span>
-<span class="o">{</span>
-    <span class="c"># group</span>
-    pscp.pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> /warfolder/<span class="s2">"</span><span class="nv">$warname</span><span class="s2">"</span> /tomcat7/webapps/
-    HOST2
-<span class="o">}</span>
-
-<span class="k">function </span>pscp3_tomcat <span class="o">()</span>
-<span class="o">{</span>
-    <span class="c"># group dd 因为订单需要修改服务器编号</span>
-    pscp.pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> /warfolder/<span class="s2">"</span><span class="nv">$warname</span><span class="s2">"</span> /tomcat7/webapps/
-    pssh <span class="nt">-h</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 start"</span>
-    <span class="nb">sleep </span>10
-    pssh <span class="nt">-H</span> dd02 <span class="s2">"sed -i 's/order.no=0/order.no=1/g' /tomcat7/webapps/dzcx_socket/WEB-INF/classes/base.properties"</span>
-    pssh <span class="nt">-H</span> dd03 <span class="s2">"sed -i 's/order.no=0/order.no=2/g' /tomcat7/webapps/dzcx_socket/WEB-INF/classes/base.properties"</span>
-    pssh <span class="nt">-H</span> dd04 <span class="s2">"sed -i 's/order.no=0/order.no=3/g' /tomcat7/webapps/dzcx_socket/WEB-INF/classes/base.properties"</span>
-    HOST2
-<span class="o">}</span>
-
-<span class="k">function </span>main <span class="o">()</span>
-<span class="o">{</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">"######################################"</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">"#  1. 更新war包"</span>
-<span class="nb">echo</span> <span class="s2">"#  2. 管理tomcat7"</span>
-<span class="nb">echo</span> <span class="s2">"#  3. 管理mysql"</span>
-<span class="nb">echo</span> <span class="s2">"#  4. 管理redis"</span>
-<span class="nb">echo</span> <span class="s2">"#  5. 同步服务器时间"</span>
-<span class="nb">echo</span> <span class="s2">"#  6. 清理当前屏幕"</span>
-<span class="nb">echo</span> <span class="s2">"#  7. 退出"</span>
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">"######################################"</span>
-
-<span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"请输入你的选择:"</span> num
-
-<span class="k">case</span> <span class="s2">"</span><span class="nv">$num</span><span class="s2">"</span> <span class="k">in
-    </span>1<span class="p">)</span>
-        HOST2
-        <span class="p">;;</span>
-    2<span class="p">)</span>
-        HOST
-        <span class="p">;;</span>
-    3<span class="p">)</span>
-        <span class="nb">echo</span> <span class="s2">"该功能暂未开放"</span>
-        <span class="p">;;</span>
-    4<span class="p">)</span>
-        <span class="nb">echo</span> <span class="s2">"该功能暂未开放"</span>
-        <span class="p">;;</span>
-    5<span class="p">)</span>
-        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/allhost <span class="nt">-i</span> <span class="s2">"service ntpd restart"</span>
-        <span class="p">;;</span>
-    6<span class="p">)</span>
-        clear
-        <span class="nb">echo</span> <span class="s2">""</span>
-        <span class="nb">echo</span> <span class="s2">"Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"</span>
-        main
-        <span class="p">;;</span>
-    7<span class="p">)</span>
-        <span class="nb">exit </span>0
-        <span class="p">;;</span>
-    <span class="k">*</span><span class="p">)</span>
-        <span class="nb">echo</span> <span class="s2">"请输入正确的数值！"</span>
-        main
-    <span class="p">;;</span>
-<span class="k">esac</span>
-
-<span class="o">}</span>
-
-<span class="c"># --------------------------------- main -------------------------------------------------</span>
-
-clear
-
-<span class="nb">echo</span> <span class="s2">""</span>
-<span class="nb">echo</span> <span class="s2">"Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"</span>
-<span class="nb">command</span> <span class="nt">-v</span> pssh <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
-
-<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span>
-<span class="k">then
-    </span>main
-<span class="k">else
-    </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[07m"</span>
-    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"系统检测到您还没安装pssh，请预先安装pssh"</span>
-    <span class="nb">echo</span> <span class="s2">"yum install -y epel-release"</span>
-    <span class="nb">echo</span> <span class="s2">"yum install -y pssh"</span>
-    <span class="nb">echo</span> <span class="s2">"安装成功请重新运行此脚本"</span>
-    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[0m"</span>
-
-<span class="k">fi</span>
-
-
+<span class="nb">sudo </span>yum <span class="nb">install </span>postgresql95-serve
 </code></pre></div></div>
+
+<h3 id="2-create-the-postgresql-database-cluster">2. Create the PostgreSQL database cluster</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sduo service postgresql-9.5 initdb
+</code></pre></div></div>
+
+<h3 id="3-enable-automatic-postgresql-server-startup">3. Enable automatic PostgreSQL server startup</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>chkconfig postgresql-9.5 on
+</code></pre></div></div>
+
+<h3 id="4-start-the-postgresql-server">4. Start the PostgreSQL server</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service postgresql-9.5 start
+</code></pre></div></div>
+
+<h2 id="centos-7">CentOS 7</h2>
+
+<h3 id="install-postgresql-repository-and-the-postgresql-server-by-running-the-following">Install PostgreSQL repository and the PostgreSQL server by running the following</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>yum <span class="nb">install </span>https://download.postgresql.org/pub/repos/yum/9.5 /redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
+
+<span class="nb">sudo </span>yum <span class="nb">install </span>postgresql95-serve
+</code></pre></div></div>
+
+<h3 id="create-the-postgresql-database-cluster">Create the PostgreSQL database cluster</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo</span> /usr/pgsql-9.5/bin/postgresql95-setup initdb
+</code></pre></div></div>
+
+<h3 id="enable-automatic-postgresql-server-startup">Enable automatic PostgreSQL server startup</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl <span class="nb">enable </span>postgresql-9.5
+</code></pre></div></div>
+
+<h3 id="start-the-postgresql-server">Start the PostgreSQL server</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl start postgresql-9.5
+</code></pre></div></div>
+
+<h2 id="configurations-for-centos">Configurations for CentOS</h2>
+
+<p>When installing in CentOs env. you will also need to make the following configurations.</p>
+
+<h3 id="change-authentication-to-md5">Change authentication to md5</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>vi /var/lib/pgsql/9.5/data/pg_hba.conf
+</code></pre></div></div>
+
+<h3 id="change-method-to-md5">Change METHOD to md5</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># IPv4 local connections:</span>
+host    all             all             127.0.0.1/32            md5
+
+<span class="c"># IPv6 local connections:</span>
+host    all             all             ::1/128                 md5
+</code></pre></div></div>
+
+<h3 id="3-restart-postgresql">3. Restart PostgreSQL</h3>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-07-26</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Shell">Shell</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
-      , 
-      <a href="/tags.html#Tomcat">Tomcat</a>
+      <cite>2016-10-20</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#PostgreSQL">PostgreSQL</a>
       
       
       
@@ -648,65 +364,83 @@ clear
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/07/HowTo-Play-Pokemon-GO-in-China.html">HowTo Play Pokemon GO in China</a></h1>
+    <h1><a class="title" href="/post/2016/10/%E5%86%99%E7%9A%84%E5%BE%AE%E5%8D%9A.html">微博随笔</a></h1>
     <div class="post_at_index">
-      <h2 id="installtions">Installtions</h2>
-
-<ul>
-  <li><a href="http://www.tutuapp.cn">TuTuAPP</a></li>
-  <li><a href="https://shadowsocks.biz/?ref=518">VPN</a></li>
-  <li><a href="https://accounts.google.com">Google Account ID</a></li>
-</ul>
-
-<p>最近看到身边朋友都在玩 Pokemon GO, 心痒难耐，于是跟同事请教琢磨了，终于在自己的手机上玩起来了，由于我的手机是 iPhone 5s，身边朋友也都是 iPhone，所以不确定是 Android 是否可以玩耍，想来应该是没有问题话，Android 平台做破解等操作一直以来比 iPhone 更加方便。</p>
-
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo1.jpg" alt="image" /></p>
-
-<ol>
+      <ol>
   <li>
-    <p>点击上面的 TuTuAPP，可以打开兔兔助手的网站，用手机扫描首页的二维码 (可以用微信等，带有二维码扫描的都可以)，注意如果你的 iPhone 已经越狱，请切换标签页到越狱版本。</p>
+    <p>20 岁之前我看郭敬明的书很多，真的对我的人生有很大的影响，20 岁以后，我开始看韩寒和王路的书，觉得他们的文字很酷，可以够我装逼来用，因为我看不来那些国外名著大师之作啊，文化水平达不到不能怪谁。</p>
   </li>
   <li>
-    <p>安装时注意按照提示添加信任，等待兔兔助手安装完成之后，打开软件，在 Search 栏输入“精灵宝可梦 GO”，请下载美区版，有两个版本：懒人版与移动版；懒人版有移动按钮，可以不需要走动躺在床上玩耍，移动版是需要人走动才能玩耍，我下载的移动版，你根据自己的喜欢选择，选择完成后，按提示按钮安装即可。</p>
+    <p>我的姑娘，必定是美好的，是完人，是仙女，是温柔的月光，是清晨初露的霞光，是令人心动的春风，是呼啸着穿堂而过的夏日阳光，是踩着红色高跟鞋踢踏踢踏走进我的胸膛，是历经岁月沧桑依然伴随左右的踏实臂膀。[大叔一直问阿姨要不我站起来你躺会，阿姨一直说我不累，却在我和大叔攀谈依靠在座位上睡着了。]</p>
   </li>
   <li>
-    <p>安装完成 Pokemon GO 之后也需要设定信任，请按照提示操作；好了，到这一步，Pokemon GO 已经安装在你的手机上了，下一步就是怎么登录玩耍。</p>
+    <p>当你准备接受爱情的时候，就要接受爱情带来的苦涩，焦虑和怅然若失的情绪，就像你打算接受一个人，就要学会接受他的前面后面上面下面，可能下面会比较小，但是你都要学会接受，要么你还准备好开始一段爱情和爱上一个人。</p>
   </li>
   <li>
-    <p>到这里及一下的步骤能继续下去的前提是，你有一个美国的 VPN 节点。打开你手机 App Store，搜索 VPN，列表中会有很多的免费应用，因为我一直用的是付费 VPN，所以对这些不是很清楚，朋友推荐<strong>ArkVPN</strong>，如果你没有付费 VPN，可以试试这个，注意 VPN 节点要选择 US，如果你也要使付费 VPN 的，我推荐 Shadowsocks＋Potatso( App)</p>
+    <p>如今社会高度发展的经济文化，的确会让很多人的价值观有失颇比，直观体现就是很多挂作家之名写出乌七八糟的东西反而畅销，进而影响更多读者，所以需要筛选文章，读适合自己的，生活如此，对的是自己，其他则毋庸顾虑，凡事需顾虑的，便对自己无甚意义，弃之亦不可惜。</p>
   </li>
   <li>
-    <p>注册 Google Account ID，<a href="https://account.google.com">点击</a></p>
-
-    <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo2.jpg" alt="image" /></p>
+    <p>sometimes the only way to move forward is to revisit the things in your past.that were holding you back.you have yo deal with them head on, no matter how scary they may be.beacuse once we do , you’ll see that you can go further than you ever imageined. 《The Flash》－ S02E17</p>
   </li>
   <li>
-    <p>进入游戏，登录 Google ID，然后授权，进入游戏。</p>
-
-    <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo3.png&gt;" alt="image" /></p>
+    <p>莱蒙托夫有首诗《一只船》这样写：一只船孤独地航行在海上，它既不寻求幸福，也不逃避幸福，它只是向前航行，底下是沉静碧蓝的大海，而头顶是金色的太阳。</p>
   </li>
   <li>
-    <p>开始捕捉你的小精灵吧，手动微笑。</p>
+    <p>内心是有难过的地方，每次我望见那一方矮矮的坟墓，都感到距离这么近那么远。</p>
+  </li>
+  <li>
+    <p>我真不喜欢有些人把自己的惰性归咎于出生命运</p>
+  </li>
+  <li>
+    <p>你没法让自己做到最好，最起码要努力变的更好</p>
+  </li>
+  <li>
+    <p>我希望我可以像太阳一样，给你温暖，像树一样成为你的依靠</p>
+  </li>
+  <li>
+    <p>或是彼此太过沉默，曾经一起走过的那段时光也变得模糊了。其实，我们每个人都会经历很多这样的分离，没有海誓山盟，没有悲恸不已，就是那种不可寻的时间；猛然间才发现我早已失去了你，朋友，愿你一切都好！腐朽的生命会令我们忘记许多人，却夺不去那些美好时光，或已忘记，但它永远真切的存在。</p>
+  </li>
+  <li>
+    <p>踏上西行的列车，我说睡吧睡吧，醒来就是另一片天空，没有让你忧伤的人儿</p>
+  </li>
+  <li>
+    <p>每一个存在都是有意义的，当我们的时间用来羡慕、嫉妒、,抱怨的时候，我们存在的意义在哪里？“我就是我，是颜色不一样的烟火”——《我》，我们缺乏的是看清自己的勇气，加油！/微笑</p>
+  </li>
+  <li>
+    <p>一定是特别的缘分，才可以一路走来变成一家人，所以啊，没什么好忧伤的</p>
+  </li>
+  <li>
+    <p>这世间有很多个我，所以我泯然于众我，我与我并没有什么不同，不同的是心，得之我幸，失之我命，得失心重，所以不知己身已入局，正所谓当局者迷，所谓难，只是因为你觉得难，若不舍千万不要放手。</p>
+  </li>
+  <li>
+    <p>我始终觉得每个人在特定的时间都有很多事情要去做，这个世界上没有你想像中的有那么多童话，你不会是这世界的唯一，在每一刻亦或一个瞬间，有人多人，你只是其中的一个，现实就是如此，你可以幻想可是不能沉沦，感情是无法用言语来形容，你感到伤悲，很多年后你一定会忘记你曾经觉得一辈子都无法忘记的</p>
+  </li>
+  <li>
+    <p>感情是不可以用言语文字来形容的，我们掌控所有，甚至无法掌控自己，我们能做的只是不要迷失自我，做自己该做的，做自己想做的，做了就不会后悔，年轻的时光，是我们最美好的，应该好好珍惜，因为之后，生活不在简单纯洁，每个人都背负了太多，也许曾经触手可及的是现在的梦想。我一直相信，相信自己。</p>
+  </li>
+  <li>
+    <p>一个人的时候，可以听听歌，看看书，可以站在车水马龙的路边看着霓虹灯在闪烁，然后在身边转身看灯光下自己的影子，感谢你一直陪着我，一个人的时候可以把所有忧伤都表现出来，一个人的时候可以暴躁任性，总之一个人的时候可以无法无天。</p>
+  </li>
+  <li>
+    <p>妄思不能静，混事乱七八糟，可汗，自省吾身吾言吾行吾思</p>
+  </li>
+  <li>
+    <p>我所有的自负都来自我的自卑，所有的英雄气概都来自于我内心的软弱，所有的振振有词都因为心中满是怀疑。我假装无情，其实是痛恨自己的深情。我以为人生的意义在于四处游荡流亡，其实只是掩饰至今没有找到愿意驻足的地方。——马良《坦白书》</p>
+  </li>
+  <li>
+    <p>我猜，只是猜，每个人的一生都会遇见某些人，喜欢上她。有些人在合适的时间里遇到，就像是在春天遇到花开，所以一切都很好，他们会相恋、订婚、结婚、一起生活。而有的人在错误的时间遇到，就像是在冬天，隔着冰看见浮上来换气的鱼，所以只能看着，鱼换完气，沉到水下去，就看不见了，再也没有后续。但是我们能说在春天遇到花是对的，而在冬天遇到鱼是错的么？在错误的时间里遇到，就能克制自己不喜欢那个人么？是不是仍然会用尽了力气想去接近，想尽办法掩饰自己，甚至伪装成另外一条鱼。——江南《龙族》​</p>
+  </li>
+  <li>
+    <p>可人不是断气的时候才真的死了。有人说人会死三次，第一次是他断气的时候，从生物学上他死了；第二次是他下葬的时候，人们来参加他的葬礼，怀念他的一生，然后在社会上他死了，不再会有他的位置；第三次是最后一个记得他的人把他忘记的时候，那时候他才真正的死了。——江南《龙族》</p>
   </li>
 </ol>
 
-<blockquote>
-  <p>Tips：这款游戏会大量耗电发热，因为打开摄像头捕捉小精灵；另外很容易入迷，在室外玩耍时一定要注意安全。</p>
-</blockquote>
-
-<p>注意：如果看到了 GPS signal not found，说明是 GPS 信息丢失，这是根据 GPS 定位的游戏，所以这很重要，记得选择美国的 VPN 代理。</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>![image](http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo4.png)
-![image](http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo5.png)
-![image](http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo6.png)
-</code></pre></div></div>
-
       
     </div>
     <br/>
     <div>
-      <cite>2016-07-24</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#iPhone">iPhone</a>
+      <cite>2016-10-14</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
       
       
       
@@ -715,354 +449,249 @@ clear
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/07/HowTo-Reset-Azure-VM-Linux-Password.html">HowTo Reset Azure VM Linux Password</a></h1>
+    <h1><a class="title" href="/post/2016/09/HowTo-Use-pt-query-digest.html">HowTo Use pt-query-digest</a></h1>
     <div class="post_at_index">
-      <blockquote>
-  <p>Setup1: 这种方法仅适用于已存在的用户，也就是说$Username 是之前创建过的用户，否则不适用</p>
-</blockquote>
+      <h3 id="1-简介">1. 简介</h3>
 
-<h3 id="1-指定虚拟机">1. 指定虚拟机</h3>
+<p>索引可以我们更快速的执行查询，但是肯定存在不合理的索引，如果想找到那些索引不是很合适的查询，并在它们成为问题前进行优化，则可以使用 pt-query-digest 的查询审查“review”功能，分析其 EXPLAIN 出来的执行计划。</p>
 
-<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$<span class="n">vm</span> = <span class="n">Get</span>-<span class="n">AzureVM</span> -<span class="n">ServiceName</span> <span class="s1">'云服务名称'</span> -<span class="n">Name</span> <span class="s1">'虚拟机名称'</span>
-$<span class="n">vm</span>.<span class="n">GetInstance</span>().<span class="n">ProvisionGuestAgent</span> = $<span class="n">true</span>
-</code></pre></div></div>
+<p>pt-query-digest 是用于分析 mysql 慢查询的一个工具，它可以分析 binlog、General log、slowlog，也可以通过 SHOWPROCESSLIST 或者通过 tcpdump 抓取的 MySQL 协议数据来进行分析。可以把分析结果输出到文件中，分析过程是先对查询语句的条件进行参数化，然后对参数化以后的查询进行分组统计，统计出各查询的执行时间、次数、占比等，可以借助分析结果找出问题进行优化。</p>
 
-<h3 id="2-输入您当前的用户名和新密码">2. 输入您当前的用户名和新密码</h3>
+<h3 id="2-install-percona-toolkit--pt-query-digest">2. Install Percona Toolkit &amp; pt-query-digest</h3>
 
-<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$<span class="n">UserName</span> = <span class="s2">"指定用户名"</span>
-$<span class="n">Password</span> = <span class="s2">"指定密码"</span>
+<p>percona-toolkit 是一组高级命令行工具的集合，用来执行各种通过手工执行非常复杂和麻烦的 mysql 和系统任务。这些任务包括：</p>
 
-$<span class="n">PrivateConfig</span> = <span class="s1">'{"username":"'</span>+ $<span class="n">UserName</span> + <span class="s1">'", "password":"'</span> +  $<span class="n">Password</span> + <span class="s1">'"}'</span>
-</code></pre></div></div>
+<ul>
+  <li>检查 master 和 slave 数据的一致性</li>
+  <li>有效地对记录进行归档</li>
+  <li>查找重复的索引</li>
+  <li>对服务器信息进行汇总</li>
+  <li>分析来自日志和 tcpdump 的查询</li>
+  <li>当系统出问题的时候收集重要的系统信息</li>
+</ul>
 
-<h3 id="开始执行">开始执行</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultrera ~]# wget percona.com/get/percona-toolkit.tar.gz
+<span class="nt">--2016-09-22</span> 09:17:00--  http://percona.com/get/percona-toolkit.tar.gz
+Resolving percona.com... 74.121.199.234, 74.121.199.234
+Connecting to percona.com|74.121.199.234|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://www.percona.com/get/percona-toolkit.tar.gz <span class="o">[</span>following]
+<span class="nt">--2016-09-22</span> 09:17:02--  https://www.percona.com/get/percona-toolkit.tar.gz
+Resolving www.percona.com... 74.121.199.234, 74.121.199.234
+Connecting to www.percona.com|74.121.199.234|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://www.percona.com/downloads/percona-toolkit/2.2.19/tarball/percona-toolkit-2.2.19.tar.gz <span class="o">[</span>following]
+<span class="nt">--2016-09-22</span> 09:17:03--  https://www.percona.com/downloads/percona-toolkit/2.2.19/tarball/percona-toolkit-2.2.19.tar.gz
+Reusing existing connection to www.percona.com:443.
+HTTP request sent, awaiting response... 200 OK
+Length: 1425623 <span class="o">(</span>1.4M<span class="o">)</span> <span class="o">[</span>application/x-gzip]
+Saving to: “percona-toolkit.tar.gz”
 
-<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$<span class="n">ExtensionName</span> = <span class="s1">'VMAccessForLinux'</span>
-$<span class="n">Publisher</span> = <span class="s1">'Microsoft.OSTCExtensions'</span>
-$<span class="n">Version</span> =  <span class="s1">'1.0'</span>
+100%[<span class="o">=======================&gt;]</span> 1,425,623    766K/s   <span class="k">in </span>1.8s
 
-<span class="n">Set</span>-<span class="n">AzureVMExtension</span> -<span class="n">ExtensionName</span> $<span class="n">ExtensionName</span> -<span class="n">VM</span>  $<span class="n">vm</span> -<span class="n">Publisher</span> $<span class="n">Publisher</span> -<span class="n">Version</span> $<span class="n">Version</span> -<span class="n">PrivateConfiguration</span> $<span class="n">PrivateConfig</span> | <span class="n">Update</span>-<span class="n">AzureVM</span>
+2016-09-22 09:17:05 <span class="o">(</span>766 KB/s<span class="o">)</span> - “percona-toolkit.tar.gz” saved <span class="o">[</span>1425623/1425623]
 
+<span class="o">[</span>root@ultrera ~]# <span class="nb">tar </span>xf percona-toolkit.tar.gz
+<span class="o">[</span>root@ultrera ~]# <span class="nb">ls
+</span>percona-toolkit-2.2.19  percona-toolkit.tar.gz
+<span class="o">[</span>root@ultrera ~]# <span class="nb">cd </span>percona-toolkit-2.2.19
+<span class="o">[</span>root@ultrera percona-toolkit-2.2.19]# perl Makefile.PL
+Warning: prerequisite DBD::mysql 3 not found.
+Writing Makefile <span class="k">for </span>percona-toolkit
+<span class="o">[</span>root@ultrera percona-toolkit-2.2.19]# make
+<span class="nb">cp </span>bin/pt-mysql-summary blib/script/pt-mysql-summary
+....
+Manifying blib/man1/pt-index-usage.1p
+Manifying blib/man1/pt-duplicate-key-checker.1p
+Manifying blib/man1/pt-config-diff.1p
+Manifying blib/man1/pt-stalk.1p
+<span class="o">[</span>root@ultrera percona-toolkit-2.2.19]# make <span class="nb">install
+</span>Installing /usr/local/share/man/man1/pt-query-digest.1p
+...
+Installing /usr/local/bin/pt-query-digest
+...
+Appending installation info to /usr/lib64/perl5/perllocal.pod
 </code></pre></div></div>
 
 <blockquote>
-  <p>Setup2: 如果是由于错误修改了 SSH 的配置文件导致无法登录，例如在登录时报错：This service allows sftp connections only.Connection to vm closed.这是因为错误配置了 sftp 导致的，那碰到这种问题需要做的是重置 ssh 服务。</p>
+  <p>运行工具可能会遇到下面的错误：Can’t locate Time/HiRes.pm in @INC</p>
 </blockquote>
 
-<h3 id="指定虚拟机">指定虚拟机</h3>
-
-<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$<span class="n">vm</span> = <span class="n">Get</span>-<span class="n">AzureVM</span> -<span class="n">ServiceName</span> <span class="s1">'MyServiceName'</span> -<span class="n">Name</span> <span class="s1">'MyVMName'</span>
-$<span class="n">PrivateConfig</span> = <span class="s1">'{"reset_ssh":"True"}'</span><span class="err">'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 解决办法：</span>
+<span class="o">[</span>root@ultrera ~]# yum <span class="nb">install</span> <span class="nt">-y</span> perl-Time-HiRes
+<span class="o">[</span>root@ultrera ~]# pt-query-digest <span class="nt">--version</span>
+pt-query-digest 2.2.19
 </code></pre></div></div>
 
-<h3 id="2-开始执行">2. 开始执行</h3>
+<h3 id="3-开启-mysql-慢日志">3. 开启 mysql 慢日志</h3>
 
-<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$<span class="n">ExtensionName</span> = <span class="s1">'VMAccessForLinux'</span>
-$<span class="n">Publisher</span> = <span class="s1">'Microsoft.OSTCExtensions'</span>
-$<span class="n">Version</span> =  <span class="s1">'1.0'</span>
+<h4 id="a-查看当前slow_query_log状态">a. 查看当前‘slow_query_log’状态</h4>
 
-<span class="n">Set</span>-<span class="n">AzureVMExtension</span> -<span class="n">ExtensionName</span> $<span class="n">ExtensionName</span> -<span class="n">VM</span>  $<span class="n">vm</span> -<span class="n">Publisher</span> $<span class="n">Publisher</span> -<span class="n">Version</span> $<span class="n">Version</span> -<span class="n">PrivateConfiguration</span> $<span class="n">PrivateConfig</span> | <span class="n">Update</span>-<span class="n">AzureVM</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like <span class="s1">'%query%'</span><span class="p">;</span>
++------------------------------+---------------------------------+
+| Variable_name                | Value                           |
++------------------------------+---------------------------------+
+| binlog_rows_query_log_events | OFF                             |
+| ft_query_expansion_limit     | 20                              |
+| have_query_cache             | YES                             |
+| long_query_time              | 10.000000                       |
+| query_alloc_block_size       | 8192                            |
+| query_cache_limit            | 1048576                         |
+| query_cache_min_res_unit     | 4096                            |
+| query_cache_size             | 1048576                         |
+| query_cache_type             | OFF                             |
+| query_cache_wlock_invalidate | OFF                             |
+| query_prealloc_size          | 8192                            |
+| slow_query_log               | OFF                             |
+| slow_query_log_file          | /var/lib/mysql/ultrera-slow.log |
++------------------------------+---------------------------------+
+13 rows <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+
+mysql&gt; show variables like <span class="s1">'log_queries_not_using_indexes'</span><span class="p">;</span>
++-------------------------------+-------+
+| Variable_name                 | Value |
++-------------------------------+-------+
+| log_queries_not_using_indexes | OFF   |
++-------------------------------+-------+
+1 row <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
 </code></pre></div></div>
 
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-07-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Azure">Azure</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/07/HowTo-Install-Docker-on-CentOS-6-x.html">HowTo Install Docker on CentOS 6.x</a></h1>
-    <div class="post_at_index">
-      <h2 id="1-add-the-epel-repository"><strong>1. Add the EPEL Repository</strong></h2>
+<h4 id="b-启动-slow_log-配置">b. 启动 slow_log, 配置</h4>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-iUvh</span> http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 设定记录大于2s的sql</span>
+mysql&gt; <span class="nb">set </span>global <span class="nv">long_query_time</span><span class="o">=</span>2<span class="p">;</span>
+Query OK, 0 rows affected <span class="o">(</span>0.00 sec<span class="o">)</span>
+
+<span class="c"># 设定log存放路径</span>
+mysql&gt; <span class="nb">set </span>global <span class="nv">slow_query_log_file</span><span class="o">=</span><span class="s1">'/tmp/ultraera-slow.log'</span><span class="p">;</span>
+Query OK, 0 rows affected <span class="o">(</span>0.00 sec<span class="o">)</span>
+
+<span class="c"># 启用慢日志</span>
+mysql&gt; <span class="nb">set </span>global <span class="nv">slow_query_log</span><span class="o">=</span>ON<span class="p">;</span>
+Query OK, 0 rows affected <span class="o">(</span>0.00 sec<span class="o">)</span>
+
+<span class="c"># 同时记录没有使用索引的sql</span>
+mysql&gt; <span class="nb">set </span>global <span class="nv">log_queries_not_using_indexes</span><span class="o">=</span>on<span class="p">;</span>
+Query OK, 0 rows affected <span class="o">(</span>0.00 sec<span class="o">)</span>
 </code></pre></div></div>
 
-<h2 id="2-update-your-system"><strong>2. Update your system</strong></h2>
+<blockquote>
+  <p>等待一段时间，slow.log 增大的非常快，实际生产中，注意不要被 slow.log 将磁盘撑满，影响到正常生产使用。</p>
+</blockquote>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum update <span class="nt">-y</span>
+<h3 id="4-分析">4. 分析</h3>
+
+<p>pt-query-digest 可以从普通 MySQL 日志，慢查询日志以及二进制日志中分析查询，甚至可以从 SHOW PROCESSLIST 和 MySQL 协议的 tcpdump 中进行分析，如果没有指定文件，它从标准输入流（STDIN）中读取数据。</p>
+
+<h4 id="a-简单使用方法">a. 简单使用方法</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest slow.logs
 </code></pre></div></div>
 
-<h2 id="3-install"><strong>3. Install</strong></h2>
+<p>输出信息如下：</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> docker-io
+<p><img src="http://images.cnitblog.com/blog/288950/201312/14135450-6f7a732598054f7aa311e95cbd4df3b1.png" alt="image" /></p>
+
+<ul>
+1. Overall 这个部分是一个大致的概要信息 (类似 loadrunner 给出的概要信息)，通过它可以对当前 MySQL 的查询性能做一个初步的评估，比如各个指标的最大值 (max)，平均值 (min)，95% 分布值，中位数 (median)，标准偏差 (stddev)
+<li>查询的执行时间（Exec time）</li>
+<li>锁占用的时间（Lock time）</li>
+<li>MySQL 执行器需要检查的行数（Rows examine）</li>
+<li>最后返回给客户端的行数（Rows sent）</li>
+<li>查询的大小。</li>
+</ul>
+<ul>
+2. Profile
+<li>Rank：整个分析中该“语句”的排名，一般也就是性能最慢的</li>
+<li>Query ID：每个查询都有一个</li>
+<li>Response time： “语句”的响应时间以及整体占比情况。</li>
+<li>Calls：“语句”的执行次数</li>
+<li>R/Call：每次执行的平均响应时间。 </li>
+<li>V/M</li>
+</ul>
+<h5 id="详细信息">详细信息</h5>
+<p>列出上面 Profile 中每个 Query ID 的详细信息</p>
+
+<h4 id="b-从-tcpdump-包中分析通过-tcpdump-命令抓取一定时间网络数据包然后进行分析">b. 从 tcpdump 包中分析：通过 tcpdump 命令抓取一定时间网络数据包，然后进行分析</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest <span class="nt">--type</span> tcpdump mysql.tcp.txt
 </code></pre></div></div>
 
-<h2 id="4-configure"><strong>4. Configure</strong></h2>
+<h4 id="c-pt-query-digest-还支持很对其他的数据包分析形势但是我们主要使用的还是针对慢日志进行分析">c. pt-query-digest 还支持很对其他的数据包分析形势，但是我们主要使用的还是针对慢日志进行分析</h4>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service docker start
-chkconfig docker on
+<blockquote>
+  <p>更多的帮助文档，请查看官方文档：<a href="http://www.percona.com/doc/percona-toolkit/2.2/pt-query-digest.html">http://www.percona.com/doc/percona-toolkit/2.2/pt-query-digest.html</a></p>
+</blockquote>
 
-docker info
+<h3 id="5-使用-anemometer-将-pt-query-digest-的-mysql-慢查询可视化">5. 使用 Anemometer 将 pt-query-digest 的 MySQL 慢查询可视化</h3>
+
+<ul>
+  <li>需要安装 php 5.3 and over</li>
+  <li>需要预先配置 mysql 数据库</li>
+  <li>需要预先安装好 pt-query-digest</li>
+</ul>
+
+<h4 id="51-安装">5.1 安装</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultrera ~]# git clone https://github.com/box/Anemometer.git anemometer
+
+<span class="o">[</span>root@ultrera ~]# <span class="nb">mv </span>anemometer /var/www/html
+<span class="o">[</span>root@ultrera ~]# <span class="nb">cd</span> /var/www/html/anemometer/
+<span class="o">[</span>root@ultrera anemometer]# mysql <span class="nt">-h</span> localhost <span class="nt">-u</span> root <span class="nt">-p</span> &lt; mysql56-install.sql
+<span class="o">[</span>root@ultrera anemometer]# mysql <span class="nt">-h</span> localhost <span class="nt">-u</span> root <span class="nt">-p</span> <span class="nt">-e</span> <span class="s2">"grant all privileges on slow_query_log.* to 'anemometer'@'%' identified by 'anemometer';"</span>
 </code></pre></div></div>
 
-<h2 id="5-download-a-docker-container"><strong>5. Download a Docker Container</strong></h2>
+<h4 id="52-配置">5.2 配置</h4>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull centos
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultrera anemometer]# <span class="nb">cp </span>conf/sample.config.inc.php conf/config.inc.php
+<span class="o">[</span>root@ultrera anemometer]# vim conf/config.inc.php
+
+<span class="c"># line 48,49 and line 284,285</span>
+设置数据库的用户名和密码<span class="p">;</span>
+
+<span class="o">[</span>root@ultrera anemometer]# vim conf/config.inc.php
+<span class="c"># line 7,8</span>
+设置数据库的用户名和密码<span class="p">;</span>
 </code></pre></div></div>
 
-<h2 id="6-run-a-docker-container"><strong>6. Run a Docker Container</strong></h2>
+<h4 id="53-导入">5.3 导入</h4>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-i</span> <span class="nt">-t</span> centos /bin/bash
+<p>将 pt-query-digest 的分析结果到 anemometer；</p>
+
+<blockquote>
+  <p>pt-query-digest version &lt; 2.2</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>pt-query-digest <span class="nt">--user</span><span class="o">=</span>anemometer <span class="nt">--password</span><span class="o">=</span>superSecurePass <span class="se">\</span>
+                  <span class="nt">--review</span> <span class="nv">h</span><span class="o">=</span>db.example.com,D<span class="o">=</span>slow_query_log,t<span class="o">=</span>global_query_review <span class="se">\</span>
+                  <span class="nt">--review-history</span> <span class="nv">h</span><span class="o">=</span>db.example.com,D<span class="o">=</span>slow_query_log,t<span class="o">=</span>global_query_review_history <span class="se">\</span>
+                  <span class="nt">--no-report</span> <span class="nt">--limit</span><span class="o">=</span>0% <span class="se">\</span>
+                  <span class="nt">--filter</span><span class="o">=</span><span class="s2">" </span><span class="se">\$</span><span class="s2">event-&gt;{Bytes} = length(</span><span class="se">\$</span><span class="s2">event-&gt;{arg}) and </span><span class="se">\$</span><span class="s2">event-&gt;{hostname}=</span><span class="se">\"</span><span class="nv">$HOSTNAME</span><span class="se">\"</span><span class="s2">"</span> <span class="se">\</span>
+                  /var/lib/mysql/db.example.com-slow.log
 </code></pre></div></div>
 
-<h2 id="7-find-docker-container"><strong>7. Find Docker Container</strong></h2>
+<blockquote>
+  <p>pt-query-digest version &gt;= 2.2</p>
+</blockquote>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker search ubuntu
-</code></pre></div></div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest <span class="nt">--user</span><span class="o">=</span>anemometer <span class="nt">--password</span><span class="o">=</span>superSecurePass <span class="se">\</span>
+                  <span class="nt">--review</span> <span class="nv">h</span><span class="o">=</span>db.example.com,D<span class="o">=</span>slow_query_log,t<span class="o">=</span>global_query_review <span class="se">\</span>
+                  <span class="nt">--history</span> <span class="nv">h</span><span class="o">=</span>db.example.com,D<span class="o">=</span>slow_query_log,t<span class="o">=</span>global_query_review_history <span class="se">\</span>
+                  <span class="nt">--no-report</span> <span class="nt">--limit</span><span class="o">=</span>0% <span class="se">\</span>
+                  <span class="nt">--filter</span><span class="o">=</span><span class="s2">" </span><span class="se">\$</span><span class="s2">event-&gt;{Bytes} = length(</span><span class="se">\$</span><span class="s2">event-&gt;{arg}) and </span><span class="se">\$</span><span class="s2">event-&gt;{hostname}=</span><span class="se">\"</span><span class="nv">$HOSTNAME</span><span class="se">\"</span><span class="s2">"</span> <span class="se">\</span>
+                  /var/lib/mysql/db.example.com-slow.log
 
-<h2 id="faq"><strong>FAQ</strong></h2>
 
-<h3 id="1-faild-to-start-docker-on-centos-6x"><strong>1. Faild to start docker on CentOS 6.x</strong></h3>
-
-<p><code class="language-plaintext highlighter-rouge">***/usr/bin/docker: relocation error: /usr/bin/docker: symbol dm_task_get_info_with_deferred_remove, version Base not defined in file libdevmapper.so.1.02 with link time reference***</code></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>the lib-device-mapper that you have isn<span class="s1">'t exporting a symbol ("Base") that Docker needs.
-this by upgrading lib-device-mapper to version 1.02.90.
-
-# You may have to enable the public_ol6_latest repo in order to get this package.
-sudo yum-config-manager --enable public_ol6_latest
-sudo yum install device-mapper-event-libs
+Pipeline process 11 <span class="o">(</span>aggregate fingerprint<span class="o">)</span> caused an error: Argument <span class="s2">"57A"</span> isn<span class="s1">'t numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 27.
+Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57B" isn'</span>t numeric <span class="k">in </span>numeric gt <span class="o">(&gt;)</span> at <span class="o">(</span><span class="nb">eval </span>40<span class="o">)</span> line 6, &lt;<span class="o">&gt;</span> line 28.
+Pipeline process 11 <span class="o">(</span>aggregate fingerprint<span class="o">)</span> caused an error: Argument <span class="s2">"57C"</span> isn<span class="s1">'t numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 29.
 </span></code></pre></div></div>
 
-<h3 id="2-faild-to-use-docker"><strong>2. Faild to use docker</strong></h3>
-
-<p><code class="language-plaintext highlighter-rouge">***Get &lt;http:///var/run/docker.sock/v1.19/info&gt;: dial unix /var/run/docker.sock: no such file or directory. Are you trying to connect to a TLS-enabled daemon without TLS?***</code></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># this is because docker no restart ok.</span>
-
-pkill <span class="nt">-9</span> docker <span class="o">&amp;&amp;</span> service docker start
-</code></pre></div></div>
-
-<h3 id="3-howto-save-docker-run--i--t-xxx-binbash"><strong>3. HowTo save ‘docker run -i -t xxx /bin/bash’</strong></h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps <span class="nt">-l</span>
-docker commit ID newname
-docker images
-</code></pre></div></div>
-
       
     </div>
     <br/>
     <div>
-      <cite>2016-07-07</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Docker">Docker</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/07/HowTo-Install-MySQL-5-5-6-7-on-RHEL-CentOS-5-6-7.html">HowTo Install MySQL 5.5/6/7 on RHEL/CentOS 5/6/7</a></h1>
-    <div class="post_at_index">
-      <h2 id="install-mysql-55-on-rhelcentos-567">Install Mysql 5.5 on RHEL/CentOS 5/6/7</h2>
-
-<h3 id="1-use-repository">1. Use Repository</h3>
-
-<p>First, to set up the yum repository, install the mysql－community-server 5.5 RPM based on your CentOS/RHEL release:</p>
-
-<hr />
-
-<h4 id="mysql-server-55repo-for-centosrhel-5x">mysql-server-5.5.repo for CentOS/RHEL 5.x</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-Uvh</span> http://mirror.webtatic.com/yum/el5/latest.rpm
-</code></pre></div></div>
-
-<h4 id="-only-install-mysql-55-on-centos-5x">* Only Install MySQL 5.5 On CentOS 5.x</h4>
-
-<p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you can upgrade using the following method:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install </span>mysql.<span class="sb">`</span><span class="nb">uname</span> <span class="nt">-i</span><span class="sb">`</span> yum-plugin-replace
-yum replace mysql <span class="nt">--replace-with</span> mysql55w
-</code></pre></div></div>
-
-<p>“yum install mysql” is only there to make sure yum-plugin-replace can resolve dependencies correctly if only mysql-server was installed.
-Otherwise, to install MySql client and server, then run:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install </span>mysql55w mysql55w-server
-</code></pre></div></div>
-
-<hr />
-
-<h4 id="mysql-server-55repo-for-centosrhel-6x">mysql-server-5.5.repo for CentOS/RHEL 6.x</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For x86_64</span>
-yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.5-community/el/6/x86_64/mysql-community-release-el6-5.noarch.rpm
-
-<span class="c"># For i386</span>
-yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.5-community/el/6/i386/mysql-community-release-el6-5.noarch.rpm
-</code></pre></div></div>
-
-<h4 id="mysql-server-55repo-for-centosrhel-7x">mysql-server-5.5.repo for CentOS/RHEL 7.x</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For x86_64</span>
-yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.5-community/el/7/x86_64/mysql-community-release-el7-5.noarch.rpm
-
-<span class="c"># For i386</span>
-yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.5-community/el/7/i386/mysql-community-release-el7-5.noarch.rpm
-</code></pre></div></div>
-
-<h3 id="2-install-mysql-server-55">2. Install MySQL Server 5.5</h3>
-
-<p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># It's RHEL/CentOS 6/7</span>
-yum remove <span class="nt">-y</span> mysql-server
-yum remove <span class="nt">-y</span> mysql<span class="k">*</span>
-</code></pre></div></div>
-
-<p>If you don’t have mysql-server was installed.
-Otherwise, to install MySql client and server, then run:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> mysql-community-server
-</code></pre></div></div>
-
-<h3 id="3-service-configure">3. Service Configure</h3>
-
-<p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service mysqld start
-</code></pre></div></div>
-
-<p>This will issue a password prompt for the user. If you don’t have a root user password, remove the “-p”</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql_secure_installation
-</code></pre></div></div>
-
-<h2 id="install-mysql-56-on-rhelcentos-567">Install Mysql 5.6 on RHEL/CentOS 5/6/7</h2>
-
-<h3 id="use-repository">Use Repository</h3>
-
-<p>First, to set up the yum repository, install the mysql－community-server 5.6 RPM based on your CentOS/RHEL release:</p>
-
-<h4 id="mysql-server-56repo-for-centosrhel-5x">mysql-server-5.6.repo for CentOS/RHEL 5.x</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For x86_64</span>
-yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.6-community/el/5/x86_64/mysql-community-release-el5-5.noarch.rpm
-
-<span class="c"># For i386</span>
-yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.6-community/el/5/i386/mysql-community-release-el5-5.noarch.rpm
-</code></pre></div></div>
-
-<h4 id="mysql-server-56repo-for-centosrhel-6x">mysql-server-5.6.repo for CentOS/RHEL 6.x</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For x86_64</span>
-yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.6-community/el/6/x86_64/mysql-community-release-el6-5.noarch.rpm
-
-<span class="c"># For i386</span>
-yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.6-community/el/6/i386/mysql-community-release-el6-5.noarch.rpm
-</code></pre></div></div>
-
-<h4 id="mysql-server-56repo-for-centosrhel-7x">mysql-server-5.6.repo for CentOS/RHEL 7.x</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For x86_64</span>
-yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.6-community/el/7/x86_64/mysql-community-release-el7-5.noarch.rpm
-
-<span class="c"># For i386</span>
-yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.6-community/el/7/i386/mysql-community-release-el7-5.noarch.rpm
-</code></pre></div></div>
-
-<h3 id="install-mysql-server-56">Install MySQL Server 5.6</h3>
-
-<p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum remove <span class="nt">-y</span> mysql-server
-yum remove <span class="nt">-y</span> mysql<span class="k">*</span>
-</code></pre></div></div>
-
-<p>If you don’t have mysql-server was installed.
-Otherwise, to install MySql client and server, then run:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> mysql-community-server
-</code></pre></div></div>
-
-<h3 id="service-configure">Service Configure</h3>
-
-<p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service mysqld start
-</code></pre></div></div>
-
-<p>This will issue a password prompt for the user. If you don’t have a root user password, remove the “-p”</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql_secure_installation
-</code></pre></div></div>
-
-<h2 id="install-mysql-57-on-rhelcentos-567">Install Mysql 5.7 on RHEL/CentOS 5/6/7</h2>
-
-<h3 id="use-repository-57">Use Repository 5.7</h3>
-
-<p>First, to set up the yum repository, install the mysql－community-server 5.7 RPM based on your CentOS/RHEL release:</p>
-
-<h4 id="mysql-server-57repo-for-centosrhel-5x">mysql-server-5.7.repo for CentOS/RHEL 5.x</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For x86_64</span>
-yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.7-community/el/5/x86_64/mysql-community-release-el5-7.noarch.rpm
-
-<span class="c"># For i386</span>
-yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.7-community/el/5/i386/mysql-community-release-el5-7.noarch.rpm
-</code></pre></div></div>
-
-<h4 id="mysql-server-57repo-for-centosrhel-6x">mysql-server-5.7.repo for CentOS/RHEL 6.x</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For x86_64</span>
-yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.7-community/el/6/x86_64/mysql-community-release-el6-7.noarch.rpm
-
-<span class="c"># For i386</span>
-yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.7-community/el/6/i386/mysql-community-release-el6-7.noarch.rpm
-</code></pre></div></div>
-
-<h4 id="mysql-server-57repo-for-centosrhel-7x">mysql-server-5.7.repo for CentOS/RHEL 7.x</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For x86_64</span>
-yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.7-community/el/7/x86_64/mysql-community-release-el7-7.noarch.rpm
-
-<span class="c"># For i386</span>
-yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.7-community/el/7/i386/mysql-community-release-el7-7.noarch.rpm
-</code></pre></div></div>
-
-<h3 id="2-install-mysql-server-57">2. Install MySQL Server 5.7</h3>
-
-<p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum remove <span class="nt">-y</span> mysql-server
-yum remove <span class="nt">-y</span> mysql<span class="k">*</span>
-</code></pre></div></div>
-
-<p>If you don’t have mysql-server was installed.
-Otherwise, to install MySql client and server, then run:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> mysql-community-server
-</code></pre></div></div>
-
-<h3 id="3-service-configure-1">3. Service Configure*</h3>
-
-<p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service mysqld start
-</code></pre></div></div>
-
-<p>This will issue a password prompt for the user. If you don’t have a root user password, remove the “-p”</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql_secure_installation
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-07-07</cite> <i class="icon-tag"></i>
+      <cite>2016-09-22</cite> <i class="icon-tag"></i>
       <a href="/tags.html#MySQL">MySQL</a>
       
       
@@ -1072,151 +701,418 @@ Otherwise, to install MySql client and server, then run:</p>
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/07/HowTo-Use-Remi-Install-Redis.html">HowTo Use Remi Install Redis</a></h1>
+    <h1><a class="title" href="/post/2016/09/%E7%94%9F%E8%80%85%E5%AD%A4%E7%8B%AC.html">生者孤独</a></h1>
     <div class="post_at_index">
-      <h2 id="setup-1-install">Setup 1. Install</h2>
+      <p>张楚说：孤独是可耻的。
+我一直不愿承认的，我是一个孤独的人；或者这个世界上，没有人不会感到孤独吧；我的孤独，就好像在喧闹的人群中，突然就孤独了。</p>
 
-<p>Frist, To install remi Repo and epel Repo.</p>
+<p>小王子说：有一天，我看了四十四次日落！
+李寻欢问阿飞：你看这棵树上的梅花已经开了，你可知道已经开了多少朵？
+孔乙己问：你可知道茴的四种写法？
+鲁迅说：楼下一个男人病的要死，那间壁的一家唱着留声机；对面是弄孩子，楼上有两人狂笑，还有打牌声，河中的穿上有女人哭着她死去的母亲，人类的悲欢并不相通，我只是觉得她们吵闹。
+大话西游中说：你看那个人，好像一条狗！</p>
 
-<h3 id="remi-el6-for-centosrhel-6x">Remi EL6 for CentOS/RHEL 6.x</h3>
+<p>一千个读者，有一千个哈姆雷特！
+一个人走的太远太久了，便看腻了人潮似海。
+如果问，你所理解的孤独是什么？大概每个人都有自己的答案吧。
+突然觉得，原本以为亲密无间的伙伴并没有把我当朋友。
+小心翼翼地与人相处，把她当作真诚的伙伴，害怕隔阂，害怕犯错。
+或许，你所害怕的不是失去某个朋友，而是不够勇敢地去面对一个人的孤独。
+有人说，最孤独的事，不是不能跟一个人在一起，而是你根本不知道想跟谁在一起…</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-Uvh</span> https://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-rpm <span class="nt">-Uvh</span> http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-</code></pre></div></div>
+<p>其实，我们生来就是孤独;
+生命的本质就是孤独，不管你拥有什么，我们生来就是孤独。
+出现在这个世界本来就是一个偶然的事，谣言嘈杂的社会，人来人往，浮光掠影，匆匆碌碌。
+这个世界永远都是陌生的，理解是奢侈的，你永远想不起来来时的路，你永远无法让一个人不离你而去。
+不管你拥有什么，我们生来就是孤独。</p>
 
-<h3 id="remi-el5-for-centosrhel-5x">Remi EL5 for CentOS/RHEL 5.x</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-Uvh</span> https://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm
-rpm <span class="nt">-Uvh</span> http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
-</code></pre></div></div>
-
-<h3 id="有时间我们会碰到-remirepo-无法使用报错就像这样">有时间我们会碰到 remi.repo 无法使用报错，就像这样</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://remi.schlundtech.de/enterprise/latest/remi/x86_64/repodata/repomd.xml: <span class="o">[</span>Errno 14] PYCURL ERROR 22 - <span class="s2">"The requested URL returned error: 404 Not Found"</span>
-</code></pre></div></div>
-
-<h3 id="这时我们需要修改etcyumreposdremirepo像这样">这时我们需要修改/etc/yum.repos.d/remi.repo，像这样</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">baseurl</span><span class="o">=</span>http://rpms.famillecollet.com/enterprise/5/remi/<span class="nv">$basearch</span>/
-<span class="c">#mirrorlist=http://rpms.famillecollet.com/enterprise/5/remi/mirror/$basearch/</span>
-</code></pre></div></div>
-
-<h4 id="如果发现安装后-yum-makecache-没看到相应的源站点请检查-repo-文件的-enable-参数是否为-11-为开启0-为关闭状态">如果发现安装后 yum makecache 没看到相应的源站点，请检查 repo 文件的 enable 参数是否为 1，1 为开启，0 为关闭状态</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>repoName]
-<span class="nv">name</span><span class="o">=</span>repoName repo
-<span class="nv">baseurl</span><span class="o">=</span>http://repoPath
-<span class="nv">gpgcheck</span><span class="o">=</span>0                <span class="c"># 是否启用gpgkey检查</span>
-<span class="nv">enabled</span><span class="o">=</span>0                 <span class="c"># 是否启用该源</span>
-</code></pre></div></div>
-
-<h3 id="install-redis">Install Redis</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> redis
-
-<span class="o">[</span>root@zabbix yum.repos.d]# rpm <span class="nt">-qi</span> redis
-Name        : redis
-Version     : 3.2.1
-Release     : 2.el5.remi
-Architecture: x86_64
-Install Date: Thu 28 Jul 2016 12:00:41 PM CST
-Group       : Applications/Databases
-Size        : 2113279
-License     : BSD
-Signature   : DSA/SHA1, Fri 24 Jun 2016 01:30:12 PM CST, Key ID 004e6f4700f97f56
-Source RPM  : redis-3.2.1-2.el5.remi.src.rpm
-Build Date  : Fri 24 Jun 2016 01:28:27 PM CST
-Build Host  : builder.remirepo.net
-Relocations : <span class="o">(</span>not relocatable<span class="o">)</span>
-Packager    : http://blog.remirepo.net/
-Vendor      : Remi Collet
-URL         : http://redis.io
-Summary     : A persistent key-value database
-</code></pre></div></div>
-
-<h2 id="setup-2-基本配置项">Setup 2. 基本配置项</h2>
-
-<h3 id="redis-配置默认文件etcredisconf">Redis 配置默认文件/etc/redis.conf</h3>
-
-<p>设置 Redis 的运行模式，yes 表示后台运行，no 表示不开启后台运行。</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>daemonize <span class="nb">yes</span>
-</code></pre></div></div>
-
-<p>指定 redis 监听端口，默认为 6379</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>port 6379
-</code></pre></div></div>
-
-<p>设置 bind_ip，默认监听接口，默认是监听本地，如果未配置的情况下，只有本地可以访问 redis，如果取消，则默认监听所有接口</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># bind 127.0.0.1</span>
-</code></pre></div></div>
-
-<p>指定日志记录级别</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># debug  记录很多信息，用于开发和测试</span>
-<span class="c"># varbose 很多精简的有用信息，不像 debug 会记录那么多</span>
-<span class="c"># notice 普通的 verbose，常用于生产环境</span>
-<span class="c"># warning 只有非常重要或者严重的信息会记录到日志</span>
-
-loglevel verbose
-</code></pre></div></div>
-
-<p>配置 log 文件名称和全路径地址，默认为 stdout，即标准输出，输出到/dev/null，可以手动指定 redis 日志文件地址，建议级别不要太高，否则会产生大量日志，注意避免磁盘因此撑满。</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>logfile stdout
-</code></pre></div></div>
-
-<p>＃ 可用数据库数，默认值为 16，默认数据库存储在 DB 0 号 ID 库中，无特殊需求，建议仅设置一个数据库
-＃ 查询数据库使用  SELECT ‘dbid’，dbid 介于 0 到 ‘databases’-1 之间。</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>database 16
-</code></pre></div></div>
-
-<ul>
-  <li>安全限定，要求客户端在处理任何命令时都要验证身份和设置密码。</li>
-  <li>默认不启用，若要启用，需要将下行取消注释，并将 foobared 设置自定一的密码接即可。</li>
-  <li>因为 redis 加密是通过配置文件进行，所以目前各大云厂家的 redis PAAS 服务，都不支持 redis 加密，在程序开发时需要注意。</li>
-</ul>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># requirepass foobared</span>
-
-<span class="c"># 如果开启了安全验证，这时通过redis-cli登录时需要首先执行auth，否则不能正常使用。</span>
-redis-cli&gt; auth foobared
-</code></pre></div></div>
-
-<p>向 redis 内插入一条数据</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt;  <span class="nb">set</span> <span class="o">[</span>key] <span class="o">[</span>values]
-</code></pre></div></div>
-
-<p>获取 key 的值</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt; get key
-</code></pre></div></div>
-
-<p>查看 redis 的 db 信息</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt; info
-</code></pre></div></div>
-
-<h2 id="setup-3-others">Setup 3. Others</h2>
-
-<ul>
-  <li>redis-dump</li>
-  <li>master/slave</li>
-  <li>slow log</li>
-</ul>
+<p>当我年轻的时候我想变成任何人，除了我自己。</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-07-06</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Yum">Yum</a>
-      , 
-      <a href="/tags.html#Redis">Redis</a>
+      <cite>2016-09-20</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/09/HowTo-Install-a-Tomcat-Server-7.html">HowTo Install a Tomcat Server 7</a></h1>
+    <div class="post_at_index">
+      <p>本文件是采用的模板是 CentOS 6，同样适用于 CentOS 系列其他发行版本。</p>
+
+<h4 id="1-测试环境">1. 测试环境</h4>
+
+<ul>
+  <li>VMware Fushion 8 Pro # windows Use <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></li>
+  <li><a href="http://mirrors.aliyun.com/centos/6.8/isos/x86_64/CentOS-6.8-x86_64-minimal.iso">CentOS-6.8-x86_64-minimal.iso</a></li>
+  <li><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">JDK 7</a></li>
+  <li><a href="http://ftp.riken.jp/net/apache/tomcat/tomcat-7/">Tomcat 7</a></li>
+</ul>
+
+<h4 id="2-install-java-se-development-kit-7-jdk7">2. Install Java SE Development Kit 7 (JDK7)</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# curl <span class="nt">-LO</span> <span class="nt">-H</span> <span class="s2">"Cookie: oraclelicense=accept-securebackup-cookie"</span> <span class="se">\</span>
+<span class="s2">"http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-linux-x64.rpm"</span>
+<span class="o">[</span>root@ultraera ~]# rpm <span class="nt">-Uvh</span> jdk-7u75-linux-x64.rpm
+Preparing...                <span class="c">########################################### [100%]</span>
+   1:jdk                    <span class="c">########################################### [100%]</span>
+Unpacking JAR files...
+        rt.jar...
+        jsse.jar...
+        charsets.jar...
+        tools.jar...
+        localedata.jar...
+        jfxrt.jar...
+</code></pre></div></div>
+
+<h4 id="3-build-java-environment">3. Build Java Environment</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# vi /etc/profile
+<span class="c"># add follows to the end</span>
+<span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/java/default
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$JAVA_HOME</span>/bin
+<span class="nb">export </span><span class="nv">CLASSPATH</span><span class="o">=</span>.:<span class="nv">$JAVA_HOME</span>/jre/lib:<span class="nv">$JAVA_HOME</span>/lib:<span class="nv">$JAVA_HOME</span>/lib/tools.jar
+<span class="o">[</span>root@ultraera ~]# <span class="nb">source</span> /etc/profile
+<span class="o">[</span>root@ultraera ~]# java <span class="nt">-version</span>
+java version <span class="s2">"1.7.0_75"</span>
+Java<span class="o">(</span>TM<span class="o">)</span> SE Runtime Environment <span class="o">(</span>build 1.7.0_75-b13<span class="o">)</span>
+Java HotSpot<span class="o">(</span>TM<span class="o">)</span> 64-Bit Server VM <span class="o">(</span>build 24.75-b04, mixed mode<span class="o">)</span>
+</code></pre></div></div>
+
+<h4 id="4-download-tomcat7">4. Download Tomcat7</h4>
+
+<p>Make sure the latest one and download it from the site below.
+=》 <a href="http://ftp.riken.jp/net/apache/tomcat/tomcat-7/">http://ftp.riken.jp/net/apache/tomcat/tomcat-7/</a></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# wget http://ftp.riken.jp/net/apache/tomcat/tomcat-7/v7.0.70/bin/apache-tomcat-7.0.70.tar.gz
+<span class="o">[</span>root@ultraera ~]# <span class="nb">tar </span>zxvf apache-tomcat-7.0.70.tar.gz
+<span class="o">[</span>root@ultraera ~]# <span class="nb">mv </span>apache-tomcat-7.0.70 /usr/tomcat7
+<span class="o">[</span>root@ultraera ~]# useradd <span class="nt">-M</span> <span class="nt">-d</span> /usr/tomcat7 tomcat7
+<span class="o">[</span>root@ultraera ~]# <span class="nb">chown</span> <span class="nt">-R</span> tomcat7. /usr/tomcat7
+</code></pre></div></div>
+
+<h4 id="5-create-a-script--use-service-manage-tomcat7">5. create a script , use service manage tomcat7</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# <span class="nb">cat</span> /etc/rc.d/init.d/tomcat7
+ <span class="c">#!/bin/bash</span>
+
+<span class="c"># Tomcat7: Start/Stop Tomcat 7</span>
+<span class="c">#</span>
+<span class="c"># chkconfig: - 90 10</span>
+<span class="c"># description: Tomcat is a Java application Server.</span>
+
+<span class="nb">.</span> /etc/init.d/functions
+<span class="nb">.</span> /etc/sysconfig/network
+
+<span class="nv">CATALINA_HOME</span><span class="o">=</span>/usr/tomcat7
+<span class="nv">TOMCAT_USER</span><span class="o">=</span>tomcat7
+
+<span class="nv">LOCKFILE</span><span class="o">=</span>/var/lock/subsys/tomcat7
+
+<span class="nv">RETVAL</span><span class="o">=</span>0
+start<span class="o">(){</span>
+    <span class="nb">echo</span> <span class="s2">"Starting Tomcat7: "</span>
+    su - <span class="nv">$TOMCAT_USER</span> <span class="nt">-c</span> <span class="s2">"</span><span class="nv">$CATALINA_HOME</span><span class="s2">/bin/startup.sh"</span>
+    <span class="nv">RETVAL</span><span class="o">=</span><span class="nv">$?</span>
+    <span class="nb">echo</span>
+    <span class="o">[</span> <span class="nv">$RETVAL</span> <span class="nt">-eq</span> 0 <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">touch</span> <span class="nv">$LOCKFILE</span>
+    <span class="k">return</span> <span class="nv">$RETVAL</span>
+<span class="o">}</span>
+
+stop<span class="o">(){</span>
+    <span class="nb">echo</span> <span class="s2">"Shutting down Tomcat7: "</span>
+    <span class="nv">$CATALINA_HOME</span>/bin/shutdown.sh
+    <span class="nv">RETVAL</span><span class="o">=</span><span class="nv">$?</span>
+    <span class="nb">echo</span>
+    <span class="o">[</span> <span class="nv">$RETVAL</span> <span class="nt">-eq</span> 0 <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-f</span> <span class="nv">$LOCKFILE</span>
+    <span class="k">return</span> <span class="nv">$RETVAL</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="k">in
+    </span>start<span class="p">)</span>
+        start
+        <span class="p">;;</span>
+    stop<span class="p">)</span>
+        stop
+        <span class="p">;;</span>
+    restart<span class="p">)</span>
+        stop
+        start
+        <span class="p">;;</span>
+    <span class="k">*</span><span class="p">)</span>
+        <span class="nb">echo</span> <span class="s2">$"Usage: </span><span class="nv">$0</span><span class="s2"> {start|stop|restart}"</span>
+        <span class="nb">exit </span>1
+        <span class="p">;;</span>
+<span class="k">esac</span>
+<span class="nb">exit</span> <span class="nv">$?</span>
+</code></pre></div></div>
+
+<h4 id="6-add-tomcat7-to-system-service">6. Add tomcat7 to system service</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# <span class="nb">chmod </span>755 /etc/rc.d/init.d/tomcat7
+<span class="o">[</span>root@ultraera ~]# /etc/rc.d/init.d/tomcat7 start
+Starting Tomcat7:
+Using CATALINA_BASE:   /usr/tomcat7
+Using CATALINA_HOME:   /usr/tomcat7
+Using CATALINA_TMPDIR: /usr/tomcat7/temp
+Using JRE_HOME:        /usr/java/default
+Using CLASSPATH:       /usr/tomcat7/bin/bootstrap.jar:/usr/tomcat7/bin/tomcat-juli.jar
+Tomcat started.
+<span class="o">[</span>root@ultraera ~]# netstat <span class="nt">-ntlp</span> | <span class="nb">grep </span>java
+tcp        0      0 ::ffff:127.0.0.1:8005       :::<span class="k">*</span>                        LISTEN      6326/java
+tcp        0      0 :::8009                     :::<span class="k">*</span>                        LISTEN      6326/java
+tcp        0      0 :::8080                    :::<span class="k">*</span>                        LISTEN      6326/java
+<span class="o">[</span>root@ultraera ~]# ps axu | <span class="nb">grep </span>java
+tomcat7       6326  8.3 85.6 5229768 2910176 ?     Sl   Aug22 3216:38 /usr/bin/java <span class="nt">-Djava</span>.util.logging.config.file<span class="o">=</span>/usr/tomcat7/conf/logging.properties <span class="nt">-Djava</span>.util.logging.manager<span class="o">=</span>org.apache.juli.ClassLoaderLogManager <span class="nt">-server</span> <span class="nt">-Djava</span>.endorsed.dirs<span class="o">=</span>/usr/tomcat7/endorsed <span class="nt">-classpath</span> /usr/tomcat7/bin/bootstrap.jar:/usr/tomcat7/bin/tomcat-juli.jar <span class="nt">-Dcatalina</span>.base<span class="o">=</span>/usr/tomcat7 <span class="nt">-Dcatalina</span>.home<span class="o">=</span>/usr/tomcat7 <span class="nt">-Djava</span>.io.tmpdir<span class="o">=</span>/usr/tomcat7/temp org.apache.catalina.startup.Bootstrap start
+<span class="o">[</span>root@ultraera ~]# chkconfig <span class="nt">--add</span> tomcat7
+<span class="o">[</span>root@ultraera ~]# chkconfig tomcat7 on
+</code></pre></div></div>
+
+<h4 id="7-打开浏览器测试-tomcat-server-搭建完成默认页面如下">7. 打开浏览器测试 Tomcat Server 搭建完成，默认页面如下</h4>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/09/tomcat7.jpg" alt="image" /></p>
+
+<h4 id="8-使用-curl-测试">8. 使用 curl 测试</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# curl <span class="nt">-I</span> http://localhost:8080
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Content-Type: text/html<span class="p">;</span><span class="nv">charset</span><span class="o">=</span>ISO-8859-1
+Transfer-Encoding: chunked
+Date: Sun, 18 Sep 2016 11:14:06 GMT
+</code></pre></div></div>
+
+<h4 id="9-tomcat-文件树">9. Tomcat 文件树</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera /usr/tomcat7]# tree
+<span class="nb">.</span>
+├── bin
+│   ├── bootstrap.jar
+│   ├── catalina.bat
+│   ├── catalina.sh
+│   ├── catalina-tasks.xml
+│   ├── commons-daemon.jar
+│   ├── commons-daemon-native.tar.gz
+│   ├── configtest.bat
+│   ├── configtest.sh
+│   ├── daemon.sh
+│   ├── digest.bat
+│   ├── digest.sh
+│   ├── setclasspath.bat
+│   ├── setclasspath.sh
+│   ├── shutdown.bat
+│   ├── shutdown.sh
+│   ├── startup.bat
+│   ├── startup.sh
+│   ├── tomcat-juli.jar
+│   ├── tomcat-native.tar.gz
+│   ├── tool-wrapper.bat
+│   ├── tool-wrapper.sh
+│   ├── version.bat
+│   └── version.sh
+├── conf
+│   ├── catalina.policy
+│   ├── catalina.properties
+│   ├── context.xml
+│   ├── logging.properties
+│   ├── server.xml
+│   ├── tomcat-users.xml
+│   └── web.xml
+├── lib
+├── LICENSE
+├── logs
+│   ├── catalina.2016-09-18.log
+│   ├── catalina.out
+│   ├── host-manager.2016-09-18.log
+│   ├── localhost.2016-09-18.log
+│   └── manager.2016-09-18.log
+├── NOTICE
+├── RELEASE-NOTES
+├── RUNNING.txt
+├── temp
+├── webapps
+│   └── ROOT
+└── work
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-09-19</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Tomcat">Tomcat</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/08/%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%B2%81.html">二十四岁</a></h1>
+    <div class="post_at_index">
+      <p>现在时间凌晨 2 点多，已经记不得这是第几个凌晨 2 点还没睡觉了，好像早睡已经是很久远的事情了，看书学习，刷视频，发呆，玩手机平板，总之不想睡觉；花在睡觉上的时间越来越少，感觉，其实挺累的，生活在大都市里啊，忙碌工作生活奔波，总感觉时间不够用，要做的事情太多，你总要面对很多事情和责任，与人相处；我很努力么，也不那么见得，一旦你成为这个社会一员，总有人或事再推着你前进，在你耳边脑海嚷嚷着不要停，不要停啊！</p>
+
+<p>每年生日的时候，都会给自己写点东西，回首曾经的岁月又多了一年，我不知道这个习惯会坚持到什么时候，或许写着写着就不想写了，或者自己落入庸俗的圈套，不敢回首过往岁月；我一直坚持的，就是希望在将来回望曾经岁月时不会面带羞愧，我没想过自己会有怎么牛逼的人生，如果回想起今天能觉得，哎哟，不错哦，那就很好了啊；我会坚持去自己想做的事，年岁在增长，不忘初心；就像，这个我喜欢啊，嗯，那就坚持下去咯。</p>
+
+<p>早上醒来的时候，收到前女友的“生日快乐”，挺意外的，然后感动；中午收到爸妈姐姐姐夫外甥的祝福，觉得自己好幸福啊，感恩这些在乎我的人，我爱他们，我想这些会是我生活的动力；今年的生日和往常一样，没有庆祝，我性格不太喜欢仪式感很强烈的事情，没有太多的心思，过的开心就好了，费那么大劲折腾犯不着，生活就是这样。</p>
+
+<p>今年好像没什么好说的，工作没换，现在单位还不错，有自己努力的方向，领导也重视，比之去年也有提升，唯一的感觉就是时间不够用，要学习的东西太多了，但是还学的进去，这一点我很满足，接下来的一年要坚持下去；学业学习上来说，去年报的上外英本，今年上半年都没去上课了，虽然不是翘课，但是关心的力度不够，抽个时间要去趟学校，跟班主任聊聊接下来的学习规划，毕竟还是要考试的；生活上呢，终于感觉到我是爸妈亲生的了啊喂，超幸福美满，这个没得说，还有一个优秀的妹妹，作为谈心的伙伴和学习的榜样也是十分满足；不过，与朋友相处这块近期有些糟糕，这个要好好检讨，以后在这方面要更加成熟；总之目标啊就是努力挣钱啊挣钱啊，上海买房啊买房啊，虽然这座城市生活着挺辛苦的，但是我爱它，所以我要留在这里；至于恋爱结婚什么的，没什么进展也没什么打算，总之先努力工作，努力生活咯。</p>
+
+<p>还是和往年一样，自从奶奶去世，我一直不喜欢过节，还是会想念她，不愿意听别人提及她，工作累了，与人相处不融洽的时候，很多时候，我都会想起她，想起小时候，为我遮风挡雨，是我最温暖最踏实的依靠，生活虽然艰辛，但那是我一生最快乐的时光，教我做人做事，让我努力，支持我鼓励我教训我，可是我却未能报答这份恩情，每次清明节回去，望着那座坟墓，总是还想听听您喊我的名字；所以呢，我要努力过好自己的人生，才能对得起奶奶的期望，人生的努力，终有一个理由。</p>
+
+<p>好了，接下来要开始走向 25 岁了。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-08-19</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/08/Script-Install-LNMP.html">Use Script Install LNMP</a></h1>
+    <div class="post_at_index">
+      <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="c">#</span>
+
+<span class="k">if</span> <span class="o">[[</span> <span class="nv">$1</span> <span class="o">==</span> <span class="s2">"uninstall"</span> <span class="o">]]</span><span class="p">;</span><span class="k">then
+ </span><span class="nb">echo</span> <span class="s2">"starting backup data..."</span>
+ <span class="nb">mkdir</span> <span class="nt">-p</span> /www/backup
+ service mysqld stop
+ service nginxd stop
+ service httpd stop
+ service wdapache stop
+ service pureftpd stop
+ <span class="nb">tar </span>zcvf /www/backup/mysqldatdbk.tar.gz /www/wdlinux/mysql/var
+ <span class="nb">tar </span>zcvf /www/backup/ngconfbk.tar.gz /www/wdlinux/nginx/conf
+ <span class="nb">tar </span>zcvf /www/backup/apconfbk.tar.gz /www/wdlinux/apache/conf
+ rpm <span class="nt">-e</span> lanmp_wdcp <span class="nt">--nodeps</span>
+ <span class="nb">rm</span> <span class="nt">-fr</span> /www/wdlinux
+ <span class="nb">echo
+ echo</span> <span class="s2">" lanmp,wdcp remove is OK"</span>
+ <span class="nb">echo
+ exit </span>0
+<span class="k">fi
+
+</span><span class="nb">echo</span> <span class="s2">"Turn off selinux..."</span>
+setenforce 0
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/SELINUX=enforcing/SELINUX=disabled/g'</span> /etc/selinux/config
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/^exclude=/#exclude=/g'</span> /etc/yum.conf
+yum <span class="nb">install</span> <span class="nt">-y</span> gcc gcc-c++ make autoconf libtool-ltdl-devel gd-devel freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel patch libmcrypt-devel libmhash-devel ncurses-devel <span class="nb">sudo </span>bzip2 iptables sendmail iptables unzip
+
+<span class="c">#echo "Check the network..."</span>
+<span class="c">#ping -c 2 113.105.167.1</span>
+<span class="c">#if [[ $? != 0 ]];then</span>
+<span class="c"># echo</span>
+<span class="c"># echo "network err"</span>
+<span class="c"># exit 1</span>
+<span class="c">#fi</span>
+ping <span class="nt">-c</span> 3 dl.wdlinux.cn
+<span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> <span class="o">==</span> 2 <span class="o">]]</span><span class="p">;</span><span class="k">then
+ </span><span class="nb">echo
+ echo</span> <span class="s2">"dns error"</span>
+ <span class="nb">exit </span>1
+<span class="k">fi
+
+if</span> <span class="o">[[</span> <span class="o">!</span> <span class="nt">-d</span> /www/wdlinux <span class="o">]]</span><span class="p">;</span><span class="k">then
+ </span><span class="nb">echo
+ echo</span> <span class="s2">"rpm remove..."</span>
+ rpm <span class="nt">-e</span> php <span class="nt">--nodeps</span>
+ rpm <span class="nt">-e</span> httpd <span class="nt">--nodeps</span>
+ rpm <span class="nt">-e</span> mysql-server <span class="nt">--nodeps</span>
+ rpm <span class="nt">-e</span> mysql <span class="nt">--nodeps</span>
+<span class="k">fi
+
+</span><span class="nb">echo</span> <span class="s2">"yum update..."</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> make autoconf <span class="nb">sudo </span>wget libtool-ltdl-devel gd-devel freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel patch libmcrypt-devel libmhash-devel ncurses-devel iptables
+
+<span class="nb">arch</span><span class="o">=</span>i386
+<span class="nv">Aurl</span><span class="o">=</span><span class="s2">"http://dl.wdlinux.cn:5180/rpms"</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="sb">`</span><span class="nb">uname</span> <span class="nt">-m</span><span class="sb">`</span> <span class="o">==</span> <span class="s2">"x86_64"</span> <span class="o">]]</span><span class="p">;</span><span class="k">then
+ </span><span class="nb">arch</span><span class="o">=</span><span class="s2">"x86_64"</span>
+<span class="k">fi
+
+function </span>in_finsh <span class="o">{</span>
+        <span class="nb">echo
+        echo</span> <span class="s2">"          configuration ,lamp or lnmp,wdcp install is finshed"</span>
+        <span class="nb">echo</span> <span class="s2">"          visit http://ip"</span>
+        <span class="nb">echo</span> <span class="s2">"          wdcp visit http://ip:8080"</span>
+        <span class="nb">echo</span> <span class="s2">"          more infomation please visit http://www.wdlinux.cn"</span>
+        <span class="nb">echo</span>
+<span class="o">}</span>
+
+<span class="k">function </span>in_check <span class="o">{</span>
+        <span class="k">if</span> <span class="o">[[</span> <span class="nv">$1</span> <span class="o">==</span> 1 <span class="o">]]</span><span class="p">;</span><span class="k">then
+                </span><span class="nb">echo
+                echo</span> <span class="s2">"============  </span><span class="nv">$2</span><span class="s2"> install error  ============="</span>
+                <span class="nb">echo
+                exit </span>1
+        <span class="k">else
+                </span><span class="nb">echo
+                echo</span> <span class="s2">"============  </span><span class="nv">$2</span><span class="s2"> install OK  =============="</span>
+                <span class="nb">echo
+                echo
+        </span><span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="nb">grep</span> <span class="nt">-E</span> <span class="s1">'wdOS 1|5\.'</span> /etc/redhat-release <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
+<span class="nv">v1</span><span class="o">=</span><span class="nv">$?</span>
+<span class="nb">grep</span> <span class="nt">-E</span> <span class="s1">'wdOS 2|6\.'</span> /etc/redhat-release <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
+<span class="nv">v2</span><span class="o">=</span><span class="nv">$?</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$v1</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
+ </span><span class="nv">RF</span><span class="o">=</span><span class="s2">"lanmp_wdcp-2-5.</span><span class="nv">$arch</span><span class="s2">.rpm"</span><span class="p">;</span>
+<span class="k">elif</span> <span class="o">[</span> <span class="nv">$v2</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
+ </span><span class="nv">RF</span><span class="o">=</span><span class="s2">"lanmp_wdcp-2-5.el6.</span><span class="nv">$arch</span><span class="s2">.rpm"</span><span class="p">;</span>
+ <span class="k">if</span> <span class="o">[</span> <span class="nv">$arch</span> <span class="o">==</span> <span class="s2">"x86_64"</span> <span class="o">]</span><span class="p">;</span><span class="k">then
+  </span>wget <span class="nt">-c</span> http://dl.wdlinux.cn:5180/soft/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
+  rpm <span class="nt">-ivh</span> rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
+ <span class="k">else
+  </span>wget <span class="nt">-c</span> http://dl.wdlinux.cn:5180/soft/rpmforge-release-0.5.2-2.el6.rf.i686.rpm
+  rpm <span class="nt">-ivh</span> rpmforge-release-0.5.2-2.el6.rf.i686.rpm
+ <span class="k">fi
+ </span>yum <span class="nb">install</span> <span class="nt">-y</span> mhash-devel libmcrypt-devel
+<span class="k">else
+ </span><span class="nb">echo
+ echo</span> <span class="s2">"The current system does not support"</span>
+ <span class="nb">echo
+ exit
+</span><span class="k">fi
+</span>wget <span class="nt">-c</span> http://dl.wdlinux.cn:5180/rpms/<span class="nv">$RF</span>
+rpm <span class="nt">-ivh</span> <span class="nv">$RF</span> <span class="nt">--nodeps</span>
+<span class="nv">I_F</span><span class="o">=</span><span class="nv">$?</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$I_F</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
+ </span><span class="nb">echo
+</span><span class="k">fi
+</span>in_check <span class="nv">$I_F</span> lanmp_wdcp
+
+<span class="nb">rm</span> <span class="nt">-f</span> wdcp_v<span class="k">*</span>
+wget <span class="nt">-c</span> http://down.wdlinux.cn/down/wdcp_v2.5.tar.gz <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
+<span class="nb">tar </span>zxvf wdcp_v2.5.tar.gz <span class="nt">-C</span> / <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
+
+in_finsh
+
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-08-13</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Shell">Shell</a>
       , 
       <a href="/tags.html#CentOS">CentOS</a>
       
@@ -1227,284 +1123,233 @@ redis-cli&gt; auth foobared
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/07/HowTo-Use-Fuse-sshfs-to-Mount-Remote-Filesystems.html">HowTo Use Fuse-sshfs to Mount Remote Filesystems</a></h1>
+    <h1><a class="title" href="/post/2016/08/HowTo-Setup-MariaDB-Galera-Cluster-10-On-CentOS-6-x.html">HowTo Setup MariaDB Galera Cluster 10 On CentOS 6.x</a></h1>
     <div class="post_at_index">
-      <p>传统我们服务器之间文件共享的方式有采用 NFS、Samba 等等，但是在我看来配置都有一定的复杂性，当然复杂也有它们的优势，这里推荐一个依赖于 SSH 的文件共享工具，Fuse-sshfs。
-SSH 是一个强大且安全的工具，我们除了可以用它来远程管理主机外，还可以通过它建立 SSH tunnel 作 Proxy 用，远程传输文件等等。而这里我想要介绍另外一个功能，那就是结合 sshfs 这个工具可以把远程主机的文件系统映射到本地主机上，透过 SSH 把远程文件系统挂载到本机上，这样我们可以不必使用 scp 工具就可以做到直接复制及删除远程主机的文件了，就像操作本地磁盘一样方便。
-sshfs 是基于 FUSE 构建的 SSH 文件系统客户端程序，通过它远程主机的配置无需作任何改变，就可以透过 SSH 协议来挂载远程文件系统了，非常方便及安全。</p>
+      <h2 id="介绍">介绍</h2>
 
-<h2 id="install-fuse-sshfs">Install fuse-sshfs</h2>
+<p>MariaDB Galera Cluster 是一套在 MySQL InnoDB 存储引擎上面实现 multi-master 及数据实时同步的系统架构，业务层面无需做读写分离工作，数据库读写压力都能按照既定的规则分发到 各个节点上去。在数据方面完全兼容 MariaDB 和 MySQL。使用 MariaDB Galera 的解决方案，可以方便快速的搭建出高可用的数据库 Cluster，不是主备模式，而是双活模式，也就是说，没有主节点和备份节点，每个节点都可以看做是主节点，都可以进行读写，由 Galera 来实现底层的数据同步。</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>cent@localhost ~]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> epel-relese
-<span class="o">[</span>cent@localhost ~]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nt">--enablerepo</span><span class="o">=</span>epel <span class="nb">install</span> <span class="nt">-y</span> fuse-sshfs
-</code></pre></div></div>
+<ul>
+  <li>真正的多主架构，任何节点都可以进行读写</li>
+  <li>同步复制，各节点间无延迟且节点宕机不会导致数据丢失</li>
+  <li>紧密耦合，所有节点均保持相同状态</li>
+  <li>自动节点配置，无需手工备份当前数据库并拷贝至新节点</li>
+</ul>
 
-<h2 id="挂载远程-ssh-文件系统">挂载远程 ssh 文件系统</h2>
+<h2 id="实验环境">实验环境</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>cent@localhost ~]<span class="nv">$ </span><span class="nb">mkdir</span> ./mnt
-<span class="o">[</span>cent@localhost ~]<span class="nv">$ </span>sshfs root@192.168.16.230:/home/ ./mnt
-root@192.168.16.230<span class="s1">'s password:
-[cent@localhost ~]$ mount
-root@192.168.16.230:/home/ on /home/cent/mnt type fuse.sshfs (rw,nosuid,nodev,user=cent)
-</span></code></pre></div></div>
+<ul>
+  <li>Cluster node4 IP address 172.16.102.168</li>
+  <li>Cluster node5 IP address 172.16.102.165</li>
+  <li>Cluster node6 IP address 172.16.102.164</li>
+  <li>setenforce 0. sed -i ‘s/SELINUX=enforcing/SELINUX=disabled/’ /etc/selinux/config</li>
+  <li>/etc/init.d/iptables stop;chkconfig iptables off</li>
+</ul>
 
-<h2 id="卸载远程-ssh-文件系统">卸载远程 ssh 文件系统</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>cent@localhost ~]<span class="nv">$ </span>fusermount <span class="nt">-u</span> ./mnt
-</code></pre></div></div>
-
-<h2 id="常用参数">常用参数</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-C</span> 压缩，或者-o <span class="nv">compression</span><span class="o">=</span><span class="nb">yes</span>
-<span class="nt">-o</span> reconnect 自动重连
-<span class="nt">-o</span> transform_symlinks 表示转换绝对链接符号为相对链接符号
-<span class="nt">-o</span> follow_symlinks 沿用服务器上的链接符号
-<span class="nt">-o</span> <span class="nv">cache</span><span class="o">=</span><span class="nb">yes</span>
-<span class="nt">-o</span> allow_other 这个参数最重要，必须写，否则任何文件都是Permission Deny
-</code></pre></div></div>
-
-<h2 id="缺点"> 缺点</h2>
-
-<p>当然 sshfs 也不尽是优点，例如远程主机失去响应后本地挂载点卡死并影响本地系统使用，需要手工找出 sshfs 进程并杀死，因网速问题造成操作响应缓慢等等，不过一般在稳定快速的网络中不太会遇上，对比其强大的功能，还是可以接受的，正所谓暇不掩瑜。</p>
-
-<ol>
-  <li>所以 sshfs 适合内部网络比较稳定的地方</li>
-  <li>配合 ssh 免密登录使用会更好哦</li>
-  <li>可以看到的是 sshfs 默认挂载是 rw 的权限，但是通过 sshfs –help 可以看到有非常详尽的参数配置可以选择，大家可以仔细研究下。</li>
-</ol>
-
-<h2 id="附-1">附 1</h2>
-
-<p><a href="http://igikorn.com/sshfs-windows-8/">Link</a> 在 windows 下可以使用 sshfs.</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-07-04</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SSH">SSH</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/06/MySQL-1-%E5%B8%B8%E7%94%A8%E4%BC%98%E5%8C%96.html">MySQL 常用配置优化</a></h1>
-    <div class="post_at_index">
-      <blockquote>
-  <p><strong>环境：MySQL 5.5 &amp; MySQL 5.6 &amp; RHEL/CentOS 5/6/7</strong></p>
+<blockquote>
+  <p>使用 vmware 测试需注意：克隆机器需要删除 <code class="language-plaintext highlighter-rouge">/etc/udev/rules.d/70-persistent-net.rules</code> 以及<code class="language-plaintext highlighter-rouge">/etc/sysconfig/network-scripts/ifcfg-eth0</code>中的网卡 mac 地址选项，不然网卡起不来</p>
 </blockquote>
 
-<h2 id="1-mysql-系统配置优化">1. MySQL 系统配置优化</h2>
-
-<p>网络配置方面：修改/etc/sysctl.conf</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 增加tcp支持的队列数</span>
-net.ipv4.tcp_max_syn_backlog <span class="o">=</span> 65535
-<span class="c"># 减少断开时</span>
-</code></pre></div></div>
-
-<p>打开文件限制 修改/etc/security/limits.conf</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 增加：</span>
-<span class="k">*</span> <span class="nb">sort </span>nofile 65535
-<span class="k">*</span> hard nofile 65535
-</code></pre></div></div>
-
-<h2 id="2--mysql-配置文件优化">2.  MySQL 配置文件优化</h2>
-
-<ul>
-  <li>
-    <p>配置文件位置：/etc/my.cnf /etc/mysql/my.cnf</p>
-  </li>
-  <li>
-    <p>如果/etc下没有my.cnf，需要拷贝一份</p>
-  </li>
-</ul>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cp</span> /usr/share/mysql/my-medium.cnf /etc/my.cnf
-</code></pre></div></div>
+<h2 id="环境检测">环境检测</h2>
 
 <ul>
   <li>
     <table>
       <tbody>
         <tr>
-          <td>配置文件查找顺序：mysql -verbose –help</td>
-          <td>grep -A 1 ‘Default options’</td>
+          <td>检查 iptables 状态：/etc/init.d/iptables status;chkconfig –list</td>
+          <td>grep iptables</td>
         </tr>
       </tbody>
     </table>
   </li>
-  <li>常用配置说明：</li>
-</ul>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_buffer_pool_size
-</code></pre></div></div>
-
-<p>设置 mysql 数据库 innodb 存储缓冲池的大小，如果是独立的 mysql 服务，建议设置为物理内存的 75％左右，如果和 apahce 等服务一起运行时，则根据实际需求设定，尽可能大。</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_buffer_pool_instances
-</code></pre></div></div>
-
-<p>这是 mysql5.5 中新增的一个参数，用于控制缓冲池的个数，默认情况下只有 1 个缓冲池，设置多个缓冲池可以增加并发性，提事物运算效率。</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_log_buffer_size
-</code></pre></div></div>
-
-<p>设定日志缓冲区的大小，由于体制最长每秒就会刷新，不需要太大。</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_flush_log_at_trx_commit
-</code></pre></div></div>
-
-<p>关键参数，对于 innodb 的 IO 效率影响很大，默认值为 1，可以取值 0：不自动同步 log 到磁盘，由 mysql 每秒自动执行，1：将所有事物直接写到磁盘，可以用在保证数据绝对安全的地方，会影响效率，2：先将事物纪录保存在内存中，有 mysql 每秒统一写入磁盘，建议设定为 2</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_read_io_threads<span class="p">;</span>
- innodb_write_io_threadsm<span class="p">;</span>
-</code></pre></div></div>
-
-<p>mysql5.5 新增的两个参数，决定了 Innodb 读写的 io 进程数量，默认为 4，可以根据 CPU 的实际性能设定。</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_file_per_table
-</code></pre></div></div>
-
-<p>关键参数，控制 Innodb 每一个表实用独立的表空间，默认为 off，也就是所有的表都会建立在共享空间，不利于资源回收</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> innodb_stats_on_metadata
-</code></pre></div></div>
-
-<p>决定了 mysql 在什么情况下会刷新 innodb 表的统计信息，可以关闭，管理员选取时间手动刷新。存在的目的保证优化器正确找到索引。</p>
-
-<p>mysql 最大连接数限制</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">max_connections</span><span class="o">=</span>5000
-</code></pre></div></div>
-
-<p>不区分表名称大小写</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">lower_case_table_names</span><span class="o">=</span>1
-</code></pre></div></div>
-
-<p>修改默认字符编码</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># mysql 5.1</span>
-default-character-set<span class="o">=</span>utf8
-
-<span class="c"># mysql 5.5 &amp; mysql 5.6</span>
-character-set-server<span class="o">=</span>utf8
-</code></pre></div></div>
-
-<p>最大错误操作次数 : 默认是 10，尽量调大，否则容易导致 mysql 对来访主机锁定</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>max_connect_errors <span class="o">=</span> 10000
-</code></pre></div></div>
-
-<p>设置 mysql 时区：默认 mysql 使用的系统时区，其实我们也可以在 mysql 内设定时区</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>default-time_zone <span class="o">=</span> <span class="s1">'+8:00'</span>
-</code></pre></div></div>
-
-<p>以上配置，如何在 mysql 内，检测是否生效</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>show variables like <span class="s1">'%max_connections%'</span>
-show variables like <span class="s1">'%time_zone%'</span>
-show variables like <span class="s1">'%max_connect_errors%'</span>
-show variables like <span class="s1">'%character-set-server%'</span>
-show variables like <span class="s1">'%lower_case_table_names%'</span>
-</code></pre></div></div>
-
-<p>修改/etc/my.cnf这是需要重启mysql才能生效，但是很多时候，我们不方便重启mysql，这时我们需要在mysql临时修改配置，注意并不是所有选项都可以在运行中修改，以修改时区为例：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 修改全局设置</span>
-<span class="nb">set </span>global <span class="nv">time_zone</span><span class="o">=</span><span class="s1">'+8:00'</span>
-
-<span class="c"># 修改当前会话</span>
-<span class="nb">set </span><span class="nv">time_zone</span><span class="o">=</span><span class="s1">'+8:00'</span>
-</code></pre></div></div>
-
-<h3 id="3--第三方工具对-mysql-配置进行优化">3.  第三方工具对 mysql 配置进行优化</h3>
-
-<ul>
-  <li><a href="http://toolspercona.com">http://toolspercona.com</a></li>
-</ul>
-
-<p>先回答问题，然后根据问题你给出的答案，网站会给你一个参考配置。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-06-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/06/Tomcat-3-%E4%BC%98%E5%8C%96%E8%AE%BE%E5%AE%9A.html">Tomcat 优化设定</a></h1>
-    <div class="post_at_index">
-      <ul>
-  <li>设置 JVM 空间大小，Xms 和 Xmx 一样大：JVM 初始分配的内存由-Xms 指定，默认是物理内存的 1/64；JVM 最大分配的内存由-Xmx 指定，默认是物理内存的 1/4。默认空余堆内存小于 40% 时，JVM 就会增大堆直到-Xmx 的最大限制；空余堆内存大于 70% 时，JVM 会减少堆直到-Xms 的最小限制。因此服务器一般设置-Xms、 -Xmx 相等以避免在每次 GC 后调整堆的大小。</li>
-  <li>关闭 dns 查询</li>
-  <li>增加线程数量</li>
-  <li>maxThreads、acceptCount：增加并发，同时增加这两个的数量</li>
+  <li>检查 selinux 状态：getenforce</li>
+  <li>检查 openssh-client 包是否安装：系统中是否有 ssh 命令</li>
   <li>
-    <p>内存优化： /tomcatbin/catalina.sh</p>
+    <table>
+      <tbody>
+        <tr>
+          <td>检查是否系统中含有 mysql 相关的包：rpm -qa</td>
+          <td>grep mysql，有的话都需要卸载掉</td>
+        </tr>
+      </tbody>
+    </table>
   </li>
-  <li>JAVA_OPTS=”-XX:PermSize=64M -XX:MaxPermSize=128m -Xms512m -Xmx1024m -Duser.timezone=Asia/Shanghai”</li>
-  <li>缓存优化</li>
-  <li>并发优化，线程优化</li>
-  <li>&lt;Connector port=”80” protocol=”HTTP/1.1” maxThreads=”600” minSpareThreads=”100” maxSpareThreads=”500” acceptCount=”700”</li>
-  <li>connectionTimeout=”20000” redirectPort=”8443” /&gt;</li>
-  <li>关闭 DNS 查询 :修改 server.xml 文件中的 Connector 元素，修改属性 enableLookups 参数值：enableLookups=”false”</li>
-  <li>使用 apr 插件，提高 tomcat 响应时间</li>
+  <li>检查网络是否通畅：ping www.baidu.com</li>
 </ul>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="o">(</span>1<span class="o">)</span>安装APR tomcat-native
-    apr-1.3.8.tar.gz   安装在/usr/local/apr
-    <span class="c">#tar zxvf apr-1.3.8.tar.gz</span>
-    <span class="c">#cd apr-1.3.8</span>
-    <span class="c">#./configure;make;make install</span>
+<h2 id="安装">安装</h2>
 
-    apr-util-1.3.9.tar.gz  安装在/usr/local/apr/lib
-    <span class="c">#tar zxvf apr-util-1.3.9.tar.gz</span>
-    <span class="c">#cd apr-util-1.3.9</span>
-    <span class="c">#./configure --with-apr=/usr/local/apr ----with-java-home=JDK;make;make install</span>
+<h3 id="1-在所有节点编辑etchosts">1. 在所有节点编辑/etc/hosts</h3>
 
-    <span class="c">#cd apache-tomcat-6.0.20/bin</span>
-    <span class="c">#tar zxvf tomcat-native.tar.gz</span>
-    <span class="c">#cd tomcat-native/jni/native</span>
-    <span class="c">#./configure --with-apr=/usr/local/apr;make;make install</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node4 ~]# vi /etc/hosts
 
-  <span class="o">(</span>2<span class="o">)</span>设置 Tomcat 整合 APR
-    修改 tomcat 的启动 shell （startup.sh），在该文件中加入启动参数：
-      <span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">"</span><span class="nv">$CATALINA_OPTS</span><span class="s2"> -Djava.library.path=/usr/local/apr/lib"</span> 。
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
 
-  <span class="o">(</span>3<span class="o">)</span>判断安装成功:
-    如果看到下面的启动日志，表示成功。
-      2007-4-26 15:34:32 org.apache.coyote.http11.Http11AprProtocol init
+<span class="c"># add follows</span>
+172.16.102.164 node6
+172.16.102.165 node5
+172.16.102.168 node4
+
+<span class="o">[</span>root@node4 ~]#
+
+<span class="c"># 依次在node5和node6上编辑/etc/hosts</span>
 </code></pre></div></div>
 
-<ul>
-  <li>开启 manager 管理</li>
-  <li>使用<a href="http://visualvm.Java.net/download.html">http://visualvm.Java.net/download.html</a> 工具监控 tomcat 的性能</li>
-  <li>JAVA_OPTS=’-Dcom.sun.management.jmxremote.port=8999 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false’</li>
-  <li>设置自动更新 autodeploy＝false</li>
-</ul>
+<h3 id="2-在所有-node-上安装-mariadb-galera">2. 在所有 node 上安装 MariaDB Galera</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node4 ~]# vi /etc/yum.repos.d/mariadb.repo
+ <span class="c"># MariaDB 10.0 CentOS repository list</span>
+<span class="c"># http://mariadb.org/mariadb/repositories/</span>
+<span class="o">[</span>mariadb]
+name <span class="o">=</span> MariaDB
+baseurl <span class="o">=</span> http://yum.mariadb.org/10.0/centos6-amd64
+<span class="nv">gpgkey</span><span class="o">=</span>https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+<span class="nv">gpgcheck</span><span class="o">=</span>1
+<span class="nv">enabled</span><span class="o">=</span>0
+
+<span class="o">[</span>root@node4 ~]# yum <span class="nt">--enablerepo</span><span class="o">=</span>mariadb <span class="nt">-y</span> <span class="nb">install </span>MariaDB-Galera-server
+
+<span class="c"># 依次在node5和node6上安装 MariaDB-Galera-server</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>注意安装完成之后，不要启动 mysql</p>
+</blockquote>
+
+<h3 id="3-在其中一个节点上编辑etcmycnfdservercnf配置文件">3. 在其中一个节点上编辑/etc/my.cnf.d/server.cnf配置文件</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node4 ~]# vi /etc/my.cnf.d/server.cnf
+<span class="c"># 19 行，取消下面的注释，并修改为需求</span>
+<span class="o">[</span>galera]
+<span class="nv">wsrep_provider</span><span class="o">=</span>/usr/lib64/galera/libgalera_smm.so
+<span class="c"># 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。</span>
+<span class="nv">wsrep_cluster_address</span><span class="o">=</span><span class="s2">"gcomm://node4,node5,node6"</span>
+<span class="nv">binlog_format</span><span class="o">=</span>row
+<span class="nv">default_storage_engine</span><span class="o">=</span>InnoDB
+<span class="nv">innodb_autoinc_lock_mode</span><span class="o">=</span>2
+bind-address<span class="o">=</span>0.0.0.0
+
+<span class="c"># add follows</span>
+<span class="c"># cluster name</span>
+<span class="nv">wsrep_cluster_name</span><span class="o">=</span><span class="s2">"Visionet_MariaDB_Cluster"</span>
+<span class="c"># replication provider</span>
+<span class="nv">wsrep_sst_method</span><span class="o">=</span>rsync
+<span class="c"># own IP address</span>
+<span class="nv">wsrep_node_address</span><span class="o">=</span><span class="s2">"172.16.102.168"</span>
+<span class="nv">wsrep_node_name</span><span class="o">=</span><span class="s2">"node4"</span>
+
+<span class="c"># 启动数据库</span>
+<span class="o">[</span>root@node4 ~]# /etc/rc.d/init.d/mysql bootstrap
+Starting MySQL. SUCCESS!
+
+<span class="c"># 初始化你的数据库</span>
+<span class="o">[</span>root@node4 ~]# mysql_secure_installation
+</code></pre></div></div>
+
+<h3 id="4-在其它节点上编辑etcmycnfdservercnf配置文件">4. 在其它节点上编辑/etc/my.cnf.d/server.cnf配置文件</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node4 ~]# vim /etc/my.cnf.d/server.cnf
+</code></pre></div></div>
+
+<h3 id="node5">node5</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node5 ~]# vi /etc/my.cnf.d/server.cnf
+<span class="c"># 19 行，取消下面的注释，并修改为需求</span>
+<span class="o">[</span>galera]
+<span class="nv">wsrep_provider</span><span class="o">=</span>/usr/lib64/galera/libgalera_smm.so
+<span class="c"># 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。</span>
+<span class="nv">wsrep_cluster_address</span><span class="o">=</span><span class="s2">"gcomm://node4,node5,node6"</span>
+<span class="nv">binlog_format</span><span class="o">=</span>row
+<span class="nv">default_storage_engine</span><span class="o">=</span>InnoDB
+<span class="nv">innodb_autoinc_lock_mode</span><span class="o">=</span>2
+bind-address<span class="o">=</span>0.0.0.0
+
+<span class="c"># add follows</span>
+<span class="c"># cluster name</span>
+<span class="nv">wsrep_cluster_name</span><span class="o">=</span><span class="s2">"Visionet_MariaDB_Cluster"</span>
+<span class="c"># replication provider</span>
+<span class="nv">wsrep_sst_method</span><span class="o">=</span>rsync
+
+<span class="c"># 以下内容注意，注意应设置为当前服务器信息</span>
+<span class="nv">wsrep_node_address</span><span class="o">=</span><span class="s2">"172.16.102.165"</span>
+<span class="nv">wsrep_node_name</span><span class="o">=</span><span class="s2">"node5"</span>
+
+<span class="c"># 启动数据库</span>
+<span class="o">[</span>root@node5 ~]# /etc/rc.d/init.d/mysql start
+Starting MySQL...SST <span class="k">in </span>progress, setting <span class="nb">sleep </span>higher. SUCCESS!
+</code></pre></div></div>
+
+<h3 id="node6">node6</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node6 ~]# vi /etc/my.cnf.d/server.cnf
+<span class="c"># 19 行，取消下面的注释，并修改为需求</span>
+<span class="o">[</span>galera]
+<span class="nv">wsrep_provider</span><span class="o">=</span>/usr/lib64/galera/libgalera_smm.so
+<span class="c"># 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。</span>
+<span class="nv">wsrep_cluster_address</span><span class="o">=</span><span class="s2">"gcomm://node4,node5,node6"</span>
+<span class="nv">binlog_format</span><span class="o">=</span>row
+<span class="nv">default_storage_engine</span><span class="o">=</span>InnoDB
+<span class="nv">innodb_autoinc_lock_mode</span><span class="o">=</span>2
+bind-address<span class="o">=</span>0.0.0.0
+
+<span class="c"># add follows</span>
+<span class="c"># cluster name</span>
+<span class="nv">wsrep_cluster_name</span><span class="o">=</span><span class="s2">"Visionet_MariaDB_Cluster"</span>
+<span class="c"># replication provider</span>
+<span class="nv">wsrep_sst_method</span><span class="o">=</span>rsync
+
+<span class="c"># 以下内容注意，注意应设置为当前服务器信息</span>
+<span class="nv">wsrep_node_address</span><span class="o">=</span><span class="s2">"172.16.102.164"</span>
+<span class="nv">wsrep_node_name</span><span class="o">=</span><span class="s2">"node6"</span>
+
+<span class="c"># 启动数据库</span>
+<span class="o">[</span>root@node6 ~]# /etc/rc.d/init.d/mysql start
+Starting MySQL...SST <span class="k">in </span>progress, setting <span class="nb">sleep </span>higher. SUCCESS!
+</code></pre></div></div>
+
+<blockquote>
+  <p>注意：只需要初始化第一个节点服务器的数据库，其他数据的配置文件会自动同步，所以你给 node4 设置的 root 可以在 node5 和 node6 直接使用，当然这是安装正确的前提。</p>
+</blockquote>
+
+<h2 id="登陆各个节点数据库检查配置是否成功">登陆各个节点数据库检查配置是否成功</h2>
+
+<p>server.cnf 的配置如果没有问题，那么 wsrep_local_state_comment 的状态应该是 Synced。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node4 ~]# mysql <span class="nt">-u</span> root <span class="nt">-p</span>
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with <span class="p">;</span> or <span class="se">\g</span><span class="nb">.</span>
+Your MariaDB connection <span class="nb">id </span>is 15
+Server version: 10.0.26-MariaDB-wsrep MariaDB Server, wsrep_25.13.raf7f02e
+
+Copyright <span class="o">(</span>c<span class="o">)</span> 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type <span class="s1">'help;'</span> or <span class="s1">'\h'</span> <span class="k">for </span>help. Type <span class="s1">'\c'</span> to clear the current input statement.
+
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show status like <span class="s1">'wsrep_local_state_comment'</span><span class="p">;</span>
++---------------------------+--------+
+| Variable_name             | Value  |
++---------------------------+--------+
+| wsrep_local_state_comment | Synced |
++---------------------------+--------+
+1 row <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.01 sec<span class="o">)</span>
+
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span>
+</code></pre></div></div>
+
+<h2 id="结论">结论</h2>
+
+<p>MariaDB Galera 没有主节点和备份节点，配置成功之后，可以在任何一个 node 节点上操作会自动同步到其他节点，任何一个节点宕机不会影响其他节点的数据和稳定性，配置 HAProxy 设置 VIP 的方式来实现负载均衡，提高服务的高可用性，另外，当宕机节点上线之后，事务会自动同步不丢失。</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-06-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Tomcat">Tomcat</a>
+      <cite>2016-08-04</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#MariaDB">MariaDB</a>
+      , 
+      <a href="/tags.html#CentOS">CentOS</a>
       
       
       
@@ -1513,57 +1358,334 @@ show variables like <span class="s1">'%lower_case_table_names%'</span>
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/06/%E4%BD%BF%E7%94%A8mosh%E4%BB%A3%E6%9B%BFssh%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8.html">使用 mosh 代替 ssh 连接服务器</a></h1>
+    <h1><a class="title" href="/post/2016/08/HowTo-Install-Openfire-on-CentOS.html">HowTo Install Openfire  on CentOS</a></h1>
     <div class="post_at_index">
-      <p>身为一名服务器运维人员，每天打交道最多的就是服务器了，最常用的连接服务器的工具就是 SSH，因为 SSH 是一个不可持续的连接，当网络出现波动时，SSH 断开会导致当前正在运行的服务中断，对工作产生非常大的影响，无意间看到了 Mosh 这个东西，安装使用下，发现网络波动这种事情不会导致服务器连接断开了，特意查了下，原来 Mosh 使用的是 UDP 方式传输：虽然也支持使用 SSH 配置进行认证登录，但是数据传输本身是使用 UDP 方式的，Mosh 支持在会话中断时，不会立即退出，而是启用一个计时器，当网络恢复后会自动连接，同时会延续之前的会话，不会重新开启一个。</p>
+      <h2 id="install-centos-6x-x86_64">Install Centos 6.x x86_64</h2>
 
-<h2 id="mosh-主页">Mosh <a href="https://mosh.mit.edu/#getting">主页</a></h2>
+<p><em>略.</em></p>
 
-<h2 id="1-安装配置">1. 安装配置</h2>
+<h2 id="安装依赖软件">安装依赖软件</h2>
 
-<p>需要在服务端和客户端同时安装 Mosh：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>＃ 以centos 6.x 为例：
-<span class="o">[</span>user@host ~]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
-<span class="o">[</span>user@host ~]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> mosh
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">-y</span> <span class="nb">install </span>wget java glibc.i686
 </code></pre></div></div>
 
-<h2 id="2-采用-ssh-配置进行认证登录只需要将-ssh-替换为-mosh-即可">2. 采用 SSH 配置进行认证登录，只需要将 ssh 替换为 mosh 即可</h2>
+<h3 id="下载-openfire-38-到本地">下载 openfire 3.8 到本地</h3>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>user@host ~]<span class="nv">$ </span>mosh user@host
-
-<span class="c"># 如何需要指定特定的ssh port或者使用ssh keyfile. 可以使用-ssh参数：</span>
-<span class="o">[</span>user@host ~]<span class="nv">$ </span>mosh <span class="nt">-ssh</span><span class="o">=</span><span class="s2">"ssh -i ~/.ssh/id_rsa -p 10002"</span> user@host
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://download.igniterealtime.org/openfire/openfire-3.8.1-1.i386.rpm
 </code></pre></div></div>
 
-<h2 id="3-other">3. Other</h2>
+<h3 id="安装-openfire-38">安装 openfire 3.8</h3>
 
-<p>另外 Mosh 还支持使用临时 key 的方式认证，需要服务器端创建临时 key，然后客户端通过这个 key 进行登录，该 key 在会话结束的十分钟后自动失效。</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 创建临时key</span>
-<span class="o">[</span>user@host ~]<span class="nv">$ </span>mosh-server
-MOSH CONNECT 53371 asdAADfdse234LSDSdIbow
-mosh-server <span class="o">(</span>mosh 1.2.4<span class="o">)</span>
-Copyright 2012 Keith Winstein &lt;mosh-devel@mit.edu&gt;
-License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;.
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-<span class="o">[</span>mosh-server detached, pid <span class="o">=</span> 27290]
-
-<span class="c"># 然后在client定义MOSH_KEY</span>
-<span class="o">[</span>user@host ~]<span class="nv">$ </span><span class="nb">export </span><span class="nv">MOSH_KEY</span><span class="o">=</span>asdAADfdse234LSDSdIbow
-<span class="c"># 注意mosh-client只能跟上具体的ip和临时端口，不支持主机名和域名方式</span>
-
-<span class="c"># 使用临时key连接服务器</span>
-<span class="o">[</span>user@host ~]<span class="nv">$ </span>mosh-client 10.0.2.4 53371
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">-y</span> <span class="nb">install</span> ./openfire<span class="k">*</span>rpm
 </code></pre></div></div>
+
+<h3 id="设置服务开启自启动">设置服务开启自启动</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chkconfig openfire on
+
+</code></pre></div></div>
+
+<h3 id="yum-install-mysql-server">Yum Install mysql-server</h3>
+
+<p>详见： <a href="http://blog.ultraera.org/how-to-install-mysql-5-6-on-centos/">How to Install MySQL 5.5/6/7 on RHEL/CentOS 5/6/7</a></p>
+
+<h2 id="创建-openfire-数据库">创建 openfire 数据库</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-u</span> root <span class="nt">-p</span>
+
+create database openfire character <span class="nb">set </span>utf8<span class="p">;</span>
+grant all privileges on openfire.<span class="k">*</span> to <span class="s1">'openfire'</span>@<span class="s1">'127.0.0.1'</span> identified by <span class="s1">'openfire'</span> with grant option<span class="p">;</span>
+</code></pre></div></div>
+
+<h3 id="启动-openfire">启动 openfire</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://Host:9090
+</code></pre></div></div>
+
+<h2 id="之后的初始化步骤请根据实际操作注意设定数据库地址用户名和密码时不要出错">之后的初始化步骤，请根据实际操作，注意设定数据库地址用户名和密码时不要出错</h2>
+
+<h2 id="faq">FAQ</h2>
+
+<p>openfire 安装完毕后无法登录控制台</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>报错：Login failed:make sure your username and password are correct and that you’re an admin or moderator
+
+解决方案如下：
+1.使用Mysql查看工具进入数据库，进入表“ofuser”，将该表清空，然后执行该SQL
+INSERT INTO ofUser <span class="o">(</span>username, plainPassword, name, email, creationDate, modificationDate<span class="o">)</span>
+    VALUES <span class="o">(</span><span class="s1">'admin'</span>, <span class="s1">'admin'</span>, <span class="s1">'Administrator'</span>, <span class="s1">'admin@example.com'</span>, <span class="s1">'0'</span>, <span class="s1">'0'</span><span class="o">)</span><span class="p">;</span>
+
+2.关闭openfire服务，就是从其控制台stop然后再start，再用用户名：admin,密码：admin登录即可
+</code></pre></div></div>
+
+<p>openfire 进程无法启动</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>报错：nohup: failed to run <span class="nb">command</span> <span class="sb">`</span>/opt/openfire/jre/bin/java<span class="s1">': No such file or directory
+
+解决方案如下：
+经检查是由于openfire未能正确识别jre环境变量导致，安装时自带的jre是32位，但操作系统却是64位操作平台。
+，故在/etc/init.d/openfire的启动脚本修改，
+JAVA_HOME="/usr/lib/jvm/jre-$VERSION.x86_64"
+</span></code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-06-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SSH">SSH</a>
+      <cite>2016-08-02</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Openfire">Openfire</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/08/HowTo-Use-Docker-create-a-Tomcat-Project.html">HowTo Use Docker create a Tomcat Project</a></h1>
+    <div class="post_at_index">
+      <h2 id="1-安装-centos-7x">1. 安装 CentOS 7.x</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>略。
+</code></pre></div></div>
+
+<h2 id="2-安装-docker">2. 安装 docker</h2>
+
+<p>详见： <a href="https://samzong.me/2016/07/07/HowTo-Install-Docker-on-CentOS-6-x/">How to Install Docker on CentOS 6.x</a></p>
+
+<h2 id="3-基础-docker-命令">3. 基础 docker 命令</h2>
+
+<p>获取 centos6 docker 镜像</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@docker ~ docker pull centos6
+Using default tag: latest
+latest: Pulling from library/centos:centos6
+
+43db9dbdcb30: Downloading 41.14 MB/49.33 MB
+43db9dbdcb30: Pull <span class="nb">complete
+</span>2dc64e8f8d4f: Pull <span class="nb">complete
+</span>670a583e1b50: Pull <span class="nb">complete
+</span>183b0bfcd10e: Pull <span class="nb">complete
+</span>Digest: sha256:c6674c44c6439673bf56536c1a15916639c47ea04c3d6296c5df938add67b54b
+Status: Downloaded newer image <span class="k">for </span>centso:centos6
+</code></pre></div></div>
+
+<p>查看当前服务器上的 docker 镜像</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@docker ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+centos6-visionet    latest              aeed37612ecb        6 hours ago         1.916 GB
+centos              centos6             a3c09d36ab4a        2 days ago          194.6 MB
+registry            latest              c6c14b3960bd        3 days ago          33.28 MB
+</code></pre></div></div>
+
+<p>查找 docker 镜像</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@docker ~]# docker search centos:centos6
+NAME                                     DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+imagine10255/centos6-lnmp-php56          centos6-lnmp-php56                              10                   <span class="o">[</span>OK]
+lemonbar/centos6-ssh                     Installed openssh-server on centos6, defau...   7                    <span class="o">[</span>OK]
+sergeyzh/centos6-nginx                                                                   2                    <span class="o">[</span>OK]
+guyton/centos6                           From official centos6 container with full ...   2                    <span class="o">[</span>OK]
+paijp/centos6-apache-php-sqlite2         php5.3.3 with sqlite2 and apache on CentOS...   1                    <span class="o">[</span>OK]
+edrans/centos6                                                                           1                    <span class="o">[</span>OK]
+mohri1219/centos6.7-ruby2.2.2-mysql5.6   centos6.7-ruby2.2.2-mysql5.6                    1                    <span class="o">[</span>OK]
+</code></pre></div></div>
+
+<p>删除 centos6 docker 镜像</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@docker ~]# docker rmi IMAGES_NAME
+<span class="o">[</span>root@docker ~]# docker rmi centos:centos6
+</code></pre></div></div>
+
+<p>报错如下</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error response from daemon: conflict: unable to remove repository reference "centos" (must force) - container 705a30cbc002 is using its referenced image 42118e3df429
+</code></pre></div></div>
+
+<p>这是因为之间的运行的进程没有清楚导致该 images 正在使用中，使用一下命令查看占有的进程</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@docker ~]# docker ps <span class="nt">-a</span> ＃ 查看所有的docker进程
+CONTAINER ID        IMAGE               COMMAND               CREATED             STATUS                     PORTS               NAMES
+705a30cbc002        centos:centos6              <span class="s2">"/bin/bash"</span>           6 minutes ago       Exited <span class="o">(</span>0<span class="o">)</span> 6 minutes ago                       centos6
+<span class="o">[</span>root@docker ~]# docker <span class="nb">rm </span>705a30cbc002
+705a30cbc002
+<span class="o">[</span>root@docker ~]# docker rmi centos:centos6
+Untagged: centos:centos6
+Deleted: sha256:42118e3df429f09ca581a9deb3df274601930e428e452f7e4e9f1833c56a100a
+Deleted: sha256:d72d0199021776e77ac14a764a3decd156e9f6f18b37e25b867b0f1ca42fb3d9
+Deleted: sha256:fb178c6cea1453d089ce033b96eba0efdb42274138e042517ea2d5ea7bb51665
+Deleted: sha256:8945af30572845a904adce2aeaf73402c842d86e99e8f10688b25cb27834110b
+Deleted: sha256:ea9f151abb7e06353e73172dad421235611d4f6d0560ec95db26e0dc240642c1
+</code></pre></div></div>
+
+<h2 id="4-运行一个-docker-镜像">4. 运行一个 docker 镜像</h2>
+
+<h3 id="进入交互式程序">进入交互式程序</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@docker ~]# docker run  <span class="nt">-it</span> centos:centos6 /bin/bash
+<span class="o">[</span>root@c1d190f95562 /]# <span class="nb">cat</span> /etc/redhat-release
+CentOS release 6.8 <span class="o">(</span>Final<span class="o">)</span>
+
+<span class="c"># Install openssh-server and httpd</span>
+
+root@d8c122dbe09d:/# yum <span class="nb">install</span> <span class="nt">-y</span> openssh-sever httpd
+root@d8c122dbe09d:/# <span class="nb">exit</span>
+
+<span class="c"># 注意当你执行 exit，从容器之中退出时，容器也会随着关闭，这时如果还继续执行上条命令</span>
+
+<span class="c"># 你会发现之前所有的操作都被还原，因为相对于 docker，又是新开了一个进程</span>
+
+<span class="c"># 在 exit 退出之后，使用一下命令查看上次提交，然后 commit 修改，便可保存之前的修改</span>
+
+<span class="o">[</span>root@docker ~]# docker ps <span class="nt">-l</span>
+<span class="o">[</span>root@docker ~]# docker commit c1d190f95562 centos:centos6-httpd
+sha256:77eb12e36c7bbe9ef874555b1873019022b5258740aa731627e2cd6fa749c325
+<span class="o">[</span>root@docker ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+centos              centos6-httpd       77eb12e36c7b        3 seconds ago       290.3 MB
+centos6-visionet    latest              aeed37612ecb        6 hours ago         1.916 GB
+centos              centos6             a3c09d36ab4a        2 days ago          194.6 MB
+registry            latest              c6c14b3960bd        3 days ago          33.28 MB
+</code></pre></div></div>
+
+<h2 id="5-编辑-dockerfile">5. 编辑 Dockerfile</h2>
+
+<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># dockfile 的第一行一定是 FROM，指定了父镜像
+</span>
+<span class="n">FROM</span> <span class="n">centos</span>:<span class="n">centos6</span>
+
+<span class="c"># RUN 指的是运行的命令
+</span>
+<span class="n">RUN</span> <span class="n">yum</span> <span class="n">install</span> -<span class="n">y</span> <span class="n">epel</span>-<span class="n">release</span>
+<span class="n">RUN</span> <span class="n">yum</span> <span class="n">install</span> -<span class="n">y</span> <span class="n">bash</span>-<span class="n">completion</span>
+<span class="n">RUN</span> <span class="n">yum</span> <span class="n">install</span> -<span class="n">y</span> <span class="n">openssh</span>-<span class="n">server</span> <span class="n">openssh</span>-<span class="n">client</span> <span class="n">sudo</span>
+<span class="n">RUN</span> <span class="n">sed</span> -<span class="n">i</span> <span class="s1">'s/UsePAM yes/UsePAM no/g'</span> /<span class="n">etc</span>/<span class="n">ssh</span>/<span class="n">sshd_config</span>
+<span class="n">RUN</span> <span class="n">cp</span> /<span class="n">usr</span>/<span class="n">share</span>/<span class="n">zoneinfo</span>/<span class="n">Asia</span>/<span class="n">Shanghai</span> /<span class="n">etc</span>/<span class="n">localtime</span>
+
+<span class="c"># 增加一个用户，并赋予 sudo 权限
+</span>
+<span class="n">RUN</span> <span class="n">useradd</span> <span class="n">visionet</span>
+<span class="n">RUN</span> <span class="n">echo</span> <span class="s2">"visionet:visionet"</span> | <span class="n">chpasswd</span>
+<span class="n">RUN</span> <span class="n">echo</span> <span class="s2">"visionet   ALL=(ALL)       ALL"</span> &gt;&gt; /<span class="n">etc</span>/<span class="n">sudoers</span>
+
+＃ 注意，如果没有执行一下两个命令，<span class="n">sshd</span> 是无法远程登陆的
+<span class="n">RUN</span> <span class="n">ssh</span>-<span class="n">keygen</span> -<span class="n">t</span> <span class="n">dsa</span> -<span class="n">f</span> /<span class="n">etc</span>/<span class="n">ssh</span>/<span class="n">ssh_host_dsa_key</span>
+<span class="n">RUN</span> <span class="n">ssh</span>-<span class="n">keygen</span> -<span class="n">t</span> <span class="n">rsa</span> -<span class="n">f</span> /<span class="n">etc</span>/<span class="n">ssh</span>/<span class="n">ssh_host_rsa_key</span>
+
+＃ <span class="n">EXPOSE</span> <span class="m">22</span>，将 <span class="m">22</span> 端口暴露出来，方便 <span class="n">ssh</span> 远程连接
+<span class="n">RUN</span> <span class="n">mkdir</span> /<span class="n">var</span>/<span class="n">run</span>/<span class="n">sshd</span>
+<span class="n">EXPOSE</span> <span class="m">22</span>
+＃ <span class="n">CMD</span> 为系统内部执行命令
+<span class="n">CMD</span> [<span class="s2">"/usr/sbin/sshd"</span>, <span class="s2">"-D"</span>]
+</code></pre></div></div>
+
+<h2 id="6-生成自定义-docker-镜像">6. 生成自定义 docker 镜像</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># build 编译镜像</span>
+
+<span class="o">[</span>root@docker ~]# docker build <span class="nt">-f</span> dockerfile3 <span class="nt">-t</span> centos:centos6-ssh <span class="nb">.</span>
+Sending build context to Docker daemon 44.54 kB
+Step 1 : FROM centos:centos6
+ <span class="nt">---</span><span class="o">&gt;</span> a3c09d36ab4a
+Step 2 : RUN yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> 04d81f280a63
+Step 3 : RUN yum <span class="nb">install</span> <span class="nt">-y</span> bash-completion
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> 5ca26894dc9d
+Step 4 : RUN yum <span class="nb">install</span> <span class="nt">-y</span> openssh-server openssh-client <span class="nb">sudo</span>
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> 42278450311e
+Step 5 : RUN <span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/UsePAM yes/UsePAM no/g'</span> /etc/ssh/sshd_config
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> db35bef562a2
+Step 6 : RUN <span class="nb">cp</span> /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> dc9f2b82e198
+Step 7 : RUN useradd visionet
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> 06c574a51755
+Step 8 : RUN <span class="nb">echo</span> <span class="s2">"visionet:visionet"</span> | chpasswd
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> 03412f053d04
+Step 9 : RUN <span class="nb">echo</span> <span class="s2">"visionet   ALL=(ALL)       ALL"</span> <span class="o">&gt;&gt;</span> /etc/sudoers
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> bf8476812a62
+Step 10 : RUN ssh-keygen <span class="nt">-t</span> dsa <span class="nt">-f</span> /etc/ssh/ssh_host_dsa_key
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> 2314cce75171
+Step 11 : RUN ssh-keygen <span class="nt">-t</span> rsa <span class="nt">-f</span> /etc/ssh/ssh_host_rsa_key
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> 99304cd9ac15
+Step 12 : RUN <span class="nb">mkdir</span> /var/run/sshd
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> f87283751553
+Step 13 : EXPOSE 22
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> 56c41202dcb9
+Step 14 : CMD /usr/sbin/sshd <span class="nt">-D</span>
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> d6dccb483fa6
+Successfully built d6dccb483fa6
+<span class="o">[</span>root@docker ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+centos              centos6-ssh         d6dccb483fa6        2 minutes ago         363 MB
+centos              centos6-httpd       77eb12e36c7b        6 minutes ago       290.3 MB
+centos6-visionet    latest              aeed37612ecb        6 hours ago         1.916 GB
+centos              centos6             a3c09d36ab4a        2 days ago          194.6 MB
+registry            latest              c6c14b3960bd        3 days ago          33.28 MB
+
+<span class="c"># 后台运行 docker 容器，并指定 nat 端口转发</span>
+
+<span class="o">[</span>root@docker ~]# docker run <span class="nt">-d</span> <span class="nt">-p</span> 2222:22 <span class="nt">-P</span> <span class="nt">--name</span><span class="o">=</span>sshd centos:centos6-ssh
+b4211f7a304d9e34b72b510230be2c7a76b276886b488f08f3e12896a4d3c172
+
+</code></pre></div></div>
+
+<h2 id="7-ssh-登陆到-docker-容器内部署项目环境">7. ssh 登陆到 docker 容器内，部署项目环境</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># inspect 查看 docker 容器 IP 地址</span>
+
+<span class="o">[</span>root@docker ~]# docker inspect sshd | <span class="nb">grep </span>IPAddress
+<span class="o">[</span>root@docker ~]# ssh visionet@172.17.0.2
+visionet@172.17.0.2<span class="s1">'s password:
+[visionet@b4211f7a304d ~]$
+
+# Install mysql
+
+# Install tomcat server
+
+[visionet@b4211f7a304d ~]$ exit
+[root@docker ~]# docker stop sshd
+sshd
+[root@docker ~]# docker ps -l
+CONTAINER ID        IMAGE                COMMAND               CREATED             STATUS                       PORTS               NAMES
+b4211f7a304d        centos:centos6-ssh   "/usr/sbin/sshd -D"   6 minutes ago       Exited (255) 3 seconds ago                       sshd
+[root@docker ~]# docker commit b4211f7a304d centos:centos6-tomcat
+sha256:b4f114d5484822d9a3ddf1100b76b460985ba5e5d31e936570e8d7dbd8df282c
+[root@docker ~]# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+centos              centos6-tomcat      b4f114d54848        4 seconds ago       363.1 MB
+centos              centos6-httpd       77eb12e36c7b        15 minutes ago      290.3 MB
+centos6-visionet    latest              aeed37612ecb        7 hours ago         1.916 GB
+centos              centos6-ssh         d6dccb483fa6        9 hours ago         363 MB
+centos              centos6             a3c09d36ab4a        2 days ago          194.6 MB
+registry            latest              c6c14b3960bd        3 days ago          33.28 MB
+</span></code></pre></div></div>
+
+<h2 id="8-推送-centoscentos6-tomcat-到私有-docker-仓库">8. 推送 centos:centos6-tomcat 到私有 docker 仓库</h2>
+
+<blockquote>
+  <p>docker push</p>
+</blockquote>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-08-02</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Docker">Docker</a>
       
       
       
@@ -1612,7 +1734,7 @@ There is NO WARRANTY, to the extent permitted by law.
             <li class="active"><a>18</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page23">23</a></li>
+          <li><a href="/page24">24</a></li>
         
 
         
@@ -1663,7 +1785,7 @@ There is NO WARRANTY, to the extent permitted by law.
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>18</span>
+    		数据库 <span>19</span>
     	</a></li>
      
     	
@@ -1847,8 +1969,8 @@ There is NO WARRANTY, to the extent permitted by law.
     	</a></li>
      
     	
-      <li><a href="/categories.html#NaN">
-    		NaN <span>1</span>
+      <li><a href="/categories.html#Network">
+    		Network <span>1</span>
     	</a></li>
      
     	
@@ -1892,13 +2014,53 @@ There is NO WARRANTY, to the extent permitted by law.
     	</a></li>
      
     	
+      <li><a href="/categories.html#Kubernetes">
+    		Kubernetes <span>10</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Github">
     		Github <span>1</span>
     	</a></li>
      
     	
+      <li><a href="/categories.html#kubernetes">
+    		kubernetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#腾讯云">
+    		腾讯云 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#阿里云">
+    		阿里云 <span>1</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Gitlab">
     		Gitlab <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#前端">
+    		前端 <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#DaoCloud Enterprise">
+    		DaoCloud Enterprise <span>2</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kubrnetes">
+    		Kubrnetes <span>1</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#Kafka">
+    		Kafka <span>1</span>
     	</a></li>
      
     	
@@ -1949,9 +2111,21 @@ df = pandas.read_csv(‘somefile.txt’)
         </li>
         
         <li>
-          <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
-          王路
-12 highlights
+          <a href="/post/2022/10/JWT-%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F.html">JWT 内置的方式</a>
+          
+  支持为 API 启用 jwt token 解码的能力 ,  读取网关的 jwt key
+    
+      读取请求 Header 中的 Authorization
+    
+  
+  需要支持为网关配置多 jwt key , and 加密长度 ?
+    
+      解密的性能问题
+      expire_time 过期时间的配置
+      解密后的参数传递
+    
+  
+
 
 
         </li>

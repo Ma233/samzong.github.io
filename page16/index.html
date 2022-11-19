@@ -350,7 +350,7 @@
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/11/Denyhosts%E5%A2%9E%E5%8A%A0%E6%9C%8D%E5%8A%A1%E5%99%A8SSH%E9%BB%91%E5%90%8D%E5%8D%95%E6%9C%BA%E5%88%B6.html">Denyhosts增加服务器SSH黑名单机制</a></h1>
+    <h1><a class="title" href="/post/2016/11/Denyhosts%E5%A2%9E%E5%8A%A0%E6%9C%8D%E5%8A%A1%E5%99%A8SSH%E9%BB%91%E5%90%8D%E5%8D%95%E6%9C%BA%E5%88%B6.html">Denyhosts 增加服务器 SSH 黑名单机制</a></h1>
     <div class="post_at_index">
       <h5 id="查看当前服务器失败登录的统计">查看当前服务器失败登录的统计</h5>
 
@@ -434,7 +434,7 @@ DAEMON_PURGE = 1h
 <h5 id="faq">FAQ</h5>
 
 <ol>
-  <li>如果想删除一个已经禁止的主机IP，并加入到允许主机例表，只在 /etc/hosts.deny 删除是没用的,还需要以下：</li>
+  <li>如果想删除一个已经禁止的主机 IP，并加入到允许主机例表，只在 /etc/hosts.deny 删除是没用的，还需要以下：</li>
 </ol>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/var/lib/denyhosts 目录，进入以下操作：
@@ -464,8 +464,8 @@ sudo echo IP_addr &gt;&gt;/usr/share/denyhosts/data/allowed-hostsps
 <h5 id="tips">Tips</h5>
 
 <ul>
-  <li>尽量是用key验证登录服务器</li>
-  <li>尽量从固定IP点登录服务器，然后将该地址加入白名单</li>
+  <li>尽量是用 key 验证登录服务器</li>
+  <li>尽量从固定 IP 点登录服务器，然后将该地址加入白名单</li>
 </ul>
 
       
@@ -488,12 +488,12 @@ sudo echo IP_addr &gt;&gt;/usr/share/denyhosts/data/allowed-hostsps
     <div class="post_at_index">
       <p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;
 &lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd”&gt;</p>
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="exporter-version" content="Evernote Mac 6.10 (454269)" /><meta name="author" content="Alex LU" /><meta name="created" content="2016-09-29 02:27:16 +0000" /><meta name="source" content="desktop.mac" /><meta name="updated" content="2016-09-29 06:27:40 +0000" /><title>Python学习笔记(1) --Python基础</title></head><body>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="exporter-version" content="Evernote Mac 6.10 (454269)" /><meta name="author" content="Alex LU" /><meta name="created" content="2016-09-29 02:27:16 +0000" /><meta name="source" content="desktop.mac" /><meta name="updated" content="2016-09-29 06:27:40 +0000" /><title>Python 学习笔记 (1) --Python 基础</title></head><body>
 <ol>
-<li>输出： print
+<li>输出：print
 <ol>
-<li>python2：print 'Hello Python'</li>
-<li>python3: print(‘Hello Python')</li>
+<li>python2: print 'Hello Python'</li>
+<li>python3: print('Hello Python')</li>
 <li>python(‘10+20=‘,10+20)</li>
 </ol>
 </li>
@@ -503,7 +503,7 @@ sudo echo IP_addr &gt;&gt;/usr/share/denyhosts/data/allowed-hostsps
 <li>python3: input()</li>
 </ol>
 </li>
-<li>python的语法比较简单，采用缩进的方式：</li>
+<li>python 的语法比较简单，采用缩进的方式：</li>
 </ol>
 <div style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">
 <div>a = 100</div>
@@ -520,58 +520,58 @@ sudo echo IP_addr &gt;&gt;/usr/share/denyhosts/data/allowed-hostsps
 <div>print(-a)</div>
 </div>
 <ol start="4">
-<li># 开头为注释；: 结尾，缩进的语句视为代码块；Python大小写是敏感的，约定俗成：4个空格的缩进，可以吧tab设置为4个空格。</li>
+<li># 开头为注释；: 结尾，缩进的语句视为代码块；Python 大小写是敏感的，约定俗成：4 个空格的缩进，可以吧 tab 设置为 4 个空格。</li>
 <li>Python 的数据类型
 <ol>
-<li>整数：python可以处理任意大小的整数</li>
+<li>整数：python 可以处理任意大小的整数</li>
 <li>浮点数：也就是小数，之所以称之为浮点数，因为按照科学计数法表示时，一个浮点数的小数点位置是可变的</li>
-<li>字符串：字符串是以’’和”” 包括起来的任意文本，例如’abc’,”xyz”；如果字符内部同时包含’和”，可以使用\转义字符来标识。
+<li>字符串：字符串是以’’和””包括起来的任意文本，例如’abc’,”xyz”；如果字符内部同时包含’和”，可以使用\转义字符来标识。
 <ol>
-<li>如果字符串内部有很多换行，用\n不好阅读，python支持使用’’’…’’' 的格式表示多行‘</li>
-<li>r’…'  python可以使用r’’表示’'以内的字符不转义;多行: r’’’…’''</li>
+<li>如果字符串内部有很多换行，用\n不好阅读，python 支持使用’’’…’’' 的格式表示多行‘</li>
+<li>r’…'  python 可以使用 r’’表示’'以内的字符不转义;多行：r’’’…’''</li>
 </ol>
 </li>
-<li>布尔值：布尔值和布尔代数表示的完全一致，一个布尔值只有True和False，python支持直接使用True和False表示布尔值，注意大小写，另外最好不要生命变量时使用True等，布尔值，经常用于在条件判断之中。
+<li>布尔值：布尔值和布尔代数表示的完全一致，一个布尔值只有 True 和 False，python 支持直接使用 True 和 False 表示布尔值，注意大小写，另外最好不要生命变量时使用 True 等，布尔值，经常用于在条件判断之中。
 <ol>
-<li>and : 与运算，所有运算结果都是True，and的结果才是True</li>
-<li>or：或运算，只有1个运算结果为True，or的结果就是True</li>
+<li>and : 与运算，所有运算结果都是 True，and 的结果才是 True</li>
+<li>or：或运算，只有 1 个运算结果为 True，or 的结果就是 True</li>
 <li>not：他是一个单目运算符，取相反的值</li>
 </ol>
 </li>
-<li>空值：python里的一个特殊值，用None表示，注意None不能理解为0，因为0是有意义的，而None是一个特殊的空值</li>
+<li>空值：python 里的一个特殊值，用 None 表示，注意 None 不能理解为 0，因为 0 是有意义的，而 None 是一个特殊的空值</li>
 </ol>
 </li>
-<li>python的变量
+<li>python 的变量
 <ol>
 <li>命名规则：必须是大小写英文，数字和_的组合，且不能用数字开头；</li>
 <li>赋值符号：’=’；等于的符号是’==’</li>
 <li>动态语言：变量本身类型不固定的语言称之为动态语言，反之是静态语言，静态语言在定义变量时必须制定变量的数据类型，如果赋值的时候类型不匹配，就会报错；</li>
-<li>变量在计算机内存中的表示：a=1,指的是python在内存中创建了整数1，然后在内存创建了变量a，并把它指向了整数1</li>
+<li>变量在计算机内存中的表示：a=1，指的是 python 在内存中创建了整数 1，然后在内存创建了变量 a，并把它指向了整数 1</li>
 </ol>
 </li>
-<li>python的常量
+<li>python 的常量
 <ol>
-<li>定义：常量就是不能改变的变量，在python中，通常使用全部大写的变量名表示常量</li>
-<li>整数的除法是精确的，因为除法计算结果是浮点数，例如 9/3 结果为3.0 ; 另外一种除法是’//‘ 地板除，两个整数的除法任然是整数；余数运算’%’</li>
+<li>定义：常量就是不能改变的变量，在 python 中，通常使用全部大写的变量名表示常量</li>
+<li>整数的除法是精确的，因为除法计算结果是浮点数，例如 9/3 结果为 3.0 ; 另外一种除法是’//‘地板除，两个整数的除法任然是整数；余数运算’%’</li>
 </ol>
 </li>
-<li>字符编码：字符串是一种数据类型，但是字符串还涉及到一个编码问题，Python3的字符串是支持多语言的
+<li>字符编码：字符串是一种数据类型，但是字符串还涉及到一个编码问题，Python3 的字符串是支持多语言的
 <ol>
-<li>ord(‘')函数 获取字符的整数表示；</li>
-<li>chr(‘')函数 把编码转换成对应的字符；</li>
-<li>python的字符串类型是str，在内存中以Unicode表示，一个字符对应若干字节，但是如果要在网络传输或者保存到磁盘，就要把str转化为单位的bytes；
+<li>ord(‘') 函数 获取字符的整数表示；</li>
+<li>chr(‘') 函数 把编码转换成对应的字符；</li>
+<li>python 的字符串类型是 str，在内存中以 Unicode 表示，一个字符对应若干字节，但是如果要在网络传输或者保存到磁盘，就要把 str 转化为单位的 bytes；
 <ol>
-<li>python对于bytes的数据类型用带b前缀的单引号或双引号表示：</li>
-<li>另外，Unicode表示的str可用encode()函数，指定编码为bytes。 ‘ABC’ .encode(‘utf-8')</li>
-<li>decode() 可以吧bytes转变为str。b'ABC' .decode('ascii')</li>
-<li>要计算str包含了多少个字符使用 len()函数： len(‘hello’) ,结果为5</li>
+<li>python 对于 bytes 的数据类型用带 b 前缀的单引号或双引号表示：</li>
+<li>另外，Unicode 表示的 str 可用 encode() 函数，指定编码为 bytes。 ‘ABC’ .encode(‘utf-8')</li>
+<li>decode() 可以吧 bytes 转变为 str。b'ABC' .decode('ascii')</li>
+<li>要计算 str 包含了多少个字符使用 len() 函数：len(‘hello’) ,结果为 5</li>
 </ol>
 </li>
 <li style="-en-codeblock: true; box-sizing: border-box; padding: 8px; font-family: Monaco, Menlo, Consolas, &quot;Courier New&quot;, monospace; font-size: 12px; color: rgb(51, 51, 51); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgb(251, 250, 248); border: 1px solid rgba(0, 0, 0, 0.14902); background-position: initial initial; background-repeat: initial initial;">#!/usr/bin/env python3<br />
 # -*- coding: utf-8 -*-</li>
 </ol>
 </li>
-<li>格式化： 如何处理格式化输出字符串，在python中使用的格式化方式和C语言是一致的，用’%’实现：
+<li>格式化：如何处理格式化输出字符串，在 python 中使用的格式化方式和 C 语言是一致的，用’%’实现：
 <ol>
 <li>%d 表示整数</li>
 <li>%f 表示浮点数</li>
@@ -580,92 +580,92 @@ sudo echo IP_addr &gt;&gt;/usr/share/denyhosts/data/allowed-hostsps
 <li>%% 表示一个普通的%</li>
 </ol>
 </li>
-<li>数据类型list和tuple
+<li>数据类型 list 和 tuple
 <ol>
-<li>list是python内置的一种数据类型：列表，list是一个有序的集合，可以随时添加和删除其中元素。
+<li>list 是 python 内置的一种数据类型：列表，list 是一个有序的集合，可以随时添加和删除其中元素。
 <ol>
-<li>classmates = [‘Michael’,’Bob’,’Tracy’]， 可以用len()函数获取这个list的元素的个数</li>
-<li>可以用索引来访问list中的每一个位置的元素，记住索引的第一个位置是0：</li>
-<li>当索引超出范围的时候，python会报出IndexError错误，记得最后一个索引是len(classmates) -1</li>
-<li>如果直接取出最后一个索引可用classmates[-1],以此类推</li>
+<li>classmates = [‘Michael’,’Bob’,’Tracy’]， 可以用len() 函数获取这个 list 的元素的个数</li>
+<li>可以用索引来访问 list 中的每一个位置的元素，记住索引的第一个位置是 0：</li>
+<li>当索引超出范围的时候，python 会报出 IndexError 错误，记得最后一个索引是 len(classmates) -1</li>
+<li>如果直接取出最后一个索引可用 classmates[-1],以此类推</li>
 </ol>
 </li>
-<li>list是一个可变的有序列表，所以可以去追加，插入指定位置，删除，替换等操作，支持不同数据类型，支持嵌套list
+<li>list 是一个可变的有序列表，所以可以去追加，插入指定位置，删除，替换等操作，支持不同数据类型，支持嵌套 list
 <ol>
-<li>追加: classmates.append(‘Adam')</li>
+<li>追加：classmates.append(‘Adam')</li>
 <li>插入指定位置: classmates.insert(2,’Jack')</li>
-<li>删除list末尾的元素： classmates.pop()</li>
-<li>删除指定位置的元素: classmates.pop(1)</li>
+<li>删除 list 末尾的元素：classmates.pop()</li>
+<li>删除指定位置的元素：classmates.pop(1)</li>
 <li>替换元素：classmates[1]=‘Sarch’ ， 直接给相应位置的元素重新赋值即可</li>
-<li>list的元素支持不同的数据类型, L = [‘abc’,23,23.4]</li>
-<li>list的元素支持嵌套另外一个list： s = [‘abc',123,[‘XYZ’,2.34]]，注意这个时候len(s)的元素是3个</li>
-<li>list也可以没有元素，就是一个空的list，它的长度为0</li>
+<li>list 的元素支持不同的数据类型，L = [‘abc’,23,23.4]</li>
+<li>list 的元素支持嵌套另外一个 list：s = [‘abc',123,[‘XYZ’,2.34]]，注意这个时候len(s) 的元素是 3 个</li>
+<li>list 也可以没有元素，就是一个空的 list，它的长度为 0</li>
 </ol>
 </li>
-<li>tuple：元组，也是一种有序列表，但是tuple一旦初始化就不能修改，他没有append()也没有insert()，这样的方法，其他获取元素的方式和list一样，也不能赋值成为另外的元素：
+<li>tuple：元组，也是一种有序列表，但是 tuple 一旦初始化就不能修改，他没有 append() 也没有 insert()，这样的方法，其他获取元素的方式和 list 一样，也不能赋值成为另外的元素：
 <ol>
-<li>classmates = (‘Michael’,’Bob’,’Tracy’) 注意list用的是’[]’，而tuple用的是’()’</li>
-<li>tuple 有个问题，当你定义1个元素的时候，tuple的()和数学公式中的小括号混淆 ，因此python规定，这种情况下面，当定义只有1个tuple时必须增加一个逗号’,’来消除歧义。</li>
-<li>tuple的元素也可以为list或者tuple，tuple的元素不会改变，但是list是一个可以改变的有序数列，所以当tuple中包含list时，这个tuple是’可变的'</li>
+<li>classmates = (‘Michael’,’Bob’,’Tracy’) 注意 list 用的是’[]’，而tuple用的是’()’</li>
+<li>tuple 有个问题，当你定义 1 个元素的时候，tuple 的 () 和数学公式中的小括号混淆，因此 python 规定，这种情况下面，当定义只有 1 个 tuple 时必须增加一个逗号’,’来消除歧义。</li>
+<li>tuple 的元素也可以为 list 或者 tuple，tuple 的元素不会改变，但是 list 是一个可以改变的有序数列，所以当 tuple 中包含 list 时，这个 tuple 是’可变的'</li>
 </ol>
 </li>
-<li>取出特定元素： L[[‘Apple’,’Google’,’Microsoft’],[‘Java’,’Python’,’C’]] ; L[1][1] = ‘Python'</li>
+<li>取出特定元素：L[[‘Apple’,’Google’,’Microsoft’],[‘Java’,’Python’,’C’]] ; L[1][1] = ‘Python'</li>
 </ol>
 </li>
 <li>条件判断
 <ol>
-<li>if：根据python的缩进规则，如果if语句的判断是True，就会执行下面的语句，否则什么都不做</li>
-<li>else：也可以个if添加else，意思就是，如果if的判断是false，不要执行if的内容，执行else的内容</li>
-<li>elif：如果要嵌套多级判断条件的话，使用elif，elif 是else if的缩写</li>
-<li>if语句执行有个特点，它是自上而下的判断，如果某个判断的结果是True，那么执行该判断对应的语句，就会忽略掉剩下的所有elif和else，if判断条件还可以简写: if x: 只要x是非零数值、非空字符串、非空list等，就判断为True，</li>
+<li>if：根据 python 的缩进规则，如果 if 语句的判断是 True，就会执行下面的语句，否则什么都不做</li>
+<li>else：也可以个 if 添加 else，意思就是，如果 if 的判断是 false，不要执行 if 的内容，执行 else 的内容</li>
+<li>elif：如果要嵌套多级判断条件的话，使用 elif，elif 是 else if 的缩写</li>
+<li>if 语句执行有个特点，它是自上而下的判断，如果某个判断的结果是 True，那么执行该判断对应的语句，就会忽略掉剩下的所有 elif 和 else，if 判断条件还可以简写：if x: 只要 x 是非零数值、非空字符串、非空 list 等，就判断为 True，</li>
 </ol>
 </li>
 <li>iput(): 需要注意的地方，默认input的返回类型是str，由于str不能直接整数比较，所以在碰到明明输入200，但是不能和201对比时，记住先要把str转化为整数，python提供了int()函数, 转化数据类型为int类型，但是如果输入’abc’则会得到1个ValueError的错误</li>
 <li>循环
 <ol>
-<li>for…in ： 依次把list或者tuple的每个元素迭代出来，for x in … ：循环就是把每个元素带入变量x，然后执行缩进的语句：</li>
-<li>range()函数：用来生成一个整数序列，再通过list()函数转换为list，例如range(5)生成：0,1,2,3,4
+<li>for…in：依次把 list 或者 tuple 的每个元素迭代出来，for x in … ：循环就是把每个元素带入变量 x，然后执行缩进的语句：</li>
+<li>range() 函数：用来生成一个整数序列，再通过 list() 函数转换为 list，例如 range(5) 生成：0,1,2,3,4
 <ol>
 <li>list(range(5)) = [0,1,2,3,4]</li>
-<li>计算1+...+100的结果： for x in range(101): sum = sum +x</li>
+<li>计算 1+...+100 的结果：for x in range(101): sum = sum +x</li>
 </ol>
 </li>
-<li>while 循环： 只要条件满足，就不断循环，条件不足时退出循环：
+<li>while 循环：只要条件满足，就不断循环，条件不足时退出循环：
 <ol>
-<li>计算100以内所有奇数之和： sum = 0,n = 99, while n &gt; 0: sum =sum +n; n = n-2</li>
+<li>计算 100 以内所有奇数之和：sum = 0,n = 99, while n &gt; 0: sum =sum +n; n = n-2</li>
 </ol>
 </li>
-<li>break: 在循环中，break语句可以提前退出循环，当程序执行满足break条件的时候，就会退出循环</li>
-<li>continue: 在循环过程中，也可以通过continue语句，跳过当前的这次循环。</li>
-<li>注意：循环是让计算机做重复任务的有效方法，break语句可以在循环过程总直接退出循环，continue语句可以提前结束本轮循环，并直接进入下一轮循环，这两个语句通常必须配合if语句使用，但是尽量不要滥用这两个语句，因为当break和continue使用过多会导致代码执行逻辑分支过多，容易出错。</li>
+<li>break: 在循环中，break 语句可以提前退出循环，当程序执行满足 break 条件的时候，就会退出循环</li>
+<li>continue: 在循环过程中，也可以通过 continue 语句，跳过当前的这次循环。</li>
+<li>注意：循环是让计算机做重复任务的有效方法，break 语句可以在循环过程总直接退出循环，continue 语句可以提前结束本轮循环，并直接进入下一轮循环，这两个语句通常必须配合 if 语句使用，但是尽量不要滥用这两个语句，因为当 break 和 continue 使用过多会导致代码执行逻辑分支过多，容易出错。</li>
 </ol>
 </li>
-<li>dict和set
+<li>dict 和 set
 <ol>
-<li>dict： python内置了字典：dict的支持，全称：dictionary，在其他语言中也称之为map，使用键值存储，具有极快的查找速度。</li>
-<li>对比list处理方式：会过滤整个list的元素，这导致list越长，耗时越长；dict实现时，只需要创建key-values对应表，直接根据名字查找，无论这个表有多大，查找速度都不会变慢，但是内存消耗会大，典型用性能(内存空间)换时间。</li>
+<li>dict：python 内置了字典：dict 的支持，全称：dictionary，在其他语言中也称之为 map，使用键值存储，具有极快的查找速度。</li>
+<li>对比 list 处理方式：会过滤整个 list 的元素，这导致 list 越长，耗时越长；dict 实现时，只需要创建 key-values 对应表，直接根据名字查找，无论这个表有多大，查找速度都不会变慢，但是内存消耗会大，典型用性能 (内存空间) 换时间。</li>
 <li>dict的初始化: d {‘Michael’:95,’Bob’:75,’Tracy’:85}  # 注意dict使用的是大括号’{}‘</li>
-<li>dict的数据插入： d [‘Adam’] = 67 </li>
-<li>由于dict是根据key检索，所以key是固定的，一个key只能对应1个value,所以当对1个key多次放入value时，后面的值会把前面的值冲掉： （类似变量）</li>
-<li>但是如果查询的key不存在,dict会报错，KeyError，可以用in 判断key是否存在: ‘key’ in d  : True/False</li>
-<li>通过dict的get方法，如果key不存在，可以返回None，或者自己指定的值，d.get(‘Key’) , d.get(‘key’,-1)</li>
-<li>d.pop('key’): 删除1个key，注意当key被删除是，相应的value也会被删除。</li>
-<li>另外注意：dict内部存放的顺序和key放入的顺序是没有关系的：</li>
-<li>dict应在需要高速查找的地方，正确使用dict非常重要，要牢记1点，dict的key必须是不可变的对象，因为dict是根据key来计算value的位置，如果每次计算相同的key得到的结果不一样，那么dict内部就完全混乱了，这个通过key计算位置的算法称之为Hash算法。</li>
-<li>要保证hash的准确性，作为key的对象就不能改变，在python中，字符串·整数等都是不可变的，但是list是可以变的所以不能作为key</li>
-<li>set： set和dict类似，也是一组key的集合，但是不存储value，由于key不能重复，所以，在set中，没有重复的key值。</li>
+<li>dict 的数据插入：d [‘Adam’] = 67 </li>
+<li>由于 dict 是根据 key 检索，所以 key 是固定的，一个 key 只能对应 1 个 value，所以当对 1 个 key 多次放入 value 时，后面的值会把前面的值冲掉： （类似变量）</li>
+<li>但是如果查询的 key 不存在，dict 会报错，KeyError，可以用 in 判断 key 是否存在：‘key’in d  : True/False</li>
+<li>通过 dict 的 get 方法，如果 key 不存在，可以返回 None，或者自己指定的值，d.get(‘Key’) , d.get(‘key’,-1)</li>
+<li>d.pop('key’): 删除 1 个 key，注意当 key 被删除是，相应的 value 也会被删除。</li>
+<li>另外注意：dict 内部存放的顺序和 key 放入的顺序是没有关系的：</li>
+<li>dict 应在需要高速查找的地方，正确使用 dict 非常重要，要牢记 1 点，dict 的 key 必须是不可变的对象，因为 dict 是根据 key 来计算 value 的位置，如果每次计算相同的 key 得到的结果不一样，那么 dict 内部就完全混乱了，这个通过 key 计算位置的算法称之为 Hash 算法。</li>
+<li>要保证 hash 的准确性，作为 key 的对象就不能改变，在 python 中，字符串·整数等都是不可变的，但是 list 是可以变的所以不能作为 key</li>
+<li>set：set 和 dict 类似，也是一组 key 的集合，但是不存储 value，由于 key 不能重复，所以，在 set 中，没有重复的 key 值。</li>
 <li>要创建一个set，需要提供一个list作为输入集合。 s = set([1,2,3])   : s = {1,2,3}</li>
-<li>注意set也不是有序的，而且重复在set存在的元素会被自动过滤： s = set([1,2,3,1,2,3,1,2,3])  s = {1,2,3}</li>
-<li>通过s.add(key) 可以增加元素到set中，可以重复添加，但是不会有效果</li>
-<li>通过s.remove(key) 可以删除元素</li>
-<li>set 可以看成数学意义上的无序和无重复元素的集合，因此两个set可以做数学意义上的交集、并集能操作：
+<li>注意 set 也不是有序的，而且重复在 set 存在的元素会被自动过滤：s = set([1,2,3,1,2,3,1,2,3])  s = {1,2,3}</li>
+<li>通过 s.add(key) 可以增加元素到 set 中，可以重复添加，但是不会有效果</li>
+<li>通过 s.remove(key) 可以删除元素</li>
+<li>set 可以看成数学意义上的无序和无重复元素的集合，因此两个 set 可以做数学意义上的交集、并集能操作：
 <ol>
-<li>s1 = set([1,2,3]), s2 = set([2,3,4]) ,交集： s1 &amp; s2 = {2,3} ; s1 | s2 = {1,2,3,4}</li>
+<li>s1 = set([1,2,3]), s2 = set([2,3,4]) ,交集：s1 &amp; s2 = {2,3} ; s1 | s2 = {1,2,3,4}</li>
 </ol>
 </li>
-<li>set和dict的区别仅在于有没有存储对应的value，但是set和dict的原理是一样的，所以，同样不可以放置可变对象，因为无法判断两个对象是否相等，也就无法保证set内部的不会重复元素</li>
-<li>不可变对象：str是不变对象，list是可变对象；对于可变对象，例如list，对list进行操作，list的内部会发生变化</li>
-<li>a = ‘abc’ , a.replace(‘a’,’A’) # 这个操作是把所有小写的a替换成大写的A，但是注意a的值并没有发生改变，要牢记a是变量，’abc'才是字符对象。</li>
+<li>set 和 dict 的区别仅在于有没有存储对应的 value，但是 set 和 dict 的原理是一样的，所以，同样不可以放置可变对象，因为无法判断两个对象是否相等，也就无法保证 set 内部的不会重复元素</li>
+<li>不可变对象：str 是不变对象，list 是可变对象；对于可变对象，例如 list，对 list 进行操作，list 的内部会发生变化</li>
+<li>a = ‘abc’ , a.replace(‘a’,’A’) # 这个操作是把所有小写的 a 替换成大写的 A，但是注意 a 的值并没有发生改变，要牢记 a 是变量，’abc'才是字符对象。</li>
 </ol>
 </li>
 </ol>
@@ -686,13 +686,13 @@ sudo echo IP_addr &gt;&gt;/usr/share/denyhosts/data/allowed-hostsps
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/11/MySQL-5-%E6%B8%85%E7%A9%BA%E8%A1%A8%E5%91%BD%E4%BB%A4%E4%B9%8B-truncate%E4%B8%8Edelete%E5%8C%BA%E5%88%AB.html">MySQL 清空表命令之：truncate与delete 区别</a></h1>
+    <h1><a class="title" href="/post/2016/11/MySQL-5-%E6%B8%85%E7%A9%BA%E8%A1%A8%E5%91%BD%E4%BB%A4%E4%B9%8B-truncate%E4%B8%8Edelete%E5%8C%BA%E5%88%AB.html">MySQL 清空表命令之：truncate 与 delete 区别</a></h1>
     <div class="post_at_index">
-      <p>在实际工作中，有时我们会想要去清空一张表的所有数据，常用的命令有delete和truncate这两个命令。</p>
+      <p>在实际工作中，有时我们会想要去清空一张表的所有数据，常用的命令有 delete 和 truncate 这两个命令。</p>
 
 <h3 id="1-delete">1. delete</h3>
 
-<p>在很多情况，我们对于delete的应用更多，因为它支持更多的匹配模式，我们可以使用where条件语句，清理一些特定的数据，关于delete的操作，这里不做过多解释，有空就专门写写delete的使用和原理。delete 在清空表时，如果表内有自增ID的设定，那么在delete清空之后，再插入数据时，自增ID不会从1开始，默认会继续增加; 除非我们使用OPTIMIZE TABLE，重置表属性；</p>
+<p>在很多情况，我们对于 delete 的应用更多，因为它支持更多的匹配模式，我们可以使用 where 条件语句，清理一些特定的数据，关于 delete 的操作，这里不做过多解释，有空就专门写写 delete 的使用和原理。delete 在清空表时，如果表内有自增 ID 的设定，那么在 delete 清空之后，再插入数据时，自增 ID 不会从 1 开始，默认会继续增加; 除非我们使用 OPTIMIZE TABLE，重置表属性；</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; delete from piwik_tmp;
 Query OK, 0 rows affected (0.00 sec)
@@ -700,7 +700,7 @@ Query OK, 0 rows affected (0.00 sec)
 
 <h3 id="2-truncate">2. truncate</h3>
 
-<p>truncate 在清空表时，会同时将自增ID重置，再插入新数据时会从1开始，而且truncate在清空表时，不关心表的行数，所以执行效率会高于delete；</p>
+<p>truncate 在清空表时，会同时将自增 ID 重置，再插入新数据时会从 1 开始，而且 truncate 在清空表时，不关心表的行数，所以执行效率会高于 delete；</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; truncate table piwik_tmp;
 Query OK, 0 rows affected (0.01 sec)
@@ -709,7 +709,7 @@ Query OK, 0 rows affected (0.01 sec)
 
 <h3 id="3-释放表空间">3. 释放表空间</h3>
 
-<p>但是在truncate清空表数据时，myisam的表和innodb的表在使用上有一定的区别；myisam表会清空所有数据，并释放表空间，即硬盘空间会得到释放。innodb表也会清空所有数据，但不释放表空间。Innodb数据库对于已经删除的数据只是标记为删除，并不真正释放所占用的磁盘空间，这就导致InnoDB数据库文件不断增长。如果想彻底释放这些已经删除的数据，需要把数据库导出，删除InnoDB数据库文件，然后再导入。</p>
+<p>但是在 truncate 清空表数据时，myisam 的表和 innodb 的表在使用上有一定的区别；myisam 表会清空所有数据，并释放表空间，即硬盘空间会得到释放。innodb 表也会清空所有数据，但不释放表空间。Innodb 数据库对于已经删除的数据只是标记为删除，并不真正释放所占用的磁盘空间，这就导致 InnoDB 数据库文件不断增长。如果想彻底释放这些已经删除的数据，需要把数据库导出，删除 InnoDB 数据库文件，然后再导入。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 备份数据库：
 mysqldump -u -p --quick --force --all-databases &gt; mysqldump.sql
@@ -730,15 +730,15 @@ mysql -uroot -proot &lt; mysqldump.sql
 
 <h3 id="4-innodb_file_per_table">4. innodb_file_per_table</h3>
 
-<p>还有一种方式是在创建数据库的时候设置innodb_file_per_table，这样InnoDB会对每个表创建一个数据文件，然后只需要运行OPTIMIZE TABLE 命令就可以释放所有已经删除的磁盘空间。</p>
+<p>还有一种方式是在创建数据库的时候设置 innodb_file_per_table，这样 InnoDB 会对每个表创建一个数据文件，然后只需要运行 OPTIMIZE TABLE 命令就可以释放所有已经删除的磁盘空间。</p>
 
-<h4 id="41-修改mysql默认配置文件">4.1 修改mysql默认配置文件</h4>
+<h4 id="41-修改-mysql-默认配置文件">4.1 修改 mysql 默认配置文件</h4>
 
-<p>编辑my.ini或my.cnf 在innodb段中加入 innodb_file_per_table=1 # 1为启用，0为禁用</p>
+<p>编辑 my.ini 或 my.cnf 在 innodb 段中加入 innodb_file_per_table=1 # 1 为启用，0 为禁用</p>
 
 <h4 id="42-查看修改结果">4.2 查看修改结果</h4>
 
-<p>通过mysql语句可以查看该变量的值：</p>
+<p>通过 mysql 语句可以查看该变量的值：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like '%per_table%';
 </code></pre></div></div>
@@ -1002,7 +1002,7 @@ host    all             all             ::1/128                 md5
     <div class="post_at_index">
       <ol>
   <li>
-    <p>20岁之前我看郭敬明的书很多，真的对我的人生有很大的影响，20岁以后，我开始看韩寒和王路的书，觉得他们的文字很酷，可以够我装逼来用，因为我看不来那些国外名著大师之作啊，文化水平达不到不能怪谁。</p>
+    <p>20 岁之前我看郭敬明的书很多，真的对我的人生有很大的影响，20 岁以后，我开始看韩寒和王路的书，觉得他们的文字很酷，可以够我装逼来用，因为我看不来那些国外名著大师之作啊，文化水平达不到不能怪谁。</p>
   </li>
   <li>
     <p>我的姑娘，必定是美好的，是完人，是仙女，是温柔的月光，是清晨初露的霞光，是令人心动的春风，是呼啸着穿堂而过的夏日阳光，是踩着红色高跟鞋踢踏踢踏走进我的胸膛，是历经岁月沧桑依然伴随左右的踏实臂膀。[大叔一直问阿姨要不我站起来你躺会，阿姨一直说我不累，却在我和大叔攀谈依靠在座位上睡着了。]</p>
@@ -1053,19 +1053,19 @@ host    all             all             ::1/128                 md5
     <p>感情是不可以用言语文字来形容的，我们掌控所有，甚至无法掌控自己，我们能做的只是不要迷失自我，做自己该做的，做自己想做的，做了就不会后悔，年轻的时光，是我们最美好的，应该好好珍惜，因为之后，生活不在简单纯洁，每个人都背负了太多，也许曾经触手可及的是现在的梦想。我一直相信，相信自己。</p>
   </li>
   <li>
-    <p>一个人的时候，可以听听歌，看看书，可以站在车水马龙的路边看着霓虹灯在闪烁 ，然后在身边转身看灯光下自己的影子，感谢你一直陪着我，一个人的时候可以把所有忧伤都表现出来 ，一个人的时候可以暴躁任性 ，总之一个人的时候可以无法无天 。</p>
+    <p>一个人的时候，可以听听歌，看看书，可以站在车水马龙的路边看着霓虹灯在闪烁，然后在身边转身看灯光下自己的影子，感谢你一直陪着我，一个人的时候可以把所有忧伤都表现出来，一个人的时候可以暴躁任性，总之一个人的时候可以无法无天。</p>
   </li>
   <li>
     <p>妄思不能静，混事乱七八糟，可汗，自省吾身吾言吾行吾思</p>
   </li>
   <li>
-    <p>我所有的自负都来自我的自卑，所有的英雄气概都来自于我内心的软弱，所有的振振有词都因为心中满是怀疑。我假装无情，其实是痛恨自己的深情。我以为人生的意义在于四处游荡流亡，其实只是掩饰至今没有找到愿意驻足的地方。——马良 《坦白书》</p>
+    <p>我所有的自负都来自我的自卑，所有的英雄气概都来自于我内心的软弱，所有的振振有词都因为心中满是怀疑。我假装无情，其实是痛恨自己的深情。我以为人生的意义在于四处游荡流亡，其实只是掩饰至今没有找到愿意驻足的地方。——马良《坦白书》</p>
   </li>
   <li>
-    <p>我猜，只是猜，每个人的一生都会遇见某些人，喜欢上她。有些人在合适的时间里遇到，就像是在春天遇到花开，所以一切都很好，他们会相恋、订婚、结婚、一起生活。而有的人在错误的时间遇到 ，就像是在冬天，隔着冰看见浮上来换气的鱼，所以只能看着，鱼换完气，沉到水下去，就看不见了，再也没有后续。但是我们能说在春天遇到花是对的，而在冬天遇到鱼是错的么？在错误的时间里遇到，就能克制自己不喜欢那个人么？是不是仍然会用尽了力气想去接近，想尽办法掩饰自己，甚至伪装成另外一条鱼。——江南 《龙族》​</p>
+    <p>我猜，只是猜，每个人的一生都会遇见某些人，喜欢上她。有些人在合适的时间里遇到，就像是在春天遇到花开，所以一切都很好，他们会相恋、订婚、结婚、一起生活。而有的人在错误的时间遇到，就像是在冬天，隔着冰看见浮上来换气的鱼，所以只能看着，鱼换完气，沉到水下去，就看不见了，再也没有后续。但是我们能说在春天遇到花是对的，而在冬天遇到鱼是错的么？在错误的时间里遇到，就能克制自己不喜欢那个人么？是不是仍然会用尽了力气想去接近，想尽办法掩饰自己，甚至伪装成另外一条鱼。——江南《龙族》​</p>
   </li>
   <li>
-    <p>可人不是断气的时候才真的死了。有人说人会死三次，第一次是他断气的时候 ，从生物学上他死了；第二次是他下葬的时候，人们来参加他的葬礼，怀念他的一生，然后在社会上他死了，不再会有他的位置；第三次是最后一个记得他的人把他忘记的时候，那时候他才真正的死了。——江南 《龙族》</p>
+    <p>可人不是断气的时候才真的死了。有人说人会死三次，第一次是他断气的时候，从生物学上他死了；第二次是他下葬的时候，人们来参加他的葬礼，怀念他的一生，然后在社会上他死了，不再会有他的位置；第三次是最后一个记得他的人把他忘记的时候，那时候他才真正的死了。——江南《龙族》</p>
   </li>
 </ol>
 
@@ -1087,20 +1087,20 @@ host    all             all             ::1/128                 md5
     <div class="post_at_index">
       <h3 id="1-简介">1. 简介</h3>
 
-<p>索引可以我们更快速的执行查询，但是肯定存在不合理的索引，如果想找到那些索引不是很合适的查询，并在它们成为问题前进行优化，则可以使用pt-query-digest的查询审查“review”功能，分析其EXPLAIN出来的执行计划。</p>
+<p>索引可以我们更快速的执行查询，但是肯定存在不合理的索引，如果想找到那些索引不是很合适的查询，并在它们成为问题前进行优化，则可以使用 pt-query-digest 的查询审查“review”功能，分析其 EXPLAIN 出来的执行计划。</p>
 
-<p>pt-query-digest是用于分析mysql慢查询的一个工具，它可以分析binlog、General log、slowlog，也可以通过SHOWPROCESSLIST或者通过tcpdump抓取的MySQL协议数据来进行分析。可以把分析结果输出到文件中，分析过程是先对查询语句的条件进行参数化，然后对参数化以后的查询进行分组统计，统计出各查询的执行时间、次数、占比等，可以借助分析结果找出问题进行优化。</p>
+<p>pt-query-digest 是用于分析 mysql 慢查询的一个工具，它可以分析 binlog、General log、slowlog，也可以通过 SHOWPROCESSLIST 或者通过 tcpdump 抓取的 MySQL 协议数据来进行分析。可以把分析结果输出到文件中，分析过程是先对查询语句的条件进行参数化，然后对参数化以后的查询进行分组统计，统计出各查询的执行时间、次数、占比等，可以借助分析结果找出问题进行优化。</p>
 
 <h3 id="2-install-percona-toolkit--pt-query-digest">2. Install Percona Toolkit &amp; pt-query-digest</h3>
 
-<p>percona-toolkit是一组高级命令行工具的集合，用来执行各种通过手工执行非常复杂和麻烦的mysql和系统任务。这些任务包括：</p>
+<p>percona-toolkit 是一组高级命令行工具的集合，用来执行各种通过手工执行非常复杂和麻烦的 mysql 和系统任务。这些任务包括：</p>
 
 <ul>
-  <li>检查master和slave数据的一致性</li>
+  <li>检查 master 和 slave 数据的一致性</li>
   <li>有效地对记录进行归档</li>
   <li>查找重复的索引</li>
   <li>对服务器信息进行汇总</li>
-  <li>分析来自日志和tcpdump的查询</li>
+  <li>分析来自日志和 tcpdump 的查询</li>
   <li>当系统出问题的时候收集重要的系统信息</li>
 </ul>
 
@@ -1148,7 +1148,7 @@ Appending installation info to /usr/lib64/perl5/perllocal.pod
 </code></pre></div></div>
 
 <blockquote>
-  <p>运行工具可能会遇到下面的错误: Can’t locate Time/HiRes.pm in @INC</p>
+  <p>运行工具可能会遇到下面的错误：Can’t locate Time/HiRes.pm in @INC</p>
 </blockquote>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 解决办法：
@@ -1157,9 +1157,9 @@ Appending installation info to /usr/lib64/perl5/perllocal.pod
 pt-query-digest 2.2.19
 </code></pre></div></div>
 
-<h3 id="3-开启-mysql慢日志">3. 开启 mysql慢日志</h3>
+<h3 id="3-开启-mysql-慢日志">3. 开启 mysql 慢日志</h3>
 
-<h5 id="a-查看当前slow_query_log-状态">a. 查看当前‘slow_query_log’ 状态</h5>
+<h5 id="a-查看当前slow_query_log状态">a. 查看当前‘slow_query_log’状态</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like '%query%';
 +------------------------------+---------------------------------+
@@ -1190,7 +1190,7 @@ mysql&gt; show variables like 'log_queries_not_using_indexes';
 1 row in set (0.00 sec)
 </code></pre></div></div>
 
-<h5 id="b-启动slow_log-配置">b. 启动slow_log, 配置</h5>
+<h5 id="b-启动-slow_log-配置">b. 启动 slow_log, 配置</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 设定记录大于2s的sql
 mysql&gt; set global long_query_time=2;
@@ -1210,12 +1210,12 @@ Query OK, 0 rows affected (0.00 sec)
 </code></pre></div></div>
 
 <blockquote>
-  <p>等待一段时间，slow.log 增大的非常快，实际生产中，注意不要被slow.log将磁盘撑满，影响到正常生产使用。</p>
+  <p>等待一段时间，slow.log 增大的非常快，实际生产中，注意不要被 slow.log 将磁盘撑满，影响到正常生产使用。</p>
 </blockquote>
 
 <h3 id="4-分析">4. 分析</h3>
 
-<p>pt-query-digest可以从普通MySQL日志，慢查询日志以及二进制日志中分析查询，甚至可以从SHOW PROCESSLIST和MySQL协议的tcpdump中进行分析，如果没有指定文件，它从标准输入流（STDIN）中读取数据。</p>
+<p>pt-query-digest 可以从普通 MySQL 日志，慢查询日志以及二进制日志中分析查询，甚至可以从 SHOW PROCESSLIST 和 MySQL 协议的 tcpdump 中进行分析，如果没有指定文件，它从标准输入流（STDIN）中读取数据。</p>
 
 <h5 id="a-简单使用方法">a. 简单使用方法</h5>
 
@@ -1229,26 +1229,26 @@ Query OK, 0 rows affected (0.00 sec)
 </div>
 
 <ul>
-1. Overall这个部分是一个大致的概要信息(类似loadrunner给出的概要信息)，通过它可以对当前MySQL的查询性能做一个初步的评估，比如各个指标的最大值(max)，平均值(min)，95%分布值，中位数(median)，标准偏差(stddev)
+1. Overall 这个部分是一个大致的概要信息 (类似 loadrunner 给出的概要信息)，通过它可以对当前 MySQL 的查询性能做一个初步的评估，比如各个指标的最大值 (max)，平均值 (min)，95% 分布值，中位数 (median)，标准偏差 (stddev)
 <li>查询的执行时间（Exec time）</li>
 <li>锁占用的时间（Lock time）</li>
-<li>MySQL执行器需要检查的行数（Rows examine）</li>
+<li>MySQL 执行器需要检查的行数（Rows examine）</li>
 <li>最后返回给客户端的行数（Rows sent）</li>
 <li>查询的大小。</li>
 </ul>
 <ul>
 2. Profile
-<li>Rank ： 整个分析中该“语句”的排名，一般也就是性能最慢的</li>
-<li>Query ID ：每个查询都有一个</li>
-<li>Response time ： “语句”的响应时间以及整体占比情况。</li>
-<li>Calls ：“语句”的执行次数</li>
-<li>R/Call ：每次执行的平均响应时间。 </li>
+<li>Rank：整个分析中该“语句”的排名，一般也就是性能最慢的</li>
+<li>Query ID：每个查询都有一个</li>
+<li>Response time： “语句”的响应时间以及整体占比情况。</li>
+<li>Calls：“语句”的执行次数</li>
+<li>R/Call：每次执行的平均响应时间。 </li>
 <li>V/M</li>
 </ul>
 <h5 id="详细信息">详细信息</h5>
-<p>列出上面Profile中每个Query ID的详细信息</p>
+<p>列出上面 Profile 中每个 Query ID 的详细信息</p>
 
-<h5 id="b-从tcpdump包中分析通过tcpdump命令抓取一定时间网络数据包然后进行分析">b. 从tcpdump包中分析：通过tcpdump命令抓取一定时间网络数据包，然后进行分析</h5>
+<h5 id="b-从-tcpdump-包中分析通过-tcpdump-命令抓取一定时间网络数据包然后进行分析">b. 从 tcpdump 包中分析：通过 tcpdump 命令抓取一定时间网络数据包，然后进行分析</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest --type tcpdump mysql.tcp.txt
 </code></pre></div></div>
@@ -1259,12 +1259,12 @@ Query OK, 0 rows affected (0.00 sec)
   <p>更多的帮助文档，请查看官方文档：<a href="http://www.percona.com/doc/percona-toolkit/2.2/pt-query-digest.html">http://www.percona.com/doc/percona-toolkit/2.2/pt-query-digest.html</a></p>
 </blockquote>
 
-<h3 id="5-使用anemometer将pt-query-digest的mysql慢查询可视化">5. 使用Anemometer将pt-query-digest的MySQL慢查询可视化</h3>
+<h3 id="5-使用-anemometer-将-pt-query-digest-的-mysql-慢查询可视化">5. 使用 Anemometer 将 pt-query-digest 的 MySQL 慢查询可视化</h3>
 
 <ul>
-  <li>需要安装php 5.3 and over</li>
-  <li>需要预先配置mysql数据库</li>
-  <li>需要预先安装好pt-query-digest</li>
+  <li>需要安装 php 5.3 and over</li>
+  <li>需要预先配置 mysql 数据库</li>
+  <li>需要预先安装好 pt-query-digest</li>
 </ul>
 
 <h5 id="51-安装">5.1 安装</h5>
@@ -1292,7 +1292,7 @@ Query OK, 0 rows affected (0.00 sec)
 
 <h5 id="53-导入">5.3 导入</h5>
 
-<p>将pt-query-digest 的分析结果到anemometer；</p>
+<p>将 pt-query-digest 的分析结果到 anemometer；</p>
 
 <blockquote>
   <p>pt-query-digest version &lt; 2.2</p>
@@ -1380,7 +1380,7 @@ Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57C" isn'
     
     <h1><a class="title" href="/post/2016/09/HowTo-Install-a-Tomcat-Server-7.html">HowTo Install a Tomcat Server 7</a></h1>
     <div class="post_at_index">
-      <p>本文件是采用的模板是CentOS 6，同样适用于CentOS 系列其他发行版本。</p>
+      <p>本文件是采用的模板是 CentOS 6，同样适用于 CentOS 系列其他发行版本。</p>
 
 <h4 id="1-测试环境">1. 测试环境</h4>
 
@@ -1491,7 +1491,7 @@ exit $?
 
 <h4 id="6-add-tomcat7-to-system-service">6. Add tomcat7 to system service</h4>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# <span class="nb">chmod </span>755 /etc/rc.d/init.d/tomcat7
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# <span class="nb">chmod </span>755 /etc/rc.d/init.d/tomcat7
 <span class="o">[</span>root@ultraera ~]# /etc/rc.d/init.d/tomcat7 start
 Starting Tomcat7:
 Using CATALINA_BASE:   /usr/tomcat7
@@ -1510,11 +1510,11 @@ tomcat7       6326  8.3 85.6 5229768 2910176 ?     Sl   Aug22 3216:38 /usr/bin/j
 <span class="o">[</span>root@ultraera ~]# chkconfig tomcat7 on
 </code></pre></div></div>
 
-<h4 id="7-打开浏览器测试tomcat-server搭建完成默认页面如下">7. 打开浏览器测试Tomcat Server搭建完成，默认页面如下</h4>
+<h4 id="7-打开浏览器测试-tomcat-server-搭建完成默认页面如下">7. 打开浏览器测试 Tomcat Server 搭建完成，默认页面如下</h4>
 
 <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/09/tomcat7.jpg" alt="" /></p>
 
-<h4 id="8-使用curl-测试">8. 使用curl 测试</h4>
+<h4 id="8-使用-curl-测试">8. 使用 curl 测试</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# curl -I http://localhost:8080
 HTTP/1.1 200 OK
@@ -1936,41 +1936,40 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
       <ul>
         
         <li>
-          <a href="/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过pipreqs获取当前项目的依赖库</a>
-          如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a>
+          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
           
-  strip() 删除字符串中的内容，删除后仍旧是str
-  split() 分割字符串，根据特定的标识，分割后=list
+  参考资料：
 
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a>
+          <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
           ```python
-import string
+df = pandas.read_csv(‘somefile.txt’)
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python3-setup.py-help-commands.html">python3 setup.py --help-commands</a>
-          ```python
-→ python3 setup.py –help-commands
+          <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
+          暗坑很多
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入excel</a>
-          以下是使用的方法：
+          <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
+          王路
+12 highlights
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/10/%E8%87%AA%E5%8D%91%E4%B8%8E%E8%B6%85%E8%B6%8A.html">自卑与超越</a>
+          【奥】阿尔弗雷德··阿德勒
 
 
         </li>

@@ -276,77 +276,290 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过pipreqs获取当前项目的依赖库</a></h1>
+    <h1><a class="title" href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a></h1>
     <div class="post_at_index">
-      <p>如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：</p>
-
-<ul>
-  <li>导致缺少依赖库，导致项目初始化麻烦</li>
-  <li>读取了全局依赖库，导致项目安装了大量的实际无用的库</li>
-</ul>
-
-<p>这里推荐一个专门解决这个问题的 Python 库， <code class="language-plaintext highlighter-rouge">pipreqs</code></p>
-
-<h3 id="使用注意事项">使用注意事项</h3>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># linux &amp; mac</span>
-pipreqs <span class="nv">$python_project_dir</span>
-
-<span class="c"># Windows 需要增加 --encoding=utf-8 字母编码，否则会有出错，懂得都懂</span>
-pipreqs ./ <span class="nt">--encoding</span><span class="o">=</span>utf-8
-
-<span class="c"># 会自动在当前目录生成一个 requirements.txt， 如果已存在会提示失败</span>
-<span class="c"># 也可以使用 --force 强制覆盖</span>
-pipreqs <span class="nb">.</span> <span class="nt">--force</span>
-</code></pre></div></div>
-
-<h3 id="支持的其他功能">支持的其他功能</h3>
-
-<p>更多的功能，可以在安装后研究下，通过 -h 可以获取更多有价值的信息</p>
-
-<p>:::info
---diff <file>         将 requirements.txt 中的模块与项目导入进行比较。  &gt;&gt; 仅追加
-\--clean <file>     通过删除项目中没有导入的模块来清理 requirements.txt   &gt;&gt; 瘦身
-:::</file></file></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-11-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a></h1>
-    <div class="post_at_index">
-      <ul>
-  <li>strip() 删除字符串中的内容，删除后仍旧是str</li>
-  <li>split() 分割字符串，根据特定的标识，分割后=list</li>
-</ul>
-
-<blockquote>
-  <p>两者处理过程中都不会修改原字符串的内容</p>
+      <blockquote>
+  <p>参考资料：</p>
 </blockquote>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python3</span>
+<ul>
+  <li><a href="https://juejin.cn/post/7128953614403371015#heading-5">https://juejin.cn/post/7128953614403371015#heading-5</a></li>
+  <li><a href="https://dubbo.apache.org/zh/docs/">https://dubbo.apache.org/zh/docs/</a></li>
+</ul>
 
-<span class="nb">str</span><span class="p">.</span><span class="n">strip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串末尾的","
-</span><span class="nb">str</span><span class="p">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串末尾的","
-</span><span class="nb">str</span><span class="p">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串开通的","
+<h2 id="简介">简介</h2>
+
+<ul>
+  <li>Apache Dubbo 一款基于 RPC 服务开发的云原生微服务框架，与 SpringCloud 类似</li>
+  <li>使用 Dubbo 开发的微服务原生具备相互之间远程地址发现 (注册中心) 和通信的能力</li>
+  <li>Dubbo 支持丰富的服务治理特性，包含 服务发现、负载均衡、流量调度 等，高度可扩展</li>
+  <li>Dubbo 由 阿里巴巴 开发，并贡献给 Apache</li>
+</ul>
+
+<h2 id="发展历程">发展历程</h2>
+
+<h3 id="版本迭代">版本迭代</h3>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/20221117023215.png?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<h3 id="软件生态的活跃度">软件生态的活跃度</h3>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/8G8hZG.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<h2 id="与-springcloud-相比的优势">与 SpringCloud 相比的优势</h2>
+
+<ul>
+  <li>功能丰富，基于原生库即可完成大部分的微服务治理能力</li>
+  <li>支持超大规模的微服务机器设计，高性能 RPC 通信协议实现</li>
+  <li>高度可扩展性，支持在调用过程中对流量及协议进行拦截扩展，如 Filter、Router、LB 等</li>
+  <li>支持微服务治理的扩展组件
+    <ul>
+      <li>Registry 注册中心：Zookeeper、Nacos</li>
+      <li>Config Center 配置中心：Zookeeper、Nacos</li>
+      <li>Metadata Center 元数据中心 (Dubbo3 支持)</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="dubbo-的基础概念介绍">Dubbo 的基础概念介绍</h2>
+
+<ul>
+  <li>RPC 通信</li>
+  <li>服务发现</li>
+  <li>流量治理</li>
+</ul>
+
+<h3 id="rpc-通信">RPC 通信</h3>
+
+<ul>
+  <li>Dubbo3 之中，RPC 通信主要使用 Triple 协议，构建在 HTTP/2 协议之上，兼容 gRPC</li>
+  <li>提供 Request Response、Request Streaming、Response Streaming、Bi-directional Streaming 通信模型</li>
+  <li>支持 IDL，基于 Triple 协议</li>
+</ul>
+
+<h3 id="服务发现">服务发现</h3>
+
+<p>服务发现，是消费端自动发现服务地址列表的能力，是微服务框架需要具备的关键能力，借助于自动化的服务发现，微服务之间在无需感知对端部署位置与 IP 地址的情况下实现通信。</p>
+
+<p>Dubbo 提供的 Client-Based 服务发现机制，同时也需要第三方注册中心来协调服务发现过程，比如 Nacos/Zookeeper 等。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/oaqyGX.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<h3 id="流量治理">流量治理</h3>
+
+<ul>
+  <li>Dubbo2 开始，Dubbo 就提供了丰富的服务治理规则，包括路由规则/动态配置等</li>
+  <li>Dubbo3 之中的实现
+    <ul>
+      <li>Dubbo Mesh : 通过对接 xDS 对接到时下流行的 Mesh 产品如 Istio 中所使用的以 VirtualService、DestinationRule 为代表的治理规则</li>
+      <li>另一方面 Dubbo 正寻求设计一套自有规则以实现在不通部署场景下的流量治理，以及灵活的治理能力。</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="dubbo-mesh">Dubbo Mesh</h2>
+
+<p>Dubbo Mesh 的目标是提供适应 Dubbo 体系的完整 Mesh 解决方案，包含定制化控制面（Control Plane）、定制化数据面解决方案。Dubbo 控制面基于业界主流 Istio 扩展，支持更丰富的流量治理规则、Dubbo 应用级服务发现模型等，Dubbo 数据面可以采用 Envoy Sidecar，即实现 Dubbo SDK + Envoy 的部署方案，也可以采用 Dubbo Proxyless 模式，直接实现 Dubbo 与控制面的通信。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/vMniiR.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<h2 id="dubbo3">Dubbo3</h2>
+
+<p>Dubbo 3.0 提供的新特性包括：</p>
+
+<ul>
+  <li><strong>新的地址发现模型（应用级服务发现）</strong>
+    <ul>
+      <li>查看<a href="https://dubbo.apache.org/zh/docs/migration/migration-service-discovery">应用级服务发现的迁移步骤</a></li>
+      <li>查看应用级服务发现的使用方式</li>
+      <li>查看应用级服务发现设计与实现</li>
+    </ul>
+  </li>
+  <li><strong>下一代基于 HTTP/2 的 Triple 协议</strong>
+    <ul>
+      <li>查看<a href="https://dubbo.apache.org/zh/docs/migration/migration-triple">Triple 协议迁移步骤</a></li>
+      <li>查看 <a href="https://dubbo.apache.org/zh/docs/references/protocols/tri">Triple 协议使用方式</a></li>
+      <li>查看 Triple 协议设计与实现</li>
+    </ul>
+  </li>
+  <li><strong>统一的路由规则。</strong>
+    <ul>
+      <li>查看<a href="https://dubbo.apache.org/zh/docs/migration/migration-routingrule/">统一路由规则的迁移步骤</a></li>
+      <li>查看<a href="https://dubbo.apache.org/zh/docs/references/routers/">统一路由规则使用方式</a></li>
+      <li>查看统一路由规则设计与实现</li>
+    </ul>
+  </li>
+</ul>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-11-16</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Dubbo">Dubbo</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a></h1>
+    <div class="post_at_index">
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'somefile.txt'</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-11-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Pandas">Pandas</a>
+      , 
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a></h1>
+    <div class="post_at_index">
+      <p><strong>暗坑很多</strong></p>
+
+<h2 id="部署过程">部署过程</h2>
+
+<ol>
+  <li>需要自行维护一个 env 作为配置文件。</li>
+</ol>
+
+<!---->
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>REDASH_COOKIE_SECRET=a07cca441ab9f28b66c589f3118e0de48469b1bc6a5036eade7badbed305d96e
+POSTGRES_HOST_AUTH_METHOD=trust
+REDASH_REDIS_URL=redis://redis:6379/0
+REDASH_DATABASE_URL=postgresql://postgres
+</code></pre></div></div>
+
+<ol>
+  <li>需要创建一个 postgres-data 并配置 docker-compose.yml 的路径，数据库持久化</li>
+  <li>需要给 postgres 容器增加 sudo 命令
+    <ol>
+      <li>apk add sudo</li>
+    </ol>
+  </li>
+  <li>需要手工进入到 postgresql 容器内创建 role 和 database
+    <ol>
+      <li>createuser -U postgres redash</li>
+      <li>createdb -U postgres redash</li>
+    </ol>
+  </li>
+  <li>执行数据库初始化动作</li>
+  <li>docker-compose run –rm server create_db</li>
+  <li>然后重启 redash 全部服务即可 docker-compose down 后重启</li>
+</ol>
+
+<blockquote>
+  <p>postgresql 在执行 psql 命令时，默认会读取当前系统用户作为执行 role；但 psql 默认用户是 postgres</p>
+</blockquote>
+
+<p><a href="https://redash.io/help/open-source/setup">https://redash.io/help/open-source/setup</a>
+<a href="https://redash.io/help/open-source/dev-guide/docker">https://redash.io/help/open-source/dev-guide/docker</a>
+<a href="https://docs.victoriametrics.com/url-examples.html#apiv1exportcsv">https://docs.victoriametrics.com/url-examples.html#apiv1exportcsv</a></p>
+
+<p><a href="https://mp.weixin.qq.com/s?src=11\&amp;timestamp=1660629444\&amp;ver=3985\&amp;signature=verv70veamW*Ez2Sgc8e89yMJGwANIOzz4lfwbezyVV3wpWNT2d9SnGrDecUOwrbTJBR2o-Ax6ZS4Fpu2UxfX7Sy9xsk1LCXfY1wNr42ucl3tFePfJ7c536c8z*L-HOy\&amp;new=1">https://mp.weixin.qq.com/s?src=11\&amp;timestamp=1660629444\&amp;ver=3985\&amp;signature=verv70veamW<em>Ez2Sgc8e89yMJGwANIOzz4lfwbezyVV3wpWNT2d9SnGrDecUOwrbTJBR2o-Ax6ZS4Fpu2UxfX7Sy9xsk1LCXfY1wNr42ucl3tFePfJ7c536c8z</em>L-HOy\&amp;new=1</a></p>
+
+<p><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1660682601&amp;ver=3986&amp;signature=h8m0RzEX3qWsKcUo6Ee3azdsnzLQqUf3N8FdLhyWNa52U4vAvlbEaBFUCrTZnh54tT-YS2mODfkp-6Hemmzt3n*hzGHlEmXP-HO5830W0Fzmn4MMfnsOPBKLrcjaiU0h&amp;new=1">https://mp.weixin.qq.com/s?src=11&amp;timestamp=1660682601&amp;ver=3986&amp;signature=h8m0RzEX3qWsKcUo6Ee3azdsnzLQqUf3N8FdLhyWNa52U4vAvlbEaBFUCrTZnh54tT-YS2mODfkp-6Hemmzt3n*hzGHlEmXP-HO5830W0Fzmn4MMfnsOPBKLrcjaiU0h&amp;new=1</a></p>
+
+<ul>
+  <li>redash env 配置：<a href="https://redash.io/help/open-source/admin-guide/env-vars-settings">https://redash.io/help/open-source/admin-guide/env-vars-settings</a></li>
+  <li>postgres 权限问题 <a href="https://stackoverflow.com/a/25051632/5067657">https://stackoverflow.com/a/25051632/5067657</a></li>
+  <li><a href="https://techoverflow.net/2021/05/07/how-to-fix-alpine-linux-ash-sudo-not-found/">https://techoverflow.net/2021/05/07/how-to-fix-alpine-linux-ash-sudo-not-found/</a></li>
+  <li><a href="https://discuss.redash.io/t/error-99-connecting-to-localhost-6379-cannot-assign-requested-address/9716/7">https://discuss.redash.io/t/error-99-connecting-to-localhost-6379-cannot-assign-requested-address/9716/7</a></li>
+</ul>
+
+<h2 id="启动的服务介绍">启动的服务介绍</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>v10-redashio_adhoc_worker_1     # 执行查询任务的 worker
+v10-redashio_postgres_1       # 数据库
+v10-redashio_redis_1        # 缓存
+v10-redashio_scheduled_worker_1   # 执行计划任务的 worker
+v10-redashio_scheduler_1      # 计划任务管理 server
+v10-redashio_server_1        # 主体 server
+</code></pre></div></div>
+
+<p>以上主要会设计到 3 个镜像，redis、pgsql、redash，其中核心是 redash，所以关注镜像版本也是这个</p>
+
+<h2 id="版本升级">版本升级</h2>
+
+<p>redash 的版本升级较为方便，更换 server 的镜像；然后升级数据库即可。</p>
+
+<blockquote>
+  <p>测试过从 v8 升级到 v10 , 和 v9 升级到 v10，都是 ok 的。</p>
+</blockquote>
+
+<ol>
+  <li>关闭 Redash 服务
+    <ol>
+      <li><code class="language-plaintext highlighter-rouge">docker-compose stop server scheduler scheduled_worker adhoc_worker</code></li>
+    </ol>
+  </li>
+  <li>更新 docker-compose.yml
+    <ol>
+      <li>基本上这一步，只需要更新 redash 的镜像版本即可</li>
+      <li>然后执行 <code class="language-plaintext highlighter-rouge">docker-compose pull</code> 拉取新镜像版本</li>
+    </ol>
+  </li>
+  <li>执行数据库升级
+    <ol>
+      <li><code class="language-plaintext highlighter-rouge">docker-compose run --rm server manage db upgrade</code></li>
+    </ol>
+  </li>
+  <li>启动全部服务即可
+    <ol>
+      <li><code class="language-plaintext highlighter-rouge">docker-compse up -d</code></li>
+    </ol>
+  </li>
+</ol>
+
+<h2 id="解决-es-的-https-问题">解决 ES 的 HTTPS 问题</h2>
+
+<p>由于我们的 es 地址访问地址采用 https，但为自签证书，所以在 request 之中会有些问题，所以我在这里更新了 elasticsearch 的插件，然后将其上传到我个人的 docker hub.
+<a href="https://hub.docker.com/r/samzong/redash">https://hub.docker.com/r/samzong/redash</a></p>
+
+<blockquote>
+  <p>带来的问题，页面上无法选择到 Elasticsearch 作为数据源，没时间去研究了</p>
+</blockquote>
+
+<p>看了下还是可以使用 redash 的 API 去创建的 <code class="language-plaintext highlighter-rouge">/api/data_sources</code></p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"options"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"basic_auth_password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"basic_auth_user"</span><span class="p">:</span><span class="w"> </span><span class="s2">"elastic"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"server"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://10.6.51.101:31001/"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"skip_tls_verification"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"elasticsearch"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test-es"</span><span class="w">
+</span><span class="p">}</span><span class="w">
 </span></code></pre></div></div>
 
+<p>创建完成后，就可以在页面上更新了。</p>
+
       
     </div>
     <br/>
     <div>
-      <cite>2022-11-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
+      <cite>2022-10-22</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Redash">Redash</a>
+      , 
+      <a href="/tags.html#BI">BI</a>
       
       
       
@@ -355,60 +568,56 @@ pipreqs <span class="nb">.</span> <span class="nt">--force</span>
     <hr/>
     
     
-    <h1><a class="title" href="/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a></h1>
+    <h1><a class="title" href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a></h1>
     <div class="post_at_index">
-      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">string</span>
+      <p><a href="https://www.amazon.cn/gp/product/B01951CHO6/ref=as_li_qf_sp_asin_tl?ie=UTF8\&amp;camp=536\&amp;creative=3200\&amp;creativeASIN=B01951CHO6\&amp;linkCode=as2\&amp;tag=llll1-23">王路</a>
+12 highlights</p>
 
-<span class="n">whitespace</span> <span class="err">–</span> <span class="n">包含所有空白的字符串</span>
-<span class="n">ascii_lowercase</span> <span class="err">–</span> <span class="n">包含所有小写字母的字符串</span>
-<span class="n">ascii_uppercase</span> <span class="err">–</span> <span class="n">一个包含所有ASCII大写字母的字符串</span>
-<span class="n">ascii_letters</span> <span class="err">–</span> <span class="n">包含所有ASCII字母的字符串</span>
-<span class="n">digits</span> <span class="err">–</span> <span class="n">包含所有十进制位数的字符串</span>
-<span class="n">hexdigits</span> <span class="err">–</span> <span class="n">包含所有</span> <span class="n">十六进制数字的字符串</span>
-<span class="n">octdigits</span> <span class="err">–</span> <span class="n">包含所有八进制数字的字符串</span>
-<span class="n">punctuation</span> <span class="err">–</span> <span class="n">包含所有标点字符的字符串</span>
-<span class="n">printable</span> <span class="err">–</span> <span class="n">包含所有可打印的字符的字符串</span>
-
-
-<span class="k">print</span><span class="p">(</span><span class="n">string</span><span class="p">.</span><span class="n">digits</span><span class="p">)</span>  <span class="c1"># 输出包含数字0~9的字符串
-</span><span class="k">print</span><span class="p">(</span><span class="n">string</span><span class="p">.</span><span class="n">ascii_letters</span><span class="p">)</span>  <span class="c1"># 包含所有字母(大写或小写)的字符串
-</span><span class="k">print</span><span class="p">(</span><span class="n">string</span><span class="p">.</span><span class="n">ascii_lowercase</span><span class="p">)</span>  <span class="c1"># 包含所有小写字母的字符串
-</span><span class="k">print</span><span class="p">(</span><span class="n">string</span><span class="p">.</span><span class="n">ascii_uppercase</span><span class="p">)</span>  <span class="c1"># 包含所有大写字母的字符串
-##############
-</span><span class="mi">0123456789</span>
-<span class="n">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</span>
-<span class="n">abcdefghijklmnopqrstuvwxyz</span>
-<span class="n">ABCDEFGHIJKLMNOPQRSTUVWXYZ</span>
-
-
-<span class="k">print</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">65</span><span class="p">,</span> <span class="mi">91</span><span class="p">)])</span>  <span class="c1"># 所有大写字母
-</span><span class="k">print</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">97</span><span class="p">,</span> <span class="mi">123</span><span class="p">)])</span>  <span class="c1"># 所有小写字母
-</span><span class="k">print</span><span class="p">([</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">58</span><span class="p">)])</span>   <span class="c1"># 所有数字
-</span>
-
-<span class="kn">import</span> <span class="nn">random</span>
-<span class="k">def</span> <span class="nf">get_code</span><span class="p">():</span>
-    <span class="n">source</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="s">'0123456789'</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">97</span><span class="p">,</span> <span class="mi">123</span><span class="p">):</span>
-        <span class="n">source</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="mi">4</span><span class="p">)))</span>
-</code></pre></div></div>
-
-<h3 id="组合使用提出大写字母">组合使用提出大写字母</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">string</span>
-
-<span class="n">a</span> <span class="o">=</span> <span class="s">'XQX大家好'</span>
- 
-<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">strip</span><span class="p">(</span><span class="n">string</span><span class="p">.</span><span class="n">ascii_uppercase</span><span class="p">))</span> <span class="c1"># 利用string.uppercase代表大写字母
-</span></code></pre></div></div>
+<ul>
+  <li>
+    <p>同样一潭池水，天人视之为清波，饿鬼视之为阳焰。所有的看法，无非是一个人的世界观投在故事上的倒影，它</p>
+  </li>
+  <li>
+    <p>就常有这样的经验。比如碰见好久不见的老友，事前特别期待，想到有很多话可以聊，等坐到桌上，却发现只剩下老生常谈。这怪不得谁，每个人的生活都不一样，各自感兴趣的事儿都不同。不像以往，大家都在同一个班里，每天的生活都是类似的，所思所想也都差不了太远。</p>
+  </li>
+  <li>
+    <p>要想在一个圈子里得到认同，需要遵照这个圈子的价值标准和话语体系。</p>
+  </li>
+  <li>
+    <p>很久之后，我才慢慢明白自己当初的做法多么愚蠢。想要一个人改变习惯，很难。而尤其不应该的是，总把自己以为便利的东西强加给别人。年龄和岁月足以让一个人的学习能力慢慢退化，并最终丧失对新事物的好奇。从头掌握最基本的技能，对不年轻的人来说，成本太高昂。他们需要为养家糊口奔波，为时不多的暇余，并不足以支撑他们疲惫的身心去探究世界的种种新奇。于是，他们就远远被时代抛下了。</p>
+  </li>
+  <li>
+    <p>圣诞老人的意思就是：在你爱的人不知道的时候，把礼物放到他的身边。因为收到礼物的人不知道，所以这个夜晚是寂静的。</p>
+  </li>
+  <li>
+    <p>许多东西，只在此时、此地、此景有。没办法绸缪，也没办法复盘。可贵的事物之所以可贵，正在其转瞬即逝，不可复得。在一刹那灭去，并成为永恒。</p>
+  </li>
+  <li>
+    <p>屏蔽掉一个人，看不到他的样子，听不到他的声音，却抑制不了不去想他。世间的痛苦和烦恼，不在于不能得到，而在于不能割舍。不在于不想屏蔽的东西被屏蔽，而在于想屏蔽的东西无法屏蔽</p>
+  </li>
+  <li>
+    <p>对于贪著心，真正可怕的不是一件事情上的得失，而是串习的力量对一个人行为举止的巨大影响。这种影响是潜在的，却是深刻而难以磨灭的。</p>
+  </li>
+  <li>
+    <p>三涂之苦</p>
+  </li>
+  <li>
+    <p>编程谓之 Class，《</p>
+  </li>
+  <li>
+    <p>钱穆先生曾在《宋明理学概述》序言里说：““虽居乡僻，未尝敢一日废学。虽经乱离困厄，未尝敢一日颓其志。虽或名利当前，未尝敢动其心。虽或毁誉横生，未尝敢馁其气。虽学不足以自成立，未尝或忘先儒之榘矱，时切其向慕。虽垂老无以自靖献，未尝不于国家民族世道人心，自任以匹夫之有其责。””</p>
+  </li>
+  <li>
+    <p>佛家说烦恼即是般若，那些让你斩不断的愁丝才是真正度你到彼岸的船筏。</p>
+  </li>
+</ul>
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-11-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
+      <cite>2022-10-06</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
       
       
       
@@ -417,58 +626,18 @@ pipreqs <span class="nb">.</span> <span class="nt">--force</span>
     <hr/>
     
     
-    <h1><a class="title" href="/post/2022/11/python3-setup.py-help-commands.html">python3 setup.py --help-commands</a></h1>
+    <h1><a class="title" href="/post/2022/10/%E8%87%AA%E5%8D%91%E4%B8%8E%E8%B6%85%E8%B6%8A.html">自卑与超越</a></h1>
     <div class="post_at_index">
-      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">→</span> <span class="n">python3</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="o">--</span><span class="n">help</span><span class="o">-</span><span class="n">commands</span>
+      <p><a href="https://www.amazon.cn/gp/product/B013GD8VEY/ref=as_li_qf_sp_asin_tl?ie=UTF8\&amp;camp=536\&amp;creative=3200\&amp;creativeASIN=B013GD8VEY\&amp;linkCode=as2\&amp;tag=llll1-23">【奥】阿尔弗雷德··阿德勒</a></p>
 
-<span class="n">Standard</span> <span class="n">commands</span><span class="p">:</span>
-  <span class="n">build</span>             <span class="n">build</span> <span class="n">everything</span> <span class="n">needed</span> <span class="n">to</span> <span class="n">install</span>
-  <span class="n">build_py</span>          <span class="s">"build"</span> <span class="n">pure</span> <span class="n">Python</span> <span class="n">modules</span> <span class="p">(</span><span class="n">copy</span> <span class="n">to</span> <span class="n">build</span> <span class="n">directory</span><span class="p">)</span>
-  <span class="n">build_ext</span>         <span class="n">build</span> <span class="n">C</span><span class="o">/</span><span class="n">C</span><span class="o">++</span> <span class="n">extensions</span> <span class="p">(</span><span class="nb">compile</span><span class="o">/</span><span class="n">link</span> <span class="n">to</span> <span class="n">build</span> <span class="n">directory</span><span class="p">)</span>
-  <span class="n">build_clib</span>        <span class="n">build</span> <span class="n">C</span><span class="o">/</span><span class="n">C</span><span class="o">++</span> <span class="n">libraries</span> <span class="n">used</span> <span class="n">by</span> <span class="n">Python</span> <span class="n">extensions</span>
-  <span class="n">build_scripts</span>     <span class="s">"build"</span> <span class="n">scripts</span> <span class="p">(</span><span class="n">copy</span> <span class="ow">and</span> <span class="n">fixup</span> <span class="c1">#! line)
-</span>  <span class="n">clean</span>             <span class="n">clean</span> <span class="n">up</span> <span class="n">temporary</span> <span class="n">files</span> <span class="k">from</span> <span class="s">'build'</span> <span class="n">command</span>
-  <span class="n">install</span>           <span class="n">install</span> <span class="n">everything</span> <span class="k">from</span> <span class="n">build</span> <span class="n">directory</span>
-  <span class="n">install_lib</span>       <span class="n">install</span> <span class="nb">all</span> <span class="n">Python</span> <span class="n">modules</span> <span class="p">(</span><span class="n">extensions</span> <span class="ow">and</span> <span class="n">pure</span> <span class="n">Python</span><span class="p">)</span>
-  <span class="n">install_headers</span>   <span class="n">install</span> <span class="n">C</span><span class="o">/</span><span class="n">C</span><span class="o">++</span> <span class="n">header</span> <span class="n">files</span>
-  <span class="n">install_scripts</span>   <span class="n">install</span> <span class="n">scripts</span> <span class="p">(</span><span class="n">Python</span> <span class="ow">or</span> <span class="n">otherwise</span><span class="p">)</span>
-  <span class="n">install_data</span>      <span class="n">install</span> <span class="n">data</span> <span class="n">files</span>
-  <span class="n">sdist</span>             <span class="n">create</span> <span class="n">a</span> <span class="n">source</span> <span class="n">distribution</span> <span class="p">(</span><span class="n">tarball</span><span class="p">,</span> <span class="nb">zip</span> <span class="nb">file</span><span class="p">,</span> <span class="n">etc</span><span class="p">.)</span>
-  <span class="n">register</span>          <span class="n">register</span> <span class="n">the</span> <span class="n">distribution</span> <span class="k">with</span> <span class="n">the</span> <span class="n">Python</span> <span class="n">package</span> <span class="n">index</span>
-  <span class="n">bdist</span>             <span class="n">create</span> <span class="n">a</span> <span class="n">built</span> <span class="p">(</span><span class="n">binary</span><span class="p">)</span> <span class="n">distribution</span>
-  <span class="n">bdist_dumb</span>        <span class="n">create</span> <span class="n">a</span> <span class="s">"dumb"</span> <span class="n">built</span> <span class="n">distribution</span>
-  <span class="n">bdist_rpm</span>         <span class="n">create</span> <span class="n">an</span> <span class="n">RPM</span> <span class="n">distribution</span>
-  <span class="n">bdist_wininst</span>     <span class="n">create</span> <span class="n">an</span> <span class="n">executable</span> <span class="n">installer</span> <span class="k">for</span> <span class="n">MS</span> <span class="n">Windows</span>
-  <span class="n">check</span>             <span class="n">perform</span> <span class="n">some</span> <span class="n">checks</span> <span class="n">on</span> <span class="n">the</span> <span class="n">package</span>
-  <span class="n">upload</span>            <span class="n">upload</span> <span class="n">binary</span> <span class="n">package</span> <span class="n">to</span> <span class="n">PyPI</span>
-
-<span class="n">Extra</span> <span class="n">commands</span><span class="p">:</span>
-  <span class="n">bdist_wheel</span>       <span class="n">create</span> <span class="n">a</span> <span class="n">wheel</span> <span class="n">distribution</span>
-  <span class="n">alias</span>             <span class="n">define</span> <span class="n">a</span> <span class="n">shortcut</span> <span class="n">to</span> <span class="n">invoke</span> <span class="n">one</span> <span class="ow">or</span> <span class="n">more</span> <span class="n">commands</span>
-  <span class="n">bdist_egg</span>         <span class="n">create</span> <span class="n">an</span> <span class="s">"egg"</span> <span class="n">distribution</span>
-  <span class="n">develop</span>           <span class="n">install</span> <span class="n">package</span> <span class="ow">in</span> <span class="s">'development mode'</span>
-  <span class="n">dist_info</span>         <span class="n">create</span> <span class="n">a</span> <span class="p">.</span><span class="n">dist</span><span class="o">-</span><span class="n">info</span> <span class="n">directory</span>
-  <span class="n">easy_install</span>      <span class="n">Find</span><span class="o">/</span><span class="n">get</span><span class="o">/</span><span class="n">install</span> <span class="n">Python</span> <span class="n">packages</span>
-  <span class="n">egg_info</span>          <span class="n">create</span> <span class="n">a</span> <span class="n">distribution</span><span class="s">'s .egg-info directory
-  install_egg_info  Install an .egg-info directory for the package
-  rotate            delete older distributions, keeping N newest files
-  saveopts          save supplied options to setup.cfg or other config file
-  setopt            set an option in setup.cfg or another config file
-  test              run unit tests after in-place build (deprecated)
-  upload_docs       Upload documentation to PyPI
-
-usage: setup.py [global_opts] cmd1 [cmd1_opts] [cmd2 [cmd2_opts] ...]
-   or: setup.py --help [cmd1 cmd2 ...]
-   or: setup.py --help-commands
-   or: setup.py cmd --help
-</span></code></pre></div></div>
+<p>前言 阿德勒：超越自卑，找到生命的真正意义 阿德勒是个体心理学的先驱和代表。个体心理学与其他心理学流派相比，最突出显要的一点在于，它对人的研究是以个体为始，即首先关注个体本身的成长发展和人生历程。有趣的是，如果你对阿德勒本人的人生经历及其学说有所了解的话，你会发现其人的发展轨迹恰好印证了他所秉持的观点和理论。阿德勒认为，每个人都有不同程度的自卑感，而优越感则是自卑感的补偿。但自卑感的存在并不是一件坏事，因为它激励了人不断追求卓越，克服自身的障碍，在有限的生命空间内发挥出最大的价值。可以说，正是由于人类会有自卑感，才会有不断取得发展和进步的不竭动力。与此相印证的是，阿德勒本人就是一个““先天发展不足””、一开始就存在着极为强烈自卑感的人。阿德勒是一个直到 4 岁才会走路的体弱多病的儿童。他患有佝偻病，无法进行激烈的体育活动。但他并没有让身体上的缺陷压倒自己，相反，这刺激了他的上进心。</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-11-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
+      <cite>2022-10-04</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
       
       
       
@@ -477,129 +646,385 @@ usage: setup.py [global_opts] cmd1 [cmd1_opts] [cmd2 [cmd2_opts] ...]
     <hr/>
     
     
-    <h1><a class="title" href="/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入excel</a></h1>
+    <h1><a class="title" href="/post/2022/09/GitLab-Forked-%E5%A6%82%E4%BD%95%E8%B7%9F%E9%9A%8Fupstream%E4%B8%BB%E5%BA%93.html">GitLab Forked 如何跟随 upstream 主库</a></h1>
     <div class="post_at_index">
-      <p>以下是使用的方法：
-<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1611155030404-b12d4cd7-6fa1-44ca-b183-bdf1e796ebeb.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-11-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/11/python-re%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.html">python re正则表达式</a></h1>
-    <div class="post_at_index">
-      
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-11-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/11/python-Request-install-pip-error.html">python Request install pip error</a></h1>
-    <div class="post_at_index">
-      <pre><code class="language-log">…
-socket.timeout: The read operation timed out
-…
-ReadTimeoutError: HTTPSConnectionPool(host=‘files.pythonhosted.org’, port=443): Read timed out.
-</code></pre>
-
-<p>解决办法：</p>
-
-<p><code class="language-plaintext highlighter-rouge">pip --default-timeout=200 install -U xxx_package_name</code></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-11-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/11/learn-sqlalchemy.html">learn sqlalchemy</a></h1>
-    <div class="post_at_index">
-      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># python3 on Mac</span>
-
-pip3 <span class="nb">install </span>sqlalchemy mysqclient
-
-<span class="c"># CentOS</span>
-yum <span class="nb">install </span>MySQL-python
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sqlalchemy</span>
-<span class="kn">import</span> <span class="nn">MySQLdb</span>
-
-<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span><span class="p">,</span> <span class="n">MetaData</span>
-
-<span class="k">def</span> <span class="nf">connect_db</span> <span class="p">():</span>
- <span class="c1"># connect db:
-</span> <span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s">"mysql://user:pass@localhost/db"</span><span class="p">,</span> <span class="n">echo</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
-
-    <span class="n">meta</span> <span class="o">=</span> <span class="n">MetaData</span><span class="p">()</span>
-    <span class="n">conn</span> <span class="o">=</span> <span class="n">engine</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-11-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/11/Python-%E6%8A%93%E5%87%BA%E6%9D%A5%E9%9A%8F%E6%9C%BA%E4%B8%8B%E8%BD%BD%E8%AE%B0%E5%BD%95.html">Python 抓出来随机下载记录</a></h1>
-    <div class="post_at_index">
-      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
-    <span class="n">url</span> <span class="o">=</span> <span class="s">'https://appest-public.s3.amazonaws.com/download/mac/TickTick_3.9.00_{}.dmg'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">resp</span><span class="p">.</span><span class="n">status_code</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">resp</span><span class="p">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-            <span class="k">break</span>
-    <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>:::info
-背景
+      <p>:::info
+通过 PR 的方式共同对主仓库进行贡献的方式，是开源项目协作的非常有效的方法；通常我们不会直接对主仓库直接提交代码。
 :::</p>
 
+<p>一般情况下，我们的操作是，在需要贡献时，Fork 一份项目，然后自己修改以 PR 的方式提交贡献请求。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1664330743895-9b2e0dc6-527e-4bcd-8b63-c223aa634b8f.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" title="一份完整的 Github贡献指南" /></p>
+
+<h2 id="github-的实现方式">Github 的实现方式</h2>
+
+<p>熟悉 Github 的同学会发现，在 Github 上最近更新了 <code class="language-plaintext highlighter-rouge">Sync fork</code>的功能，通过简单的点击操作，即可完成对源库 (upstream) 的更新同步。
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1664330528512-563a5536-1734-4fd0-b41c-9c5d121327e0.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="CleanShot 2022-09-28 at 10.01.33.jpg" title="当 upstream 超前时，提示 update branch" />
+通过以上方式，我们可以方便在跟随主库的更新</p>
+
+<blockquote>
+  <p>Tips Github 的方式，仅在 Web 端 和 Github CLI 官方提供的 GH 才可以使用这样的功能</p>
+</blockquote>
+
+<h2 id="no-github-when-gitlab-">No Github, When Gitlab ?</h2>
+
+<p>Github 更多在开源项目时贡献，实际上，在我们日常的工作当中，更多会有自建的 Gitlab 或者其他的代码 Hub，这里以 Gitlab 为例</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1664331575915-853554f5-c047-4f14-8e79-67e2214429bc.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="CleanShot 2022-09-28 at 10.19.20.jpg" title="gitlab 默认项目首页" />
+Gitlab 并未提供 Sync fork 的功能，所以我们需要自行解决同步的需求</p>
+
+<h2 id="为仓库添加-upstream-源仓库">为仓库添加 upstream 源仓库</h2>
+
+<p>:::success
+以下方式会在终端或本地使用<code class="language-plaintext highlighter-rouge">Sourcetree</code>更加自由，仅使用 Git 的方式协作，自由度很大
+:::
+基于这个方式我们可以实现，有关联的 主库到从库的同步；也可以完成跨 Hub 的同步，比如：</p>
+
+<ul>
+  <li>Github -&gt;  Gitlab</li>
+  <li>Github -&gt; Github</li>
+  <li>Gitlab  -&gt; Gitlab</li>
+  <li>Gitlab  -&gt;  Github</li>
+  <li>Gitee  -&gt;  Gitlab</li>
+  <li>Gitee -&gt; Github</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>samzonglu at samzongs-MacBook-Pro <span class="k">in</span> ~/Git/daocloud/DaoCloud-docs<span class="o">(</span>main✔<span class="o">)</span>
+± git remote add upstream https://github.com/DaoCloud/DaoCloud-docs.git
+Alias tip: gra upstream https://github.com/DaoCloud/DaoCloud-docs.git
+
+samzonglu at samzongs-MacBook-Pro <span class="k">in</span> ~/Git/daocloud/DaoCloud-docs<span class="o">(</span>main✔<span class="o">)</span>
+± git remote
+Alias tip: gr
+origin
+upstream
+
+samzonglu at samzongs-MacBook-Pro <span class="k">in</span> ~/Git/daocloud/DaoCloud-docs<span class="o">(</span>main✔<span class="o">)</span>
+± git fetch upstream
+Alias tip: gf upstream
+remote: Enumerating objects: 1268, <span class="k">done</span><span class="nb">.</span>
+remote: Counting objects: 100% <span class="o">(</span>182/182<span class="o">)</span>, <span class="k">done</span><span class="nb">.</span>
+remote: Compressing objects: 100% <span class="o">(</span>5/5<span class="o">)</span>, <span class="k">done</span><span class="nb">.</span>
+remote: Total 1268 <span class="o">(</span>delta 177<span class="o">)</span>, reused 182 <span class="o">(</span>delta 177<span class="o">)</span>, pack-reused 1086
+Receiving objects: 100% <span class="o">(</span>1268/1268<span class="o">)</span>, 1.87 MiB | 2.74 MiB/s, <span class="k">done</span><span class="nb">.</span>
+Resolving deltas: 100% <span class="o">(</span>637/637<span class="o">)</span>, completed with 119 <span class="nb">local </span>objects.
+From https://github.com/DaoCloud/DaoCloud-docs
+ <span class="k">*</span> <span class="o">[</span>new branch]      feature/theme                            -&gt; upstream/feature/theme
+ <span class="k">*</span> <span class="o">[</span>new branch]      fix-typo                                 -&gt; upstream/fix-typo
+ <span class="k">*</span> <span class="o">[</span>new branch]      gh-pages                                 -&gt; upstream/gh-pages
+ <span class="k">*</span> <span class="o">[</span>new branch]      main                                     -&gt; upstream/main
+ <span class="k">*</span> <span class="o">[</span>new branch]      patch-new-gh-pages-01                    -&gt; upstream/patch-new-gh-pages-01
+ <span class="k">*</span> <span class="o">[</span>new branch]      stash/bug-codes                          -&gt; upstream/stash/bug-codes
+
+samzonglu at samzongs-MacBook-Pro <span class="k">in</span> ~/Git/daocloud/DaoCloud-docs<span class="o">(</span>main✔<span class="o">)</span>
+± git pull upstream main
+Alias tip: gl upstream main
+From https://github.com/DaoCloud/DaoCloud-docs
+ <span class="k">*</span> branch            main       -&gt; FETCH_HEAD
+Already up to date.
+
+samzonglu at samzongs-MacBook-Pro <span class="k">in</span> ~/Git/daocloud/DaoCloud-docs<span class="o">(</span>main✔<span class="o">)</span>
+± git push origin main
+Alias tip: gp origin main
+Everything up-to-date
+</code></pre></div></div>
+
       
     </div>
     <br/>
     <div>
-      <cite>2022-11-17</cite> <i class="icon-tag"></i>
+      <cite>2022-09-28</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Git">Git</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/09/Poetry-%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0.html">Poetry 使用笔记</a></h1>
+    <div class="post_at_index">
+      <p>poetry 是目前比较流行的 Python 环境管理工具 和 包管理工具，对多项目开发时的环境隔离有非常大的帮助，同时集成了包管理能力。</p>
+
+<blockquote>
+  <p>官方网站  <a href="https://python-poetry.org/">https://python-poetry.org/</a>   集成了所有 Poetry 最新的使用文档，以下仅在我的环境上经过验证</p>
+</blockquote>
+
+<h3 id="安装方式">安装方式</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># In Pip
+</span><span class="o">-</span> <span class="n">安装</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">poetry</span> <span class="c1"># pip3
+</span><span class="o">-</span> <span class="n">更新</span> <span class="n">poetry</span> <span class="bp">self</span> <span class="n">update</span>
+
+<span class="c1"># In my Mac
+</span><span class="o">-</span> <span class="n">安装</span> <span class="n">brew</span> <span class="n">install</span> <span class="n">poetry</span>
+<span class="o">-</span> <span class="n">更新</span> <span class="n">brew</span> <span class="n">upgrade</span> <span class="n">poetry</span>
+
+<span class="c1"># In my CentOS
+</span><span class="o">-</span> <span class="n">安装</span> <span class="n">curl</span> <span class="o">-</span><span class="n">sSL</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">raw</span><span class="p">.</span><span class="n">githubusercontent</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">python</span><span class="o">-</span><span class="n">poetry</span><span class="o">/</span><span class="n">poetry</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">get</span><span class="o">-</span><span class="n">poetry</span><span class="p">.</span><span class="n">py</span> <span class="o">|</span> <span class="n">python</span> <span class="o">-</span>
+<span class="o">-</span> <span class="n">更新</span> <span class="n">poetry</span> <span class="bp">self</span> <span class="n">update</span>
+</code></pre></div></div>
+
+<h3 id="配置技巧相关">配置技巧相关</h3>
+
+<p>在开始使用前，建议先对 poetry 的配置有些了解，并调整为适合你的方式，主要是调整一下虚拟环境的安装位置
+:::info
+<code class="language-plaintext highlighter-rouge">poetry config</code> poetry 相关的查看和编辑的命令
+:::</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">~</span> <span class="n">poetry</span> <span class="n">config</span> <span class="o">--</span><span class="nb">list</span>  <span class="c1"># 获取当前 poetry 的配置情况
+</span>
+<span class="n">cache</span><span class="o">-</span><span class="nb">dir</span> <span class="o">=</span> <span class="s">"/Users/$username/Library/Caches/pypoetry"</span>
+<span class="n">experimental</span><span class="p">.</span><span class="n">new</span><span class="o">-</span><span class="n">installer</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">installer</span><span class="p">.</span><span class="n">parallel</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">virtualenvs</span><span class="p">.</span><span class="n">create</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">virtualenvs</span><span class="p">.</span><span class="ow">in</span><span class="o">-</span><span class="n">project</span> <span class="o">=</span> <span class="n">true</span>
+<span class="n">virtualenvs</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="s">"{cache-dir}/virtualenvs"</span>  <span class="c1"># /Users/$username/Library/Caches/pypoetry/virtualenvs
+</span>
+</code></pre></div></div>
+
+<p>| <strong>配置项目</strong> | <strong>配置内容</strong> | <strong>配置项说明</strong> | <strong>建议配置</strong> |
+| — | — | — | — |
+| cache-dir | String | 缓存目录配置，使用 poetry 安装的包源文件都会缓存到这个目录。 | 不建议更改 |
+| installer.parallel | boolean | 此配置会被忽略 |  |
+| virtualenvs.create | boolean | 默认为 true，如果当前工程的虚拟环境不存在，就创建一个 | 不建议更改 |
+| virtualenvs.in-project | boolean | None：poetry 会在系统特定目录创建一个.venv 目录，由下面的 path 参数指定
+true：poetry 会在项目根目录创建一个.venv 目录
+false：poetry 将会忽略已存在的.venv 目录 | <strong>《建议修改》</strong></p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>推荐这种方式，在项目根目录创建虚拟环境，这样就算移动目录位置也不影响虚拟环境的使用</td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>virtualenvs.path</td>
+      <td>string</td>
+      <td>默认是{cache-dir}/virtualenvs，虚拟环境创建的目录，如果上面的 in-project 为 true，此配置就无效</td>
+      <td>不建议更改</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>:::danger
+建议 在使用前 启用 virtualenvs.in-project，这样会在每个项目下有一个.venv 方便隔离管理
+:::</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># poetry 配置说明
+</span><span class="n">poetry</span> <span class="n">config</span> <span class="n">virtualenvs</span><span class="p">.</span><span class="ow">in</span><span class="o">-</span><span class="n">project</span> <span class="n">true</span>
+</code></pre></div></div>
+
+<h3 id="poetry-常用指令说明">poetry 常用指令说明</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>Poetry Command</strong></th>
+      <th><strong>解释</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$ poetry –version</td>
+      <td>显示您的 Poetry 安装版本。</td>
+    </tr>
+    <tr>
+      <td>$ poetry new</td>
+      <td>创建一个新的 Poetry 项目。</td>
+    </tr>
+    <tr>
+      <td>$ poetry init</td>
+      <td>将 Poetry 添加到现有项目中。</td>
+    </tr>
+    <tr>
+      <td>$ poetry run</td>
+      <td>使用 Poetry 执行给定的命令。</td>
+    </tr>
+    <tr>
+      <td>$ poetry add</td>
+      <td>添加一个包 pyproject.toml 并安装它。</td>
+    </tr>
+    <tr>
+      <td>$ poetry update</td>
+      <td>更新项目的依赖项。</td>
+    </tr>
+    <tr>
+      <td>$ poetry install</td>
+      <td>安装依赖项。</td>
+    </tr>
+    <tr>
+      <td>$ poetry show</td>
+      <td>列出已安装的软件包。</td>
+    </tr>
+    <tr>
+      <td>$ poetry lock</td>
+      <td>将最新版本的依赖项固定到 poetry.lock.</td>
+    </tr>
+    <tr>
+      <td>$ poetry lock –no-update</td>
+      <td>刷新 poetry.lock 文件而不更新任何依赖版本。</td>
+    </tr>
+    <tr>
+      <td>$ poetry check</td>
+      <td>验证 pyproject.toml。</td>
+    </tr>
+    <tr>
+      <td>$ poetry config –list</td>
+      <td>显示 Poetry 配置。</td>
+    </tr>
+    <tr>
+      <td>$ poetry env list</td>
+      <td>列出项目的虚拟环境。</td>
+    </tr>
+    <tr>
+      <td>$ poetry export</td>
+      <td>导出 poetry.lock 为其他格式。</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="新项目初始化流程">新项目初始化流程</h3>
+
+<blockquote>
+  <p>这里以 初始化一个  FastAPI 项目作为 实例</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  fastapi poetry new fastapi-demo
+Created package fastapi_demo <span class="k">in </span>fastapi-demo
+➜  fastapi <span class="nb">ls</span> <span class="nt">-lh</span> fastapi-demo
+total 8
+<span class="nt">-rw-r--r--</span>  1 samzonglu  staff     0B  2 15 14:28 README.rst
+drwxr-xr-x  3 samzonglu  staff    96B  2 15 14:28 fastapi_demo
+<span class="nt">-rw-r--r--</span>  1 samzonglu  staff   304B  2 15 14:28 pyproject.toml
+drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
+
+➜  fastapi <span class="nb">cd </span>fastapi-demo
+➜  fastapi-demo poetry <span class="nb">env </span>use 3.10.2  <span class="c"># 配置项目的虚拟环境</span>
+
+</code></pre></div></div>
+
+<h3 id="requirementstxt-已存在项目使用-poetry">requirements.txt 已存在项目使用 poetry</h3>
+
+<p>这里会遇到一个问题，已存在的项目基本都已经有了 requirements.txt，所以 poetry 最好可以直接读取它</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry add <span class="sb">`</span><span class="nb">cat </span>requirements.txt<span class="sb">`</span>
+</code></pre></div></div>
+
+<p>将项目依赖导出为  requirements.txt</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry <span class="nb">export</span> <span class="nt">--output</span> requirements.txt
+</code></pre></div></div>
+
+<h2 id="更新内容">更新内容</h2>
+
+<p>如何把项目移交给一个 not use Poetry 的人运行，对于 Python 的 环境包 依赖，上述的 ouput/input 的方式，会存在一些问题，这里进行纠正。</p>
+
+<h3 id="问题-pip-freeze-不能用了">问题 pip freeze 不能用了</h3>
+
+<p>:::warning
+pip freeze &gt; requirements.txt
+:::</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>anyio @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/cd/3f/ae/baff749ce6cb4d7985e4142650605d2d30cb92eb418e2d121868e4413d/anyio-3.6.1-py3-none-any.whl
+certifi @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/b1/9b/6f/cd63ce97294ee9a1fb57e5cebf02f251fbb8f9ac48353a27ceeddc410b/certifi-2022.6.15-py3-none-any.whl
+charset-normalizer @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/86/c8/3e/d878881698fbd2b72f484e4fca340588d633102920a002b66a293f9480/charset_normalizer-2.1.0-py3-none-any.whl
+click @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/63/f3/4c/2270b95f4d37b9ea73cd401abe68b6e9ede30380533cd4e7118a8e3aa3/click-8.1.3-py3-none-any.whl
+fastapi @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/f9/37/53/c998e9ffd7ace66218174711f5c3ef1026a0bd3cd72f5fe2908e9b949b/fastapi-0.78.0-py3-none-any.whl
+h11 @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/ef/5c/a2/a6d556bc5e3493616e52726df9c880b2da2fbf9c3be5e8351c84fbfafd/h11-0.13.0-py3-none-any.whl
+idna @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/90/36/8c/81eabf6ac88608721ab27f439c9a6b9a8e6a21cc58c59ebb1a42720199/idna-3.3-py3-none-any.whl
+pydantic @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/c2/13/d4/b9f7dbf75702d85504b4a5f36545ff903c7e2264d4889e94ce02637276/pydantic-1.9.1-cp310-cp310-macosx_11_0_arm64.whl
+requests @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/14/1f/4d/1b93db6513b8ab38db841e4ce62691288ba549a5c1b6f3ca7274a1c9fd/requests-2.28.1-py3-none-any.whl
+sniffio @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/2b/1b/93/9c34d727e29f7bb11ce5b2ca7f43e77cb4e96a81ee5e07a92763951416/sniffio-1.2.0-py3-none-any.whl
+starlette @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/3d/fc/74/569a1206737284325f5bb2e4f34689632c159dafbe8b7ff30bf2893c2d/starlette-0.19.1-py3-none-any.whl
+typing_extensions @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/4a/aa/fe/e4680f3423fbdb5ac89a6fb2f83d9e7ff7fb48173b0fa1604786182558/typing_extensions-4.3.0-py3-none-any.whl
+urllib3 @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/8a/87/ce/4a44bf6bb59a745f4af7082c6977ab23a478fca039ad4d631dfdc0185b/urllib3-1.26.10-py2.py3-none-any.whl
+uvicorn @ file:///Users/samzonglu/Library/Caches/pypoetry/artifacts/62/76/ec/dcafe6bae872839618dbf982c87eb314eee97784f7df74895e07bd198a/uvicorn-0.18.2-py3-none-any.whl
+</code></pre></div></div>
+
+<p>可以看到，默认情况下<code class="language-plaintext highlighter-rouge">pip freeze</code>在输出时，携带里对应的安装路径；如果这个时候，我们把项目移交给其他人运行时，会遇到以下问题</p>
+
+<blockquote>
+  <p>ERROR: Could not install packages due to an EnvironmentError: [Errno 2] No such</p>
+</blockquote>
+
+<p>这是 pip 安装软件包的一种特殊语法（自 19.1 开始受支持）<a href="https://www.python.org/dev/peps/pep-0440/#direct-references">PEP404</a>，
+但是该此种路径取决于环境，file:///URL 仅在本地文件系统上可用，你不能将生成的 requirements.txt 文件提供给其他人使用</p>
+
+<h3 id="先说解决方法-01-poetry-style">先说解决方法 01 [poetry style]</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry <span class="nb">export</span> <span class="nt">--without-hashes</span> <span class="nt">--format</span><span class="o">=</span>requirements.txt <span class="o">&gt;</span> requirements.txt
+</code></pre></div></div>
+
+<p>通过 poetry 自带的导出能力，会携带更多的一些信息：对于环境中 python 版本的依赖，虽然更加友好一些。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">anyio</span><span class="o">==</span>3.6.1<span class="p">;</span> python_full_version <span class="o">&gt;=</span> <span class="s2">"3.6.2"</span>
+<span class="nv">certifi</span><span class="o">==</span>2022.6.15<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.6"</span>
+charset-normalizer<span class="o">==</span>2.1.0<span class="p">;</span> python_full_version <span class="o">&gt;=</span> <span class="s2">"3.6.0"</span>
+<span class="nv">click</span><span class="o">==</span>8.1.3<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span>
+<span class="nv">colorama</span><span class="o">==</span>0.4.5<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span> and python_full_version &lt; <span class="s2">"3.0.0"</span> and platform_system <span class="o">==</span> <span class="s2">"Windows"</span> or platform_system <span class="o">==</span> <span class="s2">"Windows"</span> and python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span> and python_full_version <span class="o">&gt;=</span> <span class="s2">"3.5.0"</span>
+<span class="nv">fastapi</span><span class="o">==</span>0.78.0<span class="p">;</span> python_full_version <span class="o">&gt;=</span> <span class="s2">"3.6.1"</span>
+<span class="nv">h11</span><span class="o">==</span>0.13.0<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.6"</span>
+<span class="nv">idna</span><span class="o">==</span>3.3<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.5"</span>
+<span class="nv">pydantic</span><span class="o">==</span>1.9.1<span class="p">;</span> python_full_version <span class="o">&gt;=</span> <span class="s2">"3.6.1"</span>
+<span class="nv">requests</span><span class="o">==</span>2.28.1<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span> and python_version &lt; <span class="s2">"4"</span>
+<span class="nv">sniffio</span><span class="o">==</span>1.2.0<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.5"</span>
+<span class="nv">starlette</span><span class="o">==</span>0.19.1<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.6"</span>
+typing-extensions<span class="o">==</span>4.3.0<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span>
+<span class="nv">urllib3</span><span class="o">==</span>1.26.10<span class="p">;</span> <span class="o">(</span>python_version <span class="o">&gt;=</span> <span class="s2">"2.7"</span> and python_full_version &lt; <span class="s2">"3.0.0"</span><span class="o">)</span> or <span class="o">(</span>python_full_version <span class="o">&gt;=</span> <span class="s2">"3.6.0"</span> and python_version &lt; <span class="s2">"4"</span><span class="o">)</span>
+<span class="nv">uvicorn</span><span class="o">==</span>0.18.2<span class="p">;</span> python_version <span class="o">&gt;=</span> <span class="s2">"3.7"</span>
+</code></pre></div></div>
+
+<h3 id="再说解决方法-02">再说解决方法 02</h3>
+
+<p>在新版的 python 中，推荐采用另外一个命令方式，<code class="language-plaintext highlighter-rouge">pip list --format=freeze</code> 这样会输出一份干净的依赖清单，我们可以通过这个方式，快速导出一份 <code class="language-plaintext highlighter-rouge">原汁原味</code> 的 requirements.txt</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry run pip list <span class="nt">--format</span><span class="o">=</span>freeze
+<span class="nv">anyio</span><span class="o">==</span>3.6.1
+<span class="nv">certifi</span><span class="o">==</span>2022.6.15
+charset-normalizer<span class="o">==</span>2.1.0
+<span class="nv">click</span><span class="o">==</span>8.1.3
+<span class="nv">fastapi</span><span class="o">==</span>0.78.0
+<span class="nv">h11</span><span class="o">==</span>0.13.0
+<span class="nv">idna</span><span class="o">==</span>3.3
+<span class="nv">pip</span><span class="o">==</span>22.2
+<span class="nv">pydantic</span><span class="o">==</span>1.9.1
+<span class="nv">requests</span><span class="o">==</span>2.28.1
+<span class="nv">setuptools</span><span class="o">==</span>62.6.0
+<span class="nv">sniffio</span><span class="o">==</span>1.2.0
+<span class="nv">starlette</span><span class="o">==</span>0.19.1
+<span class="nv">typing_extensions</span><span class="o">==</span>4.3.0
+<span class="nv">urllib3</span><span class="o">==</span>1.26.10
+<span class="nv">uvicorn</span><span class="o">==</span>0.18.2
+<span class="nv">wheel</span><span class="o">==</span>0.37.1
+</code></pre></div></div>
+
+<h3 id="补充安装来自于-requirementstxt-的方式">补充安装来自于 requirements.txt 的方式</h3>
+
+<blockquote>
+  <p>with poetry</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat </span>requirements.txt | xargs poetry add
+</code></pre></div></div>
+
+<blockquote>
+  <p>without poetry</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-09-22</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Python">Python</a>
       
       
@@ -609,21 +1034,135 @@ yum <span class="nb">install </span>MySQL-python
     <hr/>
     
     
-    <h1><a class="title" href="/post/2022/11/MySQL-Case-WHEN.html">MySQL Case WHEN</a></h1>
+    <h1><a class="title" href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html">K8s 系列 南北流量和东西流量</a></h1>
     <div class="post_at_index">
-      <pre><code class="language-SQL">CASE
- WHEN a=1 THEN 'HELLO'
- WHEN a=2 THEN ’TELL‘
- ELSE 'ELLE'
-END 'Col_name'
-</code></pre>
+      <h2 id="南北流量和东西流量-是什么意思">南北流量和东西流量 是什么意思？</h2>
+
+<p>在 Service Mesh 微服务架构中，我们常常会听到东西流量和南北流量两个术语。</p>
+
+<p>南北流量（NORTH-SOUTH traffic）和东西流量（EAST-WEST traffic）是数据中心环境中的网络流量模式。下面我们通过一个例子来理解这两个术语。</p>
+
+<p>假设我们尝试通过浏览器访问某些 Web 应用。Web 应用部署在位于某个数据中心的应用服务器中。在多层体系结构中，典型的数据中心不仅包含应用服务器，还包含其他服务器，如负载均衡器、数据库等，以及路由器和交换机等网络组件。假设应用服务器是负载均衡器的前端。</p>
+
+<p>当我们访问 web 应用时，会发生以下类型的网络流量：</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/f9c10a68e23f6955cc25c176d2ea98f7.png?x-oss-process=image/resize,w_960,m_lfit" alt="img" style="zoom:80%;" /></p>
+
+<p>数据中心树型拓扑图是一个典型的包含接入层、汇聚层、核心层三层的网络结构。这种结构诞生之初就是为了将外部流量引流到内部应用。</p>
+
+<p>流量从外部穿过防火墙或者数据中心其它外围网络设备进来，对应到上⾯这张图里，流动方向为从上到下，称为南向流量（和地图一样，上北下南），而与之对应的，数据中心内部产生的，离开数据中心的流量，从下到上故称为北向流量。合起来称为南北流量。</p>
+
+<p>在微服务化流行之前，以巨石系统（monolithic）这种单体应用为单位部署的方式，产生的是典型的南北流量。一个单体应用配有一个专门的服务器（或虚拟机），一个外部请求通常在单体应用内独立完成，除了访问数据库等必须依赖服务之外，很少会发生横向的流量。</p>
+
+<p>但云计算机、大数据、微服务、云原生等技术的发展催生了大量的从左到右以及从右到左的流量，也被称为东西流量。</p>
+
+<p>数据中心内部南北流量的削弱，而东西流量的井喷在硬件上要求数据中心要横向扩展以提供更宽的大二层以及容纳更多的服务器，而在软件上则要求一种新的服务编排方式以便能充分挖掘、利用现有的计算能力，从这个角度看 K8s 的出现是一种必然。</p>
+
+<p>举两个例子：</p>
+
+<ul>
+  <li>
+    <p>客户端（位于数据中心一侧的浏览器）与负载均衡器（位于数据中心）之间的网络流量</p>
+  </li>
+  <li>
+    <p>负载均衡器、应用服务器、数据库等之间的网络流量，它们都位于数据中心。</p>
+  </li>
+</ul>
+
+<p>在这个例子中，前者即即客户端和服务器之间的流量被称为南北流量。简而言之，南北流量是 server-client 流量。</p>
+
+<p>第二种流量即不同服务器之间的流量与数据中心或不同数据中心之间的网络流被称为东西流量。简而言之，东西流量是 service-service 流量。</p>
+
+<p>当下，东西流量远超南北流量，尤其是在当今的大数据生态系统中，比如 Hadoop 生态系统（大量 server 驻留在数据中心中，用 map reduce 处理），server-server 流量远大于 server-client 流量。</p>
+
+<p>大家可能会好奇，东西南北，为什么这么命名？</p>
+
+<p>该命名来自于绘制典型 network diagrams 的习惯。在图表中，通常核心网络组件绘制在顶部（NORTH），客户端绘制在底部（SOUTH），而数据中心内的不同服务器水平（EAST-WEST）</p>
 
       
     </div>
     <br/>
     <div>
-      <cite>2022-11-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SQL">SQL</a>
+      <cite>2022-09-12</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#K8s">K8s</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/08/Docker-for-Mac-%E7%BD%91%E7%BB%9C%E6%8A%80%E5%B7%A7.html">Docker for Mac 网络技巧</a></h1>
+    <div class="post_at_index">
+      <p>在 Windows 和 Linux 中使用 Docker，可以通过 docker0 这个网络 IP，在容器内访问宿主机的端口及服务</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ ifconfig
+docker0: <span class="nv">flags</span><span class="o">=</span>4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
+        ether 02:42:65:e2:82:de  txqueuelen 0  <span class="o">(</span>Ethernet<span class="o">)</span>
+        RX packets 19240  bytes 9107695 <span class="o">(</span>8.6 MiB<span class="o">)</span>
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 16989  bytes 9952021 <span class="o">(</span>9.4 MiB<span class="o">)</span>
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+</code></pre></div></div>
+
+<p>但以上在 macOS 中无 docker0 端口，那我们如何在 Docker for Mac 中访问宿主机的服务呢？</p>
+
+<blockquote>
+  <p>docker.for.mac.host.internal</p>
+</blockquote>
+
+<p>可以采用以上本地域名内实现在容器内访问 宿主机的服务</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-08-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Docker">Docker</a>
+      , 
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/08/%E7%93%A6%E5%B0%94%E7%99%BB%E6%B9%96.html">瓦尔登湖</a></h1>
+    <div class="post_at_index">
+      <p><a href="https://www.amazon.cn/s/ref=as_li_ss_tl?_encoding=UTF8\&amp;camp=536\&amp;creative=3132\&amp;field-keywords=%E7%93%A6%E5%B0%94%E7%99%BB%E6%B9%96\&amp;linkCode=ur2\&amp;tag=llll1-23\&amp;url=search-alias%3Dbooks">亨利••大卫••梭罗</a>
+7 highlights, 1 note</p>
+
+<ul>
+  <li>在这段时间里把车钱挣出来了，会在明天的什么时候到达那里，如果你幸运地及时找到了工作，也可能今晚到达。你大半天的时间不是去了菲奇堡，却是在这里干活。因此，如果铁路通到全世界，我想我还是会在你前头；至于说长见识，如果净是那方面的见识，我就得和你完全断绝来往了。</li>
+  <li>如果你决定明天开始做一件事情，那为什么不现在就开始呢？实用主义，不应该追求虚无的东西。</li>
+  <li>
+    <p>最好在坏事一开始的时候就防止它。</p>
+  </li>
+  <li>
+    <p>在任何一个社会中，书籍的作者都是天生的极富魅力的精英分子，对人类发挥着比帝王们更大的影响。当目不识丁的、也许还是鄙视一切的商人，通过魄力和勤奋挣得了垂涎已久的闲暇和衣食无忧的生活，进入了财富和时尚的圈子以后，最终不可避免地会转向那更高的然而却难以企及的知识和才赋的圈子，这时他才会意识到自己文化的残缺，以及他一切财富的空虚无用；于是他不遗余力地要使子女获得知识文化，他深刻地感到自己这方面的不足，从而证明了他的明智；就这样，他成了一个家族的缔造者。</p>
+  </li>
+  <li>
+    <p>我们应该和古代的圣贤一样优秀，但是首先要知道他们有多么优秀。我们是一群矮子，我们智力翱翔所达之处只不过稍高于报纸的专栏而已。</p>
+  </li>
+  <li>
+    <p>德不孤，必有邻。</p>
+  </li>
+  <li>
+    <p>孤独不能以一个人和别人之间有多少英里的空间来衡量。</p>
+  </li>
+  <li>在他身上肉体的人得到了充分发展。</li>
+</ul>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-08-15</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
       
       
       
@@ -971,41 +1510,40 @@ END 'Col_name'
       <ul>
         
         <li>
-          <a href="/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过pipreqs获取当前项目的依赖库</a>
-          如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a>
+          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
           
-  strip() 删除字符串中的内容，删除后仍旧是str
-  split() 分割字符串，根据特定的标识，分割后=list
+  参考资料：
 
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a>
+          <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
           ```python
-import string
+df = pandas.read_csv(‘somefile.txt’)
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python3-setup.py-help-commands.html">python3 setup.py --help-commands</a>
-          ```python
-→ python3 setup.py –help-commands
+          <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
+          暗坑很多
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入excel</a>
-          以下是使用的方法：
+          <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
+          王路
+12 highlights
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/10/%E8%87%AA%E5%8D%91%E4%B8%8E%E8%B6%85%E8%B6%8A.html">自卑与超越</a>
+          【奥】阿尔弗雷德··阿德勒
 
 
         </li>

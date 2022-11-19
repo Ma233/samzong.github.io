@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 	<link rel="manifest" href="/static/pwa/manifest.json">
-	<title> MySQL Case WHEN | 船长的课记 </title>
+	<title> Python 抓出来随机下载记录 | 船长的课记 </title>
     
 		
     <meta name="author" content="船长">
@@ -275,25 +275,34 @@
 <div class="row" itemscope itemtype="http://schema.org/Article">
     <div class="col-xs-12 col-md-8">
         <div class="page-header" itemprop="name">
-            <h1>MySQL Case WHEN 
+            <h1>Python 抓出来随机下载记录 
             </h1>
         </div>
         <div class="post-meta">
             
-            <span class="entry-date" itemprop="datePublished">Posted on 11/17/2022</span>
+            <span class="entry-date" itemprop="datePublished">Posted on 08/25/2021</span>
             
             
             <span class="entry-author" itemprop="author">by 船长</span>
-            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/main/_posts/2022-11-17-MySQL Case WHEN.md"
+            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/main/_posts/2021-08-25-Python 抓出来随机下载记录.md"
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <pre><code class="language-SQL">CASE
- WHEN a=1 THEN 'HELLO'
- WHEN a=2 THEN ’TELL‘
- ELSE 'ELLE'
-END 'Col_name'
-</code></pre>
+            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">'https://appest-public.s3.amazonaws.com/download/mac/TickTick_3.9.00_{}.dmg'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">resp</span><span class="p">.</span><span class="n">status_code</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">resp</span><span class="p">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="k">break</span>
+    <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>:::info
+背景
+:::</p>
 
         </div>
 
@@ -1192,13 +1201,13 @@ END 'Col_name'
         <nav>
             <ul class="pager">
                 
-                <li class="previous"><a href="/post/2022/11/Docker-for-Mac-%E7%BD%91%E7%BB%9C%E6%8A%80%E5%B7%A7.html" title="Docker for Mac 网络技巧">&larr;
+                <li class="previous"><a href="/post/2021/08/MySQL-REGEXP-%E6%B4%BB%E5%AD%A6%E6%B4%BB%E7%94%A8.html" title="MySQL REGEXP 活学活用">&larr;
                     Previous（前一篇）</a></li>
                 
                 <!-- <li><a href="/static/archive.html">Archive（目录）</a></li> -->
                 <li><a href="/archive.html">Archive（目录）</a></li>
                 
-                <li class="next"><a href="/post/2022/11/Python-%E6%8A%93%E5%87%BA%E6%9D%A5%E9%9A%8F%E6%9C%BA%E4%B8%8B%E8%BD%BD%E8%AE%B0%E5%BD%95.html" title="Python 抓出来随机下载记录">Next（后一篇） &rarr;</a></li>
+                <li class="next"><a href="/post/2021/09/dataframe-Pandas.html" title="dataframe - Pandas">Next（后一篇） &rarr;</a></li>
                 
             </ul>
         </nav>
@@ -1215,8 +1224,8 @@ END 'Col_name'
   
      
     	
-      <li><a href="/categories.html#SQL">
-    		SQL <span>5</span>
+      <li><a href="/categories.html#Python">
+    		Python <span>45</span>
     	</a></li>
     
   
@@ -1236,7 +1245,7 @@ END 'Col_name'
   
      
     	
-    	<li><a href="/tags.html#SQL">SQL <span>6</span></a></li>
+    	<li><a href="/tags.html#Python">Python <span>46</span></a></li>
     
   
 

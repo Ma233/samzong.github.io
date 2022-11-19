@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 	<link rel="manifest" href="/static/pwa/manifest.json">
-	<title> Tomcat 利用JDK自身keytool实现HTTPS | 船长的课记 </title>
+	<title> Tomcat 利用 JDK 自身 keytool 实现 HTTPS | 船长的课记 </title>
     
 		
     <meta name="author" content="船长">
@@ -275,7 +275,7 @@
 <div class="row" itemscope itemtype="http://schema.org/Article">
     <div class="col-xs-12 col-md-8">
         <div class="page-header" itemprop="name">
-            <h1>Tomcat 利用JDK自身keytool实现HTTPS 
+            <h1>Tomcat 利用 JDK 自身 keytool 实现 HTTPS 
             </h1>
         </div>
         <div class="post-meta">
@@ -288,7 +288,7 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <p>因为一个偶然机会，想把自己的webserver通过https加密访问，这里就采用JDK自带的keytool工具实现，tomcat官方也推荐这种方式，英文好的同学走这里：<a href="https://tomcat.apache.org/tomcat-7.0-doc/ssl-howto.html">官方配置</a></p>
+            <p>因为一个偶然机会，想把自己的 webserver 通过 https 加密访问，这里就采用 JDK 自带的 keytool 工具实现，tomcat 官方也推荐这种方式，英文好的同学走这里：<a href="https://tomcat.apache.org/tomcat-7.0-doc/ssl-howto.html">官方配置</a></p>
 
 <blockquote>
   <p>demo: CentOS 6.6 &amp; Tomcat 7 &amp; JDK 1.7</p>
@@ -324,8 +324,8 @@ Catalina  catalina.policy  catalina.properties  context.xml  logging.properties 
 </code></pre></div></div>
 
 <blockquote>
-  <p>注意：-keystore是用来指定keystore保存位置，如果不加参数默认保存的当前用户家目录为~/.keystore
-       -validity 可以用来指定证书有效期，单位为天，缺省值为90天。</p>
+  <p>注意：-keystore 是用来指定 keystore 保存位置，如果不加参数默认保存的当前用户家目录为~/.keystore
+       -validity 可以用来指定证书有效期，单位为天，缺省值为 90 天。</p>
 </blockquote>
 
 <h4 id="2-备份tomcatdirconfserverxml">2. 备份$tomcatdir/conf/server.xml</h4>
@@ -333,9 +333,9 @@ Catalina  catalina.policy  catalina.properties  context.xml  logging.properties 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp $tomcatdir/conf/server.xml $tomcatdir/conf/server.xml
 </code></pre></div></div>
 
-<h4 id="3-修改serverxml">3. 修改server.xml</h4>
+<h4 id="3-修改-serverxml">3. 修改 server.xml</h4>
 
-<h6 id="a-注释以下tomcat注释用---xxxx----如何也想保留http访问可以不注释">a. 注释以下：（tomcat注释用：&lt;!-- XXXX --&gt; ）,如何也想保留http访问，可以不注释</h6>
+<h6 id="a-注释以下tomcat-注释用---xxxx----如何也想保留-http-访问可以不注释">a. 注释以下：（tomcat 注释用：&lt;!-- XXXX --&gt; ）,如何也想保留 http 访问，可以不注释</h6>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;!--
 &lt;Connector executor="tomcatThreadPool"
@@ -352,7 +352,7 @@ Catalina  catalina.policy  catalina.properties  context.xml  logging.properties 
                 clientAuth="false" sslProtocol="TLS" /&gt;
 </code></pre></div></div>
 
-<h6 id="c-增加keystorefile和keystorepass">c. 增加keystoreFile和keystorePass</h6>
+<h6 id="c-增加-keystorefile-和-keystorepass">c. 增加 keystoreFile 和 keystorePass</h6>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Connector port="443" protocol="HTTP/1.1" SSLEnabled="true"
                maxThreads="150" scheme="https" secure="true"
@@ -361,11 +361,11 @@ Catalina  catalina.policy  catalina.properties  context.xml  logging.properties 
 </code></pre></div></div>
 
 <blockquote>
-  <p>keystoreFile=跟keystore文件位置
-keystorePass=跟当时keytool命令执行时输入的密码</p>
+  <p>keystoreFile=跟 keystore 文件位置
+keystorePass=跟当时 keytool 命令执行时输入的密码</p>
 </blockquote>
 
-<h4 id="4-重启tomcat">4. 重启tomcat</h4>
+<h4 id="4-重启-tomcat">4. 重启 tomcat</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test conf]# ../bin/catalina.sh stop &amp;&amp; ../bin/catalina.sh start
 Using CATALINA_BASE:   /home/pms/apache-tomcat-6.0.44
@@ -1285,7 +1285,7 @@ tcp        0      0 0.0.0.0:8009       0.0.0.0:*          LISTEN      21960/java
         <nav>
             <ul class="pager">
                 
-                <li class="previous"><a href="/post/2016/11/AWS-Use-s3cmd%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86S3%E5%AD%98%E5%82%A8.html" title="AWS Use s3cmd命令行管理S3存储">&larr;
+                <li class="previous"><a href="/post/2016/11/AWS-Use-s3cmd%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86S3%E5%AD%98%E5%82%A8.html" title="AWS Use s3cmd 命令行管理 S3 存储">&larr;
                     Previous（前一篇）</a></li>
                 
                 <!-- <li><a href="/static/archive.html">Archive（目录）</a></li> -->

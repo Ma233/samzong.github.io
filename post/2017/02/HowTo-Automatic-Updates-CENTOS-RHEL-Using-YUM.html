@@ -288,14 +288,14 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <p>大家若工作遇到需要管理的Linux集群机器较多时，同时我们知道系统的安全更新补丁维护这些非常重要，无论你在安装时优化维护做的再好，随着时间的推移，如果不去更新的话，系统早晚都会不安全，所以定期更新我们的系统补丁是一个运维人员的基本工作内容</p>
+            <p>大家若工作遇到需要管理的 Linux 集群机器较多时，同时我们知道系统的安全更新补丁维护这些非常重要，无论你在安装时优化维护做的再好，随着时间的推移，如果不去更新的话，系统早晚都会不安全，所以定期更新我们的系统补丁是一个运维人员的基本工作内容</p>
 
 <h3 id="install-yum-cron">Install yum-cron</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install -y yum-cron
 </code></pre></div></div>
 
-<p>因为我的服务器系统多为CentOS 6，6的配置文件在<code>/etc/sysconfig/yum-cron</code>，你可以用以下命令查看配置文件位置：</p>
+<p>因为我的服务器系统多为 CentOS 6，6 的配置文件在<code>/etc/sysconfig/yum-cron</code>，你可以用以下命令查看配置文件位置：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm -ql yum-cron
 /etc/cron.daily/0yum.cron
@@ -310,7 +310,7 @@
 
 <h3 id="configure-etcsysconfigyum-cron">Configure “/etc/sysconfig/yum-cron”</h3>
 
-<p>yum-cron的默认设置是会在每天自动检查和安装系统更新包，在安装完成后有些配置需要注意下：</p>
+<p>yum-cron 的默认设置是会在每天自动检查和安装系统更新包，在安装完成后有些配置需要注意下：</p>
 
 <h5 id="1-对于不需要更新的可以忽略掉">1. 对于不需要更新的可以忽略掉</h5>
 

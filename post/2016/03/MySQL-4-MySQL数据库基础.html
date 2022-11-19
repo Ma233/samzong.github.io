@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 	<link rel="manifest" href="/static/pwa/manifest.json">
-	<title> MySQL数据库使用基础 | 船长的课记 </title>
+	<title> MySQL 数据库使用基础 | 船长的课记 </title>
     
 		
     <meta name="author" content="船长">
@@ -275,7 +275,7 @@
 <div class="row" itemscope itemtype="http://schema.org/Article">
     <div class="col-xs-12 col-md-8">
         <div class="page-header" itemprop="name">
-            <h1>MySQL数据库使用基础 
+            <h1>MySQL 数据库使用基础 
             </h1>
         </div>
         <div class="post-meta">
@@ -291,7 +291,7 @@
             <h2 id="1-测试环境">1. 测试环境</h2>
 
 <ul>
-  <li>MacBook Pro 15‘ i7 16GB</li>
+  <li>MacBook Pro 15’ i7 16GB</li>
   <li>VMware Fushion 8 Pro</li>
   <li>MySQL Version 5.1</li>
   <li>CentOS Linux 6.x</li>
@@ -299,13 +299,13 @@
 
 <h2 id="2-实验步骤">2. 实验步骤</h2>
 
-<h3 id="21安装mysql">2.1 安装mysql</h3>
+<h3 id="21安装-mysql">2.1 安装 mysql</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera  ~]#  yum  install  mysql  mysql-server  mysql-devel
 
 </code></pre></div></div>
 
-<h3 id="22-启动mysql并设置开机自启动">2.2 启动mysql，并设置开机自启动</h3>
+<h3 id="22-启动-mysql并设置开机自启动">2.2 启动 mysql，并设置开机自启动</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera  ~]#  service  mysqld  start
 [root@ultraera  ~]#  chkconfig  mysqld  on
@@ -323,7 +323,7 @@ port:3306           mysql默认端口
 # Tips : MySQL 绝大对数语句都是以分号结尾，注意是英文模式下的分号。字符和字符串用 '' 引起；
 </code></pre></div></div>
 
-<h3 id="24-mysql初始化及登录">2.4 mysql初始化及登录</h3>
+<h3 id="24-mysql-初始化及登录">2.4 mysql 初始化及登录</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 [root@ultraera ~]# mysql_secure_installation
@@ -467,7 +467,7 @@ mysql&gt;  select  name  from  ultraera;
 
 </code></pre></div></div>
 
-<h3 id="210-where运算符条件判断查询查询使用方法where列运算符值">2.10 where运算符：条件判断查询，查询使用方法：where  列  运算符  值</h3>
+<h3 id="210-where-运算符条件判断查询查询使用方法where列运算符值">2.10 where 运算符：条件判断查询，查询使用方法：where  列  运算符  值</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>where支持的运算符：=等于；&gt;大于；&lt;小于；&lt;&gt;不等于；&gt;=大于等于；&lt;=小于等于；BETWEEN在某范围之内；
 mysql&gt; select * from ultraera where id&gt;1;
@@ -479,7 +479,7 @@ mysql&gt; select * from ultraera where id  between  1  and  4;
 
 </code></pre></div></div>
 
-<h3 id="211-删除表格中的一条记录同样可以匹配where运算符">2.11 删除表格中的一条记录（同样可以匹配where运算符）</h3>
+<h3 id="211-删除表格中的一条记录同样可以匹配-where-运算符">2.11 删除表格中的一条记录（同样可以匹配 where 运算符）</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt;  delete  from  ultraera  where  id  =  4;
 mysql&gt;  delete  *  from  ultraera ； #清空一个表格的数据；
@@ -492,7 +492,7 @@ mysql&gt;  delete  *  from  ultraera ； #清空一个表格的数据�
 
 </code></pre></div></div>
 
-<h3 id="213-mysql增加删除一个用户">2.13 MySQL增加删除一个用户</h3>
+<h3 id="213-mysql-增加删除一个用户">2.13 MySQL 增加删除一个用户</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt;  create  user  user1  identified  by  '123456'; #user1，密码123456，新用户没有权限，无法登录数据库
 mysql&gt;  drop  user  user1; #删除用户user1
@@ -506,9 +506,9 @@ mysql&gt;  revoke  all  privileges  from  user1;
 
 </code></pre></div></div>
 
-<h3 id="215-使用mysqldump进行数据库备份">2.15 使用mysqldump进行数据库备份</h3>
+<h3 id="215-使用-mysqldump-进行数据库备份">2.15 使用 mysqldump 进行数据库备份</h3>
 
-<p>数据库重命名：mysql不能直接对数据库重命名，所以如果想要重名数据库的话，要先导出，接着创建一个新的数据库，然后将导出的sql文件再导入到新的数据库中</p>
+<p>数据库重命名：mysql 不能直接对数据库重命名，所以如果想要重名数据库的话，要先导出，接着创建一个新的数据库，然后将导出的 sql 文件再导入到新的数据库中</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[adam@ultraera  ~]$  mysqldump  -u  root  -p  ultraera  &gt;  ultraera.sql     #备份
 [adam@ultraera  ~]$  mysql  -u  root  -p  new_ultraera  &lt;  ultraera.sql     #恢复到指定数据库
@@ -1418,7 +1418,7 @@ mysql&gt;  revoke  all  privileges  from  user1;
                 <!-- <li><a href="/static/archive.html">Archive（目录）</a></li> -->
                 <li><a href="/archive.html">Archive（目录）</a></li>
                 
-                <li class="next"><a href="/post/2016/04/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS-6-%E5%AE%89%E8%A3%85%E6%9B%B4%E9%AB%98%E7%89%88%E6%9C%AC%E7%9A%84PHP.html" title="如何在CentOS 6 安装更高版本的PHP">Next（后一篇） &rarr;</a></li>
+                <li class="next"><a href="/post/2016/04/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS-6-%E5%AE%89%E8%A3%85%E6%9B%B4%E9%AB%98%E7%89%88%E6%9C%AC%E7%9A%84PHP.html" title="如何在 CentOS 6 安装更高版本的 PHP">Next（后一篇） &rarr;</a></li>
                 
             </ul>
         </nav>

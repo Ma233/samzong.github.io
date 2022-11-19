@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 	<link rel="manifest" href="/static/pwa/manifest.json">
-	<title> Django 初始化project | 船长的课记 </title>
+	<title> Django 初始化 project | 船长的课记 </title>
     
 		
     <meta name="author" content="船长">
@@ -275,7 +275,7 @@
 <div class="row" itemscope itemtype="http://schema.org/Article">
     <div class="col-xs-12 col-md-8">
         <div class="page-header" itemprop="name">
-            <h1>Django 初始化project 
+            <h1>Django 初始化 project 
             </h1>
         </div>
         <div class="post-meta">
@@ -288,7 +288,7 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 初始化 mysite 项目</span>
+            <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 初始化 mysite 项目</span>
 
 django-admin startproject mysite
 
@@ -302,7 +302,7 @@ django-admin startproject mysite
 
 <h3 id="项目初始化">项目初始化</h3>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 manage.py <span class="nt">--help</span> <span class="c"># 用于管理项目以及服务</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 manage.py <span class="nt">--help</span> <span class="c"># 用于管理项目以及服务</span>
 python3 manage.py runserver  <span class="c"># 启动服务</span>
 python3 manage.py startapp <span class="s1">'blog'</span>  <span class="c"># 用于在项目下创建一个app</span>
 
@@ -334,7 +334,7 @@ python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号
     <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="c1"># !需要安装插件 pip install mysql
+<span class="c1"># ! 需要安装插件 pip install mysql
 </span>
 <span class="o">---</span>
 
@@ -354,7 +354,7 @@ python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号
 
 <h3 id="modules-变更后需要同步变更数据库表">modules 变更后，需要同步变更数据库表</h3>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 修改module.py后，需要执行以下命令，将变更同步到数据库，否则不生效
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 修改 module.py 后，需要执行以下命令，将变更同步到数据库，否则不生效
 </span><span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">makemigrations</span>
 <span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">migrate</span>
 </code></pre></div></div>

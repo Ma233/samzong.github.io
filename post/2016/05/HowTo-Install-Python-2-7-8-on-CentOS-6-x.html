@@ -297,18 +297,23 @@ yum groupinstall -y 'development tools'
 </code></pre></div></div>
 
 <p>Also you need the packages below to enable SSL, bz2, zlib for Python and some utils:</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y zlib-devel bzip2-devel openssl-devel xz-libs wget
 </code></pre></div></div>
 
 <h2 id="installing-python-278-from-source">Installing Python 2.7.8 from source</h2>
+
 <p>Download Python and extract it</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://www.python.org/ftp/python/2.7.8/Python-2.7.8.tar.xz
 xz -d Python-2.7.8.tar.xz
 tar -xvf Python-2.7.8.tar
 </code></pre></div></div>
 
 <h2 id="installation-process">Installation process</h2>
+
 <p>Since we already installed all the dependencies we are ready to go:</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Enter the directory:
 cd Python-2.7.8
 
@@ -323,14 +328,18 @@ make altinstall
 [root@nicetry ~]# python2.7 -V
 Python 2.7.8
 </code></pre></div></div>
+
 <p>If you need set <code>PATH</code> variable check the line below:</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export PATH="/usr/local/bin:$PATH"
 </code></pre></div></div>
 
 <h2 id="installing-pip-and-virtualenv">Installing pip and virtualenv</h2>
+
 <p>Now we have Python installed, but something is missing isn’t? Yes! We need pip and virtualenv.</p>
 
 <h3 id="install-setuptools">Install setuptools</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget --no-check-certificate https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz
 
 # Extract the files:
@@ -342,10 +351,12 @@ python2.7 setup.py install
 </code></pre></div></div>
 
 <h3 id="install-pip">Install pip</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py | python2.7 -
 </code></pre></div></div>
 
 <h3 id="and-finally-virtualenv">And finally virtualenv</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip2.7 install virtualenv
 </code></pre></div></div>
 

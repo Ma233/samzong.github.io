@@ -311,7 +311,7 @@
 
 <h2 id="配置技巧相关">配置技巧相关</h2>
 
-<p>在开始使用前，建议先对poetry 的配置有些了解，并调整为适合你的方式，主要是调整一下虚拟环境的安装位置</p>
+<p>在开始使用前，建议先对 poetry 的配置有些了解，并调整为适合你的方式，主要是调整一下虚拟环境的安装位置</p>
 
 <blockquote>
   <p><code class="language-plaintext highlighter-rouge">poetry config</code> poetry 相关的查看和编辑的命令</p>
@@ -353,13 +353,13 @@
     <tr>
       <td>virtualenvs.create</td>
       <td>boolean</td>
-      <td>默认为true，如果当前工程的虚拟环境不存在，就创建一个</td>
+      <td>默认为 true，如果当前工程的虚拟环境不存在，就创建一个</td>
       <td>不建议更改</td>
     </tr>
     <tr>
       <td>virtualenvs.in-project</td>
       <td>boolean</td>
-      <td>None：poetry 会在系统特定目录创建一个.venv目录，由下面的 path 参数指定<br />true： poetry 会在项目根目录创建一个.venv目录<br />false： poetry 将会忽略已存在的.venv目录</td>
+      <td>None：poetry 会在系统特定目录创建一个.venv 目录，由下面的 path 参数指定<br />true：poetry 会在项目根目录创建一个.venv 目录<br />false：poetry 将会忽略已存在的.venv 目录</td>
       <td><strong>《建议修改》</strong><br /><br />推荐这种方式，在项目根目录创建虚拟环境，这样就算移动目录位置也不影响虚拟环境的使用</td>
     </tr>
     <tr>
@@ -372,7 +372,7 @@
 </table>
 
 <blockquote>
-  <p>建议 在使用前 启用 virtualenvs.in-project ，这样会在每个项目下有一个.venv 方便隔离管理</p>
+  <p>建议 在使用前 启用 virtualenvs.in-project，这样会在每个项目下有一个.venv 方便隔离管理</p>
 </blockquote>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># poetry 配置说明
@@ -395,7 +395,7 @@
     </tr>
     <tr>
       <td>$ poetry new</td>
-      <td>创建一个新的Poetry项目。</td>
+      <td>创建一个新的 Poetry 项目。</td>
     </tr>
     <tr>
       <td>$ poetry init</td>
@@ -407,7 +407,7 @@
     </tr>
     <tr>
       <td>$ poetry add</td>
-      <td>添加一个包pyproject.toml并安装它。</td>
+      <td>添加一个包 pyproject.toml 并安装它。</td>
     </tr>
     <tr>
       <td>$ poetry update</td>
@@ -423,15 +423,15 @@
     </tr>
     <tr>
       <td>$ poetry lock</td>
-      <td>将最新版本的依赖项固定到poetry.lock.</td>
+      <td>将最新版本的依赖项固定到 poetry.lock.</td>
     </tr>
     <tr>
       <td>$ poetry lock –no-update</td>
-      <td>刷新poetry.lock文件而不更新任何依赖版本。</td>
+      <td>刷新 poetry.lock 文件而不更新任何依赖版本。</td>
     </tr>
     <tr>
       <td>$ poetry check</td>
-      <td>验证pyproject.toml。</td>
+      <td>验证 pyproject.toml。</td>
     </tr>
     <tr>
       <td>$ poetry config –list</td>
@@ -443,7 +443,7 @@
     </tr>
     <tr>
       <td>$ poetry export</td>
-      <td>导出poetry.lock为其他格式。</td>
+      <td>导出 poetry.lock 为其他格式。</td>
     </tr>
   </tbody>
 </table>
@@ -468,16 +468,16 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
 
 </code></pre></div></div>
 
-<h2 id="requirementstxt-已存在项目使用poetry">requirements.txt 已存在项目使用poetry</h2>
+<h2 id="requirementstxt-已存在项目使用-poetry">requirements.txt 已存在项目使用 poetry</h2>
 
-<p>这里会遇到一个问题，已存在的项目基本都已经有了 requirements.txt， 所以 poetry 最好可以直接读取它</p>
+<p>这里会遇到一个问题，已存在的项目基本都已经有了 requirements.txt，所以 poetry 最好可以直接读取它</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry add <span class="sb">`</span><span class="nb">cat </span>requirements.txt<span class="sb">`</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry add <span class="sb">`</span><span class="nb">cat </span>requirements.txt<span class="sb">`</span>
 </code></pre></div></div>
 
 <p>将项目依赖导出为  requirements.txt</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry <span class="nb">export</span> <span class="nt">--output</span> requirements.txt
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>poetry <span class="nb">export</span> <span class="nt">--output</span> requirements.txt
 </code></pre></div></div>
 
         </div>
@@ -633,39 +633,39 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
                 
                 
                 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
                 <li><a href="/post/2022/03/Poetry-%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0.html">Poetry 使用笔记</a> - <span>03/27/2022</span></li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
                 
                 
                 

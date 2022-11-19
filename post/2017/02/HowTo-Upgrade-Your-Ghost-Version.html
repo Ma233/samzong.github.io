@@ -289,45 +289,45 @@
         </div>
         <div class="post-content" itemprop="articleBody">
             <p><br /></p>
-<h4 id="1-下载最新版的ghost">1. 下载最新版的Ghost</h4>
+<h4 id="1-下载最新版的-ghost">1. 下载最新版的 Ghost</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -LOk https://ghost.org/zip/ghost-latest.zip
 </code></pre></div></div>
 
-<h4 id="2-创建临时目录并解压ghost-latestzip到此">2. 创建临时目录，并解压ghost-latest.zip到此</h4>
+<h4 id="2-创建临时目录并解压-ghost-latestzip-到此">2. 创建临时目录，并解压 ghost-latest.zip 到此</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir /usr/ghost-tmp
 unzip ghost-latest.zip -d /usr/ghost-tmp
 </code></pre></div></div>
 
-<h4 id="3-进入到原ghost目录删除core">3. 进入到原ghost目录，删除core</h4>
+<h4 id="3-进入到原-ghost-目录删除-core">3. 进入到原 ghost 目录，删除 core</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd  /usr/ghost
 rm -rf core
 </code></pre></div></div>
 
-<h4 id="4进入到新版本的ghost临时目录">4.进入到新版本的ghost临时目录</h4>
+<h4 id="4进入到新版本的-ghost-临时目录">4.进入到新版本的 ghost 临时目录</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /usr/ghost-tmp
 </code></pre></div></div>
 
-<h4 id="5-拷贝所需文件到ghost升级目录">5. 拷贝所需文件到ghost升级目录</h4>
+<h4 id="5-拷贝所需文件到-ghost-升级目录">5. 拷贝所需文件到 ghost 升级目录</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp -R core /usr/ghost
 cp index.js *.json /usr/ghost
 </code></pre></div></div>
 
-<h4 id="6-可选升级casperghost默认主题">6. (可选)升级casper，ghost默认主题</h4>
+<h4 id="6-可选-升级-casperghost-默认主题">6. (可选) 升级 casper，ghost 默认主题</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp -R content/themes/casper /usr/ghost/content/themes/
 </code></pre></div></div>
 
-<h4 id="7-切换回到ghost安装目录">7. 切换回到ghost安装目录</h4>
+<h4 id="7-切换回到-ghost-安装目录">7. 切换回到 ghost 安装目录</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /usr/ghost
 </code></pre></div></div>
 
-<h4 id="8-修改文件目录所有者和所属组为ghost">8. 修改文件目录所有者和所属组为ghost</h4>
+<h4 id="8-修改文件目录所有者和所属组为-ghost">8. 修改文件目录所有者和所属组为 ghost</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chown -R ghost:ghost ./*
 </code></pre></div></div>
@@ -337,7 +337,7 @@ cp index.js *.json /usr/ghost
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install --production
 </code></pre></div></div>
 
-<h4 id="10-重启ghost">10. 重启Ghost</h4>
+<h4 id="10-重启-ghost">10. 重启 Ghost</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pm2 restart ghost
 </code></pre></div></div>

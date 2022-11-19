@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 	<link rel="manifest" href="/static/pwa/manifest.json">
-	<title> 创建和使用Azure Redis Cache | 船长的课记 </title>
+	<title> 创建和使用 Azure Redis Cache | 船长的课记 </title>
     
 		
     <meta name="author" content="船长">
@@ -275,7 +275,7 @@
 <div class="row" itemscope itemtype="http://schema.org/Article">
     <div class="col-xs-12 col-md-8">
         <div class="page-header" itemprop="name">
-            <h1>创建和使用Azure Redis Cache 
+            <h1>创建和使用 Azure Redis Cache 
             </h1>
         </div>
         <div class="post-meta">
@@ -288,21 +288,21 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <p>我们以管理员身份，运行PowerShell，执行以下命令。实现创建Standard类型，大小为13GB的Redis Cache</p>
+            <p>我们以管理员身份，运行 PowerShell，执行以下命令。实现创建 Standard 类型，大小为 13GB 的 Redis Cache</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#弹出界面输入用户名密码
-Add-AzureAccount -Environment AzureChinaCloud
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#弹出界面输入用户名密码</span>
+Add-AzureAccount <span class="nt">-Environment</span> AzureChinaCloud
 
-#设置当前订阅名称
-Select-AzureSubscription '[SubscriptionName]' –Current
+<span class="c">#设置当前订阅名称</span>
+Select-AzureSubscription <span class="s1">'[SubscriptionName]'</span> –Current
 
-Switch-AzureMode -name AzureResourceManager
+Switch-AzureMode <span class="nt">-name</span> AzureResourceManager
 
-#在中国东部数据中心，创建新的资源组
-New-AzureResourceGroup -name [YourResourceGroupName] -Location 'China East'
+<span class="c">#在中国东部数据中心，创建新的资源组</span>
+New-AzureResourceGroup <span class="nt">-name</span> <span class="o">[</span>YourResourceGroupName] <span class="nt">-Location</span> <span class="s1">'China East'</span>
 
-#在中国东部数据中心，申请13GB的Redis Cache，类型为Standard，有SLA保证
-New-AzureRedisCache -ResourceGroupName [YourResourceGroupName] -Name [RedisCacheName] -Location 'China East' -sku 'Standard' -Size '13GB'
+<span class="c">#在中国东部数据中心，申请13GB的Redis Cache，类型为Standard，有SLA保证</span>
+New-AzureRedisCache <span class="nt">-ResourceGroupName</span> <span class="o">[</span>YourResourceGroupName] <span class="nt">-Name</span> <span class="o">[</span>RedisCacheName] <span class="nt">-Location</span> <span class="s1">'China East'</span> <span class="nt">-sku</span> <span class="s1">'Standard'</span> <span class="nt">-Size</span> <span class="s1">'13GB'</span>
 </code></pre></div></div>
 
         </div>

@@ -287,18 +287,23 @@ yum groupinstall -y 'development tools'
 </code></pre></div></div>
 
 <p>Also you need the packages below to enable SSL, bz2, zlib for Python and some utils:</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y zlib-devel bzip2-devel openssl-devel xz-libs wget
 </code></pre></div></div>
 
 <h2 id="installing-python-278-from-source">Installing Python 2.7.8 from source</h2>
+
 <p>Download Python and extract it</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://www.python.org/ftp/python/2.7.8/Python-2.7.8.tar.xz
 xz -d Python-2.7.8.tar.xz
 tar -xvf Python-2.7.8.tar
 </code></pre></div></div>
 
 <h2 id="installation-process">Installation process</h2>
+
 <p>Since we already installed all the dependencies we are ready to go:</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Enter the directory:
 cd Python-2.7.8
 
@@ -313,14 +318,18 @@ make altinstall
 [root@nicetry ~]# python2.7 -V
 Python 2.7.8
 </code></pre></div></div>
+
 <p>If you need set <code>PATH</code> variable check the line below:</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export PATH="/usr/local/bin:$PATH"
 </code></pre></div></div>
 
 <h2 id="installing-pip-and-virtualenv">Installing pip and virtualenv</h2>
+
 <p>Now we have Python installed, but something is missing isn’t? Yes! We need pip and virtualenv.</p>
 
 <h3 id="install-setuptools">Install setuptools</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget --no-check-certificate https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz
 
 # Extract the files:
@@ -332,10 +341,12 @@ python2.7 setup.py install
 </code></pre></div></div>
 
 <h3 id="install-pip">Install pip</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py | python2.7 -
 </code></pre></div></div>
 
 <h3 id="and-finally-virtualenv">And finally virtualenv</h3>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip2.7 install virtualenv
 </code></pre></div></div>
 
@@ -450,58 +461,58 @@ server {
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/04/%E4%BD%BF%E7%94%A8SoureceTree%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84git%E9%A1%B9%E7%9B%AE.html">使用SoureceTree管理你的git项目</a></h1>
+    <h1><a class="title" href="/post/2016/04/%E4%BD%BF%E7%94%A8SoureceTree%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84git%E9%A1%B9%E7%9B%AE.html">使用 SoureceTree 管理你的 git 项目</a></h1>
     <div class="post_at_index">
       <h6 id="update">Update</h6>
 
 <ul>
   <li>
-    <font color="red">update: Windows用户在初始化Souretree工具时，需要用到Atlassian ID，新建用户时需要加载google 验证码，这一步需要VPN的支持，请注意。</font>
+    <font color="red">update: Windows 用户在初始化 Souretree 工具时，需要用到 Atlassian ID，新建用户时需要加载 google 验证码，这一步需要 VPN 的支持，请注意。</font>
   </li>
-  <li>找到一个版本的SourceTree工具可以不需要以上验证也能使用，下载链接：<a href="http://pan.baidu.com/s/1eRDMgEY">SourceTreeSetup_1.6.14.exe</a> 密码：c5l4</li>
+  <li>找到一个版本的 SourceTree 工具可以不需要以上验证也能使用，下载链接：<a href="http://pan.baidu.com/s/1eRDMgEY">SourceTreeSetup_1.6.14.exe</a> 密码：c5l4</li>
 </ul>
 
 <p><br /></p>
 
-<h5 id="补充1-git学习网站">补充1 ：Git学习网站</h5>
+<h5 id="补充-1git-学习网站">补充 1：Git 学习网站</h5>
 
 <ol>
-  <li><a href="http://backlogtool.com/git-guide/cn/">猴子都能学会的git教程</a></li>
+  <li><a href="http://backlogtool.com/git-guide/cn/">猴子都能学会的 git 教程</a></li>
   <li><a href="http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html">常用 Git 命令清单</a></li>
-  <li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">廖雪峰的git教程</a></li>
+  <li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">廖雪峰的 git 教程</a></li>
   <li><a href="http://zoomq.qiniudn.com/ZQScrapBook/ZqFLOSS/data/20081210180347/">Why Git is Better than X</a></li>
 </ol>
 
-<h5 id="补充2-利用git协同开发">补充2 ：利用Git协同开发</h5>
+<h5 id="补充-2利用-git-协同开发">补充 2：利用 Git 协同开发</h5>
 
 <ol>
-  <li><a href="https://ourai.ws/posts/working-with-git-in-team/">团队中的Git实践</a></li>
+  <li><a href="https://ourai.ws/posts/working-with-git-in-team/">团队中的 Git 实践</a></li>
   <li><a href="http://www.ruanyifeng.com/blog/2015/08/git-use-process.html">Git 使用规范流程</a></li>
-  <li><a href="http://nvie.com/files/Git-branching-model.pdf">Git分支管理模型</a></li>
-  <li><a href="http://marklodato.github.io/visual-git-guide/index-zh-cn.html">图解Git</a></li>
+  <li><a href="http://nvie.com/files/Git-branching-model.pdf">Git 分支管理模型</a></li>
+  <li><a href="http://marklodato.github.io/visual-git-guide/index-zh-cn.html">图解 Git</a></li>
 </ol>
 
 <hr />
 
 <h2 id="1-关于-sourcetree">1. 关于 SourceTree</h2>
 
-<h4 id="sourcetree-是一款免费且同时支持windows-和mac-的git项目管理软件本文旨在给大家介绍这款应用的基础使用并用它来管理你的项目">SourceTree 是一款免费且同时支持Windows 和Mac 的git项目管理软件，本文旨在给大家介绍这款应用的基础使用，并用它来管理你的项目</h4>
+<h4 id="sourcetree-是一款免费且同时支持-windows-和-mac-的-git-项目管理软件本文旨在给大家介绍这款应用的基础使用并用它来管理你的项目">SourceTree 是一款免费且同时支持 Windows 和 Mac 的 git 项目管理软件，本文旨在给大家介绍这款应用的基础使用，并用它来管理你的项目</h4>
 
 <blockquote>
   <p>官网： <a href="https://www.sourcetreeapp.com/">https://www.sourcetreeapp.com/</a></p>
 </blockquote>
 
-<h2 id="2-git帐号建立">2. git帐号建立</h2>
+<h2 id="2-git-帐号建立">2. git 帐号建立</h2>
 
-<h3 id="1-新员工入职之后你的公司邮箱内会收到一封来自gitlab的邮件如下图">1. 新员工入职之后，你的公司邮箱内会收到一封来自Gitlab的邮件，如下图</h3>
+<h3 id="1-新员工入职之后你的公司邮箱内会收到一封来自-gitlab-的邮件如下图">1. 新员工入职之后，你的公司邮箱内会收到一封来自 Gitlab 的邮件，如下图</h3>
 
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree02.jpg" alt="image" /></p>
 
-<h3 id="2-点击邮件中的-click-here-to-set-your-password设置gitlab登陆密码">2. 点击邮件中的 “Click here to set your password”，设置gitlab登陆密码</h3>
+<h3 id="2-点击邮件中的click-here-to-set-your-password设置-gitlab-登陆密码">2. 点击邮件中的“Click here to set your password”，设置 gitlab 登陆密码</h3>
 
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsouretree03.jpg" alt="image" /></p>
 
-<h3 id="3-登陆gitlab帐号将会出现这个界面">3. 登陆gitlab帐号，将会出现这个界面</h3>
+<h3 id="3-登陆-gitlab-帐号将会出现这个界面">3. 登陆 gitlab 帐号，将会出现这个界面</h3>
 
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree05.jpg" alt="image" /></p>
 
@@ -511,7 +522,7 @@ server {
 
 <h3 id="5-sshkey">5. sshKey</h3>
 
-<h4 id="51-在linux和mac上生成sshkey">5.1 在Linux和Mac上生成sshkey</h4>
+<h4 id="51-在-linux-和-mac-上生成-sshkey">5.1 在 Linux 和 Mac 上生成 sshkey</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ ssh-keygen -t rsa
 Generating public/private rsa key pair.
@@ -539,9 +550,9 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VI
 ➜  ~
 </code></pre></div></div>
 
-<h4 id="52-在windows上生成sshkey">5.2 在Windows上生成sshkey</h4>
+<h4 id="52-在-windows-上生成-sshkey">5.2 在 Windows 上生成 sshkey</h4>
 
-<h4 id="因为windows没有自带openssl模块所以在windows环境中使用第三方工具puttygenexe生成sshkey-下载地址">因为windows没有自带openssl模块，所以在Windows环境中使用第三方工具puttygen.exe生成sshkey <a href="http://the.earth.li/~sgtatham/putty/0.67/x86/puttygen.exe">下载地址</a></h4>
+<h4 id="因为-windows-没有自带-openssl-模块所以在-windows-环境中使用第三方工具-puttygenexe-生成-sshkey-下载地址">因为 windows 没有自带 openssl 模块，所以在 Windows 环境中使用第三方工具 puttygen.exe 生成 sshkey <a href="http://the.earth.li/~sgtatham/putty/0.67/x86/puttygen.exe">下载地址</a></h4>
 
 <h4 id="步骤如下">步骤如下</h4>
 
@@ -549,23 +560,23 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VI
 <img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree14.jpg" alt="image" />
 <img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree15.jpg" alt="image" /></p>
 
-<h4 id="当sourcetree首次启动时会弹出加载sshkey的提示按提示操作找到之前保存的privateppk文件">当sourcetree首次启动时，会弹出加载sshkey的提示，按提示操作，找到之前保存的private.ppk文件</h4>
+<h4 id="当-sourcetree-首次启动时会弹出加载-sshkey-的提示按提示操作找到之前保存的-privateppk-文件">当 sourcetree 首次启动时，会弹出加载 sshkey 的提示，按提示操作，找到之前保存的 private.ppk 文件</h4>
 
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree12.jpg" alt="image" /></p>
 
-<h4 id="53-上传sshkey">5.3 上传sshkey</h4>
+<h4 id="53-上传-sshkey">5.3 上传 sshkey</h4>
 
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree07.jpg" alt="image" /></p>
 
-<h3 id="6-回到-dashboard-点击项目名称进入详情">6. 回到 dashboard ，点击项目名称进入详情</h3>
+<h3 id="6-回到-dashboard点击项目名称进入详情">6. 回到 dashboard，点击项目名称进入详情</h3>
 
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree08.jpg" alt="image" /></p>
 
-<h3 id="7-使用souretree将项目从git服务器clone到本地">7. 使用souretree将项目从git服务器clone到本地</h3>
+<h3 id="7-使用-souretree-将项目从-git-服务器-clone-到本地">7. 使用 souretree 将项目从 git 服务器 clone 到本地</h3>
 
-<h4 id="71-安装souretree-软件-略">7.1 安装souretree 软件 ［略］</h4>
+<h4 id="71-安装-souretree-软件-略">7.1 安装 souretree 软件 ［略］</h4>
 
-<h4 id="72-clone项目到本地">7.2 clone项目到本地</h4>
+<h4 id="72-clone-项目到本地">7.2 clone 项目到本地</h4>
 
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree09.jpg" alt="image" />
 <img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree10.jpg" alt="image" /></p>
@@ -574,16 +585,16 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VI
 
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree11.jpg" alt="image" /></p>
 
-<h4 id="9-关于sourcetree工具的使用下面是一些git操作的释疑">9. 关于sourcetree工具的使用，下面是一些git操作的释疑</h4>
+<h4 id="9-关于-sourcetree-工具的使用下面是一些-git-操作的释疑">9. 关于 sourcetree 工具的使用，下面是一些 git 操作的释疑</h4>
 
 <ul>
-  <li>检出仓库: 将在本地创建一个git仓库的克隆版本</li>
-  <li>工作流: 本地仓库由 git 维护的三棵“树”组成。第一个是 工作目录，它持有实际文件；第二个是 缓存区（Index），它像个缓存区域，临时保存改动；最后是 HEAD，指向最近一次提交后的结果。</li>
+  <li>检出仓库：将在本地创建一个 git 仓库的克隆版本</li>
+  <li>工作流：本地仓库由 git 维护的三棵“树”组成。第一个是 工作目录，它持有实际文件；第二个是 缓存区（Index），它像个缓存区域，临时保存改动；最后是 HEAD，指向最近一次提交后的结果。</li>
   <li>提交：可以计划改动（把它们添加到缓存区),将改动提交到了 HEAD，但是还没到提交到远端仓库。</li>
   <li>拉取：从远端仓库拉取最新版本状态，特别是在其他人员有所改动之后。</li>
   <li>推送：改动现在已经在本地仓库的 HEAD 中了。这时可以使用它将这些改动提交到远端仓库。</li>
   <li>分支：分支是用来将特性开发分离出来的。在创建仓库的时候，master 是“默认的”。创建分支将可以从主线开发上分离开来，然后在不影响主线的同时继续工作，完成后再将它们合并到主分支上。</li>
-  <li>合并： 将分支功能并入主分支。</li>
+  <li>合并：将分支功能并入主分支。</li>
 </ul>
 
       
@@ -602,9 +613,9 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VI
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/04/Mac-1-%E8%B0%83%E6%95%B4Launchpad%E5%9B%BE%E6%A0%87%E5%A4%A7%E5%B0%8F.html">MacTips 调整Launchpad图标大小</a></h1>
+    <h1><a class="title" href="/post/2016/04/Mac-1-%E8%B0%83%E6%95%B4Launchpad%E5%9B%BE%E6%A0%87%E5%A4%A7%E5%B0%8F.html">MacTips 调整 Launchpad 图标大小</a></h1>
     <div class="post_at_index">
-      <p>很多人觉得默认Launchpad的应用程序图标很大，空间比较拥挤，不过这个其实是可以通过调整Launchpad每一行和每一列图标的数量，来调整Launchpad图标大小。</p>
+      <p>很多人觉得默认 Launchpad 的应用程序图标很大，空间比较拥挤，不过这个其实是可以通过调整 Launchpad 每一行和每一列图标的数量，来调整 Launchpad 图标大小。</p>
 
 <p>默认如下图：
 <img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2FQQ20160408-1.jpg" alt="" /></p>
@@ -637,7 +648,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VI
     
     <h1><a class="title" href="/post/2016/04/Mac-2-%E8%A7%A3%E5%86%B3oh-my-zsh%E5%9C%A8%E7%BB%88%E7%AB%AF%E4%B8%8B%E6%89%93%E5%BC%80%E7%BC%93%E6%85%A2.html">MacTips 解决 oh-my-zsh 在 Terminal 下打开缓慢</a></h1>
     <div class="post_at_index">
-      <p>升级Mac OS X 10.11 之后，使用CleanMyMac 3清理9GB的垃圾文件，之后导致打开iTerm时加载主机名特别的慢，Mac的命令行工具我使用的是iTerm＋ohmyzsh，这个问题困扰了我快两个月，工作比较忙，所以一直用Zoc 代替，也没有认真的研究，最近有需求用到它，实在不行，研究一下，发现，是因为我清理系统的时候把终端日志的索引文件清理掉了，所以每次打开的时候都要先加载索引导致了首次开启非常慢，解决办法是，只要把终端缓存的日志文件删除即可：</p>
+      <p>升级 Mac OS X 10.11 之后，使用 CleanMyMac 3 清理 9GB 的垃圾文件，之后导致打开 iTerm 时加载主机名特别的慢，Mac 的命令行工具我使用的是 iTerm＋ohmyzsh，这个问题困扰了我快两个月，工作比较忙，所以一直用 Zoc 代替，也没有认真的研究，最近有需求用到它，实在不行，研究一下，发现，是因为我清理系统的时候把终端日志的索引文件清理掉了，所以每次打开的时候都要先加载索引导致了首次开启非常慢，解决办法是，只要把终端缓存的日志文件删除即可：</p>
 
 <p>代码块：</p>
 
@@ -670,21 +681,21 @@ Password:
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/04/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS-6-%E5%AE%89%E8%A3%85%E6%9B%B4%E9%AB%98%E7%89%88%E6%9C%AC%E7%9A%84PHP.html">如何在CentOS 6 安装更高版本的PHP</a></h1>
+    <h1><a class="title" href="/post/2016/04/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS-6-%E5%AE%89%E8%A3%85%E6%9B%B4%E9%AB%98%E7%89%88%E6%9C%AC%E7%9A%84PHP.html">如何在 CentOS 6 安装更高版本的 PHP</a></h1>
     <div class="post_at_index">
       <p>
-CentOS 6 默认安装的PHP 版本是5.3， 但现在很多应用对于LAMP中，PHP的版本最低5.4，所以本篇文章的主要内容是，如何升级PHP5.3到5.4以及更高版本
+CentOS 6 默认安装的 PHP 版本是 5.3，但现在很多应用对于 LAMP 中，PHP 的版本最低 5.4，所以本篇文章的主要内容是，如何升级 PHP5.3 到 5.4 以及更高版本
  </p>
 
 <h2 id="实验环境centos-64">实验环境：CentOS 6.4</h2>
 
-<p>解决办法是采用了remi源仓库已经适配的相应php版本</p>
+<p>解决办法是采用了 remi 源仓库已经适配的相应 php 版本</p>
 
 <blockquote>
-  <p>经过测试，该升级办法同样适用目前CentOS 6.x 所有版本</p>
+  <p>经过测试，该升级办法同样适用目前 CentOS 6.x 所有版本</p>
 </blockquote>
 
-<h4 id="1-安装remi源">1. 安装Remi源</h4>
+<h4 id="1-安装-remi-源">1. 安装 Remi 源</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 因为remi依赖epel源仓库，所有我们要先安装它。
 [root@visionet8 ~]# yum install -y epel-release
@@ -693,7 +704,7 @@ CentOS 6 默认安装的PHP 版本是5.3， 但现在很多应用对于LAMP中�
 [root@visionet8 ~]# rpm -Uvh remi-release-6.rpm
 </code></pre></div></div>
 
-<h4 id="2-我们看下remi的的yum配置文件">2. 我们看下Remi的的yum配置文件</h4>
+<h4 id="2-我们看下-remi-的的-yum-配置文件">2. 我们看下 Remi 的的 yum 配置文件</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Repository: http://rpms.remirepo.net/
 # Blog:       http://blog.remirepo.net/
@@ -726,7 +737,7 @@ gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
 </code></pre></div></div>
 
-<p>经过测试，启用remi源之后，默认情况下php版本为5.4,这时我们只需要升级php即可。</p>
+<p>经过测试，启用 remi 源之后，默认情况下 php 版本为 5.4，这时我们只需要升级 php 即可。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@visionet8 html]# yum update -y php*
 Failed to set locale, defaulting to C
@@ -850,17 +861,17 @@ Copyright (c) 1997-2014 The PHP Group
 Zend Engine v2.4.0, Copyright (c) 1998-2014 Zend Technologies
 </code></pre></div></div>
 
-<h4 id="4-php-55-和php56">4. php 5.5 和php5.6</h4>
+<h4 id="4-php-55-和-php56">4. php 5.5 和 php5.6</h4>
 
 <blockquote>
-  <p>若要升级到5.5 或 5.6，根据remi源的配置文件，将php5.5的enable参数设置为1，并将默认enable修改为0,然后<code>yum update php*</code>即可。</p>
+  <p>若要升级到 5.5 或 5.6，根据 remi 源的配置文件，将 php5.5 的 enable 参数设置为 1，并将默认 enable 修改为 0，然后<code>yum update php*</code>即可。</p>
 </blockquote>
 <hr />
 
 <h4 id="5-php-7">5. php 7</h4>
 
 <blockquote>
-  <p>安装完成之后发现, 在安装remi源之后，在<code>/etc/yum.repos.d</code>除了<code>remi.repo</code>之外，还有<code>remi-php70.repo</code>和<code>remi-php71.repo</code>，测试下，如果要升级到php7，可以打开相应源仓库的配置文件，之后升级即可。</p>
+  <p>安装完成之后发现，在安装 remi 源之后，在<code>/etc/yum.repos.d</code>除了<code>remi.repo</code>之外，还有<code>remi-php70.repo</code>和<code>remi-php71.repo</code>，测试下，如果要升级到 php7，可以打开相应源仓库的配置文件，之后升级即可。</p>
 </blockquote>
 
 <p><br /></p>
@@ -885,12 +896,12 @@ Zend Engine v2.4.0, Copyright (c) 1998-2014 Zend Technologies
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/03/MySQL-4-MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80.html">MySQL数据库使用基础</a></h1>
+    <h1><a class="title" href="/post/2016/03/MySQL-4-MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80.html">MySQL 数据库使用基础</a></h1>
     <div class="post_at_index">
       <h2 id="1-测试环境">1. 测试环境</h2>
 
 <ul>
-  <li>MacBook Pro 15‘ i7 16GB</li>
+  <li>MacBook Pro 15’ i7 16GB</li>
   <li>VMware Fushion 8 Pro</li>
   <li>MySQL Version 5.1</li>
   <li>CentOS Linux 6.x</li>
@@ -898,13 +909,13 @@ Zend Engine v2.4.0, Copyright (c) 1998-2014 Zend Technologies
 
 <h2 id="2-实验步骤">2. 实验步骤</h2>
 
-<h3 id="21安装mysql">2.1 安装mysql</h3>
+<h3 id="21安装-mysql">2.1 安装 mysql</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera  ~]#  yum  install  mysql  mysql-server  mysql-devel
 
 </code></pre></div></div>
 
-<h3 id="22-启动mysql并设置开机自启动">2.2 启动mysql，并设置开机自启动</h3>
+<h3 id="22-启动-mysql并设置开机自启动">2.2 启动 mysql，并设置开机自启动</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera  ~]#  service  mysqld  start
 [root@ultraera  ~]#  chkconfig  mysqld  on
@@ -922,7 +933,7 @@ port:3306           mysql默认端口
 # Tips : MySQL 绝大对数语句都是以分号结尾，注意是英文模式下的分号。字符和字符串用 '' 引起；
 </code></pre></div></div>
 
-<h3 id="24-mysql初始化及登录">2.4 mysql初始化及登录</h3>
+<h3 id="24-mysql-初始化及登录">2.4 mysql 初始化及登录</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 [root@ultraera ~]# mysql_secure_installation
@@ -1066,7 +1077,7 @@ mysql&gt;  select  name  from  ultraera;
 
 </code></pre></div></div>
 
-<h3 id="210-where运算符条件判断查询查询使用方法where列运算符值">2.10 where运算符：条件判断查询，查询使用方法：where  列  运算符  值</h3>
+<h3 id="210-where-运算符条件判断查询查询使用方法where列运算符值">2.10 where 运算符：条件判断查询，查询使用方法：where  列  运算符  值</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>where支持的运算符：=等于；&gt;大于；&lt;小于；&lt;&gt;不等于；&gt;=大于等于；&lt;=小于等于；BETWEEN在某范围之内；
 mysql&gt; select * from ultraera where id&gt;1;
@@ -1078,7 +1089,7 @@ mysql&gt; select * from ultraera where id  between  1  and  4;
 
 </code></pre></div></div>
 
-<h3 id="211-删除表格中的一条记录同样可以匹配where运算符">2.11 删除表格中的一条记录（同样可以匹配where运算符）</h3>
+<h3 id="211-删除表格中的一条记录同样可以匹配-where-运算符">2.11 删除表格中的一条记录（同样可以匹配 where 运算符）</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt;  delete  from  ultraera  where  id  =  4;
 mysql&gt;  delete  *  from  ultraera ； #清空一个表格的数据；
@@ -1091,7 +1102,7 @@ mysql&gt;  delete  *  from  ultraera ； #清空一个表格的数据�
 
 </code></pre></div></div>
 
-<h3 id="213-mysql增加删除一个用户">2.13 MySQL增加删除一个用户</h3>
+<h3 id="213-mysql-增加删除一个用户">2.13 MySQL 增加删除一个用户</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt;  create  user  user1  identified  by  '123456'; #user1，密码123456，新用户没有权限，无法登录数据库
 mysql&gt;  drop  user  user1; #删除用户user1
@@ -1105,9 +1116,9 @@ mysql&gt;  revoke  all  privileges  from  user1;
 
 </code></pre></div></div>
 
-<h3 id="215-使用mysqldump进行数据库备份">2.15 使用mysqldump进行数据库备份</h3>
+<h3 id="215-使用-mysqldump-进行数据库备份">2.15 使用 mysqldump 进行数据库备份</h3>
 
-<p>数据库重命名：mysql不能直接对数据库重命名，所以如果想要重名数据库的话，要先导出，接着创建一个新的数据库，然后将导出的sql文件再导入到新的数据库中</p>
+<p>数据库重命名：mysql 不能直接对数据库重命名，所以如果想要重名数据库的话，要先导出，接着创建一个新的数据库，然后将导出的 sql 文件再导入到新的数据库中</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[adam@ultraera  ~]$  mysqldump  -u  root  -p  ultraera  &gt;  ultraera.sql     #备份
 [adam@ultraera  ~]$  mysql  -u  root  -p  new_ultraera  &lt;  ultraera.sql     #恢复到指定数据库
@@ -1203,10 +1214,10 @@ chmod  1755  flodername #设置文件夹sticky权限
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/03/CentOS-6-1-%E4%BD%BF%E7%94%A8createrepo%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E6%BA%90.html">CentOS 使用createrepo搭建本地源</a></h1>
+    <h1><a class="title" href="/post/2016/03/CentOS-6-1-%E4%BD%BF%E7%94%A8createrepo%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E6%BA%90.html">CentOS 使用 createrepo 搭建本地源</a></h1>
     <div class="post_at_index">
       <blockquote>
-  <p>Tips: 本地搭建本地yum源采用的rpm全部来自CentOS-6.7-bin-DVD1&amp;DVD2</p>
+  <p>Tips: 本地搭建本地 yum 源采用的 rpm 全部来自 CentOS-6.7-bin-DVD1&amp;DVD2</p>
 </blockquote>
 
 <h3 id="1-测试环境">1. 测试环境</h3>
@@ -1646,41 +1657,40 @@ Metadata Cache Created
       <ul>
         
         <li>
-          <a href="/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过pipreqs获取当前项目的依赖库</a>
-          如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a>
+          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
           
-  strip() 删除字符串中的内容，删除后仍旧是str
-  split() 分割字符串，根据特定的标识，分割后=list
+  参考资料：
 
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a>
+          <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
           ```python
-import string
+df = pandas.read_csv(‘somefile.txt’)
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python3-setup.py-help-commands.html">python3 setup.py --help-commands</a>
-          ```python
-→ python3 setup.py –help-commands
+          <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
+          暗坑很多
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入excel</a>
-          以下是使用的方法：
+          <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
+          王路
+12 highlights
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/10/%E8%87%AA%E5%8D%91%E4%B8%8E%E8%B6%85%E8%B6%8A.html">自卑与超越</a>
+          【奥】阿尔弗雷德··阿德勒
 
 
         </li>

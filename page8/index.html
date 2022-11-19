@@ -276,255 +276,6 @@
   <div class="col-xs-12 col-md-8">
     
     
-    <h1><a class="title" href="/post/2021/04/HQL_SQL%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86.html">HQL/SQL时间处理</a></h1>
-    <div class="post_at_index">
-      <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">--HQL ms</span>
-<span class="n">from_unixtime</span><span class="p">(</span><span class="k">CAST</span><span class="p">(</span><span class="n">obtained_ms</span><span class="o">/</span><span class="mi">1000</span> <span class="k">AS</span> <span class="nb">BIGINT</span><span class="p">),</span> <span class="s1">'yyyy-MM-dd HH:mm:ss'</span><span class="p">)</span>
-
-<span class="c1">--SQL ms</span>
-<span class="n">from_unixtime</span><span class="p">(</span><span class="n">time_in_ms</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">)</span>
-
-<span class="c1">--SQL date</span>
-<span class="nb">date</span><span class="p">(</span><span class="n">from_unixtime</span><span class="p">(</span><span class="n">time_in_ms</span> <span class="o">/</span> <span class="mi">1000</span><span class="p">))</span> <span class="k">as</span> <span class="n">dt</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-04-16</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SQL">SQL</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/04/%E5%A6%82%E4%BD%95%E9%87%8D%E7%BD%AE-Mac-%E7%9A%84-SMC.html">如何重置 Mac 的 SMC</a></h1>
-    <div class="post_at_index">
-      <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437045272-4d2c8ef2-804a-4ed7-bb53-b241152c780c.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<p>:::info
-MacBookPro 雷电口不可用了不着送修，尝试下一下方法；可以为您省下大几千块钱哟 ~
-:::</p>
-
-<h3 id="什么是-smc-">什么是 SMC ？</h3>
-
-<p>SMC 全称 系统管理控制器负责管理与以下功能相关的行为：</p>
-
-<ul>
-  <li>电源，包括电源按钮和 USB 端口的电源</li>
-  <li>电池和充电</li>
-  <li>风扇和其他热能管理功能</li>
-  <li>指示灯或感应器，例如状态指示灯（睡眠状态、电池充电状态等）、突发移动感应器、环境光传感器和键盘背光</li>
-  <li>打开和合上笔记本电脑盖时的行为</li>
-</ul>
-
-<hr />
-
-<h3 id="smc-常见问题">SMC 常见问题</h3>
-
-<p>由于Mac的雷电接口经常需要插拔外接设备，而外接设备的接口电流电压不一致，Mac在遇到异常电涌时会触发  SMC 的自我保护机制，通常意义是雷电口不可用。</p>
-
-<p>通过重置系统管理控制器 (SMC) 可以解决某些与电源、电池、风扇和其他功能相关的问题。</p>
-
-<hr />
-
-<h3 id="注意事项">注意事项</h3>
-
-<p>:::danger
-新款 Apple M1 设备的重置步骤本文不一致，后续会补充更新</p>
-
-<p>:::</p>
-
-<hr />
-
-<h3 id="配备-t2-芯片的笔记本电脑">配备 T2 芯片的笔记本电脑</h3>
-
-<ol>
-  <li>将 Mac 关机</li>
-  <li>在内建键盘上，按住以下所有按键。Mac 可能会开机。
-    <ul>
-      <li>键盘左侧的 <strong>Control</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437210613-0f478f9a-1f5b-4b51-8060-6f9af28a4ae0.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-      <li>键盘左侧的 <strong>Option</strong> (Alt) <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437216356-d0ba8e9e-ebb9-4756-8459-124876d0c332.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-      <li>键盘右侧的 <strong>Shift</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437210667-cdfb2059-1d3d-4cb4-bb6c-88e38c1c3054.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-    </ul>
-  </li>
-  <li>按住<strong>全部三个按键</strong> 7 秒钟，然后在不松开按键的情况下按住<strong>电源按钮</strong>。如果 Mac 处于开机状态，它将在您按住这些按键时关机。</li>
-</ol>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437286162-81a557b7-7f54-49b2-9ad6-32716f0b8488.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<ol>
-  <li>继续按住<strong>全部四个按键</strong> 7 秒钟，然后松开这些按键。</li>
-  <li>等待几秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
-
-<hr />
-
-<h3 id="配备-t2-芯片的台式电脑">配备 T2 芯片的台式电脑</h3>
-
-<ol>
-  <li>将 Mac 关机，然后拔下电源线。</li>
-  <li>等待 15 秒钟，然后重新接回电源线。</li>
-  <li>等待 5 秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
-
-<hr />
-
-<h3 id="在其他电脑上重置-smc">在其他电脑上重置 SMC</h3>
-
-<p>:::info
-如果您的 Mac 没有配备 Apple T2 安全芯片，请按照以下步骤操作。
-:::</p>
-
-<h4 id="装有不可拆卸电池的笔记本电脑">装有不可拆卸电池的笔记本电脑</h4>
-
-<p>这类电脑包括 2009 年中至 2017 年推出的 MacBook Pro 机型、2017 年或之前推出的 MacBook Air 机型，以及所有 MacBook 机型，但 MacBook（13 英寸，2009 年中）除外。</p>
-
-<ol>
-  <li>将 Mac 关机。</li>
-  <li>在内建键盘上，按住以下所有按键：
-    <ul>
-      <li>键盘左侧的 <strong>Shift</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437453096-c4dd55c9-dea8-4ece-810d-d0a6bf880b5a.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-      <li>键盘左侧的 <strong>Control</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437452982-7bdab59b-e4d2-4aa0-863d-59d224b081a9.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-      <li>键盘左侧的 <strong>Option</strong> (Alt) <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437453069-12f401d8-bfbf-4657-9323-67169460f2fa.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-    </ul>
-  </li>
-  <li>在按住<strong>全部三个按键</strong>的情况下，按住<strong>电源按钮</strong>。</li>
-</ol>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437452835-44611990-1f9b-49c4-a49b-446cef022d56.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
-
-<ol>
-  <li>按住<strong>全部四个按键</strong> 10 秒钟。</li>
-  <li>松开所有按键，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
-
-<h4 id="装有可拆卸电池的笔记本电脑">装有可拆卸电池的笔记本电脑</h4>
-
-<p>这类电脑包括 2009 年初或之前推出的所有 MacBook Pro 和 MacBook 机型，以及 MacBook（13 英寸，2009 年中）。</p>
-
-<ol>
-  <li>将 Mac 关机。</li>
-  <li>
-    <p>拆下电池。</p>
-  </li>
-  <li>按住<strong>电源按钮</strong> 5 秒钟。</li>
-  <li>重新安装电池。</li>
-  <li>按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
-
-<h4 id="台式电脑">台式电脑</h4>
-
-<ol>
-  <li>将 Mac 关机，然后拔下电源线。</li>
-  <li>等待 15 秒钟，然后重新接回电源线。</li>
-  <li>等待 5 秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-04-03</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Mac">Mac</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/03/%E7%9F%A5%E4%B9%8E%E5%91%A8%E5%88%8A-%E4%B9%94%E5%B8%83%E6%96%AF%E5%BE%80%E4%BA%8B.html">知乎周刊·乔布斯往事</a></h1>
-    <div class="post_at_index">
-      <p><a href="https://www.amazon.cn/s/ref=as_li_ss_tl?_encoding=UTF8\&amp;camp=536\&amp;creative=3132\&amp;field-keywords=%E7%9F%A5%E4%B9%8E%E5%91%A8%E5%88%8A%C2%B7%E4%B9%94%E5%B8%83%E6%96%AF%E5%BE%80%E4%BA%8B\&amp;linkCode=ur2\&amp;tag=llll1-23\&amp;url=search-alias%3Dbooks">知乎</a>
-4 highlights</p>
-
-<ul>
-  <li>
-    <p>那些凡是搞不清楚自己所享受的器物的来历、奥妙、作用、差异、价值、韵味等等，但偏偏就是享受得起，并且还要拼命享受＋拼命炫耀的行为，都是土鳖。</p>
-  </li>
-  <li>
-    <p>格言：故事本身并不重要，怎么讲才更重要。所以有两株枣树这个事实并不重要，怎么来告诉读者有两株枣树比较重要。</p>
-  </li>
-  <li>
-    <p>唯真名士自风流，</p>
-  </li>
-  <li>
-    <p>在众人的眼中，悲伤只有得到外化的表现才是真实的，合理的；没有人去思考这样的悲伤是否为伪造的结果。人们关心的不是他到底悲不悲伤，而是有没有呈现出悲伤的状态来。</p>
-  </li>
-</ul>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-03-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#读书笔记">读书笔记</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/03/how-to-set-container-auto-restarting-with-docker.html">how to set container auto-restarting with docker</a></h1>
-    <div class="post_at_index">
-      <p>auto-restarting with docker
-docker run –restart=always my-container
-========================================</p>
-
-<p>disable auto-restarting with docker
-docker update –restart=no my-container
-=======================================</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-03-12</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Docker">Docker</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/03/%E7%88%B1%E4%BD%A0%E5%B0%B1%E5%83%8F%E7%88%B1%E7%94%9F%E5%91%BD.html">爱你就像爱生命</a></h1>
-    <div class="post_at_index">
-      <p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;</p>
-
-<p>&lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd”&gt;</p>
-
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="exporter-version" content="Evernote Mac 9.4.3 (461087)" /><meta name="created" content="2016-08-15 08:10:27 +0000" /><meta name="updated" content="2016-08-15 08:10:27 +0000" /><meta name="content-class" content="net.toolinbox.iKindle.evernote" /><title>爱你就像爱生命</title></head><body>
-<div style="text-align: right;"><span style="color: rgb(153, 153, 153);"><a href="https://www.amazon.cn/s/ref=as_li_ss_tl?_encoding=UTF8&amp;camp=536&amp;creative=3132&amp;field-keywords=%E7%88%B1%E4%BD%A0%E5%B0%B1%E5%83%8F%E7%88%B1%E7%94%9F%E5%91%BD&amp;linkCode=ur2&amp;tag=llll1-23&amp;url=search-alias%3Dbooks"><span style="color: rgb(153, 153, 153);">王小波、李银河</span></a></span></div>
-<div style="text-align: right;"><span style="color: rgb(153, 153, 153);">1 highlight</span></div>
-<div><span style="font-size: 18px;"><br /></span></div>
-<div><span style="font-size: 18px;">- 我的灵魂里有很多地方玩世不恭，对人傲慢无礼，但是它有一个核心，这个核心害怕黑暗，柔弱得像绵羊一样。只有顶平等的友爱才能使它得到安慰。你对我是属于这个核心的。</span></div>
-<div><span style="font-size: 18px;"><br /></span></div>
-</body></html>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-03-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#读书笔记">读书笔记</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
     <h1><a class="title" href="/post/2021/03/%E6%9C%AA%E7%A9%BF%E7%9A%84%E7%BA%A2%E5%AB%81%E8%A1%A3-%E6%B2%89%E6%B5%AE.html">未穿的红嫁衣·沉浮</a></h1>
     <div class="post_at_index">
       <p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;</p>
@@ -579,7 +330,7 @@ docker update –restart=no my-container
 <div><span style="font-size: 18px;"><br /></span></div>
 <div><span style="font-size: 18px;">- 这些耍猴的人这么苦是为什么？他们虽然用的是最底层、最辛苦的方式赚钱，但其中透露出一种骨气，这是河南新野耍猴人的人格力量。</span></div>
 <div><span style="font-size: 18px;"><br /></span></div>
-<div><span style="font-size: 18px;">- 在景德镇，一个16岁的女孩看完猴戏，对他说：&ldquo;&ldquo;老爷爷，你这一生给多少人带来了快乐啊！&rdquo;&rdquo;杨林贵听后，那天一路上都很开心。</span></div>
+<div><span style="font-size: 18px;">- 在景德镇，一个 16 岁的女孩看完猴戏，对他说：&ldquo;&ldquo;老爷爷，你这一生给多少人带来了快乐啊！&rdquo;&rdquo;杨林贵听后，那天一路上都很开心。</span></div>
 <div><span style="font-size: 18px;"><br /></span></div>
 <div><span style="font-size: 18px;">- 花卷馍。</span></div>
 <div><span style="font-size: 18px;"><br /></span></div>
@@ -686,6 +437,161 @@ docker update –restart=no my-container
 <div><span style="font-size: 18px;">- 原因，我们一路奋战，为的不是变成别人，为的不是改变世界，而是不让世界改变，能够用自己的力量平稳地站在大地上，并且尽可能地保护身边的人。</span></div>
 <div><span style="font-size: 18px;"><br /></span></div>
 </body></html>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-03-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/03/%E5%B7%A8%E5%A9%B4%E5%9B%BD.html">巨婴国</a></h1>
+    <div class="post_at_index">
+      <p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;</p>
+
+<p>&lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd”&gt;</p>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="exporter-version" content="Evernote Mac 9.4.3 (461087)" /><meta name="created" content="2017-05-12 00:35:32 +0000" /><meta name="updated" content="2017-05-12 00:35:32 +0000" /><meta name="content-class" content="net.toolinbox.iKindle.evernote" /><title>巨婴国</title></head><body>
+<div style="text-align: right;"><span style="color: rgb(153, 153, 153);"><a href="https://www.amazon.cn/s/ref=as_li_ss_tl?_encoding=UTF8&amp;camp=536&amp;creative=3132&amp;field-keywords=%E5%B7%A8%E5%A9%B4%E5%9B%BD&amp;linkCode=ur2&amp;tag=llll1-23&amp;url=search-alias%3Dbooks"><span style="color: rgb(153, 153, 153);">武志红</span></a></span></div>
+<div style="text-align: right;"><span style="color: rgb(153, 153, 153);">2 highlights</span></div>
+<div><span style="ffont-size: 15px;"><br /></span></div>
+<div><span style="ffont-size: 15px;">- 1.我们集体停留在婴儿期 经典的中国式图景中，主角，都是像被抽掉了脊梁骨的人，譬如你很难在中国画中找到一个昂然挺立的身体。对此表现力最好的，是岳敏君的作品。抽巴的人生，凝缩在抽巴的身体中。很多人反感岳敏君的画，但你走在大街上，满眼望去都是这样的图景。本我、自我和超我，这是弗洛伊德的人格结构理论。放到国人身上，它可具体表达为：全能自恋性的本我、绝对禁止性的超我和软塌塌的自我。全能自恋性本我即，我是神，世界应完全按照我的意愿运转。绝对禁止性超我即，你的一切自发行为，都是不对的。两者冲突太强，以至于作为协调者的自我没法协调，所以变得软塌塌了。</span></div>
+<div><span style="ffont-size: 15px;"><br /></span></div>
+<div><span style="ffont-size: 15px;">- 1.我们集体停留在婴儿期 经典的中国式图景中，主角，都是像被抽掉了脊梁骨的人，譬如你很难在中国画中找到一个昂然挺立的身体。对此表现力最好的，是岳敏君的作品。抽巴的人生，凝缩在抽巴的身体中。很多人反感岳敏君的画，但你走在大街上，满眼望去都是这样的图景。本我、自我和超我，这是弗洛伊德的人格结构理论。放到国人身上，它可具体表达为：全能自恋性的本我、绝对禁止性的超我和软塌塌的自我。全能自恋性本我即，我是神，世界应完全按照我的意愿运转。绝对禁止性超我即，你的一切自发行为，都是不对的。两者冲突太强，以至于作为协调者的自我没法协调，所以变得软塌塌了。</span></div>
+<div><span style="ffont-size: 15px;"><br /></span></div>
+</body></html>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-03-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/03/%E5%85%B6%E5%AE%9E-%E4%BD%A0%E6%89%80%E7%9F%A5%E9%81%93%E7%9A%84%E4%B8%96%E7%95%8C%E5%BE%88%E9%99%8C%E7%94%9F.html">其实，你所知道的世界很陌生</a></h1>
+    <div class="post_at_index">
+      <p>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;</p>
+
+<p>&lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd”&gt;</p>
+
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="exporter-version" content="Evernote Mac 9.4.3 (461087)" /><meta name="created" content="2016-02-13 17:33:21 +0000" /><meta name="updated" content="2016-02-13 17:33:21 +0000" /><meta name="content-class" content="net.toolinbox.iKindle.evernote" /><title>其实，你所知道的世界很陌生</title></head><body>
+<div style="text-align: right;"><span style="color: rgb(153, 153, 153);"><a href="https://www.amazon.cn/gp/product/B00JTMPFUU/ref=as_li_qf_sp_asin_tl?ie=UTF8&amp;camp=536&amp;creative=3200&amp;creativeASIN=B00JTMPFUU&amp;linkCode=as2&amp;tag=llll1-23"><span style="color: rgb(153, 153, 153);">王路</span></a></span></div>
+<div style="text-align: right;"><span style="color: rgb(153, 153, 153);">13 highlights</span></div>
+<div><span style="font-size: 15px;"><br /></span></div>
+<div><span style="font-size: 15px;">- 一座城市到另一座城市，从一个国度到另一个国度，从一个人到另一个人，谁不是只身而来只身而去。最重要的总不在行李上。</span></div>
+<div><span style="font-size: 15px;"><br /></span></div>
+<div><span style="font-size: 15px;">- 人的一生，注定要和很多人分道扬镳，哪怕是一度关系极近的朋友。你宽容得甚至于软弱，必定遭到欺侮。你勇敢得足以拒绝，才不受到羁绊。</span></div>
+<div><span style="font-size: 15px;"><br /></span></div>
+<div><span style="font-size: 15px;">- 你要知道，你拥有的，就是最好的。不是因为一件东西好，你才千方百计去拥有它。而是因为你已拥有了它，才一心一意觉得它最好。这个世界上，总有你无法得到的东西。如果你一心想去得到你没有的东西，你的欲望就永远无法得到满足。而一旦满足，你便眼中尽是它的不好，而转身被别的东西所吸引。问题是，你现在所拥有的，真的不如你未得到的好吗？为什么一个二十岁的小姑娘中意的那个男人就不能是全天下最好的男人呢？要知道，是因为我中意你，所以你就是全天下最好。而不是你已是全天下最好的，我才中意你。</span></div>
+<div><span style="font-size: 15px;"><br /></span></div>
+<div><span style="font-size: 15px;">- 乡下的中华田园犬</span></div>
+<div><span style="font-size: 15px;"><br /></span></div>
+<div><span style="font-size: 15px;">- 李义山诗云：&ldquo;&ldquo;此情可待成追忆，只是当时已惘然。&rdquo;&rdquo;一个人的生长，或是期许风花雪月，无奈久候不至；或是阅尽梦幻泡影，尔后刊落声华。</span></div>
+<div><span style="font-size: 15px;"><br /></span></div>
+<div><span style="font-size: 15px;">- 水平上，你尽可以仰视一个人；但态度上，你应平视所有人。</span></div>
+<div><span style="font-size: 15px;"><br /></span></div>
+<div><span style="font-size: 15px;">- Tomorrow is another day? No, tomorrow is the same</span></div>
+<div><span style="font-size: 15px;"><br /></span></div>
+<div><span style="font-size: 15px;">- 生命当如此。&ldquo;&ldquo;亲爱的，明天是世界末日噢。&rdquo;&rdquo;&ldquo;&ldquo;那又怎样，今天中午，我还要吃面。&rdquo;&rdquo;&mdash;&mdash;&mdash;&mdash;霸道！豪气干云。</span></div>
+<div><span style="font-size: 15px;"><br /></span></div>
+<div><span style="font-size: 15px;">- 人生短暂，不必花工夫理会二流的东西，除了消遣。</span></div>
+<div><span style="font-size: 15px;"><br /></span></div>
+<div><span style="font-size: 15px;">- 《唐诗三百首》、《诗经》、《论语》、《史记》、《庄子》。</span></div>
+<div><span style="font-size: 15px;"><br /></span></div>
+<div><span style="font-size: 15px;">- 基情：超越一般友情但又未达到同性爱情的一种介乎两者之间的同性间微秒的情愫。</span></div>
+<div><span style="font-size: 15px;"><br /></span></div>
+<div><span style="font-size: 15px;">- 读史也是这样，只是史书没有小字给你读，你得慢慢体会揣摩。从孔老夫子笔削春秋那一刻就注定了正史都是打过马赛克的，只有&ldquo;&ldquo;骑兵&rdquo;&rdquo;没有&ldquo;&ldquo;步兵&rdquo;&rdquo;，背后删掉的故事需要你在月黑风高的夜晚静静体会才能略微窥知一二。</span></div>
+<div><span style="font-size: 15px;"><br /></span></div>
+<div><span style="font-size: 15px;">- 马赛克丰富了人类的</span></div>
+<div><span style="font-size: 15px;"><br /></span></div>
+</body></html>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-03-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/03/%E4%BA%BA%E9%97%B4%E5%A4%B1%E6%A0%BC.html">人间失格</a></h1>
+    <div class="post_at_index">
+      <p>天使从空中飞过，听从神的旨意隐去双翅，像乘着降落伞一般飘落到世界的各个角落。我落在北国的雪原，你落在南国的蜜柑田，而这群少年落在了上野公园。我们之间的差别仅仅如此。少年们啊，无论你们今后度过多少岁月，都请不要介意自己的容貌，不要吸食香烟，若非节日，也别喝酒。长大后，请多加爱惜那性格内向、不爱浓妆的姑娘。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-03-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/03/%E4%BA%BA%E7%94%9F%E7%9A%84%E6%9E%B7%E9%94%81.html">人生的枷锁</a></h1>
+    <div class="post_at_index">
+      <p>英国作家毛姆在《人生的枷锁》中，有一段论述青春的话很好：</p>
+
+<p>一个人一生必须艰苦跋涉，越过一大片土地贫瘠、地势险峻的原野，方能跨入现实的门槛。说青春是幸福的，这只是一种幻想，是已经失去了青春的人们的一种幻想。但是，年轻人知道自己是不幸的，因为他们脑子里充满了灌输给他们的种种不切实际的幻想。他们一旦同现实接触，总是碰的头破血流。看来，他们似乎是某种阴谋的牺牲品，因为他们所读的书（由于必要的选择很理想）；还有长辈们之间的谈话（他们是透过玫瑰色的雾霭来回首青春的），这一切都为他们准备好了一个不真实的生活。</p>
+
+<p><strong>他们必须自己发现，他们所读过的书，所听到的话，全是谎言！谎言！谎言！而每一次的发现，都是往那具已被钉在生活十字架上的身躯再打入一枚钉子。奇怪的是，每一个经历过痛苦幻灭的人，由于受到他自身抑制不了的力量的驱使，又总是无意中增添了这种幻灭的痛苦。</strong></p>
+
+<p>对于菲利普来说，和海沃德的交往是一件最糟糕的事。他任何东西都不肯亲眼去观察，而只是通过书本只是来认识。他是危险的，因为他欺骗他自己，达到了如痴如狂、诚心诚意的程度。</p>
+
+<p>他真诚地将自己的淫荡误认为是浪漫的感情，把自己的优柔寡断误认为是艺术家的气质，把自己的偷懒误认为是哲学家的冷静。他的思想因为追求风雅而变的庸俗起来。他把一切事物都看得比实物大，轮廓模糊，还给它们蒙上一层多愁善感的金色雾霭。他扯谎，自己却没有意识到。别人为他指出来时，他却说谎言是美好的。他是个理想主义者。</p>
+
+<p>于是，我想，话题又回到了我们所相信的东西是否真实，是否在愚弄自己。我们不能说我们读到的听到的都是欺骗。因为那是别人的理想。理想和现实，想象和实践本来就是有差距的。我们只是不能按着我们读到的和听到的做。因为青春是自己的。想象也应该是自己的。青春是面对现实去想象的能力而不是按着别人的想象来欺骗自己。</p>
+
+<hr />
+
+<p>@知乎 - 熊群</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-03-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#读书笔记">读书笔记</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2021/03/%E4%B8%89%E7%94%9F%E4%B8%89%E4%B8%96%E5%8D%81%E9%87%8C%E6%A1%83%E8%8A%B1.html">三生三世十里桃花</a></h1>
+    <div class="post_at_index">
+      <p><a href="https://www.amazon.cn/s/ref=as_li_ss_tl?_encoding=UTF8\&amp;camp=536\&amp;creative=3132\&amp;field-keywords=%E4%B8%89%E7%94%9F%E4%B8%89%E4%B8%96%E5%8D%81%E9%87%8C%E6%A1%83%E8%8A%B1\&amp;linkCode=ur2\&amp;tag=llll1-23\&amp;url=search-alias%3Dbooks">唐七</a>
+1 highlight</p>
+
+<ul>
+  <li>一个人便是这样了，处处都只想着所爱之人好，所爱之人好了，自己便也好了。这正是情爱的妙处，即便受罪吃苦头，倘若心里头有一个人揣着，天大的罪天大的苦头，也不过一场甜蜜的煎熬。</li>
+</ul>
 
       
     </div>
@@ -1046,41 +952,40 @@ docker update –restart=no my-container
       <ul>
         
         <li>
-          <a href="/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过pipreqs获取当前项目的依赖库</a>
-          如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a>
+          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
           
-  strip() 删除字符串中的内容，删除后仍旧是str
-  split() 分割字符串，根据特定的标识，分割后=list
+  参考资料：
 
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a>
+          <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
           ```python
-import string
+df = pandas.read_csv(‘somefile.txt’)
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python3-setup.py-help-commands.html">python3 setup.py --help-commands</a>
-          ```python
-→ python3 setup.py –help-commands
+          <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
+          暗坑很多
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入excel</a>
-          以下是使用的方法：
+          <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
+          王路
+12 highlights
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/10/%E8%87%AA%E5%8D%91%E4%B8%8E%E8%B6%85%E8%B6%8A.html">自卑与超越</a>
+          【奥】阿尔弗雷德··阿德勒
 
 
         </li>

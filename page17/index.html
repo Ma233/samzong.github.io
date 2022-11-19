@@ -278,7 +278,7 @@
     
     <h1><a class="title" href="/post/2016/08/%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%B2%81.html">二十四岁</a></h1>
     <div class="post_at_index">
-      <p>现在时间凌晨2点多，已经记不得这是第几个凌晨2点还没睡觉了，好像早睡已经是很久远的事情了，看书学习，刷视频，发呆，玩手机平板，总之不想睡觉；花在睡觉上的时间越来越少，感觉，其实挺累的，生活在大都市里啊，忙碌工作生活奔波，总感觉时间不够用，要做的事情太多，你总要面对很多事情和责任，与人相处；我很努力么，也不那么见得，一旦你成为这个社会一员，总有人或事再推着你前进，在你耳边脑海嚷嚷着不要停，不要停啊！</p>
+      <p>现在时间凌晨 2 点多，已经记不得这是第几个凌晨 2 点还没睡觉了，好像早睡已经是很久远的事情了，看书学习，刷视频，发呆，玩手机平板，总之不想睡觉；花在睡觉上的时间越来越少，感觉，其实挺累的，生活在大都市里啊，忙碌工作生活奔波，总感觉时间不够用，要做的事情太多，你总要面对很多事情和责任，与人相处；我很努力么，也不那么见得，一旦你成为这个社会一员，总有人或事再推着你前进，在你耳边脑海嚷嚷着不要停，不要停啊！</p>
 
 <p>每年生日的时候，都会给自己写点东西，回首曾经的岁月又多了一年，我不知道这个习惯会坚持到什么时候，或许写着写着就不想写了，或者自己落入庸俗的圈套，不敢回首过往岁月；我一直坚持的，就是希望在将来回望曾经岁月时不会面带羞愧，我没想过自己会有怎么牛逼的人生，如果回想起今天能觉得，哎哟，不错哦，那就很好了啊；我会坚持去自己想做的事，年岁在增长，不忘初心；就像，这个我喜欢啊，嗯，那就坚持下去咯。</p>
 
@@ -288,7 +288,7 @@
 
 <p>还是和往年一样，自从奶奶去世，我一直不喜欢过节，还是会想念她，不愿意听别人提及她，工作累了，与人相处不融洽的时候，很多时候，我都会想起她，想起小时候，为我遮风挡雨，是我最温暖最踏实的依靠，生活虽然艰辛，但那是我一生最快乐的时光，教我做人做事，让我努力，支持我鼓励我教训我，可是我却未能报答这份恩情，每次清明节回去，望着那座坟墓，总是还想听听您喊我的名字；所以呢，我要努力过好自己的人生，才能对得起奶奶的期望，人生的努力，终有一个理由。</p>
 
-<p>好了，接下来要开始走向25岁了。</p>
+<p>好了，接下来要开始走向 25 岁了。</p>
 
       
     </div>
@@ -449,7 +449,7 @@ in_finsh
       <h4 id="介绍">介绍</h4>
 
 <p>
-MariaDB Galera Cluster 是一套在MySQL InnoDB存储引擎上面实现multi-master及数据实时同步的系统架构，业务层面无需做读写分离工作，数据库读写压力都能按照既定的规则分发到 各个节点上去。在数据方面完全兼容 MariaDB 和 MySQL。使用MariaDB Galera的解决方案，可以方便快速的搭建出高可用的数据库Cluster，不是主备模式，而是双活模式，也就是说，没有主节点和备份节点，每个节点都可以看做是主节点，都可以进行读写，由Galera来实现底层的数据同步。
+MariaDB Galera Cluster 是一套在 MySQL InnoDB 存储引擎上面实现 multi-master 及数据实时同步的系统架构，业务层面无需做读写分离工作，数据库读写压力都能按照既定的规则分发到 各个节点上去。在数据方面完全兼容 MariaDB 和 MySQL。使用 MariaDB Galera 的解决方案，可以方便快速的搭建出高可用的数据库 Cluster，不是主备模式，而是双活模式，也就是说，没有主节点和备份节点，每个节点都可以看做是主节点，都可以进行读写，由 Galera 来实现底层的数据同步。
 </p>
 
 <ul>
@@ -465,12 +465,12 @@ MariaDB Galera Cluster 是一套在MySQL InnoDB存储引擎上面实现multi-mas
   <li>Cluster node4 IP address 172.16.102.168</li>
   <li>Cluster node5 IP address 172.16.102.165</li>
   <li>Cluster node6 IP address 172.16.102.164</li>
-  <li>setenforce 0；sed -i ‘s/SELINUX=enforcing/SELINUX=disabled/’ /etc/selinux/config</li>
+  <li>setenforce 0. sed -i ‘s/SELINUX=enforcing/SELINUX=disabled/’ /etc/selinux/config</li>
   <li>/etc/init.d/iptables stop;chkconfig iptables off</li>
 </ul>
 
 <blockquote>
-  <p>使用vmware 测试需注意:克隆机器需要删除 <code>/etc/udev/rules.d/70-persistent-net.rules</code> 以及<code>/etc/sysconfig/network-scripts/ifcfg-eth0</code>中的网卡mac地址选项，不然网卡起不来</p>
+  <p>使用 vmware 测试需注意：克隆机器需要删除 <code>/etc/udev/rules.d/70-persistent-net.rules</code> 以及<code>/etc/sysconfig/network-scripts/ifcfg-eth0</code>中的网卡 mac 地址选项，不然网卡起不来</p>
 </blockquote>
 
 <h4 id="环境检测">环境检测</h4>
@@ -480,19 +480,19 @@ MariaDB Galera Cluster 是一套在MySQL InnoDB存储引擎上面实现multi-mas
     <table>
       <tbody>
         <tr>
-          <td>检查iptables状态：/etc/init.d/iptables status;chkconfig –list</td>
+          <td>检查 iptables 状态：/etc/init.d/iptables status;chkconfig –list</td>
           <td>grep iptables</td>
         </tr>
       </tbody>
     </table>
   </li>
-  <li>检查selinux状态：getenforce</li>
-  <li>检查openssh-client包是否安装：系统中是否有ssh命令</li>
+  <li>检查 selinux 状态：getenforce</li>
+  <li>检查 openssh-client 包是否安装：系统中是否有 ssh 命令</li>
   <li>
     <table>
       <tbody>
         <tr>
-          <td>检查是否系统中含有mysql相关的包：rpm -qa</td>
+          <td>检查是否系统中含有 mysql 相关的包：rpm -qa</td>
           <td>grep mysql，有的话都需要卸载掉</td>
         </tr>
       </tbody>
@@ -520,7 +520,7 @@ MariaDB Galera Cluster 是一套在MySQL InnoDB存储引擎上面实现multi-mas
 # 依次在node5和node6上编辑/etc/hosts
 </code></pre></div></div>
 
-<h5 id="2-在所有node上安装-mariadb-galera">2. 在所有node上安装 MariaDB Galera</h5>
+<h5 id="2-在所有-node-上安装-mariadb-galera">2. 在所有 node 上安装 MariaDB Galera</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# vi /etc/yum.repos.d/mariadb.repo
  # MariaDB 10.0 CentOS repository list
@@ -538,7 +538,7 @@ enabled=0
 </code></pre></div></div>
 
 <blockquote>
-  <p><i>注意安装完成之后，不要启动mysql</i></p>
+  <p><i>注意安装完成之后，不要启动 mysql</i></p>
 </blockquote>
 
 <h5 id="3-在其中一个节点上编辑etcmycnfdservercnf配置文件">3. 在其中一个节点上编辑/etc/my.cnf.d/server.cnf配置文件</h5>
@@ -630,12 +630,12 @@ Starting MySQL...SST in progress, setting sleep higher. SUCCESS!
 </code></pre></div></div>
 
 <blockquote>
-  <p>注意：只需要初始化第一个节点服务器的数据库，其他数据的配置文件会自动同步，所以你给node4设置的root可以在node5和node6直接使用，当然这是安装正确的前提。</p>
+  <p>注意：只需要初始化第一个节点服务器的数据库，其他数据的配置文件会自动同步，所以你给 node4 设置的 root 可以在 node5 和 node6 直接使用，当然这是安装正确的前提。</p>
 </blockquote>
 
 <h4 id="登陆各个节点数据库检查配置是否成功">登陆各个节点数据库检查配置是否成功</h4>
 
-<p>server.cnf的配置如果没有问题，那么wsrep_local_state_comment的状态应该是Synced。</p>
+<p>server.cnf 的配置如果没有问题，那么 wsrep_local_state_comment 的状态应该是 Synced。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# mysql -u root -p
 Enter password:
@@ -660,7 +660,7 @@ MariaDB [(none)]&gt;
 
 <h4 id="结论">结论</h4>
 
-<p>MariaDB Galera没有主节点和备份节点，配置成功之后，可以在任何一个node节点上操作会自动同步到其他节点，任何一个节点宕机不会影响其他节点的数据和稳定性，配置HAProxy设置VIP的方式来实现负载均衡，提高服务的高可用性，另外，当宕机节点上线之后，事务会自动同步不丢失。</p>
+<p>MariaDB Galera 没有主节点和备份节点，配置成功之后，可以在任何一个 node 节点上操作会自动同步到其他节点，任何一个节点宕机不会影响其他节点的数据和稳定性，配置 HAProxy 设置 VIP 的方式来实现负载均衡，提高服务的高可用性，另外，当宕机节点上线之后，事务会自动同步不丢失。</p>
 
       
     </div>
@@ -689,12 +689,12 @@ MariaDB [(none)]&gt;
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum -y install wget java glibc.i686
 </code></pre></div></div>
 
-<h4 id="下载openfire-38-到本地">下载openfire 3.8 到本地</h4>
+<h4 id="下载-openfire-38-到本地">下载 openfire 3.8 到本地</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://download.igniterealtime.org/openfire/openfire-3.8.1-1.i386.rpm
 </code></pre></div></div>
 
-<h4 id="安装openfire-38">安装openfire 3.8</h4>
+<h4 id="安装-openfire-38">安装 openfire 3.8</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum -y install ./openfire*rpm
 </code></pre></div></div>
@@ -709,7 +709,7 @@ MariaDB [(none)]&gt;
 
 <p>详见： <a href="http://blog.ultraera.org/how-to-install-mysql-5-6-on-centos/">How to Install MySQL 5.5/6/7 on RHEL/CentOS 5/6/7</a></p>
 
-<h4 id="创建openfire数据库">创建openfire数据库</h4>
+<h4 id="创建-openfire-数据库">创建 openfire 数据库</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql -u root -p
 
@@ -717,7 +717,7 @@ create database openfire character set utf8;
 grant all privileges on openfire.* to 'openfire'@'127.0.0.1' identified by 'openfire' with grant option;
 </code></pre></div></div>
 
-<h4 id="启动openfire">启动openfire</h4>
+<h4 id="启动-openfire">启动 openfire</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://Host:9090
 </code></pre></div></div>
@@ -726,7 +726,7 @@ grant all privileges on openfire.* to 'openfire'@'127.0.0.1' identified by 'open
 
 <h4 id="faq">FAQ</h4>
 
-<p>openfire安装完毕后无法登录控制台</p>
+<p>openfire 安装完毕后无法登录控制台</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>报错：Login failed:make sure your username and password are correct and that you’re an admin or moderator
 
@@ -764,16 +764,16 @@ JAVA_HOME="/usr/lib/jvm/jre-$VERSION.x86_64"
     
     <h1><a class="title" href="/post/2016/08/HowTo-Use-Docker-create-a-Tomcat-Project.html">HowTo Use Docker create a Tomcat Project</a></h1>
     <div class="post_at_index">
-      <h4 id="1-安装centos-7x"><strong>1. 安装CentOS 7.x</strong></h4>
+      <h4 id="1-安装-centos-7x"><strong>1. 安装 CentOS 7.x</strong></h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>略。
 </code></pre></div></div>
 
-<h4 id="2-安装docker"><strong>2. 安装docker</strong></h4>
+<h4 id="2-安装-docker"><strong>2. 安装 docker</strong></h4>
 
 <p>详见： <a href="https://samzong.me/2016/07/07/HowTo-Install-Docker-on-CentOS-6-x/">How to Install Docker on CentOS 6.x</a></p>
 
-<h4 id="3-基础docker命令"><strong>3. 基础docker命令</strong></h4>
+<h4 id="3-基础-docker-命令"><strong>3. 基础 docker 命令</strong></h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>＃ 获取centos6 docker镜像
 [root@docker ~]# docker pull centos6
@@ -827,7 +827,7 @@ Deleted: sha256:8945af30572845a904adce2aeaf73402c842d86e99e8f10688b25cb27834110b
 Deleted: sha256:ea9f151abb7e06353e73172dad421235611d4f6d0560ec95db26e0dc240642c1
 </code></pre></div></div>
 
-<h4 id="4-运行一个docker镜像"><strong>4. 运行一个docker镜像</strong></h4>
+<h4 id="4-运行一个-docker-镜像"><strong>4. 运行一个 docker 镜像</strong></h4>
 
 <h4 id="进入交互式程序">进入交互式程序</h4>
 
@@ -853,7 +853,7 @@ centos              centos6             a3c09d36ab4a        2 days ago          
 registry            latest              c6c14b3960bd        3 days ago          33.28 MB
 </code></pre></div></div>
 
-<h4 id="5-编辑dockerfile"><strong>5. 编辑Dockerfile</strong></h4>
+<h4 id="5-编辑-dockerfile"><strong>5. 编辑 Dockerfile</strong></h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># dockfile的第一行一定是FROM，指定了父镜像
 FROM centos:centos6
@@ -881,7 +881,7 @@ EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 </code></pre></div></div>
 
-<h4 id="6-生成自定义docker镜像"><strong>6. 生成自定义docker镜像</strong></h4>
+<h4 id="6-生成自定义-docker-镜像"><strong>6. 生成自定义 docker 镜像</strong></h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># build 编译镜像
 [root@docker ~]# docker build -f dockerfile3 -t centos:centos6-ssh .
@@ -942,7 +942,7 @@ b4211f7a304d9e34b72b510230be2c7a76b276886b488f08f3e12896a4d3c172
 
 </code></pre></div></div>
 
-<h4 id="7-ssh登陆到docker容器内部署项目环境"><strong>7. ssh登陆到docker容器内，部署项目环境</strong></h4>
+<h4 id="7-ssh-登陆到-docker-容器内部署项目环境"><strong>7. ssh 登陆到 docker 容器内，部署项目环境</strong></h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># inspect 查看docker 容器IP地址
 [root@docker ~]# docker inspect sshd | grep IPAddress
@@ -972,7 +972,7 @@ registry            latest              c6c14b3960bd        3 days ago          
 
 </code></pre></div></div>
 
-<h4 id="8-推送centoscentos6-tomcat到私有docker仓库"><strong>8. 推送centos:centos6-tomcat到私有docker仓库</strong></h4>
+<h4 id="8-推送-centoscentos6-tomcat-到私有-docker-仓库"><strong>8. 推送 centos:centos6-tomcat 到私有 docker 仓库</strong></h4>
 
       
     </div>
@@ -990,17 +990,17 @@ registry            latest              c6c14b3960bd        3 days ago          
     
     <h1><a class="title" href="/post/2016/08/%E4%BD%A0%E5%A5%BD-%E5%85%AB%E6%9C%88.html">你好，八月</a></h1>
     <div class="post_at_index">
-      <p>还剩不到1小时就要进入8月，也许写完这篇文章就已经8月，我其实不擅长写作文，自小如此，所以每次都是特别慢；时间慢慢流逝，听着音乐，随心所致，大概也是件快乐的事情吧。</p>
+      <p>还剩不到 1 小时就要进入 8 月，也许写完这篇文章就已经 8 月，我其实不擅长写作文，自小如此，所以每次都是特别慢；时间慢慢流逝，听着音乐，随心所致，大概也是件快乐的事情吧。</p>
 
 <p>定期自省己身，所行之事，所思之虑，有则改之，无则勉之，坚守吾心，戒嗔戒躁，自打懂得事理之后，便妄以此法施加吾身，奈何小子年幼，定力不坚，常因一时欢愉便抛诸脑后，事后便懊悔不已；虽言，生而为人，便逃不过七情六欲加身，然，时时自省吾身，常思吾之过，常念德行事，方可为人；撰此文，便是警醒己身。</p>
 
-<p>犯错并不是一件可怕的事儿，从小做了不知多少混账事，也没见的把天捅破，可见，所谓捅破天也不是件容易的事儿；首先是工作上的失职，自今年年初，开始搭建自身的团队班子，虽然只有三三两两人，刚开始做小头头，我并没有正确认识到自己的责任，在完成本职工作的同时，也要照顾底下的员工，不光是工作安排，还有学习成长，很多事情吩咐下去之后，自己又要去检查，弄的比自己一人工作时还要劳累；之后，连着手下两名员工都离职了，我开始反省自己，从招聘到工作分配到培养，头大如斗，深感做领导的不易。公司因装修改造，扩展一个会议室，我自己怕麻烦，便将工作推给一个员工，却未考虑他的自身的能力，导致原本清晰简单的事，拖拖拉拉2个月才算弄完，还害得这名员工离职，对行政部门的工作也造成了影响，经此事之后，发觉自身管理能力十分不足。另一事，公司微软云资源的账单，之前一人工作时制定的账单每月资源消耗账单，但是由于后将该事务分配与他人，导致最后帐不对本，弄巧成拙，最后还是花费大量时间，重新制作了所有的账单，问题在于自身没有将事务认真贯彻执行下去，而且任务甩出手之后，缺乏关心。另有很多这样大大小小之事，十分头疼，真应该好好学学如何做一个好领导。</p>
+<p>犯错并不是一件可怕的事儿，从小做了不知多少混账事，也没见的把天捅破，可见，所谓捅破天也不是件容易的事儿；首先是工作上的失职，自今年年初，开始搭建自身的团队班子，虽然只有三三两两人，刚开始做小头头，我并没有正确认识到自己的责任，在完成本职工作的同时，也要照顾底下的员工，不光是工作安排，还有学习成长，很多事情吩咐下去之后，自己又要去检查，弄的比自己一人工作时还要劳累；之后，连着手下两名员工都离职了，我开始反省自己，从招聘到工作分配到培养，头大如斗，深感做领导的不易。公司因装修改造，扩展一个会议室，我自己怕麻烦，便将工作推给一个员工，却未考虑他的自身的能力，导致原本清晰简单的事，拖拖拉拉 2 个月才算弄完，还害得这名员工离职，对行政部门的工作也造成了影响，经此事之后，发觉自身管理能力十分不足。另一事，公司微软云资源的账单，之前一人工作时制定的账单每月资源消耗账单，但是由于后将该事务分配与他人，导致最后帐不对本，弄巧成拙，最后还是花费大量时间，重新制作了所有的账单，问题在于自身没有将事务认真贯彻执行下去，而且任务甩出手之后，缺乏关心。另有很多这样大大小小之事，十分头疼，真应该好好学学如何做一个好领导。</p>
 
 <p>我不太会写叙述的文章，前面一段文字，自己看着都揪心，也是那些复杂的事儿都过去了，才能有闲工夫来写这些东西，两个助手离职之后，拉来之前同事过来帮忙，现在事情都在往好的方向发展，一点点在建立规则，接下来的工作和学习的重心都会放在大数据上，实在的事是公司给了我很好的学习机会，在这家公司也成长了非常的多，感谢的话言之不尽，唯有努力工作方可回报。</p>
 
-<p>谈下关于博客，最近找了一个漂亮的主题，所以一直在折腾怎么弄好看，感觉有点逾越了当初创建博客的初衷；所以，接下来的时间，要整理之前的博文，对知识进行梳理，好记性不如烂笔头，用XMind做思维导图，TodoList工具计划任务清单，博客记录学习内容FAQ等，一直认为好的学习方法才能达到事半功倍的效果，要加快成长，每次参加一些培训和技术的研讨会，都恨不得自己早生十年。</p>
+<p>谈下关于博客，最近找了一个漂亮的主题，所以一直在折腾怎么弄好看，感觉有点逾越了当初创建博客的初衷；所以，接下来的时间，要整理之前的博文，对知识进行梳理，好记性不如烂笔头，用 XMind 做思维导图，TodoList 工具计划任务清单，博客记录学习内容 FAQ 等，一直认为好的学习方法才能达到事半功倍的效果，要加快成长，每次参加一些培训和技术的研讨会，都恨不得自己早生十年。</p>
 
-<p>谈下关于减肥，首先这肯定是一个永恒无止尽的话题，之前这段时间因为工作上的乱七八糟导致每天下班时间都到9-10多点钟，再加上公司到家地铁要1小时，所以健身房也一直没去，再加上饮食不规律，体重又回升到了可怕85KG，8月开始，要认真去健身了，该吃吃，该练练，目标体重75KG。</p>
+<p>谈下关于减肥，首先这肯定是一个永恒无止尽的话题，之前这段时间因为工作上的乱七八糟导致每天下班时间都到 9-10 多点钟，再加上公司到家地铁要 1 小时，所以健身房也一直没去，再加上饮食不规律，体重又回升到了可怕 85KG，8 月开始，要认真去健身了，该吃吃，该练练，目标体重 75KG。</p>
 
       
     </div>
@@ -1020,7 +1020,7 @@ registry            latest              c6c14b3960bd        3 days ago          
     <div class="post_at_index">
       <p>纠正下，在下面博文中的错误，关于单曲不能生成外链的问题，现已经纠正。</p>
 
-<p>我试过百度音乐、QQ音乐、虾米音乐和网易云音乐，目前只有网易云音乐有此功能，先在网易云音乐选择歌曲即可：</p>
+<p>我试过百度音乐、QQ 音乐、虾米音乐和网易云音乐，目前只有网易云音乐有此功能，先在网易云音乐选择歌曲即可：</p>
 
 <h4 id="分享单曲">分享单曲</h4>
 
@@ -1036,7 +1036,7 @@ registry            latest              c6c14b3960bd        3 days ago          
 <img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/1-6UcK4gXBrACw.jpg" />
 </div>
 <p><br />
-<strong>然后，根据页面提示信息，生成你要的html代码，并嵌入到你的页面之中。</strong></p>
+<strong>然后，根据页面提示信息，生成你要的 html 代码，并嵌入到你的页面之中。</strong></p>
 <div align="center">
 <img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/2-6UcK4gXBrACw.jpg" />
 </div>
@@ -1059,11 +1059,13 @@ registry            latest              c6c14b3960bd        3 days ago          
     <div class="post_at_index">
       <h2 id="1-centos-6x">1. CentOS 6.x</h2>
 
-<p>CentOS 6 上是默认打开了IPv6，但其实在我们实际使用中很难用到它，所以本篇的内容就是如何关闭IPv6。</p>
+<p>CentOS 6 上是默认打开了 IPv6，但其实在我们实际使用中很难用到它，所以本篇的内容就是如何关闭 IPv6。</p>
 
-<p>＃ 可以看到 inet6 ，说明还没关闭。</p>
+<blockquote>
+  <p>可以看到 inet6，说明还没关闭。</p>
+</blockquote>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# ifconfig eth0
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# ifconfig eth0
 eth0      Link encap:Ethernet  HWaddr 00:0C:29:3A:F9:6F
           inet addr:172.16.102.161  Bcast:172.16.102.255  Mask:255.255.255.0
           inet6 addr: fe80::20c:29ff:fe3a:f96f/64 Scope:Link
@@ -1071,77 +1073,85 @@ eth0      Link encap:Ethernet  HWaddr 00:0C:29:3A:F9:6F
           RX packets:199 errors:0 dropped:0 overruns:0 frame:0
           TX packets:122 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:1000
-          RX bytes:20124 (19.6 KiB)  TX bytes:17182 (16.7 KiB)
+          RX bytes:20124 <span class="o">(</span>19.6 KiB<span class="o">)</span>  TX bytes:17182 <span class="o">(</span>16.7 KiB<span class="o">)</span>
 </code></pre></div></div>
 
-<p>＃ 修改/etc/modprobe.d/dist.conf</p>
+<blockquote>
+  <p>修改/etc/modprobe.d/dist.conf</p>
+</blockquote>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# vi /etc/modprobe.d/dist.conf
-# 添加下面两行内容
-alias net-pf-10 off
-alias ipv6 off
-# 保存退出，并且重新启动系统
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# vi /etc/modprobe.d/dist.conf
+<span class="c"># 添加下面两行内容</span>
+<span class="nb">alias </span>net-pf-10 off
+<span class="nb">alias </span>ipv6 off
+<span class="c"># 保存退出，并且重新启动系统</span>
 
-# 开机不启动
-[root@ultraera ~]# chkconfig ip6tables off
+<span class="c"># 开机不启动</span>
+<span class="o">[</span>root@ultraera ~]# chkconfig ip6tables off
 </code></pre></div></div>
 
-<p>＃ 系统重启完成后，检查是否加载IPv6</p>
+<blockquote>
+  <p>系统重启完成后，检查是否加载 IPv6</p>
+</blockquote>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# lsmod | grep v6
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# lsmod | <span class="nb">grep </span>v6
 </code></pre></div></div>
 
-<p>＃ 补充</p>
+<blockquote>
+  <p>补充</p>
+</blockquote>
 
 <ul>
   <li>修改/etc/sysconfig/network，追加</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NETWORKING_IPV6=no
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">NETWORKING_IPV6</span><span class="o">=</span>no
 </code></pre></div></div>
 
 <ul>
   <li>修改/etc/hosts文件，把ipv6的那句本地主机名解析的也注释掉</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#::1   localhost localhost6 localhost6.localdomain6
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#::1   localhost localhost6 localhost6.localdomain6</span>
 </code></pre></div></div>
 
 <p><br /></p>
 
 <h2 id="2-centos-7x">2. CentOS 7.x</h2>
 
-<h4 id="setup-1-修改grub文件在启动引导时不加载ipv6">Setup 1. 修改grub文件，在启动引导时不加载ipv6</h4>
+<h4 id="setup-1-修改-grub-文件在启动引导时不加载-ipv6">Setup 1. 修改 grub 文件，在启动引导时不加载 ipv6</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# vim /etc/default/grub
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# vim /etc/default/grub
 
-# 在GRUB_CMDLINE_LINUX=" " ,中增加
+<span class="c"># 在GRUB_CMDLINE_LINUX=" " ,中增加</span>
 ipv6.disable＝1
 
-# 重新生产启动引导文件，注意，这里重启系统是没用的，需要手动重建引导文件
-[root@ultraera ~]# grub2-mkconfig -o /boot/grub2/grub.cfg
-[root@ultraera ~]# reboot
+<span class="c"># 重新生产启动引导文件，注意，这里重启系统是没用的，需要手动重建引导文件</span>
+<span class="o">[</span>root@ultraera ~]# grub2-mkconfig <span class="nt">-o</span> /boot/grub2/grub.cfg
+<span class="o">[</span>root@ultraera ~]# reboot
 </code></pre></div></div>
 
-<p>＃ 验证是否关闭</p>
+<blockquote>
+  <p>验证是否关闭</p>
+</blockquote>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# lsmod | grep ipv6
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# lsmod | <span class="nb">grep </span>ipv6
 </code></pre></div></div>
 
 <h4 id="setup-2-第二种方式">Setup 2. 第二种方式</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 修改/etc/sysctl.conf,增加以下：
-net.ipv6.conf.all.disable_ipv6 = 1
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 修改/etc/sysctl.conf,增加以下：</span>
+net.ipv6.conf.all.disable_ipv6 <span class="o">=</span> 1
 
 reboot
 </code></pre></div></div>
 
 <blockquote>
-  <p>IPv6是默认支持的，所以当你要重新开起IPv6支持时，将以上添加的指令注释掉即可。</p>
+  <p>IPv6 是默认支持的，所以当你要重新开起 IPv6 支持时，将以上添加的指令注释掉即可。</p>
 </blockquote>
 
 <blockquote>
-  <font color="red"><b>之前碰到过安装某些服务时，不能启动，后来检查原因是因为关闭ipv6的问题，因为在这些服务的conf文件，指定了类似监听ipv6,因为关闭了ipv6导致服务无法启动，将其关闭即可。<b>&lt;/font&gt;
+  <font color="red"><b>之前碰到过安装某些服务时，不能启动，后来检查原因是因为关闭 ipv6 的问题，因为在这些服务的 conf 文件，指定了类似监听 ipv6，因为关闭了 ipv6 导致服务无法启动，将其关闭即可。<b>&lt;/font&gt;
 </b></b></font>
 </blockquote>
 
@@ -1161,7 +1171,7 @@ reboot
     
     <h1><a class="title" href="/post/2016/07/HowTo-Install-KVM-Manage-Server-webvirtmgr.html">HowTo Install KVM Manage Server webvirtmgr</a></h1>
     <div class="post_at_index">
-      <p>生产环境的KVM宿主机越来越多，需要对宿主机的状态进行调控。这里用webvirtmgr进行管理。图形化的WEB，让人能更方便的查看kvm 宿主机的情况和操作.</p>
+      <p>生产环境的 KVM 宿主机越来越多，需要对宿主机的状态进行调控。这里用 webvirtmgr 进行管理。图形化的 WEB，让人能更方便的查看 kvm 宿主机的情况和操作。</p>
 
 <p><strong><em><a href="https://github.com/retspen/webvirtmgr">GitHub Project.</a></em></strong></p>
 
@@ -1177,13 +1187,13 @@ reboot
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum -y install git python-pip libvirt-python libxml2-python python-websockify supervisor nginx
 </code></pre></div></div>
 
-<h4 id="从git-hub中下载相关的webvirtmgr代码">从git-hub中下载相关的webvirtmgr代码</h4>
+<h4 id="从-git-hub-中下载相关的-webvirtmgr-代码">从 git-hub 中下载相关的 webvirtmgr 代码</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /usr/local/src/
 git clone git://github.com/retspen/webvirtmgr.git
 </code></pre></div></div>
 
-<h4 id="安装webvirtmgr">安装webvirtmgr</h4>
+<h4 id="安装-webvirtmgr">安装 webvirtmgr</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd webvirtmgr/
 pip install -r requirements.txt
@@ -1194,7 +1204,7 @@ pip install -r requirements.txt
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install python-sqlite2
 </code></pre></div></div>
 
-<h4 id="对django进行环境配置">对django进行环境配置</h4>
+<h4 id="对-django-进行环境配置">对 django 进行环境配置</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./manage.py syncdb
 
@@ -1209,7 +1219,7 @@ Password (again):*********
 ./manage.py createsuperuser #添加管理员账号
 </code></pre></div></div>
 
-<h4 id="拷贝web到-相关目录">拷贝web到 相关目录</h4>
+<h4 id="拷贝-web-到-相关目录">拷贝 web 到 相关目录</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd ..
 rm -rf /var/www
@@ -1217,14 +1227,14 @@ mkdir -pv /var/www
 cp -Rv webvirtmgr /var/www/webvirtmgr
 </code></pre></div></div>
 
-<h4 id="设置ssh">设置ssh</h4>
+<h4 id="设置-ssh">设置 ssh</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen
 ssh-copy-id 192.168.2.32
 ssh 192.168.2.32 -L localhost:8000:localhost:8000 -L localhost:6080:localhost:6080
 </code></pre></div></div>
 
-<h4 id="编辑nginx配置文件">编辑nginx配置文件</h4>
+<h4 id="编辑-nginx-配置文件">编辑 nginx 配置文件</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
 vim /etc/nginx/conf.d/webvirtmgr.conf  #添加下面内容到文件中
@@ -1254,12 +1264,12 @@ server {
 }
 </code></pre></div></div>
 
-<h4 id="启动nginx">启动nginx</h4>
+<h4 id="启动-nginx">启动 nginx</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service nginx start
 </code></pre></div></div>
 
-<h4 id="修改防火墙规则--如果关闭selinux此步可省略">修改防火墙规则 ( 如果关闭selinux，此步可省略)</h4>
+<h4 id="修改防火墙规则--如果关闭-selinux此步可省略">修改防火墙规则 ( 如果关闭 selinux，此步可省略)</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/sbin/setsebool httpd_can_network_connect true
 </code></pre></div></div>
@@ -1324,22 +1334,22 @@ service supervisord start
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/07/Yum%E4%B8%AD-releasever%E5%92%8C-basearch%E7%9A%84%E5%8F%96%E5%80%BC.html">Yum中$releasever和$basearch的取值</a></h1>
+    <h1><a class="title" href="/post/2016/07/Yum%E4%B8%AD-releasever%E5%92%8C-basearch%E7%9A%84%E5%8F%96%E5%80%BC.html">Yum 中$releasever 和$basearch 的取值</a></h1>
     <div class="post_at_index">
       <h4 id="查看etcyumreposdcentos-baserepo">查看/etc/yum.repos.d/CentOS-Base.repo</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[base]
-name=CentOS-$releasever - Base
-mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os&amp;infra=$infra
-#baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>base]
+<span class="nv">name</span><span class="o">=</span>CentOS-<span class="nv">$releasever</span> - Base
+<span class="nv">mirrorlist</span><span class="o">=</span>http://mirrorlist.centos.org/?release<span class="o">=</span><span class="nv">$releasever</span>&amp;arch<span class="o">=</span><span class="nv">$basearch</span>&amp;repo<span class="o">=</span>os&amp;infra<span class="o">=</span><span class="nv">$infra</span>
+<span class="c">#baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/</span>
+<span class="nv">gpgcheck</span><span class="o">=</span>1
+<span class="nv">gpgkey</span><span class="o">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
 </code></pre></div></div>
 
 <p>其实在日常使用之中，我们在很多地方，特别是脚本内看到了调用<code>$releasever</code>和<code>$basearch</code></p>
 
 <ol>
-  <li>$releasever的值,这个表示当前系统的发行版本</li>
+  <li>$releasever 的值，这个表示当前系统的发行版本</li>
 </ol>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera /]# rpm -qi centos-release
@@ -1359,7 +1369,7 @@ CentOS release files
 </code></pre></div></div>
 
 <ol>
-  <li>$basearch是我们的系统硬件架构(CPU指令集),就是我们常说的i386\i486\i586\i686\</li>
+  <li>$basearch 是我们的系统硬件架构 (CPU 指令集),就是我们常说的 i386\i486\i586\i686\</li>
 </ol>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera /]# arch
@@ -1368,7 +1378,7 @@ i386
 
 <p>但是，当我在命令行查看是却发现<code>$releasever</code>和<code>$basearch</code>是空的。
 <br />
-Google 一下之后，说明Yum变量的说明可以在这里（5.3.3. Using Yum Variables）找到，说明如下：</p>
+Google 一下之后，说明 Yum 变量的说明可以在这里（5.3.3. Using Yum Variables）找到，说明如下：</p>
 <blockquote>
   <p>5.3.3. Using Yum Variables</p>
 </blockquote>
@@ -1391,11 +1401,11 @@ These ten variables are each replaced with the value of any shell environment va
 
 <p>For example, repository descriptions often include the operating system name. To define a new variable called $osname, create a new file with “Red Hat Enterprise Linux” on the first line and save it as /etc/yum/vars/osname:</p>
 
-<p><code>echo “Red Hat Enterprise Linux” &gt; /etc/yum/vars/osname</code></p>
+<p><code>echo "Red Hat Enterprise Linux" &gt; /etc/yum/vars/osname</code></p>
 
 <p>Instead of “Red Hat Enterprise Linux 6”, you can now use the following in the .repo files: name=$osname $releasever</p>
 
-<p>文中说到$releasever的定义可以查看 /etc/yum.conf 文件的事distroverpkg=value 行，打开 /etc/yum.conf 看一下，默认文件（我的是CentOS 6）内容如下：</p>
+<p>文中说到$releasever 的定义可以查看 /etc/yum.conf 文件的事 distroverpkg=value 行，打开 /etc/yum.conf 看一下，默认文件（我的是 CentOS 6）内容如下：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[main]
 cachedir=/var/cache/yum/$basearch/$releasever
@@ -1411,15 +1421,15 @@ bugtracker_url=http://bugs.centos.org/set_project.php?project_id=16&amp;ref=http
 distroverpkg=centos-release
 </code></pre></div></div>
 
-<p>distroverpkg=centos-release 代表什么？ 去哪找 centos-release 。找到这里我再一次表示困惑。
-不过另一篇文章进行了我的视野： yum的$releasever真是太反动了， 关键内空如下：<br />
+<p>distroverpkg=centos-release 代表什么？去哪找 centos-release。找到这里我再一次表示困惑。
+不过另一篇文章进行了我的视野：yum 的$releasever 真是太反动了，关键内空如下：<br />
 在 /etc/yum.repos.d/ 目录下的软件库定义文件中，常常会在 baseurl 的路径中提到 $releasever 这个变量，表示当前发行版的大版本号，但大家知道这个变量是在哪设置的吗？我 grep 了整个 etc 目录都没找到，还是看了 yum.conf 才知道的，是在 yum.conf 文件里 distroverpkg 选项定义的。但这个选项就很有问题：<br />
 distroverpkg 和 releasever 名字不同，且看不出什么联系
-distroverpkg 的值，并不是明文，而是“redhat-release”。不知道大家看到这个会有什么想法，反正我是首先想到了 /etc/redhat-release 文件，但我错了。实际上指的是 redhat-release 这个RPM包。所谓“distroverpkg=redhat-release”的意思，其实是将 $releasever 设置为 redhat-release 这个RPM包的版本号.</p>
+distroverpkg 的值，并不是明文，而是“redhat-release”。不知道大家看到这个会有什么想法，反正我是首先想到了 /etc/redhat-release 文件，但我错了。实际上指的是 redhat-release 这个 RPM 包。所谓“distroverpkg=redhat-release”的意思，其实是将 $releasever 设置为 redhat-release 这个 RPM 包的版本号。</p>
 
 <h5 id="小结">小结：<br /></h5>
 
-<p>yum中的$releasever变量是取redhat-release-server rpm包的属性值( %{version})。
+<p>yum 中的$releasever 变量是取 redhat-release-server rpm 包的属性值 ( %{version})。
 [root@ldap01 ~]# rpm -q –qf %{version} redhat-release-server;echo
 6Server</p>
 
@@ -1782,41 +1792,40 @@ distroverpkg 的值，并不是明文，而是“redhat-release”。不知道�
       <ul>
         
         <li>
-          <a href="/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过pipreqs获取当前项目的依赖库</a>
-          如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a>
+          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
           
-  strip() 删除字符串中的内容，删除后仍旧是str
-  split() 分割字符串，根据特定的标识，分割后=list
+  参考资料：
 
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a>
+          <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
           ```python
-import string
+df = pandas.read_csv(‘somefile.txt’)
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python3-setup.py-help-commands.html">python3 setup.py --help-commands</a>
-          ```python
-→ python3 setup.py –help-commands
+          <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
+          暗坑很多
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入excel</a>
-          以下是使用的方法：
+          <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
+          王路
+12 highlights
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/10/%E8%87%AA%E5%8D%91%E4%B8%8E%E8%B6%85%E8%B6%8A.html">自卑与超越</a>
+          【奥】阿尔弗雷德··阿德勒
 
 
         </li>

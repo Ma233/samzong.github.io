@@ -288,16 +288,16 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <h4 id="1-安装centos-7x"><strong>1. 安装CentOS 7.x</strong></h4>
+            <h4 id="1-安装-centos-7x"><strong>1. 安装 CentOS 7.x</strong></h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>略。
 </code></pre></div></div>
 
-<h4 id="2-安装docker"><strong>2. 安装docker</strong></h4>
+<h4 id="2-安装-docker"><strong>2. 安装 docker</strong></h4>
 
 <p>详见： <a href="https://samzong.me/2016/07/07/HowTo-Install-Docker-on-CentOS-6-x/">How to Install Docker on CentOS 6.x</a></p>
 
-<h4 id="3-基础docker命令"><strong>3. 基础docker命令</strong></h4>
+<h4 id="3-基础-docker-命令"><strong>3. 基础 docker 命令</strong></h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>＃ 获取centos6 docker镜像
 [root@docker ~]# docker pull centos6
@@ -351,7 +351,7 @@ Deleted: sha256:8945af30572845a904adce2aeaf73402c842d86e99e8f10688b25cb27834110b
 Deleted: sha256:ea9f151abb7e06353e73172dad421235611d4f6d0560ec95db26e0dc240642c1
 </code></pre></div></div>
 
-<h4 id="4-运行一个docker镜像"><strong>4. 运行一个docker镜像</strong></h4>
+<h4 id="4-运行一个-docker-镜像"><strong>4. 运行一个 docker 镜像</strong></h4>
 
 <h4 id="进入交互式程序">进入交互式程序</h4>
 
@@ -377,7 +377,7 @@ centos              centos6             a3c09d36ab4a        2 days ago          
 registry            latest              c6c14b3960bd        3 days ago          33.28 MB
 </code></pre></div></div>
 
-<h4 id="5-编辑dockerfile"><strong>5. 编辑Dockerfile</strong></h4>
+<h4 id="5-编辑-dockerfile"><strong>5. 编辑 Dockerfile</strong></h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># dockfile的第一行一定是FROM，指定了父镜像
 FROM centos:centos6
@@ -405,7 +405,7 @@ EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 </code></pre></div></div>
 
-<h4 id="6-生成自定义docker镜像"><strong>6. 生成自定义docker镜像</strong></h4>
+<h4 id="6-生成自定义-docker-镜像"><strong>6. 生成自定义 docker 镜像</strong></h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># build 编译镜像
 [root@docker ~]# docker build -f dockerfile3 -t centos:centos6-ssh .
@@ -466,7 +466,7 @@ b4211f7a304d9e34b72b510230be2c7a76b276886b488f08f3e12896a4d3c172
 
 </code></pre></div></div>
 
-<h4 id="7-ssh登陆到docker容器内部署项目环境"><strong>7. ssh登陆到docker容器内，部署项目环境</strong></h4>
+<h4 id="7-ssh-登陆到-docker-容器内部署项目环境"><strong>7. ssh 登陆到 docker 容器内，部署项目环境</strong></h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># inspect 查看docker 容器IP地址
 [root@docker ~]# docker inspect sshd | grep IPAddress
@@ -496,7 +496,7 @@ registry            latest              c6c14b3960bd        3 days ago          
 
 </code></pre></div></div>
 
-<h4 id="8-推送centoscentos6-tomcat到私有docker仓库"><strong>8. 推送centos:centos6-tomcat到私有docker仓库</strong></h4>
+<h4 id="8-推送-centoscentos6-tomcat-到私有-docker-仓库"><strong>8. 推送 centos:centos6-tomcat 到私有 docker 仓库</strong></h4>
 
         </div>
 

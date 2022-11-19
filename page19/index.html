@@ -278,20 +278,20 @@
     
     <h1><a class="title" href="/post/2016/05/Azure-HowTo-Use-Azure-CLI-on-Mac.html">HowTo Use Azure CLI on Mac</a></h1>
     <div class="post_at_index">
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Install azure-cli on Mac and CentOS
+      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## Install azure-cli on Mac and CentOS</span>
 
-### In Mac
+<span class="c">### In Mac</span>
 1. Install brew.
-2. brew install nodejs
-3. echo “registry = https://registry.npm.taobao.org” &gt; ~/.npmrc
-4. npm install azure-cli -g
+2. brew <span class="nb">install </span>nodejs
+3. <span class="nb">echo</span> “registry <span class="o">=</span> https://registry.npm.taobao.org” <span class="o">&gt;</span> ~/.npmrc
+4. npm <span class="nb">install </span>azure-cli <span class="nt">-g</span>
 
 
-### In CentOS
+<span class="c">### In CentOS</span>
 1. Install epel
-2. yum install -y nodejs npm
-3. echo “registry = https://registry.npm.taobao.org” &gt; ~/.npmrc
-4. npm install azure-cli -g
+2. yum <span class="nb">install</span> <span class="nt">-y</span> nodejs npm
+3. <span class="nb">echo</span> “registry <span class="o">=</span> https://registry.npm.taobao.org” <span class="o">&gt;</span> ~/.npmrc
+4. npm <span class="nb">install </span>azure-cli <span class="nt">-g</span>
 
 </code></pre></div></div>
 
@@ -331,42 +331,42 @@
     <div class="post_at_index">
       <h2 id="安装插件包">安装插件包</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm -y
-yum install percona-zabbix-templates.noarch -y
-yum install php* -y
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install </span>http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm <span class="nt">-y</span>
+yum <span class="nb">install </span>percona-zabbix-templates.noarch <span class="nt">-y</span>
+yum <span class="nb">install </span>php<span class="k">*</span> <span class="nt">-y</span>
 </code></pre></div></div>
 
 <h2 id="导入模板">导入模板</h2>
 
-<p>把/var/lib/zabbix/percona/templates/zabbix_agent_template_percona_mysql_server_ht_2.0.9-sver1.1.6.xml 文件拷贝出来，通过Zabbix的监控页面导入:
+<p>把/var/lib/zabbix/percona/templates/zabbix_agent_template_percona_mysql_server_ht_2.0.9-sver1.1.6.xml 文件拷贝出来，通过 Zabbix 的监控页面导入：
 ConfigurationTemplatesImport(在右上角)
-选择导出的模板文件，点击Import完成导入</p>
+选择导出的模板文件，点击 Import 完成导入</p>
 
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/05/zabbix-mysql01.png" alt="" /></p>
 
-<h2 id="安装agent">安装Agent</h2>
+<h2 id="安装-agent">安装 Agent</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm -ivh http://repo.zabbix.com/zabbix/2.4/rhel/6/x86_64/zabbix-release-2.4-1.el6.noarch.rpm
-yum install zabbix-agent
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-ivh</span> http://repo.zabbix.com/zabbix/2.4/rhel/6/x86_64/zabbix-release-2.4-1.el6.noarch.rpm
+yum <span class="nb">install </span>zabbix-agent
 vim /etc/zabbix/zabbix-agentd.conf
-#配置监控服务器地址
-Server=192.168.1.15
-#导入配置文件
-cp /var/lib/zabbix/percona/templates/userparameter_percona_mysql.conf /etc/zabbix/zabbix_agentd.d/
-#重启agent
+<span class="c">#配置监控服务器地址</span>
+<span class="nv">Server</span><span class="o">=</span>192.168.1.15
+<span class="c">#导入配置文件</span>
+<span class="nb">cp</span> /var/lib/zabbix/percona/templates/userparameter_percona_mysql.conf /etc/zabbix/zabbix_agentd.d/
+<span class="c">#重启agent</span>
 service zabbix-agent restart
 
 </code></pre></div></div>
 
-<h2 id="mysql新建用户">Mysql新建用户</h2>
+<h2 id="mysql-新建用户">Mysql 新建用户</h2>
 
-<p>登陆Mysql数据库，新建一个本地的只有查询权限的mysql用户
+<p>登陆 Mysql 数据库，新建一个本地的只有查询权限的 mysql 用户
 grant select on <em>.</em> to ‘percona’@’localhost’ identified by ‘percona’;
 flush tables;</p>
 
-<h2 id="配置percona插件">配置Percona插件</h2>
+<h2 id="配置-percona-插件">配置 Percona 插件</h2>
 
-<p>修改插件使用的mysql用户名密码
+<p>修改插件使用的 mysql 用户名密码
 sed -i s/cactiuser/percona/g /var/lib/zabbix/percona/scripts/ss_get_mysql_stats.php</p>
 
 <h2 id="测试">测试</h2>
@@ -377,7 +377,7 @@ cd /var/lib/zabbix/percona/scripts/
 如果获取到值，则说明配置成功
 <img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/05/zabbix-mysql02.png" alt="" /></p>
 
-<p>注意：执行完脚本后，请手动删除/tmp/文件夹下生成的*-mysql_cacti_stats.txt文件，然后让程序自己调用创建新文件。</p>
+<p>注意：执行完脚本后，请手动删除/tmp/文件夹下生成的*-mysql_cacti_stats.txt 文件，然后让程序自己调用创建新文件。</p>
 
       
     </div>
@@ -397,118 +397,117 @@ cd /var/lib/zabbix/percona/scripts/
     
     <h1><a class="title" href="/post/2016/05/HowTo-Install-CloudStack-4-8-on-CentOS-6-x.html">HowTo Install CloudStack 4.8 on CentOS 6.x</a></h1>
     <div class="post_at_index">
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-#!/bin/bash
+      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 
-# Install  CloudStack.sh
+<span class="c"># Install  CloudStack.sh</span>
 
-# setting static ip in : /etc/sysconfig/network-scripts/ifcfg-eth0
+<span class="c"># setting static ip in : /etc/sysconfig/network-scripts/ifcfg-eth0</span>
 
-# Check Service
+<span class="c"># Check Service</span>
 
-# Install
+<span class="c"># Install</span>
 
-# hostname --fqdn
+<span class="c"># hostname --fqdn</span>
 
-# service network restart
+<span class="c"># service network restart</span>
 
-# trun off selinux in : /etc/selinux/config
-#SELinux=disabed
+<span class="c"># trun off selinux in : /etc/selinux/config</span>
+<span class="c">#SELinux=disabed</span>
 
-# trun off iptables.
+<span class="c"># trun off iptables.</span>
 service iptables stop
 service ip6tables stop
 
 chkconfig iptables off
 chkconfig ip6tables off
 
-#NTP
-yum install -y ntp
+<span class="c">#NTP</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> ntp
 chkconfig ntpd on
 service ntpd start
 
-# adding cloudstack repos
-[cloudstack]
-name=cloudstack
-baseurl=http://cloudstack.apt-get.eu/centos/6/4.5/
-enabled=1
-gpgcheck=0
+<span class="c"># adding cloudstack repos</span>
+<span class="o">[</span>cloudstack]
+<span class="nv">name</span><span class="o">=</span>cloudstack
+<span class="nv">baseurl</span><span class="o">=</span>http://cloudstack.apt-get.eu/centos/6/4.5/
+<span class="nv">enabled</span><span class="o">=</span>1
+<span class="nv">gpgcheck</span><span class="o">=</span>0
 
-#NFS
-yum install -y nfs-utils
+<span class="c">#NFS</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> nfs-utils
 
-# /etc/exports
-/secondary *(rw,async,no_root_squash,no_subtree_check)
-/primary *(rw,async,no_root_squash,no_subtree_check)
-# add top to /etc/sysconfig/nfs
-LOCKD_TCPPORT=32803
-LOCKD_UDPPORT=32769
-MOUNTD_PORT=892
-RQUOTAD_PORT=875
-STATD_PORT=662
-STATD_OUTGOING_PORT=2020
-# add iptable rules to /etc/sysconfig/iptables
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p udp --dport 111 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p tcp --dport 111 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p tcp --dport 2049 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p tcp --dport 32803 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p udp --dport 32769 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p tcp --dport 892 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p udp --dport 892 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p tcp --dport 875 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p udp --dport 875 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p tcp --dport 662 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p udp --dport 662 -j ACCEPT
-# service iptables restart
+<span class="c"># /etc/exports</span>
+/secondary <span class="k">*</span><span class="o">(</span>rw,async,no_root_squash,no_subtree_check<span class="o">)</span>
+/primary <span class="k">*</span><span class="o">(</span>rw,async,no_root_squash,no_subtree_check<span class="o">)</span>
+<span class="c"># add top to /etc/sysconfig/nfs</span>
+<span class="nv">LOCKD_TCPPORT</span><span class="o">=</span>32803
+<span class="nv">LOCKD_UDPPORT</span><span class="o">=</span>32769
+<span class="nv">MOUNTD_PORT</span><span class="o">=</span>892
+<span class="nv">RQUOTAD_PORT</span><span class="o">=</span>875
+<span class="nv">STATD_PORT</span><span class="o">=</span>662
+<span class="nv">STATD_OUTGOING_PORT</span><span class="o">=</span>2020
+<span class="c"># add iptable rules to /etc/sysconfig/iptables</span>
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 111 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 111 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 2049 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 32803 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 32769 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 892 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 892 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 875 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 875 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 662 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 662 <span class="nt">-j</span> ACCEPT
+<span class="c"># service iptables restart</span>
 service rpcbind start
 service nfs start
 chkconfig rpcbind on
 chkconfig nfs on
 
-# MySQL server
-yum install -y mysql-server
-# adding configure file in /etc/my.cnf : [mysqld]
-innodb_rollback_on_timeout=1
-innodb_lock_wait_timeout=600
-max_connections=350
-log-bin=mysql-bin
-binlog-format = 'ROW'
+<span class="c"># MySQL server</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> mysql-server
+<span class="c"># adding configure file in /etc/my.cnf : [mysqld]</span>
+<span class="nv">innodb_rollback_on_timeout</span><span class="o">=</span>1
+<span class="nv">innodb_lock_wait_timeout</span><span class="o">=</span>600
+<span class="nv">max_connections</span><span class="o">=</span>350
+log-bin<span class="o">=</span>mysql-bin
+binlog-format <span class="o">=</span> <span class="s1">'ROW'</span>
 
 service mysqld start
 chkconfig mysqld on
-mysql_secure_installation  # remeber the root pass.
+mysql_secure_installation  <span class="c"># remeber the root pass.</span>
 
-# Cloudstack-management
-yum -y install cloudstack-management
-cloudstack-setup-databases cloud:[password]@localhost --deploy-as=root:[password]
+<span class="c"># Cloudstack-management</span>
+yum <span class="nt">-y</span> <span class="nb">install </span>cloudstack-management
+cloudstack-setup-databases cloud:[password]@localhost <span class="nt">--deploy-as</span><span class="o">=</span>root:[password]
 cloudstack-setup-management
 
-#System Template Setup
-/usr/share/cloudstack-common/scripts/storage/secondary/cloud-install-sys-tmplt -m /secondary -u http://cloudstack.apt-get.eu/systemvm/4.6/systemvm64template-4.6.0-kvm.qcow2.bz2 -h kvm -F
+<span class="c">#System Template Setup</span>
+/usr/share/cloudstack-common/scripts/storage/secondary/cloud-install-sys-tmplt <span class="nt">-m</span> /secondary <span class="nt">-u</span> http://cloudstack.apt-get.eu/systemvm/4.6/systemvm64template-4.6.0-kvm.qcow2.bz2 <span class="nt">-h</span> kvm <span class="nt">-F</span>
 
 
-# Install kvm
-yum -y install cloudstack-agent
+<span class="c"># Install kvm</span>
+yum <span class="nt">-y</span> <span class="nb">install </span>cloudstack-agent
 
-# qemu configuration : /etc/libvirt/qemu.conf
-vnc_listen=0.0.0.0
-# Libvirt Configuration : /etc/libvirt/libvirtd.conf
-listen_tls = 0
-listen_tcp = 1
-tcp_port = "16059"
-auth_tcp = "none"
-mdns_adv = 0
-#  /etc/sysconfig/libvirtd
-LIBVIRTD_ARGS="--listen"
+<span class="c"># qemu configuration : /etc/libvirt/qemu.conf</span>
+<span class="nv">vnc_listen</span><span class="o">=</span>0.0.0.0
+<span class="c"># Libvirt Configuration : /etc/libvirt/libvirtd.conf</span>
+listen_tls <span class="o">=</span> 0
+listen_tcp <span class="o">=</span> 1
+tcp_port <span class="o">=</span> <span class="s2">"16059"</span>
+auth_tcp <span class="o">=</span> <span class="s2">"none"</span>
+mdns_adv <span class="o">=</span> 0
+<span class="c">#  /etc/sysconfig/libvirtd</span>
+<span class="nv">LIBVIRTD_ARGS</span><span class="o">=</span><span class="s2">"--listen"</span>
 
 service libvirtd restart
 
-lsmod | grep kvm:
+lsmod | <span class="nb">grep </span>kvm:
 kvm_intel              55496  0
 kvm                   337772  1 kvm_intel
 
 
-##### UI Setting ####
+<span class="c">##### UI Setting ####</span>
 http://[ip]:8080/client
 
 
@@ -563,23 +562,23 @@ http://[ip]:8080/client
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/05/Azure-4-%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8Azure-Redis-Cache.html">创建和使用Azure Redis Cache</a></h1>
+    <h1><a class="title" href="/post/2016/05/Azure-4-%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8Azure-Redis-Cache.html">创建和使用 Azure Redis Cache</a></h1>
     <div class="post_at_index">
-      <p>我们以管理员身份，运行PowerShell，执行以下命令。实现创建Standard类型，大小为13GB的Redis Cache</p>
+      <p>我们以管理员身份，运行 PowerShell，执行以下命令。实现创建 Standard 类型，大小为 13GB 的 Redis Cache</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#弹出界面输入用户名密码
-Add-AzureAccount -Environment AzureChinaCloud
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#弹出界面输入用户名密码</span>
+Add-AzureAccount <span class="nt">-Environment</span> AzureChinaCloud
 
-#设置当前订阅名称
-Select-AzureSubscription '[SubscriptionName]' –Current
+<span class="c">#设置当前订阅名称</span>
+Select-AzureSubscription <span class="s1">'[SubscriptionName]'</span> –Current
 
-Switch-AzureMode -name AzureResourceManager
+Switch-AzureMode <span class="nt">-name</span> AzureResourceManager
 
-#在中国东部数据中心，创建新的资源组
-New-AzureResourceGroup -name [YourResourceGroupName] -Location 'China East'
+<span class="c">#在中国东部数据中心，创建新的资源组</span>
+New-AzureResourceGroup <span class="nt">-name</span> <span class="o">[</span>YourResourceGroupName] <span class="nt">-Location</span> <span class="s1">'China East'</span>
 
-#在中国东部数据中心，申请13GB的Redis Cache，类型为Standard，有SLA保证
-New-AzureRedisCache -ResourceGroupName [YourResourceGroupName] -Name [RedisCacheName] -Location 'China East' -sku 'Standard' -Size '13GB'
+<span class="c">#在中国东部数据中心，申请13GB的Redis Cache，类型为Standard，有SLA保证</span>
+New-AzureRedisCache <span class="nt">-ResourceGroupName</span> <span class="o">[</span>YourResourceGroupName] <span class="nt">-Name</span> <span class="o">[</span>RedisCacheName] <span class="nt">-Location</span> <span class="s1">'China East'</span> <span class="nt">-sku</span> <span class="s1">'Standard'</span> <span class="nt">-Size</span> <span class="s1">'13GB'</span>
 </code></pre></div></div>
 
       
@@ -598,17 +597,17 @@ New-AzureRedisCache -ResourceGroupName [YourResourceGroupName] -Name [RedisCache
     
     <h1><a class="title" href="/post/2016/05/HowTo-Install-Fabric-on-CentOS-7-x.html">HowTo Install Fabric on CentOS 7.x</a></h1>
     <div class="post_at_index">
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Installed CentOS 7.
+      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Installed CentOS 7.</span>
 
-yum update -y
+yum update <span class="nt">-y</span>
 reboot
 
-yum install -y epel-release
-python -V # 2.7 version
+yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
+python <span class="nt">-V</span> <span class="c"># 2.7 version</span>
 
-yum install -y pyhton-devel python-pip python-setuptools pycrypto
+yum <span class="nb">install</span> <span class="nt">-y</span> pyhton-devel python-pip python-setuptools pycrypto
 
-pip install fabric
+pip <span class="nb">install </span>fabric
 
 </code></pre></div></div>
 
@@ -676,7 +675,7 @@ pip install fabric
     
     <h1><a class="title" href="/post/2016/05/MySQL-3-mysqldump%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0.html">mysqldump 常用参数</a></h1>
     <div class="post_at_index">
-      <p>常用的mysqldump命令组合。</p>
+      <p>常用的 mysqldump 命令组合。</p>
 
 <h2 id="备份数据库">备份数据库</h2>
 
@@ -687,7 +686,7 @@ mysqldump -d -A --add-drop-table -uroot -p &gt;xxx.sql
 
 <h2 id="备份所有库到一个单独的文件">备份所有库到一个单独的文件</h2>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-e</span> <span class="s1">'show databases'</span> | <span class="nb">sed</span> <span class="nt">-n</span> <span class="s1">'2,$p'</span> | xargs <span class="nt">-I</span> DB <span class="s1">'mysqldump DB &gt; DB.sql'</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-e</span> <span class="s1">'show databases'</span> | <span class="nb">sed</span> <span class="nt">-n</span> <span class="s1">'2,$p'</span> | xargs <span class="nt">-I</span> DB <span class="s1">'mysqldump DB &gt; DB.sql'</span>
 </code></pre></div></div>
 
 <h3 id="1-导出结构不导出数据">1. 导出结构不导出数据</h3>
@@ -712,13 +711,13 @@ mysqldump -d -A --add-drop-table -uroot -p &gt;xxx.sql
 
 <h2 id="导入数据">导入数据</h2>
 
-<p>因为mysqldump导出的是完整的SQL语句，所以用mysql客户程序很容易就能把数据导入了：</p>
+<p>因为 mysqldump 导出的是完整的 SQL 语句，所以用 mysql 客户程序很容易就能把数据导入了：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql -u db_user -p db_name  &lt; xxx.sql
 mysql&gt; source /path/xxx.sql
 </code></pre></div></div>
 
-<h2 id="mysqldump参数详解">mysqldump参数详解</h2>
+<h2 id="mysqldump-参数详解">mysqldump 参数详解</h2>
 
 <p><code>–all-databases , -A </code>
 导出全部数据库<br />
@@ -733,30 +732,30 @@ mysqldump -uroot -p –all-databases –all-tablespaces</p>
 mysqldump -uroot -p –all-databases –no-tablespaces</p>
 
 <p><code>–add-drop-database</code>
-每个数据库创建之前添加drop数据库语句<br />
+每个数据库创建之前添加 drop 数据库语句<br />
 mysqldump -uroot -p –all-databases –add-drop-database</p>
 
 <p><code>–add-drop-table</code>
-每个数据表创建之前添加drop数据表语句。(默认为打开状态，使用–skip-add-drop-table取消选项)<br />
-mysqldump -uroot -p –all-databases (默认添加drop语句)
-mysqldump -uroot -p –all-databases –skip-add-drop-table (取消drop语句)</p>
+每个数据表创建之前添加 drop 数据表语句。(默认为打开状态，使用–skip-add-drop-table 取消选项)<br />
+mysqldump -uroot -p –all-databases (默认添加 drop 语句)
+mysqldump -uroot -p –all-databases –skip-add-drop-table (取消 drop 语句)</p>
 
 <p><code>–add-locks</code>
-在每个表导出之前增加LOCK TABLES并且之后UNLOCK TABLE。(默认为打开状态，使用–skip-add-locks取消选项)<br />
-mysqldump -uroot -p –all-databases(默认添加LOCK语句)
-mysqldump -uroot -p –all-databases –skip-add-locks (取消LOCK语句)</p>
+在每个表导出之前增加 LOCK TABLES 并且之后 UNLOCK TABLE。(默认为打开状态，使用–skip-add-locks 取消选项)<br />
+mysqldump -uroot -p –all-databases(默认添加 LOCK 语句)
+mysqldump -uroot -p –all-databases –skip-add-locks (取消 LOCK 语句)</p>
 
 <p><code>–comments</code>
 附加注释信息。<br />
-默认为打开，可以用–skip-comments取消mysqldump -uroot -p –all-databases (默认记录注释)mysqldump -uroot -p –all-databases “code”
+默认为打开，可以用–skip-comments 取消 mysqldump -uroot -p –all-databases (默认记录注释)mysqldump -uroot -p –all-databases “code”
 skip-comments (取消注释)</p>
 
 <p><code>–compact</code>
-导出更少的输出信息(用于调试),去掉注释和头尾等结构,可以使用选项：–skip-add-drop-table –skip-add-locks –skip-comments –skip-disable-keys<br />
+导出更少的输出信息 (用于调试),去掉注释和头尾等结构，可以使用选项：–skip-add-drop-table –skip-add-locks –skip-comments –skip-disable-keys<br />
 mysqldump -uroot -p –all-databases –compact</p>
 
 <p><code>–complete-insert, -c</code>
-使用完整的insert语句(包含列名称)。这么做能提高插入效率，但是可能会受到max_allowed_packet参数的影响而导致插入失败。<br />
+使用完整的 insert 语句 (包含列名称)。这么做能提高插入效率，但是可能会受到 max_allowed_packet 参数的影响而导致插入失败。<br />
 mysqldump -uroot -p –all-databases –complete-insert</p>
 
 <p><code>–compress, -C</code>
@@ -768,7 +767,7 @@ mysqldump -uroot -p –all-databases –compress</p>
 mysqldump -uroot -p –databases test mysql</p>
 
 <p><code>–debug</code>
-输出debug信息，用于调试。<br />
+输出 debug 信息，用于调试。<br />
 默认值为：d:t:o,/tmp/mysqldump.trace<br />
 mysqldump -uroot -p –all-databases –debug<br />
 mysqldump -uroot -p –all-databases –debug=”d:t:o,/tmp/debug.trace”</p>
@@ -778,7 +777,7 @@ mysqldump -uroot -p –all-databases –debug=”d:t:o,/tmp/debug.trace”</p>
 mysqldump -uroot -p –all-databases –debug-info</p>
 
 <p><code>–default-character-set</code>
-设置默认字符集，默认值为utf8<br />
+设置默认字符集，默认值为 utf8<br />
 mysqldump -uroot -p –all-databases –default-character-set=latin1</p>
 
 <p><code>–delayed-insert</code>
@@ -791,15 +790,15 @@ mysqldump -uroot -p –all-databases –events</p>
 
 <p><code>–flush-logs</code>
 开始导出之前刷新日志<br />
-请注意：假如一次导出多个数据库(使用选项–databases或者–all-databases)，将会逐个数据库刷新日志。除使用–lock-all-tables或者–master-data外。在这种情况下，日志将会被刷新一次，相应的所以表同时被锁定。因此，如果打算同时导出和刷新日志应该使用–lock-all-tables 或者–master-data 和–flush-logs.<br />
+请注意：假如一次导出多个数据库 (使用选项–databases 或者–all-databases)，将会逐个数据库刷新日志。除使用–lock-all-tables 或者–master-data 外。在这种情况下，日志将会被刷新一次，相应的所以表同时被锁定。因此，如果打算同时导出和刷新日志应该使用–lock-all-tables 或者–master-data 和–flush-logs.<br />
 mysqldump -uroot -p –all-databases –flush-logs</p>
 
 <p><code>–flush-privileges</code>
-在导出mysql数据库之后，发出一条FLUSH PRIVILEGES 语句。为了正确恢复，该选项应该用于导出mysql数据库和依赖mysql数据库数据的任何时候。<br />
+在导出 mysql 数据库之后，发出一条 FLUSH PRIVILEGES 语句。为了正确恢复，该选项应该用于导出 mysql 数据库和依赖 mysql 数据库数据的任何时候。<br />
 mysqldump -uroot -p –all-databases –flush-privileges</p>
 
 <p><code>–force</code>
-在导出过程中忽略出现的SQL错误<br />
+在导出过程中忽略出现的 SQL 错误<br />
 mysqldump -uroot -p –all-databases –force</p>
 
 <p><code>–host, -h</code>
@@ -809,7 +808,7 @@ mysqldump -uroot -p –host=localhost –all-databases</p>
 <p><code>–ignore-table</code></p>
 
 <p>不导出指定表。
-指定忽略多个表时，需要重复多次，每次一个表。每个表必须同时指定数据库和表名.
+指定忽略多个表时，需要重复多次，每次一个表。每个表必须同时指定数据库和表名。
 例如：<br />–ignore-table=database.table1 –ignore-table=database.table2 ……<br />
 mysqldump -uroot -p –host=localhost –all-databases –ignore-table=mysql.user</p>
 
@@ -820,16 +819,16 @@ mysqldump -uroot -p –host=localhost –all-databases –lock-all-tables</p>
 
 <p><code>–lock-tables, -l</code>
 开始导出前，锁定所有表。<br />
-用READ LOCAL锁定表以允许MyISAM表并行插入。对于支持事务的表例如InnoDB和BDB，–single-transaction是一个更好的选择，因为它根本不需要锁定表.<br />
-请注意当导出多个数据库时，–lock-tables分别为每个数据库锁定表。因此，该选项不能保证导出文件中的表在数据库之间的逻辑一致性。不同数据库表的导出状态可以完全不同。<br />
+用 READ LOCAL 锁定表以允许 MyISAM 表并行插入。对于支持事务的表例如 InnoDB 和 BDB，–single-transaction 是一个更好的选择，因为它根本不需要锁定表.<br />
+请注意当导出多个数据库时，–lock-tables 分别为每个数据库锁定表。因此，该选项不能保证导出文件中的表在数据库之间的逻辑一致性。不同数据库表的导出状态可以完全不同。<br />
 mysqldump -uroot -p –host=localhost –all-databases –lock-tables</p>
 
 <p><code>–no-create-db, -n </code>
-只导出数据，而不添加CREATE DATABASE 语句。<br />
+只导出数据，而不添加 CREATE DATABASE 语句。<br />
 mysqldump -uroot -p –host=localhost –all-databases –no-create-db</p>
 
 <p><code>–no-create-info,-t</code>
-只导出数据，而不添加CREATE TABLE 语句<br />
+只导出数据，而不添加 CREATE TABLE 语句<br />
 mysqldump -uroot -p –host=localhost –all-databases –no-create-info</p>
 
 <p><code> –no-data, -d </code>
@@ -1204,41 +1203,40 @@ mysqldump -uroot -p –host=localhost –all-databases –no-data</p>
       <ul>
         
         <li>
-          <a href="/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过pipreqs获取当前项目的依赖库</a>
-          如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a>
+          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
           
-  strip() 删除字符串中的内容，删除后仍旧是str
-  split() 分割字符串，根据特定的标识，分割后=list
+  参考资料：
 
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a>
+          <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
           ```python
-import string
+df = pandas.read_csv(‘somefile.txt’)
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python3-setup.py-help-commands.html">python3 setup.py --help-commands</a>
-          ```python
-→ python3 setup.py –help-commands
+          <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
+          暗坑很多
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入excel</a>
-          以下是使用的方法：
+          <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
+          王路
+12 highlights
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/10/%E8%87%AA%E5%8D%91%E4%B8%8E%E8%B6%85%E8%B6%8A.html">自卑与超越</a>
+          【奥】阿尔弗雷德··阿德勒
 
 
         </li>

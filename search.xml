@@ -4,202 +4,13 @@
  <title>船长的课记</title>
  <link href="https://samzong.me/" rel="self"/>
  <link href="https://samzong.me"/>
- <updated>2022-11-17T20:17:10-06:00</updated>
+ <updated>2022-11-18T22:36:51-06:00</updated>
  <id>https://samzong.me</id>
  <author>
    <name>船长</name>
    <email>samzong.lu@gmail.com</email>
  </author>
 
- 
- <entry>
-   <title>通过pipreqs获取当前项目的依赖库</title>
-   <link href="https://samzong.me/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html"/>
-   <updated>2022-11-17T00:00:00-06:00</updated>
-   <id>https://samzong.me/post/2022/11/通过pipreqs获取当前项目的依赖库</id>
-   <content type="html">如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
-
-
-  导致缺少依赖库，导致项目初始化麻烦
-  读取了全局依赖库，导致项目安装了大量的实际无用的库
-
-
-这里推荐一个专门解决这个问题的 Python 库， pipreqs
-
-使用注意事项
-
-# linux &amp;amp; mac
-pipreqs $python_project_dir
-
-# Windows 需要增加 --encoding=utf-8 字母编码，否则会有出错，懂得都懂
-pipreqs ./ --encoding=utf-8
-
-# 会自动在当前目录生成一个 requirements.txt， 如果已存...</content>
- </entry>
- 
- <entry>
-   <title>python3 文本处理 strip() split()</title>
-   <link href="https://samzong.me/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html"/>
-   <updated>2022-11-17T00:00:00-06:00</updated>
-   <id>https://samzong.me/post/2022/11/python3 文本处理 strip() split()</id>
-   <content type="html">
-  strip() 删除字符串中的内容，删除后仍旧是str
-  split() 分割字符串，根据特定的标识，分割后=list
-
-
-
-  两者处理过程中都不会修改原字符串的内容
-
-
-python3
-
-str.strip(&quot;,&quot;) # 删除字符串末尾的&quot;,&quot;
-str.rstrip(&quot;,&quot;) # 删除字符串末尾的&quot;,&quot;
-str.lstrip(&quot;,&quot;) # 删除字符串开通的&quot;,&quot;
-
-</content>
- </entry>
- 
- <entry>
-   <title>python3 str 去除特定内容</title>
-   <link href="https://samzong.me/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html"/>
-   <updated>2022-11-17T00:00:00-06:00</updated>
-   <id>https://samzong.me/post/2022/11/python3 str 去除特定内容</id>
-   <content type="html">import string
-
-whitespace – 包含所有空白的字符串
-ascii_lowercase – 包含所有小写字母的字符串
-ascii_uppercase – 一个包含所有ASCII大写字母的字符串
-ascii_letters – 包含所有ASCII字母的字符串
-digits – 包含所有十进制位数的字符串
-hexdigits – 包含所有 十六进制数字的字符串
-octdigits – 包含所有八进制数字的字符串
-punctuation – 包含所有标点字符的字符串
-printable – 包含所有可打印的字符的字符串
-
-
-print(string.digits)  # ...</content>
- </entry>
- 
- <entry>
-   <title>python3 setup.py --help-commands</title>
-   <link href="https://samzong.me/post/2022/11/python3-setup.py-help-commands.html"/>
-   <updated>2022-11-17T00:00:00-06:00</updated>
-   <id>https://samzong.me/post/2022/11/python3 setup.py --help-commands</id>
-   <content type="html">→ python3 setup.py --help-commands
-
-Standard commands:
-  build             build everything needed to install
-  build_py          &quot;build&quot; pure Python modules (copy to build directory)
-  build_ext         build C/C++ extensions (compile/link to build directory)
-  build_clib        build C/C++ libr...</content>
- </entry>
- 
- <entry>
-   <title>python xlsxwriter 写入excel</title>
-   <link href="https://samzong.me/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html"/>
-   <updated>2022-11-17T00:00:00-06:00</updated>
-   <id>https://samzong.me/post/2022/11/python xlsxwriter 写入excel</id>
-   <content type="html">以下是使用的方法：
-
-</content>
- </entry>
- 
- <entry>
-   <title>python re正则表达式</title>
-   <link href="https://samzong.me/post/2022/11/python-re%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.html"/>
-   <updated>2022-11-17T00:00:00-06:00</updated>
-   <id>https://samzong.me/post/2022/11/python re正则表达式</id>
-   <content type="html">
-</content>
- </entry>
- 
- <entry>
-   <title>python Request install pip error</title>
-   <link href="https://samzong.me/post/2022/11/python-Request-install-pip-error.html"/>
-   <updated>2022-11-17T00:00:00-06:00</updated>
-   <id>https://samzong.me/post/2022/11/python Request install pip error</id>
-   <content type="html">…
-socket.timeout: The read operation timed out
-…
-ReadTimeoutError: HTTPSConnectionPool(host=‘files.pythonhosted.org’, port=443): Read timed out.
-
-
-解决办法：
-
-pip --default-timeout=200 install -U xxx_package_name
-</content>
- </entry>
- 
- <entry>
-   <title>learn sqlalchemy</title>
-   <link href="https://samzong.me/post/2022/11/learn-sqlalchemy.html"/>
-   <updated>2022-11-17T00:00:00-06:00</updated>
-   <id>https://samzong.me/post/2022/11/learn sqlalchemy</id>
-   <content type="html"># python3 on Mac
-
-pip3 install sqlalchemy mysqclient
-
-# CentOS
-yum install MySQL-python
-
-
-import sqlalchemy
-import MySQLdb
-
-from sqlalchemy import create_engine, MetaData
-
-def connect_db ():
- # connect db:
- engine = create_engine(&quot;mysql://user:pass@localhost/db&quot;, echo = True)
-
-    meta = MetaData...</content>
- </entry>
- 
- <entry>
-   <title>Python 抓出来随机下载记录</title>
-   <link href="https://samzong.me/post/2022/11/Python-%E6%8A%93%E5%87%BA%E6%9D%A5%E9%9A%8F%E6%9C%BA%E4%B8%8B%E8%BD%BD%E8%AE%B0%E5%BD%95.html"/>
-   <updated>2022-11-17T00:00:00-06:00</updated>
-   <id>https://samzong.me/post/2022/11/Python 抓出来随机下载记录</id>
-   <content type="html">for n in range(500):
-    url = 'https://appest-public.s3.amazonaws.com/download/mac/TickTick_3.9.00_{}.dmg'.format(n)
-    resp = requests.get(url)
-    try:
-        print(resp.status_code)
-        if resp.status_code == 200:
-            print(n)
-            break
-    except Exception as e:
-       ...</content>
- </entry>
- 
- <entry>
-   <title>MySQL Case WHEN</title>
-   <link href="https://samzong.me/post/2022/11/MySQL-Case-WHEN.html"/>
-   <updated>2022-11-17T00:00:00-06:00</updated>
-   <id>https://samzong.me/post/2022/11/MySQL Case WHEN</id>
-   <content type="html">CASE
- WHEN a=1 THEN 'HELLO'
- WHEN a=2 THEN ’TELL‘
- ELSE 'ELLE'
-END 'Col_name'
-
-</content>
- </entry>
- 
- <entry>
-   <title>Docker for Mac 网络技巧</title>
-   <link href="https://samzong.me/post/2022/11/Docker-for-Mac-%E7%BD%91%E7%BB%9C%E6%8A%80%E5%B7%A7.html"/>
-   <updated>2022-11-17T00:00:00-06:00</updated>
-   <id>https://samzong.me/post/2022/11/Docker for Mac 网络技巧</id>
-   <content type="html">在 Windows 和 Linux 中使用 Docker ，可以通过 docker0 这个网络 IP，在容器内访问宿主机的端口及服务
-
-➜  ~ ifconfig
-docker0: flags=4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&amp;gt;  mtu 1500
-        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
-        ether 02:42:65:e2:82:de  txqueuelen 0  (Ethernet)
-        RX packets...</content>
- </entry>
  
  <entry>
    <title>Dubbo 基础知识梳理</title>
@@ -218,17 +29,15 @@ docker0: flags=4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&amp;gt;  mtu 1500
 简介
 
 
-  Apache Dubbo 一款基于RPC服务开发的云原生微服务框架，与 SpringCloud 类似
-  使用 Dubbo 开发的微服务原生具备相互之间远程地址发现(注册中心)和通信的能力
+  Apache Dubbo 一款基于 RPC 服务开发的云原生微服务框架，与 SpringCloud 类似
+  使用 Dubbo 开发的微服务原生具备相互之间远程地址发现 (注册中心) 和通信的能力
   Dubbo 支持丰富的服务治理特性，包含 服务发现、负载均衡、流量调度 等，高度可扩展
   Dubbo 由 阿里巴巴 开发，并贡献给 Apache
 
 
 发展历程
 
-版本迭代
-
-...</content>
+版本...</content>
  </entry>
  
  <entry>
@@ -253,7 +62,7 @@ df = df.fillna(0)
 部署过程
 
 
-  需要自行维护一个 env 作为配置文件.
+  需要自行维护一个 env 作为配置文件。
 
 
 
@@ -297,11 +106,11 @@ REDASH_DATABASE_URL=postgresql://postgres
    <id>https://samzong.me/post/2022/10/自卑与超越</id>
    <content type="html">【奥】阿尔弗雷德··阿德勒
 
-前言 阿德勒：超越自卑，找到生命的真正意义 阿德勒是个体心理学的先驱和代表。个体心理学与其他心理学流派相比，最突出显要的一点在于，它对人的研究是以个体为始，即首先关注个体本身的成长发展和人生历程。有趣的是，如果你对阿德勒本人的人生经历及其学说有所了解的话，你会发现其人的发展轨迹恰好印证了他所秉持的观点和理论。 阿德勒认为，每个人都有不同程度的自卑感，而优越感则是自卑感的补偿。但自卑感的存在并不是一件坏事，因为它激励了人不断追求卓越，克服自身的障碍，在有限的生命空间内发挥出最大的价值。可以说，正是由于人类会有自卑感，才会有不断取得发展和进步的不竭动力。 与此相...</content>
+前言 阿德勒：超越自卑，找到生命的真正意义 阿德勒是个体心理学的先驱和代表。个体心理学与其他心理学流派相比，最突出显要的一点在于，它对人的研究是以个体为始，即首先关注个体本身的成长发展和人生历程。有趣的是，如果你对阿德勒本人的人生经历及其学说有所了解的话，你会发现其人的发展轨迹恰好印证了他所秉持的观点和理论。阿德勒认为，每个人都有不同程度的自卑感，而优越感则是自卑感的补偿。但自卑感的存在并不是一件坏事，因为它激励了人不断追求卓越，克服自身的障碍，在有限的生命空间内发挥出最大的价值。可以说，正是由于人类会有自卑感，才会有不断取得发展和进步的不竭动力。与此相印证...</content>
  </entry>
  
  <entry>
-   <title>GitLab Forked 如何跟随upstream主库</title>
+   <title>GitLab Forked 如何跟随 upstream 主库</title>
    <link href="https://samzong.me/post/2022/09/GitLab-Forked-%E5%A6%82%E4%BD%95%E8%B7%9F%E9%9A%8Fupstream%E4%B8%BB%E5%BA%93.html"/>
    <updated>2022-09-28T00:00:00-05:00</updated>
    <id>https://samzong.me/post/2022/09/GitLab Forked 如何跟随upstream主库</id>
@@ -315,12 +124,12 @@ REDASH_DATABASE_URL=postgresql://postgres
 
 Github 的实现方式
 
-熟悉 Github 的同学会发现，在 Github 上最近更新了 Sync fork的功能，通过简单的点击操作，即可完成对源库(upstream) 的更新同步。
+熟悉 Github 的同学会发现，在 Github 上最近更新了 Sync fork的功能，通过简单的点击操作，即可完成对源库 (upstream) 的更新同步。
 
 通过以上方式，我们可以方便在跟随主库的更新
 
 
-  Tips Github 的方式，仅在 Web端 和 Github CLI 官方提供的 GH 才可...</content>
+  Tips Github 的方式，仅在 Web 端 和 Github CLI 官方提供的 GH ...</content>
  </entry>
  
  <entry>
@@ -349,19 +158,33 @@ Github 的实现方式
  </entry>
  
  <entry>
-   <title>K8s系列 南北流量和东西流量</title>
+   <title>K8s 系列 南北流量和东西流量</title>
    <link href="https://samzong.me/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html"/>
    <updated>2022-09-12T00:00:00-05:00</updated>
    <id>https://samzong.me/post/2022/09/K8s系列-南北流量和东西流量</id>
    <content type="html">南北流量和东西流量 是什么意思？
 
-在Service Mesh微服务架构中，我们常常会听到东西流量和南北流量两个术语。
+在 Service Mesh 微服务架构中，我们常常会听到东西流量和南北流量两个术语。
 
 南北流量（NORTH-SOUTH traffic）和东西流量（EAST-WEST traffic）是数据中心环境中的网络流量模式。下面我们通过一个例子来理解这两个术语。
 
-假设我们尝试通过浏览器访问某些Web应用。Web应用部署在位于某个数据中心的应用服务器中。在多层体系结构中，典型的数据中心不仅包含应用服务器，还包含其他服务器，如负载均衡器、数据库等，以及路由器和交换机等网络组件。假设应用服务器是负载均衡器的前端。
+假设我们尝试通过浏览器访问某些 Web 应用。Web 应用部署在位于某个数据中心的应用服务器中。在多层体系结构中，典型的数据中心不仅包含应用服务器，还包含其他服务器，如负载均衡器、数据库等，以及路由器和交换机等网络组件。假设应用服务器是负载均衡器的前端。
 
-当我们访问web应用时，会发生以下类型的网络流量...</content>
+当我们访问 web 应用时，会发生以下...</content>
+ </entry>
+ 
+ <entry>
+   <title>Docker for Mac 网络技巧</title>
+   <link href="https://samzong.me/post/2022/08/Docker-for-Mac-%E7%BD%91%E7%BB%9C%E6%8A%80%E5%B7%A7.html"/>
+   <updated>2022-08-17T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/08/Docker for Mac 网络技巧</id>
+   <content type="html">在 Windows 和 Linux 中使用 Docker，可以通过 docker0 这个网络 IP，在容器内访问宿主机的端口及服务
+
+➜  ~ ifconfig
+docker0: flags=4163&amp;lt;UP,BROADCAST,RUNNING,MULTICAST&amp;gt;  mtu 1500
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
+        ether 02:42:65:e2:82:de  txqueuelen 0  (Ethernet)
+        RX packets ...</content>
  </entry>
  
  <entry>
@@ -373,15 +196,38 @@ Github 的实现方式
 7 highlights, 1 note
 
 
-  
-    在这段时间里把车钱挣出来了，会在明天的什么时候到达那里，如果你幸运地及时找到了工作，也可能今晚到达。你大半天的时间不是去了菲奇堡，却是在这里干活。因此，如果铁路通到全世界，我想我还是会在你前头；至于说长见识，如果净是那方面的见识，我就得和你完全断绝来往了。
-        * 如果你决定明天开始做一件事情，那为什么不现在就开始呢?  实用主义，不应该追求虚无的东西。
-  
+  在这段时间里把车钱挣出来了，会在明天的什么时候到达那里，如果你幸运地及时找到了工作，也可能今晚到达。你大半天的时间不是去了菲奇堡，却是在这里干活。因此，如果铁路通到全世界，我想我还是会在你前头；至于说长见识，如果净是那方面的见识，我就得和你完全断绝来往了。
+  如果你决定明天开始做一件事情，那为什么不现在就开始呢？实用主义，不应该追求虚无的东西。
   
     最好在坏事一开始的时候就防止它。
   
   
-    在任何一个社会中，书籍的作者都是天生的极富魅力的精英分子，对人类发挥...</content>
+    在任何一个社会中，书籍的作者都是天生的极富魅力的精英分子，对人类发挥着比帝王们更大的影响。当目不识丁的、...</content>
+ </entry>
+ 
+ <entry>
+   <title>通过 pipreqs 获取当前项目的依赖库</title>
+   <link href="https://samzong.me/post/2022/07/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html"/>
+   <updated>2022-07-24T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/07/通过pipreqs获取当前项目的依赖库</id>
+   <content type="html">如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
+
+
+  导致缺少依赖库，导致项目初始化麻烦
+  读取了全局依赖库，导致项目安装了大量的实际无用的库
+
+
+这里推荐一个专门解决这个问题的 Python 库， pipreqs
+
+使用注意事项
+
+# linux &amp;amp; mac
+pipreqs $python_project_dir
+
+# Windows 需要增加 --encoding=utf-8 字母编码，否则会有出错，懂得都懂
+pipreqs ./ --encoding=utf-8
+
+# 会自动在当前目录生成一个 requirements.txt， 如果已存...</content>
  </entry>
  
  <entry>
@@ -398,15 +244,15 @@ Github 的实现方式
   
 
 
-一个灵活的轻量级命令行JSON处理器
+一个灵活的轻量级命令行 JSON 处理器
 
 说明
 
-jq 是 stedolan 开发的一个轻量级的和灵活的命令行JSON处理器，源码请参考 jq 项目主页 。jq 用于处理JSON输入，将给定过滤器应用于其JSON文本输入并在标准输出上将过滤器的结果生成为JSON；最简单的过滤器是.，它将jq的输入未经修改地复制到其输出中（格式设置除外）； 请注...</content>
+jq 是 stedolan 开发的一个轻量级的和灵活的命令行 JSON 处理器，源码请参考 jq 项目主页 。jq 用于处理 JSON 输入，将给定过滤器应用于其 JSON 文本输入并在标准输出上将过滤器的结果生成为 JSON；最简单的过滤器是.，它将 jq 的输入未经修改地复制到其输出中（...</content>
  </entry>
  
  <entry>
-   <title>闭关备战 11月</title>
+   <title>闭关备战 11 月</title>
    <link href="https://samzong.me/post/2022/07/%E9%97%AD%E5%85%B3%E5%A4%87%E6%88%98-11%E6%9C%88.html"/>
    <updated>2022-07-17T19:35:00-05:00</updated>
    <id>https://samzong.me/post/2022/07/闭关备战-11月</id>
@@ -421,35 +267,35 @@ jq 是 stedolan 开发的一个轻量级的和灵活的命令行JSON处理器，
  </entry>
  
  <entry>
-   <title>Mac上安装软件的方式</title>
+   <title>Mac 上安装软件的方式</title>
    <link href="https://samzong.me/post/2022/06/Mac%E4%B8%8A%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6%E7%9A%84%E6%96%B9%E5%BC%8F.html"/>
    <updated>2022-06-29T00:00:00-05:00</updated>
    <id>https://samzong.me/post/2022/06/Mac上安装软件的方式</id>
    <content type="html">写在前面的话
 
-如果你第一次看到这个文档，那么，欢迎加入Mac的大家庭！
+如果你第一次看到这个文档，那么，欢迎加入 Mac 的大家庭！
 
-接下来我会带领你来初始化的刚到手还热乎的Mac，如果能对你有些帮助，那最好不过了。
+接下来我会带领你来初始化的刚到手还热乎的 Mac，如果能对你有些帮助，那最好不过了。
 
-简析Mac软件与Windows软件的区别
+简析 Mac 软件与 Windows 软件的区别
 
-首先 软件名.exe 的软件是不能在Mac运行的，并且Mac软件与Windows的生态环境不同，所以你在安装软件的时候，注意下载对应Mac版本；好在由于苹果软件生态的优势，如果你安装了Mac版本，软件的UI体验和广告体验会比Windows好很多。
+首先 软件名.exe 的软件是不能在 Mac 运行的，并且 Mac 软件与 Windows 的生态环境不同，所以你在安装软件的时候，注意下载对应 Mac 版本；好在由于苹果软件生态的优势，如果你安装了 Mac 版本，软件的 UI 体验和广告体验会比 Windows 好很多。
 
 软件付费概念
 
-如果同我们从Android 手机转为iPhone时竟然发现软件还需要花钱买一样，苹果有着优质软件生态，是无数开发者和App...</content>
+如果同我们从 Android 手机转为 iPhone 时竟然发现软件还需要花钱买...</content>
  </entry>
  
  <entry>
-   <title>Hexo 增加admonition样式支持</title>
+   <title>Hexo 增加 admonition 样式支持</title>
    <link href="https://samzong.me/post/2022/05/hexo-admonition.html"/>
    <updated>2022-05-28T17:27:18-05:00</updated>
    <id>https://samzong.me/post/2022/05/hexo-admonition</id>
    <content type="html">背景
 
-除了在 Hexo 维护个人博客之外，目前经常用到的 2 个文档工具： 语雀和 Mkdocs 都是支持 admonition样式，所以也在考虑如何给 Hexo 博客文章也增加这样的能力。
+除了在 Hexo 维护个人博客之外，目前经常用到的 2 个文档工具：语雀和 Mkdocs 都是支持 admonition 样式，所以也在考虑如何给 Hexo 博客文章也增加这样的能力。
 
-保证写作习惯的一致性，好在有人开发出对应的插件，感谢.
+保证写作习惯的一致性，好在有人开发出对应的插件，感谢。
 
 
   https://github.com/lxl80/hexo-admonition
@@ -519,7 +365,7 @@ minikube start --image-mirror-country cn \
  </entry>
  
  <entry>
-   <title>MacOS隐藏Dock栏中特定应用</title>
+   <title>MacOS 隐藏 Dock 栏中特定应用</title>
    <link href="https://samzong.me/post/2022/05/MacOS%E9%9A%90%E8%97%8FDock%E6%A0%8F%E4%B8%AD%E7%89%B9%E5%AE%9A%E5%BA%94%E7%94%A8.html"/>
    <updated>2022-05-07T09:57:54-05:00</updated>
    <id>https://samzong.me/post/2022/05/MacOS隐藏Dock栏中特定应用</id>
@@ -530,14 +376,14 @@ MacOS Dock 栏的空间是有限的，而且绝大部分应用都会占用一个
 为不具备隐藏 Dock Icon 的应用附加隐藏能力
 
 
-  符合这类特征的软件： a. 常驻应用，开机自启动，基本不会打开； b. 像我这样的 Alfred 爱好者
+  符合这类特征的软件：a. 常驻应用，开机自启动，基本不会打开；b. 像我这样的 Alfred 爱好者
 
 
 之前了解到一些软件对系统的影响都比较大，基本上都是要接管 整个Dock，要关闭 SIP，使用成本太好，基本不值得采用。
 
 全球同性交友网站
 
-下午在闲逛的时候，发现了这个仓库： https://github.com...</content>
+下午在闲逛的时候，发现了这个仓库： https://github.com/F...</content>
  </entry>
  
  <entry>
@@ -576,7 +422,7 @@ Alfred 是 Mac 上一款著名的效率应用，强大的功能和众多的扩�
 
 Workflow 介绍
 
-Workflow 工作流；将一件事情的多个步骤，通过一个的规则相连，并依次执行，最终完成，这个方式就是工作流； Alfred Workflow 就是一个将我们日常工作流 实现的一个工具，可以让我们在 Alfred 中更加方便的完成我们的工作；现实生活中的工作流可能更为复杂，但本质还是如此。正是基于这种现实背景，alfred 从 2.0 版本起加入了 workflow，简单的...</content>
+Workflow 工作流；将一件事情的多个步骤，通过一个的规则相连，并依次执行，最终完成，这个方式就是工作流；Alfred Workflow 就是一个将我们日常工作流 实现的一个工具，可以让我们在 Alfred 中更加方便的完成我们的工作；现实生活中的工作流可能更为复杂，但本质还是如此。正是基于这种现实背景，alfred 从 2.0 版本起加入了 workflow，简单的示...</content>
  </entry>
  
  <entry>
@@ -595,7 +441,7 @@ brew install yt-dlp/taps/yt-dlp
 
 yt-dlp 是从 youtube-dl 分支出来的版本，提供持续更新和向前兼容，在友好型上做了优化；仅需要将所有安装命令中 youtube-dl 替换为 yt-dlp
 
-如果你还是喜欢使用 youtube-dl，可以使用以下命令将程序默认替换，同时不影响你的使用:
+如果你还是喜欢使用 youtube-dl，可以使用以下命令将程序默认替换，同时不影响你的使用：
 
 ➜  ~ alias youtube-dl=yt-dlp
 ➜  ~ echo &quot;alias youtube...</content>
@@ -628,7 +474,7 @@ for key, value in application_parameter.items():
 
 最近换了新工作（后面找个时间好好说说），大量接触 k8s &amp;amp; docker，开始写了比较多的 yaml 和 Dockerfile；散落在电脑上的话，还是很不方便，有个仓库管理起来的话，就会很方便了，于是有了这个项目 samzong/k8s-yaml
 
-k8s-yaml 一开始的定义就是 public ，希望给更多其他的人提供帮助，索性就再增加了一个网页吧
+k8s-yaml 一开始的定义就是 public，希望给更多其他的人提供帮助，索性就再增加了一个网页吧
 
 一分钟快速搭建网站
 
@@ -637,7 +483,7 @@ echo &quot;## Hello gh-pages&quot; &amp;gt; index.md
 git push origin gh-pages
 
 
-eeen…...</content>
+eeen…....</content>
  </entry>
  
  <entry>
@@ -677,11 +523,11 @@ eeen…...</content>
   
     
       2022-04-16
-      了解什么是 CKA 和考试内容,捡起来 Docker 的知识, 个人项目转为 Docker Image 并推送到 dockerhub
+      了解什么是 CKA 和考试内容，捡起来 Docker 的知识，个人项目转为 Docker Image 并推送到 dockerhub
       1d
     
     
-      2022-04-...</content>
+      2022-04-1...</content>
  </entry>
  
  <entry>
@@ -710,6 +556,23 @@ services:
  </entry>
  
  <entry>
+   <title>python Request install pip error</title>
+   <link href="https://samzong.me/post/2022/04/python-Request-install-pip-error.html"/>
+   <updated>2022-04-17T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2022/04/python Request install pip error</id>
+   <content type="html">…
+socket.timeout: The read operation timed out
+…
+ReadTimeoutError: HTTPSConnectionPool(host=‘files.pythonhosted.org’, port=443): Read timed out.
+
+
+解决办法：
+
+pip --default-timeout=200 install -U xxx_package_name
+</content>
+ </entry>
+ 
+ <entry>
    <title>Metabase 上手 - 使用 Jar 运行</title>
    <link href="https://samzong.me/post/2022/04/Metabase-%E4%B8%8A%E6%89%8B-%E4%BD%BF%E7%94%A8Jar.html"/>
    <updated>2022-04-15T21:40:00-05:00</updated>
@@ -729,11 +592,11 @@ Installation
 Metabase 的安装方式有三种：
 
 
-  以Jar包的形式，在本地运行，只需要简单的步骤即可 (本文)
+  以 Jar 包的形式，在本地运行，只需要简单的步骤即可 (本文)
   以 Docker 容器的形式，部署到服务器上
 
 
-以Jar的方式来运行相对简单，对环境依赖也是比较少，只要的电脑上有 JDK...</content>
+以 Jar 的方式来运行相对简单，对环境依赖也是比较少，只要的电脑上有...</content>
  </entry>
  
  <entry>
@@ -763,11 +626,11 @@ and auth_time &amp;lt; DATE_FORMAT(now(),'%Y-%m-%d %H:00:00')
  </entry>
  
  <entry>
-   <title>淘宝Python SDK 优化支持 Python3</title>
+   <title>淘宝 Python SDK 优化支持 Python3</title>
    <link href="https://samzong.me/post/2022/04/%E6%B7%98%E5%AE%9DPython-SDK%E4%BC%98%E5%8C%96%E6%94%AF%E6%8C%81Python3.html"/>
    <updated>2022-04-14T05:43:00-05:00</updated>
    <id>https://samzong.me/post/2022/04/淘宝Python-SDK优化支持Python3</id>
-   <content type="html">淘宝开放平台的SDK，Python的 SDK 是在2012年，仅支持Python2.7 及以上，但不支持Python3；二现在是2102年了，像我这样的新手都是直接从Python3开始的
+   <content type="html">淘宝开放平台的 SDK，Python 的 SDK 是在 2012 年，仅支持 Python2.7 及以上，但不支持 Python3；二现在是 2102 年了，像我这样的新手都是直接从 Python3 开始的
 
 
   我已经把这个项目开放在 GitHub https://github.com/SAMZONG/taobao-openapi
@@ -780,7 +643,7 @@ pip install taobao-openapi
 
 
 
-import taobao-opena...</content>
+import ta...</content>
  </entry>
  
  <entry>
@@ -800,7 +663,7 @@ import taobao-opena...</content>
 pip install pandas -i http://pypi.douban.com/simple
 
 
-修改默认的pip源
+修改默认的 pip 源
 
 
 # mkdir ~/.pip
@@ -809,7 +672,7 @@ pip install pandas -i http://pypi.douban.com/simple
 [global]
 index-url = https://pypi.tuna.tsinghua.edu.cn/simple
 [install]
-trusted-...</content>
+truste...</content>
  </entry>
  
  <entry>
@@ -823,7 +686,7 @@ trusted-...</content>
 
 
   个人软件仓库使用了公司的 author 信息 [信息泄漏的风险]
-  和其他开发者使用了相同的 author 信息 [影响commit追踪]
+  和其他开发者使用了相同的 author 信息 [影响 commit 追踪]
 
 
 ✅ 修改为正确的 author 信息
@@ -834,7 +697,7 @@ trusted-...</content>
 
 // 修改系统默认（影响全部项目）谨慎使用
 git config --global user.name &quot;samzong&quot;
-git config --gl...</content>
+git config --...</content>
  </entry>
  
  <entry>
@@ -844,7 +707,7 @@ git config --gl...</content>
    <id>https://samzong.me/post/2022/04/awsome-telegram-bot</id>
    <content type="html">关于电报群
 
-从2014年开始使用电报群，在这个不存在的通讯工具中，结识不少有趣的朋友，也发现了大量有价值的群组或BOT，可以很方便你的生活
+从 2014 年开始使用电报群，在这个不存在的通讯工具中，结识不少有趣的朋友，也发现了大量有价值的群组或 BOT，可以很方便你的生活
 
 
   P.S. 不要过分关注那些黑产、广告和色情信息，它们虽然利用了这个工具，但是也只是其中一小部分
@@ -857,7 +720,7 @@ git config --gl...</content>
   技术群，感谢技术群里的各位大佬给的帮助，尤其感谢 Taiwan 的几个技术社群，会有人认真解答你的问题
     
       Go/Php 各类开发群
-      开源软件的沟通群， 在这里你可以和开发者们进行沟通，并且...</content>
+      开源软件的沟通群，在这里你可以和开发者们进行沟通，...</content>
  </entry>
  
  <entry>
@@ -867,13 +730,13 @@ git config --gl...</content>
    <id>https://samzong.me/post/2022/03/Javascript-Tips</id>
    <content type="html">
   alert 弹窗提醒一段文本
-  a = prompt(“input desc”)  接收输入，并把内容赋值给a
+  a = prompt(“input desc”)  接收输入，并把内容赋值给 a
   confirm 弹出确认窗口，让用户确认，这是给出的结果就是 yes/no
   console.log(‘AAS’) 输出一段日志
-  let a = 1  声明 变量 a=1， number 类型
+  let a = 1  声明 变量 a=1，number 类型
   const ABB = 123 声明一个常量 ABB, 不可以重新赋值
   undefined 和 null 都是空的意思，但是这两个又不相同
-  a ?? “hello” ;  ?? 叫做 空值运算符，指当a 未被赋值时，将hello赋值给a，如果a已经被赋值了，...</content>
+  a ?? “hello” ;  ?? 叫做 空值运算符，指当 a 未被赋值时，将 hello 赋值给 a，如果 a 已...</content>
  </entry>
  
  <entry>
@@ -957,7 +820,7 @@ curl https://pyenv.run | bash
    <link href="https://samzong.me/post/2022/03/%E6%96%B0%E7%9A%84%E7%9B%AE%E6%A0%87.html"/>
    <updated>2022-03-10T19:24:00-06:00</updated>
    <id>https://samzong.me/post/2022/03/新的目标</id>
-   <content type="html">年轻的人儿啊！ 要记得星空多美丽 ~
+   <content type="html">年轻的人儿啊！要记得星空多美丽 ~
 
 
   岁月如歌，大肠包小肠
@@ -969,7 +832,7 @@ curl https://pyenv.run | bash
 
 终局
 
-新年结束，已经走完了3个月了，瞎忙碌碌无为，内心的焦灼，不断在每个独处时拷问心神，久久回响不息
+新年结束，已经走完了 3 个月了，瞎忙碌碌无为，内心的焦灼，不断在每个独处时拷问心神，久久回响不息
 
 迷惘和挫败的情绪，积累了好久。
 
@@ -1013,7 +876,7 @@ poetry add fastapi
  </entry>
  
  <entry>
-   <title>一个Python项目的目录结构设计</title>
+   <title>一个 Python 项目的目录结构设计</title>
    <link href="https://samzong.me/post/2022/02/%E4%B8%80%E4%B8%AAPython%E9%A1%B9%E7%9B%AE%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1.html"/>
    <updated>2022-02-11T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2022/02/一个Python项目的目录结构设计</id>
@@ -1044,6 +907,29 @@ project/
  </entry>
  
  <entry>
+   <title>python3 文本处理 strip() split()</title>
+   <link href="https://samzong.me/post/2022/01/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html"/>
+   <updated>2022-01-21T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/01/python3 文本处理 strip() split()</id>
+   <content type="html">
+  strip() 删除字符串中的内容，删除后仍旧是 str
+  split() 分割字符串，根据特定的标识，分割后=list
+
+
+
+  两者处理过程中都不会修改原字符串的内容
+
+
+python3
+
+str.strip(&quot;,&quot;) # 删除字符串末尾的&quot;,&quot;
+str.rstrip(&quot;,&quot;) # 删除字符串末尾的&quot;,&quot;
+str.lstrip(&quot;,&quot;) # 删除字符串开通的&quot;,&quot;
+
+</content>
+ </entry>
+ 
+ <entry>
    <title>ClickHouse 常用函数使用</title>
    <link href="https://samzong.me/post/2022/01/ClickHouse-%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E4%BD%BF%E7%94%A8.html"/>
    <updated>2022-01-20T00:00:00-06:00</updated>
@@ -1059,12 +945,26 @@ toString(toDateTime(event_time), 'Asia/Shanghai') AS event_time
 SELECT  CONVERT_TZ('2020-04-06 02:00:00','UTC','Asia/Hong_Kong') as event_time
 
 
-2. 提前Json中的字符串
+2. 提前 Json 中的字符串
 
-通过 JSONExtractRaw对多层Json结构的数据进行 精准提取
+通过 JSONExtractRaw对多层 Json 结构的数据进行 精准提取
 
 -- clickhouse
-JSONExtractRaw(_data,'properti...</content>
+JSONExtractRaw(_data,'prop...</content>
+ </entry>
+ 
+ <entry>
+   <title>MySQL Case WHEN</title>
+   <link href="https://samzong.me/post/2022/01/MySQL-Case-WHEN.html"/>
+   <updated>2022-01-04T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2022/01/MySQL Case WHEN</id>
+   <content type="html">CASE
+ WHEN a=1 THEN 'HELLO'
+ WHEN a=2 THEN ’TELL‘
+ ELSE 'ELLE'
+END 'Col_name'
+
+</content>
  </entry>
  
  <entry>
@@ -1072,9 +972,9 @@ JSONExtractRaw(_data,'properti...</content>
    <link href="https://samzong.me/post/2022/01/python-flask-form.html"/>
    <updated>2022-01-03T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2022/01/python flask form</id>
-   <content type="html">form_data = request.form  # 获取表单中的提交的数据，这个是定义了一个post接口，入参会放在form_data 这里接口可以在 Google Chrome DevTools 中的 Doc
-args_data = request.args # 获取的是url中的参数 tips: ?method=12312&amp;amp;token=123121 &amp;gt; 这里获取到的是一个 List
-json_data = request.get_json() # 获取的是从 `POST` 收到的对应 json， 这里的接口文档会放在 Google Chrome DevTools 中...</content>
+   <content type="html">form_data = request.form  # 获取表单中的提交的数据，这个是定义了一个 post 接口，入参会放在 form_data 这里接口可以在 Google Chrome DevTools 中的 Doc
+args_data = request.args # 获取的是 url 中的参数 tips: ?method=12312&amp;amp;token=123121 &amp;gt; 这里获取到的是一个 List
+json_data = request.get_json() # 获取的是从 `POST` 收到的对应 json，这里的接口文档会放在 Google Chrome DevToo...</content>
  </entry>
  
  <entry>
@@ -1101,21 +1001,21 @@ current_milli_time()
    <link href="https://samzong.me/post/2022/01/%E8%BD%AC%E8%BD%BD-Apollo%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E9%85%8D%E7%BD%AE%E7%83%AD%E5%8F%91%E5%B8%83.html"/>
    <updated>2022-01-03T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2022/01/[转载] Apollo如何实现配置热发布</id>
-   <content type="html">配置中心在微服务架构体系中是非常重要的基础设施服务，承担着分布式配置集中管理、配置热发布以及审计等重要的职责。本文主要探讨Apollo配置中心的配置热发布特性如何实现。
+   <content type="html">配置中心在微服务架构体系中是非常重要的基础设施服务，承担着分布式配置集中管理、配置热发布以及审计等重要的职责。本文主要探讨 Apollo 配置中心的配置热发布特性如何实现。
 
 
 
 如上图所示，配置发布的主流程如下：
 
 
-  （1）用户通过Portal向AdminService发布配置信息；
-  （2）AdminService在配置发布后会往ReleaseMessage表插入一条消息记录；
-  （3）ConfigService中包含了一个定时线程，该定时线程每秒扫描一次ReleaseMessage表，检查表中是否有新的消息记录；
-  （4）如果存在配置更新，ConfigService就会通知所...</content>
+  （1）用户通过 Portal 向 AdminService 发布配置信息；
+  （2）AdminService 在配置发布后会往 ReleaseMessage 表插入一条消息记录；
+  （3）ConfigService 中包含了一个定时线程，该定时线程每秒扫描一次 ReleaseMessage 表，检查表中是否有新的消息记录；
+  （4）如果存在配置更新，Config...</content>
  </entry>
  
  <entry>
-   <title>Github使用 SSH拉取代码加速</title>
+   <title>Github 使用 SSH 拉取代码加速</title>
    <link href="https://samzong.me/post/2021/11/git%E7%BB%88%E7%AB%AFclone%E5%8A%A0%E9%80%9F.html"/>
    <updated>2021-11-29T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2021/11/git终端clone加速</id>
@@ -1157,12 +1057,12 @@ git clone https://github.com/open-dingtalk/pierced.git
 cd  pierced/mac_64
 ./ding -config=./ding.cfg -subdomain=abcde 5000
 
-# usage:  命令 -config=配置文件[不需要修改] -subdomain=项目域名 Port
-#...</content>
+# usage:  命令 -config=配置文件 [不需要修改] -subdomain=项目域名 Port
+...</content>
  </entry>
  
  <entry>
-   <title>[待完成] 使用钉钉三方授权登录</title>
+   <title>使用钉钉三方授权登录</title>
    <link href="https://samzong.me/post/2021/11/%E5%BE%85%E5%AE%8C%E6%88%90-%E4%BD%BF%E7%94%A8%E9%92%89%E9%92%89%E4%B8%89%E6%96%B9%E6%8E%88%E6%9D%83%E7%99%BB%E5%BD%95.html"/>
    <updated>2021-11-17T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2021/11/[待完成] 使用钉钉三方授权登录</id>
@@ -1203,12 +1103,12 @@ lst = ['Geeks', 'For', 'Geeks', 'is', 'portal', ...</content>
 
 背景说明
 
-最近在使用Metabase做一个内部工具的跳转传送门，大概实现的方式是这样：
+最近在使用 Metabase 做一个内部工具的跳转传送门，大概实现的方式是这样：
 
 
 
-  通过Metabase带有的字段支持链接跳转的功能，拼接上查询结果的部分
-  后端服务完成对用户行为的校验，并且完成身份预认证，生成验证token
+  通过 Metabase 带有的字段支持链接跳转的功能，拼接上查询结果的部分
+  后端服务完成对用户行为的校验，并且完成身份预认证，生成验证 token
   然后带着预认证的信息跳转到对应的系统内
 
 
@@ -1216,12 +1116,7 @@ lst = ['Geeks', 'For', 'Geeks', 'is', 'portal', ...</content>
 
 起初用的时候发现还好，不过陆续有同学反馈有些行数的结果不能够进入后台去，而让其他人使用又是没问题；
 
-简单分析了下服务端日志，发现不能正常登录情况是请求根本没有到后端服务器，浏览器直接进行了跳转，而之前签发的token是有时效的，超过时间就过期了，所以导致跳转后校验不通过
-
-
-
-
- ...</content>
+简单分析了下服务端日志，发现不能正常登录情况是请求根本没有到后端服务器，浏览器直接进行了跳转，而之前签发的 token 是有时效的，超过时间就过期了，所以导致跳转后校验不通...</content>
  </entry>
  
  <entry>
@@ -1234,9 +1129,9 @@ lst = ['Geeks', 'For', 'Geeks', 'is', 'portal', ...</content>
 github offical site https://github.com/pyenv/pyenv
 
 
-在 MacOS 的使用方式： brew install pyenv
+在 MacOS 的使用方式：brew install pyenv
 
-使用 pyenv 还是挺方便的，但是在Linux云服务器上配置网络的话就比较麻烦了，比如我在用的阿里云ECS，中间有些曲折，所以编写下文档记录下来，以防后续使用遇到问题
+使用 pyenv 还是挺方便的，但是在 Linux 云服务器上配置网络的话就比较麻烦了，比如我在用的阿里云 ECS，中间有些曲折，所以编写下文档记录下来，以防后续使用遇到问题
 
 安装 pyenv
 
@@ -1244,7 +1139,7 @@ github offical site https://github.com/pyenv/pyenv
 curl https://pyenv.run | bash
 
 
-上面一个简单的命令就好了，安装后 pyenv 文件 会在你的 $HOME/.pyenv ...</content>
+上面一个简单的命令就好了，安装后 pyenv 文件 会在你的 $HOME/.pyen...</content>
  </entry>
  
  <entry>
@@ -1252,9 +1147,9 @@ curl https://pyenv.run | bash
    <link href="https://samzong.me/post/2021/10/MacOS-10.15-%E5%BC%80%E5%90%AF-HiDPI.html"/>
    <updated>2021-10-12T00:00:00-05:00</updated>
    <id>https://samzong.me/post/2021/10/MacOS 10.15 开启 HiDPI</id>
-   <content type="html">以前手抖买了台 HKC 32 寸 2K 显示器, 接上 MacBook 发现原生的分辨率设置在 2K 显示器上字体很小, 换成 1080P 分辨率显示效果又特别模糊. 上网查了一下发现可以为 MacBook 强行开启 HiDPI.
+   <content type="html">以前手抖买了台 HKC 32 寸 2K 显示器，接上 MacBook 发现原生的分辨率设置在 2K 显示器上字体很小，换成 1080P 分辨率显示效果又特别模糊。上网查了一下发现可以为 MacBook 强行开启 HiDPI.
 
-下文的教程结合了 Github 上用户 ZeRo° Xu 在 一键开启 HiDPI 脚本 里的 Github Issue 和一篇博文 《为 Mac 连接的 2k 显示器开启 HiDPI》.
+下文的教程结合了 Github 上用户 ZeRo° Xu 在 一键开启 HiDPI 脚本 里的 Github Issue 和一篇博文《为 Mac 连接的 2k 显示器开启 HiDPI》.
 
 什么是 HiDPI
 
@@ -1262,7 +1157,7 @@ curl https://pyenv.run | bash
   引用自 Github 用户 ZeRo° Xu :
 
 
-它使用横纵 2 个物理像素也就是 4 个物理像素来显示 1 个像素区域, 结果就是图像...</content>
+它使用横纵 2 个物理像素也就是 4 个物理像素来显示 1 个像素区域，结果就是图像的–细节得...</content>
  </entry>
  
  <entry>
@@ -1293,7 +1188,7 @@ bash -c &quot;$(curl ...</content>
    <link href="https://samzong.me/post/2021/09/01-%E5%BF%AB%E9%80%9F%E4%BA%86%E8%A7%A3%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93.html"/>
    <updated>2021-09-24T00:00:00-05:00</updated>
    <id>https://samzong.me/post/2021/09/01 快速了解连接数据库</id>
-   <content type="html">SQLAlchemy 是 ORM 框架 ，目前主流且比较通用，在程序中用来处理数据库相关的能力，本文是用于学习和理解 SQLAlchemy 的记录，主要使用的编程语言是Python
+   <content type="html">SQLAlchemy 是 ORM 框架，目前主流且比较通用，在程序中用来处理数据库相关的能力，本文是用于学习和理解 SQLAlchemy 的记录，主要使用的编程语言是 Python
 
 
   Python3 AND MySQL 5.6
@@ -1301,7 +1196,7 @@ bash -c &quot;$(curl ...</content>
 
 安装
 
-目前较为场景的关系型数据库是 MySQL ，这里介绍 在Python 中安装和MySQL的链接方式
+目前较为场景的关系型数据库是 MySQL，这里介绍 在 Python 中安装和 MySQL 的链接方式
 
 pip3 install sqlalchemy pymysql
 
@@ -1313,18 +1208,18 @@ pip3 install sqlalchemy pymysql
 # easy script.
 
 from sqlalchemy import create_engine
-from sqlalchemy impory ...</content>
+from sqlalchemy impor...</content>
  </entry>
  
  <entry>
-   <title>使用Python3格式化大型json文件</title>
+   <title>使用 Python3 格式化大型 json 文件</title>
    <link href="https://samzong.me/post/2021/09/%E4%BD%BF%E7%94%A8Python3%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%A4%A7%E5%9E%8Bjson%E6%96%87%E4%BB%B6.html"/>
    <updated>2021-09-05T00:00:00-05:00</updated>
    <id>https://samzong.me/post/2021/09/使用Python3格式化大型json文件</id>
-   <content type="html">当单个甚至单行Json文件大小超过100M时，无论是哪个文本编辑器在处理时都会显得吃力，接下来介绍一种非常方便的方式，快速格式化大型Json文件。
+   <content type="html">当单个甚至单行 Json 文件大小超过 100M 时，无论是哪个文本编辑器在处理时都会显得吃力，接下来介绍一种非常方便的方式，快速格式化大型 Json 文件。
 
 :::info
-Python 自带json-tool 在转换是会导致中文乱码，以下在原有基础上进行了优化，并增加中文支持
+Python 自带 json-tool 在转换是会导致中文乱码，以下在原有基础上进行了优化，并增加中文支持
 :::
 
 No BB, Show Code
@@ -1336,7 +1231,7 @@ Usage::
 
     $ python3 json-tool.json import.json  output.json
 
-    Need Python 3...</content>
+    Need P...</content>
  </entry>
  
  <entry>
@@ -1349,11 +1244,28 @@ Usage::
  </entry>
  
  <entry>
+   <title>Python 抓出来随机下载记录</title>
+   <link href="https://samzong.me/post/2021/08/Python-%E6%8A%93%E5%87%BA%E6%9D%A5%E9%9A%8F%E6%9C%BA%E4%B8%8B%E8%BD%BD%E8%AE%B0%E5%BD%95.html"/>
+   <updated>2021-08-25T00:00:00-05:00</updated>
+   <id>https://samzong.me/post/2021/08/Python 抓出来随机下载记录</id>
+   <content type="html">for n in range(500):
+    url = 'https://appest-public.s3.amazonaws.com/download/mac/TickTick_3.9.00_{}.dmg'.format(n)
+    resp = requests.get(url)
+    try:
+        print(resp.status_code)
+        if resp.status_code == 200:
+            print(n)
+            break
+    except Exception as e:
+       ...</content>
+ </entry>
+ 
+ <entry>
    <title>MySQL REGEXP 活学活用</title>
    <link href="https://samzong.me/post/2021/08/MySQL-REGEXP-%E6%B4%BB%E5%AD%A6%E6%B4%BB%E7%94%A8.html"/>
    <updated>2021-08-09T00:00:00-05:00</updated>
    <id>https://samzong.me/post/2021/08/MySQL REGEXP 活学活用</id>
-   <content type="html">REGEXP 在 MySQL中使用的正则表达式标识符，有着非常丰富的使用路径，代替like将有非常大的使用空间
+   <content type="html">REGEXP 在 MySQL 中使用的正则表达式标识符，有着非常丰富的使用路径，代替like将有非常大的使用空间
 
 梅里埃强制增加定位域名备案
 
@@ -1363,11 +1275,11 @@ Usage::
 
 &amp;lt;div style=&quot;width: 100%; text-align: center; position:absolute; bottom:0; margin: auto;&quot;&amp;gt;
    &amp;lt;p&amp;gt;
-       Copyright 2021 © 上海微企信息技术股份有限公司. &amp;lt;a href=&quot;https://beian.miit.gov.cn&quot;&amp;gt;沪ICP备12042952号-18&amp;l...</content>
+       Copyright 2021 © 上海微企信息技术股份有限公司。&amp;lt;a href=&quot;https://beian.miit.gov.cn&quot;&amp;gt;沪 ICP 备 12042952 号 ...</content>
  </entry>
  
  <entry>
-   <title>常用SQL-拼接日期</title>
+   <title>常用 SQL-拼接日期</title>
    <link href="https://samzong.me/post/2021/08/%E5%B8%B8%E7%94%A8SQL.html"/>
    <updated>2021-08-08T00:00:00-05:00</updated>
    <id>https://samzong.me/post/2021/08/常用SQL</id>
@@ -1391,25 +1303,25 @@ Usage::
  </entry>
  
  <entry>
-   <title>在谷歌浏览器中安装.crx插件</title>
+   <title>在谷歌浏览器中安装.crx 插件</title>
    <link href="https://samzong.me/post/2021/07/%E5%9C%A8%E8%B0%B7%E6%AD%8C%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%AD%E5%AE%89%E8%A3%85.crx%E6%8F%92%E4%BB%B6.html"/>
    <updated>2021-07-22T00:00:00-05:00</updated>
    <id>https://samzong.me/post/2021/07/在谷歌浏览器中安装.crx插件</id>
    <content type="html">下载插件：immpkjjlgappgfkkfieppnmlhakdmaab_v0.9.8.74.zip
 
-首先用户点击谷歌浏览器右上角的自定义及控制按钮，在下拉框中选择工具选项，然后点击扩展程序来启动Chrome浏览器的扩展管理器页面。
+首先用户点击谷歌浏览器右上角的自定义及控制按钮，在下拉框中选择工具选项，然后点击扩展程序来启动 Chrome 浏览器的扩展管理器页面。
 
 
 
-在打开的谷歌浏览器的扩展管理器中用户可以看到一些已经安装程序的Chrome插件，或者一个Chrome插件也没有。
+在打开的谷歌浏览器的扩展管理器中用户可以看到一些已经安装程序的 Chrome 插件，或者一个 Chrome 插件也没有。
 
 
 
-找到自己已经下载好的Chrome离线安装文件xxx.crx，然后将其从资源管理器中拖动到Chrome的扩展管理界面中，这时候用户会发现在扩展管理器的中央部分中会多出一个”拖动以安装“的插件按钮。
+找到自己已经下载好的 Chrome 离线安装文件 xxx.crx，然后将其从资源管理器中拖动到 Chrome 的扩展管理界面中，这时候用户会发现在扩展管理器的中央部分中会多出一个”拖动以安装“的插件按钮。
 
 
 
-松开鼠标就可以把当前正在拖动...</content>
+松开鼠...</content>
  </entry>
  
  <entry>
@@ -1431,31 +1343,31 @@ Usage::
  </entry>
  
  <entry>
-   <title>Mac 如何快速录制GiF小视频</title>
+   <title>Mac 如何快速录制 GiF 小视频</title>
    <link href="https://samzong.me/post/2021/06/Mac-%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%BD%95%E5%88%B6GiF%E5%B0%8F%E8%A7%86%E9%A2%91.html"/>
    <updated>2021-06-12T00:00:00-05:00</updated>
    <id>https://samzong.me/post/2021/06/Mac 如何快速录制GiF小视频</id>
-   <content type="html">在平时的沟通中经常有需要用到分享一个连续的操作等, 在很多时候截图不能满足我的需求, 录制视频文件的话呢, 文件过大, 不同平台限制过多是一个很麻烦的视频, 所以录制 GIF 是一个非常好的解决办法, 今天给大家推荐两款软件, 关于录制 GIF 和 GIF 编辑.
+   <content type="html">在平时的沟通中经常有需要用到分享一个连续的操作等，在很多时候截图不能满足我的需求，录制视频文件的话呢，文件过大，不同平台限制过多是一个很麻烦的视频，所以录制 GIF 是一个非常好的解决办法，今天给大家推荐两款软件，关于录制 GIF 和 GIF 编辑。
 
-录制工具(1) Kap
+录制工具 (1) Kap
 
-Kap 是一款轻量级开源的 GIF 录制工具, 这意味它是免费简单易用; 你可以从官网下载. 官网
-
-
-
-安装完成, 启动 Kap, 它是以一个圆环的形式显示在状态栏上, 所有的界面都在这里, 你可以点击红框直接开始录制, 点击后你的屏幕上会出现一个虚线框, 你可以通过拖动四角调整大小.
+Kap 是一款轻量级开源的 GIF 录制工具，这意味它是免费简单易用; 你可以从官网下载。官网
 
 
 
-确定...</content>
+安装完成，启动 Kap, 它是以一个圆环的形式显示在状态栏上，所有的界面都在这里，你可以点击红框直接开始录制，点击后你的屏幕上会出现一个虚线框，你可以通过拖动四角调整大小。
+
+
+
+确定好录制范围之后，这时你发现...</content>
  </entry>
  
  <entry>
-   <title>快速了解MySQL时间范围参数</title>
+   <title>快速了解 MySQL 时间范围参数</title>
    <link href="https://samzong.me/post/2021/04/%E5%BF%AB%E9%80%9F%E4%BA%86%E8%A7%A3MySQL%E6%97%B6%E9%97%B4%E8%8C%83%E5%9B%B4%E5%8F%82%E6%95%B0.html"/>
    <updated>2021-04-18T00:00:00-05:00</updated>
    <id>https://samzong.me/post/2021/04/快速了解MySQL时间范围参数</id>
-   <content type="html">-- 查询30天
+   <content type="html">-- 查询 30 天
 select DATE_SUB(CURDATE(), INTERVAL 30 DAY) frm table;
 
 
@@ -1473,7 +1385,7 @@ SELECT * FROM 表名 where DATE_SUB(CURDATE(), INTERVAL 7 DAY) &amp;lt;= date(�
 
 近30天
 
-SELECT * F...</content>
+SELECT *...</content>
  </entry>
  
  <entry>
@@ -1504,7 +1416,7 @@ date(from_unixtime(time_in_ms / 1000)) as dt
 MacBookPro 雷电口不可用了不着送修，尝试下一下方法；可以为您省下大几千块钱哟 ~
 :::
 
-什么是 SMC ？
+什么是 SMC？
 
 SMC 全称 系统管理控制器负责管理与以下功能相关的行为：
 
@@ -1520,7 +1432,7 @@ SMC 全称 系统管理控制器负责管理与以下功能相关的行为：
 
 SMC 常见问题
 
-由于Mac的雷电接口经常需要插拔外接设备，而外接设备的接口电流电压不一致，Mac在遇到异常电涌时会触发  SMC 的自我保护机制...</content>
+由于 Mac 的雷电接口经常需要插拔外接设备，而外接设备的接口电流电压不一致，Mac 在遇到异常电涌时会触发  SMC 的自我保护...</content>
  </entry>
  
  <entry>
@@ -1615,7 +1527,7 @@ docker update –restart=no my-container
 
 - 这些耍猴的人这么苦是为什么？他们虽然用的是最底层、最辛苦的方式赚钱，但其中透露出一种骨气，这是河南新野耍猴人的人格力量。
 
-- 在景德镇，一个16岁的女孩看完猴戏，对他说：&amp;ldquo;&amp;l...</content>
+- 在景德镇，一个 16 岁的女孩看完猴戏，对他说：&amp;ldquo;...</content>
  </entry>
  
  <entry>
@@ -1686,7 +1598,7 @@ docker update –restart=no my-container
 武志红
 2 highlights
 
-- 1.我们集体停留在婴儿期 经典的中国式图景中，主角，都是像被抽掉了脊梁骨的人，譬如你很难在中国画中找到一个昂然挺立的身体。 对此表现力最好的，是岳敏君的作品。抽巴的人生，凝缩在抽巴的身体中。很多人...</content>
+- 1.我们集体停留在婴儿期 经典的中国式图景中，主角，都是像被抽掉了脊梁骨的人，譬如你很难在中国画中找到一个昂然挺立的身体。对此表现力最好的，是岳敏君的作品。抽巴的人生，凝缩在抽巴的身体中。很多人反...</content>
  </entry>
  
  <entry>
@@ -1747,7 +1659,7 @@ docker update –restart=no my-container
    <link href="https://samzong.me/post/2021/03/macOS-10.15-%E5%BC%80%E5%90%AF-HiDPI.html"/>
    <updated>2021-03-10T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2021/03/macOS 10.15 开启 HiDPI</id>
-   <content type="html">以前手抖买了台 HKC 32 寸 2K 显示器, 接上 MacBook 发现原生的分辨率设置在 2K 显示器上字体很小, 换成 1080P 分辨率显示效果又特别模糊. 上网查了一下发现可以为 MacBook 强行开启 HiDPI.
+   <content type="html">以前手抖买了台 HKC 32 寸 2K 显示器，接上 MacBook 发现原生的分辨率设置在 2K 显示器上字体很小，换成 1080P 分辨率显示效果又特别模糊。上网查了一下发现可以为 MacBook 强行开启 HiDPI.
 
 下文的教程结合了 Github 上用户 ZeRo° Xu 在 一键开启 HiDPI 脚本 里的 Github Issue 和一篇博文 《为 Mac 连接的 2k 显示器开启 HiDPI》.
 
@@ -1756,11 +1668,11 @@ docker update –restart=no my-container
 引用自 Github 用户 ZeRo° Xu :
 
 
-  它使用横纵 2 个物理像素也就是 4 个物理像素来显示 1 个像素区域, 结果就是图像的...</content>
+  它使用横纵 2 个物理像素也就是 4 个物理像素来显示 1 个像素区域，结果就是图像的–细节得...</content>
  </entry>
  
  <entry>
-   <title>requests post data 时对json需要特殊注意</title>
+   <title>requests post data 时对 json 需要特殊注意</title>
    <link href="https://samzong.me/post/2021/02/requests-post-data-%E6%97%B6%E5%AF%B9json%E9%9C%80%E8%A6%81%E7%89%B9%E6%AE%8A%E6%B3%A8%E6%84%8F.html"/>
    <updated>2021-02-15T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2021/02/requests post data 时对json需要特殊注意</id>
@@ -1779,7 +1691,7 @@ data[&quot;password&quot;] = password
 
 req = requests.post(url=url, headers=headers, json=data)
 
-# 以上处理方式会自动把数据转为json format
+# 以上处理方式会自动把数据转为 json format
 
 
 
@@ -1845,29 +1757,28 @@ pp.pprint(res.json())
    <id>https://samzong.me/post/2021/02/macOs Terminal 三剑客</id>
    <content type="html">安装 Homebrew
 
-MacOS 首先需要安装下基础依赖:
+MacOS 首先需要安装下基础依赖：
 
 xcode-select —-install
 
 
-执行完成上一步之后，接下来就可以安装Homebrew
+执行完成上一步之后，接下来就可以安装 Homebrew
 
 /usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
 
 
-增加Homebrew安装图形化软件库
+增加 Homebrew 安装图形化软件库
 
 brew tap caskroom/cask
 
 
-安装 iTerm 2 ，当然也可以用来安装其他很多软件
+安装 iTerm 2，当然也可以用来安装其他很多软件
 
 brew cask install iterm2
 
 
-安装Zsh
-
-首先...</content>
+安装 Zsh
+...</content>
  </entry>
  
  <entry>
@@ -1895,7 +1806,7 @@ app_secret_enc = app_secr...</content>
  </entry>
  
  <entry>
-   <title>python django 编写公共模块在app中引用</title>
+   <title>python django 编写公共模块在 app 中引用</title>
    <link href="https://samzong.me/post/2021/02/python-django-%E7%BC%96%E5%86%99%E5%85%AC%E5%85%B1%E6%A8%A1%E5%9D%97%E5%9C%A8app%E4%B8%AD%E5%BC%95%E7%94%A8.html"/>
    <updated>2021-02-07T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2021/02/python django 编写公共模块在app中引用</id>
@@ -1916,13 +1827,23 @@ sys.path.insert(0,os.path('../dingtalk'))
  </entry>
  
  <entry>
-   <title>2021年-全新出发</title>
+   <title>python xlsxwriter 写入 excel</title>
+   <link href="https://samzong.me/post/2021/01/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html"/>
+   <updated>2021-01-20T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2021/01/python xlsxwriter 写入excel</id>
+   <content type="html">以下是使用的方法：
+
+</content>
+ </entry>
+ 
+ <entry>
+   <title>2021 年 - 全新出发</title>
    <link href="https://samzong.me/post/2021/01/year-the-new-start.html"/>
    <updated>2021-01-01T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2021/01/year-the-new-start</id>
    <content type="html">写在开始之前的话
 
-已经停更了接近3年的博客，感觉像是走了另一个方向的路，有点迷失方向的感觉；这三年算是人生中变化很多的地方吧。
+已经停更了接近 3 年的博客，感觉像是走了另一个方向的路，有点迷失方向的感觉；这三年算是人生中变化很多的地方吧。
 
 不过也有不少地方其实没变化，比如：
 
@@ -1936,15 +1857,15 @@ sys.path.insert(0,os.path('../dingtalk'))
 这三年，也是有了很大的变化，最大的变化可能是：成为了一名全职的产品经理，而竟然我有一半的时间还在纠结是不是要回去。
 
 
-  思绪有点乱，后面再继续写吧...</content>
+  思绪有点乱，后面再继续...</content>
  </entry>
  
  <entry>
-   <title>检查您的App是否已支持AppleSilicon</title>
+   <title>检查您的 App 是否已支持 AppleSilicon</title>
    <link href="https://samzong.me/post/2020/12/%E6%A3%80%E6%9F%A5%E6%82%A8%E7%9A%84App%E6%98%AF%E5%90%A6%E5%B7%B2%E6%94%AF%E6%8C%81AppleSilicon.html"/>
    <updated>2020-12-25T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2020/12/检查您的App是否已支持AppleSilicon</id>
-   <content type="html">这里带来2个网站，方便大家来检查您所使用和关注的App是否已经支持了最新的Apple M1 芯片
+   <content type="html">这里带来 2 个网站，方便大家来检查您所使用和关注的 App 是否已经支持了最新的 Apple M1 芯片
 
 
   目前支持的形式有：
@@ -1952,7 +1873,7 @@ sys.path.insert(0,os.path('../dingtalk'))
 
 
   已原生支持
-  使用Rosetta 2 支持运行的 适配 Intel 引用
+  使用 Rosetta 2 支持运行的 适配 Intel 引用
   完全不支持 (包括崩溃、无法启动等各种症状)
 
 
@@ -1966,20 +1887,20 @@ https://docs.google.com/spreadsheets/d/1er-NivvuIheDmIKBVRu3S_BzA_lZT5z3Z-CxQZ-u
 
 
 
-https://isapplesiliconready...</content>
+https://isapplesilico...</content>
  </entry>
  
  <entry>
-   <title>Mac 调整Launchpad图标大小</title>
+   <title>Mac 调整 Launchpad 图标大小</title>
    <link href="https://samzong.me/post/2020/12/Mac-%E8%B0%83%E6%95%B4Launchpad%E5%9B%BE%E6%A0%87%E5%A4%A7%E5%B0%8F.html"/>
    <updated>2020-12-25T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2020/12/Mac 调整Launchpad图标大小</id>
-   <content type="html">  很多人觉得默认 Launchpad 的应用程序图标很大, 空间比较拥挤, 不过这个其实是可以通过调整 Launchpad 每一行和每一列图标的数量, 来调整 Launchpad 图标大小.
+   <content type="html">  很多人觉得默认 Launchpad 的应用程序图标很大，空间比较拥挤，不过这个其实是可以通过调整 Launchpad 每一行和每一列图标的数量，来调整 Launchpad 图标大小。
 
 默认如下图：
 
 
-代码块:
+代码块：
 
 # 调整每一行显示数量为8个。
 ➜ defaults write com.apple.dock springboard-columns -int 10
@@ -1991,6 +1912,31 @@ https://isapplesiliconready...</content>
 修改后如下：
 
 </content>
+ </entry>
+ 
+ <entry>
+   <title>learn sqlalchemy</title>
+   <link href="https://samzong.me/post/2020/12/learn-sqlalchemy.html"/>
+   <updated>2020-12-13T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2020/12/learn sqlalchemy</id>
+   <content type="html"># python3 on Mac
+
+pip3 install sqlalchemy mysqclient
+
+# CentOS
+yum install MySQL-python
+
+
+import sqlalchemy
+import MySQLdb
+
+from sqlalchemy import create_engine, MetaData
+
+def connect_db ():
+ # connect db:
+ engine = create_engine(&quot;mysql://user:pass@localhost/db&quot;, echo = True)
+
+    meta = MetaData...</content>
  </entry>
  
  <entry>
@@ -2022,6 +1968,27 @@ app_secret = &quot;beddee55a0-reerw2452ff4-5deeweec2d7faf1&quot;
 current_time = lambda: int(round(time.time()))
 timestamp = str(datetime.fromtimestamp(current_time()))
 param_json...</content>
+ </entry>
+ 
+ <entry>
+   <title>python3 str 去除特定内容</title>
+   <link href="https://samzong.me/post/2020/12/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html"/>
+   <updated>2020-12-03T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2020/12/python3 str 去除特定内容</id>
+   <content type="html">import string
+
+whitespace – 包含所有空白的字符串
+ascii_lowercase – 包含所有小写字母的字符串
+ascii_uppercase – 一个包含所有ASCII大写字母的字符串
+ascii_letters – 包含所有ASCII字母的字符串
+digits – 包含所有十进制位数的字符串
+hexdigits – 包含所有 十六进制数字的字符串
+octdigits – 包含所有八进制数字的字符串
+punctuation – 包含所有标点字符的字符串
+printable – 包含所有可打印的字符的字符串
+
+
+print(string.digits)  # ...</content>
  </entry>
  
  <entry>
@@ -2060,7 +2027,7 @@ If you want watching any apps change? Input  you email at  Tell me with this cha
 
 MacBookPro 雷电口不可用了不着送修，尝试下一下方法；可以为您省下大几千块钱哟 ~
 
-什么是 SMC ？
+什么是 SMC？
 
 SMC 全称 系统管理控制器负责管理与以下功能相关的行为：
 
@@ -2076,7 +2043,7 @@ SMC 全称 系统管理控制器负责管理与以下功能相关的行为：
 
 SMC 常见问题
 
-由于Mac的雷电接口经常需要插拔外接设备，而外接设备的接口电流电压不一致，Mac在遇到异常电涌时会触发  SMC 的自我保护机制，通常意义是雷电口不可用...</content>
+由于 Mac 的雷电接口经常需要插拔外接设备，而外接设备的接口电流电压不一致，Mac 在遇到异常电涌时会触发  SMC 的自我保护机制，通常意义是雷电口不...</content>
  </entry>
  
  <entry>
@@ -2155,6 +2122,15 @@ comment in Avro IDL
  </entry>
  
  <entry>
+   <title>python re 正则表达式</title>
+   <link href="https://samzong.me/post/2020/11/python-re%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.html"/>
+   <updated>2020-11-17T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2020/11/python re正则表达式</id>
+   <content type="html">
+</content>
+ </entry>
+ 
+ <entry>
    <title>autoscraper 爬虫 所见即所得</title>
    <link href="https://samzong.me/post/2020/11/autoscraper-%E7%88%AC%E8%99%AB-%E6%89%80%E8%A7%81%E5%8D%B3%E6%89%80%E5%BE%97.html"/>
    <updated>2020-11-16T00:00:00-06:00</updated>
@@ -2176,7 +2152,7 @@ wanted_list = [&quot;How to call an external co...</content>
  </entry>
  
  <entry>
-   <title>Django 初始化project</title>
+   <title>Django 初始化 project</title>
    <link href="https://samzong.me/post/2020/11/Django-%E5%88%9D%E5%A7%8B%E5%8C%96project.html"/>
    <updated>2020-11-09T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2020/11/Django 初始化project</id>
@@ -2225,14 +2201,14 @@ print(&quot;{}你和&quot;.Format(&quot;我&quot;))
 
 
 
-  当然还有 %s ，但更推荐使用format，任何在设计到字符替换的都可使用到
+  当然还有 %s ，但更推荐使用 format，任何在设计到字符替换的都可使用到
 
 
-with open(&quot;{}_name.txt&quot;.format(api...</content>
+with open(&quot;{}_name.txt&quot;.format(ap...</content>
  </entry>
  
  <entry>
-   <title>Django 修改modules时出错</title>
+   <title>Django 修改 modules 时出错</title>
    <link href="https://samzong.me/post/2020/11/Django-%E4%BF%AE%E6%94%B9modules%E6%97%B6%E5%87%BA%E9%94%99.html"/>
    <updated>2020-11-06T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2020/11/Django 修改modules时出错</id>
@@ -2276,7 +2252,21 @@ soup.select(class=&quot;class_name&quot;)
 # 查询某个特定的 id 的方法，查询条件前加上#
 soup.select(&quot;#id_name&quot;)
 
-# 通过使用类名来进行查找，查询条件前加上....</content>
+# 通过使用类名来进行查找，查询条件前加上。...</content>
+ </entry>
+ 
+ <entry>
+   <title>python3 setup.py --help-commands</title>
+   <link href="https://samzong.me/post/2020/11/python3-setup.py-help-commands.html"/>
+   <updated>2020-11-04T00:00:00-06:00</updated>
+   <id>https://samzong.me/post/2020/11/python3 setup.py --help-commands</id>
+   <content type="html">→ python3 setup.py --help-commands
+
+Standard commands:
+  build             build everything needed to install
+  build_py          &quot;build&quot; pure Python modules (copy to build directory)
+  build_ext         build C/C++ extensions (compile/link to build directory)
+  build_clib        build C/C++ libr...</content>
  </entry>
  
  <entry>
@@ -2288,31 +2278,31 @@ soup.select(&quot;#id_name&quot;)
  </entry>
  
  <entry>
-   <title>Mac:使用命令关闭和启动AirPort</title>
+   <title>Mac:使用命令关闭和启动 AirPort</title>
    <link href="https://samzong.me/post/2020/10/Mac_%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E5%85%B3%E9%97%AD%E5%92%8C%E5%90%AF%E5%8A%A8AirPort.html"/>
    <updated>2020-10-17T00:00:00-05:00</updated>
    <id>https://samzong.me/post/2020/10/Mac_使用命令关闭和启动AirPort</id>
-   <content type="html">在调试新的MacBookAir 13’时遇到一个问题，无法检测到她家的WiFi，一开始怀疑是不是无线路由器长时间未重启导致，所以重启了路由器，但是问题依然没有解决，于是我们将问题转向排查设备，因我们基本正好有iPad，iPhone，MacBook这些设备，发现唯独他的这个Macbook无法识别WiFi，后来在Google的帮助下，发现多个版本的Mac OS X都出现了类似的问题，可以通过重启AirPort解决问题，但是AirPort在System Preferences找不到选项，所以需要使用命令行来重启。
+   <content type="html">在调试新的 MacBookAir 13’时遇到一个问题，无法检测到她家的 WiFi，一开始怀疑是不是无线路由器长时间未重启导致，所以重启了路由器，但是问题依然没有解决，于是我们将问题转向排查设备，因我们基本正好有 iPad，iPhone，MacBook 这些设备，发现唯独他的这个 Macbook 无法识别 WiFi，后来在 Google 的帮助下，发现多个版本的 Mac OS X 都出现了类似的问题，可以通过重启 AirPort 解决问题，但是 AirPort 在 System Preferences 找不到选项，所以需要使用命令行来重启。
 
 查看网络接口
 
 ifconfig
-en0: flags=8863&amp;lt;UP,...</content>
+en0: ...</content>
  </entry>
  
  <entry>
-   <title>Mac 下解决oh-my-zsh在终端下打开缓慢</title>
+   <title>Mac 下解决 oh-my-zsh 在终端下打开缓慢</title>
    <link href="https://samzong.me/post/2019/11/Mac(2)-%E8%A7%A3%E5%86%B3oh-my-zsh%E5%9C%A8%E7%BB%88%E7%AB%AF%E4%B8%8B%E6%89%93%E5%BC%80%E7%BC%93%E6%85%A2.html"/>
    <updated>2019-11-17T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2019/11/Mac(2) 解决oh-my-zsh在终端下打开缓慢</id>
-   <content type="html">升级Mac OS X 10.11 之后，使用CleanMyMac 3清理9GB的垃圾文件，之后导致打开iTerm时加载主机名特别的慢，Mac的命令行工具我使用的是iTerm＋ohmyzsh，这个问题困扰了我快两个月，工作比较忙，所以一直用Zoc 代替，也没有认真的研究，最近有需求用到它，实在不行，研究一下，发现，是因为我清理系统的时候把终端日志的索引文件清理掉了，所以每次打开的时候都要先加载索引导致了首次开启非常慢，解决办法是，只要把终端缓存的日志文件删除即可：
+   <content type="html">升级 Mac OS X 10.11 之后，使用 CleanMyMac 3 清理 9GB 的垃圾文件，之后导致打开 iTerm 时加载主机名特别的慢，Mac 的命令行工具我使用的是 iTerm＋ohmyzsh，这个问题困扰了我快两个月，工作比较忙，所以一直用 Zoc 代替，也没有认真的研究，最近有需求用到它，实在不行，研究一下，发现，是因为我清理系统的时候把终端日志的索引文件清理掉了，所以每次打开的时候都要先加载索引导致了首次开启非常慢，解决办法是，只要把终端缓存的日志文件删除即可：
 
 代码块：
 
 # 日志文件路径
 # /private/var/log/asl/*.asl
 
-➜  ~ sudo du -sh ...</content>
+➜  ~ su...</content>
  </entry>
  
  <entry>
@@ -2349,23 +2339,23 @@ If you already know how to install python packages, then you can do:
  </entry>
  
  <entry>
-   <title>MacTips 如何快速录制GiF小视频</title>
+   <title>MacTips 如何快速录制 GiF 小视频</title>
    <link href="https://samzong.me/post/2019/01/Mac%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%BD%95%E5%88%B6GiF%E5%B0%8F%E8%A7%86%E9%A2%91.html"/>
    <updated>2019-01-22T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2019/01/Mac如何快速录制GiF小视频</id>
-   <content type="html">在平时的沟通中经常有需要用到分享一个连续的操作等，在很多时候截图不能满足我的需求，录制视频文件的话呢，文件过大，不同平台限制过多是一个很麻烦的视频，所以录制GIF是一个非常好的解决办法，今天给大家推荐两款软件，关于录制GIF和GIF编辑。
+   <content type="html">在平时的沟通中经常有需要用到分享一个连续的操作等，在很多时候截图不能满足我的需求，录制视频文件的话呢，文件过大，不同平台限制过多是一个很麻烦的视频，所以录制 GIF 是一个非常好的解决办法，今天给大家推荐两款软件，关于录制 GIF 和 GIF 编辑。
 
-录制工具(1) Kap
+录制工具 (1) Kap
 
-Kap是一款轻量级开源的GIF录制工具，这意味它是免费简单易用；你可以从官网下载。官网
-
-
-
-安装完成，启动Kap，它是以一个圆环的形式显示在状态栏上，所有的界面都在这里，你可以点击红框直接开始录制，点击后你的屏幕上会出现一个虚线框，你可以通过拖动四角调整大小。
+Kap 是一款轻量级开源的 GIF 录制工具，这意味它是免费简单易用；你可以从官网下载。官网
 
 
 
-确定好录制范围之后，这时你发现Kap上红色录制按钮一个变...</content>
+安装完成，启动 Kap，它是以一个圆环的形式显示在状态栏上，所有的界面都在这里，你可以点击红框直接开始录制，点击后你的屏幕上会出现一个虚线框，你可以通过拖动四角调整大小。
+
+
+
+确定好录制范围之后，这时你发现 K...</content>
  </entry>
  
  <entry>
@@ -2374,14 +2364,14 @@ Kap是一款轻量级开源的GIF录制工具，这意味它是免费简单易�
    <updated>2018-11-17T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2018/11/MacTips 单独设置程序语言</id>
    <content type="html">
-  目前macOS 10.15 系统原生已支持给单个App设置语言的方式，就在系统设置-语言/地区
+  目前 macOS 10.15 系统原生已支持给单个 App 设置语言的方式，就在系统设置 - 语言/地区
 
 
-Mac 上系统语言设置成英文查看起来是最舒适的，所以我很早就将系统语言改成英文，但是在自身英语水平有限，应对基本的单词没有问题，但是在查看例如Word、PowerPoint这类应用时，有大量的选项大脑转化速度较慢，影响工作效率，所以有时在做PPT时，不得已要将系统切换到中文，这对我来说是一件很麻烦的事情，但是今天在网上找到一个帖子原文，其实一个命令就可以搞定我的问题，修改某一软件的默认语言。
+Mac 上系统语言设置成英文查看起来是最舒适的，所以我很早就将系统语言改成英文，但是在自身英语水平有限，应对基本的单词没有问题，但是在查看例如 Word、PowerPoint 这类应用时，有大量的选项大脑转化速度较慢，影响工作效率，所以有时在做 PPT 时，不得已要将系统切换到中文，这对我来说是一件很麻烦的事情，但是今天在网上找到一个帖子原文，其实一个命令就可以搞定我的问题，修改某一软件的默认语言。
 
 Command
 
-defaults write '{AppName}' AppleLang...</content>
+defaults write '{AppName}' ...</content>
  </entry>
  
  <entry>
@@ -2393,33 +2383,33 @@ defaults write '{AppName}' AppleLang...</content>
 
 
 
-因为国内的网络的原因，导致我们在首次打开SourceTree时需要验证Atlassian账号，但是Atlassian的注册页面使用requirejs是用了Google的CDN服务，所以无法正常通过验证，如果你有翻墙工具，那么这就没有问题，下面我要讲的方法是在不翻墙的情况下跳过初始化验证。
+因为国内的网络的原因，导致我们在首次打开 SourceTree 时需要验证 Atlassian 账号，但是 Atlassian 的注册页面使用 requirejs 是用了 Google 的 CDN 服务，所以无法正常通过验证，如果你有翻墙工具，那么这就没有问题，下面我要讲的方法是在不翻墙的情况下跳过初始化验证。
 
 
-  目前我解决的是在Windows平台上的问题，关于Mac平台，我稍后会更新到文档中。
+  目前我解决的是在 Windows 平台上的问题，关于 Mac 平台，我稍后会更新到文档中。
 
 
 解决思路
 
-我的想法是通过增加account信息，让SourceTree跳过验证；经过测试2.0.19及以下版本都支持，但是SourceTree在最新版本2.0.20时可能修订验证方式，所以导致我...</content>
+我的想法是通过增加account信息，让SourceTree跳过验证；经过测试2.0.19及以下版本都支持，但是 SourceTree 在最新版本 2....</content>
  </entry>
  
  <entry>
-   <title>使用国内pypi源加速pip安装</title>
+   <title>使用国内 pypi 源加速 pip 安装</title>
    <link href="https://samzong.me/post/2018/02/%E4%BD%BF%E7%94%A8%E5%9B%BD%E5%86%85pypi%E6%BA%90%E5%8A%A0%E9%80%9Fpip%E5%AE%89%E8%A3%85.html"/>
    <updated>2018-02-28T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2018/02/使用国内pypi源加速pip安装</id>
    <content type="html">
 
-在解决将AWS Cloudwatch的监控信息展示在Zabbix上时，需要安装AWS的一个python 工具包boto3，但是在安装过程中，碰到了如上图的错误信息；问题是由于国内网络问题导致连接python库超时，所以将库改为国内
+在解决将 AWS Cloudwatch 的监控信息展示在 Zabbix 上时，需要安装 AWS 的一个 python 工具包 boto3，但是在安装过程中，碰到了如上图的错误信息；问题是由于国内网络问题导致连接 python 库超时，所以将库改为国内
 
-国内pypi源站点
+国内 pypi 源站点
 
 
   http://pypi.douban.com/simple  豆瓣
   http://pypi.hustunique.com/simple  华中理工大学
   http://pypi.sdutlinux.org/simple  山东理工大学
-  http://pypi.mirrors.ustc.edu.cn/simple  中...</content>
+  http://pypi.mirrors.ustc.edu....</content>
  </entry>
  
  <entry>
@@ -2427,7 +2417,7 @@ defaults write '{AppName}' AppleLang...</content>
    <link href="https://samzong.me/post/2018/01/Git%E4%BD%BF%E7%94%A8%E8%A7%84%E8%8C%83%E6%B5%81%E7%A8%8B.html"/>
    <updated>2018-01-09T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2018/01/Git使用规范流程</id>
-   <content type="html">团队开发中，遵循一个合理、清晰的Git使用流程，是非常重要的。否则，每个人都提交一堆杂乱无章的commit，项目很快就会变得难以协调和维护。下图是比较常规的Git使用规范流程，这能适合绝大多数团队开发的需求，推荐你们也这样使用。
+   <content type="html">团队开发中，遵循一个合理、清晰的 Git 使用流程，是非常重要的。否则，每个人都提交一堆杂乱无章的 commit，项目很快就会变得难以协调和维护。下图是比较常规的 Git 使用规范流程，这能适合绝大多数团队开发的需求，推荐你们也这样使用。
 
 
 
@@ -2437,17 +2427,15 @@ defaults write '{AppName}' AppleLang...</content>
 
 
   
-    主分支Master：首先，代码库应该有一个、且仅有一个主分支。所有提供给用户使用的正式版本，都在这个主分支上发布。
+    主分支 Master：首先，代码库应该有一个、且仅有一个主分支。所有提供给用户使用的正式版本，都在这个主分支上发布。
   
   
-    开发分支Develop：主分支只用来分布重大版本，日常开发应该在另一条分支上完成。我们把开发用的分支，叫做Develop。
+    开发分支 Develop：主分支只用来分布重大版本，日常开发应该在另一条分支上完成。我们把开发用的分支，叫做 Develop。
   
   
     临时性分支
 
-    
-      
-...</content>
+    ...</content>
  </entry>
  
  <entry>
@@ -2468,25 +2456,25 @@ systemctl start mysql.s...</content>
    <link href="https://samzong.me/2017/11/15/howto-user-ssr-on-mac/"/>
    <updated>2017-11-15T00:00:00-06:00</updated>
    <id>https://samzong.me/2017/11/15/Howto-use-ssr-on-mac</id>
-   <content type="html">应邀制作一份关于Mac SSR的连接使用。
+   <content type="html">应邀制作一份关于 Mac SSR 的连接使用。
 
 准备
 
 
-  SSR 服务提供商，SSGlobal ，你可以到Telegram加入我们。SSGlobal Group
-  MacOS 版本 10.12.6，经过实测OS版本对实际使用影响并不大。
+  SSR 服务提供商，SSGlobal ，你可以到 Telegram 加入我们。SSGlobal Group
+  MacOS 版本 10.12.6，经过实测 OS 版本对实际使用影响并不大。
   SSR Client， 下载
 
 
-SSR服务
+SSR 服务
 
-如果你需要科学上网的话，非常愿意给你推荐我正在使用的SSR服务商，但是由于其官方网站和客户沟通工具TG需要科学上网才能使用，所以你可以联系到我来介绍你们。
+如果你需要科学上网的话，非常愿意给你推荐我正在使用的 SSR 服务商，但是由于其官方网站和客户沟通工具 TG 需要科学上网才能使用，所以你可以联系到我来介绍你们。
 
 最新定价计划：
 
 
-  Plan-A：¥15.00元，1个月，无限流量，不限速，可自助切换节点。
-  Plan-B：¥15.00元，3个月，6...</content>
+  Plan-A：¥15.00 元，1 个月，无限流量，不限速，可自助切换节点。
+  Plan-B：...</content>
  </entry>
  
  <entry>
@@ -2508,36 +2496,36 @@ SSR服务
  </entry>
  
  <entry>
-   <title>Jmeter 使用BlazeMeter为Jmeter录制脚本</title>
+   <title>Jmeter 使用 BlazeMeter 为 Jmeter 录制脚本</title>
    <link href="https://samzong.me/post/2017/08/blazemeter_recoding_jmx.html"/>
    <updated>2017-08-12T00:00:00-05:00</updated>
    <id>https://samzong.me/post/2017/08/blazemeter_recoding_jmx</id>
-   <content type="html">之前一直使用阿里云的PTS服务作为测试，但是今天发现阿里云的PTS服务正在升级无法使用，所以打算用Jmeter来做压力测试，并使用Chrome插件BlazeMeter来录制.jmx脚本。
+   <content type="html">之前一直使用阿里云的 PTS 服务作为测试，但是今天发现阿里云的 PTS 服务正在升级无法使用，所以打算用 Jmeter 来做压力测试，并使用 Chrome 插件 BlazeMeter 来录制.jmx 脚本。
 
-安装BlazeMeter插件
+安装 BlazeMeter 插件
 
 插件安装 , 需要能登录到Chrome应用商店，如果不能登录的话，可以在网上搜索下载crx包，手动加载到Chrome中即可。
 
-安装成功之后，在Chrome插件栏可以看到程序入口，
+安装成功之后，在 Chrome 插件栏可以看到程序入口，
 
-BlazeMeter限制需要登录才能导出jmx脚本，所以首先需要注册账号。成功登陆后，完整界面如图所示：
+BlazeMeter 限制需要登录才能导出 jmx 脚本，所以首先需要注册账号。成功登陆后，完整界面如图所示：
 
 
 
 录制过程
 
-填写测试脚本名称后，点击开始录制，执行一系列操作后，点停止录制，...</content>
+填写测试脚本名称后，点击开始...</content>
  </entry>
  
  <entry>
-   <title>bypy 百度网盘Python客户端</title>
+   <title>bypy 百度网盘 Python 客户端</title>
    <link href="https://samzong.me/post/2017/06/%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98Python%E5%AE%A2%E6%88%B7%E7%AB%AF.html"/>
    <updated>2017-06-02T07:00:00-05:00</updated>
    <id>https://samzong.me/post/2017/06/百度网盘Python客户端</id>
-   <content type="html">最近在GitHub上发现一个有趣的项目，百度网盘Python客户端(bypy)，主要使用在Linux命令行下，这样很大的一个好处是可以利用到百度云盘2TB的存储空间(如果你是会员有6TB)；你可以在任何服务器上，利用自动化脚本实现一些数据文件、日志文件等等备份操作，同时也提供丰富的文件列表、上传、下载、对比、同步以及批量操作等。
+   <content type="html">最近在 GitHub 上发现一个有趣的项目，百度网盘 Python 客户端(bypy)，主要使用在 Linux 命令行下，这样很大的一个好处是可以利用到百度云盘 2TB 的存储空间 (如果你是会员有 6TB)；你可以在任何服务器上，利用自动化脚本实现一些数据文件、日志文件等等备份操作，同时也提供丰富的文件列表、上传、下载、对比、同步以及批量操作等。
 
 
-  虽然百度网盘Python客户端提供很大的便利，但是我强烈不建议将一些重要数据放到百度云盘
+  虽然百度网盘 Python 客户端提供很大的便利，但是我强烈不建议将一些重要数据放到百度云盘
 
 
 实验目的
@@ -2548,10 +2536,7 @@ BlazeMeter限制需要登录才能导出jmx脚本，所以首先需要注册账�
 
 
   Python 2.7 or 3.0 以上
-  Encoding UTF-8
-
-
-Python ...</content>
+  Encoding UTF...</content>
  </entry>
  
  <entry>
@@ -2591,7 +2576,7 @@ Python ...</content>
  </entry>
  
  <entry>
-   <title>Wannacry蠕虫病毒事件及修复方案</title>
+   <title>Wannacry 蠕虫病毒事件及修复方案</title>
    <link href="https://samzong.me/post/2017/05/Wannacry%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E4%BA%8B%E4%BB%B6%E5%8F%8A%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%A1%88.html"/>
    <updated>2017-05-15T00:00:00-05:00</updated>
    <id>https://samzong.me/post/2017/05/Wannacry蠕虫病毒事件及修复方案</id>
@@ -2599,9 +2584,9 @@ Python ...</content>
 
 事件背景
 
-5月12日晚， WannaCry 蠕虫病毒在全球大肆爆发。据BBC、CNN等媒体报道，恶意攻击者利用 NSA（美国国家安全局）泄露的 Windows 0day 利用工具对99个国家实施了超过75000次攻击，主要影响SMB和RDP服务，主要影响了137、138、139、445端口。
+5 月 12 日晚，WannaCry 蠕虫病毒在全球大肆爆发。据 BBC、CNN 等媒体报道，恶意攻击者利用 NSA（美国国家安全局）泄露的 Windows 0day 利用工具对 99 个国家实施了超过 75000 次攻击，主要影响 SMB 和 RDP 服务，主要影响了 137、138、139、445 端口。
 
-目前已知已知的Windows版本包括但不限于一下都受影响：
+目前已知已知的 Windows 版本包括但不限于一下都受影响：
 
 
   Windows NT
@@ -2611,16 +2596,15 @@ Python ...</content>
   Windows Vista
   Windows 7
   Windows 8
-  Windows 10
-  Win...</content>
+  ...</content>
  </entry>
  
  <entry>
-   <title>CentOS增加新硬盘给根文件系统扩容</title>
+   <title>CentOS 增加新硬盘给根文件系统扩容</title>
    <link href="https://samzong.me/post/2017/04/CentOS%E5%A2%9E%E5%8A%A0%E6%96%B0%E7%A1%AC%E7%9B%98%E7%BB%99%E6%A0%B9%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%89%A9%E5%AE%B9.html"/>
    <updated>2017-04-18T12:48:57-05:00</updated>
    <id>https://samzong.me/post/2017/04/CentOS增加新硬盘给根文件系统扩容</id>
-   <content type="html">由于刚开始做磁盘空间规划时，失误给根分区分配磁盘较小，导致后续实验环境无法进行，所以在经过研究后，决定尝试增加根分区的磁盘空间，注意这仅适用于创建在LVM上的文件系统。
+   <content type="html">由于刚开始做磁盘空间规划时，失误给根分区分配磁盘较小，导致后续实验环境无法进行，所以在经过研究后，决定尝试增加根分区的磁盘空间，注意这仅适用于创建在 LVM 上的文件系统。
 
 实验环境
 
@@ -2629,23 +2613,23 @@ Python ...</content>
   CentOS 6.9
   根分区空间 6.5GB
   已使用 5.8GB
-  预计 增加12G 磁盘空间
+  预计 增加 12G 磁盘空间
 
 
 
 
 增加一块物理磁盘
 
-Parallels Desktop 不能在线增加磁盘，所以要先将VM关闭，然后添加：
+Parallels Desktop 不能在线增加磁盘，所以要先将 VM 关闭，然后添加：
 
-增加12G的磁盘
-
-
-然后启动VM，这时可以通过fdisk -l查看当前已经增加了一块12G的磁盘
+增加 12G 的磁盘
 
 
+然后启动 VM，这时可以通过fdisk -l查看当前已经增加了一块 12G 的磁盘
 
-格式化磁盘并加入到VGroup...</content>
+
+
+格式化磁盘...</content>
  </entry>
  
  <entry>
@@ -2653,9 +2637,9 @@ Parallels Desktop 不能在线增加磁盘，所以要先将VM关闭，然后添
    <link href="https://samzong.me/post/2017/04/HowTo-Install-GitLab.html"/>
    <updated>2017-04-13T06:18:17-05:00</updated>
    <id>https://samzong.me/post/2017/04/HowTo-Install-GitLab</id>
-   <content type="html">目前最为主流的在线Git版本控制系统可以说是非GitHub莫属，对于个人开发者和开源项目可以直接选择GitHub作为Git版本控制系统即可，但是，对于企业内部开发管理的Git版本控制系统，在对保密性有高要求时GitHub就不合适了，这时GitLab作为一个可以完全搭建在企业内部的Git版本控制系统，而且基本囊括了GitHub的所有功能。
+   <content type="html">目前最为主流的在线 Git 版本控制系统可以说是非 GitHub 莫属，对于个人开发者和开源项目可以直接选择 GitHub 作为 Git 版本控制系统即可，但是，对于企业内部开发管理的 Git 版本控制系统，在对保密性有高要求时 GitHub 就不合适了，这时 GitLab 作为一个可以完全搭建在企业内部的 Git 版本控制系统，而且基本囊括了 GitHub 的所有功能。
 
-目前GitLab已经整合的功能
+目前 GitLab 已经整合的功能
 
 
   Repository access
@@ -2664,11 +2648,7 @@ Parallels Desktop 不能在线增加磁盘，所以要先将VM关闭，然后添
   Forks
   Code review
   Wiki
-  Merge Requests
-  Web Editor
-
-
-测...</content>
+  Merge Reque...</content>
  </entry>
  
  <entry>
@@ -2684,9 +2664,9 @@ Parallels Desktop 不能在线增加磁盘，所以要先将VM关闭，然后添
 
 我说的考试不是各种面试等无形的考试，而是，你坐在四四方方的台子前，给你纸笔，限定时间，那种紧张的感觉，那种备考的心态。
 
-所以时光会消磨人的斗志，让你不大能聚精会神的准备考试，让你变得懒散，让你变得不再有血性；所以，时间这种东西，不仅会在你的身上刻下斑驳印记，还会磨去你内心的棱角，一旦这样，你就会停下了脚步，大家的生活成了日复一日的重复，日子也过得索然无味，好像很多很多你想做的事，最后都是选择plan B。
+所以时光会消磨人的斗志，让你不大能聚精会神的准备考试，让你变得懒散，让你变得不再有血性；所以，时间这种东西，不仅会在你的身上刻下斑驳印记，还会磨去你内心的棱角，一旦这样，你就会停下了脚步，大家的生活成了日复一日的重复，日子也过得索然无味，好像很多很多你想做的事，最后都是选择 plan B。
 
-促使我写这篇的动力来自于，最近AWS助理级系统架构师的考试，而就在年前的时...</content>
+促使我写这篇的动力来自于，最近 AWS 助理级系统架构师的考试，而就在年...</content>
  </entry>
  
  <entry>
@@ -2694,23 +2674,23 @@ Parallels Desktop 不能在线增加磁盘，所以要先将VM关闭，然后添
    <link href="https://samzong.me/post/2017/04/HowTo-set-Tomcat-7-automatic-startup-with-CentOS-7.html"/>
    <updated>2017-04-05T10:21:03-05:00</updated>
    <id>https://samzong.me/post/2017/04/HowTo-set-Tomcat-7-automatic-startup-with-CentOS-7</id>
-   <content type="html">因CentOS7与6在系统上，变化较大，所以在之前的文章中讲到的使用Tomcat7开机自启动的方式在CentOS7是是无法使用的，所以这篇文章的目的是如何在CentOS7上将Tomcat7设置为开机自启动。
+   <content type="html">因 CentOS7 与 6 在系统上，变化较大，所以在之前的文章中讲到的使用 Tomcat7 开机自启动的方式在 CentOS7 是是无法使用的，所以这篇文章的目的是如何在 CentOS7 上将 Tomcat7 设置为开机自启动。
 
-安装JAVA环境
+安装 JAVA 环境
 
 
 [root@7 ~]# curl -LO -H &quot;Cookie: oraclelicense=accept-securebackup-cookie&quot; \
 &quot;http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-linux-x64.rpm&quot;
 
-[root@7 ~]# rpm -Uvh jdk-...</content>
+[root@7 ~]#...</content>
  </entry>
  
  <entry>
-   <title>在Linux终端使用SSR服务实现科学上网</title>
+   <title>在 Linux 终端使用 SSR 服务实现科学上网</title>
    <link href="https://samzong.me/post/2017/03/%E5%9C%A8Linux%E7%BB%88%E7%AB%AF%E4%BD%BF%E7%94%A8SSR%E6%9C%8D%E5%8A%A1%E5%AE%9E%E7%8E%B0%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91.html"/>
    <updated>2017-03-23T00:00:00-05:00</updated>
    <id>https://samzong.me/post/2017/03/在Linux终端使用SSR服务实现科学上网</id>
-   <content type="html">昨天在群内看到有朋友在询问如何在Linux终端内使用SSR来实现科学上网，所以抽空研究了下在Linux中如何使用，本文参考了Otokaze 和 Django 两位的博客，文章链接在博文最后；SSR服务提供商依然采用了ssGlobal，在Google的过程中，找了不少解决方案，这里仅做一种简单整理，实验操作系统有CentOS 7.4 &amp;amp; Ubuntu 16.04.3。
+   <content type="html">昨天在群内看到有朋友在询问如何在 Linux 终端内使用 SSR 来实现科学上网，所以抽空研究了下在 Linux 中如何使用，本文参考了Otokaze 和 Django 两位的博客，文章链接在博文最后；SSR 服务提供商依然采用了ssGlobal，在 Google 的过程中，找了不少解决方案，这里仅做一种简单整理，实验操作系统有 CentOS 7.4 &amp;amp; Ubuntu 16.04.3。
 
 ssr 代理服务
 
@@ -2718,8 +2698,7 @@ ssr 代理服务
 
 # 需要本地git 环境
 yum install -y git
-git clone https://github.com/SAMZONG/gfwlist2privoxy.git
-cd g...</content>
+git clone https://github.com/SAMZONG/gfwlist2privox...</content>
  </entry>
  
  <entry>
@@ -2727,11 +2706,11 @@ cd g...</content>
    <link href="https://samzong.me/post/2017/03/HowTo-install-Zoomdata.html"/>
    <updated>2017-03-06T03:44:47-06:00</updated>
    <id>https://samzong.me/post/2017/03/HowTo-install-Zoomdata</id>
-   <content type="html">Zoomdata是一个大数据可视化展示的工具，由ZoomData企业创建，是为数不多的同时支持移动端的数据分析公司，Zoomdata的可视化可将大数据流转化为触屏友好的，艺术感十足的三维形态，Zoomdata的定位是非ETL(传统的提取、转换和加载的数据处理过程)工具，Zoomdata支持多种数据源，包括社交媒体等，其中应用最主流是大数据平台的展示工具，并且Zoomdata对Cloudera Impala做了很好的支持，所以我们做了Zoomdata+Cloudera技术实施。[^1]
+   <content type="html">Zoomdata 是一个大数据可视化展示的工具，由 ZoomData 企业创建，是为数不多的同时支持移动端的数据分析公司，Zoomdata 的可视化可将大数据流转化为触屏友好的，艺术感十足的三维形态，Zoomdata 的定位是非 ETL(传统的提取、转换和加载的数据处理过程) 工具，Zoomdata 支持多种数据源，包括社交媒体等，其中应用最主流是大数据平台的展示工具，并且 Zoomdata 对 Cloudera Impala 做了很好的支持，所以我们做了 Zoomdata+Cloudera 技术实施。[^1]
 
 系统要求
 
-Zoomdata最新版是v2.4，支持常见主流的操作系统，并且有非常友好的安装帮助，但是Z...</content>
+Zoomdata 最新版是 v2.4，支持常见主流的操作系统，...</content>
  </entry>
  
  <entry>
@@ -2739,7 +2718,7 @@ Zoomdata最新版是v2.4，支持常见主流的操作系统，并且有非常�
    <link href="https://samzong.me/post/2017/03/%E5%9B%9B%E9%98%B6%E9%AD%94%E6%96%B9%E7%89%B9%E6%AE%8A%E6%83%85%E5%86%B5%E4%B9%8B%E5%A4%84%E7%90%86.html"/>
    <updated>2017-03-04T04:57:02-06:00</updated>
    <id>https://samzong.me/post/2017/03/四阶魔方特殊情况之处理</id>
-   <content type="html">在还原高阶魔方(四阶及以上)时，采用的处理方法是，将魔方降级为三阶魔方，然后按照三阶魔方的技巧进行还原即可，但是在还原四阶魔方时会遇到2个不可能出现在三阶魔方的特殊情况，下面是针对这两个特殊情况的公式。
+   <content type="html">在还原高阶魔方 (四阶及以上) 时，采用的处理方法是，将魔方降级为三阶魔方，然后按照三阶魔方的技巧进行还原即可，但是在还原四阶魔方时会遇到 2 个不可能出现在三阶魔方的特殊情况，下面是针对这两个特殊情况的公式。
 
 
   注意，本文不是四阶魔方的还原教程。
@@ -2748,28 +2727,27 @@ Zoomdata最新版是v2.4，支持常见主流的操作系统，并且有非常�
 特殊情况：顶层黄色无法形成“十”或“L”
 
 1.手势：黄色面朝上
-2.右边两层旋转180’（这时应该黄色面有右面两层为白色）
-3.后面一层旋转180’
-4.上面一层旋转180’
-5.左边两层靠近你身体旋转90’
-6.上面一层旋转180’
-7.右面两层靠近你身体旋转90’
-8.上面一层旋转180’
-9.右面两层远离你身体旋转90’
-10.上面...</content>
+2.右边两层旋转 180’（这时应该黄色面有右面两层为白色）
+3.后面一层旋转 180’
+4.上面一层旋转 180’
+5.左边两层靠近你身体旋转 90’
+6.上面一层旋转 180’
+7.右面两层靠近你身体旋转 90’
+8.上面一层旋转 180’
+9.右面两层远离你身体...</content>
  </entry>
  
  <entry>
-   <title>MacTips 使用命令关闭和启动AirPort</title>
+   <title>MacTips 使用命令关闭和启动 AirPort</title>
    <link href="https://samzong.me/post/2017/02/MacTips-%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E5%85%B3%E9%97%AD%E5%92%8C%E5%90%AF%E5%8A%A8AirPort.html"/>
    <updated>2017-02-27T17:40:29-06:00</updated>
    <id>https://samzong.me/post/2017/02/MacTips-使用命令关闭和启动AirPort</id>
-   <content type="html">今天在给妹妹调试新的MacBookAir 13’时遇到一个问题，无法检测到她家的WiFi，一开始怀疑是不是无线路由器长时间未重启导致，所以重启了路由器，但是问题依然没有解决，于是我们将问题转向排查设备，因我们基本正好有iPad，iPhone，MacBook这些设备，发现唯独他的这个Macbook无法识别WiFi，后来在Google的帮助下，发现多个版本的Mac OS X都出现了类似的问题，可以通过重启AirPort解决问题，但是AirPort在System Preferences找不到选项，所以需要使用命令行来重启。
+   <content type="html">今天在给妹妹调试新的 MacBookAir 13’时遇到一个问题，无法检测到她家的 WiFi，一开始怀疑是不是无线路由器长时间未重启导致，所以重启了路由器，但是问题依然没有解决，于是我们将问题转向排查设备，因我们基本正好有 iPad，iPhone，MacBook 这些设备，发现唯独他的这个 Macbook 无法识别 WiFi，后来在 Google 的帮助下，发现多个版本的 Mac OS X 都出现了类似的问题，可以通过重启 AirPort 解决问题，但是 AirPort 在 System Preferences 找不到选项，所以需要使用命令行来重启。
 
 查看网络接口
 
 ifconfig
-en0: flags=8863&amp;l...</content>
+...</content>
  </entry>
  
  <entry>
@@ -2777,12 +2755,12 @@ en0: flags=8863&amp;l...</content>
    <link href="https://samzong.me/post/2017/02/HowTo-Install-NextCloud.html"/>
    <updated>2017-02-27T08:57:00-06:00</updated>
    <id>https://samzong.me/post/2017/02/HowTo-Install-NextCloud</id>
-   <content type="html">随着最近一个云盘厂家不再提供个人服务，或者开始各种收费限速，自己存放在第三方云盘厂商的数据被盗取，数据的安全性和数据的稳定性都得不到保证，而且随着智能终端的普及，我也有一些更加高质量的图片文件需要大量储存，所以我想到了自建存储服务的方式，在甄别了OwnCloud，Seafiles和NextCloud，最后选择了NextCloud作为自己今后数据存储节点，NextCloud源自OwnCloud，但是近些年来OwnCloud的发展进度几乎停滞，多数开发者也转战NextCloud，当然NextCloud也继承了搭建简单，依赖于PHP环境的特性。
+   <content type="html">随着最近一个云盘厂家不再提供个人服务，或者开始各种收费限速，自己存放在第三方云盘厂商的数据被盗取，数据的安全性和数据的稳定性都得不到保证，而且随着智能终端的普及，我也有一些更加高质量的图片文件需要大量储存，所以我想到了自建存储服务的方式，在甄别了 OwnCloud，Seafiles 和 NextCloud，最后选择了 NextCloud 作为自己今后数据存储节点，NextCloud 源自 OwnCloud，但是近些年来 OwnCloud 的发展进度几乎停滞，多数开发者也转战 NextCloud，当然 NextCloud 也继承了搭建简单，依赖于 PHP 环境的特性。
 
 运行环境
 
 
-  阿里云ECS CentOS ...</content>
+  ...</content>
  </entry>
  
  <entry>
@@ -2801,7 +2779,7 @@ en0: flags=8863&amp;l...</content>
   Nginx 1.10
 
 
-安装rvm
+安装 rvm
 
 导入公钥
 
@@ -2813,9 +2791,9 @@ en0: flags=8863&amp;l...</content>
 [root@localhost ~]# curl -L https://get.rvm.io | bash -s stable
 
 
-加载rvm环境并安装基础依赖包
+加载 rvm 环境并安装基础依赖包
 
-[root@localhost ~]# s...</content>
+[root@localhost ~]...</content>
  </entry>
  
  <entry>
@@ -2824,31 +2802,31 @@ en0: flags=8863&amp;l...</content>
    <updated>2017-02-20T08:39:15-06:00</updated>
    <id>https://samzong.me/post/2017/02/HowTo-Upgrade-Your-Ghost-Version</id>
    <content type="html">
-1. 下载最新版的Ghost
+1. 下载最新版的 Ghost
 
 curl -LOk https://ghost.org/zip/ghost-latest.zip
 
 
-2. 创建临时目录，并解压ghost-latest.zip到此
+2. 创建临时目录，并解压 ghost-latest.zip 到此
 
 mkdir /usr/ghost-tmp
 unzip ghost-latest.zip -d /usr/ghost-tmp
 
 
-3. 进入到原ghost目录，删除core
+3. 进入到原 ghost 目录，删除 core
 
 cd  /usr/ghost
 rm -rf core
 
 
-4.进入到新版本的ghost临时目录
+4.进入到新版本的 ghost 临时目录
 
 cd /usr/ghost-tmp
 
 
-5. 拷贝所需文件到ghost升级目录
+5. 拷贝所需文件到 ghost 升级目录
 
-cp -R core /usr/gho...</content>
+cp -R cor...</content>
  </entry>
  
  <entry>
@@ -2856,18 +2834,18 @@ cp -R core /usr/gho...</content>
    <link href="https://samzong.me/post/2017/02/HowTo-Automatic-Updates-CENTOS-RHEL-Using-YUM.html"/>
    <updated>2017-02-19T03:56:42-06:00</updated>
    <id>https://samzong.me/post/2017/02/HowTo-Automatic-Updates-CENTOS-RHEL-Using-YUM</id>
-   <content type="html">大家若工作遇到需要管理的Linux集群机器较多时，同时我们知道系统的安全更新补丁维护这些非常重要，无论你在安装时优化维护做的再好，随着时间的推移，如果不去更新的话，系统早晚都会不安全，所以定期更新我们的系统补丁是一个运维人员的基本工作内容
+   <content type="html">大家若工作遇到需要管理的 Linux 集群机器较多时，同时我们知道系统的安全更新补丁维护这些非常重要，无论你在安装时优化维护做的再好，随着时间的推移，如果不去更新的话，系统早晚都会不安全，所以定期更新我们的系统补丁是一个运维人员的基本工作内容
 
 Install yum-cron
 
 sudo yum install -y yum-cron
 
 
-因为我的服务器系统多为CentOS 6，6的配置文件在/etc/sysconfig/yum-cron，你可以用以下命令查看配置文件位置：
+因为我的服务器系统多为 CentOS 6，6 的配置文件在/etc/sysconfig/yum-cron，你可以用以下命令查看配置文件位置：
 
 rpm -ql yum-cron
 /etc/cron.daily/0yum.cron
-/etc/rc.d/init...</content>
+/etc/rc.d/...</content>
  </entry>
  
  <entry>
@@ -2881,14 +2859,13 @@ rpm -ql yum-cron
 
 2. 创建索引
 
-​ 在执行CREATE TABLE时可以创建索引，也可以在之后单独使用CREATE INDEX或ALTER TABLE来为表增加索引。
+​ 在执行 CREATE TABLE 时可以创建索引，也可以在之后单独使用 CREATE INDEX 或 ALTER TABLE 来为表增加索引。
 
 2.1 ALTER TABLE
 
-​ ALTER TABLE用来创建普通索引、UNIQUE索引或PRIMARY KEY索引。
+​ ALTER TABLE 用来创建普通索引、UNIQUE 索引或 PRIMARY KEY 索引。
 
-ALTER TABLE tb_name ADD INDEX index_Name (column_list);
-AL...</content>
+ALTER TABLE tb_name ADD INDEX index_Name (column...</content>
  </entry>
  
  <entry>
@@ -2896,41 +2873,41 @@ AL...</content>
    <link href="https://samzong.me/post/2017/01/HowTo-Monitor-Tomcat-Head-Memory-for-Zabbix.html"/>
    <updated>2017-01-18T17:28:44-06:00</updated>
    <id>https://samzong.me/post/2017/01/HowTo-Monitor-Tomcat-Head-Memory-for-Zabbix</id>
-   <content type="html">最近项目上由于BUG问题导致Tomcat程序在运行过程中经常内存泄漏,而本身监控系统之中没有更好的检测到Tomcat堆空间(Head Memory)的使用情况导致报警频发，这篇文章主要讲述，如何在Zabbix之中调用jmx监控服务器上Tomcat堆空间的使用情况并增加对应报警功能。
+   <content type="html">最近项目上由于 BUG 问题导致 Tomcat 程序在运行过程中经常内存泄漏，而本身监控系统之中没有更好的检测到 Tomcat 堆空间 (Head Memory) 的使用情况导致报警频发，这篇文章主要讲述，如何在 Zabbix 之中调用 jmx 监控服务器上 Tomcat 堆空间的使用情况并增加对应报警功能。
 
 
-  测试环境: 
+  测试环境：
 CentOS 6.8 
 Zabbix 2.4 
 Tomcat 7.0 
 
 
-实验前提默认是各位已经安装Zabbix Server服务器，并且至少有一台Zabbix agent服务器正常监控。关于如何搭建Zabbix监控集群，会有专门文章描述。
+实验前提默认是各位已经安装 Zabbix Server 服务器，并且至少有一台 Zabbix agent 服务器正常监控。关于如何搭建 Zabbix 监控集群，会有专门文章描述。
 
-zabbix-java-gateway的工...</content>
+za...</content>
  </entry>
  
  <entry>
-   <title>每日备份MySQL单表数据</title>
+   <title>每日备份 MySQL 单表数据</title>
    <link href="https://samzong.me/post/2017/01/%E6%AF%8F%E6%97%A5%E5%A4%87%E4%BB%BDMySQL%E5%8D%95%E8%A1%A8%E6%95%B0%E6%8D%AE.html"/>
    <updated>2017-01-15T02:12:55-06:00</updated>
    <id>https://samzong.me/post/2017/01/每日备份MySQL单表数据</id>
    <content type="html">最近愈近年底，客户业务涉及对账操作，所以同事提出需求需要单独备份某张表数据，并且每日备份；思考之后解决办法如下：
 
 
-  mysqldump导出单张表的表结构及数据
+  mysqldump 导出单张表的表结构及数据
   新增数据库，专做临时每日数据备份库
   导入该表数据到新增数据库内
   重命名导入的表名（预防计划任务下次导入时数据覆盖）
-  编写脚本，添加Linux计划任务
+  编写脚本，添加 Linux 计划任务
 
 
-1. mysqldump导出但张表的表结构及数据
+1. mysqldump 导出但张表的表结构及数据
 
 mysqldump -h dbServer -PdbServerPort -u db_user -p -d dbName tbName &amp;gt; tbName.sql
 
 
-2. 新增数据库，专做临时每日数据...</content>
+2. 新增数据库，专做临时...</content>
  </entry>
  
  <entry>
@@ -2945,7 +2922,7 @@ mysqldump -h dbServer -PdbServerPort -u db_user -p -d dbName tbName &amp;gt; tbN
 “生活在别处”是法国诗人兰波的一句名言，而他用一生践行了这句话，他一生都在出走，从法国到英国而后非洲，兰波一生都在出走，直到最后死去；他是一位无法被归类的诗人，放荡不羁，与魏尔伦的爱情，新世界的开创者，兰波一生都在尝试不同的人生，就像他说的：“我愿成为任何人”。
 
 
-  《全蝕狂愛》 1995...</content>
+  《全蝕狂愛》1995，...</content>
  </entry>
  
  <entry>
@@ -2953,21 +2930,20 @@ mysqldump -h dbServer -PdbServerPort -u db_user -p -d dbName tbName &amp;gt; tbN
    <link href="https://samzong.me/post/2017/01/Docker-Hub-%E5%9B%BD%E5%86%85%E5%8A%A0%E9%80%9F.html"/>
    <updated>2017-01-07T09:32:23-06:00</updated>
    <id>https://samzong.me/post/2017/01/Docker-Hub-国内加速</id>
-   <content type="html">因为Docker Hub没有在国内部署站点或者增加了国内的CDN，这导致国内的开发者在使用docker pull 获取images的时候速度非常的慢，甚至于因为网络的原因会失败。
+   <content type="html">因为 Docker Hub 没有在国内部署站点或者增加了国内的 CDN，这导致国内的开发者在使用 docker pull 获取 images 的时候速度非常的慢，甚至于因为网络的原因会失败。
 
-但是Docker Hub有着非常丰富的镜像资源，所以我这一直是个问题困扰着我，一次偶然机会发现了DaoCloud提供了国内镜像加速服务，并且提供的Docker Hub Mirror详细的文档。
+但是 Docker Hub 有着非常丰富的镜像资源，所以我这一直是个问题困扰着我，一次偶然机会发现了DaoCloud提供了国内镜像加速服务，并且提供的 Docker Hub Mirror 详细的文档。
 
-1. 注册DaoCloud账号
+1. 注册 DaoCloud 账号
 
-首先，你需要到一DaoCloud账号，注册很方便，点击地址：signup
-
-
-2. 登录到你的DaoCloud账号内，然后入下图操作
+首先，你需要到一 DaoCloud 账号，注册很方便，点击地址：signup
 
 
+2. 登录到你的 DaoCloud 账号内，然后入下图操作
 
-3. 查看你的DaoCloud加速器地址
-...</content>
+
+
+3. 查看...</content>
  </entry>
  
  <entry>
@@ -2976,21 +2952,21 @@ mysqldump -h dbServer -PdbServerPort -u db_user -p -d dbName tbName &amp;gt; tbN
    <updated>2016-12-20T00:17:08-06:00</updated>
    <id>https://samzong.me/post/2016/12/HowTo-Mount-OSS-Bucket-On-ECS</id>
    <content type="html">
-  From 阿里云官方Github
+  From 阿里云官方 Github
 
 
 
   Demo: CentOS 6.8 on ECS
 
 
-ossfs 是通过磁盘挂载的形式，将oss存储挂载到linux、类unix等操作系统，而且不仅仅可以挂载阿里云内的ECS上，理论上所有网络能到达oss的都可以挂载，但还是要以实际问题为准。
+ossfs 是通过磁盘挂载的形式，将 oss 存储挂载到 linux、类 unix 等操作系统，而且不仅仅可以挂载阿里云内的 ECS 上，理论上所有网络能到达 oss 的都可以挂载，但还是要以实际问题为准。
 
 1.Download &amp;amp; Install
 
-官方版本发布页面，请根据你的系统类型进行选择，我这演示的环境是CentOS 6.8；ossfs目前最新的版本是v1.79.9，您可以根据自己当时版本进行选择，建议选择最新版本。
+官方版本发布页面，请根据你的系统类型进行选择，我这演示的环境是 CentOS 6.8；ossfs 目前最新的版本是 v1.79.9，您可以根据自己当时版本进行选择，建议选择最新版本。
 
 # 请先将包上传到服务器上
- sudo yum localinsta...</content>
+ sudo y...</content>
  </entry>
  
  <entry>
@@ -3000,7 +2976,7 @@ ossfs 是通过磁盘挂载的形式，将oss存储挂载到linux、类unix等�
    <id>https://samzong.me/post/2016/12/上海天冷了</id>
    <content type="html">上海天冷了啊！上海天冷了啊啊！！上海天冷了啊啊！！！
 
-重要的事情说三遍，这是一个好习惯，有了冬天的感觉，早上起床的时候有感觉，下班路上有感觉，现在坐在键盘前打字也很有感觉；前几天在微博上写了几句话:如今算是最好的季节，褪去夏日的燥热与汗渍，又不像冬日那么干冷凛冽，穿的衣服也是刚刚好，单条牛仔裤加个风衣或冲锋衣既藏住身上的赘肉，又不失潇洒，正是装逼好时节，而最最好的是这个季节的女子，美丽更胜其它季节。朋友嘲笑说其实想看黑丝，哈哈！谁知才过几天，就感受到了那种“干冷凛冽”。但是，我喜欢这种感觉，就像我喜欢这座城市，我说我喜欢冬天，自小就喜欢，我说我喜欢这座城市，就像自小就喜欢；我说不出来为...</content>
+重要的事情说三遍，这是一个好习惯，有了冬天的感觉，早上起床的时候有感觉，下班路上有感觉，现在坐在键盘前打字也很有感觉；前几天在微博上写了几句话：如今算是最好的季节，褪去夏日的燥热与汗渍，又不像冬日那么干冷凛冽，穿的衣服也是刚刚好，单条牛仔裤加个风衣或冲锋衣既藏住身上的赘肉，又不失潇洒，正是装逼好时节，而最最好的是这个季节的女子，美丽更胜其它季节。朋友嘲笑说其实想看黑丝，哈哈！谁知才过几天，就感受到了那种“干冷凛冽”。但是，我喜欢这种感觉，就像我喜欢这座城市，我说我喜欢冬天，自小就喜欢，我说我喜欢这座城市，就像自小就喜欢；我说不出来为...</content>
  </entry>
  
  <entry>
@@ -3049,12 +3025,12 @@ ossfs 是通过磁盘挂载的形式，将oss存储挂载到linux、类unix等�
    <id>https://samzong.me/post/2016/12/血战钢锯岭</id>
    <content type="html">历史才是最好的教科书，我们从一段又一段历史中汲取经验和教训，尽量让人生走得不去更加艰难，而这毫无疑问战争是最好的老师，最残酷的史实，人类从千百的历史中依然没能学会和平，战争，让这个世界变得满目疮痍。
 
-今天去看了《血战钢锯岭》，有多久没有感动到流下眼泪，很好，前半段在讲述道斯如何与军队抗争，坚守自己的信仰，信仰是个好东西，但愿你我都有。后半段战争的场面极其的血腥暴力，电影尚是如此，真实又怎样想象，人生从来没有NG，因为真实，才最有力量；我们都喜欢甜美的故事，我也为了道斯的爱情而感动，也因战争的残酷而愤怒。
+今天去看了《血战钢锯岭》，有多久没有感动到流下眼泪，很好，前半段在讲述道斯如何与军队抗争，坚守自己的信仰，信仰是个好东西，但愿你我都有。后半段战争的场面极其的血腥暴力，电影尚是如此，真实又怎样想象，人生从来没有 NG，因为真实，才最有力量；我们都喜欢甜美的故事，我也为了道斯的爱情而感动，也因战争的残酷而愤怒。
 
 
 
 
-这是我最喜欢的电影了，最让我感动的话是在军事法庭上道斯说：世界已经分崩离析...</content>
+这是我最喜欢的电影了，最让我感动的话是在军事法庭上道斯说：世界已经分崩离...</content>
  </entry>
  
  <entry>
@@ -3062,15 +3038,15 @@ ossfs 是通过磁盘挂载的形式，将oss存储挂载到linux、类unix等�
    <link href="https://samzong.me/post/2016/12/HowTo-Install-Python3-on-CentOS-6-x.html"/>
    <updated>2016-12-08T14:12:37-06:00</updated>
    <id>https://samzong.me/post/2016/12/HowTo-Install-Python3-on-CentOS-6-x</id>
-   <content type="html">接触过Python2.x与Python3.x的应该知道，它们二者的区别也是蛮大的，而随着Python3.x的盛行，越来越多的应用运行与Python3.x的环境之上，但是我们的CentOS的系列，目前都默认安装时Python2.x（CentOS 7.x也是），所以不得不我们需要自己行动手安装Python 3.x的环境。
+   <content type="html">接触过 Python2.x 与 Python3.x 的应该知道，它们二者的区别也是蛮大的，而随着 Python3.x 的盛行，越来越多的应用运行与 Python3.x 的环境之上，但是我们的 CentOS 的系列，目前都默认安装时 Python2.x（CentOS 7.x 也是），所以不得不我们需要自己行动手安装 Python 3.x 的环境。
 
-Mirosoft平台与Mac平台，不在考虑范围，他们都有相应的软件包与图形化安装工具，可以很好的解决这个问题，所以今天我们的环境是在CentOS 6.x系列上进行。
-
-
-  Demo ：CentOS 6.8
+Mirosoft 平台与 Mac 平台，不在考虑范围，他们都有相应的软件包与图形化安装工具，可以很好的解决这个问题，所以今天我们的环境是在 CentOS 6.x 系列上进行。
 
 
-Method 1. Build &amp;amp; Install ...</content>
+  Demo : CentOS 6.8
+
+
+Method 1. ...</content>
  </entry>
  
  <entry>
@@ -3080,29 +3056,27 @@ Method 1. Build &amp;amp; Install ...</content>
    <id>https://samzong.me/post/2016/12/HowTo-Reset-MySQL-Root-Password</id>
    <content type="html">1. 处理的状态
 
-首先确认服务器出于安全的状态，也就是没有人能够任意地连接MySQL数据库。
-因为在重新设置MySQL的root密码的期间，MySQL数据库完全出于没有密码保护的
-状态下，其他的用户也可以任意地登录和修改MySQL的信息。可以采用将MySQL对
-外的端口封闭，并且停止Apache以及所有的用户进程的方法实现服务器的准安全
-状态。最安全的状态是到服务器的Console上面操作，并且拔掉网线。
+首先确认服务器出于安全的状态，也就是没有人能够任意地连接 MySQL 数据库。
+因为在重新设置 MySQL 的 root 密码的期间，MySQL 数据库完全出于没有密码保护的
+状态下，其他的用户也可以任意地登录和修改 MySQL 的信息。可以采用将 MySQL 对
+外的端口封闭，并且停止 Apache 以及所有的用户进程的方法实现服务器的准安全
+状态。最安全的状态是到服务器的 Console 上面操作，并且拔掉网线。
 
 2. 重置密码
 
 
-  修改mysql配置文件，增加skip-grant-tables
+  修改 mysql 配置文件，增加 skip-grant-tables
 
 
-[root@demo ~]# vim /etc/my.cnf
-[mysqld]
-skip...</content>
+[root@demo ~]# vim /etc/my...</content>
  </entry>
  
  <entry>
-   <title>Tomcat 利用JDK自身keytool实现HTTPS</title>
+   <title>Tomcat 利用 JDK 自身 keytool 实现 HTTPS</title>
    <link href="https://samzong.me/post/2016/12/Tomcat-2-%E5%88%A9%E7%94%A8JDK%E8%87%AA%E8%BA%ABkeytool%E5%AE%9E%E7%8E%B0HTTPS.html"/>
    <updated>2016-12-03T12:41:13-06:00</updated>
    <id>https://samzong.me/post/2016/12/Tomcat-2-利用JDK自身keytool实现HTTPS</id>
-   <content type="html">因为一个偶然机会，想把自己的webserver通过https加密访问，这里就采用JDK自带的keytool工具实现，tomcat官方也推荐这种方式，英文好的同学走这里：官方配置
+   <content type="html">因为一个偶然机会，想把自己的 webserver 通过 https 加密访问，这里就采用 JDK 自带的 keytool 工具实现，tomcat 官方也推荐这种方式，英文好的同学走这里：官方配置
 
 
   demo: CentOS 6.6 &amp;amp; Tomcat 7 &amp;amp; JDK 1.7
@@ -3112,25 +3086,23 @@ skip...</content>
 
 [root@test conf]# keytool -genkey -v -alias tomcat -keyalg RSA -keystore mykeystore
 Enter keystore password:              #设置密码
-Re-enter new...</content>
+Re-...</content>
  </entry>
  
  <entry>
-   <title>AWS Use s3cmd命令行管理S3存储</title>
+   <title>AWS Use s3cmd 命令行管理 S3 存储</title>
    <link href="https://samzong.me/post/2016/11/AWS-Use-s3cmd%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%AE%A1%E7%90%86S3%E5%AD%98%E5%82%A8.html"/>
    <updated>2016-11-30T17:45:54-06:00</updated>
    <id>https://samzong.me/post/2016/11/AWS-Use-s3cmd命令行管理S3存储</id>
-   <content type="html">S3 是AWS公有云服务提供的云存储服务，提供海量数据存储服务，同时基于AWS S3提供的一系列网络服务接口，也有大量已经开发完成的工具供我们使用，以利用起AWS庞大的存储资源，这篇文章的目录选取了其中一个用Linux命令行工具s3cmd来管理AWS S3云存储其中的数据。
+   <content type="html">S3 是 AWS 公有云服务提供的云存储服务，提供海量数据存储服务，同时基于 AWS S3 提供的一系列网络服务接口，也有大量已经开发完成的工具供我们使用，以利用起 AWS 庞大的存储资源，这篇文章的目录选取了其中一个用 Linux 命令行工具s3cmd来管理 AWS S3 云存储其中的数据。
 
-s3cmd 是非常优秀的S3命令行管理工具，用python编写，支持python 2.6 &amp;amp; 2.7 ，但是尚不支持python3，但是目前绝大多数的Linux发行版默认都是python2.x 系列。
+s3cmd 是非常优秀的 S3 命令行管理工具，用 python 编写，支持 python 2.6 &amp;amp; 2.7，但是尚不支持 python3，但是目前绝大多数的 Linux 发行版默认都是 python2.x 系列。
 
 
   Demo CentOS 6.x
 
 
-Install s3cmd
-
-1. 无论是Denbian系还是...</content>
+Install s3cmd...</content>
  </entry>
  
  <entry>
@@ -3140,7 +3112,7 @@ Install s3cmd
    <id>https://samzong.me/post/2016/11/Tomcat-1-java-lang-OutOfMemoryError</id>
    <content type="html">1. 什么是 PermGen space ?
 
-PermGen space的全称是Permanent Generation space，是指内存的永久保存区域，这块内存主要是被JVM存放Class和Meta信息的，Class在被Loader时就会被放到PermGen space中，它和存放类实例(Instance)的Heap区域不同，GC(Garbage Collection)不会在主程序运行期对PermGen space进行清理，所以如果你的应用中有很CLASS的话，就很可能出现PermGen space错误，这种错误常见在web服务器对JSP进行pre compile的时候。如果你的...</content>
+PermGen space 的全称是 Permanent Generation space，是指内存的永久保存区域，这块内存主要是被 JVM 存放 Class 和 Meta 信息的，Class 在被 Loader 时就会被放到 PermGen space 中，它和存放类实例 (Instance) 的 Heap 区域不同，GC(Garbage Collection) 不会在主程序运行期对 PermGen space 进行清理，所以如果你的应用中有很 CLASS 的话，就很可能出现 PermGen space 错误，这种错误常见在 web 服务...</content>
  </entry>
  
  <entry>
@@ -3233,7 +3205,7 @@ Linux Test01 2.6.32-504.el6.x86_64 #1 SMP Wed Oct 15 04:27:16 UTC 2014 x86_64 x8
  </entry>
  
  <entry>
-   <title>Denyhosts增加服务器SSH黑名单机制</title>
+   <title>Denyhosts 增加服务器 SSH 黑名单机制</title>
    <link href="https://samzong.me/post/2016/11/Denyhosts%E5%A2%9E%E5%8A%A0%E6%9C%8D%E5%8A%A1%E5%99%A8SSH%E9%BB%91%E5%90%8D%E5%8D%95%E6%9C%BA%E5%88%B6.html"/>
    <updated>2016-11-23T10:24:40-06:00</updated>
    <id>https://samzong.me/post/2016/11/Denyhosts增加服务器SSH黑名单机制</id>
@@ -3266,31 +3238,29 @@ SECURE_LOG = /var/log/secure
    <id>https://samzong.me/post/2016/11/Python-1-基础</id>
    <content type="html">&amp;lt;?xml version=”1.0” encoding=”UTF-8”?&amp;gt;
 &amp;lt;!DOCTYPE html PUBLIC “-//W3C//DTD XHTML 1.0 Transitional//EN” “http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd”&amp;gt;
-Python学习笔记(1) --Python基础
+Python 学习笔记 (1) --Python 基础
 
-输出： print
+输出：print
 
-python2：print 'Hello Python'
-python3: print(‘Hello Python')
+python2: print 'Hello Python'
+python3: print('Hello Python')
 python(‘10+20=‘,10+20)
 
-
-输入...</content>
+...</content>
  </entry>
  
  <entry>
-   <title>MySQL 清空表命令之：truncate与delete 区别</title>
+   <title>MySQL 清空表命令之：truncate 与 delete 区别</title>
    <link href="https://samzong.me/post/2016/11/MySQL-5-%E6%B8%85%E7%A9%BA%E8%A1%A8%E5%91%BD%E4%BB%A4%E4%B9%8B-truncate%E4%B8%8Edelete%E5%8C%BA%E5%88%AB.html"/>
    <updated>2016-11-09T20:53:13-06:00</updated>
    <id>https://samzong.me/post/2016/11/MySQL-5-清空表命令之：truncate与delete区别</id>
-   <content type="html">在实际工作中，有时我们会想要去清空一张表的所有数据，常用的命令有delete和truncate这两个命令。
+   <content type="html">在实际工作中，有时我们会想要去清空一张表的所有数据，常用的命令有 delete 和 truncate 这两个命令。
 
 1. delete
 
-在很多情况，我们对于delete的应用更多，因为它支持更多的匹配模式，我们可以使用where条件语句，清理一些特定的数据，关于delete的操作，这里不做过多解释，有空就专门写写delete的使用和原理。delete 在清空表时，如果表内有自增ID的设定，那么在delete清空之后，再插入数据时，自增ID不会从1开始，默认会继续增加; 除非我们使用OPTIMIZE TABLE，重置表属性；
+在很多情况，我们对于 delete 的应用更多，因为它支持更多的匹配模式，我们可以使用 where 条件语句，清理一些特定的数据，关于 delete 的操作，这里不做过多解释，有空就专门写写 delete 的使用和原理。delete 在清空表时，如果表内有自增 ID 的设定，那么在 delete 清空之后，再插入数据时，自增 ID 不会从 1 开始，默认会继续增加; 除非我们使用 OPTIMIZE TABLE，重置表属性；
 
-mysql&amp;gt; delete from piwik_tmp;
-...</content>
+mysql&amp;gt; de...</content>
  </entry>
  
  <entry>
@@ -3353,13 +3323,13 @@ s...</content>
    <id>https://samzong.me/post/2016/10/写的微博</id>
    <content type="html">
   
-    20岁之前我看郭敬明的书很多，真的对我的人生有很大的影响，20岁以后，我开始看韩寒和王路的书，觉得他们的文字很酷，可以够我装逼来用，因为我看不来那些国外名著大师之作啊，文化水平达不到不能怪谁。
+    20 岁之前我看郭敬明的书很多，真的对我的人生有很大的影响，20 岁以后，我开始看韩寒和王路的书，觉得他们的文字很酷，可以够我装逼来用，因为我看不来那些国外名著大师之作啊，文化水平达不到不能怪谁。
   
   
     我的姑娘，必定是美好的，是完人，是仙女，是温柔的月光，是清晨初露的霞光，是令人心动的春风，是呼啸着穿堂而过的夏日阳光，是踩着红色高跟鞋踢踏踢踏走进我的胸膛，是历经岁月沧桑依然伴随左右的踏实臂膀。[大叔一直问阿姨要不我站起来你躺会，阿姨一直说我不累，却在我和大叔攀谈依靠在座位上睡着了。]
   
   
-    当你准备接受爱情的时候，就要接受爱情带来的苦涩，焦虑和怅...</content>
+    当你准备接受爱情的时候，就要接受爱情带来的苦涩，焦虑...</content>
  </entry>
  
  <entry>
@@ -3369,9 +3339,9 @@ s...</content>
    <id>https://samzong.me/post/2016/09/HowTo-Use-pt-query-digest</id>
    <content type="html">1. 简介
 
-索引可以我们更快速的执行查询，但是肯定存在不合理的索引，如果想找到那些索引不是很合适的查询，并在它们成为问题前进行优化，则可以使用pt-query-digest的查询审查“review”功能，分析其EXPLAIN出来的执行计划。
+索引可以我们更快速的执行查询，但是肯定存在不合理的索引，如果想找到那些索引不是很合适的查询，并在它们成为问题前进行优化，则可以使用 pt-query-digest 的查询审查“review”功能，分析其 EXPLAIN 出来的执行计划。
 
-pt-query-digest是用于分析mysql慢查询的一个工具，它可以分析binlog、General log、slowlog，也可以通过SHOWPROCESSLIST或者通过tcpdump抓取的MySQL协议数据来进行分析。可以把分析结果输出到文件中，分析过程是先对查询语句的条件进行参数化，然后对参数化以后的查询进行分组统计，统计出各查询的...</content>
+pt-query-digest 是用于分析 mysql 慢查询的一个工具，它可以分析 binlog、General log、slowlog，也可以通过 SHOWPROCESSLIST 或者通过 tcpdump 抓取的 MySQL 协议数据来进行分析。可以把分析结果输出到文件中，分析过程是先对查询语句的条件进行参数化，然后对参数化以后的查询...</content>
  </entry>
  
  <entry>
@@ -3398,7 +3368,7 @@ pt-query-digest是用于分析mysql慢查询的一个工具，它可以分析bin
    <link href="https://samzong.me/post/2016/09/HowTo-Install-a-Tomcat-Server-7.html"/>
    <updated>2016-09-19T05:25:53-05:00</updated>
    <id>https://samzong.me/post/2016/09/HowTo-Install-a-Tomcat-Server-7</id>
-   <content type="html">本文件是采用的模板是CentOS 6，同样适用于CentOS 系列其他发行版本。
+   <content type="html">本文件是采用的模板是 CentOS 6，同样适用于 CentOS 系列其他发行版本。
 
 1. 测试环境
 
@@ -3412,7 +3382,7 @@ pt-query-digest是用于分析mysql慢查询的一个工具，它可以分析bin
 2. Install Java SE Development Kit 7 (JDK7)
 
 [root@ultraera ~]# curl -LO -H &quot;Cookie: oraclelicense=accept-securebackup-cookie&quot; \
-&quot;http://downloa...</content>
+&quot;http://downl...</content>
  </entry>
  
  <entry>
@@ -3420,9 +3390,9 @@ pt-query-digest是用于分析mysql慢查询的一个工具，它可以分析bin
    <link href="https://samzong.me/post/2016/08/%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%B2%81.html"/>
    <updated>2016-08-19T22:17:54-05:00</updated>
    <id>https://samzong.me/post/2016/08/二十四岁</id>
-   <content type="html">现在时间凌晨2点多，已经记不得这是第几个凌晨2点还没睡觉了，好像早睡已经是很久远的事情了，看书学习，刷视频，发呆，玩手机平板，总之不想睡觉；花在睡觉上的时间越来越少，感觉，其实挺累的，生活在大都市里啊，忙碌工作生活奔波，总感觉时间不够用，要做的事情太多，你总要面对很多事情和责任，与人相处；我很努力么，也不那么见得，一旦你成为这个社会一员，总有人或事再推着你前进，在你耳边脑海嚷嚷着不要停，不要停啊！
+   <content type="html">现在时间凌晨 2 点多，已经记不得这是第几个凌晨 2 点还没睡觉了，好像早睡已经是很久远的事情了，看书学习，刷视频，发呆，玩手机平板，总之不想睡觉；花在睡觉上的时间越来越少，感觉，其实挺累的，生活在大都市里啊，忙碌工作生活奔波，总感觉时间不够用，要做的事情太多，你总要面对很多事情和责任，与人相处；我很努力么，也不那么见得，一旦你成为这个社会一员，总有人或事再推着你前进，在你耳边脑海嚷嚷着不要停，不要停啊！
 
-每年生日的时候，都会给自己写点东西，回首曾经的岁月又多了一年，我不知道这个习惯会坚持到什么时候，或许写着写着就不想写了，或者自己落入庸俗的圈套，不敢回首过往岁月；我一直坚持的，就是希望在将来...</content>
+每年生日的时候，都会给自己写点东西，回首曾经的岁月又多了一年，我不知道这个习惯会坚持到什么时候，或许写着写着就不想写了，或者自己落入庸俗的圈套，不敢回首过往岁月；我一直坚持的，就是希...</content>
  </entry>
  
  <entry>
@@ -3454,12 +3424,12 @@ if [[ $1 == &quot;uninstall&quot; ]];then
    <content type="html">介绍
 
 
-MariaDB Galera Cluster 是一套在MySQL InnoDB存储引擎上面实现multi-master及数据实时同步的系统架构，业务层面无需做读写分离工作，数据库读写压力都能按照既定的规则分发到 各个节点上去。在数据方面完全兼容 MariaDB 和 MySQL。使用MariaDB Galera的解决方案，可以方便快速的搭建出高可用的数据库Cluster，不是主备模式，而是双活模式，也就是说，没有主节点和备份节点，每个节点都可以看做是主节点，都可以进行读写，由Galera来实现底层的数据同步。
+MariaDB Galera Cluster 是一套在 MySQL InnoDB 存储引擎上面实现 multi-master 及数据实时同步的系统架构，业务层面无需做读写分离工作，数据库读写压力都能按照既定的规则分发到 各个节点上去。在数据方面完全兼容 MariaDB 和 MySQL。使用 MariaDB Galera 的解决方案，可以方便快速的搭建出高可用的数据库 Cluster，不是主备模式，而是双活模式，也就是说，没有主节点和备份节点，每个节点都可以看做是主节点，都可以进行读写，由 Galera 来实现底层的数据同步。
 
 
 
   真正的多主架构，任何节点都可以进行读写
-  同步复制，各节点...</content>
+ ...</content>
  </entry>
  
  <entry>
@@ -3476,12 +3446,12 @@ MariaDB Galera Cluster 是一套在MySQL InnoDB存储引擎上面实现multi-mas
 yum -y install wget java glibc.i686
 
 
-下载openfire 3.8 到本地
+下载 openfire 3.8 到本地
 
 wget http://download.igniterealtime.org/openfire/openfire-3.8.1-1.i386.rpm
 
 
-安装openfire 3.8
+安装 openfire 3.8
 
 yum -y install ./openfire*rpm
 
@@ -3494,7 +3464,7 @@ chkconfig openfire on
 
 Yum Install mysql-server
 
-详见： How to In...</content>
+详见： How to ...</content>
  </entry>
  
  <entry>
@@ -3502,16 +3472,16 @@ Yum Install mysql-server
    <link href="https://samzong.me/post/2016/08/HowTo-Use-Docker-create-a-Tomcat-Project.html"/>
    <updated>2016-08-02T10:44:20-05:00</updated>
    <id>https://samzong.me/post/2016/08/HowTo-Use-Docker-create-a-Tomcat-Project</id>
-   <content type="html">1. 安装CentOS 7.x
+   <content type="html">1. 安装 CentOS 7.x
 
 略。
 
 
-2. 安装docker
+2. 安装 docker
 
 详见： How to Install Docker on CentOS 6.x
 
-3. 基础docker命令
+3. 基础 docker 命令
 
 ＃ 获取centos6 docker镜像
 [root@docker ~]# docker pull centos6
@@ -3520,7 +3490,7 @@ latest: Pulling from library/centos:centos6
 
 43db9dbdcb30: Downloading 41.14 MB/49.33 MB
 43db9dbdcb30: Pull complete
-2dc64...</content>
+2...</content>
  </entry>
  
  <entry>
@@ -3528,11 +3498,11 @@ latest: Pulling from library/centos:centos6
    <link href="https://samzong.me/post/2016/08/%E4%BD%A0%E5%A5%BD-%E5%85%AB%E6%9C%88.html"/>
    <updated>2016-08-01T00:15:54-05:00</updated>
    <id>https://samzong.me/post/2016/08/你好，八月</id>
-   <content type="html">还剩不到1小时就要进入8月，也许写完这篇文章就已经8月，我其实不擅长写作文，自小如此，所以每次都是特别慢；时间慢慢流逝，听着音乐，随心所致，大概也是件快乐的事情吧。
+   <content type="html">还剩不到 1 小时就要进入 8 月，也许写完这篇文章就已经 8 月，我其实不擅长写作文，自小如此，所以每次都是特别慢；时间慢慢流逝，听着音乐，随心所致，大概也是件快乐的事情吧。
 
 定期自省己身，所行之事，所思之虑，有则改之，无则勉之，坚守吾心，戒嗔戒躁，自打懂得事理之后，便妄以此法施加吾身，奈何小子年幼，定力不坚，常因一时欢愉便抛诸脑后，事后便懊悔不已；虽言，生而为人，便逃不过七情六欲加身，然，时时自省吾身，常思吾之过，常念德行事，方可为人；撰此文，便是警醒己身。
 
-犯错并不是一件可怕的事儿，从小做了不知多少混账事，也没见的把天捅破，可见，所谓捅破天也不是件容易的事儿；首先是工作上的失职，自今年年初...</content>
+犯错并不是一件可怕的事儿，从小做了不知多少混账事，也没见的把天捅破，可见，所谓捅破天也不是件容易的事儿；首先是工作上的失职...</content>
  </entry>
  
  <entry>
@@ -3542,7 +3512,7 @@ latest: Pulling from library/centos:centos6
    <id>https://samzong.me/post/2016/07/在网页中插入歌曲</id>
    <content type="html">纠正下，在下面博文中的错误，关于单曲不能生成外链的问题，现已经纠正。
 
-我试过百度音乐、QQ音乐、虾米音乐和网易云音乐，目前只有网易云音乐有此功能，先在网易云音乐选择歌曲即可：
+我试过百度音乐、QQ 音乐、虾米音乐和网易云音乐，目前只有网易云音乐有此功能，先在网易云音乐选择歌曲即可：
 
 分享单曲
 
@@ -3558,7 +3528,7 @@ latest: Pulling from library/centos:centos6
 
 
 
-然后，根据页面提示信息，生成你要的html代码，并嵌入到你的页面之中。
+然后，根据页面提示信息，生成你要的 html 代码，并嵌入到你的页面之中。
 
 
 
@@ -3572,14 +3542,16 @@ latest: Pulling from library/centos:centos6
    <id>https://samzong.me/post/2016/07/HowTo-Trun-Off-IPv6-in-CentOS-6-x</id>
    <content type="html">1. CentOS 6.x
 
-CentOS 6 上是默认打开了IPv6，但其实在我们实际使用中很难用到它，所以本篇的内容就是如何关闭IPv6。
+CentOS 6 上是默认打开了 IPv6，但其实在我们实际使用中很难用到它，所以本篇的内容就是如何关闭 IPv6。
 
-＃ 可以看到 inet6 ，说明还没关闭。
+
+  可以看到 inet6，说明还没关闭。
+
 
 [root@ultraera ~]# ifconfig eth0
 eth0      Link encap:Ethernet  HWaddr 00:0C:29:3A:F9:6F
           inet addr:172.16.102.161  Bcast:172.16.102.255  Mask:255.255.255.0
-          inet6 addr: fe80::20c:29f...</content>
+          inet6 addr: fe80::20c:...</content>
  </entry>
  
  <entry>
@@ -3587,7 +3559,7 @@ eth0      Link encap:Ethernet  HWaddr 00:0C:29:3A:F9:6F
    <link href="https://samzong.me/post/2016/07/HowTo-Install-KVM-Manage-Server-webvirtmgr.html"/>
    <updated>2016-07-27T12:34:01-05:00</updated>
    <id>https://samzong.me/post/2016/07/HowTo-Install-KVM-Manage-Server-webvirtmgr</id>
-   <content type="html">生产环境的KVM宿主机越来越多，需要对宿主机的状态进行调控。这里用webvirtmgr进行管理。图形化的WEB，让人能更方便的查看kvm 宿主机的情况和操作.
+   <content type="html">生产环境的 KVM 宿主机越来越多，需要对宿主机的状态进行调控。这里用 webvirtmgr 进行管理。图形化的 WEB，让人能更方便的查看 kvm 宿主机的情况和操作。
 
 GitHub Project.
 
@@ -3603,13 +3575,13 @@ yum install -y epel-release
 yum -y install git python-pip libvirt-python libxml2-python python-websockify supervisor nginx
 
 
-从git-hub中下载相关的webvirtmgr代码
+从 git-hub 中下载相关的 webvirtmgr 代码
 
-cd /usr/local/src...</content>
+cd /usr...</content>
  </entry>
  
  <entry>
-   <title>Yum中$releasever和$basearch的取值</title>
+   <title>Yum 中$releasever 和$basearch 的取值</title>
    <link href="https://samzong.me/post/2016/07/Yum%E4%B8%AD-releasever%E5%92%8C-basearch%E7%9A%84%E5%8F%96%E5%80%BC.html"/>
    <updated>2016-07-27T05:27:54-05:00</updated>
    <id>https://samzong.me/post/2016/07/Yum中-releasever和-basearch的取值</id>
@@ -3633,9 +3605,8 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-...</content>
 
   Install pssh
   Use Key Login Server Hosts
-  ~/.ssh/config 配置使用host名登录服务
+  ~/.ssh/config 配置使用 host 名登录服务
   指定 Server Group Files 存放位置
-
 
 
 #!/bin/bash
@@ -3652,7 +3623,7 @@ HostDIR=~/.ssh/host/
 
 :'
 jobs_select (){
-    STRING=``cat $vmname | gre...</content>
+    STRING=``cat $vmname | gr...</content>
  </entry>
  
  <entry>
@@ -3668,10 +3639,14 @@ jobs_select (){
   Google Account ID
 
 
-&amp;emsp;&amp;emsp;最近看到身边朋友都在玩Pokemon GO, 心痒难耐，于是跟同事请教琢磨了，终于在自己的手机上玩起来了，由于我的手机是iPhone 5s，身边朋友也都是iPhone，所以不确定是Android是否可以玩耍，想来应该是没有问题话，Android平台做破解等操作一直以来比iPhone更加方便。
+最近看到身边朋友都在玩 Pokemon GO, 心痒难耐，于是跟同事请教琢磨了，终于在自己的手机上玩起来了，由于我的手机是 iPhone 5s，身边朋友也都是 iPhone，所以不确定是 Android 是否可以玩耍，想来应该是没有问题话，Android 平台做破解等操作一直以来比 iPhone 更加方便。
+
 
 
 &amp;lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo1.jpg&amp;gt;
+
+
+
 ...</content>
  </entry>
  
@@ -3681,7 +3656,7 @@ jobs_select (){
    <updated>2016-07-10T06:21:47-05:00</updated>
    <id>https://samzong.me/post/2016/07/HowTo-Reset-Azure-VM-Linux-Password</id>
    <content type="html">
-  Setup1: 这种方法仅适用于已存在的用户，也就是说$Username是之前创建过的用户，否则不适用
+  Setup1: 这种方法仅适用于已存在的用户，也就是说$Username 是之前创建过的用户，否则不适用
 
 
 1. 指定虚拟机
@@ -3695,7 +3670,7 @@ $vm.GetInstance().ProvisionGuestAgent = $true
 $UserName = &quot;指定用户名&quot;
 $Password = &quot;指定密码&quot;
 
-$PrivateConfig = '{&quot;username&quot;:&quot;'+ $UserName + '&quot;, &quot;password&quot;:&quot;' +  $Pas...</content>
+$PrivateConfig = '{&quot;username&quot;:&quot;'+ $UserName + '&quot;, &quot;password&quot;:&quot;' +  $Pa...</content>
  </entry>
  
  <entry>
@@ -3736,11 +3711,11 @@ doc...</content>
    <link href="https://samzong.me/post/2016/07/HowTo-Install-MySQL-5-5-6-7-on-RHEL-CentOS-5-6-7.html"/>
    <updated>2016-07-07T00:35:32-05:00</updated>
    <id>https://samzong.me/post/2016/07/HowTo-Install-MySQL-5-5-6-7-on-RHEL-CentOS-5-6-7</id>
-   <content type="html">Install Mysql 5.5 on RHEL/CentOS 5/6/7 
+   <content type="html">Install Mysql 5.5 on RHEL/CentOS 5/6/7
 
-Setup 1. Use Repository.
+Setup 1. Use Repository
 
-First, to set up the yum repository, install the mysql－community-server 5.5 RPM based on your CentOS/RHEL release: 
+First, to set up the yum repository, install the mysql－community-server 5.5 RPM based on your CentOS/RHEL release:
 
 
 
@@ -3749,7 +3724,7 @@ mysql-server-5.5.repo for CentOS/RHEL 5.x
 rpm -Uvh http://mirror.webtatic.com/yum/el5/latest.rpm
 
 
-* Only Inst...</content>
+* Only Install...</content>
  </entry>
  
  <entry>
@@ -3777,9 +3752,9 @@ rpm -Uvh https://dl....</content>
    <link href="https://samzong.me/post/2016/07/HowTo-Use-Fuse-sshfs-to-Mount-Remote-Filesystems.html"/>
    <updated>2016-07-04T20:58:03-05:00</updated>
    <id>https://samzong.me/post/2016/07/HowTo-Use-Fuse-sshfs-to-Mount-Remote-Filesystems</id>
-   <content type="html">传统我们服务器之间文件共享的方式有采用NFS、Samba等等，但是在我看来配置都有一定的复杂性，当然复杂也有它们的优势，这里推荐一个依赖于SSH的文件共享工具，Fuse-sshfs。
+   <content type="html">传统我们服务器之间文件共享的方式有采用 NFS、Samba 等等，但是在我看来配置都有一定的复杂性，当然复杂也有它们的优势，这里推荐一个依赖于 SSH 的文件共享工具，Fuse-sshfs。
 SSH 是一个强大且安全的工具，我们除了可以用它来远程管理主机外，还可以通过它建立 SSH tunnel 作 Proxy 用，远程传输文件等等。而这里我想要介绍另外一个功能，那就是结合 sshfs 这个工具可以把远程主机的文件系统映射到本地主机上，透过 SSH 把远程文件系统挂载到本机上，这样我们可以不必使用 scp 工具就可以做到直接复制及删除远程主机的文件了，就像操作本地磁盘一样方便。
-sshfs 是基...</content>
+sshf...</content>
  </entry>
  
  <entry>
@@ -3795,16 +3770,23 @@ sshfs 是基...</content>
 
 网络配置方面：修改/etc/sysctl.conf
 
-          # 增加tcp支持的队列数
-               net.ipv4.tcp_max_syn_backlog = 65535
-          # 减少断开时
+# 增加tcp支持的队列数
+net.ipv4.tcp_max_syn_backlog = 65535
+# 减少断开时
 
 
 打开文件限制 修改/etc/security/limits.conf
 
-          # 增加：
-               * sort nofile 65535
-            ...</content>
+# 增加：
+* sort nofile 65535
+* hard nofile 65535
+
+
+2.  MySQL 配置文件优化
+
+
+  
+    配置文件位置：/etc/my.cnf /etc/...</content>
  </entry>
  
  <entry>
@@ -3813,28 +3795,24 @@ sshfs 是基...</content>
    <updated>2016-06-15T21:28:35-05:00</updated>
    <id>https://samzong.me/post/2016/06/Tomcat-3-优化设定</id>
    <content type="html">
-  设置JVM空间大小，Xms和Xmx一样大：JVM初始分配的内存由-Xms指定，默认是物理内存的1/64；JVM最大分配的内存由-Xmx指定，默认是物理内存的1/4。默认空余堆内存小于 40%时，JVM就会增大堆直到-Xmx的最大限制；空余堆内存大于70%时，JVM会减少堆直到-Xms的最小限制。因此服务器一般设置-Xms、 -Xmx相等以避免在每次GC 后调整堆的大小。
-  关闭dns查询
+  设置 JVM 空间大小，Xms 和 Xmx 一样大：JVM 初始分配的内存由-Xms 指定，默认是物理内存的 1/64；JVM 最大分配的内存由-Xmx 指定，默认是物理内存的 1/4。默认空余堆内存小于 40% 时，JVM 就会增大堆直到-Xmx 的最大限制；空余堆内存大于 70% 时，JVM 会减少堆直到-Xms 的最小限制。因此服务器一般设置-Xms、 -Xmx 相等以避免在每次 GC 后调整堆的大小。
+  关闭 dns 查询
   增加线程数量
-  maxThreads、acceptCount ： 增加并发，同时增加这两个的数量
+  maxThreads、acceptCount：增加并发，同时增加这两个的数量
   
-    内存优化 ： /tomcatbin/catalina.sh
-  
-  JAV...</content>
+    内存优化： /tomcatbin/c...</content>
  </entry>
  
  <entry>
-   <title>使用mosh代替ssh连接服务器</title>
+   <title>使用 mosh 代替 ssh 连接服务器</title>
    <link href="https://samzong.me/post/2016/06/%E4%BD%BF%E7%94%A8mosh%E4%BB%A3%E6%9B%BFssh%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8.html"/>
    <updated>2016-06-15T21:28:02-05:00</updated>
    <id>https://samzong.me/post/2016/06/使用mosh代替ssh连接服务器</id>
-   <content type="html">身为一名服务器运维人员，每天打交道最多的就是服务器了，最常用的连接服务器的工具就是SSH，因为SSH是一个不可持续的连接，当网络出现波动时，SSH断开会导致当前正在运行的服务中断，对工作产生非常大的影响，无意间看到了Mosh这个东西，安装使用下，发现网络波动这种事情不会导致服务器连接断开了，特意查了下，原来Mosh使用的是UDP方式传输：虽然也支持使用SSH配置进行认证登录，但是数据传输本身是使用UDP方式的，Mosh支持在会话中断时，不会立即退出，而是启用一个计时器，当网络恢复后会自动连接，同时会延续之前的会话，不会重新开启一个。
+   <content type="html">身为一名服务器运维人员，每天打交道最多的就是服务器了，最常用的连接服务器的工具就是 SSH，因为 SSH 是一个不可持续的连接，当网络出现波动时，SSH 断开会导致当前正在运行的服务中断，对工作产生非常大的影响，无意间看到了 Mosh 这个东西，安装使用下，发现网络波动这种事情不会导致服务器连接断开了，特意查了下，原来 Mosh 使用的是 UDP 方式传输：虽然也支持使用 SSH 配置进行认证登录，但是数据传输本身是使用 UDP 方式的，Mosh 支持在会话中断时，不会立即退出，而是启用一个计时器，当网络恢复后会自动连接，同时会延续之前的会话，不会重新开启一个。
 
 Mosh 主页
 
-1. 安装配置
-
-需要在服务端和客...</content>
+1....</content>
  </entry>
  
  <entry>
@@ -3888,8 +3866,7 @@ yum install php* -y
    <link href="https://samzong.me/post/2016/05/HowTo-Install-CloudStack-4-8-on-CentOS-6-x.html"/>
    <updated>2016-05-17T21:38:59-05:00</updated>
    <id>https://samzong.me/post/2016/05/HowTo-Install-CloudStack-4-8-on-CentOS-6-x</id>
-   <content type="html">
-#!/bin/bash
+   <content type="html">#!/bin/bash
 
 # Install  CloudStack.sh
 
@@ -3908,7 +3885,7 @@ yum install php* -y
 
 # trun off iptables.
 service iptables stop
-service ip...</content>
+service ip6...</content>
  </entry>
  
  <entry>
@@ -3938,11 +3915,11 @@ service ip...</content>
  </entry>
  
  <entry>
-   <title>创建和使用Azure Redis Cache</title>
+   <title>创建和使用 Azure Redis Cache</title>
    <link href="https://samzong.me/post/2016/05/Azure-4-%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8Azure-Redis-Cache.html"/>
    <updated>2016-05-12T01:12:02-05:00</updated>
    <id>https://samzong.me/post/2016/05/Azure-4-创建和使用Azure-Redis-Cache</id>
-   <content type="html">我们以管理员身份，运行PowerShell，执行以下命令。实现创建Standard类型，大小为13GB的Redis Cache
+   <content type="html">我们以管理员身份，运行 PowerShell，执行以下命令。实现创建 Standard 类型，大小为 13GB 的 Redis Cache
 
 #弹出界面输入用户名密码
 Add-AzureAccount -Environment AzureChinaCloud
@@ -3953,7 +3930,7 @@ Select-AzureSubscription '[SubscriptionName]' –Current
 Switch-AzureMode -name AzureResourceManager
 
 #在中国东部数据中心，创建新的资源组
-New-AzureResourceGroup -name [YourResource...</content>
+New-AzureResourceGroup -name [YourRe...</content>
  </entry>
  
  <entry>
@@ -3961,7 +3938,7 @@ New-AzureResourceGroup -name [YourResource...</content>
    <link href="https://samzong.me/post/2016/05/HowTo-Install-Fabric-on-CentOS-7-x.html"/>
    <updated>2016-05-05T00:54:08-05:00</updated>
    <id>https://samzong.me/post/2016/05/HowTo-Install-Fabric-on-CentOS-7-x</id>
-   <content type="html">Installed CentOS 7.
+   <content type="html"># Installed CentOS 7.
 
 yum update -y
 reboot
@@ -4012,7 +3989,7 @@ pip install fabric
    <link href="https://samzong.me/post/2016/05/MySQL-3-mysqldump%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0.html"/>
    <updated>2016-05-04T23:30:11-05:00</updated>
    <id>https://samzong.me/post/2016/05/MySQL-3-mysqldump常用参数</id>
-   <content type="html">常用的mysqldump命令组合。
+   <content type="html">常用的 mysqldump 命令组合。
 
 备份数据库
 
@@ -4028,7 +4005,7 @@ mysql -e 'show databases' | sed -n '2,$p' | xargs -I DB 'mysqldump DB &amp;gt; D
 
 1. 导出结构不导出数据
 
-mysqldump　...</content>
+mysqldum...</content>
  </entry>
  
  <entry>
@@ -4083,7 +4060,7 @@ server {
  </entry>
  
  <entry>
-   <title>使用SoureceTree管理你的git项目</title>
+   <title>使用 SoureceTree 管理你的 git 项目</title>
    <link href="https://samzong.me/post/2016/04/%E4%BD%BF%E7%94%A8SoureceTree%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84git%E9%A1%B9%E7%9B%AE.html"/>
    <updated>2016-04-20T16:31:49-05:00</updated>
    <id>https://samzong.me/post/2016/04/使用SoureceTree管理你的git项目</id>
@@ -4091,34 +4068,31 @@ server {
 
 
   
-    update: Windows用户在初始化Souretree工具时，需要用到Atlassian ID，新建用户时需要加载google 验证码，这一步需要VPN的支持，请注意。
+    update: Windows 用户在初始化 Souretree 工具时，需要用到 Atlassian ID，新建用户时需要加载 google 验证码，这一步需要 VPN 的支持，请注意。
   
-  找到一个版本的SourceTree工具可以不需要以上验证也能使用，下载链接：SourceTreeSetup_1.6.14.exe 密码：c5l4
+  找到一个版本的 SourceTree 工具可以不需要以上验证也能使用，下载链接：SourceTreeSetup_1.6.14.exe 密码：c5l4
 
 
 
 
-补充1 ：Git学习网站
+补充 1：Git 学习网站
 
 
-  猴子都能学会的git教程
+  猴子都能学会的 git 教程
   常用 Git 命令清单
-  廖雪峰的git教程
+  廖雪峰的 git 教程
   Why Git is Better than X
 
 
-补充2 ：利用Git协同开发
-
-
-  团队中的Git...</content>
+补充 2：利用 Git ...</content>
  </entry>
  
  <entry>
-   <title>MacTips 调整Launchpad图标大小</title>
+   <title>MacTips 调整 Launchpad 图标大小</title>
    <link href="https://samzong.me/post/2016/04/Mac-1-%E8%B0%83%E6%95%B4Launchpad%E5%9B%BE%E6%A0%87%E5%A4%A7%E5%B0%8F.html"/>
    <updated>2016-04-09T00:46:04-05:00</updated>
    <id>https://samzong.me/post/2016/04/Mac-1-调整Launchpad图标大小</id>
-   <content type="html">很多人觉得默认Launchpad的应用程序图标很大，空间比较拥挤，不过这个其实是可以通过调整Launchpad每一行和每一列图标的数量，来调整Launchpad图标大小。
+   <content type="html">很多人觉得默认 Launchpad 的应用程序图标很大，空间比较拥挤，不过这个其实是可以通过调整 Launchpad 每一行和每一列图标的数量，来调整 Launchpad 图标大小。
 
 默认如下图：
 
@@ -4142,50 +4116,50 @@ server {
    <link href="https://samzong.me/post/2016/04/Mac-2-%E8%A7%A3%E5%86%B3oh-my-zsh%E5%9C%A8%E7%BB%88%E7%AB%AF%E4%B8%8B%E6%89%93%E5%BC%80%E7%BC%93%E6%85%A2.html"/>
    <updated>2016-04-08T11:12:30-05:00</updated>
    <id>https://samzong.me/post/2016/04/Mac-2-解决oh-my-zsh在终端下打开缓慢</id>
-   <content type="html">升级Mac OS X 10.11 之后，使用CleanMyMac 3清理9GB的垃圾文件，之后导致打开iTerm时加载主机名特别的慢，Mac的命令行工具我使用的是iTerm＋ohmyzsh，这个问题困扰了我快两个月，工作比较忙，所以一直用Zoc 代替，也没有认真的研究，最近有需求用到它，实在不行，研究一下，发现，是因为我清理系统的时候把终端日志的索引文件清理掉了，所以每次打开的时候都要先加载索引导致了首次开启非常慢，解决办法是，只要把终端缓存的日志文件删除即可：
+   <content type="html">升级 Mac OS X 10.11 之后，使用 CleanMyMac 3 清理 9GB 的垃圾文件，之后导致打开 iTerm 时加载主机名特别的慢，Mac 的命令行工具我使用的是 iTerm＋ohmyzsh，这个问题困扰了我快两个月，工作比较忙，所以一直用 Zoc 代替，也没有认真的研究，最近有需求用到它，实在不行，研究一下，发现，是因为我清理系统的时候把终端日志的索引文件清理掉了，所以每次打开的时候都要先加载索引导致了首次开启非常慢，解决办法是，只要把终端缓存的日志文件删除即可：
 
 代码块：
 
 # 日志文件路径
 # /private/var/log/asl/*.asl
 
-➜  ~ sudo du -sh ...</content>
+➜  ~ su...</content>
  </entry>
  
  <entry>
-   <title>如何在CentOS 6 安装更高版本的PHP</title>
+   <title>如何在 CentOS 6 安装更高版本的 PHP</title>
    <link href="https://samzong.me/post/2016/04/%E5%A6%82%E4%BD%95%E5%9C%A8CentOS-6-%E5%AE%89%E8%A3%85%E6%9B%B4%E9%AB%98%E7%89%88%E6%9C%AC%E7%9A%84PHP.html"/>
    <updated>2016-04-01T09:57:45-05:00</updated>
    <id>https://samzong.me/post/2016/04/如何在CentOS-6-安装更高版本的PHP</id>
    <content type="html">
-CentOS 6 默认安装的PHP 版本是5.3， 但现在很多应用对于LAMP中，PHP的版本最低5.4，所以本篇文章的主要内容是，如何升级PHP5.3到5.4以及更高版本
+CentOS 6 默认安装的 PHP 版本是 5.3，但现在很多应用对于 LAMP 中，PHP 的版本最低 5.4，所以本篇文章的主要内容是，如何升级 PHP5.3 到 5.4 以及更高版本
  
 
 实验环境：CentOS 6.4
 
-解决办法是采用了remi源仓库已经适配的相应php版本
+解决办法是采用了 remi 源仓库已经适配的相应 php 版本
 
 
-  经过测试，该升级办法同样适用目前CentOS 6.x 所有版本
+  经过测试，该升级办法同样适用目前 CentOS 6.x 所有版本
 
 
-1. 安装Remi源
+1. 安装 Remi 源
 
 # 因为remi依赖epel源仓库，所有我们要先安装它。
 [root@visionet8 ~]# yum install -y epel-release
 
-[root@visionet8 ~]# wget http://r...</content>
+[root@visionet8 ~...</content>
  </entry>
  
  <entry>
-   <title>MySQL数据库使用基础</title>
+   <title>MySQL 数据库使用基础</title>
    <link href="https://samzong.me/post/2016/03/MySQL-4-MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80.html"/>
    <updated>2016-03-29T03:22:14-05:00</updated>
    <id>https://samzong.me/post/2016/03/MySQL-4-MySQL数据库基础</id>
    <content type="html">1. 测试环境
 
 
-  MacBook Pro 15‘ i7 16GB
+  MacBook Pro 15’ i7 16GB
   VMware Fushion 8 Pro
   MySQL Version 5.1
   CentOS Linux 6.x
@@ -4193,16 +4167,16 @@ CentOS 6 默认安装的PHP 版本是5.3， 但现在很多应用对于LAMP中�
 
 2. 实验步骤
 
-2.1 安装mysql
+2.1 安装 mysql
 
 [root@ultraera  ~]#  yum  install  mysql  mysql-server  mysql-devel
 
 
 
-2.2 启动mysql，并设置开机自启动
+2.2 启动 mysql，并设置开机自启动
 
 [root@ultraera  ~]#  service  mysqld  start
-[root@ultraera  ~]#  chkconfig  mysqld...</content>
+[root@ultraera  ~]#  chkconfig  mysq...</content>
  </entry>
  
  <entry>
@@ -4222,12 +4196,12 @@ SUID:：以文件的所属用户执行，而非执行文件的用户，多用于
  </entry>
  
  <entry>
-   <title>CentOS 使用createrepo搭建本地源</title>
+   <title>CentOS 使用 createrepo 搭建本地源</title>
    <link href="https://samzong.me/post/2016/03/CentOS-6-1-%E4%BD%BF%E7%94%A8createrepo%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E6%BA%90.html"/>
    <updated>2016-03-28T22:37:31-05:00</updated>
    <id>https://samzong.me/post/2016/03/CentOS-6-1-使用createrepo搭建本地源</id>
    <content type="html">
-  Tips: 本地搭建本地yum源采用的rpm全部来自CentOS-6.7-bin-DVD1&amp;amp;DVD2
+  Tips: 本地搭建本地 yum 源采用的 rpm 全部来自 CentOS-6.7-bin-DVD1&amp;amp;DVD2
 
 
 1. 测试环境
@@ -4244,7 +4218,7 @@ SUID:：以文件的所属用户执行，而非执行文件的用户，多用于
 
 # 2.1 因为配置本地yum源需要修改/目录下的文件及/etc下面的配置文件，建议更换到root用户。
 [adam@ultraera ~]$ su -
-Password...</content>
+Pas...</content>
  </entry>
  
  <entry>
@@ -4254,21 +4228,19 @@ Password...</content>
    <id>https://samzong.me/post/2016/03/HowTo-Install-MongoDB-on-CentOS-6-x</id>
    <content type="html">1. Overiew
 
-在CentOS Linux 中安装软件的方式有很多种，我会在后续的文章中整理给大家，我比较喜欢的方式是尽量用Yum 安装，不用自己动手去解决软件包之间的依赖关系，“能Yum 就Yum ，不能Yum 想着法Yum 。”  – 这是我遵循的真理；今天给大家整理的就是如何使用Yum 来安装Mongodb ，在本文中会给出在32位与64位系统的区别，以及Mongodb 的版本，本文适用于CentOS 6/7 的Linux发行版本，所以同样适用于红帽体系的OS，如 RedHat Enterprise Linux 6/7 、 Fedora 。
+在 CentOS Linux 中安装软件的方式有很多种，我会在后续的文章中整理给大家，我比较喜欢的方式是尽量用 Yum 安装，不用自己动手去解决软件包之间的依赖关系，“能 Yum 就 Yum，不能 Yum 想着法 Yum。”  – 这是我遵循的真理；今天给大家整理的就是如何使用 Yum 来安装 Mongodb，在本文中会给出在 32 位与 64 位系统的区别，以及 Mongodb 的版本，本文适用于 CentOS 6/7 的 Linux 发行版本，所以同样适用于红帽体系的 OS，如 RedHat Enterprise Linux 6/7、Fedora。
 
-2. Packages
-
-业内...</content>
+2. P...</content>
  </entry>
  
  <entry>
-   <title>在CentOS中配置 SFTP 环境</title>
+   <title>在 CentOS 中配置 SFTP 环境</title>
    <link href="https://samzong.me/post/2016/03/%E5%9C%A8CentOS%E4%B8%AD%E9%85%8D%E7%BD%AE-SFTP-%E7%8E%AF%E5%A2%83.html"/>
    <updated>2016-03-24T09:55:03-05:00</updated>
    <id>https://samzong.me/post/2016/03/在CentOS中配置-SFTP-环境</id>
-   <content type="html">做运维工作的，应该经常会碰到这样的问题，需要新上一个web项目，需要上传文件到服务器上，解决方法有很多种，常见的如sftp和ftp，今天讲如何使用sftp让系统用户用户上传项目的权限，并且实现chroot和无法使用ssh登录到系统。
+   <content type="html">做运维工作的，应该经常会碰到这样的问题，需要新上一个 web 项目，需要上传文件到服务器上，解决方法有很多种，常见的如 sftp 和 ftp，今天讲如何使用 sftp 让系统用户用户上传项目的权限，并且实现 chroot 和无法使用 ssh 登录到系统。
 
-SFTP是指SSH文件传输协议（SSH File Transfer protocol）或安全文件传输协议（Secure File Transfer Protocol），它提供了可信数据流下的文件访问、文件传输以及文件管理功能。当我们为SFTP配置chroot环境后，只有被许可的用户可以访问，并被限制到他们的家目录中，换言之：被许可的用户将处于牢笼环境中，在...</content>
+SFTP 是指 SSH 文件传输协议（SSH File Transfer protocol）或安全文件传输协议（Secure File Transfer Protocol），它提供了可信数据流下的文件访问、文件传输以及文件管理功能。当我们为 SFTP 配置 chroot 环境后，只有被许可的用户可以访问，并被限制到他们的家目录中，换言...</content>
  </entry>
  
  <entry>
@@ -4276,9 +4248,9 @@ SFTP是指SSH文件传输协议（SSH File Transfer protocol）或安全文件�
    <link href="https://samzong.me/post/2016/03/MySQL-6-%E5%88%A9%E7%94%A8Linux%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E5%AE%9A%E6%97%B6%E5%90%8C%E6%AD%A5MySQL.html"/>
    <updated>2016-03-24T03:03:32-05:00</updated>
    <id>https://samzong.me/post/2016/03/MySQL-6-利用Linux计划任务定时同步MySQL</id>
-   <content type="html">说下实际项目场景，公司一个应用已部署主从数据库，业务也正式上线；现在客户公司领导希望可以看到每天的业务数据报表，本设定直接到从库拿数据，然后进行数据处理，生成报表，但是Java同事提出需求新增用户和权限表，这样一来，如果直接使用生产库的表会导致后台系统管理人员与领导的账户和权限混淆，经过讨论决定，按照生产库的表结构新增特殊用户表和权限表；这样操作实际是可以在从库上新增表单，且不影响主从库之间的数据同步，但是从安全性的考虑，新增表单设计需要给用户Insert权限，为了保证从库只有利用主库同步写入数据，则只能给其他用户select权限。
+   <content type="html">说下实际项目场景，公司一个应用已部署主从数据库，业务也正式上线；现在客户公司领导希望可以看到每天的业务数据报表，本设定直接到从库拿数据，然后进行数据处理，生成报表，但是 Java 同事提出需求新增用户和权限表，这样一来，如果直接使用生产库的表会导致后台系统管理人员与领导的账户和权限混淆，经过讨论决定，按照生产库的表结构新增特殊用户表和权限表；这样操作实际是可以在从库上新增表单，且不影响主从库之间的数据同步，但是从安全性的考虑，新增表单设计需要给用户 Insert 权限，为了保证从库只有利用主库同步写入数据，则只能给其他用户 select 权限。
 
-最终决定，因为报表系统的使用率低，直接在报表系统的服...</content>
+最终决定，因为报表系统的使用率低，直接在...</content>
  </entry>
  
  <entry>
@@ -4303,7 +4275,7 @@ C. 是第二主shell提示符变量　　...</content>
    <link href="https://samzong.me/post/2016/03/MySQL-2-%E5%BC%80%E5%90%AF%E6%85%A2%E6%97%A5%E5%BF%97%E4%BC%98%E5%8C%96.html"/>
    <updated>2016-03-22T10:16:26-05:00</updated>
    <id>https://samzong.me/post/2016/03/MySQL-2-开启慢日志优化</id>
-   <content type="html">工欲善其事，必先利其器 – mysql开启慢日志优化
+   <content type="html">工欲善其事，必先利其器 – mysql 开启慢日志优化
 
 慢查询日志
 
@@ -4322,7 +4294,7 @@ C. 是第二主shell提示符变量　　...</content>
 mysql&amp;gt; show variables like '%slow%';
 +---------------------+---------------------------------+
 | Variable_name       | Value                           |
-+...</content>
+...</content>
  </entry>
  
  <entry>
@@ -4332,7 +4304,7 @@ mysql&amp;gt; show variables like '%slow%';
    <id>https://samzong.me/post/2016/03/CentOS-6-2-初始安装基本优化操作</id>
    <content type="html">CentOS 6.x 初始安装基本优化操作
 
-本文件是采用的模板是centos 6.x，相较于centos 5.x与centos 7.x系列有些区别，不能一概而论。
+本文件是采用的模板是 centos 6.x，相较于 centos 5.x 与 centos 7.x 系列有些区别，不能一概而论。
 
 1. 测试环境
 
@@ -4344,7 +4316,7 @@ mysql&amp;gt; show variables like '%slow%';
 
 2. 默认网卡开机未设定自启动
 
-很多初学者，在安装系统的时候，碰到的第一个问题就是不能上网，所以有些同学就担心是不是需要去安装网卡驱动，其实这样想就把问题复杂化了，如果你在实体机安装Linux的系统时，可能会碰到网卡驱动不上导致无法...</content>
+很多初学者，在安装系统的时候，碰到的第一个问题就是不能上网，所以有些同学就担心是不是需要去安装网卡驱动，其实这样想就把问题复杂化了，如果你在实体机安装 Linux 的系统时，可能会碰到网卡驱...</content>
  </entry>
  
  <entry>
@@ -4352,12 +4324,12 @@ mysql&amp;gt; show variables like '%slow%';
    <link href="https://samzong.me/post/2016/03/%E7%90%86%E8%A7%A3-Linux-%E7%9A%84%E7%A1%AC%E9%93%BE%E6%8E%A5%E4%B8%8E%E8%BD%AF%E9%93%BE%E6%8E%A5.html"/>
    <updated>2016-03-18T09:52:13-05:00</updated>
    <id>https://samzong.me/post/2016/03/理解-Linux-的硬链接与软链接</id>
-   <content type="html"> 从inode了解Linux文件系统
+   <content type="html"> 从 inode 了解 Linux 文件系统
 
 硬链接与软链接是 Linux 文件系统中的一个重要概念，其涉及文件系统中的索引节点 (index node 又称 inode)，而索引节点对象是 Linux 虚拟文件系统 (VFS) 的四个基本概念之一。通过剖析硬链接与软链接的联系与区别，我们可更好的了解 Linux 中 VFS 这一通用文件模型。并让 Linux 普通用户和系统管理员正确使用硬链接与软链接，帮助文件系统开发者获取 inode 的相关知识。
 
- Linux的文件系统与目录 
-现代操作系统为解决信息能独立于进程之外被长期存储引入了文件，文件作为进程创建信息的逻辑单元可被多个进程并发使...</content>
+ Linux 的文件系统与目录 
+现代操作系统为解决信息能独立于进程之外被长期存储引入了文件，文件作为进程创建信息的逻辑单元可被多个...</content>
  </entry>
  
  <entry>
@@ -4389,15 +4361,14 @@ GitLab是一个非常成熟的服务端应用，但是作为一名开发人员�
    <link href="https://samzong.me/post/2016/01/Install_mariadb10_centos7.html"/>
    <updated>2016-01-22T00:00:00-06:00</updated>
    <id>https://samzong.me/post/2016/01/Install_mariadb10_centos7</id>
-   <content type="html">CentOS 7.x 默认的MariaDB版本是5.5，但是在有些情况我们需要用到10版本，注意MariaDB与MySQL版本是不一样的，下面简单降下如何快速安装MariaDB10.1 到CentOS 7.x.
+   <content type="html">CentOS 7.x 默认的 MariaDB 版本是 5.5，但是在有些情况我们需要用到 10 版本，注意 MariaDB 与 MySQL 版本是不一样的，下面简单降下如何快速安装 MariaDB10.1 到 CentOS 7.x.
 
-创建MariaDB 10.1的Yum源
+创建 MariaDB 10.1 的 Yum 源
 
 cat &amp;lt;&amp;lt;EOF | sudo tee -a /etc/yum.repos.d/MariaDB.repo
 # MariaDB 10.1 CentOS repository list
 # http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = M...</content>
+[ma...</content>
  </entry>
  
  <entry>
@@ -4408,11 +4379,11 @@ name = M...</content>
    <content type="html">在@知乎上看到一段话：
 
 
-  我感觉到25岁过后，大多数人都不会纠结于，没有跟喜欢的人过一生，人长大了就会体谅命运的多种可能性，你喜欢她，她不一定喜欢你，你们互相喜欢，不一定合适，你们情投意合有匹配度满分，也可能因为随机产生的变数失散。
+  我感觉到 25 岁过后，大多数人都不会纠结于，没有跟喜欢的人过一生，人长大了就会体谅命运的多种可能性，你喜欢她，她不一定喜欢你，你们互相喜欢，不一定合适，你们情投意合有匹配度满分，也可能因为随机产生的变数失散。
 
 
 
-  到了一个应该“醒过来”的岁数，还能执着于“我那么喜欢ta为什么不是ta陪着我过下辈子”的，估计都是人生赢家们，没怎么吃过闷亏，还妄想跟命运说道理。
+  到了一个应该“醒过来”的岁数，还能执着于“我那么喜欢 ta 为什么不是 ta 陪着我过下辈子”的，估计都是人生赢家们，没怎么吃过闷亏，还妄想跟命运说道理。
 
 
 
@@ -4421,7 +4392,7 @@ name = M...</content>
 
 我今天要讲的不是一个爱情的故事。
 
-我今年25岁，褪去青涩的旧衣...</content>
+我今年 25 岁...</content>
  </entry>
  
  <entry>
@@ -4437,12 +4408,12 @@ name = M...</content>
    <link href="https://samzong.me/post/2015/08/HowTo-Automatic-EasyBackup-MysqlDB.html"/>
    <updated>2015-08-12T00:00:00-05:00</updated>
    <id>https://samzong.me/post/2015/08/HowTo-Automatic-EasyBackup-MysqlDB</id>
-   <content type="html">mysql是一个免费、开源中一款非常优秀关系型数据库，在现在的互联网中使用的非常广泛，无论是大型IT项目还是个人开发者的小项目，mysql都能很好的协助人们处理数据库相关的工作，同时数据库对于我们来说是非常重要，所以经常备份数据库是一个基本的操作，这会为你或者你的团队，减少非常多不必要的麻烦。
+   <content type="html">mysql 是一个免费、开源中一款非常优秀关系型数据库，在现在的互联网中使用的非常广泛，无论是大型 IT 项目还是个人开发者的小项目，mysql 都能很好的协助人们处理数据库相关的工作，同时数据库对于我们来说是非常重要，所以经常备份数据库是一个基本的操作，这会为你或者你的团队，减少非常多不必要的麻烦。
 
-mysqldump是一个简单而且非常流行的mysql全量备份方式，配合crontab添加自动备份任务，很好的完成了我们针对数据库备份的需求，下面我会通过一个例子来说明如何完成这项操作。
+mysqldump是一个简单而且非常流行的 mysql 全量备份方式，配合crontab添加自动备份任务，很好的完成了我们针对数据库备份的需求，下面我会通过一个例子来说明如何完成这项操作。
 
 
-  mysqldump是mysql自带的备份工具，所以只要你安装mysql应用包，就无需单独安装mysql...</content>
+  mysqldump 是 mysql 自带的备份工具，所以只要你安装 mysql 应用包，就...</content>
  </entry>
  
  <entry>
@@ -4462,11 +4433,11 @@ mysqldump是一个简单而且非常流行的mysql全量备份方式，配合cro
    <id>https://samzong.me/post/2015/06/民谣是生</id>
    <content type="html">民谣是生，摇滚是死，而我在其中穿梭，生不如死。
 
-我来到这个世界23年，吃过屎，也吃过佳肴，我吹的牛像我，我装的b也像我，但是都不成功遭了雷劈，恍惚觉得，我不应该来到这个世界，这个世界也不是我以为的世界。
+我来到这个世界 23 年，吃过屎，也吃过佳肴，我吹的牛像我，我装的 b 也像我，但是都不成功遭了雷劈，恍惚觉得，我不应该来到这个世界，这个世界也不是我以为的世界。
 
 我喜欢写诗，就像嗜酒者渴望所有醇香的美酒和女人的奶，我喝过，有酒味；我说：这个是社会会写诗的人不多了，会写诗的又写的比我好的又少了，写的比我好还比我会装逼的那就更少了；我又说：这世界上诗比我写的好比我会装逼，还让我敬佩的人，顾城算一个，海子也算一个，但是他们都死了，所以，我很寂寞。
 
-我喜欢女人，喜欢她们的青葱小手和大白奶子，但是，我更喜欢她们的回眸一笑，沧海沉浮而芳亭傲立，我想我要...</content>
+我喜欢女人，喜欢她们的青葱小手和大白奶子，但是，我更喜欢她们的回眸一笑，沧海沉浮而芳亭傲立，...</content>
  </entry>
  
  <entry>
@@ -4511,17 +4482,15 @@ mysqldump是一个简单而且非常流行的mysql全量备份方式，配合cro
    <link href="https://samzong.me/post/2014/07/CentOS7_Configure_BIND_DNS_Server.html"/>
    <updated>2014-07-22T00:00:00-05:00</updated>
    <id>https://samzong.me/post/2014/07/CentOS7_Configure_BIND_DNS_Server</id>
-   <content type="html">今天介绍下如何在CentOS 7下部署DNS Server，测试环境中服务端搭建在了CentOS 7，客户端分别在Windows和Linux实现测试。
+   <content type="html">今天介绍下如何在 CentOS 7 下部署 DNS Server，测试环境中服务端搭建在了 CentOS 7，客户端分别在 Windows 和 Linux 实现测试。
 
-因为目的是让自建DNS服务器解析公司内部的自定义域名，所以当客户端需要访问外网域名时，DNS服务器会将解析请求转发给ISP的DNS服务器，并会将解析结果缓存，并且只对内网主机的解析请求进行转发，而不会对公网的主机解析请求进行转发。
+因为目的是让自建 DNS 服务器解析公司内部的自定义域名，所以当客户端需要访问外网域名时，DNS 服务器会将解析请求转发给 ISP 的 DNS 服务器，并会将解析结果缓存，并且只对内网主机的解析请求进行转发，而不会对公网的主机解析请求进行转发。
 
-DNS服务介绍
+DNS 服务介绍
 
-DNS服务由BIND提供，启动后服务名为named，管理工具为rndc，debug工具为dig，主要配置文件在/etc/named.conf。
+DNS 服务由 BIND 提供，启动后服务名为named，管理工具为rndc，debug 工具为dig，主要配置文件在/etc/named.conf。
 
-安装
-
-推荐选择bind-chroot来安...</content>
+安...</content>
  </entry>
  
  <entry>
@@ -4529,9 +4498,9 @@ DNS服务由BIND提供，启动后服务名为named，管理工具为rndc，debu
    <link href="https://samzong.me/post/2014/03/%E6%88%91%E6%98%AF%E4%B8%80%E4%B8%AA%E6%9C%80%E4%B8%8D%E4%BC%9A%E5%86%99%E6%A0%87%E9%A2%98%E7%9A%84%E4%BA%BA.html"/>
    <updated>2014-03-27T10:34:54-05:00</updated>
    <id>https://samzong.me/post/2014/03/我是一个最不会写标题的人</id>
-   <content type="html">之前一直我以为自己是在纠结到底哪里适合写IT学习的博文，新浪、网易亦或腾讯，折腾了许久，其实自己明白，不是在哪里写的问题，根本在于自己能否坚持下来，我本身是一个不怎么能耐下来性子的人，学习Linux、C还要考学历，总是做做这个，做做那个，没能认真研究，所以这么久时间还是停留在一个“初学者”的位置。
+   <content type="html">之前一直我以为自己是在纠结到底哪里适合写 IT 学习的博文，新浪、网易亦或腾讯，折腾了许久，其实自己明白，不是在哪里写的问题，根本在于自己能否坚持下来，我本身是一个不怎么能耐下来性子的人，学习 Linux、C 还要考学历，总是做做这个，做做那个，没能认真研究，所以这么久时间还是停留在一个“初学者”的位置。
 
-2014年，这一年是一开始就让我悲痛到无以复加的一年，陷入迷茫让我不知道自己未来的路怎么走，能走多久，可是，我也清清楚楚地明白，我要努力改变，人生充满了太多的不可思议以及你无能为力的悲剧，今年已经过了近四个月份了，一直没能好好整理自己的心情，太沉溺过去的人是个弱者，人生会有很多我们无能为力的...</content>
+2014 年，这一年是一开始就让我悲痛到无以复加的一年，陷入迷茫让我不知道自己未来的路怎么走，能走多久，可是，我也清清楚楚地明白，我要努力改变，人生充满了太多的不可思议以及你无能为力的悲剧，今年已经过了近四个月份了，一直没能好好整理自己的心情，太沉溺过去的人是个弱者，人生会有很多我们...</content>
  </entry>
  
  <entry>
@@ -4543,7 +4512,7 @@ DNS服务由BIND提供，启动后服务名为named，管理工具为rndc，debu
 
 
 
-两年前的文字，生涩，那是一段很长时间不读书的日子，初中时期遇到它，或是少人陪的时候它出现在我的生命中，年少不知愁滋味，为赋新词强说愁，寂寞的时候翻起这本书，内心便能平静下来，无怨言地面对堆积如山的习题挑灯夜战，是那个时候最话少，是那个时候最沉默，是那个时候最自信，有点孤傲，眼神灼灼生辉，那是人生最安静如歌的时光，那是多年一直怀念的时候，我一直想再回到那种状态，我以为拥有同样的这本书便能回到那段时光，同一版，同样的封面，同一个位置，写下了同样的话，可那段时间却不再回来；那段时间，那样懵懂的思念一个人，没有手机，没有QQ，只是在无数思念的时候一遍又一遍写下她的名字，写下我的思念，都慢...</content>
+两年前的文字，生涩，那是一段很长时间不读书的日子，初中时期遇到它，或是少人陪的时候它出现在我的生命中，年少不知愁滋味，为赋新词强说愁，寂寞的时候翻起这本书，内心便能平静下来，无怨言地面对堆积如山的习题挑灯夜战，是那个时候最话少，是那个时候最沉默，是那个时候最自信，有点孤傲，眼神灼灼生辉，那是人生最安静如歌的时光，那是多年一直怀念的时候，我一直想再回到那种状态，我以为拥有同样的这本书便能回到那段时光，同一版，同样的封面，同一个位置，写下了同样的话，可那段时间却不再回来；那段时间，那样懵懂的思念一个人，没有手机，没有 QQ，只是在无数思念的时候一遍又一遍写下她的名字，写下我的思念，都...</content>
  </entry>
  
  

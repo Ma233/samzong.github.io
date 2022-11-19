@@ -293,9 +293,9 @@
 github offical site <a href="https://github.com/pyenv/pyenv">https://github.com/pyenv/pyenv</a></p>
 </blockquote>
 
-<p>在 MacOS 的使用方式： brew install pyenv</p>
+<p>在 MacOS 的使用方式：brew install pyenv</p>
 
-<p>使用 pyenv 还是挺方便的，但是在Linux云服务器上配置网络的话就比较麻烦了，比如我在用的阿里云ECS，中间有些曲折，所以编写下文档记录下来，以防后续使用遇到问题</p>
+<p>使用 pyenv 还是挺方便的，但是在 Linux 云服务器上配置网络的话就比较麻烦了，比如我在用的阿里云 ECS，中间有些曲折，所以编写下文档记录下来，以防后续使用遇到问题</p>
 
 <h2 id="安装-pyenv">安装 <code class="language-plaintext highlighter-rouge">pyenv</code></h2>
 
@@ -312,9 +312,9 @@ curl <span class="nt">-L</span> https://github.com/pyenv/pyenv-installer/raw/mas
 wget https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer <span class="nt">-O</span> ~/pyenv-installer
 </code></pre></div></div>
 
-<p>如果你的服务器环境比较悲催，访问GitHub也是比较麻烦，那么可以看下这个网站  <a href="https://gitclone.com/">https://gitclone.com/</a> ； 只需要对 <code class="language-plaintext highlighter-rouge">pyenv-installer</code> 进行简单的修改就可以实现加速下载了</p>
+<p>如果你的服务器环境比较悲催，访问 GitHub 也是比较麻烦，那么可以看下这个网站  <a href="https://gitclone.com/">https://gitclone.com/</a> ；只需要对 <code class="language-plaintext highlighter-rouge">pyenv-installer</code> 进行简单的修改就可以实现加速下载了</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ......</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ......</span>
 <span class="k">if</span> <span class="o">[</span> <span class="nt">-n</span> <span class="s2">"</span><span class="k">${</span><span class="nv">USE_GIT_URI</span><span class="k">}</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
   </span><span class="nv">GITHUB</span><span class="o">=</span><span class="s2">"git://github.com"</span>
 <span class="k">else
@@ -335,7 +335,7 @@ wget https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer <sp
 <span class="nb">echo</span> <span class="s1">'eval "$(pyenv virtualenv-init -)"'</span>  <span class="o">&gt;&gt;</span> ~/.bashrc
 </code></pre></div></div>
 
-<h2 id="使用-pyenv-安装特定版本的python">使用 <code class="language-plaintext highlighter-rouge">pyenv</code> 安装特定版本的python</h2>
+<h2 id="使用-pyenv-安装特定版本的-python">使用 <code class="language-plaintext highlighter-rouge">pyenv</code> 安装特定版本的 python</h2>
 
 <p>在网络好的情况下，可以直接通过 <code class="language-plaintext highlighter-rouge">pyenv install 3.9.6</code> 安装对应的版本了，但是因为网络的问题，你会发现一直在下载 Python 包这一步，问题就是 www.python.org/ftp 网络的访问问题</p>
 

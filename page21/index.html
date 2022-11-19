@@ -280,41 +280,41 @@
     <div class="post_at_index">
       <h2 id="1-overiew">1. Overiew</h2>
 
-<p>在CentOS Linux 中安装软件的方式有很多种，我会在后续的文章中整理给大家，我比较喜欢的方式是尽量用Yum 安装，不用自己动手去解决软件包之间的依赖关系，“能Yum 就Yum ，不能Yum 想着法Yum 。”  – 这是我遵循的真理；今天给大家整理的就是如何使用Yum 来安装Mongodb ，在本文中会给出在32位与64位系统的区别，以及Mongodb 的版本，本文适用于CentOS 6/7 的Linux发行版本，所以同样适用于红帽体系的OS，如 RedHat Enterprise Linux 6/7 、 Fedora 。</p>
+<p>在 CentOS Linux 中安装软件的方式有很多种，我会在后续的文章中整理给大家，我比较喜欢的方式是尽量用 Yum 安装，不用自己动手去解决软件包之间的依赖关系，“能 Yum 就 Yum，不能 Yum 想着法 Yum。”  – 这是我遵循的真理；今天给大家整理的就是如何使用 Yum 来安装 Mongodb，在本文中会给出在 32 位与 64 位系统的区别，以及 Mongodb 的版本，本文适用于 CentOS 6/7 的 Linux 发行版本，所以同样适用于红帽体系的 OS，如 RedHat Enterprise Linux 6/7、Fedora。</p>
 
 <h2 id="2-packages">2. Packages</h2>
 
-<p>业内常用的Mongodb 的Yum 仓库有Mongodb-org 与 Mongodb-10gen ,这里提供的Mongodb-org 的repository 仓库，支持以下软件包列表：</p>
+<p>业内常用的 Mongodb 的 Yum 仓库有 Mongodb-org 与 Mongodb-10gen ,这里提供的 Mongodb-org 的 repository 仓库，支持以下软件包列表：</p>
 
 <ul>
   <li>
     <p>2.1 mongodb-org</p>
 
-    <p>这个是源数据包，主要是用来组织自动安装下面的4个软件包.</p>
+    <p>这个是源数据包，主要是用来组织自动安装下面的 4 个软件包。</p>
   </li>
   <li>
     <p>2.2 mongodb-org-sever</p>
 
-    <p>这个Mongodb Server端，包含了相关的配置和初始化脚本。</p>
+    <p>这个 Mongodb Server 端，包含了相关的配置和初始化脚本。</p>
   </li>
   <li>
     <p>2.3 mongodb-org-mongos</p>
 
-    <p>这个是Mongodb的守护进程。</p>
+    <p>这个是 Mongodb 的守护进程。</p>
   </li>
   <li>
     <p>2.4 mongodb-org-shell</p>
 
-    <p>这个是mongodb 的shell环境。</p>
+    <p>这个是 mongodb 的 shell 环境。</p>
   </li>
   <li>
     <p>2.5 mongodb-org-tools</p>
 
-    <p>这个包里包含了下列mongodb 的工具：mongoimport bsondump, mongodump, mongoexport, mongofiles, mongooplog, mongoperf, mongorestore, mongostat, and mongotop 。</p>
+    <p>这个包里包含了下列 mongodb 的工具：mongoimport bsondump, mongodump, mongoexport, mongofiles, mongooplog, mongoperf, mongorestore, mongostat, and mongotop。</p>
   </li>
 </ul>
 
-<h2 id="3-添加相对应版本的mongodb-repo-file">3. 添加相对应版本的Mongodb repo file</h2>
+<h2 id="3-添加相对应版本的-mongodb-repo-file">3. 添加相对应版本的 Mongodb repo file</h2>
 
 <h3 id="31-mongodb-26--os-x64">3.1 Mongodb 2.6 + OS x64</h3>
 
@@ -366,7 +366,7 @@ enabled=1
 
 <h2 id="4-install-mongodb">4. Install MongoDB</h2>
 
-<p>安装最新版本的 Mongodb ，安装都方式一样，请注意安装相对应的源保证正确安装Mongodb，请使用如下命令：</p>
+<p>安装最新版本的 Mongodb，安装都方式一样，请注意安装相对应的源保证正确安装 Mongodb，请使用如下命令：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum clean all
 [root@vm02 ~]# yum makecache
@@ -376,13 +376,13 @@ enabled=1
 
 <h2 id="5-run-mongodb">5. Run MongoDB</h2>
 
-<h3 id="51-配置selinux">5.1 配置SELinux</h3>
+<h3 id="51-配置-selinux">5.1 配置 SELinux</h3>
 
-<p>SELinux 默认为开启状态，会导致我们的Mongodb 无法使用，解决方式有两种：</p>
+<p>SELinux 默认为开启状态，会导致我们的 Mongodb 无法使用，解决方式有两种：</p>
 
 <ol>
-  <li><a href="http://blog.ultraera.org/centos6-x-base-settings/">关闭SELinux</a></li>
-  <li>添加Mongodb 通过SELinux 设定，指令如下：</li>
+  <li><a href="http://blog.ultraera.org/centos6-x-base-settings/">关闭 SELinux</a></li>
+  <li>添加 Mongodb 通过 SELinux 设定，指令如下：</li>
 </ol>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>semanage port -a -t mongod_port_t -p tcp 27017
@@ -390,7 +390,7 @@ enabled=1
 </code></pre></div></div>
 
 <blockquote>
-  <p>Tips: 在CentOS 7 ，SELinux 会限定你去修改Mongodb的data目录及lib目录。</p>
+  <p>Tips: 在 CentOS 7，SELinux 会限定你去修改 Mongodb 的 data 目录及 lib 目录。</p>
 </blockquote>
 
 <h3 id="52-start-mongodb">5.2 Start MongoDB</h3>
@@ -401,22 +401,22 @@ Starting mongod:                                           [  OK  ]
 
 </code></pre></div></div>
 
-<h3 id="53-检查mongodb日志文件验证服务正常启动-varlogmongodbmongodblog">5.3 检查MongoDB日志文件验证服务正常启动， /var/log/mongodb/mongodb.log</h3>
+<h3 id="53-检查-mongodb-日志文件验证服务正常启动-varlogmongodbmongodblog">5.3 检查 MongoDB 日志文件验证服务正常启动， /var/log/mongodb/mongodb.log</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# cat /var/log/mongodb/mongod.log  # 看到如下内容表示mongodb启动成功了。
 2016-03-24T04:09:28.582+0800 I NETWORK  [initandlisten] waiting for connections on port 27017
 
 </code></pre></div></div>
 
-<h3 id="54-设置mongodb-开机自启动">5.4 设置MongoDB 开机自启动</h3>
+<h3 id="54-设置-mongodb-开机自启动">5.4 设置 MongoDB 开机自启动</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# chkconfig mongod on
 
 </code></pre></div></div>
 
-<h3 id="55-设置mongodb-允许其他服务器访问">5.5 设置MongoDB 允许其他服务器访问</h3>
+<h3 id="55-设置-mongodb-允许其他服务器访问">5.5 设置 MongoDB 允许其他服务器访问</h3>
 
-<p>默认情况下，mongodb 只监听 127.0.0.1 ，但是实际生产环境中可能需要其他服务器访问，所以这里添加监听其他网络端口，修改mongodb的配置文件：/etc/mongodb.conf</p>
+<p>默认情况下，mongodb 只监听 127.0.0.1，但是实际生产环境中可能需要其他服务器访问，所以这里添加监听其他网络端口，修改 mongodb 的配置文件：/etc/mongodb.conf</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/mongodb.conf
 
@@ -429,7 +429,7 @@ Starting mongod:                                           [  OK  ]
 
 <h2 id="6-use-mongodb">6. Use MongoDB</h2>
 
-<h3 id="61-检查mongodb-状态">6.1 检查mongodb 状态</h3>
+<h3 id="61-检查-mongodb-状态">6.1 检查 mongodb 状态</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# service mongod status
 mongod (pid 6502) is running...
@@ -447,7 +447,7 @@ insert query update delete getmore command % dirty % used flushes  vsize   res q
 
 </code></pre></div></div>
 
-<h3 id="63-进入mongodb-命令行模式">6.3 进入mongodb 命令行模式</h3>
+<h3 id="63-进入-mongodb-命令行模式">6.3 进入 mongodb 命令行模式</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# mongo
 MongoDB shell version: 3.2.4
@@ -468,19 +468,19 @@ Server has startup warnings:
 
 <h2 id="7-uninstall-mongodb">7. Uninstall MongoDB</h2>
 
-<h3 id="71-关闭mongodb">7.1 关闭mongodb</h3>
+<h3 id="71-关闭-mongodb">7.1 关闭 mongodb</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# service mongod stop
 
 </code></pre></div></div>
 
-<h3 id="72-卸载mongodb-软件包">7.2 卸载mongodb 软件包</h3>
+<h3 id="72-卸载-mongodb-软件包">7.2 卸载 mongodb 软件包</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum erase $(rpm -qa | grep mongodb-org)
 
 </code></pre></div></div>
 
-<h3 id="73-删除mongodb文件数据库文件和日志文件">7.3 删除mongodb文件：数据库文件和日志文件</h3>
+<h3 id="73-删除-mongodb-文件数据库文件和日志文件">7.3 删除 mongodb 文件：数据库文件和日志文件</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# rm -rf /var/log/mongodb
 [root@vm02 ~]# rm -rf /var/lib/mongo
@@ -489,7 +489,7 @@ Server has startup warnings:
 
 <h2 id="8-faq">8. FAQ</h2>
 
-<p>Q : Mongodb 占用99%CPU并且查询速度很慢?</p>
+<p>Q : Mongodb 占用 99%CPU 并且查询速度很慢？</p>
 
 <p>A : 数据库需要首先建立索引，类似图书的目录文件，否则当你在数据库内查找数据的时候，就类似于在整本字典一页页翻查一个字如此。</p>
 
@@ -507,18 +507,18 @@ Server has startup warnings:
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/03/%E5%9C%A8CentOS%E4%B8%AD%E9%85%8D%E7%BD%AE-SFTP-%E7%8E%AF%E5%A2%83.html">在CentOS中配置 SFTP 环境</a></h1>
+    <h1><a class="title" href="/post/2016/03/%E5%9C%A8CentOS%E4%B8%AD%E9%85%8D%E7%BD%AE-SFTP-%E7%8E%AF%E5%A2%83.html">在 CentOS 中配置 SFTP 环境</a></h1>
     <div class="post_at_index">
-      <p>做运维工作的，应该经常会碰到这样的问题，需要新上一个web项目，需要上传文件到服务器上，解决方法有很多种，常见的如sftp和ftp，今天讲如何使用sftp让系统用户用户上传项目的权限，并且实现chroot和无法使用ssh登录到系统。</p>
+      <p>做运维工作的，应该经常会碰到这样的问题，需要新上一个 web 项目，需要上传文件到服务器上，解决方法有很多种，常见的如 sftp 和 ftp，今天讲如何使用 sftp 让系统用户用户上传项目的权限，并且实现 chroot 和无法使用 ssh 登录到系统。</p>
 
-<p>SFTP是指SSH文件传输协议（SSH File Transfer protocol）或安全文件传输协议（Secure File Transfer Protocol），它提供了可信数据流下的文件访问、文件传输以及文件管理功能。当我们为SFTP配置chroot环境后，只有被许可的用户可以访问，并被限制到他们的家目录中，换言之：被许可的用户将处于牢笼环境中，在此环境中它们甚至不能切换它们的目录。</p>
+<p>SFTP 是指 SSH 文件传输协议（SSH File Transfer protocol）或安全文件传输协议（Secure File Transfer Protocol），它提供了可信数据流下的文件访问、文件传输以及文件管理功能。当我们为 SFTP 配置 chroot 环境后，只有被许可的用户可以访问，并被限制到他们的家目录中，换言之：被许可的用户将处于牢笼环境中，在此环境中它们甚至不能切换它们的目录。</p>
 
 <h3 id="1-测试环境">1. 测试环境</h3>
 
 <ul>
   <li>MacBook Pro 15-inch i7 16GB</li>
   <li>VMware Fushion 8 Pro</li>
-  <li>Transmit （ SFTP tools for Mac ）</li>
+  <li>Transmit ( SFTP tools for Mac )</li>
 </ul>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# cat /etc/issue
@@ -530,17 +530,17 @@ openssh-server-5.3p1-104.el6.i686
 
 <h3 id="2-实验步骤">2. 实验步骤</h3>
 
-<h5 id="21-增加一个sftpusers用户组">2.1 增加一个sftpusers用户组</h5>
+<h5 id="21-增加一个-sftpusers-用户组">2.1 增加一个 sftpusers 用户组</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# groupadd sftpusers
 </code></pre></div></div>
 
-<h5 id="22-创建一个用户user01并分配给sftpusers用户组">2.2 创建一个用户user01，并分配给sftpusers用户组</h5>
+<h5 id="22-创建一个用户-user01并分配给-sftpusers-用户组">2.2 创建一个用户 user01，并分配给 sftpusers 用户组</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# useradd -g sftpusers user01
 </code></pre></div></div>
 
-<h5 id="23-修改用户家目录及指定不能登录shell">2.3 修改用户家目录及指定不能登录shell</h5>
+<h5 id="23-修改用户家目录及指定不能登录-shell">2.3 修改用户家目录及指定不能登录 shell</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# mkdir /sftp/
 [root@test ~]# usermod -s /sbin/nologin -d /sftp/user01 -m user01
@@ -558,7 +558,7 @@ passwd: all authentication tokens updated successfully.
 [root@test ~]#
 </code></pre></div></div>
 
-<h4 id="25-修改ssh的配置文件如下设置">2.5 修改ssh的配置文件，如下设置</h4>
+<h4 id="25-修改-ssh-的配置文件如下设置">2.5 修改 ssh 的配置文件，如下设置</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# ll /etc/ssh/sshd_config
 -rw-------. 1 root root 3879 Oct 15  2014 /etc/ssh/sshd_config
@@ -576,23 +576,23 @@ Match Group sftpusers        #指定一下参数仅适用的用户组sftpusers
     ForceCommand internal-sftp    #该参数强制执行内部sftp
 </code></pre></div></div>
 
-<h5 id="26-重启ssh服务">2.6 重启ssh服务</h5>
+<h5 id="26-重启-ssh-服务">2.6 重启 ssh 服务</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# /etc/init.d/sshd restart
 Stopping sshd:                                             [  OK  ]
 Starting sshd:                                             [  OK  ]
 </code></pre></div></div>
 
-<h5 id="27-设置用户家目录权限注意权限不能大于0755">2.7 设置用户家目录权限,(注意权限不能大于0755)</h5>
+<h5 id="27-设置用户家目录权限注意权限不能大于-0755">2.7 设置用户家目录权限，(注意权限不能大于 0755)</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# chmod 0755 /sftp/user01/
 [root@test ~]# chown root /sftp/user01/
 [root@test ~]# chgrp -R sftpusers /sftp/user01/
 </code></pre></div></div>
 
-<h5 id="28-关于上传根目录无法上传文件">2.8 关于上传,根目录无法上传文件</h5>
+<h5 id="28-关于上传根目录无法上传文件">2.8 关于上传，根目录无法上传文件</h5>
 
-<p>因为用户家目录属主是root，并且权限最大0755，所以没法写，我的解决方法是在在家目录建立一个文件夹，作为上传目录，并把属主给user01即可。</p>
+<p>因为用户家目录属主是 root，并且权限最大 0755，所以没法写，我的解决方法是在在家目录建立一个文件夹，作为上传目录，并把属主给 user01 即可。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# mkdir /sftp/user01/upload
 [root@test ~]# chown user01:sftpusers /sftp/user01/upload/
@@ -630,7 +630,7 @@ sftp&gt;
 
 <h5 id="32-sftp-工具测试">3.2 SFTP 工具测试</h5>
 
-<p>我这里使用的是Mac，但是传统的文件传输工具都差不多，Windows下有Winscp、Xftp等。</p>
+<p>我这里使用的是 Mac，但是传统的文件传输工具都差不多，Windows 下有 Winscp、Xftp 等。</p>
 
       
     </div>
@@ -648,43 +648,43 @@ sftp&gt;
     
     <h1><a class="title" href="/post/2016/03/MySQL-6-%E5%88%A9%E7%94%A8Linux%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E5%AE%9A%E6%97%B6%E5%90%8C%E6%AD%A5MySQL.html">利用 Linux 计划任务定时同步 MySQL</a></h1>
     <div class="post_at_index">
-      <p>说下实际项目场景，公司一个应用已部署主从数据库，业务也正式上线；现在客户公司领导希望可以看到每天的业务数据报表，本设定直接到从库拿数据，然后进行数据处理，生成报表，但是Java同事提出需求新增用户和权限表，这样一来，如果直接使用生产库的表会导致后台系统管理人员与领导的账户和权限混淆，经过讨论决定，按照生产库的表结构新增特殊用户表和权限表；这样操作实际是可以在从库上新增表单，且不影响主从库之间的数据同步，但是从安全性的考虑，新增表单设计需要给用户Insert权限，为了保证从库只有利用主库同步写入数据，则只能给其他用户select权限。</p>
+      <p>说下实际项目场景，公司一个应用已部署主从数据库，业务也正式上线；现在客户公司领导希望可以看到每天的业务数据报表，本设定直接到从库拿数据，然后进行数据处理，生成报表，但是 Java 同事提出需求新增用户和权限表，这样一来，如果直接使用生产库的表会导致后台系统管理人员与领导的账户和权限混淆，经过讨论决定，按照生产库的表结构新增特殊用户表和权限表；这样操作实际是可以在从库上新增表单，且不影响主从库之间的数据同步，但是从安全性的考虑，新增表单设计需要给用户 Insert 权限，为了保证从库只有利用主库同步写入数据，则只能给其他用户 select 权限。</p>
 
-<p><b>最终决定，因为报表系统的使用率低，直接在报表系统的服务器安装本地mysql数据库，通过计划任务定时到从库上同步数据。</b></p>
+<p><b>最终决定，因为报表系统的使用率低，直接在报表系统的服务器安装本地 mysql 数据库，通过计划任务定时到从库上同步数据。</b></p>
 
 <h3 id="1-测试环境">1. 测试环境</h3>
 
 <ul>
-  <li>MacBook Pro 15‘ i7 16GB</li>
+  <li>MacBook Pro 15’ i7 16GB</li>
   <li>VMware Fushion 8 Pro</li>
   <li>MySQL Version 5.6</li>
   <li>CentOS Linux 6.x</li>
-  <li>slave Server ：172.16.102.129</li>
-  <li>local Server ：172.167.102.133</li>
+  <li>slave Server : 172.16.102.129</li>
+  <li>local Server : 172.167.102.133</li>
 </ul>
 
-<h3 id="2-利用mysqldump导出sql文件">2. 利用mysqldump导出sql文件</h3>
+<h3 id="2-利用-mysqldump-导出-sql-文件">2. 利用 mysqldump 导出 sql 文件</h3>
 
-<p>需要注意的是，mysqldump时会锁表，需要给mysqldump传递 <i>“–single-transaction”</i>  参数，可以使得mysqldump时不锁表，如下：</p>
+<p>需要注意的是，mysqldump 时会锁表，需要给 mysqldump 传递 <i>“–single-transaction”</i>  参数，可以使得 mysqldump 时不锁表，如下：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/mysqldump -h 172.168.102.129 -u dbuser -pdbuser --single-transaction slave &gt; slave.sql
 </code></pre></div></div>
 
-<h3 id="3-使用mysql恢复sql文件到数据库中">3. 使用mysql恢复sql文件到数据库中</h3>
+<h3 id="3-使用-mysql-恢复-sql-文件到数据库中">3. 使用 mysql 恢复 sql 文件到数据库中</h3>
 
-<p>需要注意的是，如果该local server的slave库中有数据表，当表名与slave server的表名相同时，数据表内的数据会被覆盖；如果local server的表在slave.sql中不存在，则不受影响，正是利用这个特性解决用户需求。</p>
+<p>需要注意的是，如果该 local server 的 slave 库中有数据表，当表名与 slave server 的表名相同时，数据表内的数据会被覆盖；如果 local server 的表在 slave.sql 中不存在，则不受影响，正是利用这个特性解决用户需求。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/mysql -u dbuser -pdbuser report &lt; /home/.mysql/slave.sql
 </code></pre></div></div>
 
 <h3 id="4-编写脚本">4. 编写脚本</h3>
 
-<p>首先在本地某一位置作为临时sql存储地址：</p>
+<p>首先在本地某一位置作为临时 sql 存储地址：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# mkdir /home/.mysql     # 这个目录可以自定义
 </code></pre></div></div>
 
-<p>脚本1：</p>
+<p>脚本 1：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
 
@@ -700,7 +700,7 @@ rm -rf /home/.mysql/*
 
 <h3 id="5-增加邮件通知功能">5. 增加邮件通知功能</h3>
 
-<p>因为前期同事需要得知备份的执行结果，所以希望数据同步成功后获得邮件提醒，这里使用sendmail实现，在CentOS里预装是没有安装sendmail，所以我们需要安装sendmail服务，另外一个安装命令行邮件工具mailx：</p>
+<p>因为前期同事需要得知备份的执行结果，所以希望数据同步成功后获得邮件提醒，这里使用 sendmail 实现，在 CentOS 里预装是没有安装 sendmail，所以我们需要安装 sendmail 服务，另外一个安装命令行邮件工具 mailx：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# yum install -y sendmail mailx
 
@@ -713,7 +713,7 @@ Starting sm-client:                                        [  OK  ]
 
 </code></pre></div></div>
 
-<p>完整脚本：report_sync.sh ，如下：</p>
+<p>完整脚本：report_sync.sh，如下：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
 
@@ -738,11 +738,11 @@ fi
 <p>查看下邮件通知：
 <img src="http://blog.ultraera.org:80/content/images/2016/03/24/p01.jpg" alt="" /></p>
 
-<h3 id="6-计划任务crontab">6. 计划任务crontab</h3>
+<h3 id="6-计划任务-crontab">6. 计划任务 crontab</h3>
 
-<p>和同事及客户沟通，确认每天1、5、9、13、17、21整时到从库拉去数据，Linux选择使用crontab做计划任务，crontab命令常见于Unix和类Unix的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“crontab”文件中。通常，crontab储存的指令被守护进程激活， crond常常在后台运行，每一分钟检查是否有预定的作业需要执行。这类作业一般称为cron jobs。</p>
+<p>和同事及客户沟通，确认每天 1、5、9、13、17、21 整时到从库拉去数据，Linux 选择使用 crontab 做计划任务，crontab 命令常见于 Unix 和类 Unix 的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“crontab”文件中。通常，crontab 储存的指令被守护进程激活，crond 常常在后台运行，每一分钟检查是否有预定的作业需要执行。这类作业一般称为 cron jobs。</p>
 
-<h4 id="61-安装crontab">6.1 安装crontab</h4>
+<h4 id="61-安装-crontab">6.1 安装 crontab</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# yum install -y vixie-cron
 [root@report ~]# yum install -y crontabs
@@ -764,7 +764,7 @@ cron 是linux的内置服务，但它不自动起来，可以用以下的方法�
 
 <h3 id="7-添加计划任务">7. 添加计划任务</h3>
 
-<p>将脚本report_sync.sh 保存到/usr/bin下：</p>
+<p>将脚本 report_sync.sh 保存到/usr/bin下：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# mv report_sync.sh /usr/bin
 </code></pre></div></div>
@@ -1023,7 +1023,7 @@ A. \usr/zhang/memo　　　B. /usr/zhang/memo　　　C. //usr\zhang/memo　　�
     
     <h1><a class="title" href="/post/2016/03/MySQL-2-%E5%BC%80%E5%90%AF%E6%85%A2%E6%97%A5%E5%BF%97%E4%BC%98%E5%8C%96.html">MySQL 开启慢日志优化</a></h1>
     <div class="post_at_index">
-      <h1 id="工欲善其事必先利其器--mysql开启慢日志优化">工欲善其事，必先利其器 – mysql开启慢日志优化</h1>
+      <h1 id="工欲善其事必先利其器--mysql-开启慢日志优化">工欲善其事，必先利其器 – mysql 开启慢日志优化</h1>
 
 <h3 id="慢查询日志">慢查询日志</h3>
 
@@ -1053,7 +1053,7 @@ A. \usr/zhang/memo　　　B. /usr/zhang/memo　　　C. //usr\zhang/memo　　�
 mysql&gt;
 </code></pre></div></div>
 
-<p>打开慢查询日志。修改MySQL的配置文件my.cnf一般是在/etc目录下面，加上下面三行配置后重启MySQL。</p>
+<p>打开慢查询日志。修改 MySQL 的配置文件 my.cnf 一般是在/etc 目录下面，加上下面三行配置后重启 MySQL。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>slow_query_log = ON
 slow_launch_time = 2
@@ -1061,7 +1061,7 @@ slow_query_log_file = /usr/local/mysql/data/slow_query.log
 
 </code></pre></div></div>
 
-<p>slow_launch_time只能精确到秒，如果需要更精确可以使用一些第三方的工具比如后面介绍的pt-query-digest</p>
+<p>slow_launch_time 只能精确到秒，如果需要更精确可以使用一些第三方的工具比如后面介绍的 pt-query-digest</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like '%slow%';
 +---------------------------+--------------------------------------+
@@ -1089,7 +1089,7 @@ mysql&gt;
 
 <h3 id="保持慢查询日志到表中">保持慢查询日志到表中</h3>
 
-<p>MySQL支持将慢查询日志保存到mysql.slow_log这张表中。通过@@global.log_output可以设置默认为TABLE，FILE和TABLE只能同时使用一个。</p>
+<p>MySQL 支持将慢查询日志保存到 mysql.slow_log 这张表中。通过@@global.log_output 可以设置默认为 TABLE，FILE 和 TABLE 只能同时使用一个。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; select @@global.log_output;
 +---------------------+
@@ -1151,7 +1151,7 @@ mysql&gt;
 <h3 id="慢查询日志分析">慢查询日志分析</h3>
 
 <ol>
-  <li>可以使用MySQL自带的mysqldumpslow工具。使用很简单，可以跟-help来查看具体的用法。</li>
+  <li>可以使用 MySQL 自带的 mysqldumpslow 工具。使用很简单，可以跟-help 来查看具体的用法。</li>
 </ol>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># -s：排序方式。c , t , l , r 表示记录次数、时间、查询时间的多少、返回的记录数排序；
@@ -1162,19 +1162,19 @@ mysql&gt;
 </code></pre></div></div>
 
 <ol>
-  <li>可以导到mysql.slow_query表中，然后通过sql语句进行分析。</li>
+  <li>可以导到 mysql.slow_query 表中，然后通过 sql 语句进行分析。</li>
   <li>使用第三方工具，下面会有介绍。</li>
 </ol>
 
 <h3 id="pt-query-digest">pt-query-digest</h3>
 
-<p>pt-query-digest可以从普通MySQL日志，慢查询日志以及二进制日志中分析查询，甚至可以从SHOW PROCESSLIST和MySQL协议的tcpdump中进行分析，如果没有指定文件，它从标准输入流（STDIN）中读取数据。
+<p>pt-query-digest 可以从普通 MySQL 日志，慢查询日志以及二进制日志中分析查询，甚至可以从 SHOW PROCESSLIST 和 MySQL 协议的 tcpdump 中进行分析，如果没有指定文件，它从标准输入流（STDIN）中读取数据。
 最简单地用法如下：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest slow.logs
 </code></pre></div></div>
 
-<p>输出信息大致如下:</p>
+<p>输出信息大致如下：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 </code></pre></div></div>
@@ -1197,7 +1197,7 @@ mysql&gt;
     <div class="post_at_index">
       <h2 id="centos-6x-初始安装基本优化操作">CentOS 6.x 初始安装基本优化操作</h2>
 
-<p>本文件是采用的模板是centos 6.x，相较于centos 5.x与centos 7.x系列有些区别，不能一概而论。</p>
+<p>本文件是采用的模板是 centos 6.x，相较于 centos 5.x 与 centos 7.x 系列有些区别，不能一概而论。</p>
 
 <h3 id="1-测试环境">1. 测试环境</h3>
 
@@ -1209,7 +1209,7 @@ mysql&gt;
 
 <h3 id="2-默认网卡开机未设定自启动">2. 默认网卡开机未设定自启动</h3>
 
-<p>很多初学者，在安装系统的时候，碰到的第一个问题就是不能上网，所以有些同学就担心是不是需要去安装网卡驱动，其实这样想就把问题复杂化了，如果你在实体机安装Linux的系统时，可能会碰到网卡驱动不上导致无法上网的问题，这个时候是需要自行安装驱动的，但是我们使用的VMware的一款虚拟化工具，所以网卡驱动基本就不用考虑，原因是因为我们没有把网卡设置为开机自启动，下面讲如何开启网卡，并设定为开机自启动。</p>
+<p>很多初学者，在安装系统的时候，碰到的第一个问题就是不能上网，所以有些同学就担心是不是需要去安装网卡驱动，其实这样想就把问题复杂化了，如果你在实体机安装 Linux 的系统时，可能会碰到网卡驱动不上导致无法上网的问题，这个时候是需要自行安装驱动的，但是我们使用的 VMware 的一款虚拟化工具，所以网卡驱动基本就不用考虑，原因是因为我们没有把网卡设置为开机自启动，下面讲如何开启网卡，并设定为开机自启动。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# ifup eth0
 
@@ -1236,11 +1236,11 @@ eth0      Link encap:Ethernet  HWaddr 00:0C:29:B9:60:D8
 
 </code></pre></div></div>
 
-<h3 id="3-增加第三方yum源">3. 增加第三方Yum源</h3>
+<h3 id="3-增加第三方-yum-源">3. 增加第三方 Yum 源</h3>
 
-<p>CentOS 系统内置的官方源软件更新较慢，而且缺少一些常用软件包，建议安装epel源，EPEL 是 Extra Packages for Enterprise Linux 的缩写（EPEL），是用于 Fedora-based Red Hat Enterprise Linux (RHEL) 的一个高质量软件源，所以同时也适用于 CentOS 或者 Scientific Linux 等发行版。</p>
+<p>CentOS 系统内置的官方源软件更新较慢，而且缺少一些常用软件包，建议安装 epel 源，EPEL 是 Extra Packages for Enterprise Linux 的缩写（EPEL），是用于 Fedora-based Red Hat Enterprise Linux (RHEL) 的一个高质量软件源，所以同时也适用于 CentOS 或者 Scientific Linux 等发行版。</p>
 
-<h5 id="a-因为我们使用的是minimal版本的iso安装所以系统默认没有wget我们可以直接用yum安装wget是linux常用的命令行下载工具">a. 因为我们使用的是minimal版本的ISO安装，所以系统默认没有wget，我们可以直接用yum安装：[wget是Linux常用的命令行下载工具]</h5>
+<h5 id="a-因为我们使用的是-minimal-版本的-iso-安装所以系统默认没有-wget我们可以直接用-yum-安装wget-是-linux-常用的命令行下载工具">a. 因为我们使用的是 minimal 版本的 ISO 安装，所以系统默认没有 wget，我们可以直接用 yum 安装：[wget 是 Linux 常用的命令行下载工具]</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum install -y wget
 Loaded plugins: fastestmirror
@@ -1292,17 +1292,17 @@ Complete!
 [root@vm02 ~]#
 </code></pre></div></div>
 
-<h5 id="b-下载并安装epel源">b. 下载并安装epel源</h5>
+<h5 id="b-下载并安装-epel-源">b. 下载并安装 epel 源</h5>
 
-<p>不同CentOS版本的epel下载地址：</p>
+<p>不同 CentOS 版本的 epel 下载地址：</p>
 
 <ul>
-  <li>CentOS 5 ： <a href="https://dl.fedoraproject.org/pub/epel/epel-release-latest-5.noarch.rpm">https://dl.fedoraproject.org/pub/epel/epel-release-latest-5.noarch.rpm</a></li>
-  <li>CentOS 6 ： <a href="https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm">https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm</a></li>
-  <li>CentOS 7 ： <a href="https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm">https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm</a></li>
+  <li>CentOS 5 : <a href="https://dl.fedoraproject.org/pub/epel/epel-release-latest-5.noarch.rpm">https://dl.fedoraproject.org/pub/epel/epel-release-latest-5.noarch.rpm</a></li>
+  <li>CentOS 6 : <a href="https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm">https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm</a></li>
+  <li>CentOS 7 : <a href="https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm">https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm</a></li>
 </ul>
 
-<p>本次试验用到的CentOS 6 所以我们下载epel-release-latest-6.noarch.rpm</p>
+<p>本次试验用到的 CentOS 6 所以我们下载 epel-release-latest-6.noarch.rpm</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
 --2016-03-18 11:47:17--  https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
@@ -1321,9 +1321,9 @@ anaconda-ks.cfg                   install.log
 epel-release-latest-6.noarch.rpm  install.log.syslog
 </code></pre></div></div>
 
-<h3 id="4-安装vimlinux使用最广泛的文件编辑工具">4. 安装vim：Linux使用最广泛的文件编辑工具</h3>
+<h3 id="4-安装-vimlinux-使用最广泛的文件编辑工具">4. 安装 vim：Linux 使用最广泛的文件编辑工具</h3>
 
-<p>与我们长久使用Win环境不同的是，在Linux之中，我们接触最多的是command line，所以熟练一款命令行下的文本编辑工具是一项必备技能，我这里推荐大家：vim。</p>
+<p>与我们长久使用 Win 环境不同的是，在 Linux 之中，我们接触最多的是 command line，所以熟练一款命令行下的文本编辑工具是一项必备技能，我这里推荐大家：vim。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum install -y vim
 Loaded plugins: fastestmirror
@@ -1433,11 +1433,11 @@ Complete!
 
 </code></pre></div></div>
 
-<h3 id="4-关闭selinux">4. 关闭SELinux</h3>
+<h3 id="4-关闭-selinux">4. 关闭 SELinux</h3>
 
-<p>SELinux主要由美国国家安全局开发，并于2000年12月22日发行给开放源代码的开发社区。SELinux旨在加强访问控制架构以对付入侵的威胁或任何企图略过安全架构的应用程序，并且从2.6版的Linux核心就开始集成SELinux；但是SELinux严格的权限控制对于初学者来说并不是非常必要，所以我们建议关闭SELinux，[其实由于SELinux的复杂性，很多运维人员都是选择关闭它，熟悉阿里云ECS的同学可能知道，它是默认关闭SELinux的，但是我们不建议在生产环境关闭SELinux。]</p>
+<p>SELinux 主要由美国国家安全局开发，并于 2000 年 12 月 22 日发行给开放源代码的开发社区。SELinux 旨在加强访问控制架构以对付入侵的威胁或任何企图略过安全架构的应用程序，并且从 2.6 版的 Linux 核心就开始集成 SELinux；但是 SELinux 严格的权限控制对于初学者来说并不是非常必要，所以我们建议关闭 SELinux，[其实由于 SELinux 的复杂性，很多运维人员都是选择关闭它，熟悉阿里云 ECS 的同学可能知道，它是默认关闭 SELinux 的，但是我们不建议在生产环境关闭 SELinux。]</p>
 
-<p>SELinux的配置文件主要由两个：/etc/sysconfig/selinux、 /etc/selinux/config，其实第一个是第二个路径的软链接。</p>
+<p>SELinux 的配置文件主要由两个：/etc/sysconfig/selinux、 /etc/selinux/config，其实第一个是第二个路径的软链接。</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/selinux/config
 # This file controls the state of SELinux on the system.
@@ -1456,24 +1456,24 @@ SELINUXTYPE=targeted
 <p>SELinux 的状态模式：</p>
 
 <ul>
-  <li>enforcing : 强制启用SELinux</li>
-  <li>permissive : 只显示警告讯息以替代强制启用SELinux</li>
-  <li>disabled : 停用SELinux</li>
+  <li>enforcing : 强制启用 SELinux</li>
+  <li>permissive : 只显示警告讯息以替代强制启用 SELinux</li>
+  <li>disabled : 停用 SELinux</li>
 </ul>
 
 <blockquote>
-  <p>Tips: SELinux的参数只能在重启后生效。</p>
+  <p>Tips: SELinux 的参数只能在重启后生效。</p>
 </blockquote>
 
 <p>SELinux 常用的两个命令：getenforce setenforce :</p>
 
 <ul>
-  <li>getenforce 获得SELinux 当前的状态，返回值为如上三种；</li>
-  <li>setenforce 临时改变SELinux的状态，参数为布尔值，0是关闭，1是开启。</li>
+  <li>getenforce 获得 SELinux 当前的状态，返回值为如上三种；</li>
+  <li>setenforce 临时改变 SELinux 的状态，参数为布尔值，0 是关闭，1 是开启。</li>
 </ul>
 
 <blockquote>
-  <p>Tips: 状态已经为disabled时，无法使用setenforce 1 启用。</p>
+  <p>Tips: 状态已经为 disabled 时，无法使用 setenforce 1 启用。</p>
 </blockquote>
 
 <h3 id="5">5</h3>
@@ -1502,14 +1502,14 @@ SELINUXTYPE=targeted
     
     <h1><a class="title" href="/post/2016/03/%E7%90%86%E8%A7%A3-Linux-%E7%9A%84%E7%A1%AC%E9%93%BE%E6%8E%A5%E4%B8%8E%E8%BD%AF%E9%93%BE%E6%8E%A5.html">理解 Linux 的硬链接与软链接</a></h1>
     <div class="post_at_index">
-      <h2> 从inode了解Linux文件系统</h2>
+      <h2> 从 inode 了解 Linux 文件系统</h2>
 
 <p>硬链接与软链接是 Linux 文件系统中的一个重要概念，其涉及文件系统中的索引节点 (index node 又称 inode)，而索引节点对象是 Linux 虚拟文件系统 (VFS) 的四个基本概念之一。通过剖析硬链接与软链接的联系与区别，我们可更好的了解 Linux 中 VFS 这一通用文件模型。并让 Linux 普通用户和系统管理员正确使用硬链接与软链接，帮助文件系统开发者获取 inode 的相关知识。</p>
 
-<h3> Linux的文件系统与目录 </h3>
-<p>现代操作系统为解决信息能独立于进程之外被长期存储引入了文件，文件作为进程创建信息的逻辑单元可被多个进程并发使用。在 UNIX 系统中，操作系统为磁盘上的文本与图像、鼠标与键盘等输入设备及网络交互等 I/O 操作设计了一组通用 API，使他们被处理时均可统一使用字节流方式。换言之，UNIX 系统中除进程之外的一切皆是文件，而 Linux 保持了这一特性。为了便于文件的管理，Linux 还引入了目录（有时亦被称为文件夹）这一概念。目录使文件可被分类管理，且目录的引入使 Linux 的文件系统形成一个层级结构的目录树。<a href="#list1">清单1.</a>所示的是普通 Linux 系统的顶层目录结构，其中 /dev 是存放了设备相关文件的目录。</p>
+<h3> Linux 的文件系统与目录 </h3>
+<p>现代操作系统为解决信息能独立于进程之外被长期存储引入了文件，文件作为进程创建信息的逻辑单元可被多个进程并发使用。在 UNIX 系统中，操作系统为磁盘上的文本与图像、鼠标与键盘等输入设备及网络交互等 I/O 操作设计了一组通用 API，使他们被处理时均可统一使用字节流方式。换言之，UNIX 系统中除进程之外的一切皆是文件，而 Linux 保持了这一特性。为了便于文件的管理，Linux 还引入了目录（有时亦被称为文件夹）这一概念。目录使文件可被分类管理，且目录的引入使 Linux 的文件系统形成一个层级结构的目录树。<a href="#list1">清单 1.</a>所示的是普通 Linux 系统的顶层目录结构，其中 /dev 是存放了设备相关文件的目录。</p>
 
-<h4 id="list1"> 清单 1. Linux系统的顶层目录结构</h4>
+<h4 id="list1"> 清单 1. Linux 系统的顶层目录结构</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> /              根目录
 ├── bin     存放用户二进制文件
@@ -1553,7 +1553,7 @@ SELINUXTYPE=targeted
 <h4 id="p1"> 图 1. 通过文件名打开文件 </h4>
 <p><img src="http://120.24.251.209/content/images/2016/03/image001.jpg" alt="" /></p>
 
-<p>在Linux 系统中查看 inode号可使用命令stat 或 ls -i（若是 AIX 系统，则使用命令 istat）。<a href="#list3">清单 3.</a>中使用命令 mv 移动并重命名文件 glibc-2.16.0.tar.xz，其结果不影响文件的用户数据及 inode 号，文件移动前后 inode 号均为：2485677。</p>
+<p>在 Linux 系统中查看 inode 号可使用命令 stat 或 ls -i（若是 AIX 系统，则使用命令 istat）。<a href="#list3">清单 3.</a>中使用命令 mv 移动并重命名文件 glibc-2.16.0.tar.xz，其结果不影响文件的用户数据及 inode 号，文件移动前后 inode 号均为：2485677。</p>
 
 <h4 id="list3"> 清单 3.  移动或重命名文件 </h4>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># stat /home/harris/source/glibc-2.16.0.tar.xz
@@ -2130,9 +2130,9 @@ struct ext4_inode {
     
     <h1><a class="title" href="/post/2016/01/Install_mariadb10_centos7.html">How to install MariaDB 10.1 on CentOS 7.x</a></h1>
     <div class="post_at_index">
-      <p>CentOS 7.x 默认的MariaDB版本是5.5，但是在有些情况我们需要用到10版本，注意MariaDB与MySQL版本是不一样的，下面简单降下如何快速安装MariaDB10.1 到CentOS 7.x.</p>
+      <p>CentOS 7.x 默认的 MariaDB 版本是 5.5，但是在有些情况我们需要用到 10 版本，注意 MariaDB 与 MySQL 版本是不一样的，下面简单降下如何快速安装 MariaDB10.1 到 CentOS 7.x.</p>
 
-<h4 id="创建mariadb-101的yum源">创建MariaDB 10.1的Yum源</h4>
+<h4 id="创建-mariadb-101-的-yum-源">创建 MariaDB 10.1 的 Yum 源</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat &lt;&lt;EOF | sudo tee -a /etc/yum.repos.d/MariaDB.repo
 # MariaDB 10.1 CentOS repository list
@@ -2146,21 +2146,21 @@ EOF
 </code></pre></div></div>
 
 <blockquote>
-  <p>注意MariaDB会随着时间的推移版本不断更新，你可以到<a href="http://downloads.mariadb.org/mariadb">repo仓库</a>获取对应版本链接</p>
+  <p>注意 MariaDB 会随着时间的推移版本不断更新，你可以到<a href="http://downloads.mariadb.org/mariadb">repo 仓库</a>获取对应版本链接</p>
 </blockquote>
 
-<h4 id="使用yum安装mariadb-101-即可">使用Yum安装MariaDB 10.1 即可</h4>
+<h4 id="使用-yum-安装-mariadb-101-即可">使用 Yum 安装 MariaDB 10.1 即可</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install MariaDB-server MariaDB-client -y
 </code></pre></div></div>
 
-<h4 id="启动mariadb并设置为开机自启动">启动MariaDB并设置为开机自启动</h4>
+<h4 id="启动-mariadb-并设置为开机自启动">启动 MariaDB 并设置为开机自启动</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo systemctl start mariadb.service
 sudo systemctl enable mariadb.service
 </code></pre></div></div>
 
-<h4 id="初始化mariadb设置">初始化MariaDB设置</h4>
+<h4 id="初始化-mariadb-设置">初始化 MariaDB 设置</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo /usr/bin/mysql_secure_installation
 
@@ -2537,41 +2537,40 @@ Reload privilege tables now? [Y/n]: Y
       <ul>
         
         <li>
-          <a href="/post/2022/11/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过pipreqs获取当前项目的依赖库</a>
-          如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a>
+          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
           
-  strip() 删除字符串中的内容，删除后仍旧是str
-  split() 分割字符串，根据特定的标识，分割后=list
+  参考资料：
 
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a>
+          <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
           ```python
-import string
+df = pandas.read_csv(‘somefile.txt’)
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python3-setup.py-help-commands.html">python3 setup.py --help-commands</a>
-          ```python
-→ python3 setup.py –help-commands
+          <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
+          暗坑很多
 
 
         </li>
         
         <li>
-          <a href="/post/2022/11/python-xlsxwriter-%E5%86%99%E5%85%A5excel.html">python xlsxwriter 写入excel</a>
-          以下是使用的方法：
+          <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
+          王路
+12 highlights
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/10/%E8%87%AA%E5%8D%91%E4%B8%8E%E8%B6%85%E8%B6%8A.html">自卑与超越</a>
+          【奥】阿尔弗雷德··阿德勒
 
 
         </li>

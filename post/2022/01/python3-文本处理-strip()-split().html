@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 	<link rel="manifest" href="/static/pwa/manifest.json">
-	<title> Docker for Mac 网络技巧 | 船长的课记 </title>
+	<title> python3 文本处理 strip() split() | 船长的课记 </title>
     
 		
     <meta name="author" content="船长">
@@ -275,38 +275,34 @@
 <div class="row" itemscope itemtype="http://schema.org/Article">
     <div class="col-xs-12 col-md-8">
         <div class="page-header" itemprop="name">
-            <h1>Docker for Mac 网络技巧 
+            <h1>python3 文本处理 strip() split() 
             </h1>
         </div>
         <div class="post-meta">
             
-            <span class="entry-date" itemprop="datePublished">Posted on 11/17/2022</span>
+            <span class="entry-date" itemprop="datePublished">Posted on 01/21/2022</span>
             
             
             <span class="entry-author" itemprop="author">by 船长</span>
-            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/main/_posts/2022-11-17-Docker for Mac 网络技巧.md"
+            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/main/_posts/2022-01-21-python3 文本处理 strip() split().md"
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <p>在 Windows 和 Linux 中使用 Docker ，可以通过 docker0 这个网络 IP，在容器内访问宿主机的端口及服务</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ ifconfig
-docker0: <span class="nv">flags</span><span class="o">=</span>4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
-        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
-        ether 02:42:65:e2:82:de  txqueuelen 0  <span class="o">(</span>Ethernet<span class="o">)</span>
-        RX packets 19240  bytes 9107695 <span class="o">(</span>8.6 MiB<span class="o">)</span>
-        RX errors 0  dropped 0  overruns 0  frame 0
-        TX packets 16989  bytes 9952021 <span class="o">(</span>9.4 MiB<span class="o">)</span>
-        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
-</code></pre></div></div>
-
-<p>但以上在 macOS 中无 docker0 端口，那我们如何在 Docker for Mac 中访问宿主机的服务呢？</p>
+            <ul>
+  <li>strip() 删除字符串中的内容，删除后仍旧是 str</li>
+  <li>split() 分割字符串，根据特定的标识，分割后=list</li>
+</ul>
 
 <blockquote>
-  <p>docker.for.mac.host.internal</p>
+  <p>两者处理过程中都不会修改原字符串的内容</p>
 </blockquote>
 
-<p>可以采用以上本地域名内实现在容器内访问 宿主机的服务</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python3</span>
+
+<span class="nb">str</span><span class="p">.</span><span class="n">strip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串末尾的","
+</span><span class="nb">str</span><span class="p">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串末尾的","
+</span><span class="nb">str</span><span class="p">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串开通的","
+</span></code></pre></div></div>
 
         </div>
 
@@ -356,8 +352,6 @@ docker0: <span class="nv">flags</span><span class="o">=</span>4163&lt;UP,BROADCA
                 
                 
                 
-                
-                <li><a href="/post/2022/11/Docker-for-Mac-%E7%BD%91%E7%BB%9C%E6%8A%80%E5%B7%A7.html">Docker for Mac 网络技巧</a> - <span>11/17/2022</span></li>
                 
                 
                 
@@ -1207,13 +1201,13 @@ docker0: <span class="nv">flags</span><span class="o">=</span>4163&lt;UP,BROADCA
         <nav>
             <ul class="pager">
                 
-                <li class="previous"><a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html" title="Dubbo 基础知识梳理">&larr;
+                <li class="previous"><a href="/post/2022/01/ClickHouse-%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E4%BD%BF%E7%94%A8.html" title="ClickHouse 常用函数使用">&larr;
                     Previous（前一篇）</a></li>
                 
                 <!-- <li><a href="/static/archive.html">Archive（目录）</a></li> -->
                 <li><a href="/archive.html">Archive（目录）</a></li>
                 
-                <li class="next"><a href="/post/2022/11/MySQL-Case-WHEN.html" title="MySQL Case WHEN">Next（后一篇） &rarr;</a></li>
+                <li class="next"><a href="/post/2022/02/%E4%B8%80%E4%B8%AAPython%E9%A1%B9%E7%9B%AE%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1.html" title="一个 Python 项目的目录结构设计">Next（后一篇） &rarr;</a></li>
                 
             </ul>
         </nav>
@@ -1230,8 +1224,8 @@ docker0: <span class="nv">flags</span><span class="o">=</span>4163&lt;UP,BROADCA
   
      
     	
-      <li><a href="/categories.html#Docker">
-    		Docker <span>6</span>
+      <li><a href="/categories.html#Python">
+    		Python <span>45</span>
     	</a></li>
     
   
@@ -1251,10 +1245,7 @@ docker0: <span class="nv">flags</span><span class="o">=</span>4163&lt;UP,BROADCA
   
      
     	
-    	<li><a href="/tags.html#Docker">Docker <span>7</span></a></li>
-     
-    	
-    	<li><a href="/tags.html#Mac">Mac <span>25</span></a></li>
+    	<li><a href="/tags.html#Python">Python <span>46</span></a></li>
     
   
 

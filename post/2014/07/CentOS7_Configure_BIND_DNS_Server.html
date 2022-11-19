@@ -288,24 +288,24 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <p>今天介绍下如何在CentOS 7下部署DNS Server，测试环境中服务端搭建在了CentOS 7，客户端分别在Windows和Linux实现测试。</p>
+            <p>今天介绍下如何在 CentOS 7 下部署 DNS Server，测试环境中服务端搭建在了 CentOS 7，客户端分别在 Windows 和 Linux 实现测试。</p>
 
-<p>因为目的是让自建DNS服务器解析公司内部的自定义域名，所以当客户端需要访问外网域名时，DNS服务器会将解析请求转发给ISP的DNS服务器，并会将解析结果缓存，并且只对内网主机的解析请求进行转发，而不会对公网的主机解析请求进行转发。</p>
+<p>因为目的是让自建 DNS 服务器解析公司内部的自定义域名，所以当客户端需要访问外网域名时，DNS 服务器会将解析请求转发给 ISP 的 DNS 服务器，并会将解析结果缓存，并且只对内网主机的解析请求进行转发，而不会对公网的主机解析请求进行转发。</p>
 
-<h4 id="dns服务介绍">DNS服务介绍</h4>
+<h4 id="dns-服务介绍">DNS 服务介绍</h4>
 
-<p>DNS服务由BIND提供，启动后服务名为<code class="language-plaintext highlighter-rouge">named</code>，管理工具为<code class="language-plaintext highlighter-rouge">rndc</code>，debug工具为<code class="language-plaintext highlighter-rouge">dig</code>，主要配置文件在<code class="language-plaintext highlighter-rouge">/etc/named.conf</code>。</p>
+<p>DNS 服务由 BIND 提供，启动后服务名为<code class="language-plaintext highlighter-rouge">named</code>，管理工具为<code class="language-plaintext highlighter-rouge">rndc</code>，debug 工具为<code class="language-plaintext highlighter-rouge">dig</code>，主要配置文件在<code class="language-plaintext highlighter-rouge">/etc/named.conf</code>。</p>
 
 <h4 id="安装">安装</h4>
 
 <p>推荐选择<code class="language-plaintext highlighter-rouge">bind-chroot</code>来安装，提高服务的安全性：</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ yum <span class="nb">install</span> <span class="nt">-y</span> bind-chroot
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ yum <span class="nb">install</span> <span class="nt">-y</span> bind-chroot
 </code></pre></div></div>
 
 <p>安装完成之后，启动<code class="language-plaintext highlighter-rouge">named-chroot</code>服务，并设置为开机自启动：</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ systemctl <span class="nb">enable </span>named-chroot.service
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ systemctl <span class="nb">enable </span>named-chroot.service
 Created symlink from /etc/systemd/system/multi-user.target.wants/named-chroot.service to /usr/lib/systemd/system/named-chroot.service.
 ➜  ~ systemctl start named-chroot.service
 ➜  ~ netstat <span class="nt">-ntlp</span> | <span class="nb">grep </span>53
@@ -315,9 +315,9 @@ tcp        0      0 127.0.0.1:953           0.0.0.0:<span class="k">*</span>    
 
 <h4 id="配置">配置</h4>
 
-<p>首先备份DNS服务端的主配置文件，然后修改其中的内容：</p>
+<p>首先备份 DNS 服务端的主配置文件，然后修改其中的内容：</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">cp</span> /etc/named.conf /etc/named.conf.bak
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">cp</span> /etc/named.conf /etc/named.conf.bak
 ➜  ~ vim /etc/named.conf
 
 options <span class="o">{</span>
@@ -368,9 +368,9 @@ include <span class="s2">"/etc/named.rfc1912.zones"</span><span class="p">;</spa
 include <span class="s2">"/etc/named.root.key"</span><span class="p">;</span>
 </code></pre></div></div>
 
-<h4 id="编辑samzonglocalzone配置文件">编辑samzong.local.zone配置文件</h4>
+<h4 id="编辑-samzonglocalzone-配置文件">编辑 samzong.local.zone 配置文件</h4>
 
-<p>首先创建samzong.local.zone文件：</p>
+<p>首先创建 samzong.local.zone 文件：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ cd /var/named
 ➜  named touch samzong.local.zone;
@@ -378,7 +378,7 @@ include <span class="s2">"/etc/named.root.key"</span><span class="p">;</span>
 
 <p>然后编辑文件内容新增：</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$TTL</span> 86400
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$TTL</span> 86400
 @ IN SOA @ root.samzong.local. <span class="o">(</span>
     2016042112 <span class="p">;</span>Serial
     3600 <span class="p">;</span>Refresh
@@ -394,14 +394,14 @@ a   IN  CNAME   www.baidu.com.
 b       A       192.168.16.101
 </code></pre></div></div>
 
-<p>编辑完成之后，重新启动named-chroot让服务生效：</p>
+<p>编辑完成之后，重新启动 named-chroot 让服务生效：</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  named systemctl restart named-chroot.service
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  named systemctl restart named-chroot.service
 </code></pre></div></div>
 
 <h4 id="客户端验证">客户端验证</h4>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  named nslookup www.samzong.local
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  named nslookup www.samzong.local
 Server:  192.168.16.6
 Address: 192.168.16.6#53
 
@@ -409,11 +409,11 @@ Name: www.samzong.local
 Address: 192.168.16.100
 </code></pre></div></div>
 
-<h4 id="使用rndc管理dns解析记录">使用rndc管理DNS解析记录</h4>
+<h4 id="使用-rndc-管理-dns-解析记录">使用 rndc 管理 DNS 解析记录</h4>
 
 <p>rndc 常用指令：</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>status          显示bind服务器的工作状态
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>status          显示bind服务器的工作状态
 reload          重新加载配置文件和区域文件
 reload zone     重新加载指定的zone
 reconfig        重新读取配制间并加载新增的zone

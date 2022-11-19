@@ -300,8 +300,8 @@
 <h2 id="简介">简介</h2>
 
 <ul>
-  <li>Apache Dubbo 一款基于RPC服务开发的云原生微服务框架，与 SpringCloud 类似</li>
-  <li>使用 Dubbo 开发的微服务原生具备相互之间远程地址发现(注册中心)和通信的能力</li>
+  <li>Apache Dubbo 一款基于 RPC 服务开发的云原生微服务框架，与 SpringCloud 类似</li>
+  <li>使用 Dubbo 开发的微服务原生具备相互之间远程地址发现 (注册中心) 和通信的能力</li>
   <li>Dubbo 支持丰富的服务治理特性，包含 服务发现、负载均衡、流量调度 等，高度可扩展</li>
   <li>Dubbo 由 阿里巴巴 开发，并贡献给 Apache</li>
 </ul>
@@ -324,9 +324,9 @@
   <li>高度可扩展性，支持在调用过程中对流量及协议进行拦截扩展，如 Filter、Router、LB 等</li>
   <li>支持微服务治理的扩展组件
     <ul>
-      <li>Registry 注册中心： Zookeeper、Nacos</li>
-      <li>Config Center 配置中心： Zookeeper、Nacos</li>
-      <li>Metadata Center 元数据中心 (Dubbo3支持)</li>
+      <li>Registry 注册中心：Zookeeper、Nacos</li>
+      <li>Config Center 配置中心：Zookeeper、Nacos</li>
+      <li>Metadata Center 元数据中心 (Dubbo3 支持)</li>
     </ul>
   </li>
 </ul>
@@ -342,24 +342,24 @@
 <h3 id="rpc-通信">RPC 通信</h3>
 
 <ul>
-  <li>Dubbo3之中， RPC 通信主要使用 Triple 协议，构建在 HTTP/2 协议之上，兼容 gRPC</li>
+  <li>Dubbo3 之中，RPC 通信主要使用 Triple 协议，构建在 HTTP/2 协议之上，兼容 gRPC</li>
   <li>提供 Request Response、Request Streaming、Response Streaming、Bi-directional Streaming 通信模型</li>
-  <li>支持 IDL ，基于 Triple 协议</li>
+  <li>支持 IDL，基于 Triple 协议</li>
 </ul>
 
 <h3 id="服务发现">服务发现</h3>
 
-<p>服务发现，是消费端自动发现服务地址列表的能力，是微服务框架需要具备的关键能力，借助于自动化的服务发现，微服务之间在无需感知对端部署位置与IP地址的情况下实现通信。</p>
+<p>服务发现，是消费端自动发现服务地址列表的能力，是微服务框架需要具备的关键能力，借助于自动化的服务发现，微服务之间在无需感知对端部署位置与 IP 地址的情况下实现通信。</p>
 
-<p>Dubbo提供的Client-Based服务发现机制，同时也需要第三方注册中心来协调服务发现过程，比如Nacos/Zookeeper等。</p>
+<p>Dubbo 提供的 Client-Based 服务发现机制，同时也需要第三方注册中心来协调服务发现过程，比如 Nacos/Zookeeper 等。</p>
 
 <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/oaqyGX.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
 
 <h3 id="流量治理">流量治理</h3>
 
 <ul>
-  <li>Dubbo2开始，Dubbo就提供了丰富的服务治理规则，包括路由规则/动态配置等</li>
-  <li>Dubbo3之中的实现
+  <li>Dubbo2 开始，Dubbo 就提供了丰富的服务治理规则，包括路由规则/动态配置等</li>
+  <li>Dubbo3 之中的实现
     <ul>
       <li>Dubbo Mesh : 通过对接 xDS 对接到时下流行的 Mesh 产品如 Istio 中所使用的以 VirtualService、DestinationRule 为代表的治理规则</li>
       <li>另一方面 Dubbo 正寻求设计一套自有规则以实现在不通部署场景下的流量治理，以及灵活的治理能力。</li>
@@ -369,7 +369,7 @@
 
 <h2 id="dubbo-mesh">Dubbo Mesh</h2>
 
-<p>Dubbo Mesh 的目标是提供适应 Dubbo 体系的完整 Mesh 解决方案，包含定制化控制面（Control Plane）、定制化数据面解决方案。Dubbo 控制面基于业界主流 Istio 扩展，支持更丰富的流量治理规则、Dubbo应用级服务发现模型等，Dubbo 数据面可以采用 Envoy Sidecar，即实现 Dubbo SDK + Envoy 的部署方案，也可以采用 Dubbo Proxyless 模式，直接实现 Dubbo 与控制面的通信。</p>
+<p>Dubbo Mesh 的目标是提供适应 Dubbo 体系的完整 Mesh 解决方案，包含定制化控制面（Control Plane）、定制化数据面解决方案。Dubbo 控制面基于业界主流 Istio 扩展，支持更丰富的流量治理规则、Dubbo 应用级服务发现模型等，Dubbo 数据面可以采用 Envoy Sidecar，即实现 Dubbo SDK + Envoy 的部署方案，也可以采用 Dubbo Proxyless 模式，直接实现 Dubbo 与控制面的通信。</p>
 
 <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/vMniiR.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
 
@@ -1304,7 +1304,7 @@
                 <!-- <li><a href="/static/archive.html">Archive（目录）</a></li> -->
                 <li><a href="/archive.html">Archive（目录）</a></li>
                 
-                <li class="next"><a href="/post/2022/11/Docker-for-Mac-%E7%BD%91%E7%BB%9C%E6%8A%80%E5%B7%A7.html" title="Docker for Mac 网络技巧">Next（后一篇） &rarr;</a></li>
+                <li class="next disabled"><a>Next（后一篇） &rarr;</a></li>
                 
             </ul>
         </nav>

@@ -318,7 +318,7 @@
 :::</li>
 </ul>
 
-<p>我采用的方式， 腾讯云函数；薅羊毛的方式</p>
+<p>我采用的方式，腾讯云函数；薅羊毛的方式</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">json</span>
@@ -337,10 +337,10 @@
     {
         "msgtype": "markdown",
         "markdown": {
-            "content": "实时新增用户反馈&lt;font color=</span><span class="se">\"</span><span class="s">warning</span><span class="se">\"</span><span class="s">&gt;132例&lt;/font&gt;，请相关同事注意。</span><span class="se">\n</span><span class="s">
+            "content": "实时新增用户反馈&lt;font color=</span><span class="se">\"</span><span class="s">warning</span><span class="se">\"</span><span class="s">&gt;132 例&lt;/font&gt;，请相关同事注意。</span><span class="se">\n</span><span class="s">
              &gt;类型:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;用户反馈&lt;/font&gt;
-             &gt;普通用户反馈:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;117例&lt;/font&gt;
-             &gt;VIP用户反馈:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;15例&lt;/font&gt;"
+             &gt;普通用户反馈:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;117 例&lt;/font&gt;
+             &gt;VIP 用户反馈:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;15 例&lt;/font&gt;"
         }
     }
     """</span>
@@ -382,10 +382,10 @@
         <span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'project'</span><span class="p">][</span><span class="s">'web_url'</span><span class="p">]</span>
 
         <span class="c1"># fit md_content
-</span>        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"## 文档站 &lt;font color=</span><span class="se">\"</span><span class="s">info</span><span class="se">\"</span><span class="s">&gt;{}&lt;/font&gt; 通知: </span><span class="se">\n\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'event'</span><span class="p">])</span>
-        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 项目: [{}]({}) </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">],</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">])</span>
-        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 更新人: *{}* </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">])</span>
-        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 提交信息: {} </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">])</span>
+</span>        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"## 文档站 &lt;font color=</span><span class="se">\"</span><span class="s">info</span><span class="se">\"</span><span class="s">&gt;{}&lt;/font&gt; 通知：</span><span class="se">\n\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'event'</span><span class="p">])</span>
+        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 项目：[{}]({}) </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">],</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">])</span>
+        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 更新人：*{}* </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">])</span>
+        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 提交信息：{} </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">])</span>
 
     <span class="k">elif</span> <span class="n">event_type</span> <span class="o">==</span> <span class="s">'build'</span><span class="p">:</span>
         <span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'user'</span><span class="p">][</span><span class="s">'username'</span><span class="p">]</span>
@@ -396,10 +396,10 @@
         <span class="n">resp</span><span class="p">[</span><span class="s">'build_duration'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'build_duration'</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
 
         <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'failed'</span><span class="p">:</span>
-            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"## 文档站 {} &lt;font color=</span><span class="se">\"</span><span class="s">warning</span><span class="se">\"</span><span class="s">&gt;{}&lt;/font&gt; 通知: </span><span class="se">\n\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'event'</span><span class="p">],</span> <span class="n">resp</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">])</span>
-            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 项目: [{}]({}) </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">],</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">])</span>
+            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"## 文档站 {} &lt;font color=</span><span class="se">\"</span><span class="s">warning</span><span class="se">\"</span><span class="s">&gt;{}&lt;/font&gt; 通知：</span><span class="se">\n\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'event'</span><span class="p">],</span> <span class="n">resp</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">])</span>
+            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 项目：[{}]({}) </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">],</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">])</span>
             <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 请 **{}** 关注最近提交的内容 </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">])</span>
-            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 提交信息: {} </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">])</span>
+            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 提交信息：{} </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">])</span>
 
     <span class="n">msg_send_wecom</span><span class="p">(</span><span class="n">md_content</span><span class="p">)</span>
 
@@ -1331,7 +1331,7 @@
                 <!-- <li><a href="/static/archive.html">Archive（目录）</a></li> -->
                 <li><a href="/archive.html">Archive（目录）</a></li>
                 
-                <li class="next"><a href="/post/2022/05/hexo-admonition.html" title="Hexo 增加admonition样式支持">Next（后一篇） &rarr;</a></li>
+                <li class="next"><a href="/post/2022/05/hexo-admonition.html" title="Hexo 增加 admonition 样式支持">Next（后一篇） &rarr;</a></li>
                 
             </ul>
         </nav>

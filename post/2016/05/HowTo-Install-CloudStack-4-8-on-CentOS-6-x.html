@@ -288,118 +288,117 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-#!/bin/bash
+            <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 
-# Install  CloudStack.sh
+<span class="c"># Install  CloudStack.sh</span>
 
-# setting static ip in : /etc/sysconfig/network-scripts/ifcfg-eth0
+<span class="c"># setting static ip in : /etc/sysconfig/network-scripts/ifcfg-eth0</span>
 
-# Check Service
+<span class="c"># Check Service</span>
 
-# Install
+<span class="c"># Install</span>
 
-# hostname --fqdn
+<span class="c"># hostname --fqdn</span>
 
-# service network restart
+<span class="c"># service network restart</span>
 
-# trun off selinux in : /etc/selinux/config
-#SELinux=disabed
+<span class="c"># trun off selinux in : /etc/selinux/config</span>
+<span class="c">#SELinux=disabed</span>
 
-# trun off iptables.
+<span class="c"># trun off iptables.</span>
 service iptables stop
 service ip6tables stop
 
 chkconfig iptables off
 chkconfig ip6tables off
 
-#NTP
-yum install -y ntp
+<span class="c">#NTP</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> ntp
 chkconfig ntpd on
 service ntpd start
 
-# adding cloudstack repos
-[cloudstack]
-name=cloudstack
-baseurl=http://cloudstack.apt-get.eu/centos/6/4.5/
-enabled=1
-gpgcheck=0
+<span class="c"># adding cloudstack repos</span>
+<span class="o">[</span>cloudstack]
+<span class="nv">name</span><span class="o">=</span>cloudstack
+<span class="nv">baseurl</span><span class="o">=</span>http://cloudstack.apt-get.eu/centos/6/4.5/
+<span class="nv">enabled</span><span class="o">=</span>1
+<span class="nv">gpgcheck</span><span class="o">=</span>0
 
-#NFS
-yum install -y nfs-utils
+<span class="c">#NFS</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> nfs-utils
 
-# /etc/exports
-/secondary *(rw,async,no_root_squash,no_subtree_check)
-/primary *(rw,async,no_root_squash,no_subtree_check)
-# add top to /etc/sysconfig/nfs
-LOCKD_TCPPORT=32803
-LOCKD_UDPPORT=32769
-MOUNTD_PORT=892
-RQUOTAD_PORT=875
-STATD_PORT=662
-STATD_OUTGOING_PORT=2020
-# add iptable rules to /etc/sysconfig/iptables
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p udp --dport 111 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p tcp --dport 111 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p tcp --dport 2049 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p tcp --dport 32803 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p udp --dport 32769 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p tcp --dport 892 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p udp --dport 892 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p tcp --dport 875 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p udp --dport 875 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p tcp --dport 662 -j ACCEPT
--A INPUT -s 172.16.10.0/24 -m state --state NEW -p udp --dport 662 -j ACCEPT
-# service iptables restart
+<span class="c"># /etc/exports</span>
+/secondary <span class="k">*</span><span class="o">(</span>rw,async,no_root_squash,no_subtree_check<span class="o">)</span>
+/primary <span class="k">*</span><span class="o">(</span>rw,async,no_root_squash,no_subtree_check<span class="o">)</span>
+<span class="c"># add top to /etc/sysconfig/nfs</span>
+<span class="nv">LOCKD_TCPPORT</span><span class="o">=</span>32803
+<span class="nv">LOCKD_UDPPORT</span><span class="o">=</span>32769
+<span class="nv">MOUNTD_PORT</span><span class="o">=</span>892
+<span class="nv">RQUOTAD_PORT</span><span class="o">=</span>875
+<span class="nv">STATD_PORT</span><span class="o">=</span>662
+<span class="nv">STATD_OUTGOING_PORT</span><span class="o">=</span>2020
+<span class="c"># add iptable rules to /etc/sysconfig/iptables</span>
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 111 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 111 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 2049 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 32803 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 32769 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 892 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 892 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 875 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 875 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 662 <span class="nt">-j</span> ACCEPT
+<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 662 <span class="nt">-j</span> ACCEPT
+<span class="c"># service iptables restart</span>
 service rpcbind start
 service nfs start
 chkconfig rpcbind on
 chkconfig nfs on
 
-# MySQL server
-yum install -y mysql-server
-# adding configure file in /etc/my.cnf : [mysqld]
-innodb_rollback_on_timeout=1
-innodb_lock_wait_timeout=600
-max_connections=350
-log-bin=mysql-bin
-binlog-format = 'ROW'
+<span class="c"># MySQL server</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> mysql-server
+<span class="c"># adding configure file in /etc/my.cnf : [mysqld]</span>
+<span class="nv">innodb_rollback_on_timeout</span><span class="o">=</span>1
+<span class="nv">innodb_lock_wait_timeout</span><span class="o">=</span>600
+<span class="nv">max_connections</span><span class="o">=</span>350
+log-bin<span class="o">=</span>mysql-bin
+binlog-format <span class="o">=</span> <span class="s1">'ROW'</span>
 
 service mysqld start
 chkconfig mysqld on
-mysql_secure_installation  # remeber the root pass.
+mysql_secure_installation  <span class="c"># remeber the root pass.</span>
 
-# Cloudstack-management
-yum -y install cloudstack-management
-cloudstack-setup-databases cloud:[password]@localhost --deploy-as=root:[password]
+<span class="c"># Cloudstack-management</span>
+yum <span class="nt">-y</span> <span class="nb">install </span>cloudstack-management
+cloudstack-setup-databases cloud:[password]@localhost <span class="nt">--deploy-as</span><span class="o">=</span>root:[password]
 cloudstack-setup-management
 
-#System Template Setup
-/usr/share/cloudstack-common/scripts/storage/secondary/cloud-install-sys-tmplt -m /secondary -u http://cloudstack.apt-get.eu/systemvm/4.6/systemvm64template-4.6.0-kvm.qcow2.bz2 -h kvm -F
+<span class="c">#System Template Setup</span>
+/usr/share/cloudstack-common/scripts/storage/secondary/cloud-install-sys-tmplt <span class="nt">-m</span> /secondary <span class="nt">-u</span> http://cloudstack.apt-get.eu/systemvm/4.6/systemvm64template-4.6.0-kvm.qcow2.bz2 <span class="nt">-h</span> kvm <span class="nt">-F</span>
 
 
-# Install kvm
-yum -y install cloudstack-agent
+<span class="c"># Install kvm</span>
+yum <span class="nt">-y</span> <span class="nb">install </span>cloudstack-agent
 
-# qemu configuration : /etc/libvirt/qemu.conf
-vnc_listen=0.0.0.0
-# Libvirt Configuration : /etc/libvirt/libvirtd.conf
-listen_tls = 0
-listen_tcp = 1
-tcp_port = "16059"
-auth_tcp = "none"
-mdns_adv = 0
-#  /etc/sysconfig/libvirtd
-LIBVIRTD_ARGS="--listen"
+<span class="c"># qemu configuration : /etc/libvirt/qemu.conf</span>
+<span class="nv">vnc_listen</span><span class="o">=</span>0.0.0.0
+<span class="c"># Libvirt Configuration : /etc/libvirt/libvirtd.conf</span>
+listen_tls <span class="o">=</span> 0
+listen_tcp <span class="o">=</span> 1
+tcp_port <span class="o">=</span> <span class="s2">"16059"</span>
+auth_tcp <span class="o">=</span> <span class="s2">"none"</span>
+mdns_adv <span class="o">=</span> 0
+<span class="c">#  /etc/sysconfig/libvirtd</span>
+<span class="nv">LIBVIRTD_ARGS</span><span class="o">=</span><span class="s2">"--listen"</span>
 
 service libvirtd restart
 
-lsmod | grep kvm:
+lsmod | <span class="nb">grep </span>kvm:
 kvm_intel              55496  0
 kvm                   337772  1 kvm_intel
 
 
-##### UI Setting ####
+<span class="c">##### UI Setting ####</span>
 http://[ip]:8080/client
 
 

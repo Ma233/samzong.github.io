@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 	<link rel="manifest" href="/static/pwa/manifest.json">
-	<title> 通过pipreqs获取当前项目的依赖库 | 船长的课记 </title>
+	<title> Docker for Mac 网络技巧 | 船长的课记 </title>
     
 		
     <meta name="author" content="船长">
@@ -275,49 +275,38 @@
 <div class="row" itemscope itemtype="http://schema.org/Article">
     <div class="col-xs-12 col-md-8">
         <div class="page-header" itemprop="name">
-            <h1>通过pipreqs获取当前项目的依赖库 
+            <h1>Docker for Mac 网络技巧 
             </h1>
         </div>
         <div class="post-meta">
             
-            <span class="entry-date" itemprop="datePublished">Posted on 11/17/2022</span>
+            <span class="entry-date" itemprop="datePublished">Posted on 08/17/2022</span>
             
             
             <span class="entry-author" itemprop="author">by 船长</span>
-            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/main/_posts/2022-11-17-通过pipreqs获取当前项目的依赖库.md"
+            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/main/_posts/2022-08-17-Docker for Mac 网络技巧.md"
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <p>如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：</p>
+            <p>在 Windows 和 Linux 中使用 Docker，可以通过 docker0 这个网络 IP，在容器内访问宿主机的端口及服务</p>
 
-<ul>
-  <li>导致缺少依赖库，导致项目初始化麻烦</li>
-  <li>读取了全局依赖库，导致项目安装了大量的实际无用的库</li>
-</ul>
-
-<p>这里推荐一个专门解决这个问题的 Python 库， <code class="language-plaintext highlighter-rouge">pipreqs</code></p>
-
-<h3 id="使用注意事项">使用注意事项</h3>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># linux &amp; mac</span>
-pipreqs <span class="nv">$python_project_dir</span>
-
-<span class="c"># Windows 需要增加 --encoding=utf-8 字母编码，否则会有出错，懂得都懂</span>
-pipreqs ./ <span class="nt">--encoding</span><span class="o">=</span>utf-8
-
-<span class="c"># 会自动在当前目录生成一个 requirements.txt， 如果已存在会提示失败</span>
-<span class="c"># 也可以使用 --force 强制覆盖</span>
-pipreqs <span class="nb">.</span> <span class="nt">--force</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ ifconfig
+docker0: <span class="nv">flags</span><span class="o">=</span>4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet 172.17.0.1  netmask 255.255.0.0  broadcast 172.17.255.255
+        ether 02:42:65:e2:82:de  txqueuelen 0  <span class="o">(</span>Ethernet<span class="o">)</span>
+        RX packets 19240  bytes 9107695 <span class="o">(</span>8.6 MiB<span class="o">)</span>
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 16989  bytes 9952021 <span class="o">(</span>9.4 MiB<span class="o">)</span>
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 </code></pre></div></div>
 
-<h3 id="支持的其他功能">支持的其他功能</h3>
+<p>但以上在 macOS 中无 docker0 端口，那我们如何在 Docker for Mac 中访问宿主机的服务呢？</p>
 
-<p>更多的功能，可以在安装后研究下，通过 -h 可以获取更多有价值的信息</p>
+<blockquote>
+  <p>docker.for.mac.host.internal</p>
+</blockquote>
 
-<p>:::info
---diff <file>         将 requirements.txt 中的模块与项目导入进行比较。  &gt;&gt; 仅追加
-\--clean <file>     通过删除项目中没有导入的模块来清理 requirements.txt   &gt;&gt; 瘦身
-:::</file></file></p>
+<p>可以采用以上本地域名内实现在容器内访问 宿主机的服务</p>
 
         </div>
 
@@ -359,6 +348,8 @@ pipreqs <span class="nb">.</span> <span class="nt">--force</span>
                 
                 
                 
+                
+                <li><a href="/post/2022/08/Docker-for-Mac-%E7%BD%91%E7%BB%9C%E6%8A%80%E5%B7%A7.html">Docker for Mac 网络技巧</a> - <span>08/17/2022</span></li>
                 
                 
                 
@@ -1216,13 +1207,13 @@ pipreqs <span class="nb">.</span> <span class="nt">--force</span>
         <nav>
             <ul class="pager">
                 
-                <li class="previous"><a href="/post/2022/11/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html" title="python3 文本处理 strip() split()">&larr;
+                <li class="previous"><a href="/post/2022/08/%E7%93%A6%E5%B0%94%E7%99%BB%E6%B9%96.html" title="瓦尔登湖">&larr;
                     Previous（前一篇）</a></li>
                 
                 <!-- <li><a href="/static/archive.html">Archive（目录）</a></li> -->
                 <li><a href="/archive.html">Archive（目录）</a></li>
                 
-                <li class="next disabled"><a>Next（后一篇） &rarr;</a></li>
+                <li class="next"><a href="/post/2022/09/K8s%E7%B3%BB%E5%88%97-%E5%8D%97%E5%8C%97%E6%B5%81%E9%87%8F%E5%92%8C%E4%B8%9C%E8%A5%BF%E6%B5%81%E9%87%8F.html" title="K8s 系列 南北流量和东西流量">Next（后一篇） &rarr;</a></li>
                 
             </ul>
         </nav>
@@ -1239,8 +1230,8 @@ pipreqs <span class="nb">.</span> <span class="nt">--force</span>
   
      
     	
-      <li><a href="/categories.html#Python">
-    		Python <span>45</span>
+      <li><a href="/categories.html#Docker">
+    		Docker <span>6</span>
     	</a></li>
     
   
@@ -1260,7 +1251,10 @@ pipreqs <span class="nb">.</span> <span class="nt">--force</span>
   
      
     	
-    	<li><a href="/tags.html#Python">Python <span>46</span></a></li>
+    	<li><a href="/tags.html#Docker">Docker <span>7</span></a></li>
+     
+    	
+    	<li><a href="/tags.html#Mac">Mac <span>25</span></a></li>
     
   
 

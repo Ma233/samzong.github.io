@@ -299,7 +299,7 @@
   <li>Nginx 1.10</li>
 </ul>
 
-<h4 id="安装rvm">安装rvm</h4>
+<h4 id="安装-rvm">安装 rvm</h4>
 
 <h5 id="导入公钥">导入公钥</h5>
 
@@ -311,24 +311,24 @@
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# curl -L https://get.rvm.io | bash -s stable
 </code></pre></div></div>
 
-<h5 id="加载rvm环境并安装基础依赖包">加载rvm环境并安装基础依赖包</h5>
+<h5 id="加载-rvm-环境并安装基础依赖包">加载 rvm 环境并安装基础依赖包</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# source /etc/profile.d/rvm.sh
 [root@localhost ~]# rvm requirements
 </code></pre></div></div>
 
-<h4 id="安装ruby">安装ruby</h4>
+<h4 id="安装-ruby">安装 ruby</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# rvm install 2.2.6
 ...
 [root@localhost ~]# rvm use 2.2.6 --default
 </code></pre></div></div>
 
-<h4 id="安装rails">安装rails</h4>
+<h4 id="安装-rails">安装 rails</h4>
 
-<h5 id="更换gem源">更换gem源</h5>
+<h5 id="更换-gem-源">更换 gem 源</h5>
 
-<p>默认gem的源站点是<a href="https://rubygems.org">https://rubygems.org</a> 由于国内的网络原因导致无法连接，所以导致无法使用gem安装，这里换成国内淘宝的gem镜像站点</p>
+<p>默认 gem 的源站点是<a href="https://rubygems.org">https://rubygems.org</a> 由于国内的网络原因导致无法连接，所以导致无法使用 gem 安装，这里换成国内淘宝的 gem 镜像站点</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# gem sources -l
 *** CURRENT SOURCES ***
@@ -347,46 +347,46 @@ https://ruby.taobao.org/
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# gem install rails -v=4.2
 </code></pre></div></div>
 
-<h4 id="安装mysql">安装MySQL</h4>
+<h4 id="安装-mysql">安装 MySQL</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# yum install -y mysql-server mysql-libs mysql-devel mysql
 [root@localhost ~]# service mysqld start
 [root@localhost ~]# mysql_secure_installation
 </code></pre></div></div>
 
-<h4 id="安装redmine">安装redmine</h4>
+<h4 id="安装-redmine">安装 redmine</h4>
 
-<h5 id="下载redmine-332">下载Redmine 3.3.2</h5>
+<h5 id="下载-redmine-332">下载 Redmine 3.3.2</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# wget http://www.redmine.org/releases/redmine-3.3.2.tar.gz
 [root@localhost ~]# tar xf redmine-3.3.2.tar.gz
 [root@localhost ~]# mv redmine-3.3.2 /opt
 </code></pre></div></div>
 
-<h5 id="安装管理ruby的包管理工具bundler">安装管理ruby的包管理工具bundler</h5>
+<h5 id="安装管理-ruby-的包管理工具-bundler">安装管理 ruby 的包管理工具 bundler</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 注意，一定要在redmine目录下操作
 [root@localhost ~]# cd /opt/redmine-3.3.2
 [root@localhost redmine-3.3.2]# gem install bundler
 </code></pre></div></div>
 
-<h5 id="安装redmine运行所需要的依赖包">安装redmine运行所需要的依赖包</h5>
+<h5 id="安装-redmine-运行所需要的依赖包">安装 redmine 运行所需要的依赖包</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# bundle install --without development test rmagick
 </code></pre></div></div>
 
-<h5 id="为rails生产cookies秘钥">为rails生产cookies秘钥</h5>
+<h5 id="为-rails-生产-cookies-秘钥">为 rails 生产 cookies 秘钥</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# rake generate_secret_token
 </code></pre></div></div>
 
-<h5 id="创建redmine的数据库">创建redmine的数据库</h5>
+<h5 id="创建-redmine-的数据库">创建 redmine 的数据库</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; create database redmine character set utf8;
 mysql&gt; grant all privileges on redmine.* to 'redmine'@'localhost' identified by 'redmine_pass';
 </code></pre></div></div>
 
-<h5 id="修改redmine的databaseyml">修改redmine的database.yml</h5>
+<h5 id="修改-redmine-的-databaseyml">修改 redmine 的 database.yml</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# cp config/database.yml.example config/database.yml
 [root@localhost redmine-3.3.2]# vim config/database.yml
@@ -416,25 +416,25 @@ production:
 </code></pre></div></div>
 
 <blockquote>
-  <p>默认运行3000端口，默认管理员admin/admin</p>
+  <p>默认运行 3000 端口，默认管理员 admin/admin</p>
 </blockquote>
 
-<h4 id="配置redmine在nginx上运行">配置Redmine在Nginx上运行</h4>
+<h4 id="配置-redmine-在-nginx-上运行">配置 Redmine 在 Nginx 上运行</h4>
 
-<p>Redmine常用的解决办法是使用passenger+nginx，但是Nginx不支持装载模块，所以需要重新编译安装Nginx，安装Nginx的Passenger有两种方式</p>
+<p>Redmine 常用的解决办法是使用 passenger+nginx，但是 Nginx 不支持装载模块，所以需要重新编译安装 Nginx，安装 Nginx 的 Passenger 有两种方式</p>
 
 <ul>
-  <li>采用Passenger提供的脚本进行安装，适合新环境</li>
-  <li>手动编译安装Nginx增加Passenger模块，适合已存在Nginx环境</li>
+  <li>采用 Passenger 提供的脚本进行安装，适合新环境</li>
+  <li>手动编译安装 Nginx 增加 Passenger 模块，适合已存在 Nginx 环境</li>
 </ul>
 
-<h5 id="采用passenger提供脚本安装">采用Passenger提供脚本安装</h5>
+<h5 id="采用-passenger-提供脚本安装">采用 Passenger 提供脚本安装</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# gem install passenger
 [root@localhost redmine-3.3.2]# passenger-install-nginx-module --auto --prefix=/opt/nginx
 </code></pre></div></div>
 
-<h5 id="采用重新编译nginx增加passenger模块">采用重新编译Nginx增加Passenger模块</h5>
+<h5 id="采用重新编译-nginx-增加-passenger-模块">采用重新编译 Nginx 增加 Passenger 模块</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 获取passenger的安装路径
 [root@localhost ~]# passenger-config --root
@@ -447,12 +447,12 @@ production:
 [root@localhost nginx-1.10.3]# ./configure ... -add-module=/usr/local/rvm/gems/ruby-2.2.6/gems/passenger-5.1.2
 </code></pre></div></div>
 
-<h5 id="增加http模块内以下配置">增加HTTP模块内以下配置</h5>
+<h5 id="增加-http-模块内以下配置">增加 HTTP 模块内以下配置</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>passenger_root /usr/local/rvm/gems/ruby-2.2.6/gems/passenger-5.1.2
 </code></pre></div></div>
 
-<h5 id="配置nginxconf-修改server模块中location的配置">配置nginx.conf 修改server模块中location的配置</h5>
+<h5 id="配置-nginxconf-修改-server-模块中-location-的配置">配置 nginx.conf 修改 server 模块中 location 的配置</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ...
 server {
@@ -466,7 +466,7 @@ server {
 # ...
 </code></pre></div></div>
 
-<h5 id="启动nginx">启动Nginx</h5>
+<h5 id="启动-nginx">启动 Nginx</h5>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# /root/nginx-1.10.3/sbin/nginx -c /root/nginx-1.10.3/conf/nginx.conf
 </code></pre></div></div>

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 	<link rel="manifest" href="/static/pwa/manifest.json">
-	<title> python Request install pip error | 船长的课记 </title>
+	<title> 通过 pipreqs 获取当前项目的依赖库 | 船长的课记 </title>
     
 		
     <meta name="author" content="船长">
@@ -275,28 +275,49 @@
 <div class="row" itemscope itemtype="http://schema.org/Article">
     <div class="col-xs-12 col-md-8">
         <div class="page-header" itemprop="name">
-            <h1>python Request install pip error 
+            <h1>通过 pipreqs 获取当前项目的依赖库 
             </h1>
         </div>
         <div class="post-meta">
             
-            <span class="entry-date" itemprop="datePublished">Posted on 11/17/2022</span>
+            <span class="entry-date" itemprop="datePublished">Posted on 07/24/2022</span>
             
             
             <span class="entry-author" itemprop="author">by 船长</span>
-            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/main/_posts/2022-11-17-python Request install pip error.md"
+            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/main/_posts/2022-07-24-通过pipreqs获取当前项目的依赖库.md"
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <pre><code class="language-log">…
-socket.timeout: The read operation timed out
-…
-ReadTimeoutError: HTTPSConnectionPool(host=‘files.pythonhosted.org’, port=443): Read timed out.
-</code></pre>
+            <p>如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：</p>
 
-<p>解决办法：</p>
+<ul>
+  <li>导致缺少依赖库，导致项目初始化麻烦</li>
+  <li>读取了全局依赖库，导致项目安装了大量的实际无用的库</li>
+</ul>
 
-<p><code class="language-plaintext highlighter-rouge">pip --default-timeout=200 install -U xxx_package_name</code></p>
+<p>这里推荐一个专门解决这个问题的 Python 库， <code class="language-plaintext highlighter-rouge">pipreqs</code></p>
+
+<h3 id="使用注意事项">使用注意事项</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># linux &amp; mac</span>
+pipreqs <span class="nv">$python_project_dir</span>
+
+<span class="c"># Windows 需要增加 --encoding=utf-8 字母编码，否则会有出错，懂得都懂</span>
+pipreqs ./ <span class="nt">--encoding</span><span class="o">=</span>utf-8
+
+<span class="c"># 会自动在当前目录生成一个 requirements.txt， 如果已存在会提示失败</span>
+<span class="c"># 也可以使用 --force 强制覆盖</span>
+pipreqs <span class="nb">.</span> <span class="nt">--force</span>
+</code></pre></div></div>
+
+<h3 id="支持的其他功能">支持的其他功能</h3>
+
+<p>更多的功能，可以在安装后研究下，通过 -h 可以获取更多有价值的信息</p>
+
+<p>:::info
+--diff <file>         将 requirements.txt 中的模块与项目导入进行比较。  &gt;&gt; 仅追加
+\--clean <file>     通过删除项目中没有导入的模块来清理 requirements.txt   &gt;&gt; 瘦身
+:::</file></file></p>
 
         </div>
 
@@ -1195,13 +1216,13 @@ ReadTimeoutError: HTTPSConnectionPool(host=‘files.pythonhosted.org’, port=44
         <nav>
             <ul class="pager">
                 
-                <li class="previous"><a href="/post/2022/11/learn-sqlalchemy.html" title="learn sqlalchemy">&larr;
+                <li class="previous"><a href="/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8.html" title="jq 命令行 Json 处理神器">&larr;
                     Previous（前一篇）</a></li>
                 
                 <!-- <li><a href="/static/archive.html">Archive（目录）</a></li> -->
                 <li><a href="/archive.html">Archive（目录）</a></li>
                 
-                <li class="next"><a href="/post/2022/11/python-re%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F.html" title="python re正则表达式">Next（后一篇） &rarr;</a></li>
+                <li class="next"><a href="/post/2022/08/%E7%93%A6%E5%B0%94%E7%99%BB%E6%B9%96.html" title="瓦尔登湖">Next（后一篇） &rarr;</a></li>
                 
             </ul>
         </nav>

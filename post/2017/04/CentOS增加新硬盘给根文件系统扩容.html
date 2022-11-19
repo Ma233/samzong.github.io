@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 	<link rel="manifest" href="/static/pwa/manifest.json">
-	<title> CentOS增加新硬盘给根文件系统扩容 | 船长的课记 </title>
+	<title> CentOS 增加新硬盘给根文件系统扩容 | 船长的课记 </title>
     
 		
     <meta name="author" content="船长">
@@ -275,7 +275,7 @@
 <div class="row" itemscope itemtype="http://schema.org/Article">
     <div class="col-xs-12 col-md-8">
         <div class="page-header" itemprop="name">
-            <h1>CentOS增加新硬盘给根文件系统扩容 
+            <h1>CentOS 增加新硬盘给根文件系统扩容 
             </h1>
         </div>
         <div class="post-meta">
@@ -288,7 +288,7 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <p>由于刚开始做磁盘空间规划时，失误给根分区分配磁盘较小，导致后续实验环境无法进行，所以在经过研究后，决定尝试增加根分区的磁盘空间，注意这仅适用于创建在LVM上的文件系统。</p>
+            <p>由于刚开始做磁盘空间规划时，失误给根分区分配磁盘较小，导致后续实验环境无法进行，所以在经过研究后，决定尝试增加根分区的磁盘空间，注意这仅适用于创建在 LVM 上的文件系统。</p>
 
 <h3 id="实验环境">实验环境</h3>
 
@@ -297,27 +297,27 @@
   <li>CentOS 6.9</li>
   <li>根分区空间 6.5GB</li>
   <li>已使用 5.8GB</li>
-  <li>预计 增加12G 磁盘空间</li>
+  <li>预计 增加 12G 磁盘空间</li>
 </ul>
 
 <!-- more -->
 
 <h3 id="增加一块物理磁盘">增加一块物理磁盘</h3>
 
-<p>Parallels Desktop 不能在线增加磁盘，所以要先将VM关闭，然后添加：
+<p>Parallels Desktop 不能在线增加磁盘，所以要先将 VM 关闭，然后添加：
 <img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/m5e1d.jpg" alt="" />
-增加12G的磁盘
+增加 12G 的磁盘
 <img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/prgyd.jpg" alt="" /></p>
 
-<p>然后启动VM，这时可以通过<code>fdisk -l</code>查看当前已经增加了一块12G的磁盘</p>
+<p>然后启动 VM，这时可以通过<code>fdisk -l</code>查看当前已经增加了一块 12G 的磁盘</p>
 
 <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/tat9r.jpg" alt="" /></p>
 
-<h3 id="格式化磁盘并加入到vgroup组内">格式化磁盘并加入到VGroup组内</h3>
+<h3 id="格式化磁盘并加入到-vgroup-组内">格式化磁盘并加入到 VGroup 组内</h3>
 
-<h4 id="查看当前pvdisplay磁盘列表将devsdb创建pv块">查看当前<code>pvdisplay</code>磁盘列表，将<code>/dev/sdb</code>创建pv块</h4>
+<h4 id="查看当前pvdisplay磁盘列表将devsdb创建-pv-块">查看当前<code>pvdisplay</code>磁盘列表，将<code>/dev/sdb</code>创建 pv 块</h4>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# pvdisplay
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# pvdisplay
   <span class="nt">---</span> Physical volume <span class="nt">---</span>
   PV Name               /dev/sda2
   VG Name               vg_hadoop01
@@ -355,7 +355,7 @@
   PV UUID               XTpaBR-512W-vQIV-fwwz-So7L-ZCa3-yjDccQ
 </code></pre></div></div>
 
-<h4 id="查看当前vgdisplayvgroup组将devsdb加入根目录所在vgroup">查看当前<code>vgdisplay</code>VGroup组，将<code>/dev/sdb</code>加入根目录所在VGroup</h4>
+<h4 id="查看当前vgdisplayvgroup-组将devsdb加入根目录所在-vgroup">查看当前<code>vgdisplay</code>VGroup 组，将<code>/dev/sdb</code>加入根目录所在 VGroup</h4>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# vgdisplay
   <span class="nt">---</span> Volume group <span class="nt">---</span>
@@ -404,7 +404,7 @@
   VG UUID               szQ4fH-Sr1Z-V6c2-KVMp-ZUik-oUDP-rU8dQS
 </code></pre></div></div>
 
-<h4 id="查看lvdisplay根卷的名称将磁盘加入根卷的lv">查看<code>lvdisplay</code>根卷的名称，将磁盘加入根卷的LV</h4>
+<h4 id="查看lvdisplay根卷的名称将磁盘加入根卷的-lv">查看<code>lvdisplay</code>根卷的名称，将磁盘加入根卷的 LV</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@centos ~]# lvdisplay
   --- Logical volume ---
@@ -1404,7 +1404,7 @@ tmpfs                 244M     0  244M   0% /dev/shm
                 <!-- <li><a href="/static/archive.html">Archive（目录）</a></li> -->
                 <li><a href="/archive.html">Archive（目录）</a></li>
                 
-                <li class="next"><a href="/post/2017/05/Wannacry%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E4%BA%8B%E4%BB%B6%E5%8F%8A%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%A1%88.html" title="Wannacry蠕虫病毒事件及修复方案">Next（后一篇） &rarr;</a></li>
+                <li class="next"><a href="/post/2017/05/Wannacry%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E4%BA%8B%E4%BB%B6%E5%8F%8A%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%A1%88.html" title="Wannacry 蠕虫病毒事件及修复方案">Next（后一篇） &rarr;</a></li>
                 
             </ul>
         </nav>

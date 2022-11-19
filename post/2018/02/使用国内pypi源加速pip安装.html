@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 	<link rel="manifest" href="/static/pwa/manifest.json">
-	<title> 使用国内pypi源加速pip安装 | 船长的课记 </title>
+	<title> 使用国内 pypi 源加速 pip 安装 | 船长的课记 </title>
     
 		
     <meta name="author" content="船长">
@@ -275,7 +275,7 @@
 <div class="row" itemscope itemtype="http://schema.org/Article">
     <div class="col-xs-12 col-md-8">
         <div class="page-header" itemprop="name">
-            <h1>使用国内pypi源加速pip安装 
+            <h1>使用国内 pypi 源加速 pip 安装 
             </h1>
         </div>
         <div class="post-meta">
@@ -290,9 +290,9 @@
         <div class="post-content" itemprop="articleBody">
             <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/mxb19.png" alt="" /></p>
 
-<p>在解决将AWS Cloudwatch的监控信息展示在Zabbix上时，需要安装AWS的一个python 工具包boto3，但是在安装过程中，碰到了如上图的错误信息；问题是由于国内网络问题导致连接python库超时，所以将库改为国内</p>
+<p>在解决将 AWS Cloudwatch 的监控信息展示在 Zabbix 上时，需要安装 AWS 的一个 python 工具包 boto3，但是在安装过程中，碰到了如上图的错误信息；问题是由于国内网络问题导致连接 python 库超时，所以将库改为国内</p>
 
-<h4 id="国内pypi源站点">国内pypi源站点</h4>
+<h4 id="国内-pypi-源站点">国内 pypi 源站点</h4>
 
 <ul>
   <li><a href="http://pypi.douban.com/simple">http://pypi.douban.com/simple</a>  豆瓣</li>
@@ -311,13 +311,13 @@ index-url <span class="o">=</span> http://pypi.douban.com/simple
 
 <h4 id="linux-修改">Linux 修改</h4>
 
-<p>编辑 ~/.pip/pip.conf ， 如果文件不存在，可以先创建</p>
+<p>编辑 ~/.pip/pip.conf，如果文件不存在，可以先创建</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>global]
 index-url <span class="o">=</span> http://pypi.douban.com/simple
 </code></pre></div></div>
 
-<h4 id="修改easy_install-源">修改easy_install 源</h4>
+<h4 id="修改-easy_install-源">修改 easy_install 源</h4>
 
 <p>编辑 ~/.pydistutils.cfg</p>
 
@@ -327,7 +327,7 @@ index-url <span class="o">=</span> http://pypi.douban.com/simple
 
 <h4 id="临时使用">临时使用</h4>
 
-<p>如果你不想修改源，只是临时使用的话，可以在pip安装时使用-i参数临时指定源站点</p>
+<p>如果你不想修改源，只是临时使用的话，可以在 pip 安装时使用-i 参数临时指定源站点</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nt">-i</span> http://pypi.douban.com/simple <span class="nb">install </span>boto3
 </code></pre></div></div>

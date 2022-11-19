@@ -288,22 +288,22 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <p>mac系统也是基于unix的系统，所以也继承类很多unix的特性，包括软件的编译，安装等。ubuntu下有快捷命令<code class="language-plaintext highlighter-rouge">apt install</code>来快速安装软件。centos下有<code class="language-plaintext highlighter-rouge">yum install</code>来快速安装。所以，mac下也有一种方式，就是使用<code class="language-plaintext highlighter-rouge">brew</code>。</p>
+            <p>mac 系统也是基于 unix 的系统，所以也继承类很多 unix 的特性，包括软件的编译，安装等。ubuntu 下有快捷命令<code class="language-plaintext highlighter-rouge">apt install</code>来快速安装软件。centos 下有<code class="language-plaintext highlighter-rouge">yum install</code>来快速安装。所以，mac 下也有一种方式，就是使用<code class="language-plaintext highlighter-rouge">brew</code>。</p>
 
 <p>并且，在 Homebrew 和 Cask 的支持下，基本可以全面接待 MacOS 的所有软件安装和更新功能。</p>
 
-<p><code class="language-plaintext highlighter-rouge">brew</code>是Mac下的一个包管理工具，它从下载源码解压然后 <code class="language-plaintext highlighter-rouge">./configure &amp;&amp; make install</code> ，同时会包含相关依存库。并自动配置好各种环境变量，而且非常易于卸载。 这个对程序员来说简直是福音，简单的指令，就能快速安装和升级本地的各种开发环境。</p>
+<p><code class="language-plaintext highlighter-rouge">brew</code>是 Mac 下的一个包管理工具，它从下载源码解压然后 <code class="language-plaintext highlighter-rouge">./configure &amp;&amp; make install</code> ，同时会包含相关依存库。并自动配置好各种环境变量，而且非常易于卸载。这个对程序员来说简直是福音，简单的指令，就能快速安装和升级本地的各种开发环境。</p>
 
 <p>home brew 官网是 <a href="http://brew.sh/index_zh-cn.html">http://brew.sh/index_zh-cn.html</a></p>
 
 <h2 id="安装-brew">安装 brew</h2>
 
-<p>打开 itrem 。输入一条命令即可安装好 brew。</p>
+<p>打开 itrem。输入一条命令即可安装好 brew。</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
 </code></pre></div></div>
 
-<p>这样一个简单的命令，我们就安装好来brew 。来验证一下，输入brew命令：</p>
+<p>这样一个简单的命令，我们就安装好来 brew。来验证一下，输入 brew 命令：</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew
 Example usage:
@@ -335,12 +335,12 @@ Further <span class="nb">help</span>:
 
 <h2 id="用-brew-安装程序">用 brew 安装程序</h2>
 
-<p>安装好了brew之后，我们就可以用这个命令安装各种源码了。比如安装一下<code class="language-plaintext highlighter-rouge">wget</code>工具。这个工具能在命令行中帮我们下载各种数据。</p>
+<p>安装好了 brew 之后，我们就可以用这个命令安装各种源码了。比如安装一下<code class="language-plaintext highlighter-rouge">wget</code>工具。这个工具能在命令行中帮我们下载各种数据。</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>git
 </code></pre></div></div>
 
-<p>这样一个简单的命令就可以了。它会帮我们下载好 git ，并且编译执行安装，还会下载各种依赖包，设置好各种配置和参数。</p>
+<p>这样一个简单的命令就可以了。它会帮我们下载好 git，并且编译执行安装，还会下载各种依赖包，设置好各种配置和参数。</p>
 
 <p>安装好的 <code class="language-plaintext highlighter-rouge">git</code> 会被安装到<code class="language-plaintext highlighter-rouge">/usr/local/Cellar/git/</code>下。并且将<code class="language-plaintext highlighter-rouge">wget</code>命令软链接至 <code class="language-plaintext highlighter-rouge">/usr/local/bin</code> 目录下。这样全局就都可以使用<code class="language-plaintext highlighter-rouge">git</code>命令了。</p>
 
@@ -381,13 +381,13 @@ Rosetta 2: <span class="nb">false</span>
 
 <h2 id="brew-cask">brew cask</h2>
 
-<p><img src="https://camo.githubusercontent.com/f8b75a5e461338a90db6acf4db8f5bc9cf620bfba65a5a490ed10bd08f457b52/68747470733a2f2f692e696d6775722e636f6d2f464e4e4d36574c2e676966" alt="" /></p>
+<p><img src="https://camo.githubusercontent.com/f8b75a5e461338a90db6acf4db8f5bc9cf620bfba65a5a490ed10bd08f457b52/68747470733a2f2f692e696d6775722e636f6d2f464e4e4d36574c2e676966" alt="image" /></p>
 
-<p>brew cask 是在 brew 的基础上一个增强的工具，用来安装Mac上的Gui程序应用包（.dmg/.pkg）, 比如 Chrome 、WeChat 等。它先下载解压到统一的目录中（<code class="language-plaintext highlighter-rouge">/opt/homebrew-cask/Caskroom</code>），省掉了自己去下载、解压、拖拽（安装）等蛋疼步骤，同样，卸载相当容易与干净。然后再软链到<code class="language-plaintext highlighter-rouge">~/Applications/</code>目录下, 一气呵成。非常方便，而且还包含很多在 AppStore 里没有的常用软件。</p>
+<p>brew cask 是在 brew 的基础上一个增强的工具，用来安装 Mac 上的 Gui 程序应用包（.dmg/.pkg）, 比如 Chrome、WeChat 等。它先下载解压到统一的目录中（<code class="language-plaintext highlighter-rouge">/opt/homebrew-cask/Caskroom</code>），省掉了自己去下载、解压、拖拽（安装）等蛋疼步骤，同样，卸载相当容易与干净。然后再软链到<code class="language-plaintext highlighter-rouge">~/Applications/</code>目录下，一气呵成。非常方便，而且还包含很多在 AppStore 里没有的常用软件。</p>
 
 <ul>
-  <li>brew cask的官网是：<a href="http://caskroom.io/">http://caskroom.io</a></li>
-  <li>github地址是：<a href="https://github.com/caskroom/homebrew-cask">https://github.com/caskroom/homebrew-cask</a></li>
+  <li>brew cask 的官网是：<a href="http://caskroom.io/">http://caskroom.io</a></li>
+  <li>github 地址是：<a href="https://github.com/caskroom/homebrew-cask">https://github.com/caskroom/homebrew-cask</a></li>
 </ul>
 
 <p>:::information_desk_person: Cask 目前已经内置到 brew 官方安装包内了，无需单独安装；并且官方集成的非常好，大部分情况下，不需要特殊标记就可以看到到对应的软件了</p>
@@ -566,7 +566,7 @@ Do you want to upgrade 9 apps or enter <span class="o">[</span>i]nteractive mode
 
 <h2 id="brew-mas">brew mas</h2>
 
-<p>mas 是一个帮助在命令行下完成 Mac App Store 软件安装和查询的工具，使用起来也是非常的简单，但相对于 cask 低了很多，可以作为了解， 安装方式如下：</p>
+<p>mas 是一个帮助在命令行下完成 Mac App Store 软件安装和查询的工具，使用起来也是非常的简单，但相对于 cask 低了很多，可以作为了解，安装方式如下：</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ brew <span class="nb">install </span>mas
 </code></pre></div></div>
@@ -584,7 +584,7 @@ Do you want to upgrade 9 apps or enter <span class="o">[</span>i]nteractive mode
 
 <h2 id="brew-软件的备份和恢复">brew 软件的备份和恢复</h2>
 
-<p>随着对系统使用的不断加深，我们已经在一台电脑上建立一套对自己来说的软件生态，所以在更换电脑时，需要安装那些软件是非常头疼的一个事情； 如果都是 GUI 软件还好，但研发同学的电脑其实会有大量的 forumal 软件，重装起来还是非常麻烦的。</p>
+<p>随着对系统使用的不断加深，我们已经在一台电脑上建立一套对自己来说的软件生态，所以在更换电脑时，需要安装那些软件是非常头疼的一个事情；如果都是 GUI 软件还好，但研发同学的电脑其实会有大量的 forumal 软件，重装起来还是非常麻烦的。</p>
 
 <p>所以，这里给大家推荐 <code class="language-plaintext highlighter-rouge">homebrew-bundle</code> 来帮助迁移电脑时，快速备份和恢复你的软件环境；整个使用的过程也是非常的便捷。</p>
 
@@ -637,7 +637,7 @@ mas <span class="s2">"Bridge Constructor+"</span>, <span class="nb">id</span>: 1
 
 <h3 id="快速恢复软件">快速恢复软件</h3>
 
-<p>以下是你的新 Mac 上要做的事情，你需要把自己的 <code class="language-plaintext highlighter-rouge">Brewfile</code> 转移到新的 Mac 上，软件需要安装基础的工具:</p>
+<p>以下是你的新 Mac 上要做的事情，你需要把自己的 <code class="language-plaintext highlighter-rouge">Brewfile</code> 转移到新的 Mac 上，软件需要安装基础的工具：</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 安装 Homebrew</span>
 ➜  ~ /usr/bin/ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>

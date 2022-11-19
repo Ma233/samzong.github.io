@@ -288,73 +288,73 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <h4 id="install-centos-6x-x86_64">Install Centos 6.x x86_64</h4>
+            <h2 id="install-centos-6x-x86_64">Install Centos 6.x x86_64</h2>
 
 <p><em>略.</em></p>
 
-<h4 id="安装依赖软件">安装依赖软件</h4>
+<h2 id="安装依赖软件">安装依赖软件</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum -y install wget java glibc.i686
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">-y</span> <span class="nb">install </span>wget java glibc.i686
 </code></pre></div></div>
 
-<h4 id="下载-openfire-38-到本地">下载 openfire 3.8 到本地</h4>
+<h3 id="下载-openfire-38-到本地">下载 openfire 3.8 到本地</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://download.igniterealtime.org/openfire/openfire-3.8.1-1.i386.rpm
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://download.igniterealtime.org/openfire/openfire-3.8.1-1.i386.rpm
 </code></pre></div></div>
 
-<h4 id="安装-openfire-38">安装 openfire 3.8</h4>
+<h3 id="安装-openfire-38">安装 openfire 3.8</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum -y install ./openfire*rpm
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">-y</span> <span class="nb">install</span> ./openfire<span class="k">*</span>rpm
 </code></pre></div></div>
 
-<h4 id="设置服务开启自启动">设置服务开启自启动</h4>
+<h3 id="设置服务开启自启动">设置服务开启自启动</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chkconfig openfire on
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chkconfig openfire on
 
 </code></pre></div></div>
 
-<h4 id="yum-install-mysql-server">Yum Install mysql-server</h4>
+<h3 id="yum-install-mysql-server">Yum Install mysql-server</h3>
 
 <p>详见： <a href="http://blog.ultraera.org/how-to-install-mysql-5-6-on-centos/">How to Install MySQL 5.5/6/7 on RHEL/CentOS 5/6/7</a></p>
 
-<h4 id="创建-openfire-数据库">创建 openfire 数据库</h4>
+<h2 id="创建-openfire-数据库">创建 openfire 数据库</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql -u root -p
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-u</span> root <span class="nt">-p</span>
 
-create database openfire character set utf8;
-grant all privileges on openfire.* to 'openfire'@'127.0.0.1' identified by 'openfire' with grant option;
+create database openfire character <span class="nb">set </span>utf8<span class="p">;</span>
+grant all privileges on openfire.<span class="k">*</span> to <span class="s1">'openfire'</span>@<span class="s1">'127.0.0.1'</span> identified by <span class="s1">'openfire'</span> with grant option<span class="p">;</span>
 </code></pre></div></div>
 
-<h4 id="启动-openfire">启动 openfire</h4>
+<h3 id="启动-openfire">启动 openfire</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://Host:9090
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://Host:9090
 </code></pre></div></div>
 
-<h4 id="之后的初始化步骤请根据实际操作注意设定数据库地址用户名和密码时不要出错">之后的初始化步骤，请根据实际操作，注意设定数据库地址用户名和密码时不要出错</h4>
+<h2 id="之后的初始化步骤请根据实际操作注意设定数据库地址用户名和密码时不要出错">之后的初始化步骤，请根据实际操作，注意设定数据库地址用户名和密码时不要出错</h2>
 
-<h4 id="faq">FAQ</h4>
+<h2 id="faq">FAQ</h2>
 
 <p>openfire 安装完毕后无法登录控制台</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>报错：Login failed:make sure your username and password are correct and that you’re an admin or moderator
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>报错：Login failed:make sure your username and password are correct and that you’re an admin or moderator
 
 解决方案如下：
 1.使用Mysql查看工具进入数据库，进入表“ofuser”，将该表清空，然后执行该SQL
-INSERT INTO ofUser (username, plainPassword, name, email, creationDate, modificationDate)
-    VALUES ('admin', 'admin', 'Administrator', 'admin@example.com', '0', '0');
+INSERT INTO ofUser <span class="o">(</span>username, plainPassword, name, email, creationDate, modificationDate<span class="o">)</span>
+    VALUES <span class="o">(</span><span class="s1">'admin'</span>, <span class="s1">'admin'</span>, <span class="s1">'Administrator'</span>, <span class="s1">'admin@example.com'</span>, <span class="s1">'0'</span>, <span class="s1">'0'</span><span class="o">)</span><span class="p">;</span>
 
 2.关闭openfire服务，就是从其控制台stop然后再start，再用用户名：admin,密码：admin登录即可
 </code></pre></div></div>
 
 <p>openfire 进程无法启动</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>报错：nohup: failed to run command `/opt/openfire/jre/bin/java': No such file or directory
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>报错：nohup: failed to run <span class="nb">command</span> <span class="sb">`</span>/opt/openfire/jre/bin/java<span class="s1">': No such file or directory
 
 解决方案如下：
 经检查是由于openfire未能正确识别jre环境变量导致，安装时自带的jre是32位，但操作系统却是64位操作平台。
 ，故在/etc/init.d/openfire的启动脚本修改，
 JAVA_HOME="/usr/lib/jvm/jre-$VERSION.x86_64"
-</code></pre></div></div>
+</span></code></pre></div></div>
 
         </div>
 
@@ -1277,12 +1277,12 @@ JAVA_HOME="/usr/lib/jvm/jre-$VERSION.x86_64"
      
     	
       <li><a href="/categories.html#Linux">
-    		Linux <span>21</span>
+    		Linux <span>22</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#CentOS">
-    		CentOS <span>14</span>
+    		CentOS <span>15</span>
     	</a></li>
     
   

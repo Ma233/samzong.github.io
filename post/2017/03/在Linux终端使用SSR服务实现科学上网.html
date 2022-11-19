@@ -290,9 +290,9 @@
         <div class="post-content" itemprop="articleBody">
             <p>昨天在群内看到有朋友在询问如何在 Linux 终端内使用 SSR 来实现科学上网，所以抽空研究了下在 Linux 中如何使用，本文参考了<a href="https://www.zfl9.com/">Otokaze</a> 和 <a href="https://www.djangoz.com">Django</a> 两位的博客，文章链接在博文最后；SSR 服务提供商依然采用了<a href="http://ssglobal.co/wp">ssGlobal</a>，在 Google 的过程中，找了不少解决方案，这里仅做一种简单整理，实验操作系统有 CentOS 7.4 &amp; Ubuntu 16.04.3。</p>
 
-<h4 id="ssr-代理服务">ssr 代理服务</h4>
+<h2 id="ssr-代理服务">ssr 代理服务</h2>
 
-<h5 id="下载">下载</h5>
+<h3 id="下载">下载</h3>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 需要本地git 环境</span>
 yum <span class="nb">install</span> <span class="nt">-y</span> git
@@ -302,7 +302,7 @@ git clone https://github.com/SAMZONG/gfwlist2privoxy.git
 <span class="nb">chmod</span> +x /usr/local/bin/ssr
 </code></pre></div></div>
 
-<h5 id="安装配置">安装配置</h5>
+<h3 id="安装配置">安装配置</h3>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# ssr <span class="nb">install
 </span>Cloning into <span class="s1">'/usr/local/share/shadowsocksr'</span>...
@@ -339,35 +339,35 @@ Resolving deltas: 100% <span class="o">(</span>3799/3799<span class="o">)</span>
 <span class="o">}</span>
 </code></pre></div></div>
 
-<h5 id="启动关闭">启动/关闭</h5>
+<h3 id="启动关闭">启动/关闭</h3>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssr start
 ssr stop 
 </code></pre></div></div>
 
-<h5 id="卸载">卸载</h5>
+<h3 id="卸载">卸载</h3>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssr uninstall <span class="c"># 这里操作会删除/usr/local/share/shadowsocksr</span>
 </code></pre></div></div>
 
 <p>以上，本地监听服务已经配置完成了，在填写的过程中，要注意你的本地监听地址和监听端口，默认是 127.0.0.1:1080，如果你修改了设置，那么在后续配置中也要配合修改。</p>
 
-<h4 id="privoxy-配置">Privoxy 配置</h4>
+<h2 id="privoxy-配置">Privoxy 配置</h2>
 
 <p>首先，需要安装 privoxy</p>
 
-<h6 id="centos-74">CentOS 7.4</h6>
+<h3 id="centos-74">CentOS 7.4</h3>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
 yum <span class="nb">install</span> <span class="nt">-y</span> privoxy
 </code></pre></div></div>
 
-<h6 id="ubuntu-1604">Ubuntu 16.04</h6>
+<h3 id="ubuntu-1604">Ubuntu 16.04</h3>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt <span class="nb">install</span> <span class="nt">-y</span> privoxy
 </code></pre></div></div>
 
-<h5 id="全局模式">全局模式</h5>
+<h3 id="全局模式">全局模式</h3>
 
 <p>代理模式同其他平台上方式，将所有 http/https 请求走代理服务，如果需要全局代理的话按照如下操作即可，如果要使用 PAC 模式，请跳过此部分。</p>
 
@@ -383,7 +383,7 @@ yum <span class="nb">install</span> <span class="nt">-y</span> privoxy
 systemctl start privoxy.service
 </code></pre></div></div>
 
-<h5 id="pac-模式">PAC 模式</h5>
+<h3 id="pac-模式">PAC 模式</h3>
 
 <p>使用 GFWList 是由 AutoProxy 官方维护，由众多网民收集整理的一个中国大陆防火长城的屏蔽列表，这里感谢<a href="https://www.zfl9.com/">@Otokaze</a> 为我们提供了转换 shell 自动转换脚本，为了方便修改，我 fork 了这个项目，将这篇教程所用到的资源进行了汇总，你可以在最开始<code class="language-plaintext highlighter-rouge">git clone</code>的目录中找到执行脚本。</p>
 
@@ -410,7 +410,7 @@ proxy<span class="o">(</span>socks5<span class="o">)</span>: 127.0.0.1:1080  <sp
 systemctl start privoxy.service
 </code></pre></div></div>
 
-<h5 id="proxy-环境变量">proxy 环境变量</h5>
+<h3 id="proxy-环境变量">proxy 环境变量</h3>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># privoxy默认监听端口为8118</span>
 <span class="nb">export </span><span class="nv">http_proxy</span><span class="o">=</span>http://127.0.0.1:8118
@@ -423,7 +423,7 @@ systemctl start privoxy.service
 <span class="c"># 访问 localhost、192.168.1.1、ip.cn、*.ip.cn、chinaz.com、*.chinaz.com 将不使用代理</span>
 </code></pre></div></div>
 
-<h4 id="代理测试">代理测试</h4>
+<h2 id="代理测试">代理测试</h2>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 访问各大网站，如果都有网页源码输出说明代理没问题</span>
 curl <span class="nt">-sL</span> www.baidu.com
@@ -442,7 +442,7 @@ curl <span class="nt">-sL</span> www.wikipedia.org
 curl <span class="nt">-sL</span> ip.chinaz.com/getip.aspx
 </code></pre></div></div>
 
-<h5 id="管理脚本">管理脚本</h5>
+<h3 id="管理脚本">管理脚本</h3>
 
 <p>在以上部署操作完成后，应该已经可以正常科学上网了，但是如果需要进行管理时，需要分别管理 ssr 和 privoxy，为了方便管理，这里写了一个 shell 脚本方便管理：ssr_manager</p>
 
@@ -476,7 +476,7 @@ curl <span class="nt">-sL</span> ip.chinaz.com/getip.aspx
 <span class="k">esac</span>
 </code></pre></div></div>
 
-<h5 id="使用">使用</h5>
+<h3 id="使用">使用</h3>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv </span>gfwlist2privoxy/ssr_manager /usr/local/bin
 <span class="nb">chmod</span> +x ssr_manager
@@ -491,7 +491,7 @@ ssr_manager stop
 ssr_manager autostart
 </code></pre></div></div>
 
-<h4 id="参考链接">参考链接</h4>
+<h2 id="参考链接">参考链接</h2>
 
 <ul>
   <li><a href="https://www.zfl9.com/ss-local.html">https://www.zfl9.com/ss-local.html</a></li>

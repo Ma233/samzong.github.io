@@ -288,116 +288,116 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <h5 id="查看当前服务器失败登录的统计">查看当前服务器失败登录的统计</h5>
+            <h2 id="查看当前服务器失败登录的统计">查看当前服务器失败登录的统计</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat /var/log/secure | awk '/Failed/{print $(NF-3)}' | sort | uniq -c | sort -n |  awk '{print $2" = "$1}'
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /var/log/secure | <span class="nb">awk</span> <span class="s1">'/Failed/{print $(NF-3)}'</span> | <span class="nb">sort</span> | <span class="nb">uniq</span> <span class="nt">-c</span> | <span class="nb">sort</span> <span class="nt">-n</span> |  <span class="nb">awk</span> <span class="s1">'{print $2" = "$1}'</span>
 </code></pre></div></div>
 
-<h5 id="install-denyhosts">Install denyhosts</h5>
+<h2 id="install-denyhosts">Install denyhosts</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 需要预先安装epel源
-sudo yum install -y epel-release
-sudo yum install -y denyhosts
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 需要预先安装epel源</span>
+<span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
+<span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> denyhosts
 </code></pre></div></div>
 
-<h5 id="配置文件解析">配置文件解析</h5>
+<h2 id="配置文件解析">配置文件解析</h2>
 
 <p>默认配置文件/etc/denyhosts。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 查看的sshd日志文件
-SECURE_LOG = /var/log/secure
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 查看的sshd日志文件</span>
+SECURE_LOG <span class="o">=</span> /var/log/secure
 
-# 将阻止IP写入的配置文件
-HOSTS_DENY = /etc/hosts.deny
+<span class="c"># 将阻止IP写入的配置文件</span>
+HOSTS_DENY <span class="o">=</span> /etc/hosts.deny
 
-# 过多久之后清除，其中w代表周，d代表天，h代表小时，s代表秒，m代表分钟。
-PURGE_DENY = 4h
+<span class="c"># 过多久之后清除，其中w代表周，d代表天，h代表小时，s代表秒，m代表分钟。</span>
+PURGE_DENY <span class="o">=</span> 4h
 
-# 阻止的服务名称
-BLOCK_SERVICE  = sshd
+<span class="c"># 阻止的服务名称</span>
+BLOCK_SERVICE  <span class="o">=</span> sshd
 
-# 允许无效用户（在/etc/passwd未列出）登录失败次数,允许无效用户登录失败的次数.
-DENY_THRESHOLD_INVALID = 1
+<span class="c"># 允许无效用户（在/etc/passwd未列出）登录失败次数,允许无效用户登录失败的次数.</span>
+DENY_THRESHOLD_INVALID <span class="o">=</span> 1
 
-# 允许普通用户登录失败的次数
-DENY_THRESHOLD_VALID = 5
+<span class="c"># 允许普通用户登录失败的次数</span>
+DENY_THRESHOLD_VALID <span class="o">=</span> 5
 
-# 允许root登录失败的次数
-DENY_THRESHOLD_ROOT = 2
-DENY_THRESHOLD_RESTRICTED = 1
+<span class="c"># 允许root登录失败的次数</span>
+DENY_THRESHOLD_ROOT <span class="o">=</span> 2
+DENY_THRESHOLD_RESTRICTED <span class="o">=</span> 1
 
-# 设定 deny host 写入到该资料夹
-WORK_DIR = /var/lib/denyhosts
+<span class="c"># 设定 deny host 写入到该资料夹</span>
+WORK_DIR <span class="o">=</span> /var/lib/denyhosts
 
-# 将deny的host或ip纪录到Work_dir中
-SUSPICIOUS_LOGIN_REPORT_ALLOWED_HOSTS=YES
+<span class="c"># 将deny的host或ip纪录到Work_dir中</span>
+<span class="nv">SUSPICIOUS_LOGIN_REPORT_ALLOWED_HOSTS</span><span class="o">=</span>YES
 
-# 是否做域名反解
-HOSTNAME_LOOKUP=YES
+<span class="c"># 是否做域名反解</span>
+<span class="nv">HOSTNAME_LOOKUP</span><span class="o">=</span>YES
 
-# 将DenyHOts启动的pid纪录到LOCK_FILE中，已确保服务正确启动，防止同时启动多个服务。
-LOCK_FILE = /var/lock/subsys/denyhosts
+<span class="c"># 将DenyHOts启动的pid纪录到LOCK_FILE中，已确保服务正确启动，防止同时启动多个服务。</span>
+LOCK_FILE <span class="o">=</span> /var/lock/subsys/denyhosts
 
-# 设置管理员邮件地址
-ADMIN_EMAIL = luchuanjia@msn.com
-SMTP_HOST = localhost
-SMTP_PORT = 25
-SMTP_FROM = DenyHosts &lt;nobody@localhost&gt;
-SMTP_SUBJECT = DenyHosts Report from $[HOSTNAME]
+<span class="c"># 设置管理员邮件地址</span>
+ADMIN_EMAIL <span class="o">=</span> luchuanjia@msn.com
+SMTP_HOST <span class="o">=</span> localhost
+SMTP_PORT <span class="o">=</span> 25
+SMTP_FROM <span class="o">=</span> DenyHosts &lt;nobody@localhost&gt;
+SMTP_SUBJECT <span class="o">=</span> DenyHosts Report from <span class="nv">$[</span>HOSTNAME]
 
-# 有效用户登录失败计数归零的时间
-AGE_RESET_VALID=1d
+<span class="c"># 有效用户登录失败计数归零的时间</span>
+<span class="nv">AGE_RESET_VALID</span><span class="o">=</span>1d
 
-# root用户登录失败计数归零的时间
-AGE_RESET_ROOT=25d
+<span class="c"># root用户登录失败计数归零的时间</span>
+<span class="nv">AGE_RESET_ROOT</span><span class="o">=</span>25d
 
-# 用户的失败登录计数重置为0的时间(/usr/share/denyhosts/data/restricted-usernames)
-AGE_RESET_RESTRICTED=25d
+<span class="c"># 用户的失败登录计数重置为0的时间(/usr/share/denyhosts/data/restricted-usernames)</span>
+<span class="nv">AGE_RESET_RESTRICTED</span><span class="o">=</span>25d
 
-# 无效用户登录失败计数归零的时间
-AGE_RESET_INVALID=10d
+<span class="c"># 无效用户登录失败计数归零的时间</span>
+<span class="nv">AGE_RESET_INVALID</span><span class="o">=</span>10d
 
-# denyhosts的日志文件位置
-DAEMON_LOG = /var/log/denyhosts
+<span class="c"># denyhosts的日志文件位置</span>
+DAEMON_LOG <span class="o">=</span> /var/log/denyhosts
 
-# denyhosts的轮询时间
-DAEMON_SLEEP = 30s
+<span class="c"># denyhosts的轮询时间</span>
+DAEMON_SLEEP <span class="o">=</span> 30s
 
-# 该项与PURGE_DENY 设置一样，也是清除hosts.deny中 ssh用户的时间
-DAEMON_PURGE = 1h
+<span class="c"># 该项与PURGE_DENY 设置一样，也是清除hosts.deny中 ssh用户的时间</span>
+DAEMON_PURGE <span class="o">=</span> 1h
 </code></pre></div></div>
 
-<h5 id="faq">FAQ</h5>
+<h2 id="faq">FAQ</h2>
 
 <ol>
   <li>如果想删除一个已经禁止的主机 IP，并加入到允许主机例表，只在 /etc/hosts.deny 删除是没用的，还需要以下：</li>
 </ol>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/var/lib/denyhosts 目录，进入以下操作：
-# 停止denyhosts服务
-sudo service denyhosts stop
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/var/lib/denyhosts 目录，进入以下操作：
+<span class="c"># 停止denyhosts服务</span>
+<span class="nb">sudo </span>service denyhosts stop
 
-# 进入denyhosts的目录
-cd /var/lib/denyhosts
+<span class="c"># 进入denyhosts的目录</span>
+<span class="nb">cd</span> /var/lib/denyhosts
 
-# 查看哪些文件添加了ssh限制,将IP_addr替换成你的IP
-sudo grep IP_addr /usr/share/denyhosts/data/*
+<span class="c"># 查看哪些文件添加了ssh限制,将IP_addr替换成你的IP</span>
+<span class="nb">sudo grep </span>IP_addr /usr/share/denyhosts/data/<span class="k">*</span>
 
-# 然后一个个删除文件中你想取消的主机IP所在的行:
+<span class="c"># 然后一个个删除文件中你想取消的主机IP所在的行:</span>
 /usr/share/denyhosts/data/hosts
 /usr/share/denyhosts/data/hosts-restricted
 /usr/share/denyhosts/data/hosts-root
 /usr/share/denyhosts/data/hosts-valid
 /usr/share/denyhosts/data/users-hosts
 
-# 添加你想允许的主机IP地址到allowed-hosts:
-sudo echo IP_addr &gt;&gt;/usr/share/denyhosts/data/allowed-hostsps
+<span class="c"># 添加你想允许的主机IP地址到allowed-hosts:</span>
+<span class="nb">sudo echo </span>IP_addr <span class="o">&gt;&gt;</span>/usr/share/denyhosts/data/allowed-hostsps
 
-# 启动 DenyHosts服务：
+<span class="c"># 启动 DenyHosts服务：</span>
  service denyhosts start
 </code></pre></div></div>
 
-<h5 id="tips">Tips</h5>
+<h2 id="tips">Tips</h2>
 
 <ul>
   <li>尽量是用 key 验证登录服务器</li>
@@ -1327,12 +1327,12 @@ sudo echo IP_addr &gt;&gt;/usr/share/denyhosts/data/allowed-hostsps
      
     	
       <li><a href="/categories.html#Linux">
-    		Linux <span>21</span>
+    		Linux <span>22</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#CentOS">
-    		CentOS <span>14</span>
+    		CentOS <span>15</span>
     	</a></li>
     
   

@@ -288,10 +288,9 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <p>传统我们服务器之间文件共享的方式有采用 NFS、Samba 等等，但是在我看来配置都有一定的复杂性，当然复杂也有它们的优势，这里推荐一个依赖于 SSH 的文件共享工具，Fuse-sshfs。<br />
+            <p>传统我们服务器之间文件共享的方式有采用 NFS、Samba 等等，但是在我看来配置都有一定的复杂性，当然复杂也有它们的优势，这里推荐一个依赖于 SSH 的文件共享工具，Fuse-sshfs。
 SSH 是一个强大且安全的工具，我们除了可以用它来远程管理主机外，还可以通过它建立 SSH tunnel 作 Proxy 用，远程传输文件等等。而这里我想要介绍另外一个功能，那就是结合 sshfs 这个工具可以把远程主机的文件系统映射到本地主机上，透过 SSH 把远程文件系统挂载到本机上，这样我们可以不必使用 scp 工具就可以做到直接复制及删除远程主机的文件了，就像操作本地磁盘一样方便。
-<br />sshfs 是基于 FUSE 构建的 SSH 文件系统客户端程序，通过它远程主机的配置无需作任何改变，就可以透过 SSH 协议来挂载远程文件系统了，非常方便及安全。
-<br /></p>
+sshfs 是基于 FUSE 构建的 SSH 文件系统客户端程序，通过它远程主机的配置无需作任何改变，就可以透过 SSH 协议来挂载远程文件系统了，非常方便及安全。</p>
 
 <h2 id="install-fuse-sshfs">Install fuse-sshfs</h2>
 
@@ -1260,12 +1259,12 @@ root@192.168.16.230:/home/ on /home/cent/mnt type fuse.sshfs (rw,nosuid,nodev,us
      
     	
       <li><a href="/categories.html#Linux">
-    		Linux <span>21</span>
+    		Linux <span>22</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#CentOS">
-    		CentOS <span>14</span>
+    		CentOS <span>15</span>
     	</a></li>
     
   
@@ -1288,7 +1287,7 @@ root@192.168.16.230:/home/ on /home/cent/mnt type fuse.sshfs (rw,nosuid,nodev,us
     	<li><a href="/tags.html#SSH">SSH <span>4</span></a></li>
      
     	
-    	<li><a href="/tags.html#CentOS">CentOS <span>19</span></a></li>
+    	<li><a href="/tags.html#CentOS">CentOS <span>20</span></a></li>
     
   
 

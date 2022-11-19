@@ -288,123 +288,123 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
+            <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 
-#
+<span class="c">#</span>
 
-if [[ $1 == "uninstall" ]];then
- echo "starting backup data..."
- mkdir -p /www/backup
+<span class="k">if</span> <span class="o">[[</span> <span class="nv">$1</span> <span class="o">==</span> <span class="s2">"uninstall"</span> <span class="o">]]</span><span class="p">;</span><span class="k">then
+ </span><span class="nb">echo</span> <span class="s2">"starting backup data..."</span>
+ <span class="nb">mkdir</span> <span class="nt">-p</span> /www/backup
  service mysqld stop
  service nginxd stop
  service httpd stop
  service wdapache stop
  service pureftpd stop
- tar zcvf /www/backup/mysqldatdbk.tar.gz /www/wdlinux/mysql/var
- tar zcvf /www/backup/ngconfbk.tar.gz /www/wdlinux/nginx/conf
- tar zcvf /www/backup/apconfbk.tar.gz /www/wdlinux/apache/conf
- rpm -e lanmp_wdcp --nodeps
- rm -fr /www/wdlinux
- echo
- echo " lanmp,wdcp remove is OK"
- echo
- exit 0
-fi
+ <span class="nb">tar </span>zcvf /www/backup/mysqldatdbk.tar.gz /www/wdlinux/mysql/var
+ <span class="nb">tar </span>zcvf /www/backup/ngconfbk.tar.gz /www/wdlinux/nginx/conf
+ <span class="nb">tar </span>zcvf /www/backup/apconfbk.tar.gz /www/wdlinux/apache/conf
+ rpm <span class="nt">-e</span> lanmp_wdcp <span class="nt">--nodeps</span>
+ <span class="nb">rm</span> <span class="nt">-fr</span> /www/wdlinux
+ <span class="nb">echo
+ echo</span> <span class="s2">" lanmp,wdcp remove is OK"</span>
+ <span class="nb">echo
+ exit </span>0
+<span class="k">fi
 
-echo "Turn off selinux..."
+</span><span class="nb">echo</span> <span class="s2">"Turn off selinux..."</span>
 setenforce 0
-sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
-sed -i 's/^exclude=/#exclude=/g' /etc/yum.conf
-yum install -y gcc gcc-c++ make autoconf libtool-ltdl-devel gd-devel freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel patch libmcrypt-devel libmhash-devel ncurses-devel sudo bzip2 iptables sendmail iptables unzip
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/SELINUX=enforcing/SELINUX=disabled/g'</span> /etc/selinux/config
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/^exclude=/#exclude=/g'</span> /etc/yum.conf
+yum <span class="nb">install</span> <span class="nt">-y</span> gcc gcc-c++ make autoconf libtool-ltdl-devel gd-devel freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel patch libmcrypt-devel libmhash-devel ncurses-devel <span class="nb">sudo </span>bzip2 iptables sendmail iptables unzip
 
-#echo "Check the network..."
-#ping -c 2 113.105.167.1
-#if [[ $? != 0 ]];then
-# echo
-# echo "network err"
-# exit 1
-#fi
-ping -c 3 dl.wdlinux.cn
-if [[ $? == 2 ]];then
- echo
- echo "dns error"
- exit 1
-fi
+<span class="c">#echo "Check the network..."</span>
+<span class="c">#ping -c 2 113.105.167.1</span>
+<span class="c">#if [[ $? != 0 ]];then</span>
+<span class="c"># echo</span>
+<span class="c"># echo "network err"</span>
+<span class="c"># exit 1</span>
+<span class="c">#fi</span>
+ping <span class="nt">-c</span> 3 dl.wdlinux.cn
+<span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> <span class="o">==</span> 2 <span class="o">]]</span><span class="p">;</span><span class="k">then
+ </span><span class="nb">echo
+ echo</span> <span class="s2">"dns error"</span>
+ <span class="nb">exit </span>1
+<span class="k">fi
 
-if [[ ! -d /www/wdlinux ]];then
- echo
- echo "rpm remove..."
- rpm -e php --nodeps
- rpm -e httpd --nodeps
- rpm -e mysql-server --nodeps
- rpm -e mysql --nodeps
-fi
+if</span> <span class="o">[[</span> <span class="o">!</span> <span class="nt">-d</span> /www/wdlinux <span class="o">]]</span><span class="p">;</span><span class="k">then
+ </span><span class="nb">echo
+ echo</span> <span class="s2">"rpm remove..."</span>
+ rpm <span class="nt">-e</span> php <span class="nt">--nodeps</span>
+ rpm <span class="nt">-e</span> httpd <span class="nt">--nodeps</span>
+ rpm <span class="nt">-e</span> mysql-server <span class="nt">--nodeps</span>
+ rpm <span class="nt">-e</span> mysql <span class="nt">--nodeps</span>
+<span class="k">fi
 
-echo "yum update..."
-yum install -y make autoconf sudo wget libtool-ltdl-devel gd-devel freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel patch libmcrypt-devel libmhash-devel ncurses-devel iptables
+</span><span class="nb">echo</span> <span class="s2">"yum update..."</span>
+yum <span class="nb">install</span> <span class="nt">-y</span> make autoconf <span class="nb">sudo </span>wget libtool-ltdl-devel gd-devel freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel patch libmcrypt-devel libmhash-devel ncurses-devel iptables
 
-arch=i386
-Aurl="http://dl.wdlinux.cn:5180/rpms"
-if [[ `uname -m` == "x86_64" ]];then
- arch="x86_64"
-fi
+<span class="nb">arch</span><span class="o">=</span>i386
+<span class="nv">Aurl</span><span class="o">=</span><span class="s2">"http://dl.wdlinux.cn:5180/rpms"</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="sb">`</span><span class="nb">uname</span> <span class="nt">-m</span><span class="sb">`</span> <span class="o">==</span> <span class="s2">"x86_64"</span> <span class="o">]]</span><span class="p">;</span><span class="k">then
+ </span><span class="nb">arch</span><span class="o">=</span><span class="s2">"x86_64"</span>
+<span class="k">fi
 
-function in_finsh {
-        echo
-        echo "          configuration ,lamp or lnmp,wdcp install is finshed"
-        echo "          visit http://ip"
-        echo "          wdcp visit http://ip:8080"
-        echo "          more infomation please visit http://www.wdlinux.cn"
-        echo
-}
+function </span>in_finsh <span class="o">{</span>
+        <span class="nb">echo
+        echo</span> <span class="s2">"          configuration ,lamp or lnmp,wdcp install is finshed"</span>
+        <span class="nb">echo</span> <span class="s2">"          visit http://ip"</span>
+        <span class="nb">echo</span> <span class="s2">"          wdcp visit http://ip:8080"</span>
+        <span class="nb">echo</span> <span class="s2">"          more infomation please visit http://www.wdlinux.cn"</span>
+        <span class="nb">echo</span>
+<span class="o">}</span>
 
-function in_check {
-        if [[ $1 == 1 ]];then
+<span class="k">function </span>in_check <span class="o">{</span>
+        <span class="k">if</span> <span class="o">[[</span> <span class="nv">$1</span> <span class="o">==</span> 1 <span class="o">]]</span><span class="p">;</span><span class="k">then
+                </span><span class="nb">echo
+                echo</span> <span class="s2">"============  </span><span class="nv">$2</span><span class="s2"> install error  ============="</span>
+                <span class="nb">echo
+                exit </span>1
+        <span class="k">else
+                </span><span class="nb">echo
+                echo</span> <span class="s2">"============  </span><span class="nv">$2</span><span class="s2"> install OK  =============="</span>
+                <span class="nb">echo
                 echo
-                echo "============  $2 install error  ============="
-                echo
-                exit 1
-        else
-                echo
-                echo "============  $2 install OK  =============="
-                echo
-                echo
-        fi
-}
+        </span><span class="k">fi</span>
+<span class="o">}</span>
 
-grep -E 'wdOS 1|5\.' /etc/redhat-release &gt; /dev/null 2&gt;&amp;1
-v1=$?
-grep -E 'wdOS 2|6\.' /etc/redhat-release &gt; /dev/null 2&gt;&amp;1
-v2=$?
-if [ $v1 == 0 ];then
- RF="lanmp_wdcp-2-5.$arch.rpm";
-elif [ $v2 == 0 ];then
- RF="lanmp_wdcp-2-5.el6.$arch.rpm";
- if [ $arch == "x86_64" ];then
-  wget -c http://dl.wdlinux.cn:5180/soft/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
-  rpm -ivh rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
- else
-  wget -c http://dl.wdlinux.cn:5180/soft/rpmforge-release-0.5.2-2.el6.rf.i686.rpm
-  rpm -ivh rpmforge-release-0.5.2-2.el6.rf.i686.rpm
- fi
- yum install -y mhash-devel libmcrypt-devel
-else
- echo
- echo "The current system does not support"
- echo
+<span class="nb">grep</span> <span class="nt">-E</span> <span class="s1">'wdOS 1|5\.'</span> /etc/redhat-release <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
+<span class="nv">v1</span><span class="o">=</span><span class="nv">$?</span>
+<span class="nb">grep</span> <span class="nt">-E</span> <span class="s1">'wdOS 2|6\.'</span> /etc/redhat-release <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
+<span class="nv">v2</span><span class="o">=</span><span class="nv">$?</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$v1</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
+ </span><span class="nv">RF</span><span class="o">=</span><span class="s2">"lanmp_wdcp-2-5.</span><span class="nv">$arch</span><span class="s2">.rpm"</span><span class="p">;</span>
+<span class="k">elif</span> <span class="o">[</span> <span class="nv">$v2</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
+ </span><span class="nv">RF</span><span class="o">=</span><span class="s2">"lanmp_wdcp-2-5.el6.</span><span class="nv">$arch</span><span class="s2">.rpm"</span><span class="p">;</span>
+ <span class="k">if</span> <span class="o">[</span> <span class="nv">$arch</span> <span class="o">==</span> <span class="s2">"x86_64"</span> <span class="o">]</span><span class="p">;</span><span class="k">then
+  </span>wget <span class="nt">-c</span> http://dl.wdlinux.cn:5180/soft/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
+  rpm <span class="nt">-ivh</span> rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
+ <span class="k">else
+  </span>wget <span class="nt">-c</span> http://dl.wdlinux.cn:5180/soft/rpmforge-release-0.5.2-2.el6.rf.i686.rpm
+  rpm <span class="nt">-ivh</span> rpmforge-release-0.5.2-2.el6.rf.i686.rpm
+ <span class="k">fi
+ </span>yum <span class="nb">install</span> <span class="nt">-y</span> mhash-devel libmcrypt-devel
+<span class="k">else
+ </span><span class="nb">echo
+ echo</span> <span class="s2">"The current system does not support"</span>
+ <span class="nb">echo
  exit
-fi
-wget -c http://dl.wdlinux.cn:5180/rpms/$RF
-rpm -ivh $RF --nodeps
-I_F=$?
-if [ $I_F == 0 ];then
- echo
-fi
-in_check $I_F lanmp_wdcp
+</span><span class="k">fi
+</span>wget <span class="nt">-c</span> http://dl.wdlinux.cn:5180/rpms/<span class="nv">$RF</span>
+rpm <span class="nt">-ivh</span> <span class="nv">$RF</span> <span class="nt">--nodeps</span>
+<span class="nv">I_F</span><span class="o">=</span><span class="nv">$?</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$I_F</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
+ </span><span class="nb">echo
+</span><span class="k">fi
+</span>in_check <span class="nv">$I_F</span> lanmp_wdcp
 
-rm -f wdcp_v*
-wget -c http://down.wdlinux.cn/down/wdcp_v2.5.tar.gz &gt; /dev/null 2&gt;&amp;1
-tar zxvf wdcp_v2.5.tar.gz -C / &gt; /dev/null 2&gt;&amp;1
+<span class="nb">rm</span> <span class="nt">-f</span> wdcp_v<span class="k">*</span>
+wget <span class="nt">-c</span> http://down.wdlinux.cn/down/wdcp_v2.5.tar.gz <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
+<span class="nb">tar </span>zxvf wdcp_v2.5.tar.gz <span class="nt">-C</span> / <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
 
 in_finsh
 
@@ -1231,11 +1231,11 @@ in_finsh
                 
                 
                 
+                
+                
+                
+                
                 <li><a href="/post/2016/03/MySQL-6-%E5%88%A9%E7%94%A8Linux%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E5%AE%9A%E6%97%B6%E5%90%8C%E6%AD%A5MySQL.html">利用 Linux 计划任务定时同步 MySQL</a> - <span>03/24/2016</span></li>
-                
-                
-                
-                
                 
                 
                 
@@ -1337,7 +1337,7 @@ in_finsh
      
     	
       <li><a href="/categories.html#Linux">
-    		Linux <span>21</span>
+    		Linux <span>22</span>
     	</a></li>
      
     	
@@ -1365,7 +1365,7 @@ in_finsh
     	<li><a href="/tags.html#Shell">Shell <span>4</span></a></li>
      
     	
-    	<li><a href="/tags.html#CentOS">CentOS <span>19</span></a></li>
+    	<li><a href="/tags.html#CentOS">CentOS <span>20</span></a></li>
     
   
 

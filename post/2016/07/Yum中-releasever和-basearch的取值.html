@@ -298,14 +298,14 @@
 <span class="nv">gpgkey</span><span class="o">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
 </code></pre></div></div>
 
-<p>其实在日常使用之中，我们在很多地方，特别是脚本内看到了调用<code>$releasever</code>和<code>$basearch</code></p>
+<p>其实在日常使用之中，我们在很多地方，特别是脚本内看到了调用<code class="language-plaintext highlighter-rouge">$releasever</code>和<code class="language-plaintext highlighter-rouge">$basearch</code></p>
 
 <ol>
   <li>$releasever 的值，这个表示当前系统的发行版本</li>
 </ol>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera /]# rpm -qi centos-release
-Name        : centos-release               Relocations: (not relocatable)
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera /]# rpm <span class="nt">-qi</span> centos-release
+Name        : centos-release               Relocations: <span class="o">(</span>not relocatable<span class="o">)</span>
 Version     : 6                                 Vendor: CentOS
 Release     : 7.el6.centos.12.3             Build Date: Tue 04 Aug 2015 12:13:46 AM CST
 Install Date: Sat 21 May 2016 03:31:27 AM CST      Build Host: c6b9.bsys.dev.centos.org
@@ -317,69 +317,67 @@ Summary     : CentOS release file
 Description :
 CentOS release files
 
-# 其中Version 6 就是我们的版本号
+<span class="c"># 其中Version 6 就是我们的版本号</span>
 </code></pre></div></div>
 
-<ol>
-  <li>$basearch 是我们的系统硬件架构 (CPU 指令集),就是我们常说的 i386\i486\i586\i686\</li>
-</ol>
+<p>$basearch 是我们的系统硬件架构 (CPU 指令集),就是我们常说的 i386\i486\i586\i686\</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera /]# arch
-i386
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera /]# <span class="nb">arch
+</span>i386
 </code></pre></div></div>
 
-<p>但是，当我在命令行查看是却发现<code>$releasever</code>和<code>$basearch</code>是空的。
-<br />
-Google 一下之后，说明 Yum 变量的说明可以在这里（5.3.3. Using Yum Variables）找到，说明如下：</p>
+<p>但是，当我在命令行查看是却发现<code class="language-plaintext highlighter-rouge">$releasever</code>和<code class="language-plaintext highlighter-rouge">$basearch</code>是空的。</p>
+
+<p>Google 一下之后，说明 Yum 变量的说明可以在这里（5.3.3. Using Yum Variables）找到，说明如下：</p>
 <blockquote>
   <p>5.3.3. Using Yum Variables</p>
 </blockquote>
 
 <p>You can use and reference the following built-in variables in yum commands and in all Yum configuration files (that is, /etc/yum.conf and all .repo files in the /etc/yum.repos.d/ directory):</p>
 
-<p>$releasever<br />
+<p>$releasever
 You can use this variable to reference the release version of Red Hat Enterprise Linux. Yum obtains the value of $releasever from the distroverpkg=value line in the /etc/yum.conf configuration file. If there is no such line in /etc/yum.conf, then yum infers the correct value by deriving the version number from the redhat-release package.</p>
 
-<p>$arch<br />
+<p>$arch
 You can use this variable to refer to the system’s CPU architecture as returned when calling Python’s os.uname() function. Valid values for $arch include: i586, i686 and x86_64.</p>
 
-<p>$basearch<br />
+<p>$basearch
 You can use $basearch to reference the base architecture of the system. For example, i686 and i586 machines both have a base architecture of i386, and AMD64 and Intel64 machines have a base architecture of x86_64.</p>
 
-<p>$YUM0-9<br />
+<p>$YUM0-9
 These ten variables are each replaced with the value of any shell environment variables with the same name. If one of these variables is referenced (in /etc/yum.conf for example) and a shell environment variable with the same name does not exist, then the configuration file variable is not replaced.</p>
 
 <p>To define a custom variable or to override the value of an existing one, create a file with the same name as the variable (without the “$” sign) in the /etc/yum/vars/ directory, and add the desired value on its first line.</p>
 
 <p>For example, repository descriptions often include the operating system name. To define a new variable called $osname, create a new file with “Red Hat Enterprise Linux” on the first line and save it as /etc/yum/vars/osname:</p>
 
-<p><code>echo "Red Hat Enterprise Linux" &gt; /etc/yum/vars/osname</code></p>
+<p><code class="language-plaintext highlighter-rouge">echo "Red Hat Enterprise Linux" &gt; /etc/yum/vars/osname</code></p>
 
 <p>Instead of “Red Hat Enterprise Linux 6”, you can now use the following in the .repo files: name=$osname $releasever</p>
 
 <p>文中说到$releasever 的定义可以查看 /etc/yum.conf 文件的事 distroverpkg=value 行，打开 /etc/yum.conf 看一下，默认文件（我的是 CentOS 6）内容如下：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[main]
-cachedir=/var/cache/yum/$basearch/$releasever
-keepcache=0
-debuglevel=2
-logfile=/var/log/yum.log
-exactarch=1
-obsoletes=1
-gpgcheck=1
-plugins=1
-installonly_limit=5
-bugtracker_url=http://bugs.centos.org/set_project.php?project_id=16&amp;ref=http://bugs.centos.org/bug_report_page.php?category=yum
-distroverpkg=centos-release
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>main]
+<span class="nv">cachedir</span><span class="o">=</span>/var/cache/yum/<span class="nv">$basearch</span>/<span class="nv">$releasever</span>
+<span class="nv">keepcache</span><span class="o">=</span>0
+<span class="nv">debuglevel</span><span class="o">=</span>2
+<span class="nv">logfile</span><span class="o">=</span>/var/log/yum.log
+<span class="nv">exactarch</span><span class="o">=</span>1
+<span class="nv">obsoletes</span><span class="o">=</span>1
+<span class="nv">gpgcheck</span><span class="o">=</span>1
+<span class="nv">plugins</span><span class="o">=</span>1
+<span class="nv">installonly_limit</span><span class="o">=</span>5
+<span class="nv">bugtracker_url</span><span class="o">=</span>http://bugs.centos.org/set_project.php?project_id<span class="o">=</span>16&amp;ref<span class="o">=</span>http://bugs.centos.org/bug_report_page.php?category<span class="o">=</span>yum
+<span class="nv">distroverpkg</span><span class="o">=</span>centos-release
 </code></pre></div></div>
 
 <p>distroverpkg=centos-release 代表什么？去哪找 centos-release。找到这里我再一次表示困惑。
-不过另一篇文章进行了我的视野：yum 的$releasever 真是太反动了，关键内空如下：<br />
-在 /etc/yum.repos.d/ 目录下的软件库定义文件中，常常会在 baseurl 的路径中提到 $releasever 这个变量，表示当前发行版的大版本号，但大家知道这个变量是在哪设置的吗？我 grep 了整个 etc 目录都没找到，还是看了 yum.conf 才知道的，是在 yum.conf 文件里 distroverpkg 选项定义的。但这个选项就很有问题：<br />
+不过另一篇文章进行了我的视野：yum 的$releasever 真是太反动了，关键内空如下：
+在 /etc/yum.repos.d/ 目录下的软件库定义文件中，常常会在 baseurl 的路径中提到 $releasever 这个变量，表示当前发行版的大版本号，但大家知道这个变量是在哪设置的吗？我 grep 了整个 etc 目录都没找到，还是看了 yum.conf 才知道的，是在 yum.conf 文件里 distroverpkg 选项定义的。但这个选项就很有问题：
 distroverpkg 和 releasever 名字不同，且看不出什么联系
 distroverpkg 的值，并不是明文，而是“redhat-release”。不知道大家看到这个会有什么想法，反正我是首先想到了 /etc/redhat-release 文件，但我错了。实际上指的是 redhat-release 这个 RPM 包。所谓“distroverpkg=redhat-release”的意思，其实是将 $releasever 设置为 redhat-release 这个 RPM 包的版本号。</p>
 
-<h5 id="小结">小结：<br /></h5>
+<h5 id="小结">小结</h5>
 
 <p>yum 中的$releasever 变量是取 redhat-release-server rpm 包的属性值 ( %{version})。
 [root@ldap01 ~]# rpm -q –qf %{version} redhat-release-server;echo
@@ -1306,12 +1304,12 @@ distroverpkg 的值，并不是明文，而是“redhat-release”。不知道�
      
     	
       <li><a href="/categories.html#Linux">
-    		Linux <span>21</span>
+    		Linux <span>22</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#CentOS">
-    		CentOS <span>14</span>
+    		CentOS <span>15</span>
     	</a></li>
     
   

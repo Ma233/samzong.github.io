@@ -290,11 +290,11 @@
         <div class="post-content" itemprop="articleBody">
             <p>团队开发中，遵循一个合理、清晰的 Git 使用流程，是非常重要的。否则，每个人都提交一堆杂乱无章的 commit，项目很快就会变得难以协调和维护。下图是比较常规的 Git 使用规范流程，这能适合绝大多数团队开发的需求，推荐你们也这样使用。</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/j4ndi.png" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/j4ndi.png" alt="image" /></p>
 
-<h4 id="1--分支管理">1.  分支管理</h4>
+<h2 id="1--分支管理">1.  分支管理</h2>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/naweu.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/naweu.jpg" alt="image" /></p>
 
 <ol>
   <li>
@@ -322,37 +322,37 @@
 
 <p>​</p>
 
-<h5 id="2-新建分支">2. 新建分支</h5>
+<h2 id="2-新建分支">2. 新建分支</h2>
 
 <p>Master 分支不允许进行开发，所有的开发相关操作都必须基于 develop 分支。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 获取主分支最新代码
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 获取主分支最新代码</span>
 git chekcout master
 
-# 新建develop分支进行开发
-git checkout -b develop
+<span class="c"># 新建develop分支进行开发</span>
+git checkout <span class="nt">-b</span> develop
 </code></pre></div></div>
 
-<h5 id="3-提交分支">3. 提交分支</h5>
+<h2 id="3-提交分支">3. 提交分支</h2>
 
 <p>分支修改后，使用 commit 提交修改。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># add 所有新增的文件
-git add --all
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># add 所有新增的文件</span>
+git add <span class="nt">--all</span>
 
-# 提交更新， 每次提交必须写增加的东西和修改内容，保证协同开发是其他看到代码就能知道你做了什么
-gti commit -m "first commit"
+<span class="c"># 提交更新， 每次提交必须写增加的东西和修改内容，保证协同开发是其他看到代码就能知道你做了什么</span>
+gti commit <span class="nt">-m</span> <span class="s2">"first commit"</span>
 </code></pre></div></div>
 
-<h5 id="4-推送到远程仓库">4. 推送到远程仓库</h5>
+<h2 id="4-推送到远程仓库">4. 推送到远程仓库</h2>
 
 <p>commit 之后，其实代码还在本地仓库，这时我们需要将本地版本与 git 远端仓库进行同步</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 推送到远程develop分支
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 推送到远程develop分支</span>
 git push origin develop
 </code></pre></div></div>
 
-<h5 id="5-合并分支">5. 合并分支</h5>
+<h2 id="5-合并分支">5. 合并分支</h2>
 
 <p>当代码提交到远端 develop 分支后，应该让别人进行代码 review 和测试，确认无误后，合并到 Master 分支，完成开发。</p>
 

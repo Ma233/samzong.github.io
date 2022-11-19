@@ -294,10 +294,10 @@
 
 <h3 id="2-解决方法">2. 解决方法</h3>
 
-<h5 id="21-手动设置-maxpermsize-大小">2.1 手动设置 MaxPermSize 大小</h5>
+<h4 id="21-手动设置-maxpermsize-大小">2.1 手动设置 MaxPermSize 大小</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 修改$TOMCAT_HOME/bin/catalina.sh，在“echo "Using CATALINA_BASE:   $CATALINA_BASE"”上面加入以下行：
-JAVA_OPTS="-server -Xms256m -Xmx512m -XX:PermSize=64M -XX:MaxPermSize=128m"
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 修改$TOMCAT_HOME/bin/catalina.sh，在“echo "Using CATALINA_BASE:   $CATALINA_BASE"”上面加入以下行：</span>
+<span class="nv">JAVA_OPTS</span><span class="o">=</span><span class="s2">"-server -Xms256m -Xmx512m -XX:PermSize=64M -XX:MaxPermSize=128m"</span>
 </code></pre></div></div>
 
 <h3 id="3-java-heap-space">3. Java heap space</h3>

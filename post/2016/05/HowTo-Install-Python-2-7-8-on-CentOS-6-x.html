@@ -292,46 +292,46 @@
 
 <p>Update CentOS and install development tools</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum -y update
-yum groupinstall -y 'development tools'
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">-y</span> update
+yum groupinstall <span class="nt">-y</span> <span class="s1">'development tools'</span>
 </code></pre></div></div>
 
 <p>Also you need the packages below to enable SSL, bz2, zlib for Python and some utils:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y zlib-devel bzip2-devel openssl-devel xz-libs wget
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> zlib-devel bzip2-devel openssl-devel xz-libs wget
 </code></pre></div></div>
 
 <h2 id="installing-python-278-from-source">Installing Python 2.7.8 from source</h2>
 
 <p>Download Python and extract it</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://www.python.org/ftp/python/2.7.8/Python-2.7.8.tar.xz
-xz -d Python-2.7.8.tar.xz
-tar -xvf Python-2.7.8.tar
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget http://www.python.org/ftp/python/2.7.8/Python-2.7.8.tar.xz
+xz <span class="nt">-d</span> Python-2.7.8.tar.xz
+<span class="nb">tar</span> <span class="nt">-xvf</span> Python-2.7.8.tar
 </code></pre></div></div>
 
 <h2 id="installation-process">Installation process</h2>
 
 <p>Since we already installed all the dependencies we are ready to go:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Enter the directory:
-cd Python-2.7.8
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Enter the directory:</span>
+<span class="nb">cd </span>Python-2.7.8
 
-# Run the configure:
-./configure --prefix=/usr/local
+<span class="c"># Run the configure:</span>
+./configure <span class="nt">--prefix</span><span class="o">=</span>/usr/local
 
-# compile and install it:
+<span class="c"># compile and install it:</span>
 make
 make altinstall
 
-# Checking Python version:
-[root@nicetry ~]# python2.7 -V
+<span class="c"># Checking Python version:</span>
+<span class="o">[</span>root@nicetry ~]# python2.7 <span class="nt">-V</span>
 Python 2.7.8
 </code></pre></div></div>
 
-<p>If you need set <code>PATH</code> variable check the line below:</p>
+<p>If you need set <code class="language-plaintext highlighter-rouge">PATH</code> variable check the line below:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export PATH="/usr/local/bin:$PATH"
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/usr/local/bin:</span><span class="nv">$PATH</span><span class="s2">"</span>
 </code></pre></div></div>
 
 <h2 id="installing-pip-and-virtualenv">Installing pip and virtualenv</h2>
@@ -340,24 +340,24 @@ Python 2.7.8
 
 <h3 id="install-setuptools">Install setuptools</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget --no-check-certificate https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget <span class="nt">--no-check-certificate</span> https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz
 
-# Extract the files:
-tar -xvf setuptools-1.4.2.tar.gz
-cd setuptools-1.4.2
+<span class="c"># Extract the files:</span>
+<span class="nb">tar</span> <span class="nt">-xvf</span> setuptools-1.4.2.tar.gz
+<span class="nb">cd </span>setuptools-1.4.2
 
-# Install setuptools using the Python 2.7.8:
-python2.7 setup.py install
+<span class="c"># Install setuptools using the Python 2.7.8:</span>
+python2.7 setup.py <span class="nb">install</span>
 </code></pre></div></div>
 
 <h3 id="install-pip">Install pip</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py | python2.7 -
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl https://raw.githubusercontent.com/pypa/pip/master/contrib/get-pip.py | python2.7 -
 </code></pre></div></div>
 
 <h3 id="and-finally-virtualenv">And finally virtualenv</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip2.7 install virtualenv
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip2.7 <span class="nb">install </span>virtualenv
 </code></pre></div></div>
 
 <p>And that’s all, we have Python 2.7.8 installed on CentOS.</p>
@@ -1133,11 +1133,11 @@ python2.7 setup.py install
                 
                 
                 
+                
+                
+                
+                
                 <li><a href="/post/2016/05/HowTo-Install-Python-2-7-8-on-CentOS-6-x.html">HowTo Install Python 2.7.8 on CentOS 6.x</a> - <span>05/04/2016</span></li>
-                
-                
-                
-                
                 
                 
                 
@@ -1310,7 +1310,7 @@ python2.7 setup.py install
     	<li><a href="/tags.html#Python">Python <span>46</span></a></li>
      
     	
-    	<li><a href="/tags.html#CentOS">CentOS <span>19</span></a></li>
+    	<li><a href="/tags.html#CentOS">CentOS <span>20</span></a></li>
     
   
 

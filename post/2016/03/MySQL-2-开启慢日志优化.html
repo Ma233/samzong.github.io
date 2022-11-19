@@ -288,7 +288,7 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <h1 id="工欲善其事必先利其器--mysql-开启慢日志优化">工欲善其事，必先利其器 – mysql 开启慢日志优化</h1>
+            <h2 id="工欲善其事必先利其器--mysql-开启慢日志优化">工欲善其事，必先利其器 – mysql 开启慢日志优化</h2>
 
 <h3 id="慢查询日志">慢查询日志</h3>
 
@@ -304,43 +304,43 @@
 
 <p>首先，第一部查看是否已经开启慢查询日志：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like '%slow%';
-+---------------------+---------------------------------+
-| Variable_name       | Value                           |
-+---------------------+---------------------------------+
-| log_slow_queries    | OFF                             |
-| slow_launch_time    | 2                               |
-| slow_query_log      | OFF                             |
-| slow_query_log_file | /var/run/mysqld/mysqld-slow.log |
-+---------------------+---------------------------------+
-4 rows in set (0.00 sec)
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="n">variables</span> <span class="k">like</span> <span class="s1">'%slow%'</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">---------------------+---------------------------------+</span>
+<span class="o">|</span> <span class="n">Variable_name</span>       <span class="o">|</span> <span class="n">Value</span>                           <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------------+---------------------------------+</span>
+<span class="o">|</span> <span class="n">log_slow_queries</span>    <span class="o">|</span> <span class="k">OFF</span>                             <span class="o">|</span>
+<span class="o">|</span> <span class="n">slow_launch_time</span>    <span class="o">|</span> <span class="mi">2</span>                               <span class="o">|</span>
+<span class="o">|</span> <span class="n">slow_query_log</span>      <span class="o">|</span> <span class="k">OFF</span>                             <span class="o">|</span>
+<span class="o">|</span> <span class="n">slow_query_log_file</span> <span class="o">|</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">mysqld</span><span class="o">/</span><span class="n">mysqld</span><span class="o">-</span><span class="n">slow</span><span class="p">.</span><span class="n">log</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------------+---------------------------------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
 
-mysql&gt;
+<span class="n">mysql</span><span class="o">&gt;</span>
 </code></pre></div></div>
 
 <p>打开慢查询日志。修改 MySQL 的配置文件 my.cnf 一般是在/etc 目录下面，加上下面三行配置后重启 MySQL。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>slow_query_log = ON
-slow_launch_time = 2
-slow_query_log_file = /usr/local/mysql/data/slow_query.log
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">slow_query_log</span> <span class="o">=</span> <span class="k">ON</span>
+<span class="n">slow_launch_time</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">slow_query_log_file</span> <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="k">data</span><span class="o">/</span><span class="n">slow_query</span><span class="p">.</span><span class="n">log</span>
 
 </code></pre></div></div>
 
 <p>slow_launch_time 只能精确到秒，如果需要更精确可以使用一些第三方的工具比如后面介绍的 pt-query-digest</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like '%slow%';
-+---------------------------+--------------------------------------+
-| Variable_name             | Value                                |
-+---------------------------+--------------------------------------+
-| log_slow_admin_statements | OFF                                  |
-| log_slow_slave_statements | OFF                                  |
-| slow_launch_time          | 2                                    |
-| slow_query_log            | ON                                   |
-| slow_query_log_file       | /usr/local/mysql/data/slow_query.log |
-+---------------------------+--------------------------------------+
-5 rows in set (0.00 sec)
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="n">variables</span> <span class="k">like</span> <span class="s1">'%slow%'</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">---------------------------+--------------------------------------+</span>
+<span class="o">|</span> <span class="n">Variable_name</span>             <span class="o">|</span> <span class="n">Value</span>                                <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------------------+--------------------------------------+</span>
+<span class="o">|</span> <span class="n">log_slow_admin_statements</span> <span class="o">|</span> <span class="k">OFF</span>                                  <span class="o">|</span>
+<span class="o">|</span> <span class="n">log_slow_slave_statements</span> <span class="o">|</span> <span class="k">OFF</span>                                  <span class="o">|</span>
+<span class="o">|</span> <span class="n">slow_launch_time</span>          <span class="o">|</span> <span class="mi">2</span>                                    <span class="o">|</span>
+<span class="o">|</span> <span class="n">slow_query_log</span>            <span class="o">|</span> <span class="k">ON</span>                                   <span class="o">|</span>
+<span class="o">|</span> <span class="n">slow_query_log_file</span>       <span class="o">|</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="k">data</span><span class="o">/</span><span class="n">slow_query</span><span class="p">.</span><span class="n">log</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------------------+--------------------------------------+</span>
+<span class="mi">5</span> <span class="k">rows</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
 
-mysql&gt;
+<span class="n">mysql</span><span class="o">&gt;</span>
 </code></pre></div></div>
 
 <blockquote>
@@ -349,59 +349,59 @@ mysql&gt;
 
 <p>也可以在终端中通过设置全局变量来打开慢查询日志：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set @@global.slow_query_log = ON;
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">set</span> <span class="o">@@</span><span class="k">global</span><span class="p">.</span><span class="n">slow_query_log</span> <span class="o">=</span> <span class="k">ON</span><span class="p">;</span>
 </code></pre></div></div>
 
 <h3 id="保持慢查询日志到表中">保持慢查询日志到表中</h3>
 
 <p>MySQL 支持将慢查询日志保存到 mysql.slow_log 这张表中。通过@@global.log_output 可以设置默认为 TABLE，FILE 和 TABLE 只能同时使用一个。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; select @@global.log_output;
-+---------------------+
-| @@global.log_output |
-+---------------------+
-| FILE                |
-+---------------------+
-1 row in set (0.00 sec)
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">@@</span><span class="k">global</span><span class="p">.</span><span class="n">log_output</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">---------------------+</span>
+<span class="o">|</span> <span class="o">@@</span><span class="k">global</span><span class="p">.</span><span class="n">log_output</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------------+</span>
+<span class="o">|</span> <span class="n">FILE</span>                <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
 
-mysql&gt;
+<span class="n">mysql</span><span class="o">&gt;</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set @@global.log_output='TABLE';
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">set</span> <span class="o">@@</span><span class="k">global</span><span class="p">.</span><span class="n">log_output</span><span class="o">=</span><span class="s1">'TABLE'</span><span class="p">;</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show create table mysql.slow_log;
-+----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| Table    | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-+----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| slow_log | CREATE TABLE `slow_log` (
-  `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `user_host` mediumtext NOT NULL,
-  `query_time` time NOT NULL,
-  `lock_time` time NOT NULL,
-  `rows_sent` int(11) NOT NULL,
-  `rows_examined` int(11) NOT NULL,
-  `db` varchar(512) NOT NULL,
-  `last_insert_id` int(11) NOT NULL,
-  `insert_id` int(11) NOT NULL,
-  `server_id` int(10) unsigned NOT NULL,
-  `sql_text` mediumtext NOT NULL,
-  `thread_id` bigint(21) unsigned NOT NULL
-) ENGINE=CSV DEFAULT CHARSET=utf8 COMMENT='Slow log' |
-+----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-1 row in set (0.00 sec)
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="k">create</span> <span class="k">table</span> <span class="n">mysql</span><span class="p">.</span><span class="n">slow_log</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="o">|</span> <span class="k">Table</span>    <span class="o">|</span> <span class="k">Create</span> <span class="k">Table</span>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       <span class="o">|</span>
+<span class="o">+</span><span class="c1">----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="o">|</span> <span class="n">slow_log</span> <span class="o">|</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="nv">`slow_log`</span> <span class="p">(</span>
+  <span class="nv">`start_time`</span> <span class="nb">timestamp</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="k">CURRENT_TIMESTAMP</span> <span class="k">ON</span> <span class="k">UPDATE</span> <span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+  <span class="nv">`user_host`</span> <span class="nb">mediumtext</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`query_time`</span> <span class="nb">time</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`lock_time`</span> <span class="nb">time</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`rows_sent`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`rows_examined`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`db`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`last_insert_id`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`insert_id`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`server_id`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="nb">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`sql_text`</span> <span class="nb">mediumtext</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`thread_id`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span> <span class="nb">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">CSV</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8</span> <span class="k">COMMENT</span><span class="o">=</span><span class="s1">'Slow log'</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
 
-mysql&gt;
+<span class="n">mysql</span><span class="o">&gt;</span>
 </code></pre></div></div>
 
 <p>我们可以用下列语句用来模仿慢查询；</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>select sleep(10);
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">select</span> <span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; select * from mysql.slow_Log
-    -&gt; ;
-ERROR 1146 (42S02): Table 'mysql.slow_Log' doesn't exist
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">mysql</span><span class="p">.</span><span class="n">slow_Log</span>
+    <span class="o">-&gt;</span> <span class="p">;</span>
+<span class="n">ERROR</span> <span class="mi">1146</span> <span class="p">(</span><span class="mi">42</span><span class="n">S02</span><span class="p">):</span> <span class="k">Table</span> <span class="s1">'mysql.slow_Log'</span> <span class="n">doesn</span><span class="s1">'t exist
 mysql&gt; select *  from mysql.slow_log;
 +---------------------+---------------------------+------------+-----------+-----------+---------------+----+----------------+-----------+-----------+------------------+-----------+
 | start_time          | user_host                 | query_time | lock_time | rows_sent | rows_examined | db | last_insert_id | insert_id | server_id | sql_text         | thread_id |
@@ -411,37 +411,32 @@ mysql&gt; select *  from mysql.slow_log;
 1 row in set (0.01 sec)
 
 mysql&gt;
-</code></pre></div></div>
+</span></code></pre></div></div>
 
 <h3 id="慢查询日志分析">慢查询日志分析</h3>
 
-<ol>
+<ul>
   <li>可以使用 MySQL 自带的 mysqldumpslow 工具。使用很简单，可以跟-help 来查看具体的用法。</li>
-</ol>
+</ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># -s：排序方式。c , t , l , r 表示记录次数、时间、查询时间的多少、返回的记录数排序；
-# ac , at , al , ar 表示相应的倒叙； # -t：返回前面多少条的数据；
-# -g：包含什么，大小写不敏感的； mysqldumpslow -s r -t 10 /slowquery.log
-#slow记录最多的10个语句 mysqldumpslow -s t -t 10 -g "left join" /slowquery.log
-#按照时间排序前10中含有"left join"的
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="o">-</span><span class="n">s</span><span class="err">：排序方式。</span><span class="k">c</span> <span class="p">,</span> <span class="n">t</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="n">r</span> <span class="err">表示记录次数、时间、查询时间的多少、返回的记录数排序；</span>
+<span class="o">#</span> <span class="n">ac</span> <span class="p">,</span> <span class="k">at</span> <span class="p">,</span> <span class="n">al</span> <span class="p">,</span> <span class="n">ar</span> <span class="err">表示相应的倒叙；</span> <span class="o">#</span> <span class="o">-</span><span class="n">t</span><span class="err">：返回前面多少条的数据；</span>
+<span class="o">#</span> <span class="o">-</span><span class="k">g</span><span class="err">：包含什么，大小写不敏感的；</span> <span class="n">mysqldumpslow</span> <span class="o">-</span><span class="n">s</span> <span class="n">r</span> <span class="o">-</span><span class="n">t</span> <span class="mi">10</span> <span class="o">/</span><span class="n">slowquery</span><span class="p">.</span><span class="n">log</span>
+<span class="o">#</span><span class="n">slow</span><span class="err">记录最多的</span><span class="mi">10</span><span class="err">个语句</span> <span class="n">mysqldumpslow</span> <span class="o">-</span><span class="n">s</span> <span class="n">t</span> <span class="o">-</span><span class="n">t</span> <span class="mi">10</span> <span class="o">-</span><span class="k">g</span> <span class="nv">"left join"</span> <span class="o">/</span><span class="n">slowquery</span><span class="p">.</span><span class="n">log</span>
+<span class="o">#</span><span class="err">按照时间排序前</span><span class="mi">10</span><span class="err">中含有</span><span class="nv">"left join"</span><span class="err">的</span>
 </code></pre></div></div>
 
-<ol>
+<ul>
   <li>可以导到 mysql.slow_query 表中，然后通过 sql 语句进行分析。</li>
   <li>使用第三方工具，下面会有介绍。</li>
-</ol>
+</ul>
 
 <h3 id="pt-query-digest">pt-query-digest</h3>
 
 <p>pt-query-digest 可以从普通 MySQL 日志，慢查询日志以及二进制日志中分析查询，甚至可以从 SHOW PROCESSLIST 和 MySQL 协议的 tcpdump 中进行分析，如果没有指定文件，它从标准输入流（STDIN）中读取数据。
 最简单地用法如下：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest slow.logs
-</code></pre></div></div>
-
-<p>输出信息大致如下：</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pt</span><span class="o">-</span><span class="n">query</span><span class="o">-</span><span class="n">digest</span> <span class="n">slow</span><span class="p">.</span><span class="n">logs</span>
 </code></pre></div></div>
 
         </div>
@@ -1365,12 +1360,12 @@ mysql&gt;
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>19</span>
+    		数据库 <span>18</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#MySQL">
-    		MySQL <span>15</span>
+    		MySQL <span>14</span>
     	</a></li>
     
   
@@ -1390,7 +1385,7 @@ mysql&gt;
   
      
     	
-    	<li><a href="/tags.html#MySQL">MySQL <span>16</span></a></li>
+    	<li><a href="/tags.html#MySQL">MySQL <span>15</span></a></li>
     
   
 

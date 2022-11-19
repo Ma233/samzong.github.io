@@ -288,7 +288,9 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># import module
+            <h2 id="code">Code</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># import module
 </span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 
@@ -324,8 +326,8 @@
     <span class="nt">&lt;ul&gt;</span>
         ...
         <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"cur"</span><span class="nt">&gt;&lt;span&gt;</span>网页<span class="nt">&lt;/span&gt;&lt;/li&gt;</span>
-        href="http://zhihu.sogou.com/" uigs-id="nav_zhihu" id="zhihu"&gt;知乎<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
-        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">onclick=</span><span class="s">"st(this,'40030500','pic')"</span> <span class="na">href=</span><span class="s">"http://pic.sogou.com"</span> <span class="na">uigs-id=</span><span class="s">"nav_pic"</span> <span class="na">id=</span><span class="s">"pic"</span><span class="nt">&gt;</span>图片<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        href="http://zhihu.sogou.com/" uigs-id="nav_zhihu" id="zhihu"&gt;知乎`<span class="nt">&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">onclick=</span><span class="s">"st(this,'40030500','pic')"</span> <span class="na">href=</span><span class="s">"http://pic.sogou.com"</span> <span class="na">uigs-id=</span><span class="s">"nav_pic"</span> <span class="na">id=</span><span class="s">"pic"</span><span class="nt">&gt;</span>图片`<span class="nt">&lt;/li&gt;</span>
         ...
     <span class="nt">&lt;/ul&gt;</span>
 <span class="nt">&lt;/div&gt;</span>
@@ -337,12 +339,12 @@
     <span class="k">print</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
 </code></pre></div></div>
 
-<h1 id="select返回的是一个-list"><code class="language-plaintext highlighter-rouge">select</code> 返回的是一个 <code class="language-plaintext highlighter-rouge">list</code></h1>
+<h2 id="select返回的是一个-list"><code class="language-plaintext highlighter-rouge">select</code> 返回的是一个 <code class="language-plaintext highlighter-rouge">list</code></h2>
 
 <p>通过过下标，可以获取到对应的内容</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>
- <span class="k">print</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">=&lt;</span><span class="n">a</span> <span class="n">title</span><span class="o">=</span><span class="s">"郭大侠"</span> <span class="n">user</span><span class="o">-</span><span class="nb">id</span><span class="o">=</span><span class="s">"1802863164"</span> <span class="n">class</span><span class="o">=</span><span class="s">"J_card"</span> <span class="n">href</span><span class="o">=</span><span class="s">"/member/1802863164"</span><span class="o">&gt;</span><span class="n">郭大侠</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+ <span class="k">print</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">=&lt;</span><span class="n">a</span> <span class="n">title</span><span class="o">=</span><span class="s">"郭大侠"</span> <span class="n">user</span><span class="o">-</span><span class="nb">id</span><span class="o">=</span><span class="s">"1802863164"</span> <span class="n">class</span><span class="o">=</span><span class="s">"J_card"</span> <span class="n">href</span><span class="o">=</span><span class="s">"/member/1802863164"</span><span class="o">&gt;</span><span class="n">郭大侠</span><span class="err">`</span>
 </code></pre></div></div>
 
 <ul>
@@ -350,12 +352,12 @@
   <li>比如要打印出上述的 title，可以使用  <code class="language-plaintext highlighter-rouge">print(user['title'])</code></li>
 </ul>
 
-<h1 id="打印-html-tag-内的文本">打印 HTML Tag 内的文本</h1>
+<h2 id="打印-html-tag-内的文本">打印 HTML Tag 内的文本</h2>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># .string   在获取到的 tag 后面增加
 </span>
 <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>
- <span class="k">print</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">=&lt;</span><span class="n">a</span> <span class="n">title</span><span class="o">=</span><span class="s">"郭大侠"</span> <span class="n">user</span><span class="o">-</span><span class="nb">id</span><span class="o">=</span><span class="s">"1802863164"</span> <span class="n">class</span><span class="o">=</span><span class="s">"J_card"</span> <span class="n">href</span><span class="o">=</span><span class="s">"/member/1802863164"</span><span class="o">&gt;</span><span class="n">郭大侠</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+ <span class="k">print</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">=&lt;</span><span class="n">a</span> <span class="n">title</span><span class="o">=</span><span class="s">"郭大侠"</span> <span class="n">user</span><span class="o">-</span><span class="nb">id</span><span class="o">=</span><span class="s">"1802863164"</span> <span class="n">class</span><span class="o">=</span><span class="s">"J_card"</span> <span class="n">href</span><span class="o">=</span><span class="s">"/member/1802863164"</span><span class="o">&gt;</span><span class="n">郭大侠</span><span class="err">`</span>
 
     <span class="k">print</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="n">string</span><span class="p">)</span>
 </code></pre></div></div>

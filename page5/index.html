@@ -276,6 +276,89 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2022/02/%E4%B8%80%E4%B8%AAPython%E9%A1%B9%E7%9B%AE%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1.html">一个 Python 项目的目录结构设计</a></h1>
+    <div class="post_at_index">
+      <h2 id="参考的目录结构设计">参考的目录结构设计</h2>
+
+<blockquote>
+  <p>thanks <a href="https://www.justdopython.com/2020/01/18/python-web-flask-project-125/">https://www.justdopython.com/2020/01/18/python-web-flask-project-125/</a></p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">project</span><span class="o">/</span>
+  <span class="n">forms</span><span class="o">/</span>
+    <span class="n">myform</span><span class="p">.</span><span class="n">py</span>
+    <span class="p">...</span>
+  <span class="n">models</span><span class="o">/</span>
+    <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+    <span class="n">profile</span><span class="p">.</span><span class="n">py</span>
+    <span class="n">user</span><span class="p">.</span><span class="n">py</span>
+    <span class="p">...</span>
+  <span class="n">routes</span><span class="o">/</span>
+    <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+    <span class="n">home</span><span class="p">.</span><span class="n">py</span>
+    <span class="n">profile</span><span class="p">.</span><span class="n">py</span>
+    <span class="p">...</span>
+  <span class="n">static</span><span class="o">/</span>
+    <span class="p">...</span>
+  <span class="n">services</span><span class="o">/</span>
+    <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+    <span class="p">...</span>
+  <span class="n">templates</span><span class="o">/</span>
+    <span class="n">createprofile</span><span class="p">.</span><span class="n">html</span>
+    <span class="n">profile</span><span class="p">.</span><span class="n">html</span>
+    <span class="p">...</span>
+  <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+  <span class="n">config</span><span class="p">.</span><span class="n">py</span>
+  <span class="o">*</span><span class="n">utils</span><span class="o">/*</span>
+    <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+    <span class="n">jwt_decode</span><span class="p">.</span><span class="n">py</span>
+    <span class="p">...</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>forms（表单）：存放表单对象</li>
+  <li>models（模型）：存放数据模型，即库表在程序中的映射对象，以及对象之间的关系
+    <ul>
+      <li>不同的表，分开存储</li>
+    </ul>
+  </li>
+  <li>routes（路由）：存放请求路由以及处理逻辑</li>
+  <li>static（静态文件）：Flask 约定存放静态文件的目录</li>
+  <li>templates（模板）：Flask 约定存放页面模板的目录</li>
+  <li>services（服务）：存放业务逻辑或者其他服务类功能</li>
+  <li><strong>init</strong>.py：Flask app 初始化方法
+    <ul>
+      <li>在每个目录下都增加对应的 <strong>init</strong>.py 将目录变成 package 方便调用</li>
+      <li>并在 <strong>init</strong>.py 完成一些程序的初始化</li>
+    </ul>
+  </li>
+  <li>config.py：项目配置文件
+    <ul>
+      <li>区分配置类型</li>
+    </ul>
+  </li>
+  <li><strong>增加 utils/</strong>将工具类的放在 utils 内实现，方便使用</li>
+</ul>
+
+<p>:::danger
+需要后续考虑的问题，一个项目较为复杂时，如果分解多应用的问题，留在后面考虑
+:::</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-02-11</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2022/01/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a></h1>
     <div class="post_at_index">
       <ul>
@@ -310,7 +393,7 @@
     
     <h1><a class="title" href="/post/2022/01/ClickHouse-%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E4%BD%BF%E7%94%A8.html">ClickHouse 常用函数使用</a></h1>
     <div class="post_at_index">
-      <h4 id="1-调整时区">1. 调整时区</h4>
+      <h2 id="1-调整时区">1. 调整时区</h2>
 
 <p>用于调整时区为查询者的时区</p>
 
@@ -321,7 +404,7 @@
 <span class="k">SELECT</span>  <span class="n">CONVERT_TZ</span><span class="p">(</span><span class="s1">'2020-04-06 02:00:00'</span><span class="p">,</span><span class="s1">'UTC'</span><span class="p">,</span><span class="s1">'Asia/Hong_Kong'</span><span class="p">)</span> <span class="k">as</span> <span class="n">event_time</span>
 </code></pre></div></div>
 
-<h4 id="2-提前-json-中的字符串">2. 提前 Json 中的字符串</h4>
+<h2 id="2-提前-json-中的字符串">2. 提前 Json 中的字符串</h2>
 
 <p>通过 <code class="language-plaintext highlighter-rouge">JSONExtractRaw</code>对多层 Json 结构的数据进行 <code class="language-plaintext highlighter-rouge">精准提取</code></p>
 
@@ -345,7 +428,7 @@
 <span class="n">json_unquote</span><span class="p">(</span><span class="n">json_extract</span><span class="p">(</span><span class="n">_data</span><span class="p">,</span><span class="s1">'$.app_env'</span><span class="p">))</span> <span class="k">as</span> <span class="n">app_env</span>
 </code></pre></div></div>
 
-<h4 id="3-判断字段不为空">3. 判断字段不为空</h4>
+<h2 id="3-判断字段不为空">3. 判断字段不为空</h2>
 
 <p>使用在 where 条件中，判断字段 为空或者不为空</p>
 
@@ -459,7 +542,7 @@ END 'Col_name'
     <div class="post_at_index">
       <p>配置中心在微服务架构体系中是非常重要的基础设施服务，承担着分布式配置集中管理、配置热发布以及审计等重要的职责。本文主要探讨 Apollo 配置中心的配置热发布特性如何实现。</p>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1641235647447-4020ae67-bd11-4fde-bd75-930cd6bec2de.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1641235647447-4020ae67-bd11-4fde-bd75-930cd6bec2de.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
 
 <p>如上图所示，配置发布的主流程如下：</p>
 
@@ -471,20 +554,20 @@ END 'Col_name'
   <li>（5）通知 Controller 会根据发布的配置信息通知对应的客户端；</li>
 </ul>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1641235647465-f12e26b4-9ab7-496d-8a0a-227b36142f00.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1641235647465-f12e26b4-9ab7-496d-8a0a-227b36142f00.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
 
 <p>这里的配置更新推送其实并不是真正进行信息推送，而是通过长轮询来实现配置的更新。实际上并不是配置的更新推送，而是配置更新通知的推送，客户端拿到通知后需要进一步获取具体的变化的配置信息。</p>
 
 <p>长轮询
 （1）如果使用 Push 方式推送数据会有什么问题？</p>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1641235647464-e43d03b0-0814-4f71-b730-fae9a30058d3.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1641235647464-e43d03b0-0814-4f71-b730-fae9a30058d3.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
 
 <p>服务端需要与客户端建立长连接，服务端有数据更新的时候可以进行数据推送，数据更新比较及时。但是服务端无法感知客户端的处理能力，可能会造成数据积压。另外集群情况下部分节点不在线会通知失败，等客户端又在线后需要进行补偿推送，节点还有可能存在扩容等各种情况。对于配置中心这种业务场景来说，通过 Push 方式实现数据推动显得复杂了。</p>
 
 <p>（2）如果使用 Pull 方式拉取数据会有什么问题？</p>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1641235647430-bb402569-7dfe-4001-9084-286881bb78b7.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1641235647430-bb402569-7dfe-4001-9084-286881bb78b7.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
 
 <p>Pull 模式主要是通过客户端主动向配置中心进行数据请求，拉取对应的配置信息。由于是客户端主动拉取，因此不会出现数据堆积的问题。但是数据如何去拉，什么时间去拉，拉的频率如何控制，这些都是问题。如果频率过高，而配置并未更新，那么就会对服务端造成不必要的连接压力。如果频率过低，那么配置更新就会存在延时的问题。因此同样不适合配置中心的业务场景。</p>
 
@@ -501,7 +584,7 @@ END 'Col_name'
 
 <p>我们一起看下客户端如何工作流程，如下图：</p>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1641235647471-53df92c4-4efc-424b-83a4-c99c9d103a47.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1641235647471-53df92c4-4efc-424b-83a4-c99c9d103a47.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
 
 <ul>
   <li>（1）ConfigServiceLocator：主要负责向 Eruka 注册中心获取 ConfigService 地址列表信息；</li>
@@ -593,7 +676,7 @@ git config <span class="nt">--global</span> https.https://github.com.proxy https
   <p><a href="https://developers.dingtalk.com/document/resourcedownload/http-intranet-penetration?pnamespace=tutorial">https://developers.dingtalk.com/document/resourcedownload/http-intranet-penetration?pnamespace=tutorial</a></p>
 </blockquote>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630637171967-d3907c05-e99f-4b27-b4ca-3047423021f8.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630637171967-d3907c05-e99f-4b27-b4ca-3047423021f8.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
 
 <h2 id="使用方法">使用方法</h2>
 
@@ -609,13 +692,13 @@ git config <span class="nt">--global</span> https.https://github.com.proxy https
 
 <p>通过以上命令：会将本地端口为 5000 代理到 公网域名 abcde.vaiwan.com；启动成功后会展示如下页面，并会打印出对应的请求记录</p>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630637171919-e53839a7-fc1d-4796-8f96-1235722dc38c.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630637171919-e53839a7-fc1d-4796-8f96-1235722dc38c.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
 
 <h2 id="调试辅助">调试辅助</h2>
 
 <p>在运行成功后，会看到一个 <code class="language-plaintext highlighter-rouge">Web Interface</code> 运行在本地 <code class="language-plaintext highlighter-rouge">http://127.0.0.1:4040</code> 这是一个非常友好的调试界面，可以让你这边看到每个请求的日志信息</p>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630637171928-a64116ae-eb01-4308-8a21-c1fe3ab30df5.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630637171928-a64116ae-eb01-4308-8a21-c1fe3ab30df5.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
 
 <p>细心的话，你也可以注意到，在每个接口的页面上的右侧有个 <code class="language-plaintext highlighter-rouge">Retry</code> 的按钮，这个是可以方便我们对接口进行重试</p>
 
@@ -643,73 +726,6 @@ git config <span class="nt">--global</span> https.https://github.com.proxy https
     <br/>
     <div>
       <cite>2021-11-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/11/Creating-DataFrame-using-list.html">Creating DataFrame using list</a></h1>
-    <div class="post_at_index">
-      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-  
-<span class="c1"># list of strings
-</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'For'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'is'</span><span class="p">,</span> 
-            <span class="s">'portal'</span><span class="p">,</span> <span class="s">'for'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">]</span>
-  
-<span class="c1"># Calling DataFrame constructor on list
-</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326317905-b923391a-6135-482f-8b43-9a67e1f6245f.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># import pandas as pd
-</span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-
-<span class="c1"># list of strings
-</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'For'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'is'</span><span class="p">,</span> <span class="s">'portal'</span><span class="p">,</span> <span class="s">'for'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">]</span>
-
-<span class="c1"># Calling DataFrame constructor on list
-# with indices and columns specified
-</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span><span class="p">[</span><span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">,</span> <span class="s">'d'</span><span class="p">,</span> <span class="s">'e'</span><span class="p">,</span> <span class="s">'f'</span><span class="p">,</span> <span class="s">'g'</span><span class="p">],</span>
-           <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'Names'</span><span class="p">])</span>
-</code></pre></div></div>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326330330-97380b9c-a674-479c-a4f4-074ef3128aa3.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Creating DataFrame using multi-dimensional list
-</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
- 
-<span class="c1"># List1
-</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'tom'</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> <span class="p">[</span><span class="s">'krish'</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
- <span class="p">[</span><span class="s">'nick'</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span> <span class="p">[</span><span class="s">'juli'</span><span class="p">,</span> <span class="mi">22</span><span class="p">]]</span>
- 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'Name'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">])</span>
-</code></pre></div></div>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326375589-cd58c20f-3dde-4eeb-a097-19dd3bf3376a.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Using multi-dimensional list with column name and dtype specified.
-</span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
- 
-<span class="c1"># List1
-</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'tom'</span><span class="p">,</span> <span class="s">'reacher'</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> <span class="p">[</span><span class="s">'krish'</span><span class="p">,</span> <span class="s">'pete'</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
- <span class="p">[</span><span class="s">'nick'</span><span class="p">,</span> <span class="s">'wilson'</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span> <span class="p">[</span><span class="s">'juli'</span><span class="p">,</span> <span class="s">'williams'</span><span class="p">,</span> <span class="mi">22</span><span class="p">]]</span>
- 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'FName'</span><span class="p">,</span> <span class="s">'LName'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">],</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-11-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Pandas">Pandas</a>
-      , 
       <a href="/tags.html#Python">Python</a>
       
       
@@ -793,12 +809,12 @@ git config <span class="nt">--global</span> https.https://github.com.proxy https
      
     	
       <li><a href="/categories.html#Linux">
-    		Linux <span>21</span>
+    		Linux <span>22</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#CentOS">
-    		CentOS <span>14</span>
+    		CentOS <span>15</span>
     	</a></li>
      
     	
@@ -808,12 +824,12 @@ git config <span class="nt">--global</span> https.https://github.com.proxy https
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>19</span>
+    		数据库 <span>18</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#MySQL">
-    		MySQL <span>15</span>
+    		MySQL <span>14</span>
     	</a></li>
      
     	
@@ -838,7 +854,7 @@ git config <span class="nt">--global</span> https.https://github.com.proxy https
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>17</span>
+    		Mac <span>16</span>
     	</a></li>
      
     	
@@ -1062,6 +1078,12 @@ git config <span class="nt">--global</span> https.https://github.com.proxy https
       <ul>
         
         <li>
+          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy To Markdwon</a>
+          
+
+        </li>
+        
+        <li>
           <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
           
   参考资料：
@@ -1080,7 +1102,9 @@ df = pandas.read_csv(‘somefile.txt’)
         
         <li>
           <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
-          暗坑很多
+          
+  暗坑很多
+
 
 
         </li>
@@ -1089,13 +1113,6 @@ df = pandas.read_csv(‘somefile.txt’)
           <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
           王路
 12 highlights
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/%E8%87%AA%E5%8D%91%E4%B8%8E%E8%B6%85%E8%B6%8A.html">自卑与超越</a>
-          【奥】阿尔弗雷德··阿德勒
 
 
         </li>

@@ -292,9 +292,9 @@
 
 <h2 id="备份数据库">备份数据库</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump db_name &gt; bak_name.sql
-mysqldump -A -u [dbuser] -p db_name &gt; bak_name.sql
-mysqldump -d -A --add-drop-table -uroot -p &gt;xxx.sql
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump db_name <span class="o">&gt;</span> bak_name.sql
+mysqldump <span class="nt">-A</span> <span class="nt">-u</span> <span class="o">[</span>dbuser] <span class="nt">-p</span> db_name <span class="o">&gt;</span> bak_name.sql
+mysqldump <span class="nt">-d</span> <span class="nt">-A</span> <span class="nt">--add-drop-table</span> <span class="nt">-uroot</span> <span class="nt">-p</span> <span class="o">&gt;</span>xxx.sql
 </code></pre></div></div>
 
 <h2 id="备份所有库到一个单独的文件">备份所有库到一个单独的文件</h2>
@@ -304,157 +304,157 @@ mysqldump -d -A --add-drop-table -uroot -p &gt;xxx.sql
 
 <h3 id="1-导出结构不导出数据">1. 导出结构不导出数据</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　--opt　-d　db_name　-u　root　-p　&gt;　xxx.sql
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　--opt　-d　db_name　-u　root　-p　&gt;　xxx.sql
 </code></pre></div></div>
 
 <h3 id="2-导出数据不导出结构">2. 导出数据不导出结构</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　-t　db_name　-uroot　-p　&gt;　xxx.sql
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　-t　db_name　-uroot　-p　&gt;　xxx.sql
 </code></pre></div></div>
 
 <h3 id="3-导出数据和表结构">3. 导出数据和表结构</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　db_name　-uroot　-p　&gt;　xxx.sql
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　db_name　-uroot　-p　&gt;　xxx.sql
 </code></pre></div></div>
 
 <h3 id="4-导出特定表的结构">4. 导出特定表的结构</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　-uroot　-p　-B　db_name　--table　tb_name　&gt;　xxx.sql
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　-uroot　-p　-B　db_name　--table　tb_name　&gt;　xxx.sql
 </code></pre></div></div>
 
 <h2 id="导入数据">导入数据</h2>
 
 <p>因为 mysqldump 导出的是完整的 SQL 语句，所以用 mysql 客户程序很容易就能把数据导入了：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql -u db_user -p db_name  &lt; xxx.sql
-mysql&gt; source /path/xxx.sql
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-u</span> db_user <span class="nt">-p</span> db_name  &lt; xxx.sql
+mysql&gt; <span class="nb">source</span> /path/xxx.sql
 </code></pre></div></div>
 
 <h2 id="mysqldump-参数详解">mysqldump 参数详解</h2>
 
-<p><code>–all-databases , -A </code>
-导出全部数据库<br />
+<p><code class="language-plaintext highlighter-rouge">–all-databases , -A</code>
+导出全部数据库
 mysqldump -uroot -p –all-databases</p>
 
-<p><code>–all-tablespaces , -Y</code>
-导出全部表空间<br />
+<p><code class="language-plaintext highlighter-rouge">–all-tablespaces , -Y</code>
+导出全部表空间
 mysqldump -uroot -p –all-databases –all-tablespaces</p>
 
-<p><code>–no-tablespaces , -y</code>
-不导出任何表空间信息<br />
+<p><code class="language-plaintext highlighter-rouge">–no-tablespaces , -y</code>
+不导出任何表空间信息
 mysqldump -uroot -p –all-databases –no-tablespaces</p>
 
-<p><code>–add-drop-database</code>
-每个数据库创建之前添加 drop 数据库语句<br />
+<p><code class="language-plaintext highlighter-rouge">–add-drop-database</code>
+每个数据库创建之前添加 drop 数据库语句
 mysqldump -uroot -p –all-databases –add-drop-database</p>
 
-<p><code>–add-drop-table</code>
-每个数据表创建之前添加 drop 数据表语句。(默认为打开状态，使用–skip-add-drop-table 取消选项)<br />
+<p><code class="language-plaintext highlighter-rouge">–add-drop-table</code>
+每个数据表创建之前添加 drop 数据表语句。(默认为打开状态，使用–skip-add-drop-table 取消选项)
 mysqldump -uroot -p –all-databases (默认添加 drop 语句)
 mysqldump -uroot -p –all-databases –skip-add-drop-table (取消 drop 语句)</p>
 
-<p><code>–add-locks</code>
-在每个表导出之前增加 LOCK TABLES 并且之后 UNLOCK TABLE。(默认为打开状态，使用–skip-add-locks 取消选项)<br />
+<p><code class="language-plaintext highlighter-rouge">–add-locks</code>
+在每个表导出之前增加 LOCK TABLES 并且之后 UNLOCK TABLE。(默认为打开状态，使用–skip-add-locks 取消选项)
 mysqldump -uroot -p –all-databases(默认添加 LOCK 语句)
 mysqldump -uroot -p –all-databases –skip-add-locks (取消 LOCK 语句)</p>
 
-<p><code>–comments</code>
-附加注释信息。<br />
+<p><code class="language-plaintext highlighter-rouge">–comments</code>
+附加注释信息。
 默认为打开，可以用–skip-comments 取消 mysqldump -uroot -p –all-databases (默认记录注释)mysqldump -uroot -p –all-databases “code”
 skip-comments (取消注释)</p>
 
-<p><code>–compact</code>
-导出更少的输出信息 (用于调试),去掉注释和头尾等结构，可以使用选项：–skip-add-drop-table –skip-add-locks –skip-comments –skip-disable-keys<br />
+<p><code class="language-plaintext highlighter-rouge">–compact</code>
+导出更少的输出信息 (用于调试),去掉注释和头尾等结构，可以使用选项：–skip-add-drop-table –skip-add-locks –skip-comments –skip-disable-keys
 mysqldump -uroot -p –all-databases –compact</p>
 
-<p><code>–complete-insert, -c</code>
-使用完整的 insert 语句 (包含列名称)。这么做能提高插入效率，但是可能会受到 max_allowed_packet 参数的影响而导致插入失败。<br />
+<p><code class="language-plaintext highlighter-rouge">–complete-insert, -c</code>
+使用完整的 insert 语句 (包含列名称)。这么做能提高插入效率，但是可能会受到 max_allowed_packet 参数的影响而导致插入失败。
 mysqldump -uroot -p –all-databases –complete-insert</p>
 
-<p><code>–compress, -C</code>
-在客户端和服务器之间启用压缩传递所有信息<br />
+<p><code class="language-plaintext highlighter-rouge">–compress, -C</code>
+在客户端和服务器之间启用压缩传递所有信息
 mysqldump -uroot -p –all-databases –compress</p>
 
-<p><code>–databases, -B</code>
-导出几个数据库。参数后面所有名字参量都被看作数据库名。<br />
+<p><code class="language-plaintext highlighter-rouge">–databases, -B</code>
+导出几个数据库。参数后面所有名字参量都被看作数据库名。
 mysqldump -uroot -p –databases test mysql</p>
 
-<p><code>–debug</code>
-输出 debug 信息，用于调试。<br />
-默认值为：d:t:o,/tmp/mysqldump.trace<br />
-mysqldump -uroot -p –all-databases –debug<br />
+<p><code class="language-plaintext highlighter-rouge">–debug</code>
+输出 debug 信息，用于调试。
+默认值为：d:t:o,/tmp/mysqldump.trace
+mysqldump -uroot -p –all-databases –debug
 mysqldump -uroot -p –all-databases –debug=”d:t:o,/tmp/debug.trace”</p>
 
-<p><code>–debug-info</code>
-输出调试信息并退出<br />
+<p><code class="language-plaintext highlighter-rouge">–debug-info</code>
+输出调试信息并退出
 mysqldump -uroot -p –all-databases –debug-info</p>
 
-<p><code>–default-character-set</code>
-设置默认字符集，默认值为 utf8<br />
+<p><code class="language-plaintext highlighter-rouge">–default-character-set</code>
+设置默认字符集，默认值为 utf8
 mysqldump -uroot -p –all-databases –default-character-set=latin1</p>
 
-<p><code>–delayed-insert</code>
-采用延时插入方式（INSERT DELAYED）导出数据<br />
+<p><code class="language-plaintext highlighter-rouge">–delayed-insert</code>
+采用延时插入方式（INSERT DELAYED）导出数据
 mysqldump -uroot -p –all-databases –delayed-insert</p>
 
-<p><code>–events, -E</code>
-导出事件<br />
+<p><code class="language-plaintext highlighter-rouge">–events, -E</code>
+导出事件
 mysqldump -uroot -p –all-databases –events</p>
 
-<p><code>–flush-logs</code>
-开始导出之前刷新日志<br />
-请注意：假如一次导出多个数据库 (使用选项–databases 或者–all-databases)，将会逐个数据库刷新日志。除使用–lock-all-tables 或者–master-data 外。在这种情况下，日志将会被刷新一次，相应的所以表同时被锁定。因此，如果打算同时导出和刷新日志应该使用–lock-all-tables 或者–master-data 和–flush-logs.<br />
+<p><code class="language-plaintext highlighter-rouge">–flush-logs</code>
+开始导出之前刷新日志
+请注意：假如一次导出多个数据库 (使用选项–databases 或者–all-databases)，将会逐个数据库刷新日志。除使用–lock-all-tables 或者–master-data 外。在这种情况下，日志将会被刷新一次，相应的所以表同时被锁定。因此，如果打算同时导出和刷新日志应该使用–lock-all-tables 或者–master-data 和–flush-logs.
 mysqldump -uroot -p –all-databases –flush-logs</p>
 
-<p><code>–flush-privileges</code>
-在导出 mysql 数据库之后，发出一条 FLUSH PRIVILEGES 语句。为了正确恢复，该选项应该用于导出 mysql 数据库和依赖 mysql 数据库数据的任何时候。<br />
+<p><code class="language-plaintext highlighter-rouge">–flush-privileges</code>
+在导出 mysql 数据库之后，发出一条 FLUSH PRIVILEGES 语句。为了正确恢复，该选项应该用于导出 mysql 数据库和依赖 mysql 数据库数据的任何时候。
 mysqldump -uroot -p –all-databases –flush-privileges</p>
 
-<p><code>–force</code>
-在导出过程中忽略出现的 SQL 错误<br />
+<p><code class="language-plaintext highlighter-rouge">–force</code>
+在导出过程中忽略出现的 SQL 错误
 mysqldump -uroot -p –all-databases –force</p>
 
-<p><code>–host, -h</code>
-需要导出的主机信息<br />
+<p><code class="language-plaintext highlighter-rouge">–host, -h</code>
+需要导出的主机信息
 mysqldump -uroot -p –host=localhost –all-databases</p>
 
-<p><code>–ignore-table</code></p>
+<p><code class="language-plaintext highlighter-rouge">–ignore-table</code></p>
 
 <p>不导出指定表。
 指定忽略多个表时，需要重复多次，每次一个表。每个表必须同时指定数据库和表名。
-例如：<br />–ignore-table=database.table1 –ignore-table=database.table2 ……<br />
+例如：–ignore-table=database.table1 –ignore-table=database.table2 ……
 mysqldump -uroot -p –host=localhost –all-databases –ignore-table=mysql.user</p>
 
-<p><code>–lock-all-tables, -x</code>
+<p><code class="language-plaintext highlighter-rouge">–lock-all-tables, -x</code>
 提交请求锁定所有数据库中的所有表，以保证数据的一致性。
-这是一个全局读锁，并且自动关闭–single-transaction 和–lock-tables 选项。<br />
+这是一个全局读锁，并且自动关闭–single-transaction 和–lock-tables 选项。
 mysqldump -uroot -p –host=localhost –all-databases –lock-all-tables</p>
 
-<p><code>–lock-tables, -l</code>
-开始导出前，锁定所有表。<br />
-用 READ LOCAL 锁定表以允许 MyISAM 表并行插入。对于支持事务的表例如 InnoDB 和 BDB，–single-transaction 是一个更好的选择，因为它根本不需要锁定表.<br />
-请注意当导出多个数据库时，–lock-tables 分别为每个数据库锁定表。因此，该选项不能保证导出文件中的表在数据库之间的逻辑一致性。不同数据库表的导出状态可以完全不同。<br />
+<p><code class="language-plaintext highlighter-rouge">–lock-tables, -l</code>
+开始导出前，锁定所有表。
+用 READ LOCAL 锁定表以允许 MyISAM 表并行插入。对于支持事务的表例如 InnoDB 和 BDB，–single-transaction 是一个更好的选择，因为它根本不需要锁定表。
+请注意当导出多个数据库时，–lock-tables 分别为每个数据库锁定表。因此，该选项不能保证导出文件中的表在数据库之间的逻辑一致性。不同数据库表的导出状态可以完全不同。
 mysqldump -uroot -p –host=localhost –all-databases –lock-tables</p>
 
-<p><code>–no-create-db, -n </code>
-只导出数据，而不添加 CREATE DATABASE 语句。<br />
+<p><code class="language-plaintext highlighter-rouge">–no-create-db, -n</code>
+只导出数据，而不添加 CREATE DATABASE 语句。
 mysqldump -uroot -p –host=localhost –all-databases –no-create-db</p>
 
-<p><code>–no-create-info,-t</code>
-只导出数据，而不添加 CREATE TABLE 语句<br />
+<p><code class="language-plaintext highlighter-rouge">–no-create-info,-t</code>
+只导出数据，而不添加 CREATE TABLE 语句
 mysqldump -uroot -p –host=localhost –all-databases –no-create-info</p>
 
-<p><code> –no-data, -d </code>
-不导出任何数据，只导出数据库表结构<br />
+<p>` –no-data, -d `
+不导出任何数据，只导出数据库表结构
 mysqldump -uroot -p –host=localhost –all-databases –no-data</p>
 
-<p><code> –password, -p </code>
+<p>` –password, -p `
 连接数据库密码</p>
 
-<p><code> –port, -P </code>
+<p>` –port, -P `
 连接数据库端口号</p>
 
-<p><code> –user, -u </code>
+<p>` –user, -u `
 指定连接的用户名。</p>
 
         </div>
@@ -1360,7 +1360,7 @@ mysqldump -uroot -p –host=localhost –all-databases –no-data</p>
                 <!-- <li><a href="/static/archive.html">Archive（目录）</a></li> -->
                 <li><a href="/archive.html">Archive（目录）</a></li>
                 
-                <li class="next"><a href="/post/2016/05/CentOS-7-1-%E4%BF%AE%E6%94%B9%E7%B3%BB%E7%BB%9F%E4%B8%BB%E6%9C%BA%E5%90%8D.html" title="CentOS 修改系统主机名">Next（后一篇） &rarr;</a></li>
+                <li class="next"><a href="/post/2016/05/HowTo-Automatic-EasyBackup-MysqlDB.html" title="CentOS 修改系统主机名">Next（后一篇） &rarr;</a></li>
                 
             </ul>
         </nav>
@@ -1378,12 +1378,12 @@ mysqldump -uroot -p –host=localhost –all-databases –no-data</p>
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>19</span>
+    		数据库 <span>18</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#MySQL">
-    		MySQL <span>15</span>
+    		MySQL <span>14</span>
     	</a></li>
     
   
@@ -1403,7 +1403,7 @@ mysqldump -uroot -p –host=localhost –all-databases –no-data</p>
   
      
     	
-    	<li><a href="/tags.html#MySQL">MySQL <span>16</span></a></li>
+    	<li><a href="/tags.html#MySQL">MySQL <span>15</span></a></li>
     
   
 

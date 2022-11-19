@@ -328,49 +328,49 @@
 
 <h3 id="31-mongodb-26--os-x64">3.1 Mongodb 2.6 + OS x64</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-2.6.repo
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-2.6.repo
 
-[mongodb-org-2.6]
-name=MongoDB 2.6 Repository
-baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/
-gpgcheck=0
-enabled=1
+<span class="o">[</span>mongodb-org-2.6]
+<span class="nv">name</span><span class="o">=</span>MongoDB 2.6 Repository
+<span class="nv">baseurl</span><span class="o">=</span>http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+<span class="nv">enabled</span><span class="o">=</span>1
 
 </code></pre></div></div>
 
 <h3 id="32-mongodb-26--os-i686">3.2 Mongodb 2.6 + OS i686</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-2.6.repo
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-2.6.repo
 
-[mongodb-org-2.6]
-name=MongoDB 2.6 Repository
-baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/i686/
-gpgcheck=0
-enabled=1
+<span class="o">[</span>mongodb-org-2.6]
+<span class="nv">name</span><span class="o">=</span>MongoDB 2.6 Repository
+<span class="nv">baseurl</span><span class="o">=</span>http://downloads-distro.mongodb.org/repo/redhat/os/i686/
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+<span class="nv">enabled</span><span class="o">=</span>1
 
 </code></pre></div></div>
 
 <h3 id="33-mongodb-32---os-x64">3.3 Mongodb 3.2  + OS x64</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-3.2.repo
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-3.2.repo
 
-[mongodb-org-3.2]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.2/x86_64/
-gpgcheck=0
-enabled=1
+<span class="o">[</span>mongodb-org-3.2]
+<span class="nv">name</span><span class="o">=</span>MongoDB Repository
+<span class="nv">baseurl</span><span class="o">=</span>https://repo.mongodb.org/yum/redhat/<span class="nv">$releasever</span>/mongodb-org/3.2/x86_64/
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+<span class="nv">enabled</span><span class="o">=</span>1
 
 </code></pre></div></div>
 
 <h3 id="34-mongodb-32---os-i686">3.4 Mongodb 3.2  + OS i686</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-3.2.repo
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-3.2.repo
 
-[mongodb-org-3.2]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.2/i686/
-gpgcheck=0
-enabled=1
+<span class="o">[</span>mongodb-org-3.2]
+<span class="nv">name</span><span class="o">=</span>MongoDB Repository
+<span class="nv">baseurl</span><span class="o">=</span>https://repo.mongodb.org/yum/redhat/<span class="nv">$releasever</span>/mongodb-org/3.2/i686/
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+<span class="nv">enabled</span><span class="o">=</span>1
 
 </code></pre></div></div>
 
@@ -378,9 +378,9 @@ enabled=1
 
 <p>安装最新版本的 Mongodb，安装都方式一样，请注意安装相对应的源保证正确安装 Mongodb，请使用如下命令：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum clean all
-[root@vm02 ~]# yum makecache
-[root@vm02 ~]# yum install mongodb-org
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# yum clean all
+<span class="o">[</span>root@vm02 ~]# yum makecache
+<span class="o">[</span>root@vm02 ~]# yum <span class="nb">install </span>mongodb-org
 
 </code></pre></div></div>
 
@@ -395,7 +395,7 @@ enabled=1
   <li>添加 Mongodb 通过 SELinux 设定，指令如下：</li>
 </ol>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>semanage port -a -t mongod_port_t -p tcp 27017
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>semanage port <span class="nt">-a</span> <span class="nt">-t</span> mongod_port_t <span class="nt">-p</span> tcp 27017
 
 </code></pre></div></div>
 
@@ -405,22 +405,22 @@ enabled=1
 
 <h3 id="52-start-mongodb">5.2 Start MongoDB</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# sudo service mongod start
-Starting mongod:                                           [  OK  ]
-[root@vm02 ~]#
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# <span class="nb">sudo </span>service mongod start
+Starting mongod:                                           <span class="o">[</span>  OK  <span class="o">]</span>
+<span class="o">[</span>root@vm02 ~]#
 
 </code></pre></div></div>
 
 <h3 id="53-检查-mongodb-日志文件验证服务正常启动-varlogmongodbmongodblog">5.3 检查 MongoDB 日志文件验证服务正常启动， /var/log/mongodb/mongodb.log</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# cat /var/log/mongodb/mongod.log  # 看到如下内容表示mongodb启动成功了。
-2016-03-24T04:09:28.582+0800 I NETWORK  [initandlisten] waiting for connections on port 27017
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# <span class="nb">cat</span> /var/log/mongodb/mongod.log  <span class="c"># 看到如下内容表示mongodb启动成功了。</span>
+2016-03-24T04:09:28.582+0800 I NETWORK  <span class="o">[</span>initandlisten] waiting <span class="k">for </span>connections on port 27017
 
 </code></pre></div></div>
 
 <h3 id="54-设置-mongodb-开机自启动">5.4 设置 MongoDB 开机自启动</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# chkconfig mongod on
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# chkconfig mongod on
 
 </code></pre></div></div>
 
@@ -428,12 +428,12 @@ Starting mongod:                                           [  OK  ]
 
 <p>默认情况下，mongodb 只监听 127.0.0.1，但是实际生产环境中可能需要其他服务器访问，所以这里添加监听其他网络端口，修改 mongodb 的配置文件：/etc/mongodb.conf</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/mongodb.conf
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# vim /etc/mongodb.conf
 
-# line 29 增加一行：
+<span class="c"># line 29 增加一行：</span>
     bindIp: 172.16.102.129
 
-# 注意不要把1270.0.1 去除，这会导致本地无法使用MongoDB .
+<span class="c"># 注意不要把1270.0.1 去除，这会导致本地无法使用MongoDB .</span>
 
 </code></pre></div></div>
 
@@ -441,38 +441,38 @@ Starting mongod:                                           [  OK  ]
 
 <h3 id="61-检查-mongodb-状态">6.1 检查 mongodb 状态</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# service mongod status
-mongod (pid 6502) is running...
-[root@vm02 ~]#
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# service mongod status
+mongod <span class="o">(</span>pid 6502<span class="o">)</span> is running...
+<span class="o">[</span>root@vm02 ~]#
 
 </code></pre></div></div>
 
 <h3 id="62-mongodb-自带检测工具">6.2 mongodb 自带检测工具</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# mongostat
-insert query update delete getmore command % dirty % used flushes  vsize   res qr|qw ar|aw netIn netOut conn                      time
-    *0    *0     *0     *0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:09+08:00
-    *0    *0     *0     *0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:10+08:00
-    *0    *0     *0     *0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:11+08:00
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# mongostat
+insert query update delete getmore <span class="nb">command</span> % dirty % used flushes  vsize   res qr|qw ar|aw netIn netOut conn                      <span class="nb">time</span>
+    <span class="k">*</span>0    <span class="k">*</span>0     <span class="k">*</span>0     <span class="k">*</span>0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:09+08:00
+    <span class="k">*</span>0    <span class="k">*</span>0     <span class="k">*</span>0     <span class="k">*</span>0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:10+08:00
+    <span class="k">*</span>0    <span class="k">*</span>0     <span class="k">*</span>0     <span class="k">*</span>0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:11+08:00
 
 </code></pre></div></div>
 
 <h3 id="63-进入-mongodb-命令行模式">6.3 进入 mongodb 命令行模式</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# mongo
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# mongo
 MongoDB shell version: 3.2.4
-connecting to: test
-Server has startup warnings:
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/enabled is 'always'.
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] **        We suggest setting it to 'never'
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/defrag is 'always'.
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] **        We suggest setting it to 'never'
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. rlimits set to 1024 processes, 64000 files. Number of processes should be at least 32000 : 0.5 times number of files.
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
-&gt;
+connecting to: <span class="nb">test
+</span>Server has startup warnings:
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten]
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten] <span class="k">**</span> WARNING: /sys/kernel/mm/transparent_hugepage/enabled is <span class="s1">'always'</span><span class="nb">.</span>
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten] <span class="k">**</span>        We suggest setting it to <span class="s1">'never'</span>
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten]
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten] <span class="k">**</span> WARNING: /sys/kernel/mm/transparent_hugepage/defrag is <span class="s1">'always'</span><span class="nb">.</span>
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten] <span class="k">**</span>        We suggest setting it to <span class="s1">'never'</span>
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten]
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten] <span class="k">**</span> WARNING: soft rlimits too low. rlimits <span class="nb">set </span>to 1024 processes, 64000 files. Number of processes should be at least 32000 : 0.5 <span class="nb">times </span>number of files.
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten]
+<span class="o">&gt;</span>
 
 </code></pre></div></div>
 
@@ -480,20 +480,20 @@ Server has startup warnings:
 
 <h3 id="71-关闭-mongodb">7.1 关闭 mongodb</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# service mongod stop
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# service mongod stop
 
 </code></pre></div></div>
 
 <h3 id="72-卸载-mongodb-软件包">7.2 卸载 mongodb 软件包</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum erase $(rpm -qa | grep mongodb-org)
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# yum erase <span class="si">$(</span>rpm <span class="nt">-qa</span> | <span class="nb">grep </span>mongodb-org<span class="si">)</span>
 
 </code></pre></div></div>
 
 <h3 id="73-删除-mongodb-文件数据库文件和日志文件">7.3 删除 mongodb 文件：数据库文件和日志文件</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# rm -rf /var/log/mongodb
-[root@vm02 ~]# rm -rf /var/lib/mongo
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# <span class="nb">rm</span> <span class="nt">-rf</span> /var/log/mongodb
+<span class="o">[</span>root@vm02 ~]# <span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/mongo
 
 </code></pre></div></div>
 
@@ -1424,7 +1424,7 @@ Server has startup warnings:
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>19</span>
+    		数据库 <span>18</span>
     	</a></li>
      
     	

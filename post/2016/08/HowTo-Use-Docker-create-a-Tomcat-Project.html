@@ -288,61 +288,73 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <h4 id="1-安装-centos-7x"><strong>1. 安装 CentOS 7.x</strong></h4>
+            <h2 id="1-安装-centos-7x">1. 安装 CentOS 7.x</h2>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>略。
 </code></pre></div></div>
 
-<h4 id="2-安装-docker"><strong>2. 安装 docker</strong></h4>
+<h2 id="2-安装-docker">2. 安装 docker</h2>
 
 <p>详见： <a href="https://samzong.me/2016/07/07/HowTo-Install-Docker-on-CentOS-6-x/">How to Install Docker on CentOS 6.x</a></p>
 
-<h4 id="3-基础-docker-命令"><strong>3. 基础 docker 命令</strong></h4>
+<h2 id="3-基础-docker-命令">3. 基础 docker 命令</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>＃ 获取centos6 docker镜像
-[root@docker ~]# docker pull centos6
+<p>获取 centos6 docker 镜像</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@docker ~ docker pull centos6
 Using default tag: latest
 latest: Pulling from library/centos:centos6
 
 43db9dbdcb30: Downloading 41.14 MB/49.33 MB
-43db9dbdcb30: Pull complete
-2dc64e8f8d4f: Pull complete
-670a583e1b50: Pull complete
-183b0bfcd10e: Pull complete
-Digest: sha256:c6674c44c6439673bf56536c1a15916639c47ea04c3d6296c5df938add67b54b
-Status: Downloaded newer image for centso:centos6
+43db9dbdcb30: Pull <span class="nb">complete
+</span>2dc64e8f8d4f: Pull <span class="nb">complete
+</span>670a583e1b50: Pull <span class="nb">complete
+</span>183b0bfcd10e: Pull <span class="nb">complete
+</span>Digest: sha256:c6674c44c6439673bf56536c1a15916639c47ea04c3d6296c5df938add67b54b
+Status: Downloaded newer image <span class="k">for </span>centso:centos6
+</code></pre></div></div>
 
-＃ 查看当前服务器上的docker镜像
-[root@docker ~]# docker images
+<p>查看当前服务器上的 docker 镜像</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@docker ~]# docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 centos6-visionet    latest              aeed37612ecb        6 hours ago         1.916 GB
 centos              centos6             a3c09d36ab4a        2 days ago          194.6 MB
 registry            latest              c6c14b3960bd        3 days ago          33.28 MB
-＃ 查找docker镜像
-[root@docker ~]# docker search centos:centos6
-NAME                                     DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
-imagine10255/centos6-lnmp-php56          centos6-lnmp-php56                              10                   [OK]
-lemonbar/centos6-ssh                     Installed openssh-server on centos6, defau...   7                    [OK]
-sergeyzh/centos6-nginx                                                                   2                    [OK]
-guyton/centos6                           From official centos6 container with full ...   2                    [OK]
-paijp/centos6-apache-php-sqlite2         php5.3.3 with sqlite2 and apache on CentOS...   1                    [OK]
-edrans/centos6                                                                           1                    [OK]
-mohri1219/centos6.7-ruby2.2.2-mysql5.6   centos6.7-ruby2.2.2-mysql5.6                    1                    [OK]
-...
-...
+</code></pre></div></div>
 
-＃ 删除 centos6 docker镜像
-[root@docker ~]# docker rmi IMAGES_NAME
-[root@docker ~]# docker rmi centos:centos6
-# 报错无法删除
-Error response from daemon: conflict: unable to remove repository reference "centos" (must force) - container 705a30cbc002 is using its referenced image 42118e3df429
-# 这是因为之间的运行的进程没有清楚导致该images正在使用中，使用一下命令查看占有的进程
-[root@docker ~]# docker ps -a ＃ 查看所有的docker进程
+<p>查找 docker 镜像</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@docker ~]# docker search centos:centos6
+NAME                                     DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+imagine10255/centos6-lnmp-php56          centos6-lnmp-php56                              10                   <span class="o">[</span>OK]
+lemonbar/centos6-ssh                     Installed openssh-server on centos6, defau...   7                    <span class="o">[</span>OK]
+sergeyzh/centos6-nginx                                                                   2                    <span class="o">[</span>OK]
+guyton/centos6                           From official centos6 container with full ...   2                    <span class="o">[</span>OK]
+paijp/centos6-apache-php-sqlite2         php5.3.3 with sqlite2 and apache on CentOS...   1                    <span class="o">[</span>OK]
+edrans/centos6                                                                           1                    <span class="o">[</span>OK]
+mohri1219/centos6.7-ruby2.2.2-mysql5.6   centos6.7-ruby2.2.2-mysql5.6                    1                    <span class="o">[</span>OK]
+</code></pre></div></div>
+
+<p>删除 centos6 docker 镜像</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@docker ~]# docker rmi IMAGES_NAME
+<span class="o">[</span>root@docker ~]# docker rmi centos:centos6
+</code></pre></div></div>
+
+<p>报错如下</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Error response from daemon: conflict: unable to remove repository reference "centos" (must force) - container 705a30cbc002 is using its referenced image 42118e3df429
+</code></pre></div></div>
+
+<p>这是因为之间的运行的进程没有清楚导致该 images 正在使用中，使用一下命令查看占有的进程</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@docker ~]# docker ps <span class="nt">-a</span> ＃ 查看所有的docker进程
 CONTAINER ID        IMAGE               COMMAND               CREATED             STATUS                     PORTS               NAMES
-705a30cbc002        centos:centos6              "/bin/bash"           6 minutes ago       Exited (0) 6 minutes ago                       centos6
-[root@docker ~]# docker rm 705a30cbc002
+705a30cbc002        centos:centos6              <span class="s2">"/bin/bash"</span>           6 minutes ago       Exited <span class="o">(</span>0<span class="o">)</span> 6 minutes ago                       centos6
+<span class="o">[</span>root@docker ~]# docker <span class="nb">rm </span>705a30cbc002
 705a30cbc002
-[root@docker ~]# docker rmi centos:centos6
+<span class="o">[</span>root@docker ~]# docker rmi centos:centos6
 Untagged: centos:centos6
 Deleted: sha256:42118e3df429f09ca581a9deb3df274601930e428e452f7e4e9f1833c56a100a
 Deleted: sha256:d72d0199021776e77ac14a764a3decd156e9f6f18b37e25b867b0f1ca42fb3d9
@@ -351,25 +363,29 @@ Deleted: sha256:8945af30572845a904adce2aeaf73402c842d86e99e8f10688b25cb27834110b
 Deleted: sha256:ea9f151abb7e06353e73172dad421235611d4f6d0560ec95db26e0dc240642c1
 </code></pre></div></div>
 
-<h4 id="4-运行一个-docker-镜像"><strong>4. 运行一个 docker 镜像</strong></h4>
+<h2 id="4-运行一个-docker-镜像">4. 运行一个 docker 镜像</h2>
 
-<h4 id="进入交互式程序">进入交互式程序</h4>
+<h3 id="进入交互式程序">进入交互式程序</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@docker ~]# docker run  -it centos:centos6 /bin/bash
-[root@c1d190f95562 /]# cat /etc/redhat-release
-CentOS release 6.8 (Final)
-# Install openssh-server and httpd
-root@d8c122dbe09d:/# yum install -y openssh-sever httpd
-root@d8c122dbe09d:/# exit
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@docker ~]# docker run  <span class="nt">-it</span> centos:centos6 /bin/bash
+<span class="o">[</span>root@c1d190f95562 /]# <span class="nb">cat</span> /etc/redhat-release
+CentOS release 6.8 <span class="o">(</span>Final<span class="o">)</span>
 
-# 注意当你执行exit，从容器之中退出时，容器也会随着关闭，这时如果还继续执行上条命令
-# 你会发现之前所有的操作都被还原，因为相对于docker，又是新开了一个进程
-# 在exit退出之后，使用一下命令查看上次提交，然后commit修改，便可保存之前的修改
+<span class="c"># Install openssh-server and httpd</span>
 
-[root@docker ~]# docker ps -l
-[root@docker ~]# docker commit c1d190f95562 centos:centos6-httpd
+root@d8c122dbe09d:/# yum <span class="nb">install</span> <span class="nt">-y</span> openssh-sever httpd
+root@d8c122dbe09d:/# <span class="nb">exit</span>
+
+<span class="c"># 注意当你执行 exit，从容器之中退出时，容器也会随着关闭，这时如果还继续执行上条命令</span>
+
+<span class="c"># 你会发现之前所有的操作都被还原，因为相对于 docker，又是新开了一个进程</span>
+
+<span class="c"># 在 exit 退出之后，使用一下命令查看上次提交，然后 commit 修改，便可保存之前的修改</span>
+
+<span class="o">[</span>root@docker ~]# docker ps <span class="nt">-l</span>
+<span class="o">[</span>root@docker ~]# docker commit c1d190f95562 centos:centos6-httpd
 sha256:77eb12e36c7bbe9ef874555b1873019022b5258740aa731627e2cd6fa749c325
-[root@docker ~]# docker images
+<span class="o">[</span>root@docker ~]# docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 centos              centos6-httpd       77eb12e36c7b        3 seconds ago       290.3 MB
 centos6-visionet    latest              aeed37612ecb        6 hours ago         1.916 GB
@@ -377,82 +393,86 @@ centos              centos6             a3c09d36ab4a        2 days ago          
 registry            latest              c6c14b3960bd        3 days ago          33.28 MB
 </code></pre></div></div>
 
-<h4 id="5-编辑-dockerfile"><strong>5. 编辑 Dockerfile</strong></h4>
+<h2 id="5-编辑-dockerfile">5. 编辑 Dockerfile</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># dockfile的第一行一定是FROM，指定了父镜像
-FROM centos:centos6
+<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># dockfile 的第一行一定是 FROM，指定了父镜像
+</span>
+<span class="n">FROM</span> <span class="n">centos</span>:<span class="n">centos6</span>
 
-# RUN 指的是运行的命令
-RUN yum install -y epel-release
-RUN yum install -y bash-completion
-RUN yum install -y openssh-server openssh-client sudo
-RUN sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
-RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+<span class="c"># RUN 指的是运行的命令
+</span>
+<span class="n">RUN</span> <span class="n">yum</span> <span class="n">install</span> -<span class="n">y</span> <span class="n">epel</span>-<span class="n">release</span>
+<span class="n">RUN</span> <span class="n">yum</span> <span class="n">install</span> -<span class="n">y</span> <span class="n">bash</span>-<span class="n">completion</span>
+<span class="n">RUN</span> <span class="n">yum</span> <span class="n">install</span> -<span class="n">y</span> <span class="n">openssh</span>-<span class="n">server</span> <span class="n">openssh</span>-<span class="n">client</span> <span class="n">sudo</span>
+<span class="n">RUN</span> <span class="n">sed</span> -<span class="n">i</span> <span class="s1">'s/UsePAM yes/UsePAM no/g'</span> /<span class="n">etc</span>/<span class="n">ssh</span>/<span class="n">sshd_config</span>
+<span class="n">RUN</span> <span class="n">cp</span> /<span class="n">usr</span>/<span class="n">share</span>/<span class="n">zoneinfo</span>/<span class="n">Asia</span>/<span class="n">Shanghai</span> /<span class="n">etc</span>/<span class="n">localtime</span>
 
-# 增加一个用户，并赋予sudo权限
-RUN useradd visionet
-RUN echo "visionet:visionet" | chpasswd
-RUN echo "visionet   ALL=(ALL)       ALL" &gt;&gt; /etc/sudoers
+<span class="c"># 增加一个用户，并赋予 sudo 权限
+</span>
+<span class="n">RUN</span> <span class="n">useradd</span> <span class="n">visionet</span>
+<span class="n">RUN</span> <span class="n">echo</span> <span class="s2">"visionet:visionet"</span> | <span class="n">chpasswd</span>
+<span class="n">RUN</span> <span class="n">echo</span> <span class="s2">"visionet   ALL=(ALL)       ALL"</span> &gt;&gt; /<span class="n">etc</span>/<span class="n">sudoers</span>
 
-＃ 注意，如果没有执行一下两个命令，sshd是无法远程登陆的
-RUN ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
-RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
+＃ 注意，如果没有执行一下两个命令，<span class="n">sshd</span> 是无法远程登陆的
+<span class="n">RUN</span> <span class="n">ssh</span>-<span class="n">keygen</span> -<span class="n">t</span> <span class="n">dsa</span> -<span class="n">f</span> /<span class="n">etc</span>/<span class="n">ssh</span>/<span class="n">ssh_host_dsa_key</span>
+<span class="n">RUN</span> <span class="n">ssh</span>-<span class="n">keygen</span> -<span class="n">t</span> <span class="n">rsa</span> -<span class="n">f</span> /<span class="n">etc</span>/<span class="n">ssh</span>/<span class="n">ssh_host_rsa_key</span>
 
-＃ EXPOSE 22， 将22端口暴露出来，方便ssh远程连接
-RUN mkdir /var/run/sshd
-EXPOSE 22
-＃ CMD 为系统内部执行命令
-CMD ["/usr/sbin/sshd", "-D"]
+＃ <span class="n">EXPOSE</span> <span class="m">22</span>，将 <span class="m">22</span> 端口暴露出来，方便 <span class="n">ssh</span> 远程连接
+<span class="n">RUN</span> <span class="n">mkdir</span> /<span class="n">var</span>/<span class="n">run</span>/<span class="n">sshd</span>
+<span class="n">EXPOSE</span> <span class="m">22</span>
+＃ <span class="n">CMD</span> 为系统内部执行命令
+<span class="n">CMD</span> [<span class="s2">"/usr/sbin/sshd"</span>, <span class="s2">"-D"</span>]
 </code></pre></div></div>
 
-<h4 id="6-生成自定义-docker-镜像"><strong>6. 生成自定义 docker 镜像</strong></h4>
+<h2 id="6-生成自定义-docker-镜像">6. 生成自定义 docker 镜像</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># build 编译镜像
-[root@docker ~]# docker build -f dockerfile3 -t centos:centos6-ssh .
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># build 编译镜像</span>
+
+<span class="o">[</span>root@docker ~]# docker build <span class="nt">-f</span> dockerfile3 <span class="nt">-t</span> centos:centos6-ssh <span class="nb">.</span>
 Sending build context to Docker daemon 44.54 kB
 Step 1 : FROM centos:centos6
- ---&gt; a3c09d36ab4a
-Step 2 : RUN yum install -y epel-release
- ---&gt; Using cache
- ---&gt; 04d81f280a63
-Step 3 : RUN yum install -y bash-completion
- ---&gt; Using cache
- ---&gt; 5ca26894dc9d
-Step 4 : RUN yum install -y openssh-server openssh-client sudo
- ---&gt; Using cache
- ---&gt; 42278450311e
-Step 5 : RUN sed -i 's/UsePAM yes/UsePAM no/g' /etc/ssh/sshd_config
- ---&gt; Using cache
- ---&gt; db35bef562a2
-Step 6 : RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
- ---&gt; Using cache
- ---&gt; dc9f2b82e198
+ <span class="nt">---</span><span class="o">&gt;</span> a3c09d36ab4a
+Step 2 : RUN yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> 04d81f280a63
+Step 3 : RUN yum <span class="nb">install</span> <span class="nt">-y</span> bash-completion
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> 5ca26894dc9d
+Step 4 : RUN yum <span class="nb">install</span> <span class="nt">-y</span> openssh-server openssh-client <span class="nb">sudo</span>
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> 42278450311e
+Step 5 : RUN <span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/UsePAM yes/UsePAM no/g'</span> /etc/ssh/sshd_config
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> db35bef562a2
+Step 6 : RUN <span class="nb">cp</span> /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> dc9f2b82e198
 Step 7 : RUN useradd visionet
- ---&gt; Using cache
- ---&gt; 06c574a51755
-Step 8 : RUN echo "visionet:visionet" | chpasswd
- ---&gt; Using cache
- ---&gt; 03412f053d04
-Step 9 : RUN echo "visionet   ALL=(ALL)       ALL" &gt;&gt; /etc/sudoers
- ---&gt; Using cache
- ---&gt; bf8476812a62
-Step 10 : RUN ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
- ---&gt; Using cache
- ---&gt; 2314cce75171
-Step 11 : RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
- ---&gt; Using cache
- ---&gt; 99304cd9ac15
-Step 12 : RUN mkdir /var/run/sshd
- ---&gt; Using cache
- ---&gt; f87283751553
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> 06c574a51755
+Step 8 : RUN <span class="nb">echo</span> <span class="s2">"visionet:visionet"</span> | chpasswd
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> 03412f053d04
+Step 9 : RUN <span class="nb">echo</span> <span class="s2">"visionet   ALL=(ALL)       ALL"</span> <span class="o">&gt;&gt;</span> /etc/sudoers
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> bf8476812a62
+Step 10 : RUN ssh-keygen <span class="nt">-t</span> dsa <span class="nt">-f</span> /etc/ssh/ssh_host_dsa_key
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> 2314cce75171
+Step 11 : RUN ssh-keygen <span class="nt">-t</span> rsa <span class="nt">-f</span> /etc/ssh/ssh_host_rsa_key
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> 99304cd9ac15
+Step 12 : RUN <span class="nb">mkdir</span> /var/run/sshd
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> f87283751553
 Step 13 : EXPOSE 22
- ---&gt; Using cache
- ---&gt; 56c41202dcb9
-Step 14 : CMD /usr/sbin/sshd -D
- ---&gt; Using cache
- ---&gt; d6dccb483fa6
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> 56c41202dcb9
+Step 14 : CMD /usr/sbin/sshd <span class="nt">-D</span>
+ <span class="nt">---</span><span class="o">&gt;</span> Using cache
+ <span class="nt">---</span><span class="o">&gt;</span> d6dccb483fa6
 Successfully built d6dccb483fa6
-[root@docker ~]# docker images
+<span class="o">[</span>root@docker ~]# docker images
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 centos              centos6-ssh         d6dccb483fa6        2 minutes ago         363 MB
 centos              centos6-httpd       77eb12e36c7b        6 minutes ago       290.3 MB
@@ -460,21 +480,24 @@ centos6-visionet    latest              aeed37612ecb        6 hours ago         
 centos              centos6             a3c09d36ab4a        2 days ago          194.6 MB
 registry            latest              c6c14b3960bd        3 days ago          33.28 MB
 
-# 后台运行docker容器，并指定nat端口转发
-[root@docker ~]# docker run -d -p 2222:22 -P --name=sshd centos:centos6-ssh
+<span class="c"># 后台运行 docker 容器，并指定 nat 端口转发</span>
+
+<span class="o">[</span>root@docker ~]# docker run <span class="nt">-d</span> <span class="nt">-p</span> 2222:22 <span class="nt">-P</span> <span class="nt">--name</span><span class="o">=</span>sshd centos:centos6-ssh
 b4211f7a304d9e34b72b510230be2c7a76b276886b488f08f3e12896a4d3c172
 
 </code></pre></div></div>
 
-<h4 id="7-ssh-登陆到-docker-容器内部署项目环境"><strong>7. ssh 登陆到 docker 容器内，部署项目环境</strong></h4>
+<h2 id="7-ssh-登陆到-docker-容器内部署项目环境">7. ssh 登陆到 docker 容器内，部署项目环境</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># inspect 查看docker 容器IP地址
-[root@docker ~]# docker inspect sshd | grep IPAddress
-[root@docker ~]# ssh visionet@172.17.0.2
-visionet@172.17.0.2's password:
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># inspect 查看 docker 容器 IP 地址</span>
+
+<span class="o">[</span>root@docker ~]# docker inspect sshd | <span class="nb">grep </span>IPAddress
+<span class="o">[</span>root@docker ~]# ssh visionet@172.17.0.2
+visionet@172.17.0.2<span class="s1">'s password:
 [visionet@b4211f7a304d ~]$
 
 # Install mysql
+
 # Install tomcat server
 
 [visionet@b4211f7a304d ~]$ exit
@@ -493,10 +516,13 @@ centos6-visionet    latest              aeed37612ecb        7 hours ago         
 centos              centos6-ssh         d6dccb483fa6        9 hours ago         363 MB
 centos              centos6             a3c09d36ab4a        2 days ago          194.6 MB
 registry            latest              c6c14b3960bd        3 days ago          33.28 MB
+</span></code></pre></div></div>
 
-</code></pre></div></div>
+<h2 id="8-推送-centoscentos6-tomcat-到私有-docker-仓库">8. 推送 centos:centos6-tomcat 到私有 docker 仓库</h2>
 
-<h4 id="8-推送-centoscentos6-tomcat-到私有-docker-仓库"><strong>8. 推送 centos:centos6-tomcat 到私有 docker 仓库</strong></h4>
+<blockquote>
+  <p>docker push</p>
+</blockquote>
 
         </div>
 

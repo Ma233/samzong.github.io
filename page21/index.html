@@ -276,6 +276,104 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/03/CentOS-6-1-%E4%BD%BF%E7%94%A8createrepo%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0%E6%BA%90.html">CentOS 使用 createrepo 搭建本地源</a></h1>
+    <div class="post_at_index">
+      <blockquote>
+  <p>Tips: 本地搭建本地 yum 源采用的 rpm 全部来自 CentOS-6.7-bin-DVD1&amp;DVD2</p>
+</blockquote>
+
+<h3 id="1-测试环境">1. 测试环境</h3>
+
+<ul>
+  <li>MacBook Pro 15-inch i7 16GB</li>
+  <li>VMware Fushion 8 Pro</li>
+  <li>CentOS-6.7-i686-minimal.iso</li>
+</ul>
+
+<p>因为配置本地yum源需要修改/目录下的文件及/etc下面的配置文件，建议更换到root用户。</p>
+
+<h3 id="2-实验步骤">2. 实验步骤</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 2.1 因为配置本地yum源需要修改/目录下的文件及/etc下面的配置文件，建议更换到root用户。</span>
+<span class="o">[</span>adam@ultraera ~]<span class="nv">$ </span>su -
+Password:
+<span class="o">[</span>root@ultraera ~]#
+
+<span class="c"># 2.2 首先在本地创建一个存放rpm包的目录，我这里选择直接在/下创建，你可以自定义：</span>
+<span class="o">[</span>root@ultraera ~]# mkdir /yumload
+<span class="o">[</span>root@ultraera ~]# cd /yumload/
+<span class="o">[</span>root@ultraera yumload]# pwd
+/yumload
+<span class="c"># 2.3 接下来把两张DVD中的Packages中的rpm包全部拷贝到/yumload:</span>
+<span class="o">[</span>root@ultraera yumload]# cp /media/CentOS_6.5_Final/Packages/<span class="k">*</span> ./
+<span class="o">[</span>root@ultraera yumload]# ll ./<span class="k">*</span>.rpm | wc -l
+
+<span class="c">#两张DVD一共有的rpm包的数量:</span>
+4802
+
+
+<span class="c"># 2.4 然后使用createrepo指令创建本地repo，CentOS6默认不安装createrepo，需要手动安装，没关系，在我们的DVD光盘中已经集成了createrepo的包，如果报需要依赖安装其他包的使用，依次安装即可。</span>
+
+<span class="o">[</span>root@ultraera yumload]# rpm -ivh createrepo-0.9.9-18.el6.noarch.rpm
+
+<span class="c"># 2.5 创建yum仓库，耐心等待，可以加-v参数列出执行信息</span>
+<span class="o">[</span>root@ultraera yumload]# createrepo /yumload/
+Spawning worker 0 with 4802 pkgs
+Workers Finished
+Gathering worker results
+Saving Primary metadata
+Saving file lists metadata
+Saving other metadata
+Generating sqlite DBs
+Sqlite DBs complete
+<span class="o">[</span>root@ultraera yumload]#
+
+<span class="c"># 2.6 在/etc/yum.repo.d/下创建一个repo文件，文件名可以自定义，但一定要以repo结尾，并添加一下内容：</span>
+<span class="o">[</span>ultraera.org] <span class="c">#仓库名称可以自定义</span>
+<span class="nv">name</span><span class="o">=</span>This is a local repo <span class="c">#描述信息</span>
+<span class="nv">baseurl</span><span class="o">=</span>file:///yumload/ <span class="c">#这里填写仓库的url，注意 有三个正斜线</span>
+<span class="nv">enabled</span><span class="o">=</span>1 <span class="c">#是否开启仓库，1为开启，0为关闭</span>
+<span class="nv">gpgcheck</span><span class="o">=</span>0 <span class="c">#是否检查gpgkey，1为开启，0为关闭</span>
+
+<span class="c"># 2.7 另外如果想要添加软件包group的信息，可以把DVD1中的repodata文件中的*-comps.xml文件，使用ceraterepo -g 加载本地仓库即可，代码如下：</span>
+<span class="o">[</span>root@ultraera repodata]# createrepo -g [字符可能不一样，后缀正确就行]c6-i386-comps.xml /yumload/
+
+
+<span class="c"># 2.8 到这里本地yum源就已经搭建完成了，接下来重新初始化yum缓存：</span>
+<span class="o">[</span>root@ultraera repodata]# yum clean all
+Loaded plugins: fastestmirror, refresh-packagekit, security
+Cleaning repos: ultraera.org
+Cleaning up Everything
+Cleaning up list of fastest mirrors
+<span class="o">[</span>root@ultraera repodata]# yum makecache
+Loaded plugins: fastestmirror, refresh-packagekit, security
+Determining fastest mirrors
+ultraera.org | 2.9 kB 00:00 ...
+ultraera.org/filelists_db | 4.9 MB 00:00 ...
+ultraera.org/primary_db | 3.5 MB 00:00 ...
+ultraera.org/other_db | 2.1 MB 00:00 ...
+Metadata Cache Created
+
+<span class="c"># 2.9 测试group信息是否添加正确可以用如下代码，只要有正确输出信息就表示成功了</span>
+<span class="o">[</span>root@ultraera ~]# yum grouplist
+
+
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-03-28</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Yum">Yum</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/03/HowTo-Install-MongoDB-on-CentOS-6-x.html">HowTo Install MongoDB  on CentOS 6.x</a></h1>
     <div class="post_at_index">
       <h2 id="1-overiew">1. Overiew</h2>
@@ -318,49 +416,49 @@
 
 <h3 id="31-mongodb-26--os-x64">3.1 Mongodb 2.6 + OS x64</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-2.6.repo
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-2.6.repo
 
-[mongodb-org-2.6]
-name=MongoDB 2.6 Repository
-baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/
-gpgcheck=0
-enabled=1
+<span class="o">[</span>mongodb-org-2.6]
+<span class="nv">name</span><span class="o">=</span>MongoDB 2.6 Repository
+<span class="nv">baseurl</span><span class="o">=</span>http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+<span class="nv">enabled</span><span class="o">=</span>1
 
 </code></pre></div></div>
 
 <h3 id="32-mongodb-26--os-i686">3.2 Mongodb 2.6 + OS i686</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-2.6.repo
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-2.6.repo
 
-[mongodb-org-2.6]
-name=MongoDB 2.6 Repository
-baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/i686/
-gpgcheck=0
-enabled=1
+<span class="o">[</span>mongodb-org-2.6]
+<span class="nv">name</span><span class="o">=</span>MongoDB 2.6 Repository
+<span class="nv">baseurl</span><span class="o">=</span>http://downloads-distro.mongodb.org/repo/redhat/os/i686/
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+<span class="nv">enabled</span><span class="o">=</span>1
 
 </code></pre></div></div>
 
 <h3 id="33-mongodb-32---os-x64">3.3 Mongodb 3.2  + OS x64</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-3.2.repo
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-3.2.repo
 
-[mongodb-org-3.2]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.2/x86_64/
-gpgcheck=0
-enabled=1
+<span class="o">[</span>mongodb-org-3.2]
+<span class="nv">name</span><span class="o">=</span>MongoDB Repository
+<span class="nv">baseurl</span><span class="o">=</span>https://repo.mongodb.org/yum/redhat/<span class="nv">$releasever</span>/mongodb-org/3.2/x86_64/
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+<span class="nv">enabled</span><span class="o">=</span>1
 
 </code></pre></div></div>
 
 <h3 id="34-mongodb-32---os-i686">3.4 Mongodb 3.2  + OS i686</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-3.2.repo
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# vim /etc/yum.repos.d/mongodb-org-3.2.repo
 
-[mongodb-org-3.2]
-name=MongoDB Repository
-baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.2/i686/
-gpgcheck=0
-enabled=1
+<span class="o">[</span>mongodb-org-3.2]
+<span class="nv">name</span><span class="o">=</span>MongoDB Repository
+<span class="nv">baseurl</span><span class="o">=</span>https://repo.mongodb.org/yum/redhat/<span class="nv">$releasever</span>/mongodb-org/3.2/i686/
+<span class="nv">gpgcheck</span><span class="o">=</span>0
+<span class="nv">enabled</span><span class="o">=</span>1
 
 </code></pre></div></div>
 
@@ -368,9 +466,9 @@ enabled=1
 
 <p>安装最新版本的 Mongodb，安装都方式一样，请注意安装相对应的源保证正确安装 Mongodb，请使用如下命令：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum clean all
-[root@vm02 ~]# yum makecache
-[root@vm02 ~]# yum install mongodb-org
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# yum clean all
+<span class="o">[</span>root@vm02 ~]# yum makecache
+<span class="o">[</span>root@vm02 ~]# yum <span class="nb">install </span>mongodb-org
 
 </code></pre></div></div>
 
@@ -385,7 +483,7 @@ enabled=1
   <li>添加 Mongodb 通过 SELinux 设定，指令如下：</li>
 </ol>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>semanage port -a -t mongod_port_t -p tcp 27017
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>semanage port <span class="nt">-a</span> <span class="nt">-t</span> mongod_port_t <span class="nt">-p</span> tcp 27017
 
 </code></pre></div></div>
 
@@ -395,22 +493,22 @@ enabled=1
 
 <h3 id="52-start-mongodb">5.2 Start MongoDB</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# sudo service mongod start
-Starting mongod:                                           [  OK  ]
-[root@vm02 ~]#
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# <span class="nb">sudo </span>service mongod start
+Starting mongod:                                           <span class="o">[</span>  OK  <span class="o">]</span>
+<span class="o">[</span>root@vm02 ~]#
 
 </code></pre></div></div>
 
 <h3 id="53-检查-mongodb-日志文件验证服务正常启动-varlogmongodbmongodblog">5.3 检查 MongoDB 日志文件验证服务正常启动， /var/log/mongodb/mongodb.log</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# cat /var/log/mongodb/mongod.log  # 看到如下内容表示mongodb启动成功了。
-2016-03-24T04:09:28.582+0800 I NETWORK  [initandlisten] waiting for connections on port 27017
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# <span class="nb">cat</span> /var/log/mongodb/mongod.log  <span class="c"># 看到如下内容表示mongodb启动成功了。</span>
+2016-03-24T04:09:28.582+0800 I NETWORK  <span class="o">[</span>initandlisten] waiting <span class="k">for </span>connections on port 27017
 
 </code></pre></div></div>
 
 <h3 id="54-设置-mongodb-开机自启动">5.4 设置 MongoDB 开机自启动</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# chkconfig mongod on
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# chkconfig mongod on
 
 </code></pre></div></div>
 
@@ -418,12 +516,12 @@ Starting mongod:                                           [  OK  ]
 
 <p>默认情况下，mongodb 只监听 127.0.0.1，但是实际生产环境中可能需要其他服务器访问，所以这里添加监听其他网络端口，修改 mongodb 的配置文件：/etc/mongodb.conf</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/mongodb.conf
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# vim /etc/mongodb.conf
 
-# line 29 增加一行：
+<span class="c"># line 29 增加一行：</span>
     bindIp: 172.16.102.129
 
-# 注意不要把1270.0.1 去除，这会导致本地无法使用MongoDB .
+<span class="c"># 注意不要把1270.0.1 去除，这会导致本地无法使用MongoDB .</span>
 
 </code></pre></div></div>
 
@@ -431,38 +529,38 @@ Starting mongod:                                           [  OK  ]
 
 <h3 id="61-检查-mongodb-状态">6.1 检查 mongodb 状态</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# service mongod status
-mongod (pid 6502) is running...
-[root@vm02 ~]#
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# service mongod status
+mongod <span class="o">(</span>pid 6502<span class="o">)</span> is running...
+<span class="o">[</span>root@vm02 ~]#
 
 </code></pre></div></div>
 
 <h3 id="62-mongodb-自带检测工具">6.2 mongodb 自带检测工具</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# mongostat
-insert query update delete getmore command % dirty % used flushes  vsize   res qr|qw ar|aw netIn netOut conn                      time
-    *0    *0     *0     *0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:09+08:00
-    *0    *0     *0     *0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:10+08:00
-    *0    *0     *0     *0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:11+08:00
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# mongostat
+insert query update delete getmore <span class="nb">command</span> % dirty % used flushes  vsize   res qr|qw ar|aw netIn netOut conn                      <span class="nb">time</span>
+    <span class="k">*</span>0    <span class="k">*</span>0     <span class="k">*</span>0     <span class="k">*</span>0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:09+08:00
+    <span class="k">*</span>0    <span class="k">*</span>0     <span class="k">*</span>0     <span class="k">*</span>0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:10+08:00
+    <span class="k">*</span>0    <span class="k">*</span>0     <span class="k">*</span>0     <span class="k">*</span>0       0     1|0     0.0    0.0       0 388.0M 68.0M   0|0   0|0   79b    18k    1 2016-03-24T04:25:11+08:00
 
 </code></pre></div></div>
 
 <h3 id="63-进入-mongodb-命令行模式">6.3 进入 mongodb 命令行模式</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# mongo
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# mongo
 MongoDB shell version: 3.2.4
-connecting to: test
-Server has startup warnings:
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/enabled is 'always'.
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] **        We suggest setting it to 'never'
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/defrag is 'always'.
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] **        We suggest setting it to 'never'
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. rlimits set to 1024 processes, 64000 files. Number of processes should be at least 32000 : 0.5 times number of files.
-2016-03-24T04:09:28.577+0800 I CONTROL  [initandlisten]
-&gt;
+connecting to: <span class="nb">test
+</span>Server has startup warnings:
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten]
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten] <span class="k">**</span> WARNING: /sys/kernel/mm/transparent_hugepage/enabled is <span class="s1">'always'</span><span class="nb">.</span>
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten] <span class="k">**</span>        We suggest setting it to <span class="s1">'never'</span>
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten]
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten] <span class="k">**</span> WARNING: /sys/kernel/mm/transparent_hugepage/defrag is <span class="s1">'always'</span><span class="nb">.</span>
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten] <span class="k">**</span>        We suggest setting it to <span class="s1">'never'</span>
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten]
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten] <span class="k">**</span> WARNING: soft rlimits too low. rlimits <span class="nb">set </span>to 1024 processes, 64000 files. Number of processes should be at least 32000 : 0.5 <span class="nb">times </span>number of files.
+2016-03-24T04:09:28.577+0800 I CONTROL  <span class="o">[</span>initandlisten]
+<span class="o">&gt;</span>
 
 </code></pre></div></div>
 
@@ -470,20 +568,20 @@ Server has startup warnings:
 
 <h3 id="71-关闭-mongodb">7.1 关闭 mongodb</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# service mongod stop
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# service mongod stop
 
 </code></pre></div></div>
 
 <h3 id="72-卸载-mongodb-软件包">7.2 卸载 mongodb 软件包</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum erase $(rpm -qa | grep mongodb-org)
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# yum erase <span class="si">$(</span>rpm <span class="nt">-qa</span> | <span class="nb">grep </span>mongodb-org<span class="si">)</span>
 
 </code></pre></div></div>
 
 <h3 id="73-删除-mongodb-文件数据库文件和日志文件">7.3 删除 mongodb 文件：数据库文件和日志文件</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# rm -rf /var/log/mongodb
-[root@vm02 ~]# rm -rf /var/lib/mongo
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# <span class="nb">rm</span> <span class="nt">-rf</span> /var/log/mongodb
+<span class="o">[</span>root@vm02 ~]# <span class="nb">rm</span> <span class="nt">-rf</span> /var/lib/mongo
 
 </code></pre></div></div>
 
@@ -513,7 +611,7 @@ Server has startup warnings:
 
 <p>SFTP 是指 SSH 文件传输协议（SSH File Transfer protocol）或安全文件传输协议（Secure File Transfer Protocol），它提供了可信数据流下的文件访问、文件传输以及文件管理功能。当我们为 SFTP 配置 chroot 环境后，只有被许可的用户可以访问，并被限制到他们的家目录中，换言之：被许可的用户将处于牢笼环境中，在此环境中它们甚至不能切换它们的目录。</p>
 
-<h3 id="1-测试环境">1. 测试环境</h3>
+<h2 id="1-测试环境">1. 测试环境</h2>
 
 <ul>
   <li>MacBook Pro 15-inch i7 16GB</li>
@@ -521,114 +619,114 @@ Server has startup warnings:
   <li>Transmit ( SFTP tools for Mac )</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# cat /etc/issue
-CentOS release 6.6 (Final)
-Kernel \r on an \m
-[root@test ~]# rpm -qa | grep openssh-server
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# <span class="nb">cat</span> /etc/issue
+CentOS release 6.6 <span class="o">(</span>Final<span class="o">)</span>
+Kernel <span class="se">\r</span> on an <span class="se">\m</span>
+<span class="o">[</span>root@test ~]# rpm <span class="nt">-qa</span> | <span class="nb">grep </span>openssh-server
 openssh-server-5.3p1-104.el6.i686
 </code></pre></div></div>
 
-<h3 id="2-实验步骤">2. 实验步骤</h3>
+<h2 id="2-实验步骤">2. 实验步骤</h2>
 
-<h5 id="21-增加一个-sftpusers-用户组">2.1 增加一个 sftpusers 用户组</h5>
+<h3 id="21-增加一个-sftpusers-用户组">2.1 增加一个 sftpusers 用户组</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# groupadd sftpusers
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# groupadd sftpusers
 </code></pre></div></div>
 
-<h5 id="22-创建一个用户-user01并分配给-sftpusers-用户组">2.2 创建一个用户 user01，并分配给 sftpusers 用户组</h5>
+<h3 id="22-创建一个用户-user01并分配给-sftpusers-用户组">2.2 创建一个用户 user01，并分配给 sftpusers 用户组</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# useradd -g sftpusers user01
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# useradd <span class="nt">-g</span> sftpusers user01
 </code></pre></div></div>
 
-<h5 id="23-修改用户家目录及指定不能登录-shell">2.3 修改用户家目录及指定不能登录 shell</h5>
+<h3 id="23-修改用户家目录及指定不能登录-shell">2.3 修改用户家目录及指定不能登录 shell</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# mkdir /sftp/
-[root@test ~]# usermod -s /sbin/nologin -d /sftp/user01 -m user01
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# <span class="nb">mkdir</span> /sftp/
+<span class="o">[</span>root@test ~]# usermod <span class="nt">-s</span> /sbin/nologin <span class="nt">-d</span> /sftp/user01 <span class="nt">-m</span> user01
 </code></pre></div></div>
 
-<h5 id="24-给用户创建密码注意密码不明文显示">2.4 给用户创建密码（注意密码不明文显示）</h5>
+<h3 id="24-给用户创建密码注意密码不明文显示">2.4 给用户创建密码（注意密码不明文显示）</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# passwd user01
-Changing password for user user01.
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# passwd user01
+Changing password <span class="k">for </span>user user01.
 New password:
 BAD PASSWORD: it is too simplistic/systematic
 BAD PASSWORD: is too simple
 Retype new password:
 passwd: all authentication tokens updated successfully.
-[root@test ~]#
+<span class="o">[</span>root@test ~]#
 </code></pre></div></div>
 
-<h4 id="25-修改-ssh-的配置文件如下设置">2.5 修改 ssh 的配置文件，如下设置</h4>
+<h3 id="25-修改-ssh-的配置文件如下设置">2.5 修改 ssh 的配置文件，如下设置</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# ll /etc/ssh/sshd_config
--rw-------. 1 root root 3879 Oct 15  2014 /etc/ssh/sshd_config
-[root@test ~]# vim /etc/ssh/sshd_config
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# ll /etc/ssh/sshd_config
+<span class="nt">-rw-------</span><span class="nb">.</span> 1 root root 3879 Oct 15  2014 /etc/ssh/sshd_config
+<span class="o">[</span>root@test ~]# vim /etc/ssh/sshd_config
 
-# line 132
-#Subsystem      sftp    /usr/libexec/openssh/sftp-server    #注释
-Subsystem       sftp    internal-sftp        #修改为internal-sftp
+<span class="c"># line 132</span>
+<span class="c">#Subsystem      sftp    /usr/libexec/openssh/sftp-server    #注释</span>
+Subsystem       sftp    internal-sftp        <span class="c">#修改为internal-sftp</span>
 
-# add this lines at the end of file
-Match Group sftpusers        #指定一下参数仅适用的用户组sftpusers
+<span class="c"># add this lines at the end of file</span>
+Match Group sftpusers        <span class="c">#指定一下参数仅适用的用户组sftpusers</span>
     X11Forwarding no
     AllowTcpForwarding no
-    ChrootDirectory %h       #设置chroot将用户锁在家目录，%h=家目录
-    ForceCommand internal-sftp    #该参数强制执行内部sftp
+    ChrootDirectory %h       <span class="c">#设置chroot将用户锁在家目录，%h=家目录</span>
+    ForceCommand internal-sftp    <span class="c">#该参数强制执行内部sftp</span>
 </code></pre></div></div>
 
-<h5 id="26-重启-ssh-服务">2.6 重启 ssh 服务</h5>
+<h3 id="26-重启-ssh-服务">2.6 重启 ssh 服务</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# /etc/init.d/sshd restart
-Stopping sshd:                                             [  OK  ]
-Starting sshd:                                             [  OK  ]
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# /etc/init.d/sshd restart
+Stopping sshd:                                             <span class="o">[</span>  OK  <span class="o">]</span>
+Starting sshd:                                             <span class="o">[</span>  OK  <span class="o">]</span>
 </code></pre></div></div>
 
-<h5 id="27-设置用户家目录权限注意权限不能大于-0755">2.7 设置用户家目录权限，(注意权限不能大于 0755)</h5>
+<h3 id="27-设置用户家目录权限注意权限不能大于-0755">2.7 设置用户家目录权限，(注意权限不能大于 0755)</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# chmod 0755 /sftp/user01/
-[root@test ~]# chown root /sftp/user01/
-[root@test ~]# chgrp -R sftpusers /sftp/user01/
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# <span class="nb">chmod </span>0755 /sftp/user01/
+<span class="o">[</span>root@test ~]# <span class="nb">chown </span>root /sftp/user01/
+<span class="o">[</span>root@test ~]# <span class="nb">chgrp</span> <span class="nt">-R</span> sftpusers /sftp/user01/
 </code></pre></div></div>
 
-<h5 id="28-关于上传根目录无法上传文件">2.8 关于上传，根目录无法上传文件</h5>
+<h3 id="28-关于上传根目录无法上传文件">2.8 关于上传，根目录无法上传文件</h3>
 
 <p>因为用户家目录属主是 root，并且权限最大 0755，所以没法写，我的解决方法是在在家目录建立一个文件夹，作为上传目录，并把属主给 user01 即可。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# mkdir /sftp/user01/upload
-[root@test ~]# chown user01:sftpusers /sftp/user01/upload/
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# <span class="nb">mkdir</span> /sftp/user01/upload
+<span class="o">[</span>root@test ~]# <span class="nb">chown </span>user01:sftpusers /sftp/user01/upload/
 </code></pre></div></div>
 
-<h3 id="3-测试验证">3. 测试验证</h3>
+<h2 id="3-测试验证">3. 测试验证</h2>
 
-<h5 id="31-linux-登录测试">3.1 Linux 登录测试</h5>
+<h3 id="31-linux-登录测试">3.1 Linux 登录测试</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test ~]# su - user01
-This account is currently not available.    #su - 切换失败
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test ~]# su - user01
+This account is currently not available.    <span class="c">#su - 切换失败</span>
 
-[root@test ~]# cat /etc/passwd | tail -1
+<span class="o">[</span>root@test ~]# <span class="nb">cat</span> /etc/passwd | <span class="nb">tail</span> <span class="nt">-1</span>
 user01:x:500:500::/sftp/user01:/sbin/nologin
 
-[root@test ~]# ssh user01@localhost
-The authenticity of host 'localhost (::1)' can't be established.
+<span class="o">[</span>root@test ~]# ssh user01@localhost
+The authenticity of host <span class="s1">'localhost (::1)'</span> can<span class="s1">'t be established.
 RSA key fingerprint is f3:fc:31:dc:7d:16:d5:ad:8c:bc:eb:69:8f:b2:0b:c9.
 Are you sure you want to continue connecting (yes/no)? yes
-Warning: Permanently added 'localhost' (RSA) to the list of known hosts.
-user01@localhost's password:
-This service allows sftp connections only.    #ssh登录也失败，ssh设置成功
+Warning: Permanently added '</span>localhost<span class="s1">' (RSA) to the list of known hosts.
+user01@localhost'</span>s password:
+This service allows sftp connections only.    <span class="c">#ssh登录也失败，ssh设置成功</span>
 Connection to localhost closed.
 
-[root@test ~]# sftp user01@localhost
+<span class="o">[</span>root@test ~]# sftp user01@localhost
 Connecting to localhost...
-user01@localhost's password:
+user01@localhost<span class="s1">'s password:
 sftp&gt; ls
 upload
 sftp&gt; pwd
 Remote working directory: /
 sftp&gt;
 
-</code></pre></div></div>
+</span></code></pre></div></div>
 
-<h5 id="32-sftp-工具测试">3.2 SFTP 工具测试</h5>
+<h3 id="32-sftp-工具测试">3.2 SFTP 工具测试</h3>
 
 <p>我这里使用的是 Mac，但是传统的文件传输工具都差不多，Windows 下有 Winscp、Xftp 等。</p>
 
@@ -650,7 +748,7 @@ sftp&gt;
     <div class="post_at_index">
       <p>说下实际项目场景，公司一个应用已部署主从数据库，业务也正式上线；现在客户公司领导希望可以看到每天的业务数据报表，本设定直接到从库拿数据，然后进行数据处理，生成报表，但是 Java 同事提出需求新增用户和权限表，这样一来，如果直接使用生产库的表会导致后台系统管理人员与领导的账户和权限混淆，经过讨论决定，按照生产库的表结构新增特殊用户表和权限表；这样操作实际是可以在从库上新增表单，且不影响主从库之间的数据同步，但是从安全性的考虑，新增表单设计需要给用户 Insert 权限，为了保证从库只有利用主库同步写入数据，则只能给其他用户 select 权限。</p>
 
-<p><b>最终决定，因为报表系统的使用率低，直接在报表系统的服务器安装本地 mysql 数据库，通过计划任务定时到从库上同步数据。</b></p>
+<p><strong>最终决定，因为报表系统的使用率低，直接在报表系统的服务器安装本地 mysql 数据库，通过计划任务定时到从库上同步数据。</strong></p>
 
 <h3 id="1-测试环境">1. 测试环境</h3>
 
@@ -665,36 +763,36 @@ sftp&gt;
 
 <h3 id="2-利用-mysqldump-导出-sql-文件">2. 利用 mysqldump 导出 sql 文件</h3>
 
-<p>需要注意的是，mysqldump 时会锁表，需要给 mysqldump 传递 <i>“–single-transaction”</i>  参数，可以使得 mysqldump 时不锁表，如下：</p>
+<p>需要注意的是，mysqldump 时会锁表，需要给 mysqldump 传递“–single-transaction”参数，可以使得 mysqldump 时不锁表，如下：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/mysqldump -h 172.168.102.129 -u dbuser -pdbuser --single-transaction slave &gt; slave.sql
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/mysqldump <span class="nt">-h</span> 172.168.102.129 <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> <span class="nt">--single-transaction</span> slave <span class="o">&gt;</span> slave.sql
 </code></pre></div></div>
 
 <h3 id="3-使用-mysql-恢复-sql-文件到数据库中">3. 使用 mysql 恢复 sql 文件到数据库中</h3>
 
 <p>需要注意的是，如果该 local server 的 slave 库中有数据表，当表名与 slave server 的表名相同时，数据表内的数据会被覆盖；如果 local server 的表在 slave.sql 中不存在，则不受影响，正是利用这个特性解决用户需求。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/mysql -u dbuser -pdbuser report &lt; /home/.mysql/slave.sql
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/mysql <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> report &lt; /home/.mysql/slave.sql
 </code></pre></div></div>
 
 <h3 id="4-编写脚本">4. 编写脚本</h3>
 
 <p>首先在本地某一位置作为临时 sql 存储地址：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# mkdir /home/.mysql     # 这个目录可以自定义
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# <span class="nb">mkdir</span> /home/.mysql     <span class="c"># 这个目录可以自定义</span>
 </code></pre></div></div>
 
 <p>脚本 1：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 
-TIME=`date "+%Y%m%d%H"`
+<span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H"</span><span class="sb">`</span>
 
-rm -rf /home/.mysql/*
+<span class="nb">rm</span> <span class="nt">-rf</span> /home/.mysql/<span class="k">*</span>
 
-/usr/bin/mysqldump -h 172.168.102.129 -u dbuser -pdbuser --single-transaction slave &gt; /home/.mysql/slave_$TIME.sql
+/usr/bin/mysqldump <span class="nt">-h</span> 172.168.102.129 <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> <span class="nt">--single-transaction</span> slave <span class="o">&gt;</span> /home/.mysql/slave_<span class="nv">$TIME</span>.sql
 
-/usr/bin/mysql -u dbuser -pdbuser report &lt; /home/.mysql/slave_$TIME.sql
+/usr/bin/mysql <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> report &lt; /home/.mysql/slave_<span class="nv">$TIME</span>.sql
 
 </code></pre></div></div>
 
@@ -702,41 +800,41 @@ rm -rf /home/.mysql/*
 
 <p>因为前期同事需要得知备份的执行结果，所以希望数据同步成功后获得邮件提醒，这里使用 sendmail 实现，在 CentOS 里预装是没有安装 sendmail，所以我们需要安装 sendmail 服务，另外一个安装命令行邮件工具 mailx：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# yum install -y sendmail mailx
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# yum <span class="nb">install</span> <span class="nt">-y</span> sendmail mailx
 
 ......
 
-[root@report ~]# service sendmail start
-Starting sendmail:                                         [  OK  ]
-Starting sm-client:                                        [  OK  ]
-[root@report ~]# chkconfig sendmail on
+<span class="o">[</span>root@report ~]# service sendmail start
+Starting sendmail:                                         <span class="o">[</span>  OK  <span class="o">]</span>
+Starting sm-client:                                        <span class="o">[</span>  OK  <span class="o">]</span>
+<span class="o">[</span>root@report ~]# chkconfig sendmail on
 
 </code></pre></div></div>
 
 <p>完整脚本：report_sync.sh，如下：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 
-TIME=`date "+%Y%m%d%H"`
+<span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H"</span><span class="sb">`</span>
 
-rm -rf /home/.mysql/*
+<span class="nb">rm</span> <span class="nt">-rf</span> /home/.mysql/<span class="k">*</span>
 
-/usr/bin/mysqldump -h 172.168.102.129 -u dbuser -pdbuser --single-transaction slave &gt; /home/.mysql/slave_$TIME.sql
+/usr/bin/mysqldump <span class="nt">-h</span> 172.168.102.129 <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> <span class="nt">--single-transaction</span> slave <span class="o">&gt;</span> /home/.mysql/slave_<span class="nv">$TIME</span>.sql
 
-/usr/bin/mysql -u dbuser -pdbuser report &lt; /home/.mysql/slave_$TIME.sql
+/usr/bin/mysql <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> report &lt; /home/.mysql/slave_<span class="nv">$TIME</span>.sql
 
-# send mail to adminuser
-if [ $? -eq 0 ]
-then
-        echo "report SQL sync is successfully. At time: `date` " | mail -s report-sync-successfully  hello@abc.cn
-else
-        echo " Error Error report SQL sync is Error. At time: `date` " | mail -s report-sync-error  hello@abc.cn
-fi
+<span class="c"># send mail to adminuser</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span>
+<span class="k">then
+        </span><span class="nb">echo</span> <span class="s2">"report SQL sync is successfully. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> report-sync-successfully  hello@abc.cn
+<span class="k">else
+        </span><span class="nb">echo</span> <span class="s2">" Error Error report SQL sync is Error. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> report-sync-error  hello@abc.cn
+<span class="k">fi</span>
 
 </code></pre></div></div>
 
 <p>查看下邮件通知：
-<img src="http://blog.ultraera.org:80/content/images/2016/03/24/p01.jpg" alt="" /></p>
+<img src="http://blog.ultraera.org:80/content/images/2016/03/24/p01.jpg" alt="image" /></p>
 
 <h3 id="6-计划任务-crontab">6. 计划任务 crontab</h3>
 
@@ -744,21 +842,21 @@ fi
 
 <h4 id="61-安装-crontab">6.1 安装 crontab</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# yum install -y vixie-cron
-[root@report ~]# yum install -y crontabs
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# yum <span class="nb">install</span> <span class="nt">-y</span> vixie-cron
+<span class="o">[</span>root@report ~]# yum <span class="nb">install</span> <span class="nt">-y</span> crontabs
 
 说明：
 vixie-cron软件包是cron的主程序；
 crontabs软件包是用来安装、卸装、或列举用来驱动 crond 守护进程的表格的程序。
 
 cron 是linux的内置服务，但它不自动起来，可以用以下的方法启动、关闭这个服务：
-/sbin/service crond start #启动服务
-/sbin/service crond stop #关闭服务
-/sbin/service crond restart #重启服务
-/sbin/service crond reload #重新载入配置
+/sbin/service crond start <span class="c">#启动服务</span>
+/sbin/service crond stop <span class="c">#关闭服务</span>
+/sbin/service crond restart <span class="c">#重启服务</span>
+/sbin/service crond reload <span class="c">#重新载入配置</span>
 
 设置crond开机自启动
-[root@report ~]# chkconfig crond on
+<span class="o">[</span>root@report ~]# chkconfig crond on
 
 </code></pre></div></div>
 
@@ -766,17 +864,17 @@ cron 是linux的内置服务，但它不自动起来，可以用以下的方法�
 
 <p>将脚本 report_sync.sh 保存到/usr/bin下：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# mv report_sync.sh /usr/bin
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# <span class="nb">mv </span>report_sync.sh /usr/bin
 </code></pre></div></div>
 
 <p>增加计划任务：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# crontab -e
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# crontab <span class="nt">-e</span>
 
-# add this word.
-* 1-21/4  * * * /usr/bin/report_sync.sh
+<span class="c"># add this word.</span>
+<span class="k">*</span> 1-21/4  <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/bin/report_sync.sh
 
-# 表示在每天的1-21时间内，每4小时执行一个脚本
+<span class="c"># 表示在每天的1-21时间内，每4小时执行一个脚本</span>
 
 </code></pre></div></div>
 
@@ -800,29 +898,29 @@ cron 是linux的内置服务，但它不自动起来，可以用以下的方法�
     
     <h1><a class="title" href="/post/2016/03/Linux-%E7%AC%94%E8%AF%95%E8%AF%95%E9%A2%98.html">Linux 笔试试题</a></h1>
     <div class="post_at_index">
-      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>一. 选择题 （1题1分）
-1. 当登录Linux时，一个具有唯一进程ID号的shell将被调用，这个ID是什么(   )
-A. NID　　B. PID　　C. UID　　D. CID
+      <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>一。选择题（1 题 1 分）
+1. 当登录 Linux 时，一个具有唯一进程 ID 号的 shell 将被调用，这个 ID 是什么 (   )
+A. NID  B. PID  C. UID  D. CID
 答案:B
-2. 用vi打开一个文件，如何用字母"new"来代替字母"old" (   )
+2. 用 vi 打开一个文件，如何用字母"new"来代替字母"old" (   )
 A. :s/old/new/g　　　B. :s/old/new　　C. :1,$s/old/new/g　　　D. :r/old/new
 答案:A
-3. 请选择对标准的变量PS2正确的描述(   )
-A. 是一个主shell提示符变量　　　　B. 是一个一般的shell提示符变量
-C. 是第二主shell提示符变量　　   D. 是一个连续提示符变量
+3. 请选择对标准的变量 PS2 正确的描述 (   )
+A. 是一个主 shell 提示符变量    B. 是一个一般的 shell 提示符变量
+C. 是第二主 shell 提示符变量     D. 是一个连续提示符变量
 答案:B
-4. 哪一个命令能用来查找文件TESTFILE中只包含四个字符的行?(   )
-A. grep '^????$' TESTFILE　　　　B. grep '????' TESTFILE
-C. grep '^....$' TESTFILE　　　　　D. grep '....' TESTFILE
+4. 哪一个命令能用来查找文件 TESTFILE 中只包含四个字符的行？(   )
+A. grep '^????$' TESTFILE    B. grep '????' TESTFILE
+C. grep '^....$' TESTFILE     D. grep '....' TESTFILE
 答案:C
-5. 一个bash shell脚本的第一行是什么(   )
-A. #!/bin/bash　　B. #/bin/bash　　C. #/bin/csh　　　D. /bin/bash
+5. 一个 bash shell 脚本的第一行是什么 (   )
+A. #!/bin/bash  B. #/bin/bash  C. #/bin/csh   D. /bin/bash
 答案:A
-6. 用标准的输出重定向(&gt;)像"&gt; file01"能使文件file01的数据（   ）
-A. 被移动　　B. 被复制　　C. 被打印　　　D. 被覆盖
+6. 用标准的输出重定向 (&gt;) 像"&gt; file01"能使文件 file01 的数据（   ）
+A. 被移动  B. 被复制  C. 被打印   D. 被覆盖
 答案:D
-7. 下面哪个命令是用来定义shell的全局变量(    )
-A. exportfs　　B. alias　　C. exports　　D. export
+7. 下面哪个命令是用来定义 shell 的全局变量 (    )
+A. exportfs  B. alias  C. exports  D. export
 答案:D
 8. 如果想加载一个/dev/sdb1的windows95分区到/mnt/win95目录，需要运行哪个命令(   )
 A. mount -t hpfs /dev/sdb1 /mnt/win95
@@ -830,180 +928,180 @@ B. mount -t hpfs /mnt/win95 /dev/sdb1
 C. mount -t vfat /dev/sdb1 /mnt/win95
 D. mount -t vfat /mnt/win95 /dev/sdb1
 答案:C
-9. 哪个文件存放用户密码信息(   )
-A. /boot/passwd　　　B. /etc/shadow　　　C. /var/passwd　　D. /dev/passwd
+9. 哪个文件存放用户密码信息 (   )
+A. /boot/passwd   B. /etc/shadow   C. /var/passwd  D. /dev/passwd
 答案:B
-10. 假定kernel支持vfat分区，下面哪一个操作是将/dev/sda1，一个window98分区加载到/win目录(   )
+10. 假定 kernel 支持 vfat 分区，下面哪一个操作是将/dev/sda1，一个 window98 分区加载到/win 目录 (   )
 A. mount -s win /dev'sda1 /win
 B. mount -fs=msdos /dev/sda1 /win
 C. mount -t vfat /dev/sda1 /win
 D. mount -t windows /win /dev/sda1
 答案:C
-11. 默认情况下管理员创建了一个用户，就会在(   )目录下创建一个用户主目录。
-A. /usr　　B. /home　　　C. /root　　D. /etc
+11. 默认情况下管理员创建了一个用户，就会在 (   ) 目录下创建一个用户主目录。
+A. /usr  B. /home   C. /root  D. /etc
 答案:B
-12. 如果要列出一个目录下的所有文件需要使用命令行(    )。
-A. ls –l　　B. ls　　　C. ls –a　　　D. ls -d
+12. 如果要列出一个目录下的所有文件需要使用命令行 (    )。
+A. ls –l  B. ls   C. ls –a   D. ls -d
 答案:C
-13. 利用哪个工具可以设置用户在文件系统中的空间大小(   )。
-A. turboservice　　B. turbofscfg　　C. turbonetcfg　　　D. turboxcfg
+13. 利用哪个工具可以设置用户在文件系统中的空间大小 (   )。
+A. turboservice  B. turbofscfg  C. turbonetcfg   D. turboxcfg
 答案:B
-14. 哪个命令可以将普通用户转换成超级用户(   )
-A. super　　B. passwd　　C. tar　　　D. su
+14. 哪个命令可以将普通用户转换成超级用户 (   )
+A. super  B. passwd  C. tar   D. su
 答案:D
 15. 哪个命令用来显示/home及其子目录下文件名(   )
-A. ls -R /home　　B. ls -d /home　　C. ls -a /home　　　　D. ls -l /home
+A. ls -R /home  B. ls -d /home  C. ls -a /home    D. ls -l /home
 答案:A
-16. 在vi模式下，哪个命令用来删除光标处的字符(    )
-A. xd　　　B. x　　　C. dd　　　D. d
+16. 在 vi 模式下，哪个命令用来删除光标处的字符 (    )
+A. xd   B. x   C. dd   D. d
 答案:B　　dd删除一行,x删除当前字符
-17. 在一行内运行多个命令需要用什么字符隔开(   )
-A. @　　B. $　　　C. ;　　D. *
+17. 在一行内运行多个命令需要用什么字符隔开 (   )
+A. @  B. $   C. ;  D. *
 答案:C
-18. 确定myfile的文件类型的命令是(   )
+18. 确定 myfile 的文件类型的命令是 (   )
 A. whatis myfile
 B. file myfile
 C. type myfile
 D. type -q myfile
 答案:B
-19. 哪些命令组合起来能统计多少用户登录系统(    )
-A. who | wc –w　　　B. who | wc –l　　　C. who | wc –c　　　D. who | wc
+19. 哪些命令组合起来能统计多少用户登录系统 (    )
+A. who | wc –w   B. who | wc –l   C. who | wc –c   D. who | wc
 答案:BD
-20. 用 "rm -i",系统会提示什么来让你确认(   )
-A. 命令行的每个选项　　B. 是否真的删除　　C. 是否有写的权限　　　D. 文件的位置
+20. 用 "rm -i",系统会提示什么来让你确认 (   )
+A. 命令行的每个选项  B. 是否真的删除  C. 是否有写的权限   D. 文件的位置
 答案:B
-21. Linux启动的第一个进程init启动的第一个脚本程序是(   )。
-A. /etc/rc.d/init.d　　　B. /etc/rc.d/rc.sysinit　　C. /etc/rc.d/rc5.d　　D. /etc/rc.d/rc3.d
+21. Linux 启动的第一个进程 init 启动的第一个脚本程序是 (   )。
+A. /etc/rc.d/init.d   B. /etc/rc.d/rc.sysinit  C. /etc/rc.d/rc5.d  D. /etc/rc.d/rc3.d
 答案:B
-22. 按下(   )键能终止当前运行的命令
-A. Ctrl-C　　　B. Ctrl-F　　　C. Ctrl-B　　　D. Ctrl-D
+22. 按下 (   ) 键能终止当前运行的命令
+A. Ctrl-C   B. Ctrl-F   C. Ctrl-B   D. Ctrl-D
 答案:a
-23. 用来分离目录名和文件名的字符是(   )
-A. dash (-)　　B. slash (/)　　C. period (.)　　　D. asterisk（*）
+23. 用来分离目录名和文件名的字符是 (   )
+A. dash (-)  B. slash (/)  C. period (.)   D. asterisk (*)
 答案:B
-24. 系统的配置文件在(  )目录下
-A. /home　　　B. /dev　　C. /etc　　　D. /usr
+24. 系统的配置文件在 (  ) 目录下
+A. /home   B. /dev  C. /etc   D. /usr
 答案:C
-25. 显示用户的主目录的命令是什么?(   )
-A. echo $HOME　　B. echo $USERDIR　　　C. echo $ENV　　D. echo $ECHO
+25. 显示用户的主目录的命令是什么？(   )
+A. echo $HOME  B. echo $USERDIR   C. echo $ENV  D. echo $ECHO
 答案:A
-26. 在vi编辑器里，哪个命令能将光标移到第200行(    )
-A. g200　　B. G200　　C. :200　　　D. 200g
+26. 在 vi 编辑器里，哪个命令能将光标移到第 200 行 (    )
+A. g200  B. G200  C. :200   D. 200g
 答案:C
-:200可以，200G也可以
-27. 用"useradd jerry"命令添加一个用户，这个用户的主目录是什么?(   )
-A. /etc/jerry　　　B. /var/jerry　　C. /home/jerry　　　D. /bin/jerry
+:200 可以，200G 也可以
+27. 用"useradd jerry"命令添加一个用户，这个用户的主目录是什么？(   )
+A. /etc/jerry   B. /var/jerry  C. /home/jerry   D. /bin/jerry
 答案:C
-28. 哪一个命令能用来删除当前目录及其子目录下名为'core'的文件(   )
+28. 哪一个命令能用来删除当前目录及其子目录下名为'core'的文件 (   )
 A. find . -name core -exec rm {} \ ;
 B. find . -name core -exec rm ;
 C. find . -name core -exec rm {} ;
 D. find . -name core -exec rm {} -;
 答案:A
-29. 以下哪条命令在创建一个xp用户的时候将用户加入到root组中(  )
-A. useradd -g xp root　　B. useradd -r root xp　　C. useradd -g root xp　　　D. useradd root xp
+29. 以下哪条命令在创建一个 xp 用户的时候将用户加入到 root 组中 (  )
+A. useradd -g xp root  B. useradd -r root xp  C. useradd -g root xp   D. useradd root xp
 答案:C
-30. 不改变运行级别而重新读入inittab文件的命令是(    )。
-A. init s　　B. init q　　C. init S　　　D. init Q
+30. 不改变运行级别而重新读入 inittab 文件的命令是 (    )。
+A. init s  B. init q  C. init S   D. init Q
 答案:B
-31. 以下哪个命令可以终止一个用户的所有进程(   )
-A. skillall　　　B. skill　　C. kill　　　D. killall
+31. 以下哪个命令可以终止一个用户的所有进程 (   )
+A. skillall   B. skill  C. kill   D. killall
 答案:D
-32. 通过修改哪个文件可以在创建用户的时候改变用　户主目录的路径(   )
-A. /etc/default/passwd　　　B. /etc/default/useradd　　C. /etc/profile　　D. /etc/fstab
+32. 通过修改哪个文件可以在创建用户的时候改变用 户主目录的路径 (   )
+A. /etc/default/passwd   B. /etc/default/useradd  C. /etc/profile  D. /etc/fstab
 答案:B
-33. 以只读方式打开一个文件并进入vi编辑器的命令是(   )
-A. view -r filename　　　B. view filename　　　C. vi filename　　　D. vi -r filename
+33. 以只读方式打开一个文件并进入 vi 编辑器的命令是 (   )
+A. view -r filename   B. view filename   C. vi filename   D. vi -r filename
 答案:B
-34. 以下哪个命令是将缓存中的内容粘贴到光标之前(   )
-A. a　　　B. i　　　C. P　　　D. p
+34. 以下哪个命令是将缓存中的内容粘贴到光标之前 (   )
+A. a   B. i   C. P   D. p
 答案:C
-35. 以下哪条vi命令能将文档5-20行间出现的abc替换成为cba (   )
+35. 以下哪条 vi 命令能将文档 5-20 行间出现的 abc 替换成为 cba (   )
 A. :1,$s/abc/cba/g　　　B. :5,20/abc/cba/g　　C. :5-20s/abc/cba/g　　　D. :5,20s/abc/cba/g
 答案:D
-. 在vi中通过哪条命令可以将ps命令执行的结果插入到文档中(   )
-A. :r!ps　　　B. :!ps　　　C. :!rps　　　　D. :w!ps
+. 在 vi 中通过哪条命令可以将 ps 命令执行的结果插入到文档中 (   )
+A. :r!ps   B. :!ps   C. :!rps    D. :w!ps
 答案:A
 36. 以下哪个vi命令可以在当前位置插入/etc/passwd文本文件(   )
-A. :r /etc/passwd　　　B. :i /etc/passwd　　C. :w /etc/passwd　　　D. :s /etc/passwd
+A. :r /etc/passwd   B. :i /etc/passwd  C. :w /etc/passwd   D. :s /etc/passwd
 答案:A
-37. vi中复制整行的命令是(   )
-A. y1　　　B. yy　　　C. ss　　　D. dd
+37. vi 中复制整行的命令是 (   )
+A. y1   B. yy   C. ss   D. dd
 答案:B
-38. 以下哪个vi命令可以给文档的每行加上一个编号(    )
-A. :e number　　　B. :set number　　C. :r!date 　　　　D. :200g
+38. 以下哪个 vi 命令可以给文档的每行加上一个编号 (    )
+A. :e number   B. :set number  C. :r!date     D. :200g
 答案:B
-38. 以下哪些文件只有根用户才能读写(   )
-A. /etc/bashrc　　　B. /etc/profile　　　C. /etc/shadow　　　　D. /etc/passwd
+38. 以下哪些文件只有根用户才能读写 (   )
+A. /etc/bashrc   B. /etc/profile   C. /etc/shadow    D. /etc/passwd
 答案:BC
-39. 使用groupdel删除一个组的时候，命令执行失败，原因可能是(   )
-A. 该组是系统组　　　B. 该组是空的　　　C. 该组中成员非空　　　D. 该组不存在
+39. 使用 groupdel 删除一个组的时候，命令执行失败，原因可能是 (   )
+A. 该组是系统组   B. 该组是空的   C. 该组中成员非空   D. 该组不存在
 答案:CD
-40. Linux中文件名构成的规则比较灵活表现在(   )
-A. 文件名长度多达256个字符　　　　　B. 可以使用除了/符号外的所有ASCII字符
-C. 不区分大小写　　　　　　　　　　　　D. 无扩展名限制
+40. Linux 中文件名构成的规则比较灵活表现在 (   )
+A. 文件名长度多达 256 个字符     B. 可以使用除了/符号外的所有ASCII字符
+C. 不区分大小写            D. 无扩展名限制
 答案:ABD
-41. 对用户的口令进行加解锁的命令是passwd,参数选项是(   )
-A. –l　　B. –L　　C. –u　　　D. -U
+41. 对用户的口令进行加解锁的命令是 passwd，参数选项是 (   )
+A. –l  B. –L  C. –u   D. -U
 答案:AC
-42. 如果你对文件和目录的权限不确定，则不能用(   )命令来检测权限
-A. ps　　　B. ck　　　　C. ls –l　　　D. chown
+42. 如果你对文件和目录的权限不确定，则不能用 (   ) 命令来检测权限
+A. ps   B. ck    C. ls –l   D. chown
 答案:ABD
 43. 选择对/proc文件系统不正确的描述(    )
-A. 通常情况下，不提供中断、IO端口、CPU等信息　　　B. /proc文件系统可以提供系统核心的许多参数
-C. /proc是一个虚拟的文件系统　　　　　　　　　　　　D. 可以得到系统中运行的进程的一些信息
+A. 通常情况下，不提供中断、IO 端口、CPU 等信息   B. /proc 文件系统可以提供系统核心的许多参数
+C. /proc 是一个虚拟的文件系统            D. 可以得到系统中运行的进程的一些信息
 答案:A
-44. 以下哪些符号可以用来连接多条命令(   )
-A. ||　　　　B. &amp;&amp;　　　C. ;　　　D. |
+44. 以下哪些符号可以用来连接多条命令 (   )
+A. ||    B. &amp;&amp;   C. ;   D. |
 答案:ABCD
-45. 在shell中，下面哪些字符串当作普通字符串时候需要使用"\"来转义(   )
-A. 分号(;)　　　B. 双引号(")　　C. 单引号(')　　　D. 反斜杆(\)
+45. 在 shell 中，下面哪些字符串当作普通字符串时候需要使用"\"来转义 (   )
+A. 分号 (;)   B. 双引号 (")  C. 单引号 (')   D. 反斜杆 (\)
 答案:BCD
-46. Linux中提供了几个重要的工具用来改变服务和进程的运行状态和运行级别以及初始化进程，它们是(   )。
-A. chkconfig　　B. service　　C. turboservice　　　D. ksysv
+46. Linux 中提供了几个重要的工具用来改变服务和进程的运行状态和运行级别以及初始化进程，它们是 (   )。
+A. chkconfig  B. service  C. turboservice   D. ksysv
 答案:ABCD
 47. 在/etc/rc.d/init.d目录下的所有脚本至少支持两个运行参数,它们是(    )。
-A. start　　　B. restart　　　　C. stop　　　D. reload
+A. start   B. restart    C. stop   D. reload
 答案:AC
-48. Linux一般被称为是稳定的服务器系统，它的安全性表现在(   )
-A. 网络防火墙　　B. 用户管理策略　C. 系统、目录、文件的权限控制　D. 封闭源码便于及时修正漏洞等
+48. Linux 一般被称为是稳定的服务器系统，它的安全性表现在 (   )
+A. 网络防火墙  B. 用户管理策略 C. 系统、目录、文件的权限控制 D. 封闭源码便于及时修正漏洞等
 答案:ABC
-49. 在vi中下列哪些命令不能用来在光标前插入文本(   )
+49. 在 vi 中下列哪些命令不能用来在光标前插入文本 (   )
 A. p [text]　　B. i [text]　　C. o [text]　　　D. a [text]
 答案:ACD
-50. 在本地的文件系统中下列哪些linux路径结构是无效的(   )
-A. \usr/zhang/memo　　　B. /usr/zhang/memo　　　C. //usr\zhang/memo　　　D. \usr\zhang\memo
+50. 在本地的文件系统中下列哪些 linux 路径结构是无效的 (   )
+A. \usr/zhang/memo   B. /usr/zhang/memo   C. //usr\zhang/memo   D. \usr\zhang\memo
 答案:ACD
 
-二、简答题 （1题3分）
+二、简答题（1 题 3 分）
 
-1.常见的Linux发行版本都有什么？你最擅长哪一个？它的官网网站是什么？说明你擅长哪一块？
+1.常见的 Linux 发行版本都有什么？你最擅长哪一个？它的官网网站是什么？说明你擅长哪一块？
 
-2.Linux开机启动流程详细步骤是什么？系统安装完，忘记密码如何破解？
+2.Linux 开机启动流程详细步骤是什么？系统安装完，忘记密码如何破解？
 
-4.某一天突然发现Linux系统文件只读，该怎么办呢？完整操作步骤。
+4.某一天突然发现 Linux 系统文件只读，该怎么办呢？完整操作步骤。
 
-5.安装一台系统使用DVD光盘安装，如何安装50台Linux系统如何安装呢？思考一下。
+5.安装一台系统使用 DVD 光盘安装，如何安装 50 台 Linux 系统如何安装呢？思考一下。
 
-6.用虚拟机安装了一台Linux系统，突然想克隆一台服务器，克隆后发现无法上网，如何解决？
+6.用虚拟机安装了一台 Linux 系统，突然想克隆一台服务器，克隆后发现无法上网，如何解决？
 
-7.Linux网卡配置文件路径是什么？要使服务器上外网，必须满足的条件有哪些？需要配置什么？
+7.Linux 网卡配置文件路径是什么？要使服务器上外网，必须满足的条件有哪些？需要配置什么？
 
-8.一般可以使用什么软件远程linux服务器？通过什么上传文件和下载文件？
+8.一般可以使用什么软件远程 linux 服务器？通过什么上传文件和下载文件？
 
-9./mnt目录主要用于什么？/root目录跟root用户有什么关系？/根目录与/boot目录有什么联系？
+9./mnt 目录主要用于什么？/root 目录跟 root 用户有什么关系？/根目录与/boot 目录有什么联系？
 
-10.某一天误操作，执行了rm  -rf  * ，会有哪些情况发生？请举例。
+10.某一天误操作，执行了 rm  -rf  * ，会有哪些情况发生？请举例。
 
 
-三、 公有云题目 （1题5分）
+三、公有云题目（1 题 5 分）
 1. 请解释上云的好处是什么？传统业务类型与公有云也为类型有什么区别？请举例说明。
 
-2. 列出你用过的阿里云\AWS\Azure服务？并讲述他们的作用？
+2. 列出你用过的阿里云\AWS\Azure 服务？并讲述他们的作用？
 
-3. 请列出你觉得阿里云\AWS\Azure目前的特色和不成熟的地方是那些？你觉得应该如何改正。
+3. 请列出你觉得阿里云\AWS\Azure 目前的特色和不成熟的地方是那些？你觉得应该如何改正。
 
-4. 请用阿里云\AWS\Azure设计一个视频网站的架构图并进行解释说明。
+4. 请用阿里云\AWS\Azure 设计一个视频网站的架构图并进行解释说明。
 
 </code></pre></div></div>
 
@@ -1023,7 +1121,7 @@ A. \usr/zhang/memo　　　B. /usr/zhang/memo　　　C. //usr\zhang/memo　　�
     
     <h1><a class="title" href="/post/2016/03/MySQL-2-%E5%BC%80%E5%90%AF%E6%85%A2%E6%97%A5%E5%BF%97%E4%BC%98%E5%8C%96.html">MySQL 开启慢日志优化</a></h1>
     <div class="post_at_index">
-      <h1 id="工欲善其事必先利其器--mysql-开启慢日志优化">工欲善其事，必先利其器 – mysql 开启慢日志优化</h1>
+      <h2 id="工欲善其事必先利其器--mysql-开启慢日志优化">工欲善其事，必先利其器 – mysql 开启慢日志优化</h2>
 
 <h3 id="慢查询日志">慢查询日志</h3>
 
@@ -1039,43 +1137,43 @@ A. \usr/zhang/memo　　　B. /usr/zhang/memo　　　C. //usr\zhang/memo　　�
 
 <p>首先，第一部查看是否已经开启慢查询日志：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like '%slow%';
-+---------------------+---------------------------------+
-| Variable_name       | Value                           |
-+---------------------+---------------------------------+
-| log_slow_queries    | OFF                             |
-| slow_launch_time    | 2                               |
-| slow_query_log      | OFF                             |
-| slow_query_log_file | /var/run/mysqld/mysqld-slow.log |
-+---------------------+---------------------------------+
-4 rows in set (0.00 sec)
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="n">variables</span> <span class="k">like</span> <span class="s1">'%slow%'</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">---------------------+---------------------------------+</span>
+<span class="o">|</span> <span class="n">Variable_name</span>       <span class="o">|</span> <span class="n">Value</span>                           <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------------+---------------------------------+</span>
+<span class="o">|</span> <span class="n">log_slow_queries</span>    <span class="o">|</span> <span class="k">OFF</span>                             <span class="o">|</span>
+<span class="o">|</span> <span class="n">slow_launch_time</span>    <span class="o">|</span> <span class="mi">2</span>                               <span class="o">|</span>
+<span class="o">|</span> <span class="n">slow_query_log</span>      <span class="o">|</span> <span class="k">OFF</span>                             <span class="o">|</span>
+<span class="o">|</span> <span class="n">slow_query_log_file</span> <span class="o">|</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">mysqld</span><span class="o">/</span><span class="n">mysqld</span><span class="o">-</span><span class="n">slow</span><span class="p">.</span><span class="n">log</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------------+---------------------------------+</span>
+<span class="mi">4</span> <span class="k">rows</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
 
-mysql&gt;
+<span class="n">mysql</span><span class="o">&gt;</span>
 </code></pre></div></div>
 
 <p>打开慢查询日志。修改 MySQL 的配置文件 my.cnf 一般是在/etc 目录下面，加上下面三行配置后重启 MySQL。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>slow_query_log = ON
-slow_launch_time = 2
-slow_query_log_file = /usr/local/mysql/data/slow_query.log
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">slow_query_log</span> <span class="o">=</span> <span class="k">ON</span>
+<span class="n">slow_launch_time</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">slow_query_log_file</span> <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="k">data</span><span class="o">/</span><span class="n">slow_query</span><span class="p">.</span><span class="n">log</span>
 
 </code></pre></div></div>
 
 <p>slow_launch_time 只能精确到秒，如果需要更精确可以使用一些第三方的工具比如后面介绍的 pt-query-digest</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like '%slow%';
-+---------------------------+--------------------------------------+
-| Variable_name             | Value                                |
-+---------------------------+--------------------------------------+
-| log_slow_admin_statements | OFF                                  |
-| log_slow_slave_statements | OFF                                  |
-| slow_launch_time          | 2                                    |
-| slow_query_log            | ON                                   |
-| slow_query_log_file       | /usr/local/mysql/data/slow_query.log |
-+---------------------------+--------------------------------------+
-5 rows in set (0.00 sec)
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="n">variables</span> <span class="k">like</span> <span class="s1">'%slow%'</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">---------------------------+--------------------------------------+</span>
+<span class="o">|</span> <span class="n">Variable_name</span>             <span class="o">|</span> <span class="n">Value</span>                                <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------------------+--------------------------------------+</span>
+<span class="o">|</span> <span class="n">log_slow_admin_statements</span> <span class="o">|</span> <span class="k">OFF</span>                                  <span class="o">|</span>
+<span class="o">|</span> <span class="n">log_slow_slave_statements</span> <span class="o">|</span> <span class="k">OFF</span>                                  <span class="o">|</span>
+<span class="o">|</span> <span class="n">slow_launch_time</span>          <span class="o">|</span> <span class="mi">2</span>                                    <span class="o">|</span>
+<span class="o">|</span> <span class="n">slow_query_log</span>            <span class="o">|</span> <span class="k">ON</span>                                   <span class="o">|</span>
+<span class="o">|</span> <span class="n">slow_query_log_file</span>       <span class="o">|</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="k">data</span><span class="o">/</span><span class="n">slow_query</span><span class="p">.</span><span class="n">log</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------------------+--------------------------------------+</span>
+<span class="mi">5</span> <span class="k">rows</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
 
-mysql&gt;
+<span class="n">mysql</span><span class="o">&gt;</span>
 </code></pre></div></div>
 
 <blockquote>
@@ -1084,59 +1182,59 @@ mysql&gt;
 
 <p>也可以在终端中通过设置全局变量来打开慢查询日志：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set @@global.slow_query_log = ON;
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">set</span> <span class="o">@@</span><span class="k">global</span><span class="p">.</span><span class="n">slow_query_log</span> <span class="o">=</span> <span class="k">ON</span><span class="p">;</span>
 </code></pre></div></div>
 
 <h3 id="保持慢查询日志到表中">保持慢查询日志到表中</h3>
 
 <p>MySQL 支持将慢查询日志保存到 mysql.slow_log 这张表中。通过@@global.log_output 可以设置默认为 TABLE，FILE 和 TABLE 只能同时使用一个。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; select @@global.log_output;
-+---------------------+
-| @@global.log_output |
-+---------------------+
-| FILE                |
-+---------------------+
-1 row in set (0.00 sec)
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">@@</span><span class="k">global</span><span class="p">.</span><span class="n">log_output</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">---------------------+</span>
+<span class="o">|</span> <span class="o">@@</span><span class="k">global</span><span class="p">.</span><span class="n">log_output</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------------+</span>
+<span class="o">|</span> <span class="n">FILE</span>                <span class="o">|</span>
+<span class="o">+</span><span class="c1">---------------------+</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
 
-mysql&gt;
+<span class="n">mysql</span><span class="o">&gt;</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set @@global.log_output='TABLE';
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">set</span> <span class="o">@@</span><span class="k">global</span><span class="p">.</span><span class="n">log_output</span><span class="o">=</span><span class="s1">'TABLE'</span><span class="p">;</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show create table mysql.slow_log;
-+----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| Table    | Create Table                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-+----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| slow_log | CREATE TABLE `slow_log` (
-  `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `user_host` mediumtext NOT NULL,
-  `query_time` time NOT NULL,
-  `lock_time` time NOT NULL,
-  `rows_sent` int(11) NOT NULL,
-  `rows_examined` int(11) NOT NULL,
-  `db` varchar(512) NOT NULL,
-  `last_insert_id` int(11) NOT NULL,
-  `insert_id` int(11) NOT NULL,
-  `server_id` int(10) unsigned NOT NULL,
-  `sql_text` mediumtext NOT NULL,
-  `thread_id` bigint(21) unsigned NOT NULL
-) ENGINE=CSV DEFAULT CHARSET=utf8 COMMENT='Slow log' |
-+----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-1 row in set (0.00 sec)
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="k">create</span> <span class="k">table</span> <span class="n">mysql</span><span class="p">.</span><span class="n">slow_log</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="o">|</span> <span class="k">Table</span>    <span class="o">|</span> <span class="k">Create</span> <span class="k">Table</span>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       <span class="o">|</span>
+<span class="o">+</span><span class="c1">----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="o">|</span> <span class="n">slow_log</span> <span class="o">|</span> <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="nv">`slow_log`</span> <span class="p">(</span>
+  <span class="nv">`start_time`</span> <span class="nb">timestamp</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="k">CURRENT_TIMESTAMP</span> <span class="k">ON</span> <span class="k">UPDATE</span> <span class="k">CURRENT_TIMESTAMP</span><span class="p">,</span>
+  <span class="nv">`user_host`</span> <span class="nb">mediumtext</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`query_time`</span> <span class="nb">time</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`lock_time`</span> <span class="nb">time</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`rows_sent`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`rows_examined`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`db`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`last_insert_id`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`insert_id`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`server_id`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="nb">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`sql_text`</span> <span class="nb">mediumtext</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="nv">`thread_id`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span> <span class="nb">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span>
+<span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">CSV</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8</span> <span class="k">COMMENT</span><span class="o">=</span><span class="s1">'Slow log'</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">----------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="mi">1</span> <span class="k">row</span> <span class="k">in</span> <span class="k">set</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
 
-mysql&gt;
+<span class="n">mysql</span><span class="o">&gt;</span>
 </code></pre></div></div>
 
 <p>我们可以用下列语句用来模仿慢查询；</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>select sleep(10);
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">select</span> <span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; select * from mysql.slow_Log
-    -&gt; ;
-ERROR 1146 (42S02): Table 'mysql.slow_Log' doesn't exist
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">mysql</span><span class="p">.</span><span class="n">slow_Log</span>
+    <span class="o">-&gt;</span> <span class="p">;</span>
+<span class="n">ERROR</span> <span class="mi">1146</span> <span class="p">(</span><span class="mi">42</span><span class="n">S02</span><span class="p">):</span> <span class="k">Table</span> <span class="s1">'mysql.slow_Log'</span> <span class="n">doesn</span><span class="s1">'t exist
 mysql&gt; select *  from mysql.slow_log;
 +---------------------+---------------------------+------------+-----------+-----------+---------------+----+----------------+-----------+-----------+------------------+-----------+
 | start_time          | user_host                 | query_time | lock_time | rows_sent | rows_examined | db | last_insert_id | insert_id | server_id | sql_text         | thread_id |
@@ -1146,37 +1244,32 @@ mysql&gt; select *  from mysql.slow_log;
 1 row in set (0.01 sec)
 
 mysql&gt;
-</code></pre></div></div>
+</span></code></pre></div></div>
 
 <h3 id="慢查询日志分析">慢查询日志分析</h3>
 
-<ol>
+<ul>
   <li>可以使用 MySQL 自带的 mysqldumpslow 工具。使用很简单，可以跟-help 来查看具体的用法。</li>
-</ol>
+</ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># -s：排序方式。c , t , l , r 表示记录次数、时间、查询时间的多少、返回的记录数排序；
-# ac , at , al , ar 表示相应的倒叙； # -t：返回前面多少条的数据；
-# -g：包含什么，大小写不敏感的； mysqldumpslow -s r -t 10 /slowquery.log
-#slow记录最多的10个语句 mysqldumpslow -s t -t 10 -g "left join" /slowquery.log
-#按照时间排序前10中含有"left join"的
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="o">-</span><span class="n">s</span><span class="err">：排序方式。</span><span class="k">c</span> <span class="p">,</span> <span class="n">t</span> <span class="p">,</span> <span class="n">l</span> <span class="p">,</span> <span class="n">r</span> <span class="err">表示记录次数、时间、查询时间的多少、返回的记录数排序；</span>
+<span class="o">#</span> <span class="n">ac</span> <span class="p">,</span> <span class="k">at</span> <span class="p">,</span> <span class="n">al</span> <span class="p">,</span> <span class="n">ar</span> <span class="err">表示相应的倒叙；</span> <span class="o">#</span> <span class="o">-</span><span class="n">t</span><span class="err">：返回前面多少条的数据；</span>
+<span class="o">#</span> <span class="o">-</span><span class="k">g</span><span class="err">：包含什么，大小写不敏感的；</span> <span class="n">mysqldumpslow</span> <span class="o">-</span><span class="n">s</span> <span class="n">r</span> <span class="o">-</span><span class="n">t</span> <span class="mi">10</span> <span class="o">/</span><span class="n">slowquery</span><span class="p">.</span><span class="n">log</span>
+<span class="o">#</span><span class="n">slow</span><span class="err">记录最多的</span><span class="mi">10</span><span class="err">个语句</span> <span class="n">mysqldumpslow</span> <span class="o">-</span><span class="n">s</span> <span class="n">t</span> <span class="o">-</span><span class="n">t</span> <span class="mi">10</span> <span class="o">-</span><span class="k">g</span> <span class="nv">"left join"</span> <span class="o">/</span><span class="n">slowquery</span><span class="p">.</span><span class="n">log</span>
+<span class="o">#</span><span class="err">按照时间排序前</span><span class="mi">10</span><span class="err">中含有</span><span class="nv">"left join"</span><span class="err">的</span>
 </code></pre></div></div>
 
-<ol>
+<ul>
   <li>可以导到 mysql.slow_query 表中，然后通过 sql 语句进行分析。</li>
   <li>使用第三方工具，下面会有介绍。</li>
-</ol>
+</ul>
 
 <h3 id="pt-query-digest">pt-query-digest</h3>
 
 <p>pt-query-digest 可以从普通 MySQL 日志，慢查询日志以及二进制日志中分析查询，甚至可以从 SHOW PROCESSLIST 和 MySQL 协议的 tcpdump 中进行分析，如果没有指定文件，它从标准输入流（STDIN）中读取数据。
 最简单地用法如下：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest slow.logs
-</code></pre></div></div>
-
-<p>输出信息大致如下：</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pt</span><span class="o">-</span><span class="n">query</span><span class="o">-</span><span class="n">digest</span> <span class="n">slow</span><span class="p">.</span><span class="n">logs</span>
 </code></pre></div></div>
 
       
@@ -1211,11 +1304,11 @@ mysql&gt;
 
 <p>很多初学者，在安装系统的时候，碰到的第一个问题就是不能上网，所以有些同学就担心是不是需要去安装网卡驱动，其实这样想就把问题复杂化了，如果你在实体机安装 Linux 的系统时，可能会碰到网卡驱动不上导致无法上网的问题，这个时候是需要自行安装驱动的，但是我们使用的 VMware 的一款虚拟化工具，所以网卡驱动基本就不用考虑，原因是因为我们没有把网卡设置为开机自启动，下面讲如何开启网卡，并设定为开机自启动。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# ifup eth0
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# ifup eth0
 
-Determining IP information for eth0... done.
-[root@vm02 ~]# 
-[root@vm02 ~]# ifconfig eth0
+Determining IP information <span class="k">for </span>eth0... <span class="k">done</span><span class="nb">.</span>
+<span class="o">[</span>root@vm02 ~]# 
+<span class="o">[</span>root@vm02 ~]# ifconfig eth0
 eth0      Link encap:Ethernet  HWaddr 00:0C:29:B9:60:D8
           inet addr:172.16.102.129  Bcast:172.16.102.255  Mask:255.255.255.0
           inet6 addr: fe80::20c:29ff:feb9:60d8/64 Scope:Link
@@ -1223,16 +1316,16 @@ eth0      Link encap:Ethernet  HWaddr 00:0C:29:B9:60:D8
           RX packets:127 errors:0 dropped:0 overruns:0 frame:0
           TX packets:85 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:1000
-          RX bytes:14010 (13.6 KiB)  TX bytes:11410 (11.1 KiB)
+          RX bytes:14010 <span class="o">(</span>13.6 KiB<span class="o">)</span>  TX bytes:11410 <span class="o">(</span>11.1 KiB<span class="o">)</span>
           
-[root@vm02 ~]# vi /etc/sysconfig/network-scripts/ifcfg-eth0
- DEVICE=eth0
- HWADDR=00:0C:29:B9:60:D8
- TYPE=Ethernet
- UUID=7ad636ff-78d9-4afa-9886-706b1de236a8
- ONBOOT=no   // 默认是no，修改为yes
- NM_CONTROLLED=yes
- BOOTPROTO=dhcp
+<span class="o">[</span>root@vm02 ~]# vi /etc/sysconfig/network-scripts/ifcfg-eth0
+ <span class="nv">DEVICE</span><span class="o">=</span>eth0
+ <span class="nv">HWADDR</span><span class="o">=</span>00:0C:29:B9:60:D8
+ <span class="nv">TYPE</span><span class="o">=</span>Ethernet
+ <span class="nv">UUID</span><span class="o">=</span>7ad636ff-78d9-4afa-9886-706b1de236a8
+ <span class="nv">ONBOOT</span><span class="o">=</span>no   // 默认是no，修改为yes
+ <span class="nv">NM_CONTROLLED</span><span class="o">=</span><span class="nb">yes
+ </span><span class="nv">BOOTPROTO</span><span class="o">=</span>dhcp
 
 </code></pre></div></div>
 
@@ -1240,9 +1333,9 @@ eth0      Link encap:Ethernet  HWaddr 00:0C:29:B9:60:D8
 
 <p>CentOS 系统内置的官方源软件更新较慢，而且缺少一些常用软件包，建议安装 epel 源，EPEL 是 Extra Packages for Enterprise Linux 的缩写（EPEL），是用于 Fedora-based Red Hat Enterprise Linux (RHEL) 的一个高质量软件源，所以同时也适用于 CentOS 或者 Scientific Linux 等发行版。</p>
 
-<h5 id="a-因为我们使用的是-minimal-版本的-iso-安装所以系统默认没有-wget我们可以直接用-yum-安装wget-是-linux-常用的命令行下载工具">a. 因为我们使用的是 minimal 版本的 ISO 安装，所以系统默认没有 wget，我们可以直接用 yum 安装：[wget 是 Linux 常用的命令行下载工具]</h5>
+<h4 id="a-因为我们使用的是-minimal-版本的-iso-安装所以系统默认没有-wget我们可以直接用-yum-安装wget-是-linux-常用的命令行下载工具">a. 因为我们使用的是 minimal 版本的 ISO 安装，所以系统默认没有 wget，我们可以直接用 yum 安装：[wget 是 Linux 常用的命令行下载工具]</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum install -y wget
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# yum <span class="nb">install</span> <span class="nt">-y</span> wget
 Loaded plugins: fastestmirror
 Setting up Install Process
 base                                                     | 3.7 kB     00:00
@@ -1252,21 +1345,21 @@ extras/primary_db                                        |  34 kB     00:00
 updates                                                  | 3.4 kB     00:00
 updates/primary_db                                       | 4.0 MB     01:05
 Resolving Dependencies
---&gt; Running transaction check
----&gt; Package wget.x86_64 0:1.12-5.el6_6.1 will be installed
---&gt; Finished Dependency Resolution
+<span class="nt">--</span><span class="o">&gt;</span> Running transaction check
+<span class="nt">---</span><span class="o">&gt;</span> Package wget.x86_64 0:1.12-5.el6_6.1 will be installed
+<span class="nt">--</span><span class="o">&gt;</span> Finished Dependency Resolution
 
 Dependencies Resolved
 
-================================================================================
+<span class="o">================================================================================</span>
  Package        Arch             Version                   Repository      Size
-================================================================================
+<span class="o">================================================================================</span>
 Installing:
  wget           x86_64           1.12-5.el6_6.1            base           483 k
 
 Transaction Summary
-================================================================================
-Install       1 Package(s)
+<span class="o">================================================================================</span>
+Install       1 Package<span class="o">(</span>s<span class="o">)</span>
 
 Total download size: 483 k
 Installed size: 1.8 M
@@ -1275,8 +1368,8 @@ wget-1.12-5.el6_6.1.x86_64.rpm                           | 483 kB     00:01
 warning: rpmts_HdrFromFdno: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY
 Retrieving key from file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
 Importing GPG key 0xC105B9DE:
- Userid : CentOS-6 Key (CentOS 6 Official Signing Key) &lt;centos-6-key@centos.org&gt;
- Package: centos-release-6-7.el6.centos.12.3.x86_64 (@anaconda-CentOS-201508042137.x86_64/6.7)
+ Userid : CentOS-6 Key <span class="o">(</span>CentOS 6 Official Signing Key<span class="o">)</span> &lt;centos-6-key@centos.org&gt;
+ Package: centos-release-6-7.el6.centos.12.3.x86_64 <span class="o">(</span>@anaconda-CentOS-201508042137.x86_64/6.7<span class="o">)</span>
  From   : /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
 Running rpm_check_debug
 Running Transaction Test
@@ -1289,10 +1382,10 @@ Installed:
   wget.x86_64 0:1.12-5.el6_6.1
 
 Complete!
-[root@vm02 ~]#
+<span class="o">[</span>root@vm02 ~]#
 </code></pre></div></div>
 
-<h5 id="b-下载并安装-epel-源">b. 下载并安装 epel 源</h5>
+<h4 id="b-下载并安装-epel-源">b. 下载并安装 epel 源</h4>
 
 <p>不同 CentOS 版本的 epel 下载地址：</p>
 
@@ -1304,20 +1397,20 @@ Complete!
 
 <p>本次试验用到的 CentOS 6 所以我们下载 epel-release-latest-6.noarch.rpm</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
---2016-03-18 11:47:17--  https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+<span class="nt">--2016-03-18</span> 11:47:17--  https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
 Resolving dl.fedoraproject.org... 209.132.181.26, 209.132.181.23, 209.132.181.24, ...
 Connecting to dl.fedoraproject.org|209.132.181.26|:443... connected.
 HTTP request sent, awaiting response... 200 OK
-Length: 14540 (14K) [application/x-rpm]
+Length: 14540 <span class="o">(</span>14K<span class="o">)</span> <span class="o">[</span>application/x-rpm]
 Saving to: “epel-release-latest-6.noarch.rpm”
 
-100%[======================================&gt;] 14,540      69.5K/s   in 0.2s
+100%[<span class="o">======================================&gt;]</span> 14,540      69.5K/s   <span class="k">in </span>0.2s
 
-2016-03-18 11:47:25 (69.5 KB/s) - “epel-release-latest-6.noarch.rpm” saved [14540/14540]
+2016-03-18 11:47:25 <span class="o">(</span>69.5 KB/s<span class="o">)</span> - “epel-release-latest-6.noarch.rpm” saved <span class="o">[</span>14540/14540]
 
-[root@vm02 ~]# ls
-anaconda-ks.cfg                   install.log
+<span class="o">[</span>root@vm02 ~]# <span class="nb">ls
+</span>anaconda-ks.cfg                   install.log
 epel-release-latest-6.noarch.rpm  install.log.syslog
 </code></pre></div></div>
 
@@ -1325,47 +1418,47 @@ epel-release-latest-6.noarch.rpm  install.log.syslog
 
 <p>与我们长久使用 Win 环境不同的是，在 Linux 之中，我们接触最多的是 command line，所以熟练一款命令行下的文本编辑工具是一项必备技能，我这里推荐大家：vim。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# yum install -y vim
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# yum <span class="nb">install</span> <span class="nt">-y</span> vim
 Loaded plugins: fastestmirror
 Setting up Install Process
 Determining fastest mirrors
- * base: mirrors.aliyun.com
- * extras: mirrors.aliyun.com
- * updates: mirrors.aliyun.com
+ <span class="k">*</span> base: mirrors.aliyun.com
+ <span class="k">*</span> extras: mirrors.aliyun.com
+ <span class="k">*</span> updates: mirrors.aliyun.com
 Resolving Dependencies
---&gt; Running transaction check
----&gt; Package vim-enhanced.x86_64 2:7.4.629-5.el6 will be installed
---&gt; Processing Dependency: vim-common = 2:7.4.629-5.el6 for package: 2:vim-enhanced-7.4.629-5.el6.x86_64
---&gt; Processing Dependency: perl(:MODULE_COMPAT_5.10.1) for package: 2:vim-enhanced-7.4.629-5.el6.x86_64
---&gt; Processing Dependency: libperl.so()(64bit) for package: 2:vim-enhanced-7.4.629-5.el6.x86_64
---&gt; Processing Dependency: libgpm.so.2()(64bit) for package: 2:vim-enhanced-7.4.629-5.el6.x86_64
---&gt; Running transaction check
----&gt; Package gpm-libs.x86_64 0:1.20.6-12.el6 will be installed
----&gt; Package perl.x86_64 4:5.10.1-141.el6_7.1 will be installed
---&gt; Processing Dependency: perl(version) for package: 4:perl-5.10.1-141.el6_7.1.x86_64
---&gt; Processing Dependency: perl(Pod::Simple) for package: 4:perl-5.10.1-141.el6_7.1.x86_64
---&gt; Processing Dependency: perl(Module::Pluggable) for package: 4:perl-5.10.1-141.el6_7.1.x86_64
----&gt; Package perl-libs.x86_64 4:5.10.1-141.el6_7.1 will be installed
----&gt; Package vim-common.x86_64 2:7.4.629-5.el6 will be installed
---&gt; Processing Dependency: vim-filesystem for package: 2:vim-common-7.4.629-5.el6.x86_64
---&gt; Running transaction check
----&gt; Package perl-Module-Pluggable.x86_64 1:3.90-141.el6_7.1 will be installed
----&gt; Package perl-Pod-Simple.x86_64 1:3.13-141.el6_7.1 will be installed
---&gt; Processing Dependency: perl(Pod::Escapes) &gt;= 1.04 for package: 1:perl-Pod-Simple-3.13-141.el6_7.1.x86_64
----&gt; Package perl-version.x86_64 3:0.77-141.el6_7.1 will be installed
----&gt; Package vim-filesystem.x86_64 2:7.4.629-5.el6 will be installed
---&gt; Running transaction check
----&gt; Package perl-Pod-Escapes.x86_64 1:1.04-141.el6_7.1 will be installed
---&gt; Finished Dependency Resolution
+<span class="nt">--</span><span class="o">&gt;</span> Running transaction check
+<span class="nt">---</span><span class="o">&gt;</span> Package vim-enhanced.x86_64 2:7.4.629-5.el6 will be installed
+<span class="nt">--</span><span class="o">&gt;</span> Processing Dependency: vim-common <span class="o">=</span> 2:7.4.629-5.el6 <span class="k">for </span>package: 2:vim-enhanced-7.4.629-5.el6.x86_64
+<span class="nt">--</span><span class="o">&gt;</span> Processing Dependency: perl<span class="o">(</span>:MODULE_COMPAT_5.10.1<span class="o">)</span> <span class="k">for </span>package: 2:vim-enhanced-7.4.629-5.el6.x86_64
+<span class="nt">--</span><span class="o">&gt;</span> Processing Dependency: libperl.so<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for </span>package: 2:vim-enhanced-7.4.629-5.el6.x86_64
+<span class="nt">--</span><span class="o">&gt;</span> Processing Dependency: libgpm.so.2<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for </span>package: 2:vim-enhanced-7.4.629-5.el6.x86_64
+<span class="nt">--</span><span class="o">&gt;</span> Running transaction check
+<span class="nt">---</span><span class="o">&gt;</span> Package gpm-libs.x86_64 0:1.20.6-12.el6 will be installed
+<span class="nt">---</span><span class="o">&gt;</span> Package perl.x86_64 4:5.10.1-141.el6_7.1 will be installed
+<span class="nt">--</span><span class="o">&gt;</span> Processing Dependency: perl<span class="o">(</span>version<span class="o">)</span> <span class="k">for </span>package: 4:perl-5.10.1-141.el6_7.1.x86_64
+<span class="nt">--</span><span class="o">&gt;</span> Processing Dependency: perl<span class="o">(</span>Pod::Simple<span class="o">)</span> <span class="k">for </span>package: 4:perl-5.10.1-141.el6_7.1.x86_64
+<span class="nt">--</span><span class="o">&gt;</span> Processing Dependency: perl<span class="o">(</span>Module::Pluggable<span class="o">)</span> <span class="k">for </span>package: 4:perl-5.10.1-141.el6_7.1.x86_64
+<span class="nt">---</span><span class="o">&gt;</span> Package perl-libs.x86_64 4:5.10.1-141.el6_7.1 will be installed
+<span class="nt">---</span><span class="o">&gt;</span> Package vim-common.x86_64 2:7.4.629-5.el6 will be installed
+<span class="nt">--</span><span class="o">&gt;</span> Processing Dependency: vim-filesystem <span class="k">for </span>package: 2:vim-common-7.4.629-5.el6.x86_64
+<span class="nt">--</span><span class="o">&gt;</span> Running transaction check
+<span class="nt">---</span><span class="o">&gt;</span> Package perl-Module-Pluggable.x86_64 1:3.90-141.el6_7.1 will be installed
+<span class="nt">---</span><span class="o">&gt;</span> Package perl-Pod-Simple.x86_64 1:3.13-141.el6_7.1 will be installed
+<span class="nt">--</span><span class="o">&gt;</span> Processing Dependency: perl<span class="o">(</span>Pod::Escapes<span class="o">)</span> <span class="o">&gt;=</span> 1.04 <span class="k">for </span>package: 1:perl-Pod-Simple-3.13-141.el6_7.1.x86_64
+<span class="nt">---</span><span class="o">&gt;</span> Package perl-version.x86_64 3:0.77-141.el6_7.1 will be installed
+<span class="nt">---</span><span class="o">&gt;</span> Package vim-filesystem.x86_64 2:7.4.629-5.el6 will be installed
+<span class="nt">--</span><span class="o">&gt;</span> Running transaction check
+<span class="nt">---</span><span class="o">&gt;</span> Package perl-Pod-Escapes.x86_64 1:1.04-141.el6_7.1 will be installed
+<span class="nt">--</span><span class="o">&gt;</span> Finished Dependency Resolution
 
 Dependencies Resolved
 
-=============================================================================================================================================================================
+<span class="o">=============================================================================================================================================================================</span>
  Package                                          Arch                              Version                                         Repository                          Size
-=============================================================================================================================================================================
+<span class="o">=============================================================================================================================================================================</span>
 Installing:
  vim-enhanced                                     x86_64                            2:7.4.629-5.el6                                 base                               1.0 M
-Installing for dependencies:
+Installing <span class="k">for </span>dependencies:
  gpm-libs                                         x86_64                            1.20.6-12.el6                                   base                                28 k
  perl                                             x86_64                            4:5.10.1-141.el6_7.1                            updates                             10 M
  perl-Module-Pluggable                            x86_64                            1:3.90-141.el6_7.1                              updates                             40 k
@@ -1377,23 +1470,23 @@ Installing for dependencies:
  vim-filesystem                                   x86_64                            2:7.4.629-5.el6                                 base                                15 k
 
 Transaction Summary
-=============================================================================================================================================================================
-Install      10 Package(s)
+<span class="o">=============================================================================================================================================================================</span>
+Install      10 Package<span class="o">(</span>s<span class="o">)</span>
 
 Total download size: 19 M
 Installed size: 59 M
 Downloading Packages:
-(1/10): gpm-libs-1.20.6-12.el6.x86_64.rpm                                                                                                             |  28 kB     00:00
-(2/10): perl-5.10.1-141.el6_7.1.x86_64.rpm                                                                                                            |  10 MB     00:10
-(3/10): perl-Module-Pluggable-3.90-141.el6_7.1.x86_64.rpm                                                                                             |  40 kB     00:00
-(4/10): perl-Pod-Escapes-1.04-141.el6_7.1.x86_64.rpm                                                                                                  |  33 kB     00:00
-(5/10): perl-Pod-Simple-3.13-141.el6_7.1.x86_64.rpm                                                                                                   | 213 kB     00:00
-(6/10): perl-libs-5.10.1-141.el6_7.1.x86_64.rpm                                                                                                       | 579 kB     00:00
-(7/10): perl-version-0.77-141.el6_7.1.x86_64.rpm                                                                                                      |  52 kB     00:00
-(8/10): vim-common-7.4.629-5.el6.x86_64.rpm                                                                                                           | 6.7 MB     00:07
-(9/10): vim-enhanced-7.4.629-5.el6.x86_64.rpm                                                                                                         | 1.0 MB     00:01
-(10/10): vim-filesystem-7.4.629-5.el6.x86_64.rpm                                                                                                      |  15 kB     00:00
------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<span class="o">(</span>1/10<span class="o">)</span>: gpm-libs-1.20.6-12.el6.x86_64.rpm                                                                                                             |  28 kB     00:00
+<span class="o">(</span>2/10<span class="o">)</span>: perl-5.10.1-141.el6_7.1.x86_64.rpm                                                                                                            |  10 MB     00:10
+<span class="o">(</span>3/10<span class="o">)</span>: perl-Module-Pluggable-3.90-141.el6_7.1.x86_64.rpm                                                                                             |  40 kB     00:00
+<span class="o">(</span>4/10<span class="o">)</span>: perl-Pod-Escapes-1.04-141.el6_7.1.x86_64.rpm                                                                                                  |  33 kB     00:00
+<span class="o">(</span>5/10<span class="o">)</span>: perl-Pod-Simple-3.13-141.el6_7.1.x86_64.rpm                                                                                                   | 213 kB     00:00
+<span class="o">(</span>6/10<span class="o">)</span>: perl-libs-5.10.1-141.el6_7.1.x86_64.rpm                                                                                                       | 579 kB     00:00
+<span class="o">(</span>7/10<span class="o">)</span>: perl-version-0.77-141.el6_7.1.x86_64.rpm                                                                                                      |  52 kB     00:00
+<span class="o">(</span>8/10<span class="o">)</span>: vim-common-7.4.629-5.el6.x86_64.rpm                                                                                                           | 6.7 MB     00:07
+<span class="o">(</span>9/10<span class="o">)</span>: vim-enhanced-7.4.629-5.el6.x86_64.rpm                                                                                                         | 1.0 MB     00:01
+<span class="o">(</span>10/10<span class="o">)</span>: vim-filesystem-7.4.629-5.el6.x86_64.rpm                                                                                                      |  15 kB     00:00
+<span class="nt">-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
 Total                                                                                                                                        980 kB/s |  19 MB     00:19
 Running rpm_check_debug
 Running Transaction Test
@@ -1429,7 +1522,7 @@ Dependency Installed:
   vim-filesystem.x86_64 2:7.4.629-5.el6
 
 Complete!
-[root@vm02 ~]#
+<span class="o">[</span>root@vm02 ~]#
 
 </code></pre></div></div>
 
@@ -1439,17 +1532,17 @@ Complete!
 
 <p>SELinux 的配置文件主要由两个：/etc/sysconfig/selinux、 /etc/selinux/config，其实第一个是第二个路径的软链接。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@vm02 ~]# vim /etc/selinux/config
-# This file controls the state of SELinux on the system.
-# SELINUX= can take one of these three values:
-#     enforcing - SELinux security policy is enforced.
-#     permissive - SELinux prints warnings instead of enforcing.
-#     disabled - No SELinux policy is loaded.
-SELINUX=enforcing
-# SELINUXTYPE= can take one of these two values:
-#     targeted - Targeted processes are protected,
-#     mls - Multi Level Security protection.
-SELINUXTYPE=targeted
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@vm02 ~]# vim /etc/selinux/config
+<span class="c"># This file controls the state of SELinux on the system.</span>
+<span class="c"># SELINUX= can take one of these three values:</span>
+<span class="c">#     enforcing - SELinux security policy is enforced.</span>
+<span class="c">#     permissive - SELinux prints warnings instead of enforcing.</span>
+<span class="c">#     disabled - No SELinux policy is loaded.</span>
+<span class="nv">SELINUX</span><span class="o">=</span>enforcing
+<span class="c"># SELINUXTYPE= can take one of these two values:</span>
+<span class="c">#     targeted - Targeted processes are protected,</span>
+<span class="c">#     mls - Multi Level Security protection.</span>
+<span class="nv">SELINUXTYPE</span><span class="o">=</span>targeted
 
 </code></pre></div></div>
 
@@ -1508,7 +1601,7 @@ SELINUXTYPE=targeted
 
 <h3 id="linux-的文件系统与目录">Linux 的文件系统与目录</h3>
 
-<p>现代操作系统为解决信息能独立于进程之外被长期存储引入了文件，文件作为进程创建信息的逻辑单元可被多个进程并发使用。在 UNIX 系统中，操作系统为磁盘上的文本与图像、鼠标与键盘等输入设备及网络交互等 I/O 操作设计了一组通用 API，使他们被处理时均可统一使用字节流方式。换言之，UNIX 系统中除进程之外的一切皆是文件，而 Linux 保持了这一特性。为了便于文件的管理，Linux 还引入了目录（有时亦被称为文件夹）这一概念。目录使文件可被分类管理，且目录的引入使 Linux 的文件系统形成一个层级结构的目录树。<a href="#list1">清单 1.</a>所示的是普通 Linux 系统的顶层目录结构，其中 /dev 是存放了设备相关文件的目录。</p>
+<p>现代操作系统为解决信息能独立于进程之外被长期存储引入了文件，文件作为进程创建信息的逻辑单元可被多个进程并发使用。在 UNIX 系统中，操作系统为磁盘上的文本与图像、鼠标与键盘等输入设备及网络交互等 I/O 操作设计了一组通用 API，使他们被处理时均可统一使用字节流方式。换言之，UNIX 系统中除进程之外的一切皆是文件，而 Linux 保持了这一特性。为了便于文件的管理，Linux 还引入了目录（有时亦被称为文件夹）这一概念。目录使文件可被分类管理，且目录的引入使 Linux 的文件系统形成一个层级结构的目录树。<code class="language-plaintext highlighter-rouge">清单 1</code>. 所示的是普通 Linux 系统的顶层目录结构，其中 /dev 是存放了设备相关文件的目录。</p>
 
 <h4 id="清单-1-linux-系统的顶层目录结构">清单 1. Linux 系统的顶层目录结构</h4>
 
@@ -1534,7 +1627,7 @@ SELINUXTYPE=targeted
 
 </code></pre></div></div>
 
-<p>Linux 将设备当做文件进行处理，<a href="#list2">清单 2.</a>展示了如何打开设备文件 /dev/input/event5 并读取文件内容。文件 event5 表示一种输入设备，其可能是鼠标或键盘等。查看文件 /proc/bus/input/devices 可知 event5 对应设备的类型。设备文件 /dev/input/event5 使用 read() 以字符流的方式被读取。结构体 input_event 被定义在内核头文件 linux/input.h 中。</p>
+<p>Linux 将设备当做文件进行处理，<code class="language-plaintext highlighter-rouge">清单 2</code>展示了如何打开设备文件 /dev/input/event5 并读取文件内容。文件 event5 表示一种输入设备，其可能是鼠标或键盘等。查看文件 /proc/bus/input/devices 可知 event5 对应设备的类型。设备文件 /dev/input/event5 使用 read() 以字符流的方式被读取。结构体 input_event 被定义在内核头文件 linux/input.h 中。</p>
 
 <h4 id="清单-2--打开并读取设备文件">清单 2.  打开并读取设备文件</h4>
 
@@ -1547,15 +1640,15 @@ SELINUXTYPE=targeted
  close<span class="o">(</span>fd<span class="o">)</span><span class="p">;</span>
 </code></pre></div></div>
 
-<p><br /></p>
 <h3 id="硬链接与软链接的联系与区别">硬链接与软链接的联系与区别</h3>
-<p>我们知道文件都有文件名与数据，这在 Linux 上被分成两个部分：用户数据 (user data) 与元数据 (metadata)。用户数据，即文件数据块 (data block)，数据块是记录文件真实内容的地方；而元数据则是文件的附加属性，如文件大小、创建时间、所有者等信息。在 Linux 中，元数据中的 inode 号（inode 是文件元数据的一部分但其并不包含文件名，inode 号即索引节点号）才是文件的唯一标识而非文件名。文件名仅是为了方便人们的记忆和使用，系统或程序通过 inode 号寻找正确的文件数据块。<a href="#p1">图 1.</a>展示了程序通过文件名获取文件内容的过程。</p>
+
+<p>我们知道文件都有文件名与数据，这在 Linux 上被分成两个部分：用户数据 (user data) 与元数据 (metadata)。用户数据，即文件数据块 (data block)，数据块是记录文件真实内容的地方；而元数据则是文件的附加属性，如文件大小、创建时间、所有者等信息。在 Linux 中，元数据中的 inode 号（inode 是文件元数据的一部分但其并不包含文件名，inode 号即索引节点号）才是文件的唯一标识而非文件名。文件名仅是为了方便人们的记忆和使用，系统或程序通过 inode 号寻找正确的文件数据块。<code class="language-plaintext highlighter-rouge">图 1.</code>展示了程序通过文件名获取文件内容的过程。</p>
 
 <h4 id="图-1-通过文件名打开文件">图 1. 通过文件名打开文件</h4>
 
-<p><img src="http://120.24.251.209/content/images/2016/03/image001.jpg" alt="" /></p>
+<p><img src="http://120.24.251.209/content/images/2016/03/image001.jpg" alt="image" /></p>
 
-<p>在 Linux 系统中查看 inode 号可使用命令 stat 或 ls -i（若是 AIX 系统，则使用命令 istat）。<a href="#list3">清单 3.</a>中使用命令 mv 移动并重命名文件 glibc-2.16.0.tar.xz，其结果不影响文件的用户数据及 inode 号，文件移动前后 inode 号均为：2485677。</p>
+<p>在 Linux 系统中查看 inode 号可使用命令 stat 或 ls -i（若是 AIX 系统，则使用命令 istat）。<code class="language-plaintext highlighter-rouge">清单 3.</code>中使用命令 mv 移动并重命名文件 glibc-2.16.0.tar.xz，其结果不影响文件的用户数据及 inode 号，文件移动前后 inode 号均为：2485677。</p>
 
 <h4 id="清单-3--移动或重命名文件">清单 3.  移动或重命名文件</h4>
 
@@ -1572,10 +1665,10 @@ SELINUXTYPE=targeted
  2485677 /home/harris/Desktop/glibc.tar.xz
 </span></code></pre></div></div>
 
-<p>为解决文件的共享使用，Linux 系统引入了两种链接：硬链接 (hard link) 与软链接（又称符号链接，即 soft link 或 symbolic link）。链接为 Linux 系统解决了文件的共享使用，还带来了隐藏文件路径、增加权限安全及节省存储等好处。若一个 inode 号对应多个文件名，则称这些文件为硬链接。换言之，硬链接就是同一个文件使用了多个别名（见 <a href="#p2">图 2.</a>hard link 就是 file 的一个别名，他们有共同的 inode）。硬链接可由命令 link 或 ln 创建。如下是对文件 oldfile 创建硬链接。</p>
+<p>为解决文件的共享使用，Linux 系统引入了两种链接：硬链接 (hard link) 与软链接（又称符号链接，即 soft link 或 symbolic link）。链接为 Linux 系统解决了文件的共享使用，还带来了隐藏文件路径、增加权限安全及节省存储等好处。若一个 inode 号对应多个文件名，则称这些文件为硬链接。换言之，硬链接就是同一个文件使用了多个别名（见 <code class="language-plaintext highlighter-rouge">图 2.</code>hard link 就是 file 的一个别名，他们有共同的 inode）。硬链接可由命令 link 或 ln 创建。如下是对文件 oldfile 创建硬链接。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> link oldfile newfile
- ln oldfile newfile
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">link </span>oldfile newfile
+ <span class="nb">ln </span>oldfile newfile
 </code></pre></div></div>
 
 <p>由于硬链接是有着相同 inode 号仅文件名不同的文件，因此硬链接存在以下几点特性：</p>
@@ -1625,7 +1718,7 @@ SELINUXTYPE=targeted
  660650 hard.link  657948 old.dir/  660650 old.file
 </code></pre></div></div>
 
-<p>文件 old.file 与 hard.link 有着相同的 inode 号：660650 及文件权限，inode 是随着文件的存在而存在，因此只有当文件存在时才可创建硬链接，即当 inode 存在且链接计数器（link count）不为 0 时。inode 号仅在各文件系统下是唯一的，当 Linux 挂载多个文件系统后将出现 inode 号重复的现象（如<a href="#list5">清单 5.</a>所示，文件 t3.jpg、sync 及 123.txt 并无关联，却有着相同的 inode 号），因此硬链接创建时不可跨文件系统。设备文件目录 /dev 使用的文件系统是 devtmpfs，而 /root（与根目录 / 一致）使用的是磁盘文件系统 ext4。<a href="#list5">清单 5.</a>展示了使用命令 df 查看当前系统中挂载的文件系统类型、各文件系统 inode 使用情况及文件系统挂载点。</p>
+<p>文件 old.file 与 hard.link 有着相同的 inode 号：660650 及文件权限，inode 是随着文件的存在而存在，因此只有当文件存在时才可创建硬链接，即当 inode 存在且链接计数器（link count）不为 0 时。inode 号仅在各文件系统下是唯一的，当 Linux 挂载多个文件系统后将出现 inode 号重复的现象（如<code class="language-plaintext highlighter-rouge">清单 5.</code>展示了使用命令 df 查看当前系统中挂载的文件系统类型、各文件系统 inode 使用情况及文件系统挂载点。</p>
 
 <h4 id="清单-5--查找有相同-inode-号的文件">清单 5.  查找有相同 inode 号的文件</h4>
 
@@ -1647,7 +1740,7 @@ SELINUXTYPE=targeted
 
 </code></pre></div></div>
 
-<p>值得一提的是，Linux 系统存在 inode 号被用完但磁盘空间还有剩余的情况。我们创建一个 5M 大小的 ext4 类型的 mo.img 文件，并将其挂载至目录 /mnt。然后我们使用一个 shell 脚本将挂载在 /mnt 下 ext4 文件系统的 indoe 耗尽（见<a href="#list6">清单 6.</a>）。</p>
+<p>值得一提的是，Linux 系统存在 inode 号被用完但磁盘空间还有剩余的情况。我们创建一个 5M 大小的 ext4 类型的 mo.img 文件，并将其挂载至目录 /mnt。然后我们使用一个 shell 脚本将挂载在 /mnt 下 ext4 文件系统的 indoe 耗尽（见<code class="language-plaintext highlighter-rouge">清单 6.</code>）。</p>
 
 <h4 id="清单-6--测试文件系统-inode-耗尽但仍有磁盘空间的情景">清单 6.  测试文件系统 inode 耗尽但仍有磁盘空间的情景</h4>
 
@@ -1697,7 +1790,7 @@ SELINUXTYPE=targeted
 
 </code></pre></div></div>
 
-<p>硬链接不能对目录创建是受限于文件系统的设计（见 <a href="#list4">清单 4.</a>对目录创建硬链接将失败）。现 Linux 文件系统中的目录均隐藏了两个个特殊的目录：当前目录（.）与父目录（..）。查看这两个特殊目录的 inode 号可知其实这两目录就是两个硬链接（注意目录 /mnt/lost+found/ 的 inode 号）。若系统允许对目录创建硬链接，则会产生目录环。</p>
+<p>硬链接不能对目录创建是受限于文件系统的设计（见 <code class="language-plaintext highlighter-rouge">清单 4.</code>对目录创建硬链接将失败）。现 Linux 文件系统中的目录均隐藏了两个个特殊的目录：当前目录（.）与父目录（..）。查看这两个特殊目录的 inode 号可知其实这两目录就是两个硬链接（注意目录 /mnt/lost+found/ 的 inode 号）。若系统允许对目录创建硬链接，则会产生目录环。</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ls -aliF /mnt/lost+found</span>
 
@@ -1718,7 +1811,7 @@ SELINUXTYPE=targeted
 
 </span></code></pre></div></div>
 
-<p>软链接与硬链接不同，若文件用户数据块中存放的内容是另一文件的路径名的指向，则该文件就是软连接。软链接就是一个普通文件，只是数据块内容有点特殊。软链接有着自己的 inode 号以及用户数据块（见 <a href="#p2">图 2.</a>）。因此软链接的创建与使用没有类似硬链接的诸多限制：</p>
+<p>软链接与硬链接不同，若文件用户数据块中存放的内容是另一文件的路径名的指向，则该文件就是软连接。软链接就是一个普通文件，只是数据块内容有点特殊。软链接有着自己的 inode 号以及用户数据块（见 <code class="language-plaintext highlighter-rouge">图 2.</code>）。因此软链接的创建与使用没有类似硬链接的诸多限制：</p>
 
 <ul>
   <li>软链接有自己的文件属性及权限等；</li>
@@ -1731,7 +1824,7 @@ SELINUXTYPE=targeted
 
 <h4 id="图-2-软链接的访问">图 2. 软链接的访问</h4>
 
-<p><img src="http://120.24.251.209/content/images/2016/03/image002.jpg" alt="" /></p>
+<p><img src="http://120.24.251.209/content/images/2016/03/image002.jpg" alt="image" /></p>
 
 <h4 id="清单-7-软链接特性展示">清单 7. 软链接特性展示</h4>
 
@@ -1804,7 +1897,7 @@ SELINUXTYPE=targeted
 
 </code></pre></div></div>
 
-<p>命令 ls 或 stat 可帮助我们区分软链接与其他文件并查看文件 inode 号，但较好的方式还是使用 find 命令，其不仅可查找某文件的软链接，还可以用于查找相同 inode 的所有硬链接。（见 <a href="#list8">清单 8.</a>）</p>
+<p>命令 ls 或 stat 可帮助我们区分软链接与其他文件并查看文件 inode 号，但较好的方式还是使用 find 命令，其不仅可查找某文件的软链接，还可以用于查找相同 inode 的所有硬链接。（见 <code class="language-plaintext highlighter-rouge">清单 8.</code>）</p>
 
 <h4 id="清单-8-使用命令-find-查找软链接与硬链接">清单 8. 使用命令 find 查找软链接与硬链接</h4>
 
@@ -1840,7 +1933,7 @@ SELINUXTYPE=targeted
 
 </code></pre></div></div>
 
-<p>系统根据磁盘的大小默认设定了 inode 的值（见<a href="#list9">清单 9.</a>），如若必要，可在格式文件系统前对该值进行修改。如键入命令 mkfs -t ext4 -I 512/dev/sda4，将使磁盘设备 /dev/sda4 格式成 inode 大小是 512 字节的 ext4 文件系统。</p>
+<p>系统根据磁盘的大小默认设定了 inode 的值（见<code class="language-plaintext highlighter-rouge">清单 9.</code>），如若必要，可在格式文件系统前对该值进行修改。如键入命令 mkfs -t ext4 -I 512/dev/sda4，将使磁盘设备 /dev/sda4 格式成 inode 大小是 512 字节的 ext4 文件系统。</p>
 
 <h4 id="清单-9-查看系统的-inode-值">清单 9. 查看系统的 inode 值</h4>
 
@@ -1867,17 +1960,17 @@ SELINUXTYPE=targeted
   <li>特殊文件系统，如 proc、sysfs、ramfs、tmpfs 等。</li>
 </ol>
 
-<p>实现以上这些文件系统并在 Linux 下共存的基础就是 Linux VFS（Virtual File System 又称 Virtual Filesystem Switch），即虚拟文件系统。VFS 作为一个通用的文件系统，抽象了文件系统的四个基本概念：文件、目录项 (dentry)、索引节点 (inode) 及挂载点，其在内核中为用户空间层的文件系统提供了相关的接口（见 <a href="#p3">图 3.</a>所示 VFS 在 Linux 系统的架构）。VFS 实现了 open()、read() 等系统调并使得 cp 等用户空间程序可跨文件系统。VFS 真正实现了上述内容中：在 Linux 中除进程之外一切皆是文件。</p>
+<p>实现以上这些文件系统并在 Linux 下共存的基础就是 Linux VFS（Virtual File System 又称 Virtual Filesystem Switch），即虚拟文件系统。VFS 作为一个通用的文件系统，抽象了文件系统的四个基本概念：文件、目录项 (dentry)、索引节点 (inode) 及挂载点，其在内核中为用户空间层的文件系统提供了相关的接口（见 <code class="language-plaintext highlighter-rouge">图 3.</code>所示 VFS 在 Linux 系统的架构）。VFS 实现了 open()、read() 等系统调并使得 cp 等用户空间程序可跨文件系统。VFS 真正实现了上述内容中：在 Linux 中除进程之外一切皆是文件。</p>
 
 <h4 id="图-3-vfs-在系统中的架构">图 3. VFS 在系统中的架构</h4>
 
-<p><img src="http://120.24.251.209/content/images/2016/03/image003.jpg" alt="" /></p>
+<p><img src="http://120.24.251.209/content/images/2016/03/image003.jpg" alt="image" /></p>
 
-<p>Linux VFS 存在四个基本对象：超级块对象 (superblock object)、索引节点对象 (inode object)、目录项对象 (dentry object) 及文件对象 (file object)。超级块对象代表一个已安装的文件系统；索引节点对象代表一个文件；目录项对象代表一个目录项，如设备文件 event5 在路径 /dev/input/event5 中，其存在四个目录项对象：/ 、dev/ 、input/ 及 event5。文件对象代表由进程打开的文件。这四个对象与进程及磁盘文件间的关系如<a href="#p4">图 4.</a> 所示，其中 d_inode 即为硬链接。为文件路径的快速解析，Linux VFS 设计了目录项缓存（Directory Entry Cache，即 dcache）。</p>
+<p>Linux VFS 存在四个基本对象：超级块对象 (superblock object)、索引节点对象 (inode object)、目录项对象 (dentry object) 及文件对象 (file object)。超级块对象代表一个已安装的文件系统；索引节点对象代表一个文件；目录项对象代表一个目录项，如设备文件 event5 在路径 /dev/input/event5 中，其存在四个目录项对象：/ 、dev/ 、input/ 及 event5。文件对象代表由进程打开的文件。这四个对象与进程及磁盘文件间的关系如<code class="language-plaintext highlighter-rouge">图 4.</code> 所示，其中 d_inode 即为硬链接。为文件路径的快速解析，Linux VFS 设计了目录项缓存（Directory Entry Cache，即 dcache）。</p>
 
 <h4 id="图-4-vfs-的对象之间的处理">图 4. VFS 的对象之间的处理</h4>
 
-<p><img src="http://120.24.251.209/content/images/2016/03/image004.jpg" alt="" /></p>
+<p><img src="http://120.24.251.209/content/images/2016/03/image004.jpg" alt="image" /></p>
 
 <h3 id="linux-文件系统中的-inode">Linux 文件系统中的 inode</h3>
 
@@ -1907,7 +2000,7 @@ SELINUXTYPE=targeted
 
 </code></pre></div></div>
 
-<p>如<a href="#list10">清单 10.</a> 所见，每个文件存在两个计数器：i_count 与 i_nlink，即引用计数与硬链接计数。结构体 inode 中的 i_count 用于跟踪文件被访问的数量，而 i_nlink 则是上述使用 ls -l 等命令查看到的文件硬链接数。或者说 i_count 跟踪文件在内存中的情况，而 i_nlink 则是磁盘计数器。当文件被删除时，则 i_nlink 先被设置成 0。文件的这两个计数器使得 Linux 系统升级或程序更新变的容易。系统或程序可在不关闭的情况下（即文件 i_count 不为 0），将新文件以同样的文件名进行替换，新文件有自己的 inode 及 data block，旧文件会在相关进程关闭后被完整的删除。</p>
+<p>如<code class="language-plaintext highlighter-rouge">清单 10.</code> 所见，每个文件存在两个计数器：i_count 与 i_nlink，即引用计数与硬链接计数。结构体 inode 中的 i_count 用于跟踪文件被访问的数量，而 i_nlink 则是上述使用 ls -l 等命令查看到的文件硬链接数。或者说 i_count 跟踪文件在内存中的情况，而 i_nlink 则是磁盘计数器。当文件被删除时，则 i_nlink 先被设置成 0。文件的这两个计数器使得 Linux 系统升级或程序更新变的容易。系统或程序可在不关闭的情况下（即文件 i_count 不为 0），将新文件以同样的文件名进行替换，新文件有自己的 inode 及 data block，旧文件会在相关进程关闭后被完整的删除。</p>
 
 <h4 id="清单-11-文件系统-ext4-中的-inode">清单 11. 文件系统 ext4 中的 inode</h4>
 
@@ -1924,7 +2017,7 @@ SELINUXTYPE=targeted
 
 </code></pre></div></div>
 
-<p><a href="#list11">清单 11.</a> 展示的是文件系统 ext4 中对 inode 的定义（见内核源码 fs/ext4/ext4.h）。其中三个时间的定义可对应与命令 stat 中查看到三个时间。i_links_count 不仅用于文件的硬链接计数，也用于目录的子目录数跟踪（目录并不显示硬链接数，命令 ls -ld 查看到的是子目录数）。由于文件系统 ext3 对 i_links_count 有限制，其最大数为：32000（该限制在 ext4 中被取消）。尝试在 ext3 文件系统上验证目录子目录及普通文件硬链接最大数可见 <a href="#list12">清单 12.</a>的错误信息。因此实际文件系统的 inode 之间及与 VFS inode 相较是有差异的。</p>
+<p><code class="language-plaintext highlighter-rouge">清单 12.</code>的错误信息。因此实际文件系统的 inode 之间及与 VFS inode 相较是有差异的。</p>
 
 <h4 id="清单-12-文件系统-ext3-中-i_links_count-的限制">清单 12. 文件系统 ext3 中 i_links_count 的限制</h4>
 
@@ -1962,7 +2055,7 @@ SELINUXTYPE=targeted
 
 <p>今年一直都挺忙碌地，正好伴着腿伤在家里休息半个月，于是，一股脑地把《龙族》三部曲看完了，这是一部很好的书，我喜欢，很多人可能会觉得这是一个讲神秘、冒险、还有魔幻的小说，这里面有很多牛逼的任务，牛逼到打个喷嚏就能在太平洋引起一场海啸；可是，在我看来，这是一个看起来有点悲伤的故事。</p>
 
-<p>有个叫路明非的Loser主角，他身边有很多牛逼的朋友，可是这些都和他没有关系，没有理想，没有原则，没有底线，好像这个世界硬一点，他就缩一点，懦弱、犹豫、像个傻逼，虽然整本书的人都在帮他，可是这不是他想要的，刚开始看的时候，一直想主角什么时候牛逼起来啊，作者怎么不按套路出牌啊，后来，我开始不想让他牛逼，他要是一直懦弱下去该多好啊，这样，看着像真实地我们，这样，至少可以好好活下去；是啊，作为一个力挽狂澜的弑龙者多牛逼啊，像所有牛逼的角色，可这都是拿命换来的啊，“人是自私的生物，但是却愿意有那么一瞬间为了很少的人放弃一切甚至生命。”说的多好，听的人是那么的心疼；人的一生中总归有几个人是我们的逆鳞，我们希望她好胜过自己好，我们希望把所有一切都给她甚至生命，可是，那又怎样，那又怎样呢?</p>
+<p>有个叫路明非的 Loser 主角，他身边有很多牛逼的朋友，可是这些都和他没有关系，没有理想，没有原则，没有底线，好像这个世界硬一点，他就缩一点，懦弱、犹豫、像个傻逼，虽然整本书的人都在帮他，可是这不是他想要的，刚开始看的时候，一直想主角什么时候牛逼起来啊，作者怎么不按套路出牌啊，后来，我开始不想让他牛逼，他要是一直懦弱下去该多好啊，这样，看着像真实地我们，这样，至少可以好好活下去；是啊，作为一个力挽狂澜的弑龙者多牛逼啊，像所有牛逼的角色，可这都是拿命换来的啊，“人是自私的生物，但是却愿意有那么一瞬间为了很少的人放弃一切甚至生命。”说的多好，听的人是那么的心疼；人的一生中总归有几个人是我们的逆鳞，我们希望她好胜过自己好，我们希望把所有一切都给她甚至生命，可是，那又怎样，那又怎样呢？</p>
 
 <p>另一个我很喜欢的人物，上杉越，一个隐世的牛逼老头子，在龙王复苏，整个东京城都要毁灭的时候，他选择了怯懦的逃离，很没骨气啊，可谁明白他呢，他是一个没有逆鳞的人了，活着只有自己，的确，我们都喜欢孤胆英雄式的角色，我们也渴望能够扮演这个角色，但是拯救世界这个事儿对我们来说太他妈难了，所以我们只能自私地保护自己重要的人；可是，最后一刻，老头留下来了，因为这里有他的逆鳞了，这很好，符合我们的价值观。</p>
 
@@ -2028,19 +2121,19 @@ SELINUXTYPE=targeted
 
 <p>我的测试系统是 Windows 7 旗舰版 64 位，并且支持 TortoiseGit 最新的版本。</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/q39b4.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/q39b4.jpg" alt="image" /></p>
 
 <p>请依次安装上图中两个软件，注意 LanguagePack 应该在主程序之后安装，同样，你也只需要一路点击 Next 即可。</p>
 
 <p>在你安装完成之后，在该目录的空白区域，单击鼠标右键，你应该会看到新增了 TortoiseGit 的选项，我们选择”TortoiseGit”&gt;“Settings”来初始化我们设置。</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/educ5.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/educ5.jpg" alt="image" /></p>
 
 <h5 id="修改程序语言为中文">修改程序语言为中文</h5>
 
 <p>如果英文你的使用不会有影响，你可以略过这一步骤，同样你也不需要下载上面的 LanguagePack 包。</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/afmvd.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/afmvd.jpg" alt="image" /></p>
 
 <p>好了，按照如上图中操作，你应该已经修改了程序语言为中文，再次到空白区域单击测试就可以看到了。</p>
 
@@ -2050,7 +2143,7 @@ SELINUXTYPE=targeted
 
 <h5 id="测试项目">测试项目</h5>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/ot84j.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/ot84j.jpg" alt="image" /></p>
 
 <p>GitHub 和 GitLab 都提供了通过使用 HTTPS 和 SSH 的方式，这两种方式有些不同，我会在下面分开讲述如何使用。</p>
 
@@ -2060,15 +2153,15 @@ SELINUXTYPE=targeted
 
 <p>那在 Windows 如何上生成私钥呢？其实我们在安装 TortoiseGit 时已经默认安装 PuTTYgen 工具，我们可以利用它来创建秘钥。</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/dh1fb.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/dh1fb.jpg" alt="image" /></p>
 
 <p>打开 PuTTYgen，点击 generate 即可创建密钥，PuTTYgen 其实是按照鼠标运行的轨迹来计算的，所以在点击后，我们不停的使用鼠标移动，等待进度条完成就可以了。</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/2uyf3.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/2uyf3.jpg" alt="image" /></p>
 
-<p>当创建完成之后，你可以看到以下以下内容，注意不要关闭，我们要点击<code>Save public key</code>和<code>Save private key</code>，并将上 public key 传到你的 GitHub 或 GitLab 账户之中。</p>
+<p>当创建完成之后，你可以看到以下以下内容，注意不要关闭，我们要点击<code class="language-plaintext highlighter-rouge">Save public key</code>和<code class="language-plaintext highlighter-rouge">Save private key</code>，并将上 public key 传到你的 GitHub 或 GitLab 账户之中。</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/stgw9.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/stgw9.jpg" alt="image" /></p>
 
 <blockquote>
   <p>注意，我在图中隐去了其他 SSH keys 信息，我建议你在做类似分享时也注意隐去你的重要信息</p>
@@ -2076,19 +2169,19 @@ SELINUXTYPE=targeted
 
 <p>好了，接下来，我们就要开克隆我们的项目了，在你想要存放项目的目录内，鼠标右键选择”Git 克隆“，然后输入你的项目 URL，并且加载我们刚刚生产私钥文件。</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/y7dsh.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/y7dsh.jpg" alt="image" /></p>
 
 <p>注意，在你确认都没问题的情况下，点击确认，然后你就会看到如下页面，如果这个过程中出现问题，请注意检查项目 URL 和私钥文件是否正确。</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/bltrs.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/bltrs.jpg" alt="image" /></p>
 
 <p>到这里，我们 SSH 验证仓库的方式就全好，接下来我们就可以使用开始进行我们的工作，但在首次提交我们的项目时，需要设置用户名和密码，这是为了方便验证我们的身份。</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/07sxd.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/07sxd.jpg" alt="image" /></p>
 
 <p>点击”是“，在弹出的窗口中设定用户名和邮箱，保存即可。</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/wid9v.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/wid9v.jpg" alt="image" /></p>
 
 <h5 id="https-or-http">HTTPS or HTTP</h5>
 
@@ -2096,7 +2189,7 @@ SELINUXTYPE=targeted
 
 <p>如果使用 HTTPS or HTTP 的方式，我们不需要增加任何密钥文件或怎样，只需要使用我们现有的 GitHub 或 GitLab 账号即可；在你想要存放项目的目录内，鼠标右键选择”Git 克隆“，在弹出的窗口中，注意项目 URL 要是用 HTTPS，并且去掉勾选加载密钥选项。</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/givvr.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/givvr.jpg" alt="image" /></p>
 
 <p><strong>如果你的项目在 GitLab 上</strong>，并且这个项目是一个私有项目，那么这里就会要求你输入你的 GitLab 用户名和密码，输入正确的用户和密码就可以成功克隆了。</p>
 
@@ -2108,11 +2201,11 @@ SELINUXTYPE=targeted
 
 <p>右键选择 Git 提交，会弹出提交页面，我们需要这里，输入提交说明信息，和需要提交的文件。</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/ata4r.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/ata4r.jpg" alt="image" /></p>
 
 <p>点击”提交之后“，我们会看成功提交的窗口，然后在窗口选择点击推送；</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/q4cq7.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/q4cq7.jpg" alt="image" /></p>
 
 <p>当我们点击推送之后，会要求输入对应的 GitHub 用户名和密码：</p>
 
@@ -2123,70 +2216,6 @@ SELINUXTYPE=targeted
     <div>
       <cite>2016-02-12</cite> <i class="icon-tag"></i>
       <a href="/tags.html#Git">Git</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/01/Install_mariadb10_centos7.html">How to install MariaDB 10.1 on CentOS 7.x</a></h1>
-    <div class="post_at_index">
-      <p>CentOS 7.x 默认的 MariaDB 版本是 5.5，但是在有些情况我们需要用到 10 版本，注意 MariaDB 与 MySQL 版本是不一样的，下面简单降下如何快速安装 MariaDB10.1 到 CentOS 7.x.</p>
-
-<h4 id="创建-mariadb-101-的-yum-源">创建 MariaDB 10.1 的 Yum 源</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat &lt;&lt;EOF | sudo tee -a /etc/yum.repos.d/MariaDB.repo
-# MariaDB 10.1 CentOS repository list
-# http://downloads.mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.1/centos7-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-EOF
-</code></pre></div></div>
-
-<blockquote>
-  <p>注意 MariaDB 会随着时间的推移版本不断更新，你可以到<a href="http://downloads.mariadb.org/mariadb">repo 仓库</a>获取对应版本链接</p>
-</blockquote>
-
-<h4 id="使用-yum-安装-mariadb-101-即可">使用 Yum 安装 MariaDB 10.1 即可</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install MariaDB-server MariaDB-client -y
-</code></pre></div></div>
-
-<h4 id="启动-mariadb-并设置为开机自启动">启动 MariaDB 并设置为开机自启动</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo systemctl start mariadb.service
-sudo systemctl enable mariadb.service
-</code></pre></div></div>
-
-<h4 id="初始化-mariadb-设置">初始化 MariaDB 设置</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo /usr/bin/mysql_secure_installation
-
-# 回答以下问题，请记住你的数据库root用户密码:
-
-Enter current password for root (enter for none):  回车
-Set root password? [Y/n]: Y
-New password: 你要设置的数据库root密码
-Re-enter new password: 你要设置的数据库root密码
-Remove anonymous users? [Y/n]: Y
-Disallow root login remotely? [Y/n]: Y
-Remove test database and access to it? [Y/n]: Y
-Reload privilege tables now? [Y/n]: Y
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-01-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
       
       
       
@@ -2271,12 +2300,12 @@ Reload privilege tables now? [Y/n]: Y
      
     	
       <li><a href="/categories.html#Linux">
-    		Linux <span>21</span>
+    		Linux <span>22</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#CentOS">
-    		CentOS <span>14</span>
+    		CentOS <span>15</span>
     	</a></li>
      
     	
@@ -2286,12 +2315,12 @@ Reload privilege tables now? [Y/n]: Y
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>19</span>
+    		数据库 <span>18</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#MySQL">
-    		MySQL <span>15</span>
+    		MySQL <span>14</span>
     	</a></li>
      
     	
@@ -2316,7 +2345,7 @@ Reload privilege tables now? [Y/n]: Y
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>17</span>
+    		Mac <span>16</span>
     	</a></li>
      
     	
@@ -2540,6 +2569,12 @@ Reload privilege tables now? [Y/n]: Y
       <ul>
         
         <li>
+          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy To Markdwon</a>
+          
+
+        </li>
+        
+        <li>
           <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
           
   参考资料：
@@ -2558,7 +2593,9 @@ df = pandas.read_csv(‘somefile.txt’)
         
         <li>
           <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
-          暗坑很多
+          
+  暗坑很多
+
 
 
         </li>
@@ -2567,13 +2604,6 @@ df = pandas.read_csv(‘somefile.txt’)
           <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
           王路
 12 highlights
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/%E8%87%AA%E5%8D%91%E4%B8%8E%E8%B6%85%E8%B6%8A.html">自卑与超越</a>
-          【奥】阿尔弗雷德··阿德勒
 
 
         </li>

@@ -293,7 +293,7 @@
   <li>GitLab Webhook Event：   <a href="https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html">https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html</a></li>
 </ul>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652838666817-16490352-2dcb-4e6f-a4d6-0e060090287a.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652838666817-16490352-2dcb-4e6f-a4d6-0e060090287a.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
 
 <h2 id="gitlab-配置">Gitlab 配置</h2>
 
@@ -337,10 +337,10 @@
     {
         "msgtype": "markdown",
         "markdown": {
-            "content": "实时新增用户反馈&lt;font color=</span><span class="se">\"</span><span class="s">warning</span><span class="se">\"</span><span class="s">&gt;132 例&lt;/font&gt;，请相关同事注意。</span><span class="se">\n</span><span class="s">
-             &gt;类型:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;用户反馈&lt;/font&gt;
-             &gt;普通用户反馈:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;117 例&lt;/font&gt;
-             &gt;VIP 用户反馈:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;15 例&lt;/font&gt;"
+            "content": "实时新增用户反馈&lt;font color=</span><span class="se">\"</span><span class="s">warning</span><span class="se">\"</span><span class="s">&gt;132 例，请相关同事注意。</span><span class="se">\n</span><span class="s">
+             &gt;类型:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;用户反馈
+             &gt;普通用户反馈:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;117 例
+             &gt;VIP 用户反馈:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;15 例"
         }
     }
     """</span>
@@ -382,7 +382,7 @@
         <span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'project'</span><span class="p">][</span><span class="s">'web_url'</span><span class="p">]</span>
 
         <span class="c1"># fit md_content
-</span>        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"## 文档站 &lt;font color=</span><span class="se">\"</span><span class="s">info</span><span class="se">\"</span><span class="s">&gt;{}&lt;/font&gt; 通知：</span><span class="se">\n\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'event'</span><span class="p">])</span>
+</span>        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"## 文档站 &lt;font color=</span><span class="se">\"</span><span class="s">info</span><span class="se">\"</span><span class="s">&gt;{} 通知：</span><span class="se">\n\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'event'</span><span class="p">])</span>
         <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 项目：[{}]({}) </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">],</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">])</span>
         <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 更新人：*{}* </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">])</span>
         <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 提交信息：{} </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">])</span>
@@ -396,7 +396,7 @@
         <span class="n">resp</span><span class="p">[</span><span class="s">'build_duration'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'build_duration'</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
 
         <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'failed'</span><span class="p">:</span>
-            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"## 文档站 {} &lt;font color=</span><span class="se">\"</span><span class="s">warning</span><span class="se">\"</span><span class="s">&gt;{}&lt;/font&gt; 通知：</span><span class="se">\n\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'event'</span><span class="p">],</span> <span class="n">resp</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">])</span>
+            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"## 文档站 {} &lt;font color=</span><span class="se">\"</span><span class="s">warning</span><span class="se">\"</span><span class="s">&gt;{} 通知：</span><span class="se">\n\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'event'</span><span class="p">],</span> <span class="n">resp</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">])</span>
             <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 项目：[{}]({}) </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">],</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">])</span>
             <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 请 **{}** 关注最近提交的内容 </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">])</span>
             <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 提交信息：{} </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">])</span>

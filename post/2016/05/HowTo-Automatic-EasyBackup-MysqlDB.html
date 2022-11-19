@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 	<link rel="manifest" href="/static/pwa/manifest.json">
-	<title> 如何重置 Mac 的 SMC | 船长的课记 </title>
+	<title> CentOS 修改系统主机名 | 船长的课记 </title>
     
 		
     <meta name="author" content="船长">
@@ -275,139 +275,265 @@
 <div class="row" itemscope itemtype="http://schema.org/Article">
     <div class="col-xs-12 col-md-8">
         <div class="page-header" itemprop="name">
-            <h1>如何重置 Mac 的 SMC 
+            <h1>CentOS 修改系统主机名 
             </h1>
         </div>
         <div class="post-meta">
             
-            <span class="entry-date" itemprop="datePublished">Posted on 04/03/2021</span>
+            <span class="entry-date" itemprop="datePublished">Posted on 05/05/2016</span>
             
             
             <span class="entry-author" itemprop="author">by 船长</span>
-            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/main/_posts/2021-04-03-如何重置 Mac 的 SMC.md"
+            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/main/_posts/2015-08-12-HowTo-Automatic-EasyBackup-MysqlDB.md"
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437045272-4d2c8ef2-804a-4ed7-bb53-b241152c780c.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+            <h2 id="centos-7-修改主机名">CentOS 7 修改主机名</h2>
 
-<p>:::info
-MacBookPro 雷电口不可用了不着送修，尝试下一下方法；可以为您省下大几千块钱哟 ~
-:::</p>
+<h3 id="方法-1-hostname-主机名">方法 1: <code class="language-plaintext highlighter-rouge">hostname 主机名</code></h3>
 
-<h3 id="什么是-smc">什么是 SMC？</h3>
+<p>这种方式，只能修改临时的主机名，当重启机器后，主机名称又变回来了。</p>
 
-<p>SMC 全称 系统管理控制器负责管理与以下功能相关的行为：</p>
+<h3 id="方法-2-hostnamectl-set-hostname-主机名">方法 2: <code class="language-plaintext highlighter-rouge">hostnamectl set-hostname &lt;主机名&gt;</code></h3>
+
+<p>使用这种方式修改，可以永久性的修改主机名称！
+<img src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffogclgk9dj30f00cq3zf.jpg" alt="image" /></p>
+
+<p>所以我们的步骤应该：</p>
+
+<ol>
+  <li>测试备份命令是否可以正常执行</li>
+  <li>安装测试命令行邮件工具 mailx</li>
+  <li>安装计划任务工具 Crontab</li>
+  <li>编写备份脚本</li>
+  <li>添加计划任务</li>
+</ol>
+
+<h4 id="测试备份命令">测试备份命令</h4>
+
+<p>首先你要获得你要备份的数据库对应的 select 权限，仅需要 select 权限即可，mysql 在管理方面，应该坚持只赋予必须权限的原则。</p>
+
+<pre><code class="language-mysql">mysql&gt; grant select on ghost.* to 'ghost_backuser'@'localhost' identified by 'backupPass';
+Query OK, 0 rows affected (0.00 sec)
+</code></pre>
+
+<p>因为我只在本地执行备份操作，所以我只赋予了<code class="language-plaintext highlighter-rouge">localhost</code>的权限，你的权限应该要是执行备份工作的服务器主机信息。</p>
+
+<pre><code class="language-mysql"># 创建仅授权本地访问的用户
+mysql&gt; create user dbackuser@'localhost';
+# 创建授权所有来源地址的用户
+mysql&gt; create user dbackuser@'%';
+# 创建仅授权从特定IP的用户
+mysql&gt; create user dbackuser@'192.168.0.230';
+# 创建仅授权从特定IP段访问的用户
+mysql&gt; create user dbackuser@'192.168.0.0/23';
+# 创建仅授权从特定域名来访问的用户
+mysql&gt; create user dbackuser@'samzong.me';
+</code></pre>
+
+<p>好了，接下来我们测试对应用户是否有权限。</p>
+
+<pre><code class="language-mysql">➜  ~ mysql -u ghost_backuser -pbackupPass
+Warning: Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 7
+Server version: 5.6.35 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| ghost              |
++--------------------+
+2 rows in set (0.00 sec)
+
+mysql&gt; use ghost;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+
+mysql&gt; select name from users;
++------+
+| name |
++------+
+| ALEX |
++------+
+1 row in set (0.00 sec)
+</code></pre>
+
+<p>测试<code class="language-plaintext highlighter-rouge">mysqldump</code>备份命令，注意 mysqldump 备份会锁表，但对于正在工作的数据库，锁表会影响到正常业务，所以我们可以使用<code class="language-plaintext highlighter-rouge">--single-transaction</code>参数，不锁表备份。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ mysqldump <span class="nt">-u</span> ghost_backuser <span class="nt">-pbackupPass</span> ghost <span class="o">&gt;</span> ghost.bak.sql
+Warning: Using a password on the <span class="nb">command </span>line interface can be insecure.
+mysqldump: Got error: 1044: Access denied <span class="k">for </span>user <span class="s1">'ghost_backuser'</span>@<span class="s1">'localhost'</span> to database <span class="s1">'ghost'</span> when using LOCK TABLES
+➜  ~ mysqldump <span class="nt">-u</span> ghost_backuser <span class="nt">-pbackupPass</span> <span class="nt">--single-transaction</span> ghost <span class="o">&gt;</span> ghost.bak.sql
+Warning: Using a password on the <span class="nb">command </span>line interface can be insecure.
+➜  ~ <span class="nb">ls</span> <span class="nt">-lh</span>
+total 780K
+<span class="nt">-rw-r--r--</span> 1 root   root  780K May 17 16:24 ghost.bak.sql
+➜  ~
+</code></pre></div></div>
+
+<h4 id="安装命令行邮件工具-mailx">安装命令行邮件工具 mailx</h4>
+
+<p>安装 mailx 在CentOS/RehHat:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ yum <span class="nb">install</span> <span class="nt">-y</span> mailx
+</code></pre></div></div>
+
+<p>测试发送邮件：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">echo</span> <span class="s2">"test"</span> | mail <span class="nt">-s</span> <span class="s2">"this a test email"</span> samzong.lu@gmail.com
+</code></pre></div></div>
+
+<p><img src="http://ww2.sinaimg.cn/large/006tKfTcgy1ffogc7wksdj30ms03t3ym.jpg" alt="image" /></p>
+
+<h4 id="安装计划任务工具-crontab">安装计划任务工具 Crontab</h4>
+
+<p>crontab 命令常见于 Unix 和类 Unix 的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“crontab”文件中。通常，crontab 储存的指令被守护进程激活，crond 常常在后台运行，每一分钟检查是否有预定的作业需要执行。这类作业一般称为 cron jobs。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ yum <span class="nb">install </span>vixie-cron
+➜  ~ yum <span class="nb">install </span>crontabs
+</code></pre></div></div>
+
+<blockquote>
+  <p>vixie-cron 软件包是 cron 的主程序；</p>
+
+  <p>crontabs 软件包是用来安装、卸装、或列举用来驱动 cron 守护进程的表格的程序。</p>
+</blockquote>
+
+<p>启动 crond 并设置为开机自启动：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ service crond start
+Starting crond:                                            <span class="o">[</span>  OK  <span class="o">]</span>
+➜  ~ chkconfig crond on
+</code></pre></div></div>
+
+<p>crontab 基础命令：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>语　　法：crontab <span class="o">[</span><span class="nt">-u</span> &lt;用户名称&gt;][配置文件] 或 crontab <span class="o">[</span><span class="nt">-u</span> &lt;用户名称&gt;][-elr]
+
+补充说明：cron是一个常驻服务，它提供计时器的功能，让用户在特定的时间得以执行预设的指令或程序。只要用户会编辑计时器的配置文件，就可以使用计时器的功能。
+
+配置文件格式：Minute Hour Day Month DayOFWeek Command
+
+参　　数：
+<span class="nt">-e</span> 　编辑该用户的计时器设置。
+<span class="nt">-l</span> 　列出该用户的计时器设置。
+<span class="nt">-r</span> 　删除该用户的计时器设置。
+<span class="nt">-u</span>&lt;用户名称&gt; 　指定要设定计时器的用户名称。
+</code></pre></div></div>
+
+<p>crontab 配置的基本格式：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">*</span>     <span class="k">*</span> 　 <span class="k">*</span>　  <span class="k">*</span>　  <span class="k">*</span>　　command
+分　  时　 日　 月　 周　  命令
+
+ 第1列表示分钟1～59 每分钟用<span class="k">*</span>或者 <span class="k">*</span>/1表示
+ 第2列表示小时1～23（0表示0点）
+ 第3列表示日期1～31
+ 第4列表示月份1～12
+ 第5列标识号星期0～6（0表示星期天）
+ 第6列要运行的命令
+</code></pre></div></div>
+
+<p>crontab 的一些例子：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#每晚的21:30 重启apache</span>
+30 21 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/local/etc/rc.d/lighttpd restart
+
+<span class="c">#每月1、10、22日的4 : 45重启apache</span>
+45 4 1,10,22 <span class="k">*</span> <span class="k">*</span> /usr/local/etc/rc.d/lighttpd restart
+
+<span class="c">#每周六、周日的1 : 10重启apache</span>
+10 1 <span class="k">*</span> <span class="k">*</span> 6,0 /usr/local/etc/rc.d/lighttpd restart
+
+<span class="c">#每天18 : 00至23 : 00之间每隔30分钟重启apache</span>
+0,30 18-23 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/local/etc/rc.d/lighttpd restart
+
+<span class="c">#每星期六的11 : 00 pm重启apache</span>
+0 23 <span class="k">*</span> <span class="k">*</span> 6 /usr/local/etc/rc.d/lighttpd restart
+
+<span class="c">#晚上11点到早上7点之间，每隔一小时重启apache</span>
+<span class="k">*</span> 23-7/1 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/local/etc/rc.d/lighttpd restart
+
+<span class="c">#每一小时重启apache</span>
+<span class="k">*</span> <span class="k">*</span>/1 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/local/etc/rc.d/lighttpd restart
+
+<span class="c">#每月的4号与每周一到周三的11点重启apache</span>
+0 11 4 <span class="k">*</span> mon-wed /usr/local/etc/rc.d/lighttpd restart
+
+<span class="c">#一月一号的4点重启apache</span>
+0 4 1 jan <span class="k">*</span> /usr/local/etc/rc.d/lighttpd restart
+
+<span class="c">#每半小时同步一下时间</span>
+<span class="k">*</span>/30 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/sbin/ntpdate 210.72.145.44
+</code></pre></div></div>
+
+<h4 id="编写备份脚本">编写备份脚本</h4>
+
+<p>好了，以上我们测试需要用到的各个模块，下面我们要编写备份脚本：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#  mysqldump scripts.</span>
+<span class="c"># filepath: /usr/local/bin/ghost_sqldump.sh</span>
+<span class="c"># Author: samzong</span>
+
+<span class="c">#  set TIME variable</span>
+<span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H%M%S"</span><span class="sb">`</span>
+
+<span class="c"># backup db ghost to /mysqlbak/</span>
+mysqldump <span class="nt">--single-transaction</span> <span class="nt">-h</span> localhost <span class="nt">-u</span> ghost_backuser <span class="nt">-pbackupPass</span> ghost  <span class="o">&gt;</span> /mysqlbak/ghost_<span class="nv">$TIME</span>.sql
+
+<span class="c"># tar sql files.</span>
+<span class="nb">tar </span>czvf /mysqlbak/ghost_<span class="nv">$TIME</span>.sql.tgz /mysqlbak/ghost_<span class="nv">$TIME</span>.sql <span class="nt">--remove-files</span>
+
+<span class="c"># remove over 7 days sql files.</span>
+find /mysqlbak/ <span class="nt">-mtime</span> +7 <span class="nt">-exec</span> <span class="nb">rm</span> <span class="nt">-f</span> <span class="o">{}</span> <span class="se">\;</span>
+
+<span class="c"># send mial to admin'mial</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span>
+<span class="k">then
+ </span><span class="nb">echo</span> <span class="s2">"ghost SQL dump is successfully. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-successfully  samzong.lu@gmail.com
+<span class="k">else
+ </span><span class="nb">echo</span> <span class="s2">" Error Error ghost SQL dump is Error. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-error samzong.lu@gmail.com
+<span class="k">fi</span>
+</code></pre></div></div>
+
+<p>注意脚本中的以下内容要根据你的实际情况修改：</p>
 
 <ul>
-  <li>电源，包括电源按钮和 USB 端口的电源</li>
-  <li>电池和充电</li>
-  <li>风扇和其他热能管理功能</li>
-  <li>指示灯或感应器，例如状态指示灯（睡眠状态、电池充电状态等）、突发移动感应器、环境光传感器和键盘背光</li>
-  <li>打开和合上笔记本电脑盖时的行为</li>
+  <li>-h “ “  这是数据库所在的主机</li>
+  <li>-u “ “       这是数据库可备份的用户名</li>
+  <li>-p” “        备份用户的密码</li>
 </ul>
 
-<hr />
+<h4 id="添加计划任务">添加计划任务</h4>
 
-<h3 id="smc-常见问题">SMC 常见问题</h3>
+<p>经过以上测试，已经很好的完成备份脚本，接下来将脚本添加到 crontab 内，并设置自动执行的时间：</p>
 
-<p>由于 Mac 的雷电接口经常需要插拔外接设备，而外接设备的接口电流电压不一致，Mac 在遇到异常电涌时会触发  SMC 的自我保护机制，通常意义是雷电口不可用。</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ crontab <span class="nt">-e</span>
+00 00 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> sh /usr/local/bin/ghost_sqldump.sh
+</code></pre></div></div>
 
-<p>通过重置系统管理控制器 (SMC) 可以解决某些与电源、电池、风扇和其他功能相关的问题。</p>
+<p>重启 crontab 服务，并确认 crontab 已经设置为开机自启动</p>
 
-<hr />
-
-<h3 id="注意事项">注意事项</h3>
-
-<p>:::danger
-新款 Apple M1 设备的重置步骤本文不一致，后续会补充更新</p>
-
-<p>:::</p>
-
-<hr />
-
-<h3 id="配备-t2-芯片的笔记本电脑">配备 T2 芯片的笔记本电脑</h3>
-
-<ol>
-  <li>将 Mac 关机</li>
-  <li>在内建键盘上，按住以下所有按键。Mac 可能会开机。
-    <ul>
-      <li>键盘左侧的 <strong>Control</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437210613-0f478f9a-1f5b-4b51-8060-6f9af28a4ae0.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-      <li>键盘左侧的 <strong>Option</strong> (Alt) <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437216356-d0ba8e9e-ebb9-4756-8459-124876d0c332.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-      <li>键盘右侧的 <strong>Shift</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437210667-cdfb2059-1d3d-4cb4-bb6c-88e38c1c3054.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-    </ul>
-  </li>
-  <li>按住<strong>全部三个按键</strong> 7 秒钟，然后在不松开按键的情况下按住<strong>电源按钮</strong>。如果 Mac 处于开机状态，它将在您按住这些按键时关机。</li>
-</ol>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437286162-81a557b7-7f54-49b2-9ad6-32716f0b8488.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<ol>
-  <li>继续按住<strong>全部四个按键</strong> 7 秒钟，然后松开这些按键。</li>
-  <li>等待几秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
-
-<hr />
-
-<h3 id="配备-t2-芯片的台式电脑">配备 T2 芯片的台式电脑</h3>
-
-<ol>
-  <li>将 Mac 关机，然后拔下电源线。</li>
-  <li>等待 15 秒钟，然后重新接回电源线。</li>
-  <li>等待 5 秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
-
-<hr />
-
-<h3 id="在其他电脑上重置-smc">在其他电脑上重置 SMC</h3>
-
-<p>:::info
-如果您的 Mac 没有配备 Apple T2 安全芯片，请按照以下步骤操作。
-:::</p>
-
-<h4 id="装有不可拆卸电池的笔记本电脑">装有不可拆卸电池的笔记本电脑</h4>
-
-<p>这类电脑包括 2009 年中至 2017 年推出的 MacBook Pro 机型、2017 年或之前推出的 MacBook Air 机型，以及所有 MacBook 机型，但 MacBook（13 英寸，2009 年中）除外。</p>
-
-<ol>
-  <li>将 Mac 关机。</li>
-  <li>在内建键盘上，按住以下所有按键：
-    <ul>
-      <li>键盘左侧的 <strong>Shift</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437453096-c4dd55c9-dea8-4ece-810d-d0a6bf880b5a.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-      <li>键盘左侧的 <strong>Control</strong> <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437452982-7bdab59b-e4d2-4aa0-863d-59d224b081a9.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-      <li>键盘左侧的 <strong>Option</strong> (Alt) <img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437453069-12f401d8-bfbf-4657-9323-67169460f2fa.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></li>
-    </ul>
-  </li>
-  <li>在按住<strong>全部三个按键</strong>的情况下，按住<strong>电源按钮</strong>。</li>
-</ol>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1617437452835-44611990-1f9b-49c4-a49b-446cef022d56.png?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
-
-<ol>
-  <li>按住<strong>全部四个按键</strong> 10 秒钟。</li>
-  <li>松开所有按键，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
-
-<h4 id="装有可拆卸电池的笔记本电脑">装有可拆卸电池的笔记本电脑</h4>
-
-<p>这类电脑包括 2009 年初或之前推出的所有 MacBook Pro 和 MacBook 机型，以及 MacBook（13 英寸，2009 年中）。</p>
-
-<ol>
-  <li>将 Mac 关机。</li>
-  <li>
-    <p>拆下电池。</p>
-  </li>
-  <li>按住<strong>电源按钮</strong> 5 秒钟。</li>
-  <li>重新安装电池。</li>
-  <li>按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
-
-<h4 id="台式电脑">台式电脑</h4>
-
-<ol>
-  <li>将 Mac 关机，然后拔下电源线。</li>
-  <li>等待 15 秒钟，然后重新接回电源线。</li>
-  <li>等待 5 秒钟，然后按下<strong>电源按钮</strong>以将 Mac 开机。</li>
-</ol>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ service crond restart
+Stopping crond:                                            <span class="o">[</span>  OK  <span class="o">]</span>
+Starting crond:                                            <span class="o">[</span>  OK  <span class="o">]</span>
+➜  ~ chkconfig <span class="nt">--list</span> | <span class="nb">grep </span>crond
+crond           0:off 1:off 2:on 3:on 4:on 5:on 6:off
+</code></pre></div></div>
 
         </div>
 
@@ -1306,13 +1432,13 @@ MacBookPro 雷电口不可用了不着送修，尝试下一下方法；可以为
         <nav>
             <ul class="pager">
                 
-                <li class="previous"><a href="/post/2021/03/%E7%9F%A5%E4%B9%8E%E5%91%A8%E5%88%8A-%E4%B9%94%E5%B8%83%E6%96%AF%E5%BE%80%E4%BA%8B.html" title="知乎周刊·乔布斯往事">&larr;
+                <li class="previous"><a href="/post/2016/05/MySQL-3-mysqldump%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0.html" title="mysqldump 常用参数">&larr;
                     Previous（前一篇）</a></li>
                 
                 <!-- <li><a href="/static/archive.html">Archive（目录）</a></li> -->
                 <li><a href="/archive.html">Archive（目录）</a></li>
                 
-                <li class="next"><a href="/post/2021/04/HQL_SQL%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86.html" title="HQL/SQL时间处理">Next（后一篇） &rarr;</a></li>
+                <li class="next"><a href="/post/2016/05/CentOS-7-1-%E4%BF%AE%E6%94%B9%E7%B3%BB%E7%BB%9F%E4%B8%BB%E6%9C%BA%E5%90%8D.html" title="CentOS 修改系统主机名">Next（后一篇） &rarr;</a></li>
                 
             </ul>
         </nav>
@@ -1329,8 +1455,13 @@ MacBookPro 雷电口不可用了不着送修，尝试下一下方法；可以为
   
      
     	
-      <li><a href="/categories.html#Mac">
-    		Mac <span>17</span>
+      <li><a href="/categories.html#Linux">
+    		Linux <span>22</span>
+    	</a></li>
+     
+    	
+      <li><a href="/categories.html#CentOS">
+    		CentOS <span>15</span>
     	</a></li>
     
   
@@ -1350,7 +1481,7 @@ MacBookPro 雷电口不可用了不着送修，尝试下一下方法；可以为
   
      
     	
-    	<li><a href="/tags.html#Mac">Mac <span>25</span></a></li>
+    	<li><a href="/tags.html#CentOS">CentOS <span>20</span></a></li>
     
   
 

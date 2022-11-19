@@ -339,7 +339,7 @@ wget https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer <sp
 
 <p>在网络好的情况下，可以直接通过 <code class="language-plaintext highlighter-rouge">pyenv install 3.9.6</code> 安装对应的版本了，但是因为网络的问题，你会发现一直在下载 Python 包这一步，问题就是 www.python.org/ftp 网络的访问问题</p>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711398-96703bab-2e76-4f74-8b6d-1dfa212d39b1.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711398-96703bab-2e76-4f74-8b6d-1dfa212d39b1.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
 
 <p>遇到这个问题，可以尝试 先下载对应版本的安装包；可以使用国内的镜像站进行下载，或者在网络访问正常的地方进行下载包，然后上传到服务器中，这里推荐使用 淘宝的镜像站，把域名中 <a href="https://www.python.org/ftp">https://www.python.org/ftp</a> 替换为 <a href="https://npm.taobao.org/mirrors/">https://npm.taobao.org/mirrors/</a> ，下载到指定的目录</p>
 
@@ -347,7 +347,7 @@ wget https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer <sp
 <span class="nb">export </span><span class="nv">v</span><span class="o">=</span>3.8.6<span class="p">;</span>  <span class="nb">mkdir</span> <span class="nt">-p</span> ~/.pyenv/sources/<span class="nv">$v</span><span class="p">;</span> wget https://npm.taobao.org/mirrors/python/<span class="nv">$v</span>/Python-<span class="nv">$v</span>.tar.xz <span class="nt">-P</span> ~/.pyenv/sources/<span class="nv">$v</span><span class="p">;</span> pyenv <span class="nb">install</span> <span class="nv">$v</span> <span class="nt">-k</span>
 </code></pre></div></div>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711423-9636d877-a9a2-4c9e-8cac-f82aaa3ff5b6.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711423-9636d877-a9a2-4c9e-8cac-f82aaa3ff5b6.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
 
 <blockquote>
   <p>在 pyenv 命令的最后增加一个 -k  会在安装时，优先检测本地的文件</p>

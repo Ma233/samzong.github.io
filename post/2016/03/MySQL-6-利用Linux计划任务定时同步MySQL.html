@@ -290,7 +290,7 @@
         <div class="post-content" itemprop="articleBody">
             <p>说下实际项目场景，公司一个应用已部署主从数据库，业务也正式上线；现在客户公司领导希望可以看到每天的业务数据报表，本设定直接到从库拿数据，然后进行数据处理，生成报表，但是 Java 同事提出需求新增用户和权限表，这样一来，如果直接使用生产库的表会导致后台系统管理人员与领导的账户和权限混淆，经过讨论决定，按照生产库的表结构新增特殊用户表和权限表；这样操作实际是可以在从库上新增表单，且不影响主从库之间的数据同步，但是从安全性的考虑，新增表单设计需要给用户 Insert 权限，为了保证从库只有利用主库同步写入数据，则只能给其他用户 select 权限。</p>
 
-<p><b>最终决定，因为报表系统的使用率低，直接在报表系统的服务器安装本地 mysql 数据库，通过计划任务定时到从库上同步数据。</b></p>
+<p><strong>最终决定，因为报表系统的使用率低，直接在报表系统的服务器安装本地 mysql 数据库，通过计划任务定时到从库上同步数据。</strong></p>
 
 <h3 id="1-测试环境">1. 测试环境</h3>
 
@@ -305,36 +305,36 @@
 
 <h3 id="2-利用-mysqldump-导出-sql-文件">2. 利用 mysqldump 导出 sql 文件</h3>
 
-<p>需要注意的是，mysqldump 时会锁表，需要给 mysqldump 传递 <i>“–single-transaction”</i>  参数，可以使得 mysqldump 时不锁表，如下：</p>
+<p>需要注意的是，mysqldump 时会锁表，需要给 mysqldump 传递“–single-transaction”参数，可以使得 mysqldump 时不锁表，如下：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/mysqldump -h 172.168.102.129 -u dbuser -pdbuser --single-transaction slave &gt; slave.sql
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/mysqldump <span class="nt">-h</span> 172.168.102.129 <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> <span class="nt">--single-transaction</span> slave <span class="o">&gt;</span> slave.sql
 </code></pre></div></div>
 
 <h3 id="3-使用-mysql-恢复-sql-文件到数据库中">3. 使用 mysql 恢复 sql 文件到数据库中</h3>
 
 <p>需要注意的是，如果该 local server 的 slave 库中有数据表，当表名与 slave server 的表名相同时，数据表内的数据会被覆盖；如果 local server 的表在 slave.sql 中不存在，则不受影响，正是利用这个特性解决用户需求。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/mysql -u dbuser -pdbuser report &lt; /home/.mysql/slave.sql
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/mysql <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> report &lt; /home/.mysql/slave.sql
 </code></pre></div></div>
 
 <h3 id="4-编写脚本">4. 编写脚本</h3>
 
 <p>首先在本地某一位置作为临时 sql 存储地址：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# mkdir /home/.mysql     # 这个目录可以自定义
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# <span class="nb">mkdir</span> /home/.mysql     <span class="c"># 这个目录可以自定义</span>
 </code></pre></div></div>
 
 <p>脚本 1：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 
-TIME=`date "+%Y%m%d%H"`
+<span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H"</span><span class="sb">`</span>
 
-rm -rf /home/.mysql/*
+<span class="nb">rm</span> <span class="nt">-rf</span> /home/.mysql/<span class="k">*</span>
 
-/usr/bin/mysqldump -h 172.168.102.129 -u dbuser -pdbuser --single-transaction slave &gt; /home/.mysql/slave_$TIME.sql
+/usr/bin/mysqldump <span class="nt">-h</span> 172.168.102.129 <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> <span class="nt">--single-transaction</span> slave <span class="o">&gt;</span> /home/.mysql/slave_<span class="nv">$TIME</span>.sql
 
-/usr/bin/mysql -u dbuser -pdbuser report &lt; /home/.mysql/slave_$TIME.sql
+/usr/bin/mysql <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> report &lt; /home/.mysql/slave_<span class="nv">$TIME</span>.sql
 
 </code></pre></div></div>
 
@@ -342,41 +342,41 @@ rm -rf /home/.mysql/*
 
 <p>因为前期同事需要得知备份的执行结果，所以希望数据同步成功后获得邮件提醒，这里使用 sendmail 实现，在 CentOS 里预装是没有安装 sendmail，所以我们需要安装 sendmail 服务，另外一个安装命令行邮件工具 mailx：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# yum install -y sendmail mailx
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# yum <span class="nb">install</span> <span class="nt">-y</span> sendmail mailx
 
 ......
 
-[root@report ~]# service sendmail start
-Starting sendmail:                                         [  OK  ]
-Starting sm-client:                                        [  OK  ]
-[root@report ~]# chkconfig sendmail on
+<span class="o">[</span>root@report ~]# service sendmail start
+Starting sendmail:                                         <span class="o">[</span>  OK  <span class="o">]</span>
+Starting sm-client:                                        <span class="o">[</span>  OK  <span class="o">]</span>
+<span class="o">[</span>root@report ~]# chkconfig sendmail on
 
 </code></pre></div></div>
 
 <p>完整脚本：report_sync.sh，如下：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 
-TIME=`date "+%Y%m%d%H"`
+<span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H"</span><span class="sb">`</span>
 
-rm -rf /home/.mysql/*
+<span class="nb">rm</span> <span class="nt">-rf</span> /home/.mysql/<span class="k">*</span>
 
-/usr/bin/mysqldump -h 172.168.102.129 -u dbuser -pdbuser --single-transaction slave &gt; /home/.mysql/slave_$TIME.sql
+/usr/bin/mysqldump <span class="nt">-h</span> 172.168.102.129 <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> <span class="nt">--single-transaction</span> slave <span class="o">&gt;</span> /home/.mysql/slave_<span class="nv">$TIME</span>.sql
 
-/usr/bin/mysql -u dbuser -pdbuser report &lt; /home/.mysql/slave_$TIME.sql
+/usr/bin/mysql <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> report &lt; /home/.mysql/slave_<span class="nv">$TIME</span>.sql
 
-# send mail to adminuser
-if [ $? -eq 0 ]
-then
-        echo "report SQL sync is successfully. At time: `date` " | mail -s report-sync-successfully  hello@abc.cn
-else
-        echo " Error Error report SQL sync is Error. At time: `date` " | mail -s report-sync-error  hello@abc.cn
-fi
+<span class="c"># send mail to adminuser</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span>
+<span class="k">then
+        </span><span class="nb">echo</span> <span class="s2">"report SQL sync is successfully. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> report-sync-successfully  hello@abc.cn
+<span class="k">else
+        </span><span class="nb">echo</span> <span class="s2">" Error Error report SQL sync is Error. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> report-sync-error  hello@abc.cn
+<span class="k">fi</span>
 
 </code></pre></div></div>
 
 <p>查看下邮件通知：
-<img src="http://blog.ultraera.org:80/content/images/2016/03/24/p01.jpg" alt="" /></p>
+<img src="http://blog.ultraera.org:80/content/images/2016/03/24/p01.jpg" alt="image" /></p>
 
 <h3 id="6-计划任务-crontab">6. 计划任务 crontab</h3>
 
@@ -384,21 +384,21 @@ fi
 
 <h4 id="61-安装-crontab">6.1 安装 crontab</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# yum install -y vixie-cron
-[root@report ~]# yum install -y crontabs
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# yum <span class="nb">install</span> <span class="nt">-y</span> vixie-cron
+<span class="o">[</span>root@report ~]# yum <span class="nb">install</span> <span class="nt">-y</span> crontabs
 
 说明：
 vixie-cron软件包是cron的主程序；
 crontabs软件包是用来安装、卸装、或列举用来驱动 crond 守护进程的表格的程序。
 
 cron 是linux的内置服务，但它不自动起来，可以用以下的方法启动、关闭这个服务：
-/sbin/service crond start #启动服务
-/sbin/service crond stop #关闭服务
-/sbin/service crond restart #重启服务
-/sbin/service crond reload #重新载入配置
+/sbin/service crond start <span class="c">#启动服务</span>
+/sbin/service crond stop <span class="c">#关闭服务</span>
+/sbin/service crond restart <span class="c">#重启服务</span>
+/sbin/service crond reload <span class="c">#重新载入配置</span>
 
 设置crond开机自启动
-[root@report ~]# chkconfig crond on
+<span class="o">[</span>root@report ~]# chkconfig crond on
 
 </code></pre></div></div>
 
@@ -406,17 +406,17 @@ cron 是linux的内置服务，但它不自动起来，可以用以下的方法�
 
 <p>将脚本 report_sync.sh 保存到/usr/bin下：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# mv report_sync.sh /usr/bin
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# <span class="nb">mv </span>report_sync.sh /usr/bin
 </code></pre></div></div>
 
 <p>增加计划任务：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@report ~]# crontab -e
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# crontab <span class="nt">-e</span>
 
-# add this word.
-* 1-21/4  * * * /usr/bin/report_sync.sh
+<span class="c"># add this word.</span>
+<span class="k">*</span> 1-21/4  <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/bin/report_sync.sh
 
-# 表示在每天的1-21时间内，每4小时执行一个脚本
+<span class="c"># 表示在每天的1-21时间内，每4小时执行一个脚本</span>
 
 </code></pre></div></div>
 
@@ -1243,6 +1243,10 @@ cron 是linux的内置服务，但它不自动起来，可以用以下的方法�
                 
                 
                 
+                
+                
+                
+                
                 <li><a href="/post/2016/03/MySQL-6-%E5%88%A9%E7%94%A8Linux%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E5%AE%9A%E6%97%B6%E5%90%8C%E6%AD%A5MySQL.html">利用 Linux 计划任务定时同步 MySQL</a> - <span>03/24/2016</span></li>
                 
                 
@@ -1316,10 +1320,6 @@ cron 是linux的内置服务，但它不自动起来，可以用以下的方法�
                 
                 
                 
-                
-                
-                
-                
             </ul>
         </div>
 
@@ -1351,12 +1351,12 @@ cron 是linux的内置服务，但它不自动起来，可以用以下的方法�
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>19</span>
+    		数据库 <span>18</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#MySQL">
-    		MySQL <span>15</span>
+    		MySQL <span>14</span>
     	</a></li>
     
   
@@ -1376,10 +1376,10 @@ cron 是linux的内置服务，但它不自动起来，可以用以下的方法�
   
      
     	
-    	<li><a href="/tags.html#MySQL">MySQL <span>16</span></a></li>
+    	<li><a href="/tags.html#MySQL">MySQL <span>15</span></a></li>
      
     	
-    	<li><a href="/tags.html#CentOS">CentOS <span>19</span></a></li>
+    	<li><a href="/tags.html#CentOS">CentOS <span>20</span></a></li>
      
     	
     	<li><a href="/tags.html#Shell">Shell <span>4</span></a></li>

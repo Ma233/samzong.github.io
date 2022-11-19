@@ -292,7 +292,7 @@
 
 <h4 id="创建-mariadb-101-的-yum-源">创建 MariaDB 10.1 的 Yum 源</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat &lt;&lt;EOF | sudo tee -a /etc/yum.repos.d/MariaDB.repo
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> | sudo tee -a /etc/yum.repos.d/MariaDB.repo
 # MariaDB 10.1 CentOS repository list
 # http://downloads.mariadb.org/mariadb/repositories/
 [mariadb]
@@ -300,8 +300,8 @@ name = MariaDB
 baseurl = http://yum.mariadb.org/10.1/centos7-amd64
 gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
 gpgcheck=1
-EOF
-</code></pre></div></div>
+</span><span class="no">EOF
+</span></code></pre></div></div>
 
 <blockquote>
   <p>注意 MariaDB 会随着时间的推移版本不断更新，你可以到<a href="http://downloads.mariadb.org/mariadb">repo 仓库</a>获取对应版本链接</p>
@@ -309,29 +309,29 @@ EOF
 
 <h4 id="使用-yum-安装-mariadb-101-即可">使用 Yum 安装 MariaDB 10.1 即可</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install MariaDB-server MariaDB-client -y
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>yum <span class="nb">install </span>MariaDB-server MariaDB-client <span class="nt">-y</span>
 </code></pre></div></div>
 
 <h4 id="启动-mariadb-并设置为开机自启动">启动 MariaDB 并设置为开机自启动</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo systemctl start mariadb.service
-sudo systemctl enable mariadb.service
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl start mariadb.service
+<span class="nb">sudo </span>systemctl <span class="nb">enable </span>mariadb.service
 </code></pre></div></div>
 
 <h4 id="初始化-mariadb-设置">初始化 MariaDB 设置</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo /usr/bin/mysql_secure_installation
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo</span> /usr/bin/mysql_secure_installation
 
-# 回答以下问题，请记住你的数据库root用户密码:
+<span class="c"># 回答以下问题，请记住你的数据库root用户密码:</span>
 
-Enter current password for root (enter for none):  回车
-Set root password? [Y/n]: Y
+Enter current password <span class="k">for </span>root <span class="o">(</span>enter <span class="k">for </span>none<span class="o">)</span>:  回车
+Set root password? <span class="o">[</span>Y/n]: Y
 New password: 你要设置的数据库root密码
 Re-enter new password: 你要设置的数据库root密码
-Remove anonymous users? [Y/n]: Y
-Disallow root login remotely? [Y/n]: Y
-Remove test database and access to it? [Y/n]: Y
-Reload privilege tables now? [Y/n]: Y
+Remove anonymous <span class="nb">users</span>? <span class="o">[</span>Y/n]: Y
+Disallow root login remotely? <span class="o">[</span>Y/n]: Y
+Remove <span class="nb">test </span>database and access to it? <span class="o">[</span>Y/n]: Y
+Reload privilege tables now? <span class="o">[</span>Y/n]: Y
 </code></pre></div></div>
 
         </div>
@@ -339,6 +339,10 @@ Reload privilege tables now? [Y/n]: Y
         <div id="related">
             <h2>Related Posts</h2>
             <ul class="posts"><!--当一篇文章有两个tag一样时显示-->
+                
+                
+                
+                
                 
                 
                 
@@ -1224,10 +1228,6 @@ Reload privilege tables now? [Y/n]: Y
                 
                 
                 
-                
-                
-                
-                
             </ul>
         </div>
 
@@ -1259,12 +1259,12 @@ Reload privilege tables now? [Y/n]: Y
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>19</span>
+    		数据库 <span>18</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#MySQL">
-    		MySQL <span>15</span>
+    		MySQL <span>14</span>
     	</a></li>
     
   
@@ -1284,10 +1284,10 @@ Reload privilege tables now? [Y/n]: Y
   
      
     	
-    	<li><a href="/tags.html#MySQL">MySQL <span>16</span></a></li>
+    	<li><a href="/tags.html#MySQL">MySQL <span>15</span></a></li>
      
     	
-    	<li><a href="/tags.html#CentOS">CentOS <span>19</span></a></li>
+    	<li><a href="/tags.html#CentOS">CentOS <span>20</span></a></li>
     
   
 

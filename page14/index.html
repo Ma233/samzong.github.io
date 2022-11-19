@@ -280,33 +280,33 @@
     <div class="post_at_index">
       <p>今天在给妹妹调试新的 MacBookAir 13’时遇到一个问题，无法检测到她家的 WiFi，一开始怀疑是不是无线路由器长时间未重启导致，所以重启了路由器，但是问题依然没有解决，于是我们将问题转向排查设备，因我们基本正好有 iPad，iPhone，MacBook 这些设备，发现唯独他的这个 Macbook 无法识别 WiFi，后来在 Google 的帮助下，发现多个版本的 Mac OS X 都出现了类似的问题，可以通过重启 AirPort 解决问题，但是 AirPort 在 System Preferences 找不到选项，所以需要使用命令行来重启。</p>
 
-<h5 id="查看网络接口"><strong>查看网络接口</strong></h5>
+<h2 id="查看网络接口">查看网络接口</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ifconfig
-en0: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ifconfig
+en0: <span class="nv">flags</span><span class="o">=</span>8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
  ether 60:f8:1d:ad:85:76
  inet6 fe80::18a9:fa23:b02f:5d8a%en0 prefixlen 64 secured scopeid 0x4
  inet 192.168.199.200 netmask 0xffffff00 broadcast 192.168.199.255
- nd6 options=201&lt;PERFORMNUD,DAD&gt;
+ nd6 <span class="nv">options</span><span class="o">=</span>201&lt;PERFORMNUD,DAD&gt;
  media: autoselect
  status: active
 </code></pre></div></div>
 
-<h5 id="关闭-airport"><strong>关闭 AirPort</strong></h5>
+<h2 id="关闭-airport">关闭 AirPort</h2>
 
 <p>有时候设备的名称是 en0、en1 这样，所以，可以用过设备名称来重启 airport，例如 en0</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup -setairportpower en0 off
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup <span class="nt">-setairportpower</span> en0 off
 </code></pre></div></div>
 
-<h5 id="查看状态"><strong>查看状态</strong></h5>
+<h2 id="查看状态">查看状态</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup -getairportpower en0
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup <span class="nt">-getairportpower</span> en0
 </code></pre></div></div>
 
-<h5 id="关闭-airport-1"><strong>关闭 AirPort</strong></h5>
+<h2 id="关闭-airport-networksetup">关闭 AirPort networksetup</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup -setairportpower en0 on
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>networksetup <span class="nt">-setairportpower</span> en0 on
 </code></pre></div></div>
 
       
@@ -327,16 +327,16 @@ en0: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
     <div class="post_at_index">
       <p>随着最近一个云盘厂家不再提供个人服务，或者开始各种收费限速，自己存放在第三方云盘厂商的数据被盗取，数据的安全性和数据的稳定性都得不到保证，而且随着智能终端的普及，我也有一些更加高质量的图片文件需要大量储存，所以我想到了自建存储服务的方式，在甄别了 OwnCloud，Seafiles 和 NextCloud，最后选择了 NextCloud 作为自己今后数据存储节点，NextCloud 源自 OwnCloud，但是近些年来 OwnCloud 的发展进度几乎停滞，多数开发者也转战 NextCloud，当然 NextCloud 也继承了搭建简单，依赖于 PHP 环境的特性。</p>
 
-<h4 id="运行环境"><strong>运行环境</strong></h4>
+<h2 id="运行环境">运行环境</h2>
 
 <ul>
   <li>阿里云 ECS CentOS 6.x</li>
   <li>免费 SSL 证书 (腾讯云申请)</li>
 </ul>
 
-<h4 id="搭建-lnmp-环境"><strong>搭建 LNMP 环境</strong></h4>
+<h2 id="搭建-lnmp-环境">搭建 LNMP 环境</h2>
 
-<h5 id="软件版本">软件版本</h5>
+<h3 id="软件版本">软件版本</h3>
 
 <ul>
   <li>PHP 5.6.30   <a href="https://samzong.me/php54-centos6/">安装教程</a></li>
@@ -344,312 +344,312 @@ en0: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
   <li>Nginx 1.10.2</li>
 </ul>
 
-<h5 id="基础环境安装">基础环境安装</h5>
+<h3 id="基础环境安装">基础环境安装</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# yum update -y
-[root@ultraera ~]# yum groupinstall -y "Base"
-[root@ultraera ~]# yum groupinstall -y "Development tools"
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# yum update <span class="nt">-y</span>
+<span class="o">[</span>root@ultraera ~]# yum groupinstall <span class="nt">-y</span> <span class="s2">"Base"</span>
+<span class="o">[</span>root@ultraera ~]# yum groupinstall <span class="nt">-y</span> <span class="s2">"Development tools"</span>
 
-# Install epel
-[root@ultraera ~]# yum install -y epel-release
+<span class="c"># Install epel</span>
+<span class="o">[</span>root@ultraera ~]# yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
 
-# Install remi
-[root@ultraera ~]# yum install http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+<span class="c"># Install remi</span>
+<span class="o">[</span>root@ultraera ~]# yum <span class="nb">install </span>http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 
-# Install mysql-community
-[root@ultraera ~]# yum install http://repo.mysql.com/yum/mysql-5.6-community/el/6/x86_64/mysql-community-release-el6-7.noarch.rpm
+<span class="c"># Install mysql-community</span>
+<span class="o">[</span>root@ultraera ~]# yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.6-community/el/6/x86_64/mysql-community-release-el6-7.noarch.rpm
 </code></pre></div></div>
 
-<h5 id="install-lnmp">Install LNMP</h5>
+<h3 id="install-lnmp">Install LNMP</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Install MySQL
-[root@ultraera ~]# yum --enablerepo=mysql-community install -y mysql-server mysql-libs mysql-devel
-[root@ultraera ~]# service mysqld start
-[root@ultraera ~]# mysql_secure_installation
-[root@ultraera ~]# chkconfig mysqld on
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install MySQL</span>
+<span class="o">[</span>root@ultraera ~]# yum <span class="nt">--enablerepo</span><span class="o">=</span>mysql-community <span class="nb">install</span> <span class="nt">-y</span> mysql-server mysql-libs mysql-devel
+<span class="o">[</span>root@ultraera ~]# service mysqld start
+<span class="o">[</span>root@ultraera ~]# mysql_secure_installation
+<span class="o">[</span>root@ultraera ~]# chkconfig mysqld on
 
-# Install Nginx
-[root@ultraera ~]# yum --enablerepo=epel install -y nginx
-[root@ultraera ~]# service nginx start
-[root@ultraera ~]# chkconfig nginx on
+<span class="c"># Install Nginx</span>
+<span class="o">[</span>root@ultraera ~]# yum <span class="nt">--enablerepo</span><span class="o">=</span>epel <span class="nb">install</span> <span class="nt">-y</span> nginx
+<span class="o">[</span>root@ultraera ~]# service nginx start
+<span class="o">[</span>root@ultraera ~]# chkconfig nginx on
 
-# Install PHP and php-fpm
-[root@ultraera ~]# yum --enablerepo=remi-php56 install php php-fpm php-mysql php-gd php-xml php-redis php-libs php-devel php-zlib
-[root@ultraera ~]# service php-fpm start
-[root@ultraera ~]# chkconfig php-fpm on
-[root@ultraera ~]# service nginx restart
+<span class="c"># Install PHP and php-fpm</span>
+<span class="o">[</span>root@ultraera ~]# yum <span class="nt">--enablerepo</span><span class="o">=</span>remi-php56 <span class="nb">install </span>php php-fpm php-mysql php-gd php-xml php-redis php-libs php-devel php-zlib
+<span class="o">[</span>root@ultraera ~]# service php-fpm start
+<span class="o">[</span>root@ultraera ~]# chkconfig php-fpm on
+<span class="o">[</span>root@ultraera ~]# service nginx restart
 </code></pre></div></div>
 
-<h5 id="下载-nextcloud">下载 NextCloud</h5>
+<h3 id="下载-nextcloud">下载 NextCloud</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# wget https://download.nextcloud.com/server/releases/nextcloud-11.0.1.tar.bz2
-[root@ultraera ~]# tar xf nextcloud-11.0.1.tar.bz2
-[root@ultraera ~]# mv nextcloud-11.0.1 /opt/nextcloud
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# wget https://download.nextcloud.com/server/releases/nextcloud-11.0.1.tar.bz2
+<span class="o">[</span>root@ultraera ~]# <span class="nb">tar </span>xf nextcloud-11.0.1.tar.bz2
+<span class="o">[</span>root@ultraera ~]# <span class="nb">mv </span>nextcloud-11.0.1 /opt/nextcloud
 </code></pre></div></div>
 
-<h5 id="配置-nginx-和-php-fpm">配置 Nginx 和 php-fpm</h5>
+<h3 id="配置-nginx-和-php-fpm">配置 Nginx 和 php-fpm</h3>
 
 <p>因为 php-fpm 默认运行的用户身份是 apache，我们这里使用的环境是 nginx，所有要修改 php-fpm 配置文件的用户和组，注意不要为了省事直接改为 root，这在 php-fpm 中是不允许的</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# vim /etc/php-fpm.d/www.conf
-user=nginx
-group=nginx
-[root@ultraera ~]# service php-fpm restart
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# vim /etc/php-fpm.d/www.conf
+<span class="nv">user</span><span class="o">=</span>nginx
+<span class="nv">group</span><span class="o">=</span>nginx
+<span class="o">[</span>root@ultraera ~]# service php-fpm restart
 </code></pre></div></div>
 
 <p>因为 NextCloud 默认是以 Apache 的身份运行的，所以我们需要单独配置 NextCloud 的 Nginx 配置文件，以下配置文件，你可以直接拿去用，注意在文件中说明了，需要修改的地方：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# vim /etc/nginx/conf.d/nextcloud.conf
- upstream php-handler {
-   # 这里是你php-fpm的服务端口，默认是9000
-    server 127.0.0.1:9000;
-    #server unix:/var/run/php5-fpm.sock;
-}
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# vim /etc/nginx/conf.d/nextcloud.conf
+ upstream php-handler <span class="o">{</span>
+   <span class="c"># 这里是你php-fpm的服务端口，默认是9000</span>
+    server 127.0.0.1:9000<span class="p">;</span>
+    <span class="c">#server unix:/var/run/php5-fpm.sock;</span>
+<span class="o">}</span>
 
-server {
-   # 你的域名
-    listen pan.ultraera.org:80;
-    server_name pan.ultraera.org;
-    # enforce https
-    return 301 https://$server_name$request_uri;
-}
+server <span class="o">{</span>
+   <span class="c"># 你的域名</span>
+    listen pan.ultraera.org:80<span class="p">;</span>
+    server_name pan.ultraera.org<span class="p">;</span>
+    <span class="c"># enforce https</span>
+    <span class="k">return </span>301 https://<span class="nv">$server_name$request_uri</span><span class="p">;</span>
+<span class="o">}</span>
 
-server {
-    # 你的域名
-    listen pan.ultraera.org:443 ssl;
-    server_name pan.ultraera.org;
+server <span class="o">{</span>
+    <span class="c"># 你的域名</span>
+    listen pan.ultraera.org:443 ssl<span class="p">;</span>
+    server_name pan.ultraera.org<span class="p">;</span>
 
-   # 以下是你的ssl证书文件存放路径
-    ssl_certificate /etc/nginx/ssl/1_pan.ultraera.org_bundle.crt;
-    ssl_certificate_key /etc/nginx/ssl/2_pan.ultraera.org.key;
+   <span class="c"># 以下是你的ssl证书文件存放路径</span>
+    ssl_certificate /etc/nginx/ssl/1_pan.ultraera.org_bundle.crt<span class="p">;</span>
+    ssl_certificate_key /etc/nginx/ssl/2_pan.ultraera.org.key<span class="p">;</span>
 
-    # Add headers to serve security related headers
-    # Before enabling Strict-Transport-Security headers please read into this
-    # topic first.
-    # add_header Strict-Transport-Security "max-age=15768000;
-    # includeSubDomains; preload;";
-    add_header X-Content-Type-Options nosniff;
-    add_header X-Frame-Options "SAMEORIGIN";
-    add_header X-XSS-Protection "1; mode=block";
-    add_header X-Robots-Tag none;
-    add_header X-Download-Options noopen;
-    add_header X-Permitted-Cross-Domain-Policies none;
- add_header Strict-Transport-Security "max-age=15552000; includeSubdomains; ";
+    <span class="c"># Add headers to serve security related headers</span>
+    <span class="c"># Before enabling Strict-Transport-Security headers please read into this</span>
+    <span class="c"># topic first.</span>
+    <span class="c"># add_header Strict-Transport-Security "max-age=15768000;</span>
+    <span class="c"># includeSubDomains; preload;";</span>
+    add_header X-Content-Type-Options nosniff<span class="p">;</span>
+    add_header X-Frame-Options <span class="s2">"SAMEORIGIN"</span><span class="p">;</span>
+    add_header X-XSS-Protection <span class="s2">"1; mode=block"</span><span class="p">;</span>
+    add_header X-Robots-Tag none<span class="p">;</span>
+    add_header X-Download-Options noopen<span class="p">;</span>
+    add_header X-Permitted-Cross-Domain-Policies none<span class="p">;</span>
+ add_header Strict-Transport-Security <span class="s2">"max-age=15552000; includeSubdomains; "</span><span class="p">;</span>
 
-    # 设定你的NextCloud的根目录，请根据实际修改
-    root /opt/nextcloud/;
+    <span class="c"># 设定你的NextCloud的根目录，请根据实际修改</span>
+    root /opt/nextcloud/<span class="p">;</span>
 
-    location = /robots.txt {
-        allow all;
-        log_not_found off;
-        access_log off;
-    }
+    location <span class="o">=</span> /robots.txt <span class="o">{</span>
+        allow all<span class="p">;</span>
+        log_not_found off<span class="p">;</span>
+        access_log off<span class="p">;</span>
+    <span class="o">}</span>
 
-    # The following 2 rules are only needed for the user_webfinger app.
-    # Uncomment it if you're planning to use this app.
-    #rewrite ^/.well-known/host-meta /public.php?service=host-meta last;
-    #rewrite ^/.well-known/host-meta.json /public.php?service=host-meta-json
-    # last;
+    <span class="c"># The following 2 rules are only needed for the user_webfinger app.</span>
+    <span class="c"># Uncomment it if you're planning to use this app.</span>
+    <span class="c">#rewrite ^/.well-known/host-meta /public.php?service=host-meta last;</span>
+    <span class="c">#rewrite ^/.well-known/host-meta.json /public.php?service=host-meta-json</span>
+    <span class="c"># last;</span>
 
-    location = /.well-known/carddav {
-      return 301 $scheme://$host/remote.php/dav;
-    }
-    location = /.well-known/caldav {
-      return 301 $scheme://$host/remote.php/dav;
-    }
+    location <span class="o">=</span> /.well-known/carddav <span class="o">{</span>
+      <span class="k">return </span>301 <span class="nv">$scheme</span>://<span class="nv">$host</span>/remote.php/dav<span class="p">;</span>
+    <span class="o">}</span>
+    location <span class="o">=</span> /.well-known/caldav <span class="o">{</span>
+      <span class="k">return </span>301 <span class="nv">$scheme</span>://<span class="nv">$host</span>/remote.php/dav<span class="p">;</span>
+    <span class="o">}</span>
 
-    # set max upload size
-    client_max_body_size 512M;
-    fastcgi_buffers 64 4K;
+    <span class="c"># set max upload size</span>
+    client_max_body_size 512M<span class="p">;</span>
+    fastcgi_buffers 64 4K<span class="p">;</span>
 
-    # Disable gzip to avoid the removal of the ETag header
-    gzip off;
+    <span class="c"># Disable gzip to avoid the removal of the ETag header</span>
+    <span class="nb">gzip </span>off<span class="p">;</span>
 
-    # Uncomment if your server is build with the ngx_pagespeed module
-    # This module is currently not supported.
-    #pagespeed off;
+    <span class="c"># Uncomment if your server is build with the ngx_pagespeed module</span>
+    <span class="c"># This module is currently not supported.</span>
+    <span class="c">#pagespeed off;</span>
 
-    error_page 403 /core/templates/403.php;
-    error_page 404 /core/templates/404.php;
+    error_page 403 /core/templates/403.php<span class="p">;</span>
+    error_page 404 /core/templates/404.php<span class="p">;</span>
 
-    location / {
-        rewrite ^ /index.php$uri;
-   }
+    location / <span class="o">{</span>
+        rewrite ^ /index.php<span class="nv">$uri</span><span class="p">;</span>
+   <span class="o">}</span>
 
-    location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/ {
-        deny all;
-    }
-    location ~ ^/(?:\.|autotest|occ|issue|indie|db_|console) {
-        deny all;
-    }
+    location ~ ^/<span class="o">(</span>?:build|tests|config|lib|3rdparty|templates|data<span class="o">)</span>/ <span class="o">{</span>
+        deny all<span class="p">;</span>
+    <span class="o">}</span>
+    location ~ ^/<span class="o">(</span>?:<span class="se">\.</span>|autotest|occ|issue|indie|db_|console<span class="o">)</span> <span class="o">{</span>
+        deny all<span class="p">;</span>
+    <span class="o">}</span>
 
-    location ~ ^/(?:index|remote|public|cron|core/ajax/update|status|ocs/v[12]|updater/.+|ocs-provider/.+|core/templates/40[34])\.php(?:$|/) {
-        include fastcgi_params;
-        fastcgi_split_path_info ^(.+\.php)(/.*)$;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_param PATH_INFO $fastcgi_path_info;
-        fastcgi_param HTTPS on;
-        #Avoid sending the security headers twice
-        fastcgi_param modHeadersAvailable true;
-        fastcgi_param front_controller_active true;
-        fastcgi_pass php-handler;
-        fastcgi_intercept_errors on;
-        fastcgi_request_buffering off;
-    }
+    location ~ ^/<span class="o">(</span>?:index|remote|public|cron|core/ajax/update|status|ocs/v[12]|updater/.+|ocs-provider/.+|core/templates/40[34]<span class="o">)</span><span class="se">\.</span>php<span class="o">(</span>?:<span class="nv">$|</span>/<span class="o">)</span> <span class="o">{</span>
+        include fastcgi_params<span class="p">;</span>
+        fastcgi_split_path_info ^<span class="o">(</span>.+<span class="se">\.</span>php<span class="o">)(</span>/.<span class="k">*</span><span class="o">)</span><span class="nv">$;</span>
+        fastcgi_param SCRIPT_FILENAME <span class="nv">$document_root$fastcgi_script_name</span><span class="p">;</span>
+        fastcgi_param PATH_INFO <span class="nv">$fastcgi_path_info</span><span class="p">;</span>
+        fastcgi_param HTTPS on<span class="p">;</span>
+        <span class="c">#Avoid sending the security headers twice</span>
+        fastcgi_param modHeadersAvailable <span class="nb">true</span><span class="p">;</span>
+        fastcgi_param front_controller_active <span class="nb">true</span><span class="p">;</span>
+        fastcgi_pass php-handler<span class="p">;</span>
+        fastcgi_intercept_errors on<span class="p">;</span>
+        fastcgi_request_buffering off<span class="p">;</span>
+    <span class="o">}</span>
 
-    location ~ ^/(?:updater|ocs-provider)(?:$|/) {
-        try_files $uri/ =404;
-        index index.php;
-    }
+    location ~ ^/<span class="o">(</span>?:updater|ocs-provider<span class="o">)(</span>?:<span class="nv">$|</span>/<span class="o">)</span> <span class="o">{</span>
+        try_files <span class="nv">$uri</span>/ <span class="o">=</span>404<span class="p">;</span>
+        index index.php<span class="p">;</span>
+    <span class="o">}</span>
 
-    # Adding the cache control header for js and css files
-    # Make sure it is BELOW the PHP block
-    location ~* \.(?:css|js|woff|svg|gif)$ {
-        try_files $uri /index.php$uri$is_args$args;
-        add_header Cache-Control "public, max-age=7200";
-        # Add headers to serve security related headers (It is intended to
-        # have those duplicated to the ones above)
-        # Before enabling Strict-Transport-Security headers please read into
-        # this topic first.
-        # add_header Strict-Transport-Security "max-age=15768000;
-        #  includeSubDomains; preload;";
-        add_header X-Content-Type-Options nosniff;
-        add_header X-Frame-Options "SAMEORIGIN";
-        add_header X-XSS-Protection "1; mode=block";
-        add_header X-Robots-Tag none;
-        add_header X-Download-Options noopen;
-        add_header X-Permitted-Cross-Domain-Policies none;
-        # Optional: Don't log access to assets
-        access_log off;
-    }
+    <span class="c"># Adding the cache control header for js and css files</span>
+    <span class="c"># Make sure it is BELOW the PHP block</span>
+    location ~<span class="k">*</span> <span class="se">\.</span><span class="o">(</span>?:css|js|woff|svg|gif<span class="o">)</span><span class="nv">$ </span><span class="o">{</span>
+        try_files <span class="nv">$uri</span> /index.php<span class="nv">$uri$is_args$args</span><span class="p">;</span>
+        add_header Cache-Control <span class="s2">"public, max-age=7200"</span><span class="p">;</span>
+        <span class="c"># Add headers to serve security related headers (It is intended to</span>
+        <span class="c"># have those duplicated to the ones above)</span>
+        <span class="c"># Before enabling Strict-Transport-Security headers please read into</span>
+        <span class="c"># this topic first.</span>
+        <span class="c"># add_header Strict-Transport-Security "max-age=15768000;</span>
+        <span class="c">#  includeSubDomains; preload;";</span>
+        add_header X-Content-Type-Options nosniff<span class="p">;</span>
+        add_header X-Frame-Options <span class="s2">"SAMEORIGIN"</span><span class="p">;</span>
+        add_header X-XSS-Protection <span class="s2">"1; mode=block"</span><span class="p">;</span>
+        add_header X-Robots-Tag none<span class="p">;</span>
+        add_header X-Download-Options noopen<span class="p">;</span>
+        add_header X-Permitted-Cross-Domain-Policies none<span class="p">;</span>
+        <span class="c"># Optional: Don't log access to assets</span>
+        access_log off<span class="p">;</span>
+    <span class="o">}</span>
 
-    location ~* \.(?:png|html|ttf|ico|jpg|jpeg)$ {
-        try_files $uri /index.php$uri$is_args$args;
-        # Optional: Don't log access to other assets
-        access_log off;
-    }
-}
-[root@ultraera ~]# service nginx restart
+    location ~<span class="k">*</span> <span class="se">\.</span><span class="o">(</span>?:png|html|ttf|ico|jpg|jpeg<span class="o">)</span><span class="nv">$ </span><span class="o">{</span>
+        try_files <span class="nv">$uri</span> /index.php<span class="nv">$uri$is_args$args</span><span class="p">;</span>
+        <span class="c"># Optional: Don't log access to other assets</span>
+        access_log off<span class="p">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="o">[</span>root@ultraera ~]# service nginx restart
 </code></pre></div></div>
 
-<h5 id="文件权限调整">文件权限调整</h5>
+<h3 id="文件权限调整">文件权限调整</h3>
 
 <p>因为 NextCloud 运行是以 nginx 程序，注意修改目录所属用户和组为 nginx</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# chown -R nginx:nginx /opt/nextcloud
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# <span class="nb">chown</span> <span class="nt">-R</span> nginx:nginx /opt/nextcloud
 </code></pre></div></div>
 
-<h5 id="创建-mysql-数据库">创建 MySQL 数据库</h5>
+<h3 id="创建-mysql-数据库">创建 MySQL 数据库</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; CREATE DATABASE nextcloud CHARACTER SET UTF-8;
-mysql&gt; GRANT ALL PRIVILEGES ON nextcloud.* TO 'nextcloud'@'localhost' IDENTIFIED BY 'your_password';
-mysql&gt; FLUSH PRIVILEGES;
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; CREATE DATABASE nextcloud CHARACTER SET UTF-8<span class="p">;</span>
+mysql&gt; GRANT ALL PRIVILEGES ON nextcloud.<span class="k">*</span> TO <span class="s1">'nextcloud'</span>@<span class="s1">'localhost'</span> IDENTIFIED BY <span class="s1">'your_password'</span><span class="p">;</span>
+mysql&gt; FLUSH PRIVILEGES<span class="p">;</span>
 </code></pre></div></div>
 
-<h4 id="初始化-nextcloud">初始化 NextCloud</h4>
+<h2 id="初始化-nextcloud">初始化 NextCloud</h2>
 
 <p>在浏览器打开你在 nginx 中配置的域名，NextCloud 初始化非常简单，设定一个管理员账户和密码，然后设定数据库即可，按照我们上一步针对 MySQL 的设定，你会非常清楚地知道你的数据库信息：</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/jjkqh.png" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/jjkqh.png" alt="image" /></p>
 
 <p>登录之后的界面是这样：</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/7n28v.png" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/7n28v.png" alt="image" /></p>
 
 <p>你可以在登录之后，在你的右上角点击头像选择 Admin 进入管理界面查看和修改你的服务器设置，你还可以在浏览器上方看到你的服务器现有哪些问题，会有对应文档提醒你如何解决这些问题。</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/yx34e.png" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/yx34e.png" alt="image" /></p>
 
-<h4 id="other"><strong>Other</strong></h4>
+<h2 id="other">Other</h2>
 
-<h5 id="修改默认-data-目录">修改默认 data 目录</h5>
+<h3 id="修改默认-data-目录">修改默认 data 目录</h3>
 
 <p>在我们首次打开 NextCloud 网页时，需要我们设定 datadir 目录，这里有个默认目录在 nextcloud 项目包，这其实是不安全的，我们最后将目录路径修改为其他位置：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# mkdir /nextcloud_files/
-[root@ultraera ~]# chown -R nginx:nginx /nextcloud_files/
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# <span class="nb">mkdir</span> /nextcloud_files/
+<span class="o">[</span>root@ultraera ~]# <span class="nb">chown</span> <span class="nt">-R</span> nginx:nginx /nextcloud_files/
 
-# 修改datadirectory的路径
-[root@ultraera ~]# vim /opt/nextcloud/config/config.php
-datadirectory' =&gt; '/nextcloud/data
+<span class="c"># 修改datadirectory的路径</span>
+<span class="o">[</span>root@ultraera ~]# vim /opt/nextcloud/config/config.php
+datadirectory<span class="s1">' =&gt; '</span>/nextcloud/data
 </code></pre></div></div>
 
-<h5 id="无法登陆到个人用户界面">无法登陆到个人用户界面</h5>
+<h3 id="无法登陆到个人用户界面">无法登陆到个人用户界面</h3>
 
-<p>我在安装时碰到这个问题，折腾了很久才解决，因为我们是使用 nginx 程序，但是 php-fpm 默认用户身份为 apache，所以<code>/var/lib/php/session</code>目录的所属用户和组都是 apache，导致我们没有权限去写入 session，所以无法登入系统，报错信息可以在 NextCloud 的 log 文件下看到：</p>
+<p>我在安装时碰到这个问题，折腾了很久才解决，因为我们是使用 nginx 程序，但是 php-fpm 默认用户身份为 apache，所以<code class="language-plaintext highlighter-rouge">/var/lib/php/session</code>目录的所属用户和组都是 apache，导致我们没有权限去写入 session，所以无法登入系统，报错信息可以在 NextCloud 的 log 文件下看到：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# tail -n 1 /usr/nextcloud/data/nextcloud.log
-{"reqId":"NNnIwMCCPDMQtzZW5Ndc","remoteAddr":"180.166.66.226","app":"PHP","message":"session_write_close(): Failed to write session data (files). Please verify that the current setting of session.save_path is correct (\/var\/lib\/php\/session) at \/usr\/nextcloud\/lib\/private\/Session\/Internal.php#104","level":3,"time":"2017-02-24T10:46:13+00:00","method":"POST","url":"\/index.php","user":"samzong","version":"11.0.0.10"}
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# <span class="nb">tail</span> <span class="nt">-n</span> 1 /usr/nextcloud/data/nextcloud.log
+<span class="o">{</span><span class="s2">"reqId"</span>:<span class="s2">"NNnIwMCCPDMQtzZW5Ndc"</span>,<span class="s2">"remoteAddr"</span>:<span class="s2">"180.166.66.226"</span>,<span class="s2">"app"</span>:<span class="s2">"PHP"</span>,<span class="s2">"message"</span>:<span class="s2">"session_write_close(): Failed to write session data (files). Please verify that the current setting of session.save_path is correct (</span><span class="se">\/</span><span class="s2">var</span><span class="se">\/</span><span class="s2">lib</span><span class="se">\/</span><span class="s2">php</span><span class="se">\/</span><span class="s2">session) at </span><span class="se">\/</span><span class="s2">usr</span><span class="se">\/</span><span class="s2">nextcloud</span><span class="se">\/</span><span class="s2">lib</span><span class="se">\/</span><span class="s2">private</span><span class="se">\/</span><span class="s2">Session</span><span class="se">\/</span><span class="s2">Internal.php#104"</span>,<span class="s2">"level"</span>:3,<span class="s2">"time"</span>:<span class="s2">"2017-02-24T10:46:13+00:00"</span>,<span class="s2">"method"</span>:<span class="s2">"POST"</span>,<span class="s2">"url"</span>:<span class="s2">"</span><span class="se">\/</span><span class="s2">index.php"</span>,<span class="s2">"user"</span>:<span class="s2">"samzong"</span>,<span class="s2">"version"</span>:<span class="s2">"11.0.0.10"</span><span class="o">}</span>
 
-# 修改/var/lib/php/的属组为nginx即可
-[root@ultraera ~]# chgrp -R nginx /var/lib/php
+<span class="c"># 修改/var/lib/php/的属组为nginx即可</span>
+<span class="o">[</span>root@ultraera ~]# <span class="nb">chgrp</span> <span class="nt">-R</span> nginx /var/lib/php
 </code></pre></div></div>
 
-<h5 id="增加-redis-组件提高性能">增加 redis 组件，提高性能</h5>
+<h3 id="增加-redis-组件提高性能">增加 redis 组件，提高性能</h3>
 
 <p>关于如何安装 redis 我在之前的文章中也有讲到，大家可以去看下 <a href="https://samzong.me/redis01/">安装教程</a></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# yum --enablerepo=remi install -y redis
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# yum <span class="nt">--enablerepo</span><span class="o">=</span>remi <span class="nb">install</span> <span class="nt">-y</span> redis
 
-# 增加php的redis插件
-[root@ultraera ~]# yum --enablerepo=remi-php56 install php-redis
+<span class="c"># 增加php的redis插件</span>
+<span class="o">[</span>root@ultraera ~]# yum <span class="nt">--enablerepo</span><span class="o">=</span>remi-php56 <span class="nb">install </span>php-redis
 
-# 配置文件增加redis
-  'memcache.local' =&gt; '\\OC\\Memcache\\Redis',
-  'memcache.locking' =&gt; '\\OC\\Memcache\\Redis',
-  'redis' =&gt;
-   array (
-    'host' =&gt; 'localhost',
-    'port' =&gt; 6379,
-   )
+<span class="c"># 配置文件增加redis</span>
+  <span class="s1">'memcache.local'</span> <span class="o">=&gt;</span> <span class="s1">'\\OC\\Memcache\\Redis'</span>,
+  <span class="s1">'memcache.locking'</span> <span class="o">=&gt;</span> <span class="s1">'\\OC\\Memcache\\Redis'</span>,
+  <span class="s1">'redis'</span> <span class="o">=&gt;</span>
+   array <span class="o">(</span>
+    <span class="s1">'host'</span> <span class="o">=&gt;</span> <span class="s1">'localhost'</span>,
+    <span class="s1">'port'</span> <span class="o">=&gt;</span> 6379,
+   <span class="o">)</span>
 
-# 重启令服务生效
-[root@ultraera ~]# service php-fpm restart
-[root@ultraera ~]# service nginx restart
+<span class="c"># 重启令服务生效</span>
+<span class="o">[</span>root@ultraera ~]# service php-fpm restart
+<span class="o">[</span>root@ultraera ~]# service nginx restart
 </code></pre></div></div>
 
 <p>我的 NextCloud 配置如下：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?php
-$CONFIG = array (
-  'memcache.local' =&gt; '\\OC\\Memcache\\Redis',
-  'memcache.locking' =&gt; '\\OC\\Memcache\\Redis',
-  'redis' =&gt;
-  array (
-    'host' =&gt; 'localhost',
-    'port' =&gt; 6379,
-  ),
-  'enable_previews' =&gt; false,
-  'instanceid' =&gt; 'ockhup01dxbf',
-  'passwordsalt' =&gt; 'TlJgWGrE0N7vOrRfZkOojwdYh/BixL',
-  'secret' =&gt; '/IQh0LioZp5eYFQJhicY7n324Q80WQUYOzWL+8OcxcXVw3Ef',
-  'trusted_domains' =&gt;
-  array (
-    0 =&gt; 'pan.ultraera.org',
-  ),
-  'datadirectory' =&gt; '/nextcloud',
-  'overwrite.cli.url' =&gt; 'https://pan.ultraera.org',
-  'dbtype' =&gt; 'mysql',
-  'version' =&gt; '11.0.0.10',
-  'dbname' =&gt; 'nextcloud',
-  'dbhost' =&gt; 'localhost',
-  'dbport' =&gt; '',
-  'dbtableprefix' =&gt; 'oc_',
-  'dbuser' =&gt; 'nextcloud',
-  'dbpassword' =&gt; 'nextcloud',
-  'logtimezone' =&gt; 'CST',
-  'installed' =&gt; true,
-  'mail_from_address' =&gt; 'luchuanjia',
-  'mail_smtpmode' =&gt; 'php',
-  'mail_domain' =&gt; 'msn.com',
-);
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?php
+<span class="nv">$CONFIG</span> <span class="o">=</span> array <span class="o">(</span>
+  <span class="s1">'memcache.local'</span> <span class="o">=&gt;</span> <span class="s1">'\\OC\\Memcache\\Redis'</span>,
+  <span class="s1">'memcache.locking'</span> <span class="o">=&gt;</span> <span class="s1">'\\OC\\Memcache\\Redis'</span>,
+  <span class="s1">'redis'</span> <span class="o">=&gt;</span>
+  array <span class="o">(</span>
+    <span class="s1">'host'</span> <span class="o">=&gt;</span> <span class="s1">'localhost'</span>,
+    <span class="s1">'port'</span> <span class="o">=&gt;</span> 6379,
+  <span class="o">)</span>,
+  <span class="s1">'enable_previews'</span> <span class="o">=&gt;</span> <span class="nb">false</span>,
+  <span class="s1">'instanceid'</span> <span class="o">=&gt;</span> <span class="s1">'ockhup01dxbf'</span>,
+  <span class="s1">'passwordsalt'</span> <span class="o">=&gt;</span> <span class="s1">'TlJgWGrE0N7vOrRfZkOojwdYh/BixL'</span>,
+  <span class="s1">'secret'</span> <span class="o">=&gt;</span> <span class="s1">'/IQh0LioZp5eYFQJhicY7n324Q80WQUYOzWL+8OcxcXVw3Ef'</span>,
+  <span class="s1">'trusted_domains'</span> <span class="o">=&gt;</span>
+  array <span class="o">(</span>
+    0 <span class="o">=&gt;</span> <span class="s1">'pan.ultraera.org'</span>,
+  <span class="o">)</span>,
+  <span class="s1">'datadirectory'</span> <span class="o">=&gt;</span> <span class="s1">'/nextcloud'</span>,
+  <span class="s1">'overwrite.cli.url'</span> <span class="o">=&gt;</span> <span class="s1">'https://pan.ultraera.org'</span>,
+  <span class="s1">'dbtype'</span> <span class="o">=&gt;</span> <span class="s1">'mysql'</span>,
+  <span class="s1">'version'</span> <span class="o">=&gt;</span> <span class="s1">'11.0.0.10'</span>,
+  <span class="s1">'dbname'</span> <span class="o">=&gt;</span> <span class="s1">'nextcloud'</span>,
+  <span class="s1">'dbhost'</span> <span class="o">=&gt;</span> <span class="s1">'localhost'</span>,
+  <span class="s1">'dbport'</span> <span class="o">=&gt;</span> <span class="s1">''</span>,
+  <span class="s1">'dbtableprefix'</span> <span class="o">=&gt;</span> <span class="s1">'oc_'</span>,
+  <span class="s1">'dbuser'</span> <span class="o">=&gt;</span> <span class="s1">'nextcloud'</span>,
+  <span class="s1">'dbpassword'</span> <span class="o">=&gt;</span> <span class="s1">'nextcloud'</span>,
+  <span class="s1">'logtimezone'</span> <span class="o">=&gt;</span> <span class="s1">'CST'</span>,
+  <span class="s1">'installed'</span> <span class="o">=&gt;</span> <span class="nb">true</span>,
+  <span class="s1">'mail_from_address'</span> <span class="o">=&gt;</span> <span class="s1">'luchuanjia'</span>,
+  <span class="s1">'mail_smtpmode'</span> <span class="o">=&gt;</span> <span class="s1">'php'</span>,
+  <span class="s1">'mail_domain'</span> <span class="o">=&gt;</span> <span class="s1">'msn.com'</span>,
+<span class="o">)</span><span class="p">;</span>
 </code></pre></div></div>
 
-<h5 id="ssl-证书">SSL 证书</h5>
+<h3 id="ssl-证书">SSL 证书</h3>
 
 <p>现国内提供免费的 SSL 证书的服务商很多，作为个人站点，免费 SSL 证书是个挺不错的选择，我在之前 nginx 配置时将 ssl 的配置方式写在了配置文件中了，注意如果不启用 ssl 时，不要启用 https 的虚拟主机，当然你可以自己生成一个 ssl 证书来提供服务，但这样在别人访问你的网站时，会不提示不受信任的证书，具体如何获取的证书的方式，因各个厂家方式有些区别，这里就不赘述，可以联系对应的厂商的技术人员咨询。</p>
 
-<h4 id="使用现状"><strong>使用现状</strong></h4>
+<h2 id="使用现状">使用现状</h2>
 
 <p>在将服务搭建完成之后，对于存储的文件加密，现在通过 jobs，每日凌晨将文件推送到 oss 内，保存 2 天的数据，避免因为服务器宕机导致文件丢失；使用端，自己的电脑和手机，还有家人的手机，都安装了应用，后台自动将拍照图片等自动上传到云盘，使用起来目前很稳定，只是 iOS 应用是收费的，因为 NextCloud 源于 OwnCloud，如果你之前购买了 OwnCloud 的 App 也可以直接使用，当然 NextCloud 也有很多其他功能，可以根据你的实际需求发掘。</p>
 
@@ -883,8 +883,7 @@ server {
     
     <h1><a class="title" href="/post/2017/02/HowTo-Upgrade-Your-Ghost-Version.html">HowTo Upgrade Your Ghost Version</a></h1>
     <div class="post_at_index">
-      <p><br /></p>
-<h4 id="1-下载最新版的-ghost">1. 下载最新版的 Ghost</h4>
+      <h4 id="1-下载最新版的-ghost">1. 下载最新版的 Ghost</h4>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -LOk https://ghost.org/zip/ghost-latest.zip
 </code></pre></div></div>
@@ -960,7 +959,7 @@ cp index.js *.json /usr/ghost
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install -y yum-cron
 </code></pre></div></div>
 
-<p>因为我的服务器系统多为 CentOS 6，6 的配置文件在<code>/etc/sysconfig/yum-cron</code>，你可以用以下命令查看配置文件位置：</p>
+<p>因为我的服务器系统多为 CentOS 6，6 的配置文件在<code class="language-plaintext highlighter-rouge">/etc/sysconfig/yum-cron</code>，你可以用以下命令查看配置文件位置：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm -ql yum-cron
 /etc/cron.daily/0yum.cron
@@ -1106,10 +1105,10 @@ mysql&gt; show keys from tb_name;
       <p>最近项目上由于 BUG 问题导致 Tomcat 程序在运行过程中经常内存泄漏，而本身监控系统之中没有更好的检测到 Tomcat 堆空间 (Head Memory) 的使用情况导致报警频发，这篇文章主要讲述，如何在 Zabbix 之中调用 jmx 监控服务器上 Tomcat 堆空间的使用情况并增加对应报警功能。</p>
 
 <blockquote>
-  <p>测试环境：<br />
-CentOS 6.8 <br />
-Zabbix 2.4 <br />
-Tomcat 7.0 <br /></p>
+  <p>测试环境：
+CentOS 6.8 
+Zabbix 2.4 
+Tomcat 7.0</p>
 </blockquote>
 
 <p>实验前提默认是各位已经安装 Zabbix Server 服务器，并且至少有一台 Zabbix agent 服务器正常监控。关于如何搭建 Zabbix 监控集群，会有专门文章描述。</p>
@@ -1175,8 +1174,6 @@ tcp  0      0 :::12345   :::*     LISTEN      8793/java
 [root@6 ~]#
 </code></pre></div></div>
 
-<hr />
-
 <h4 id="fix-1---zabbix-agent-与-server-存在复杂网络环境">==<em>fix 1</em> == : zabbix agent 与 server 存在复杂网络环境</h4>
 
 <p>这里疏忽了 1 个问题，如果您的 zabbix server 与 agent 端之间有防火墙规则，而按照我上面的所述只是增加了 12345 这个端口，那么很可能，您在/var/log/zabbix/zabbix_java_gateway.log 中会看到“No route to host”的报错，这是因为 JMX 不光开启了 12345 端口，还开启了另外两个随机端口，而在获取监控数据时会使用到其中一个，这就导致了无法通过固定的防火墙规则来开放该端口。其实有另外一个替代方式来使该监听端口固定下来——使用 Tomcat 提供的额外组件 catalina-jmx-remote.jar，这个组件是需要另外下载的：</p>
@@ -1213,8 +1210,6 @@ wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-7/v7.0.57/bin/extras/catalina
 </code></pre></div></div>
 
 <p>完成之后，重启 tomcat 这时会发现 jmx 默认端口已经固定为 12345 何 12346，而 server 依然可以正常获取监控数据。</p>
-
-<hr />
 
 <h4 id="3-configure-zabbix-server">3. Configure Zabbix Server</h4>
 <p>首先需要修改 zabbix_server.conf 启用 zabbix-java-gateway，让 zabbix 可以检测到服务，修改如下：</p>
@@ -1340,17 +1335,17 @@ Starting zabbix server:              [  OK  ]
 </code></pre></div></div>
 
 <h4 id="4-adding-jmx-host-on-zabbix-web-consloe">4. Adding jmx host on Zabbix Web consloe</h4>
-<p>首先，上传 Template Tomcat Head Memory 模板，这个我做了一个简单的模板，只针对了堆内存空间的监控，并针对使用率超过 60% 以及 80%，不同的警报。需要的同学可以直接从我这里下载，然后在 Configuration-Templates 导入到 zabbix 模板库内。<br />
+<p>首先，上传 Template Tomcat Head Memory 模板，这个我做了一个简单的模板，只针对了堆内存空间的监控，并针对使用率超过 60% 以及 80%，不同的警报。需要的同学可以直接从我这里下载，然后在 Configuration-Templates 导入到 zabbix 模板库内。
 下载请点击：<a href="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zbx_template_app_tomcat_head_memory.xml">Template App Tomcat Head Memory</a></p>
 
-<p>然后，增加服务器的 jmx 监控<br />
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-jmx-settings.png" alt="" />
-<br />
-关联模板<br />
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-host-select-template.png" alt="" /></p>
+<p>然后，增加服务器的 jmx 监控
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-jmx-settings.png" alt="image" /></p>
+
+<p>关联模板
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-host-select-template.png" alt="image" /></p>
 
 <h4 id="5-view-the-head-memory-monitoring">5. View the Head Memory Monitoring.</h4>
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-view-monitor.png" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-view-monitor.png" alt="image" /></p>
 
       
     </div>
@@ -1510,18 +1505,18 @@ fi
 <h4 id="1-注册-daocloud-账号">1. 注册 DaoCloud 账号</h4>
 
 <p>首先，你需要到一 DaoCloud 账号，注册很方便，点击地址：<a href="https://account.daocloud.io/signup">signup</a>
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/o6wh3.jpg" alt="" /></p>
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/o6wh3.jpg" alt="image" /></p>
 
 <h4 id="2-登录到你的-daocloud-账号内然后入下图操作">2. 登录到你的 DaoCloud 账号内，然后入下图操作</h4>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/n9mt7.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/n9mt7.jpg" alt="image" /></p>
 
 <h4 id="3-查看你的-daocloud-加速器地址">3. 查看你的 DaoCloud 加速器地址</h4>
 
 <p><a href="https://www.daocloud.io/mirror#accelerator-doc">链接</a></p>
 
 <p>选择你相对应平台的的加速器设置
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/4wuea.jpg" alt="" /></p>
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/4wuea.jpg" alt="image" /></p>
 
       
     </div>
@@ -1613,12 +1608,12 @@ fi
      
     	
       <li><a href="/categories.html#Linux">
-    		Linux <span>21</span>
+    		Linux <span>22</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#CentOS">
-    		CentOS <span>14</span>
+    		CentOS <span>15</span>
     	</a></li>
      
     	
@@ -1628,12 +1623,12 @@ fi
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>19</span>
+    		数据库 <span>18</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#MySQL">
-    		MySQL <span>15</span>
+    		MySQL <span>14</span>
     	</a></li>
      
     	
@@ -1658,7 +1653,7 @@ fi
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>17</span>
+    		Mac <span>16</span>
     	</a></li>
      
     	
@@ -1882,6 +1877,12 @@ fi
       <ul>
         
         <li>
+          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy To Markdwon</a>
+          
+
+        </li>
+        
+        <li>
           <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
           
   参考资料：
@@ -1900,7 +1901,9 @@ df = pandas.read_csv(‘somefile.txt’)
         
         <li>
           <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
-          暗坑很多
+          
+  暗坑很多
+
 
 
         </li>
@@ -1909,13 +1912,6 @@ df = pandas.read_csv(‘somefile.txt’)
           <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
           王路
 12 highlights
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/%E8%87%AA%E5%8D%91%E4%B8%8E%E8%B6%85%E8%B6%8A.html">自卑与超越</a>
-          【奥】阿尔弗雷德··阿德勒
 
 
         </li>

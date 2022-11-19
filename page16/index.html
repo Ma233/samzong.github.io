@@ -290,8 +290,6 @@
 
 <p>单身狗的第二杯半价</p>
 
-<p><br /></p>
-
 <p>政客上任的许诺</p>
 
 <p>渴望理解的诉说</p>
@@ -299,8 +297,6 @@
 <p>花前月下的誓言</p>
 
 <p>回忆里微笑的脸</p>
-
-<p><br /></p>
 
 <p>过期的悔恨</p>
 
@@ -310,8 +306,6 @@
 
 <p>满街的宣传口号</p>
 
-<p><br /></p>
-
 <p>天赋不足的认真</p>
 
 <p>无疾而终的情深</p>
@@ -319,8 +313,6 @@
 <p>所谓寂寞空虚冷</p>
 
 <p>不可说与人知的疼</p>
-
-<p><br /></p>
 
 <p>失败后的借口</p>
 
@@ -352,116 +344,116 @@
     
     <h1><a class="title" href="/post/2016/11/Denyhosts%E5%A2%9E%E5%8A%A0%E6%9C%8D%E5%8A%A1%E5%99%A8SSH%E9%BB%91%E5%90%8D%E5%8D%95%E6%9C%BA%E5%88%B6.html">Denyhosts 增加服务器 SSH 黑名单机制</a></h1>
     <div class="post_at_index">
-      <h5 id="查看当前服务器失败登录的统计">查看当前服务器失败登录的统计</h5>
+      <h2 id="查看当前服务器失败登录的统计">查看当前服务器失败登录的统计</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cat /var/log/secure | awk '/Failed/{print $(NF-3)}' | sort | uniq -c | sort -n |  awk '{print $2" = "$1}'
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /var/log/secure | <span class="nb">awk</span> <span class="s1">'/Failed/{print $(NF-3)}'</span> | <span class="nb">sort</span> | <span class="nb">uniq</span> <span class="nt">-c</span> | <span class="nb">sort</span> <span class="nt">-n</span> |  <span class="nb">awk</span> <span class="s1">'{print $2" = "$1}'</span>
 </code></pre></div></div>
 
-<h5 id="install-denyhosts">Install denyhosts</h5>
+<h2 id="install-denyhosts">Install denyhosts</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 需要预先安装epel源
-sudo yum install -y epel-release
-sudo yum install -y denyhosts
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 需要预先安装epel源</span>
+<span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
+<span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> denyhosts
 </code></pre></div></div>
 
-<h5 id="配置文件解析">配置文件解析</h5>
+<h2 id="配置文件解析">配置文件解析</h2>
 
 <p>默认配置文件/etc/denyhosts。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 查看的sshd日志文件
-SECURE_LOG = /var/log/secure
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 查看的sshd日志文件</span>
+SECURE_LOG <span class="o">=</span> /var/log/secure
 
-# 将阻止IP写入的配置文件
-HOSTS_DENY = /etc/hosts.deny
+<span class="c"># 将阻止IP写入的配置文件</span>
+HOSTS_DENY <span class="o">=</span> /etc/hosts.deny
 
-# 过多久之后清除，其中w代表周，d代表天，h代表小时，s代表秒，m代表分钟。
-PURGE_DENY = 4h
+<span class="c"># 过多久之后清除，其中w代表周，d代表天，h代表小时，s代表秒，m代表分钟。</span>
+PURGE_DENY <span class="o">=</span> 4h
 
-# 阻止的服务名称
-BLOCK_SERVICE  = sshd
+<span class="c"># 阻止的服务名称</span>
+BLOCK_SERVICE  <span class="o">=</span> sshd
 
-# 允许无效用户（在/etc/passwd未列出）登录失败次数,允许无效用户登录失败的次数.
-DENY_THRESHOLD_INVALID = 1
+<span class="c"># 允许无效用户（在/etc/passwd未列出）登录失败次数,允许无效用户登录失败的次数.</span>
+DENY_THRESHOLD_INVALID <span class="o">=</span> 1
 
-# 允许普通用户登录失败的次数
-DENY_THRESHOLD_VALID = 5
+<span class="c"># 允许普通用户登录失败的次数</span>
+DENY_THRESHOLD_VALID <span class="o">=</span> 5
 
-# 允许root登录失败的次数
-DENY_THRESHOLD_ROOT = 2
-DENY_THRESHOLD_RESTRICTED = 1
+<span class="c"># 允许root登录失败的次数</span>
+DENY_THRESHOLD_ROOT <span class="o">=</span> 2
+DENY_THRESHOLD_RESTRICTED <span class="o">=</span> 1
 
-# 设定 deny host 写入到该资料夹
-WORK_DIR = /var/lib/denyhosts
+<span class="c"># 设定 deny host 写入到该资料夹</span>
+WORK_DIR <span class="o">=</span> /var/lib/denyhosts
 
-# 将deny的host或ip纪录到Work_dir中
-SUSPICIOUS_LOGIN_REPORT_ALLOWED_HOSTS=YES
+<span class="c"># 将deny的host或ip纪录到Work_dir中</span>
+<span class="nv">SUSPICIOUS_LOGIN_REPORT_ALLOWED_HOSTS</span><span class="o">=</span>YES
 
-# 是否做域名反解
-HOSTNAME_LOOKUP=YES
+<span class="c"># 是否做域名反解</span>
+<span class="nv">HOSTNAME_LOOKUP</span><span class="o">=</span>YES
 
-# 将DenyHOts启动的pid纪录到LOCK_FILE中，已确保服务正确启动，防止同时启动多个服务。
-LOCK_FILE = /var/lock/subsys/denyhosts
+<span class="c"># 将DenyHOts启动的pid纪录到LOCK_FILE中，已确保服务正确启动，防止同时启动多个服务。</span>
+LOCK_FILE <span class="o">=</span> /var/lock/subsys/denyhosts
 
-# 设置管理员邮件地址
-ADMIN_EMAIL = luchuanjia@msn.com
-SMTP_HOST = localhost
-SMTP_PORT = 25
-SMTP_FROM = DenyHosts &lt;nobody@localhost&gt;
-SMTP_SUBJECT = DenyHosts Report from $[HOSTNAME]
+<span class="c"># 设置管理员邮件地址</span>
+ADMIN_EMAIL <span class="o">=</span> luchuanjia@msn.com
+SMTP_HOST <span class="o">=</span> localhost
+SMTP_PORT <span class="o">=</span> 25
+SMTP_FROM <span class="o">=</span> DenyHosts &lt;nobody@localhost&gt;
+SMTP_SUBJECT <span class="o">=</span> DenyHosts Report from <span class="nv">$[</span>HOSTNAME]
 
-# 有效用户登录失败计数归零的时间
-AGE_RESET_VALID=1d
+<span class="c"># 有效用户登录失败计数归零的时间</span>
+<span class="nv">AGE_RESET_VALID</span><span class="o">=</span>1d
 
-# root用户登录失败计数归零的时间
-AGE_RESET_ROOT=25d
+<span class="c"># root用户登录失败计数归零的时间</span>
+<span class="nv">AGE_RESET_ROOT</span><span class="o">=</span>25d
 
-# 用户的失败登录计数重置为0的时间(/usr/share/denyhosts/data/restricted-usernames)
-AGE_RESET_RESTRICTED=25d
+<span class="c"># 用户的失败登录计数重置为0的时间(/usr/share/denyhosts/data/restricted-usernames)</span>
+<span class="nv">AGE_RESET_RESTRICTED</span><span class="o">=</span>25d
 
-# 无效用户登录失败计数归零的时间
-AGE_RESET_INVALID=10d
+<span class="c"># 无效用户登录失败计数归零的时间</span>
+<span class="nv">AGE_RESET_INVALID</span><span class="o">=</span>10d
 
-# denyhosts的日志文件位置
-DAEMON_LOG = /var/log/denyhosts
+<span class="c"># denyhosts的日志文件位置</span>
+DAEMON_LOG <span class="o">=</span> /var/log/denyhosts
 
-# denyhosts的轮询时间
-DAEMON_SLEEP = 30s
+<span class="c"># denyhosts的轮询时间</span>
+DAEMON_SLEEP <span class="o">=</span> 30s
 
-# 该项与PURGE_DENY 设置一样，也是清除hosts.deny中 ssh用户的时间
-DAEMON_PURGE = 1h
+<span class="c"># 该项与PURGE_DENY 设置一样，也是清除hosts.deny中 ssh用户的时间</span>
+DAEMON_PURGE <span class="o">=</span> 1h
 </code></pre></div></div>
 
-<h5 id="faq">FAQ</h5>
+<h2 id="faq">FAQ</h2>
 
 <ol>
   <li>如果想删除一个已经禁止的主机 IP，并加入到允许主机例表，只在 /etc/hosts.deny 删除是没用的，还需要以下：</li>
 </ol>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/var/lib/denyhosts 目录，进入以下操作：
-# 停止denyhosts服务
-sudo service denyhosts stop
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/var/lib/denyhosts 目录，进入以下操作：
+<span class="c"># 停止denyhosts服务</span>
+<span class="nb">sudo </span>service denyhosts stop
 
-# 进入denyhosts的目录
-cd /var/lib/denyhosts
+<span class="c"># 进入denyhosts的目录</span>
+<span class="nb">cd</span> /var/lib/denyhosts
 
-# 查看哪些文件添加了ssh限制,将IP_addr替换成你的IP
-sudo grep IP_addr /usr/share/denyhosts/data/*
+<span class="c"># 查看哪些文件添加了ssh限制,将IP_addr替换成你的IP</span>
+<span class="nb">sudo grep </span>IP_addr /usr/share/denyhosts/data/<span class="k">*</span>
 
-# 然后一个个删除文件中你想取消的主机IP所在的行:
+<span class="c"># 然后一个个删除文件中你想取消的主机IP所在的行:</span>
 /usr/share/denyhosts/data/hosts
 /usr/share/denyhosts/data/hosts-restricted
 /usr/share/denyhosts/data/hosts-root
 /usr/share/denyhosts/data/hosts-valid
 /usr/share/denyhosts/data/users-hosts
 
-# 添加你想允许的主机IP地址到allowed-hosts:
-sudo echo IP_addr &gt;&gt;/usr/share/denyhosts/data/allowed-hostsps
+<span class="c"># 添加你想允许的主机IP地址到allowed-hosts:</span>
+<span class="nb">sudo echo </span>IP_addr <span class="o">&gt;&gt;</span>/usr/share/denyhosts/data/allowed-hostsps
 
-# 启动 DenyHosts服务：
+<span class="c"># 启动 DenyHosts服务：</span>
  service denyhosts start
 </code></pre></div></div>
 
-<h5 id="tips">Tips</h5>
+<h2 id="tips">Tips</h2>
 
 <ul>
   <li>尽量是用 key 验证登录服务器</li>
@@ -694,16 +686,16 @@ sudo echo IP_addr &gt;&gt;/usr/share/denyhosts/data/allowed-hostsps
 
 <p>在很多情况，我们对于 delete 的应用更多，因为它支持更多的匹配模式，我们可以使用 where 条件语句，清理一些特定的数据，关于 delete 的操作，这里不做过多解释，有空就专门写写 delete 的使用和原理。delete 在清空表时，如果表内有自增 ID 的设定，那么在 delete 清空之后，再插入数据时，自增 ID 不会从 1 开始，默认会继续增加; 除非我们使用 OPTIMIZE TABLE，重置表属性；</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; delete from piwik_tmp;
-Query OK, 0 rows affected (0.00 sec)
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">delete</span> <span class="k">from</span> <span class="n">piwik_tmp</span><span class="p">;</span>
+<span class="n">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h3 id="2-truncate">2. truncate</h3>
 
 <p>truncate 在清空表时，会同时将自增 ID 重置，再插入新数据时会从 1 开始，而且 truncate 在清空表时，不关心表的行数，所以执行效率会高于 delete；</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; truncate table piwik_tmp;
-Query OK, 0 rows affected (0.01 sec)
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">truncate</span> <span class="k">table</span> <span class="n">piwik_tmp</span><span class="p">;</span>
+<span class="n">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">01</span> <span class="n">sec</span><span class="p">)</span>
 
 </code></pre></div></div>
 
@@ -711,21 +703,21 @@ Query OK, 0 rows affected (0.01 sec)
 
 <p>但是在 truncate 清空表数据时，myisam 的表和 innodb 的表在使用上有一定的区别；myisam 表会清空所有数据，并释放表空间，即硬盘空间会得到释放。innodb 表也会清空所有数据，但不释放表空间。Innodb 数据库对于已经删除的数据只是标记为删除，并不真正释放所占用的磁盘空间，这就导致 InnoDB 数据库文件不断增长。如果想彻底释放这些已经删除的数据，需要把数据库导出，删除 InnoDB 数据库文件，然后再导入。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 备份数据库：
-mysqldump -u -p --quick --force --all-databases &gt; mysqldump.sql
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="err">备份数据库：</span>
+<span class="n">mysqldump</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">p</span> <span class="c1">--quick --force --all-databases &gt; mysqldump.sql</span>
 
-# 停止数据库
-service mysqld stop
+<span class="o">#</span> <span class="err">停止数据库</span>
+<span class="n">service</span> <span class="n">mysqld</span> <span class="n">stop</span>
 
-# 删除这些大文件
-rm /usr/local/mysql/var/ibdata1
-rm /usr/local/mysql/var/ib_logfile*
+<span class="o">#</span> <span class="err">删除这些大文件</span>
+<span class="n">rm</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">ibdata1</span>
+<span class="n">rm</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">ib_logfile</span><span class="o">*</span>
 
-# 手动删除除Mysql之外所有数据库文件夹，然后启动数据库
-service mysqld start
+<span class="o">#</span> <span class="err">手动删除除</span><span class="n">Mysql</span><span class="err">之外所有数据库文件夹，然后启动数据库</span>
+<span class="n">service</span> <span class="n">mysqld</span> <span class="k">start</span>
 
-# 还原数据
-mysql -uroot -proot &lt; mysqldump.sql
+<span class="o">#</span> <span class="err">还原数据</span>
+<span class="n">mysql</span> <span class="o">-</span><span class="n">uroot</span> <span class="o">-</span><span class="n">proot</span> <span class="o">&lt;</span> <span class="n">mysqldump</span><span class="p">.</span><span class="k">sql</span>
 </code></pre></div></div>
 
 <h3 id="4-innodb_file_per_table">4. innodb_file_per_table</h3>
@@ -740,7 +732,7 @@ mysql -uroot -proot &lt; mysqldump.sql
 
 <p>通过 mysql 语句可以查看该变量的值：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like '%per_table%';
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="n">variables</span> <span class="k">like</span> <span class="s1">'%per_table%'</span><span class="p">;</span>
 </code></pre></div></div>
 
       
@@ -759,143 +751,143 @@ mysql -uroot -proot &lt; mysqldump.sql
     
     <h1><a class="title" href="/post/2016/10/SSH-LINUX-Security-Settings.html">SSH LINUX Security Settings</a></h1>
     <div class="post_at_index">
-      <h3 id="ssh-配置安全控制限制登录"><strong>SSH 配置安全控制限制登录</strong></h3>
+      <h2 id="ssh-配置安全控制限制登录"><strong>SSH 配置安全控制限制登录</strong></h2>
 
-<h5 id="1-只允许某个ip登录拒绝其他所有ip">1. 只允许某个IP登录，拒绝其他所有IP</h5>
+<h3 id="1-只允许某个-ip-登录拒绝其他所有-ip">1. 只允许某个 IP 登录，拒绝其他所有 IP</h3>
 
-<p>在 /etc/hosts.allow 增加:</p>
+<p>在 /etc/hosts.allow 增加：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sshd: 1.2.3.4
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sshd: 1.2.3.4
 </code></pre></div></div>
 
-<p>在 /etc/hosts.deny 增肌:</p>
+<p>在 /etc/hosts.deny 增肌：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sshd: ALL
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sshd: ALL
 </code></pre></div></div>
 
-<p>用 iptables 也行:</p>
+<p>用 iptables 也行：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables -A INPUT -p tcp --dport 22 -j DROP
-iptables -A INPUT -p tcp --dport 22 -s 1.2.3.4 -j ACCEPT
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>iptables <span class="nt">-A</span> INPUT <span class="nt">-p</span> tcp <span class="nt">--dport</span> 22 <span class="nt">-j</span> DROP
+iptables <span class="nt">-A</span> INPUT <span class="nt">-p</span> tcp <span class="nt">--dport</span> 22 <span class="nt">-s</span> 1.2.3.4 <span class="nt">-j</span> ACCEPT
 </code></pre></div></div>
 
-<h5 id="2-禁止某个用户通过ssh登录">2. 禁止某个用户通过ssh登录</h5>
+<h2 id="2-禁止某个用户通过-ssh-登录">2. 禁止某个用户通过 ssh 登录</h2>
 
 <p>在/etc/ssh/sshd_conf添加</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AllowUsers 用户名
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AllowUsers 用户名
 或者
 AllowGroups 组名
 或者
 DenyUsers 用户名
 </code></pre></div></div>
 
-<h5 id="3-设定登录黑名单">3. 设定登录黑名单</h5>
+<h2 id="3-设定登录黑名单">3. 设定登录黑名单</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@6 ~]# vim /etc/pam.d/sshd
-auth required /lib/security/pam_listfile.so item=user sense=deny file=/etc/sshd_user_deny_list onerr=succeed
-# 所有/etc/sshd_user_deny_list里面的用户被拒绝ssh登录
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@6 ~]# vim /etc/pam.d/sshd
+auth required /lib/security/pam_listfile.so <span class="nv">item</span><span class="o">=</span>user <span class="nv">sense</span><span class="o">=</span>deny <span class="nv">file</span><span class="o">=</span>/etc/sshd_user_deny_list <span class="nv">onerr</span><span class="o">=</span>succeed
+<span class="c"># 所有/etc/sshd_user_deny_list里面的用户被拒绝ssh登录</span>
 </code></pre></div></div>
 
-<h5 id="4-sshd_config配置">4. sshd_config配置</h5>
+<h2 id="4-sshd_config-配置">4. sshd_config 配置</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 关于 SSH Server 的整体设定，包含使用的 port 啦，以及使用的密码演算方式
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 关于 SSH Server 的整体设定，包含使用的 port 啦，以及使用的密码演算方式</span>
 Port 22　　　　　　　　　　# SSH 预设使用 22 这个 port，您也可以使用多的 port ！
-　　　　　　　　　　　　　 # 亦即重复使用 port 这个设定项目即可！
-Protocol 2,1　　　　　　　 # 选择的 SSH 协议版本，可以是 1 也可以是 2 ，
-　　　　　　　　　　　　　 # 如果要同时支持两者，就必须要使用 2,1 这个分隔了！
-#ListenAddress 0.0.0.0　　 # 监听的主机适配卡！举个例子来说，如果您有两个 IP，
-　　　　　　　　　　　　　 # 分别是 192.168.0.100 及 192.168.2.20 ，那么只想要
-　　　　　　　　　　　　　 # 开放 192.168.0.100 时，就可以写如同下面的样式：
-ListenAddress 192.168.0.100          # 只监听来自 192.168.0.100 这个 IP 的SSH联机。
-　　　　　　　　　　　　　　　　　　 # 如果不使用设定的话，则预设所有接口均接受 SSH
+　　　　　　　　　　　　　 <span class="c"># 亦即重复使用 port 这个设定项目即可！</span>
+Protocol 2,1　　　　　　　 <span class="c"># 选择的 SSH 协议版本，可以是 1 也可以是 2 ，</span>
+　　　　　　　　　　　　　 <span class="c"># 如果要同时支持两者，就必须要使用 2,1 这个分隔了！</span>
+<span class="c">#ListenAddress 0.0.0.0　　 # 监听的主机适配卡！举个例子来说，如果您有两个 IP，</span>
+　　　　　　　　　　　　　 <span class="c"># 分别是 192.168.0.100 及 192.168.2.20 ，那么只想要</span>
+　　　　　　　　　　　　　 <span class="c"># 开放 192.168.0.100 时，就可以写如同下面的样式：</span>
+ListenAddress 192.168.0.100          <span class="c"># 只监听来自 192.168.0.100 这个 IP 的SSH联机。</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># 如果不使用设定的话，则预设所有接口均接受 SSH</span>
 PidFile /var/run/sshd.pid　　　　　　# 可以放置 SSHD 这个 PID 的档案！左列为默认值
-LoginGraceTime 600　　　　 # 当使用者连上 SSH server 之后，会出现输入密码的画面，
-　　　　　　　　　　　　　 # 在该画面中，在多久时间内没有成功连上 SSH server ，
-　　　　　　　　　　　　　 # 就断线！时间为秒！
-Compression yes　　　　　　# 是否可以使用压缩指令？当然可以啰！
+LoginGraceTime 600　　　　 <span class="c"># 当使用者连上 SSH server 之后，会出现输入密码的画面，</span>
+　　　　　　　　　　　　　 <span class="c"># 在该画面中，在多久时间内没有成功连上 SSH server ，</span>
+　　　　　　　　　　　　　 <span class="c"># 就断线！时间为秒！</span>
+Compression <span class="nb">yes</span>　　　　　　# 是否可以使用压缩指令？当然可以啰！
 
-# 说明主机的 Private Key 放置的档案，预设使用下面的档案即可！
+<span class="c"># 说明主机的 Private Key 放置的档案，预设使用下面的档案即可！</span>
 HostKey /etc/ssh/ssh_host_key　　　　# SSH version 1 使用的私钥
 HostKey /etc/ssh/ssh_host_rsa_key　　# SSH version 2 使用的 RSA 私钥
 HostKey /etc/ssh/ssh_host_dsa_key　　# SSH version 2 使用的 DSA 私钥
-# 关于 version 1 的一些设定！
+<span class="c"># 关于 version 1 的一些设定！</span>
 KeyRegenerationInterval 3600　 　　　# 由前面联机的说明可以知道， version 1 会使用
-　　　　　　　　　　　　　　　　　　 # server 的 Public Key ，那么如果这个 Public
-　　　　　　　　　　　　　　　　　　 # Key 被偷的话，岂不完蛋？所以需要每隔一段时间
-　　　　　　　　　　　　　　　　　　 # 来重新建立一次！这里的时间为秒！
-ServerKeyBits 768 　　　　　　　　　 # 没错！这个就是 Server key 的长度！
+　　　　　　　　　　　　　　　　　　 <span class="c"># server 的 Public Key ，那么如果这个 Public</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># Key 被偷的话，岂不完蛋？所以需要每隔一段时间</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># 来重新建立一次！这里的时间为秒！</span>
+ServerKeyBits 768 　　　　　　　　　 <span class="c"># 没错！这个就是 Server key 的长度！</span>
 
-# 关于登录文件的讯息数据放置与 daemon 的名称！
+<span class="c"># 关于登录文件的讯息数据放置与 daemon 的名称！</span>
 SyslogFacility AUTH　　　　　　　　　# 当有人使用 SSH 登入系统的时候，SSH会记录资
-　　　　　　　　　　　　　　　　　　 # 讯，这个信息要记录在什么 daemon name 底下？
-　　　　　　　　　　　　　　　　　　 # 预设是以 AUTH 来设定的，即是 /var/log/secure
-　　　　　　　　　　　　　　　　　　 # 里面！什么？忘记了！回到 Linux 基础去翻一下
-　　　　　　　　　　　　　　　　　　 # 其它可用的 daemon name 为：DAEMON,USER,AUTH,
-　　　　　　　　　　　　　　　　　　 # LOCAL0,LOCAL1,LOCAL2,LOCAL3,LOCAL4,LOCAL5,
+　　　　　　　　　　　　　　　　　　 <span class="c"># 讯，这个信息要记录在什么 daemon name 底下？</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># 预设是以 AUTH 来设定的，即是 /var/log/secure</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># 里面！什么？忘记了！回到 Linux 基础去翻一下</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># 其它可用的 daemon name 为：DAEMON,USER,AUTH,</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># LOCAL0,LOCAL1,LOCAL2,LOCAL3,LOCAL4,LOCAL5,</span>
 LogLevel INFO　　　　　　　　　　　　# 登录记录的等级！嘿嘿！任何讯息！
-　　　　　　　　　　　　　　　　　　 # 同样的，忘记了就回去参考！
+　　　　　　　　　　　　　　　　　　 <span class="c"># 同样的，忘记了就回去参考！</span>
 
-# 登入设定部分
+<span class="c"># 登入设定部分</span>
 PermitRootLogin no　　 　　# 是否允许 root 登入！预设是允许的，但是建议设定成 no！
-UserLogin no　　　　　　　 # 在 SSH 底下本来就不接受 login 这个程序的登入！
-StrictModes yes　　　　　　# 当使用者的 host key 改变之后，Server 就不接受联机，
-　　　　　　　　　　　　　 # 可以抵挡部分的木马程序！
-#RSAAuthentication yes　　 # 是否使用纯的 RSA 认证！？仅针对 version 1 ！
-PubkeyAuthentication yes　 # 是否允许 Public Key ？当然允许啦！只有 version 2
+UserLogin no　　　　　　　 <span class="c"># 在 SSH 底下本来就不接受 login 这个程序的登入！</span>
+StrictModes <span class="nb">yes</span>　　　　　　# 当使用者的 host key 改变之后，Server 就不接受联机，
+　　　　　　　　　　　　　 <span class="c"># 可以抵挡部分的木马程序！</span>
+<span class="c">#RSAAuthentication yes　　 # 是否使用纯的 RSA 认证！？仅针对 version 1 ！</span>
+PubkeyAuthentication <span class="nb">yes</span>　 <span class="c"># 是否允许 Public Key ？当然允许啦！只有 version 2</span>
 AuthorizedKeysFile      .ssh/authorized_keys
-　　　　　　　　　　　　　 # 上面这个在设定若要使用不需要密码登入的账号时，那么那个
-　　　　　　　　　　　　　 # 账号的存放档案所在档名！
-Allowusers root@222.XX.XX.XX. #设置允许root帐号只能以222.XX.XX.XX这个IP进行ssh连接
+　　　　　　　　　　　　　 <span class="c"># 上面这个在设定若要使用不需要密码登入的账号时，那么那个</span>
+　　　　　　　　　　　　　 <span class="c"># 账号的存放档案所在档名！</span>
+Allowusers root@222.XX.XX.XX. <span class="c">#设置允许root帐号只能以222.XX.XX.XX这个IP进行ssh连接</span>
 
-# 认证部分
+<span class="c"># 认证部分</span>
 RhostsAuthentication no　　# 本机系统不止使用 .rhosts ，因为仅使用 .rhosts 太
-　　　　　　　　　　　　　 # 不安全了，所以这里一定要设定为 no ！
-IgnoreRhosts yes　　　　　 # 是否取消使用 ~/.ssh/.rhosts 来做为认证！当然是！
-RhostsRSAAuthentication no # 这个选项是专门给 version 1 用的，使用 rhosts 档案在
-　　　　　　　　　　　　　 # /etc/hosts.equiv配合 RSA 演算方式来进行认证！不要使用
-HostbasedAuthentication no # 这个项目与上面的项目类似，不过是给 version 2 使用的！
+　　　　　　　　　　　　　 <span class="c"># 不安全了，所以这里一定要设定为 no ！</span>
+IgnoreRhosts <span class="nb">yes</span>　　　　　 <span class="c"># 是否取消使用 ~/.ssh/.rhosts 来做为认证！当然是！</span>
+RhostsRSAAuthentication no <span class="c"># 这个选项是专门给 version 1 用的，使用 rhosts 档案在</span>
+　　　　　　　　　　　　　 <span class="c"># /etc/hosts.equiv配合 RSA 演算方式来进行认证！不要使用</span>
+HostbasedAuthentication no <span class="c"># 这个项目与上面的项目类似，不过是给 version 2 使用的！</span>
 IgnoreUserKnownHosts no　　# 是否忽略家目录内的 ~/.ssh/known_hosts 这个档案所记录
-　　　　　　　　　　　　　 # 的主机内容？当然不要忽略，所以这里就是 no 啦！
-PasswordAuthentication yes # 密码验证当然是需要的！所以这里写 yes 啰！
-PermitEmptyPasswords no　　# 若上面那一项如果设定为 yes 的话，这一项就最好设定
-　　　　　　　　　　　　　 # 为 no ，这个项目在是否允许以空的密码登入！当然不许！
-ChallengeResponseAuthentication yes  # 挑战任何的密码认证！所以，任何 login.conf
-　　　　　　　　　　　　　　　　　　 # 规定的认证方式，均可适用！
-#PAMAuthenticationViaKbdInt yes      # 是否启用其它的 PAM 模块！启用这个模块将会
-　　　　　　　　　　　　　　　　　　 # 导致 PasswordAuthentication 设定失效！
+　　　　　　　　　　　　　 <span class="c"># 的主机内容？当然不要忽略，所以这里就是 no 啦！</span>
+PasswordAuthentication <span class="nb">yes</span> <span class="c"># 密码验证当然是需要的！所以这里写 yes 啰！</span>
+PermitEmptyPasswords no　　# 若上面那一项如果设定为 <span class="nb">yes </span>的话，这一项就最好设定
+　　　　　　　　　　　　　 <span class="c"># 为 no ，这个项目在是否允许以空的密码登入！当然不许！</span>
+ChallengeResponseAuthentication <span class="nb">yes</span>  <span class="c"># 挑战任何的密码认证！所以，任何 login.conf</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># 规定的认证方式，均可适用！</span>
+<span class="c">#PAMAuthenticationViaKbdInt yes      # 是否启用其它的 PAM 模块！启用这个模块将会</span>
+　　　　　　　　　　　　　　　　　　 <span class="c"># 导致 PasswordAuthentication 设定失效！</span>
 
-# 与 Kerberos 有关的参数设定！因为我们没有 Kerberos 主机，所以底下不用设定！
-#KerberosAuthentication no
-#KerberosOrLocalPasswd yes
-#KerberosTicketCleanup yes
-#KerberosTgtPassing no
+<span class="c"># 与 Kerberos 有关的参数设定！因为我们没有 Kerberos 主机，所以底下不用设定！</span>
+<span class="c">#KerberosAuthentication no</span>
+<span class="c">#KerberosOrLocalPasswd yes</span>
+<span class="c">#KerberosTicketCleanup yes</span>
+<span class="c">#KerberosTgtPassing no</span>
 　
-# 底下是有关在 X-Window 底下使用的相关设定！
-X11Forwarding yes
-#X11DisplayOffset 10
-#X11UseLocalhost yes
-# 登入后的项目：
-PrintMotd no              # 登入后是否显示出一些信息呢？例如上次登入的时间、地点等
-　　　　　　　　　　　　　# 等，预设是 yes ，但是，如果为了安全，可以考虑改为 no ！
-PrintLastLog yes　　　　　# 显示上次登入的信息！可以啊！预设也是 yes ！
-KeepAlive yes　　　　　　 # 一般而言，如果设定这项目的话，那么 SSH Server 会传送
+<span class="c"># 底下是有关在 X-Window 底下使用的相关设定！</span>
+X11Forwarding <span class="nb">yes</span>
+<span class="c">#X11DisplayOffset 10</span>
+<span class="c">#X11UseLocalhost yes</span>
+<span class="c"># 登入后的项目：</span>
+PrintMotd no              <span class="c"># 登入后是否显示出一些信息呢？例如上次登入的时间、地点等</span>
+　　　　　　　　　　　　　# 等，预设是 <span class="nb">yes</span> ，但是，如果为了安全，可以考虑改为 no ！
+PrintLastLog <span class="nb">yes</span>　　　　　# 显示上次登入的信息！可以啊！预设也是 <span class="nb">yes</span> ！
+KeepAlive <span class="nb">yes</span>　　　　　　 <span class="c"># 一般而言，如果设定这项目的话，那么 SSH Server 会传送</span>
 　　　　　　　　　　　　　# KeepAlive 的讯息给 Client 端，以确保两者的联机正常！
 　　　　　　　　　　　　　# 在这个情况下，任何一端死掉后， SSH 可以立刻知道！而不会
 　　　　　　　　　　　　　# 有僵尸程序的发生！
-UsePrivilegeSeparation yes # 使用者的权限设定项目！就设定为 yes 吧！
+UsePrivilegeSeparation <span class="nb">yes</span> <span class="c"># 使用者的权限设定项目！就设定为 yes 吧！</span>
 MaxStartups 10　　　　　　# 同时允许几个尚未登入的联机画面？当我们连上 SSH ，
 　　　　　　　　　　　　　# 但是尚未输入密码时，这个时候就是我们所谓的联机画面啦！
 　　　　　　　　　　　　　# 在这个联机画面中，为了保护主机，所以需要设定最大值，
 　　　　　　　　　　　　　# 预设最多十个联机画面，而已经建立联机的不计算在这十个当中
 
-# 关于使用者抵挡的设定项目：
-DenyUsers *　　　　　　　 # 设定受抵挡的使用者名称，如果是全部的使用者，那就是全部
+<span class="c"># 关于使用者抵挡的设定项目：</span>
+DenyUsers <span class="k">*</span>　　　　　　　 <span class="c"># 设定受抵挡的使用者名称，如果是全部的使用者，那就是全部</span>
 　　　　　　　　　　　　　# 挡吧！若是部分使用者，可以将该账号填入！例如下列！
-DenyUsers test
-DenyGroups test　　　　　 # 与 DenyUsers 相同！仅抵挡几个群组而已！
+DenyUsers <span class="nb">test
+</span>DenyGroups <span class="nb">test</span>　　　　　 <span class="c"># 与 DenyUsers 相同！仅抵挡几个群组而已！</span>
 
-# 关于 SFTP 服务的设定项目！
+<span class="c"># 关于 SFTP 服务的设定项目！</span>
 Subsystem       sftp    /usr/lib/ssh/sftp-server
 如果不愿意开放 SFTP 的话，将这一行批注掉即可！
 </code></pre></div></div>
@@ -916,73 +908,73 @@ Subsystem       sftp    /usr/lib/ssh/sftp-server
     
     <h1><a class="title" href="/post/2016/10/HowTo-Install-PostgreSQL-9-5-on-CentOS-6-x.html">HowTo Install PostgreSQL 9.5 on CentOS 6.x</a></h1>
     <div class="post_at_index">
-      <h3 id="centos-6">CentOS 6</h3>
+      <h2 id="centos-6">CentOS 6</h2>
 
-<h5 id="1-install-postgresql-repository-and-the-postgresql-server-by-running-the-following">1. Install PostgreSQL repository and the PostgreSQL server by running the following</h5>
+<h3 id="1-install-postgresql-repository-and-the-postgresql-server-by-running-the-following">1. Install PostgreSQL repository and the PostgreSQL server by running the following</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-6-x86_64/pgdg-centos95-9.5-2.noarch.rpm
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>yum <span class="nb">install </span>https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-6-x86_64/pgdg-centos95-9.5-2.noarch.rpm
 
-sudo yum install postgresql95-serve
+<span class="nb">sudo </span>yum <span class="nb">install </span>postgresql95-serve
 </code></pre></div></div>
 
-<h5 id="2-create-the-postgresql-database-cluster">2. Create the PostgreSQL database cluster</h5>
+<h3 id="2-create-the-postgresql-database-cluster">2. Create the PostgreSQL database cluster</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sduo service postgresql-9.5 initdb
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sduo service postgresql-9.5 initdb
 </code></pre></div></div>
 
-<h5 id="3-enable-automatic-postgresql-server-startup">3. Enable automatic PostgreSQL server startup</h5>
+<h3 id="3-enable-automatic-postgresql-server-startup">3. Enable automatic PostgreSQL server startup</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo chkconfig postgresql-9.5 on
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>chkconfig postgresql-9.5 on
 </code></pre></div></div>
 
-<h5 id="4-start-the-postgresql-server">4. Start the PostgreSQL server</h5>
+<h3 id="4-start-the-postgresql-server">4. Start the PostgreSQL server</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo service postgresql-9.5 start
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>service postgresql-9.5 start
 </code></pre></div></div>
 
-<h3 id="centos-7">CentOS 7</h3>
+<h2 id="centos-7">CentOS 7</h2>
 
-<h5 id="1-install-postgresql-repository-and-the-postgresql-server-by-running-the-following-1">1. Install PostgreSQL repository and the PostgreSQL server by running the following</h5>
+<h3 id="install-postgresql-repository-and-the-postgresql-server-by-running-the-following">Install PostgreSQL repository and the PostgreSQL server by running the following</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install https://download.postgresql.org/pub/repos/yum/9.5 /redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>yum <span class="nb">install </span>https://download.postgresql.org/pub/repos/yum/9.5 /redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
 
-sudo yum install postgresql95-serve
+<span class="nb">sudo </span>yum <span class="nb">install </span>postgresql95-serve
 </code></pre></div></div>
 
-<h5 id="2-create-the-postgresql-database-cluster-1">2. Create the PostgreSQL database cluster</h5>
+<h3 id="create-the-postgresql-database-cluster">Create the PostgreSQL database cluster</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo /usr/pgsql-9.5/bin/postgresql95-setup initdb
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo</span> /usr/pgsql-9.5/bin/postgresql95-setup initdb
 </code></pre></div></div>
 
-<h5 id="3-enable-automatic-postgresql-server-startup-1">3. Enable automatic PostgreSQL server startup</h5>
+<h3 id="enable-automatic-postgresql-server-startup">Enable automatic PostgreSQL server startup</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo systemctl enable postgresql-9.5
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl <span class="nb">enable </span>postgresql-9.5
 </code></pre></div></div>
 
-<h5 id="4-start-the-postgresql-server-1">4. Start the PostgreSQL server</h5>
+<h3 id="start-the-postgresql-server">Start the PostgreSQL server</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo systemctl start postgresql-9.5
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl start postgresql-9.5
 </code></pre></div></div>
 
-<h3 id="configurations-for-centos">Configurations for CentOS</h3>
+<h2 id="configurations-for-centos">Configurations for CentOS</h2>
 
 <p>When installing in CentOs env. you will also need to make the following configurations.</p>
 
-<h5 id="1-change-authentication-to-md5">1. Change authentication to md5</h5>
+<h3 id="change-authentication-to-md5">Change authentication to md5</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo vi /var/lib/pgsql/9.5/data/pg_hba.conf
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>vi /var/lib/pgsql/9.5/data/pg_hba.conf
 </code></pre></div></div>
 
-<h5 id="2-change-method-to-md5">2. Change METHOD to md5</h5>
+<h3 id="change-method-to-md5">Change METHOD to md5</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># IPv4 local connections:
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># IPv4 local connections:</span>
 host    all             all             127.0.0.1/32            md5
 
-# IPv6 local connections:
+<span class="c"># IPv6 local connections:</span>
 host    all             all             ::1/128                 md5
 </code></pre></div></div>
 
-<h5 id="3-restart-postgresql">3. Restart PostgreSQL</h5>
+<h3 id="3-restart-postgresql">3. Restart PostgreSQL</h3>
 
       
     </div>
@@ -1104,43 +1096,43 @@ host    all             all             ::1/128                 md5
   <li>当系统出问题的时候收集重要的系统信息</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultrera ~]# wget percona.com/get/percona-toolkit.tar.gz
---2016-09-22 09:17:00--  http://percona.com/get/percona-toolkit.tar.gz
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultrera ~]# wget percona.com/get/percona-toolkit.tar.gz
+<span class="nt">--2016-09-22</span> 09:17:00--  http://percona.com/get/percona-toolkit.tar.gz
 Resolving percona.com... 74.121.199.234, 74.121.199.234
 Connecting to percona.com|74.121.199.234|:80... connected.
 HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://www.percona.com/get/percona-toolkit.tar.gz [following]
---2016-09-22 09:17:02--  https://www.percona.com/get/percona-toolkit.tar.gz
+Location: https://www.percona.com/get/percona-toolkit.tar.gz <span class="o">[</span>following]
+<span class="nt">--2016-09-22</span> 09:17:02--  https://www.percona.com/get/percona-toolkit.tar.gz
 Resolving www.percona.com... 74.121.199.234, 74.121.199.234
 Connecting to www.percona.com|74.121.199.234|:443... connected.
 HTTP request sent, awaiting response... 302 Found
-Location: https://www.percona.com/downloads/percona-toolkit/2.2.19/tarball/percona-toolkit-2.2.19.tar.gz [following]
---2016-09-22 09:17:03--  https://www.percona.com/downloads/percona-toolkit/2.2.19/tarball/percona-toolkit-2.2.19.tar.gz
+Location: https://www.percona.com/downloads/percona-toolkit/2.2.19/tarball/percona-toolkit-2.2.19.tar.gz <span class="o">[</span>following]
+<span class="nt">--2016-09-22</span> 09:17:03--  https://www.percona.com/downloads/percona-toolkit/2.2.19/tarball/percona-toolkit-2.2.19.tar.gz
 Reusing existing connection to www.percona.com:443.
 HTTP request sent, awaiting response... 200 OK
-Length: 1425623 (1.4M) [application/x-gzip]
+Length: 1425623 <span class="o">(</span>1.4M<span class="o">)</span> <span class="o">[</span>application/x-gzip]
 Saving to: “percona-toolkit.tar.gz”
 
-100%[=======================&gt;] 1,425,623    766K/s   in 1.8s
+100%[<span class="o">=======================&gt;]</span> 1,425,623    766K/s   <span class="k">in </span>1.8s
 
-2016-09-22 09:17:05 (766 KB/s) - “percona-toolkit.tar.gz” saved [1425623/1425623]
+2016-09-22 09:17:05 <span class="o">(</span>766 KB/s<span class="o">)</span> - “percona-toolkit.tar.gz” saved <span class="o">[</span>1425623/1425623]
 
-[root@ultrera ~]# tar xf percona-toolkit.tar.gz
-[root@ultrera ~]# ls
-percona-toolkit-2.2.19  percona-toolkit.tar.gz
-[root@ultrera ~]# cd percona-toolkit-2.2.19
-[root@ultrera percona-toolkit-2.2.19]# perl Makefile.PL
+<span class="o">[</span>root@ultrera ~]# <span class="nb">tar </span>xf percona-toolkit.tar.gz
+<span class="o">[</span>root@ultrera ~]# <span class="nb">ls
+</span>percona-toolkit-2.2.19  percona-toolkit.tar.gz
+<span class="o">[</span>root@ultrera ~]# <span class="nb">cd </span>percona-toolkit-2.2.19
+<span class="o">[</span>root@ultrera percona-toolkit-2.2.19]# perl Makefile.PL
 Warning: prerequisite DBD::mysql 3 not found.
-Writing Makefile for percona-toolkit
-[root@ultrera percona-toolkit-2.2.19]# make
-cp bin/pt-mysql-summary blib/script/pt-mysql-summary
+Writing Makefile <span class="k">for </span>percona-toolkit
+<span class="o">[</span>root@ultrera percona-toolkit-2.2.19]# make
+<span class="nb">cp </span>bin/pt-mysql-summary blib/script/pt-mysql-summary
 ....
 Manifying blib/man1/pt-index-usage.1p
 Manifying blib/man1/pt-duplicate-key-checker.1p
 Manifying blib/man1/pt-config-diff.1p
 Manifying blib/man1/pt-stalk.1p
-[root@ultrera percona-toolkit-2.2.19]# make install
-Installing /usr/local/share/man/man1/pt-query-digest.1p
+<span class="o">[</span>root@ultrera percona-toolkit-2.2.19]# make <span class="nb">install
+</span>Installing /usr/local/share/man/man1/pt-query-digest.1p
 ...
 Installing /usr/local/bin/pt-query-digest
 ...
@@ -1151,17 +1143,17 @@ Appending installation info to /usr/lib64/perl5/perllocal.pod
   <p>运行工具可能会遇到下面的错误：Can’t locate Time/HiRes.pm in @INC</p>
 </blockquote>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 解决办法：
-[root@ultrera ~]# yum install -y perl-Time-HiRes
-[root@ultrera ~]# pt-query-digest --version
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 解决办法：</span>
+<span class="o">[</span>root@ultrera ~]# yum <span class="nb">install</span> <span class="nt">-y</span> perl-Time-HiRes
+<span class="o">[</span>root@ultrera ~]# pt-query-digest <span class="nt">--version</span>
 pt-query-digest 2.2.19
 </code></pre></div></div>
 
 <h3 id="3-开启-mysql-慢日志">3. 开启 mysql 慢日志</h3>
 
-<h5 id="a-查看当前slow_query_log状态">a. 查看当前‘slow_query_log’状态</h5>
+<h4 id="a-查看当前slow_query_log状态">a. 查看当前‘slow_query_log’状态</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like '%query%';
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show variables like <span class="s1">'%query%'</span><span class="p">;</span>
 +------------------------------+---------------------------------+
 | Variable_name                | Value                           |
 +------------------------------+---------------------------------+
@@ -1179,34 +1171,34 @@ pt-query-digest 2.2.19
 | slow_query_log               | OFF                             |
 | slow_query_log_file          | /var/lib/mysql/ultrera-slow.log |
 +------------------------------+---------------------------------+
-13 rows in set (0.00 sec)
+13 rows <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
 
-mysql&gt; show variables like 'log_queries_not_using_indexes';
+mysql&gt; show variables like <span class="s1">'log_queries_not_using_indexes'</span><span class="p">;</span>
 +-------------------------------+-------+
 | Variable_name                 | Value |
 +-------------------------------+-------+
 | log_queries_not_using_indexes | OFF   |
 +-------------------------------+-------+
-1 row in set (0.00 sec)
+1 row <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
 </code></pre></div></div>
 
-<h5 id="b-启动-slow_log-配置">b. 启动 slow_log, 配置</h5>
+<h4 id="b-启动-slow_log-配置">b. 启动 slow_log, 配置</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 设定记录大于2s的sql
-mysql&gt; set global long_query_time=2;
-Query OK, 0 rows affected (0.00 sec)
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 设定记录大于2s的sql</span>
+mysql&gt; <span class="nb">set </span>global <span class="nv">long_query_time</span><span class="o">=</span>2<span class="p">;</span>
+Query OK, 0 rows affected <span class="o">(</span>0.00 sec<span class="o">)</span>
 
-# 设定log存放路径
-mysql&gt; set global slow_query_log_file='/tmp/ultraera-slow.log';
-Query OK, 0 rows affected (0.00 sec)
+<span class="c"># 设定log存放路径</span>
+mysql&gt; <span class="nb">set </span>global <span class="nv">slow_query_log_file</span><span class="o">=</span><span class="s1">'/tmp/ultraera-slow.log'</span><span class="p">;</span>
+Query OK, 0 rows affected <span class="o">(</span>0.00 sec<span class="o">)</span>
 
-# 启用慢日志
-mysql&gt; set global slow_query_log=ON;
-Query OK, 0 rows affected (0.00 sec)
+<span class="c"># 启用慢日志</span>
+mysql&gt; <span class="nb">set </span>global <span class="nv">slow_query_log</span><span class="o">=</span>ON<span class="p">;</span>
+Query OK, 0 rows affected <span class="o">(</span>0.00 sec<span class="o">)</span>
 
-# 同时记录没有使用索引的sql
-mysql&gt; set global log_queries_not_using_indexes=on;
-Query OK, 0 rows affected (0.00 sec)
+<span class="c"># 同时记录没有使用索引的sql</span>
+mysql&gt; <span class="nb">set </span>global <span class="nv">log_queries_not_using_indexes</span><span class="o">=</span>on<span class="p">;</span>
+Query OK, 0 rows affected <span class="o">(</span>0.00 sec<span class="o">)</span>
 </code></pre></div></div>
 
 <blockquote>
@@ -1217,16 +1209,14 @@ Query OK, 0 rows affected (0.00 sec)
 
 <p>pt-query-digest 可以从普通 MySQL 日志，慢查询日志以及二进制日志中分析查询，甚至可以从 SHOW PROCESSLIST 和 MySQL 协议的 tcpdump 中进行分析，如果没有指定文件，它从标准输入流（STDIN）中读取数据。</p>
 
-<h5 id="a-简单使用方法">a. 简单使用方法</h5>
+<h4 id="a-简单使用方法">a. 简单使用方法</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest slow.logs
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest slow.logs
 </code></pre></div></div>
 
 <p>输出信息如下：</p>
 
-<div align="left">
-![](http://images.cnitblog.com/blog/288950/201312/14135450-6f7a732598054f7aa311e95cbd4df3b1.png)
-</div>
+<p><img src="http://images.cnitblog.com/blog/288950/201312/14135450-6f7a732598054f7aa311e95cbd4df3b1.png" alt="image" /></p>
 
 <ul>
 1. Overall 这个部分是一个大致的概要信息 (类似 loadrunner 给出的概要信息)，通过它可以对当前 MySQL 的查询性能做一个初步的评估，比如各个指标的最大值 (max)，平均值 (min)，95% 分布值，中位数 (median)，标准偏差 (stddev)
@@ -1248,12 +1238,12 @@ Query OK, 0 rows affected (0.00 sec)
 <h5 id="详细信息">详细信息</h5>
 <p>列出上面 Profile 中每个 Query ID 的详细信息</p>
 
-<h5 id="b-从-tcpdump-包中分析通过-tcpdump-命令抓取一定时间网络数据包然后进行分析">b. 从 tcpdump 包中分析：通过 tcpdump 命令抓取一定时间网络数据包，然后进行分析</h5>
+<h4 id="b-从-tcpdump-包中分析通过-tcpdump-命令抓取一定时间网络数据包然后进行分析">b. 从 tcpdump 包中分析：通过 tcpdump 命令抓取一定时间网络数据包，然后进行分析</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest --type tcpdump mysql.tcp.txt
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest <span class="nt">--type</span> tcpdump mysql.tcp.txt
 </code></pre></div></div>
 
-<h5 id="c-pt-query-digest-还支持很对其他的数据包分析形势但是我们主要使用的还是针对慢日志进行分析">c. pt-query-digest 还支持很对其他的数据包分析形势，但是我们主要使用的还是针对慢日志进行分析</h5>
+<h4 id="c-pt-query-digest-还支持很对其他的数据包分析形势但是我们主要使用的还是针对慢日志进行分析">c. pt-query-digest 还支持很对其他的数据包分析形势，但是我们主要使用的还是针对慢日志进行分析</h4>
 
 <blockquote>
   <p>更多的帮助文档，请查看官方文档：<a href="http://www.percona.com/doc/percona-toolkit/2.2/pt-query-digest.html">http://www.percona.com/doc/percona-toolkit/2.2/pt-query-digest.html</a></p>
@@ -1267,30 +1257,30 @@ Query OK, 0 rows affected (0.00 sec)
   <li>需要预先安装好 pt-query-digest</li>
 </ul>
 
-<h5 id="51-安装">5.1 安装</h5>
+<h4 id="51-安装">5.1 安装</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultrera ~]# git clone https://github.com/box/Anemometer.git anemometer
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultrera ~]# git clone https://github.com/box/Anemometer.git anemometer
 
-[root@ultrera ~]# mv anemometer /var/www/html
-[root@ultrera ~]# cd /var/www/html/anemometer/
-[root@ultrera anemometer]# mysql -h localhost -u root -p &lt; mysql56-install.sql
-[root@ultrera anemometer]# mysql -h localhost -u root -p -e "grant all privileges on slow_query_log.* to 'anemometer'@'%' identified by 'anemometer';"
+<span class="o">[</span>root@ultrera ~]# <span class="nb">mv </span>anemometer /var/www/html
+<span class="o">[</span>root@ultrera ~]# <span class="nb">cd</span> /var/www/html/anemometer/
+<span class="o">[</span>root@ultrera anemometer]# mysql <span class="nt">-h</span> localhost <span class="nt">-u</span> root <span class="nt">-p</span> &lt; mysql56-install.sql
+<span class="o">[</span>root@ultrera anemometer]# mysql <span class="nt">-h</span> localhost <span class="nt">-u</span> root <span class="nt">-p</span> <span class="nt">-e</span> <span class="s2">"grant all privileges on slow_query_log.* to 'anemometer'@'%' identified by 'anemometer';"</span>
 </code></pre></div></div>
 
-<h5 id="52-配置">5.2 配置</h5>
+<h4 id="52-配置">5.2 配置</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultrera anemometer]# cp conf/sample.config.inc.php conf/config.inc.php
-[root@ultrera anemometer]# vim conf/config.inc.php
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultrera anemometer]# <span class="nb">cp </span>conf/sample.config.inc.php conf/config.inc.php
+<span class="o">[</span>root@ultrera anemometer]# vim conf/config.inc.php
 
-# line 48,49 and line 284,285
-设置数据库的用户名和密码;
+<span class="c"># line 48,49 and line 284,285</span>
+设置数据库的用户名和密码<span class="p">;</span>
 
-[root@ultrera anemometer]# vim conf/config.inc.php
-# line 7,8
-设置数据库的用户名和密码;
+<span class="o">[</span>root@ultrera anemometer]# vim conf/config.inc.php
+<span class="c"># line 7,8</span>
+设置数据库的用户名和密码<span class="p">;</span>
 </code></pre></div></div>
 
-<h5 id="53-导入">5.3 导入</h5>
+<h4 id="53-导入">5.3 导入</h4>
 
 <p>将 pt-query-digest 的分析结果到 anemometer；</p>
 
@@ -1298,11 +1288,11 @@ Query OK, 0 rows affected (0.00 sec)
   <p>pt-query-digest version &lt; 2.2</p>
 </blockquote>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pt-query-digest --user=anemometer --password=superSecurePass \
-                  --review h=db.example.com,D=slow_query_log,t=global_query_review \
-                  --review-history h=db.example.com,D=slow_query_log,t=global_query_review_history \
-                  --no-report --limit=0% \
-                  --filter=" \$event-&gt;{Bytes} = length(\$event-&gt;{arg}) and \$event-&gt;{hostname}=\"$HOSTNAME\"" \
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>pt-query-digest <span class="nt">--user</span><span class="o">=</span>anemometer <span class="nt">--password</span><span class="o">=</span>superSecurePass <span class="se">\</span>
+                  <span class="nt">--review</span> <span class="nv">h</span><span class="o">=</span>db.example.com,D<span class="o">=</span>slow_query_log,t<span class="o">=</span>global_query_review <span class="se">\</span>
+                  <span class="nt">--review-history</span> <span class="nv">h</span><span class="o">=</span>db.example.com,D<span class="o">=</span>slow_query_log,t<span class="o">=</span>global_query_review_history <span class="se">\</span>
+                  <span class="nt">--no-report</span> <span class="nt">--limit</span><span class="o">=</span>0% <span class="se">\</span>
+                  <span class="nt">--filter</span><span class="o">=</span><span class="s2">" </span><span class="se">\$</span><span class="s2">event-&gt;{Bytes} = length(</span><span class="se">\$</span><span class="s2">event-&gt;{arg}) and </span><span class="se">\$</span><span class="s2">event-&gt;{hostname}=</span><span class="se">\"</span><span class="nv">$HOSTNAME</span><span class="se">\"</span><span class="s2">"</span> <span class="se">\</span>
                   /var/lib/mysql/db.example.com-slow.log
 </code></pre></div></div>
 
@@ -1310,18 +1300,18 @@ Query OK, 0 rows affected (0.00 sec)
   <p>pt-query-digest version &gt;= 2.2</p>
 </blockquote>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest --user=anemometer --password=superSecurePass \
-                  --review h=db.example.com,D=slow_query_log,t=global_query_review \
-                  --history h=db.example.com,D=slow_query_log,t=global_query_review_history \
-                  --no-report --limit=0% \
-                  --filter=" \$event-&gt;{Bytes} = length(\$event-&gt;{arg}) and \$event-&gt;{hostname}=\"$HOSTNAME\"" \
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt-query-digest <span class="nt">--user</span><span class="o">=</span>anemometer <span class="nt">--password</span><span class="o">=</span>superSecurePass <span class="se">\</span>
+                  <span class="nt">--review</span> <span class="nv">h</span><span class="o">=</span>db.example.com,D<span class="o">=</span>slow_query_log,t<span class="o">=</span>global_query_review <span class="se">\</span>
+                  <span class="nt">--history</span> <span class="nv">h</span><span class="o">=</span>db.example.com,D<span class="o">=</span>slow_query_log,t<span class="o">=</span>global_query_review_history <span class="se">\</span>
+                  <span class="nt">--no-report</span> <span class="nt">--limit</span><span class="o">=</span>0% <span class="se">\</span>
+                  <span class="nt">--filter</span><span class="o">=</span><span class="s2">" </span><span class="se">\$</span><span class="s2">event-&gt;{Bytes} = length(</span><span class="se">\$</span><span class="s2">event-&gt;{arg}) and </span><span class="se">\$</span><span class="s2">event-&gt;{hostname}=</span><span class="se">\"</span><span class="nv">$HOSTNAME</span><span class="se">\"</span><span class="s2">"</span> <span class="se">\</span>
                   /var/lib/mysql/db.example.com-slow.log
 
 
-Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57A" isn't numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 27.
-Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57B" isn't numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 28.
-Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57C" isn't numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 29.
-</code></pre></div></div>
+Pipeline process 11 <span class="o">(</span>aggregate fingerprint<span class="o">)</span> caused an error: Argument <span class="s2">"57A"</span> isn<span class="s1">'t numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 27.
+Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57B" isn'</span>t numeric <span class="k">in </span>numeric gt <span class="o">(&gt;)</span> at <span class="o">(</span><span class="nb">eval </span>40<span class="o">)</span> line 6, &lt;<span class="o">&gt;</span> line 28.
+Pipeline process 11 <span class="o">(</span>aggregate fingerprint<span class="o">)</span> caused an error: Argument <span class="s2">"57C"</span> isn<span class="s1">'t numeric in numeric gt (&gt;) at (eval 40) line 6, &lt;&gt; line 29.
+</span></code></pre></div></div>
 
       
     </div>
@@ -1393,11 +1383,11 @@ Pipeline process 11 (aggregate fingerprint) caused an error: Argument "57C" isn'
 
 <h4 id="2-install-java-se-development-kit-7-jdk7">2. Install Java SE Development Kit 7 (JDK7)</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# curl -LO -H "Cookie: oraclelicense=accept-securebackup-cookie" \
-"http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-linux-x64.rpm"
-[root@ultraera ~]# rpm -Uvh jdk-7u75-linux-x64.rpm
-Preparing...                ########################################### [100%]
-   1:jdk                    ########################################### [100%]
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# curl <span class="nt">-LO</span> <span class="nt">-H</span> <span class="s2">"Cookie: oraclelicense=accept-securebackup-cookie"</span> <span class="se">\</span>
+<span class="s2">"http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-linux-x64.rpm"</span>
+<span class="o">[</span>root@ultraera ~]# rpm <span class="nt">-Uvh</span> jdk-7u75-linux-x64.rpm
+Preparing...                <span class="c">########################################### [100%]</span>
+   1:jdk                    <span class="c">########################################### [100%]</span>
 Unpacking JAR files...
         rt.jar...
         jsse.jar...
@@ -1409,16 +1399,16 @@ Unpacking JAR files...
 
 <h4 id="3-build-java-environment">3. Build Java Environment</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# vi /etc/profile
-# add follows to the end
-export JAVA_HOME=/usr/java/default
-export PATH=$PATH:$JAVA_HOME/bin
-export CLASSPATH=.:$JAVA_HOME/jre/lib:$JAVA_HOME/lib:$JAVA_HOME/lib/tools.jar
-[root@ultraera ~]# source /etc/profile
-[root@ultraera ~]# java -version
-java version "1.7.0_75"
-Java(TM) SE Runtime Environment (build 1.7.0_75-b13)
-Java HotSpot(TM) 64-Bit Server VM (build 24.75-b04, mixed mode)
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# vi /etc/profile
+<span class="c"># add follows to the end</span>
+<span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/java/default
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$JAVA_HOME</span>/bin
+<span class="nb">export </span><span class="nv">CLASSPATH</span><span class="o">=</span>.:<span class="nv">$JAVA_HOME</span>/jre/lib:<span class="nv">$JAVA_HOME</span>/lib:<span class="nv">$JAVA_HOME</span>/lib/tools.jar
+<span class="o">[</span>root@ultraera ~]# <span class="nb">source</span> /etc/profile
+<span class="o">[</span>root@ultraera ~]# java <span class="nt">-version</span>
+java version <span class="s2">"1.7.0_75"</span>
+Java<span class="o">(</span>TM<span class="o">)</span> SE Runtime Environment <span class="o">(</span>build 1.7.0_75-b13<span class="o">)</span>
+Java HotSpot<span class="o">(</span>TM<span class="o">)</span> 64-Bit Server VM <span class="o">(</span>build 24.75-b04, mixed mode<span class="o">)</span>
 </code></pre></div></div>
 
 <h4 id="4-download-tomcat7">4. Download Tomcat7</h4>
@@ -1426,67 +1416,67 @@ Java HotSpot(TM) 64-Bit Server VM (build 24.75-b04, mixed mode)
 <p>Make sure the latest one and download it from the site below.
 =》 <a href="http://ftp.riken.jp/net/apache/tomcat/tomcat-7/">http://ftp.riken.jp/net/apache/tomcat/tomcat-7/</a></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# wget http://ftp.riken.jp/net/apache/tomcat/tomcat-7/v7.0.70/bin/apache-tomcat-7.0.70.tar.gz
-[root@ultraera ~]# tar zxvf apache-tomcat-7.0.70.tar.gz
-[root@ultraera ~]# mv apache-tomcat-7.0.70 /usr/tomcat7
-[root@ultraera ~]# useradd -M -d /usr/tomcat7 tomcat7
-[root@ultraera ~]# chown -R tomcat7. /usr/tomcat7
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# wget http://ftp.riken.jp/net/apache/tomcat/tomcat-7/v7.0.70/bin/apache-tomcat-7.0.70.tar.gz
+<span class="o">[</span>root@ultraera ~]# <span class="nb">tar </span>zxvf apache-tomcat-7.0.70.tar.gz
+<span class="o">[</span>root@ultraera ~]# <span class="nb">mv </span>apache-tomcat-7.0.70 /usr/tomcat7
+<span class="o">[</span>root@ultraera ~]# useradd <span class="nt">-M</span> <span class="nt">-d</span> /usr/tomcat7 tomcat7
+<span class="o">[</span>root@ultraera ~]# <span class="nb">chown</span> <span class="nt">-R</span> tomcat7. /usr/tomcat7
 </code></pre></div></div>
 
 <h4 id="5-create-a-script--use-service-manage-tomcat7">5. create a script , use service manage tomcat7</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# cat /etc/rc.d/init.d/tomcat7
- #!/bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# <span class="nb">cat</span> /etc/rc.d/init.d/tomcat7
+ <span class="c">#!/bin/bash</span>
 
-# Tomcat7: Start/Stop Tomcat 7
-#
-# chkconfig: - 90 10
-# description: Tomcat is a Java application Server.
+<span class="c"># Tomcat7: Start/Stop Tomcat 7</span>
+<span class="c">#</span>
+<span class="c"># chkconfig: - 90 10</span>
+<span class="c"># description: Tomcat is a Java application Server.</span>
 
-. /etc/init.d/functions
-. /etc/sysconfig/network
+<span class="nb">.</span> /etc/init.d/functions
+<span class="nb">.</span> /etc/sysconfig/network
 
-CATALINA_HOME=/usr/tomcat7
-TOMCAT_USER=tomcat7
+<span class="nv">CATALINA_HOME</span><span class="o">=</span>/usr/tomcat7
+<span class="nv">TOMCAT_USER</span><span class="o">=</span>tomcat7
 
-LOCKFILE=/var/lock/subsys/tomcat7
+<span class="nv">LOCKFILE</span><span class="o">=</span>/var/lock/subsys/tomcat7
 
-RETVAL=0
-start(){
-    echo "Starting Tomcat7: "
-    su - $TOMCAT_USER -c "$CATALINA_HOME/bin/startup.sh"
-    RETVAL=$?
-    echo
-    [ $RETVAL -eq 0 ] &amp;&amp; touch $LOCKFILE
-    return $RETVAL
-}
+<span class="nv">RETVAL</span><span class="o">=</span>0
+start<span class="o">(){</span>
+    <span class="nb">echo</span> <span class="s2">"Starting Tomcat7: "</span>
+    su - <span class="nv">$TOMCAT_USER</span> <span class="nt">-c</span> <span class="s2">"</span><span class="nv">$CATALINA_HOME</span><span class="s2">/bin/startup.sh"</span>
+    <span class="nv">RETVAL</span><span class="o">=</span><span class="nv">$?</span>
+    <span class="nb">echo</span>
+    <span class="o">[</span> <span class="nv">$RETVAL</span> <span class="nt">-eq</span> 0 <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">touch</span> <span class="nv">$LOCKFILE</span>
+    <span class="k">return</span> <span class="nv">$RETVAL</span>
+<span class="o">}</span>
 
-stop(){
-    echo "Shutting down Tomcat7: "
-    $CATALINA_HOME/bin/shutdown.sh
-    RETVAL=$?
-    echo
-    [ $RETVAL -eq 0 ] &amp;&amp; rm -f $LOCKFILE
-    return $RETVAL
-}
+stop<span class="o">(){</span>
+    <span class="nb">echo</span> <span class="s2">"Shutting down Tomcat7: "</span>
+    <span class="nv">$CATALINA_HOME</span>/bin/shutdown.sh
+    <span class="nv">RETVAL</span><span class="o">=</span><span class="nv">$?</span>
+    <span class="nb">echo</span>
+    <span class="o">[</span> <span class="nv">$RETVAL</span> <span class="nt">-eq</span> 0 <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-f</span> <span class="nv">$LOCKFILE</span>
+    <span class="k">return</span> <span class="nv">$RETVAL</span>
+<span class="o">}</span>
 
-case "$1" in
-    start)
+<span class="k">case</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="k">in
+    </span>start<span class="p">)</span>
         start
-        ;;
-    stop)
+        <span class="p">;;</span>
+    stop<span class="p">)</span>
         stop
-        ;;
-    restart)
+        <span class="p">;;</span>
+    restart<span class="p">)</span>
         stop
         start
-        ;;
-    *)
-        echo $"Usage: $0 {start|stop|restart}"
-        exit 1
-        ;;
-esac
-exit $?
+        <span class="p">;;</span>
+    <span class="k">*</span><span class="p">)</span>
+        <span class="nb">echo</span> <span class="s2">$"Usage: </span><span class="nv">$0</span><span class="s2"> {start|stop|restart}"</span>
+        <span class="nb">exit </span>1
+        <span class="p">;;</span>
+<span class="k">esac</span>
+<span class="nb">exit</span> <span class="nv">$?</span>
 </code></pre></div></div>
 
 <h4 id="6-add-tomcat7-to-system-service">6. Add tomcat7 to system service</h4>
@@ -1512,22 +1502,22 @@ tomcat7       6326  8.3 85.6 5229768 2910176 ?     Sl   Aug22 3216:38 /usr/bin/j
 
 <h4 id="7-打开浏览器测试-tomcat-server-搭建完成默认页面如下">7. 打开浏览器测试 Tomcat Server 搭建完成，默认页面如下</h4>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/09/tomcat7.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/09/tomcat7.jpg" alt="image" /></p>
 
 <h4 id="8-使用-curl-测试">8. 使用 curl 测试</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera ~]# curl -I http://localhost:8080
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# curl <span class="nt">-I</span> http://localhost:8080
 HTTP/1.1 200 OK
 Server: Apache-Coyote/1.1
-Content-Type: text/html;charset=ISO-8859-1
+Content-Type: text/html<span class="p">;</span><span class="nv">charset</span><span class="o">=</span>ISO-8859-1
 Transfer-Encoding: chunked
 Date: Sun, 18 Sep 2016 11:14:06 GMT
 </code></pre></div></div>
 
 <h4 id="9-tomcat-文件树">9. Tomcat 文件树</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@ultraera /usr/tomcat7]# tree
-.
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera /usr/tomcat7]# tree
+<span class="nb">.</span>
 ├── bin
 │   ├── bootstrap.jar
 │   ├── catalina.bat
@@ -1667,12 +1657,12 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
      
     	
       <li><a href="/categories.html#Linux">
-    		Linux <span>21</span>
+    		Linux <span>22</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#CentOS">
-    		CentOS <span>14</span>
+    		CentOS <span>15</span>
     	</a></li>
      
     	
@@ -1682,12 +1672,12 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>19</span>
+    		数据库 <span>18</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#MySQL">
-    		MySQL <span>15</span>
+    		MySQL <span>14</span>
     	</a></li>
      
     	
@@ -1712,7 +1702,7 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>17</span>
+    		Mac <span>16</span>
     	</a></li>
      
     	
@@ -1936,6 +1926,12 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
       <ul>
         
         <li>
+          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy To Markdwon</a>
+          
+
+        </li>
+        
+        <li>
           <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
           
   参考资料：
@@ -1954,7 +1950,9 @@ df = pandas.read_csv(‘somefile.txt’)
         
         <li>
           <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
-          暗坑很多
+          
+  暗坑很多
+
 
 
         </li>
@@ -1963,13 +1961,6 @@ df = pandas.read_csv(‘somefile.txt’)
           <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
           王路
 12 highlights
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/%E8%87%AA%E5%8D%91%E4%B8%8E%E8%B6%85%E8%B6%8A.html">自卑与超越</a>
-          【奥】阿尔弗雷德··阿德勒
 
 
         </li>

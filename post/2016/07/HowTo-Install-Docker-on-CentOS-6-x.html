@@ -330,7 +330,7 @@ docker info
 
 <h3 id="1-faild-to-start-docker-on-centos-6x"><strong>1. Faild to start docker on CentOS 6.x</strong></h3>
 
-<p><code>***/usr/bin/docker: relocation error: /usr/bin/docker: symbol dm_task_get_info_with_deferred_remove, version Base not defined in file libdevmapper.so.1.02 with link time reference***</code></p>
+<p><code class="language-plaintext highlighter-rouge">***/usr/bin/docker: relocation error: /usr/bin/docker: symbol dm_task_get_info_with_deferred_remove, version Base not defined in file libdevmapper.so.1.02 with link time reference***</code></p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>the lib-device-mapper that you have isn<span class="s1">'t exporting a symbol ("Base") that Docker needs.
 this by upgrading lib-device-mapper to version 1.02.90.
@@ -342,7 +342,7 @@ sudo yum install device-mapper-event-libs
 
 <h3 id="2-faild-to-use-docker"><strong>2. Faild to use docker</strong></h3>
 
-<p><code>***Get &lt;http:///var/run/docker.sock/v1.19/info&gt;: dial unix /var/run/docker.sock: no such file or directory. Are you trying to connect to a TLS-enabled daemon without TLS?***</code></p>
+<p><code class="language-plaintext highlighter-rouge">***Get &lt;http:///var/run/docker.sock/v1.19/info&gt;: dial unix /var/run/docker.sock: no such file or directory. Are you trying to connect to a TLS-enabled daemon without TLS?***</code></p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># this is because docker no restart ok.</span>
 

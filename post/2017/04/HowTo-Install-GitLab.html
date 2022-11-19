@@ -290,7 +290,7 @@
         <div class="post-content" itemprop="articleBody">
             <p>目前最为主流的在线 Git 版本控制系统可以说是非 GitHub 莫属，对于个人开发者和开源项目可以直接选择 GitHub 作为 Git 版本控制系统即可，但是，对于企业内部开发管理的 Git 版本控制系统，在对保密性有高要求时 GitHub 就不合适了，这时 GitLab 作为一个可以完全搭建在企业内部的 Git 版本控制系统，而且基本囊括了 GitHub 的所有功能。</p>
 
-<h4 id="目前-gitlab-已经整合的功能">目前 GitLab 已经整合的功能</h4>
+<h2 id="目前-gitlab-已经整合的功能">目前 GitLab 已经整合的功能</h2>
 
 <ol>
   <li>Repository access</li>
@@ -303,7 +303,7 @@
   <li>Web Editor</li>
 </ol>
 
-<h4 id="测试环境">测试环境</h4>
+<h2 id="测试环境">测试环境</h2>
 
 <ul>
   <li>2 core 4GB</li>
@@ -312,221 +312,221 @@
   <li>Gitlab</li>
 </ul>
 
-<h4 id="安装需求">安装需求</h4>
+<h2 id="安装需求">安装需求</h2>
 
 <p>关于 GitLab 的安装需求，主要是针对用户量然后评估出服务器及相关资源的配置，<a href="https://docs.gitlab.com.cn/ce/install/requirements.html">查看</a></p>
 
-<h3 id="gitlab-安装"><strong>GitLab 安装</strong></h3>
+<h3 id="gitlab-安装">GitLab 安装</h3>
 
-<h4 id="安装配置依赖项">安装配置依赖项</h4>
+<h2 id="安装配置依赖项">安装配置依赖项</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install curl openssh-server openssh-clients postfix cronie
-sudo service postfix start
-sudo chkconfig postfix on
-sudo lokkit -s http -s ssh
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>yum <span class="nb">install </span>curl openssh-server openssh-clients postfix cronie
+<span class="nb">sudo </span>service postfix start
+<span class="nb">sudo </span>chkconfig postfix on
+<span class="nb">sudo </span>lokkit <span class="nt">-s</span> http <span class="nt">-s</span> ssh
 </code></pre></div></div>
 
-<h4 id="添加-gitlab-仓库并安装到服务器上">添加 GitLab 仓库，并安装到服务器上</h4>
+<h2 id="添加-gitlab-仓库并安装到服务器上">添加 GitLab 仓库，并安装到服务器上</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -sS http://packages.gitlab.cc/install/gitlab-ce/script.rpm.sh | sudo bash
-sudo yum install gitlab-ce
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-sS</span> http://packages.gitlab.cc/install/gitlab-ce/script.rpm.sh | <span class="nb">sudo </span>bash
+<span class="nb">sudo </span>yum <span class="nb">install </span>gitlab-ce
 </code></pre></div></div>
 
-<h4 id="启动-gitlab-并初始化">启动 GitLab 并初始化</h4>
+<h2 id="启动-gitlab-并初始化">启动 GitLab 并初始化</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo gitlab-ctl reconfigure
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>gitlab-ctl reconfigure
 </code></pre></div></div>
 
-<p>默认登录账号是：<strong>root</strong> ，你可以在首次打开时设置密码。</p>
+<p>默认登录账号是：root，你可以在首次打开时设置密码。</p>
 
-<h3 id="gitlab-初始化"><strong>GitLab 初始化</strong></h3>
+<h3 id="gitlab-初始化">GitLab 初始化</h3>
 
-<h4 id="开机自启动">开机自启动</h4>
+<h2 id="开机自启动">开机自启动</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> vi /etc/rc.local
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> vi /etc/rc.local
  /opt/gitlab/bin/gitlab-ctl start
 </code></pre></div></div>
 
-<h4 id="gitlab-配置文件">GitLab 配置文件</h4>
+<h2 id="gitlab-配置文件">GitLab 配置文件</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/gitlab/gitlab.rb
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/gitlab/gitlab.rb
 </code></pre></div></div>
 
-<h4 id="smtp-邮箱配置">SMTP 邮箱配置</h4>
+<h2 id="smtp-邮箱配置">SMTP 邮箱配置</h2>
 
 <p>如果想使用 SMTP 代替 sendmail 来发送邮件，应该在 gitlab.rb 中启用对应的配置，然后运行<code class="language-plaintext highlighter-rouge">gitlab-ctl reconfigure</code>使修改生效。</p>
 
-<h5 id="qq-企业邮箱配置示例">QQ 企业邮箱配置示例</h5>
+<h3 id="qq-企业邮箱配置示例">QQ 企业邮箱配置示例</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails['smtp_enable'] = true
-gitlab_rails['smtp_address'] = "smtp.exmail.qq.com"
-gitlab_rails['smtp_port'] = 465
-gitlab_rails['smtp_user_name'] = "xxxx@xx.com"
-gitlab_rails['smtp_password'] = "password"
-gitlab_rails['smtp_authentication'] = "login"
-gitlab_rails['smtp_enable_starttls_auto'] = true
-gitlab_rails['smtp_tls'] = true
-gitlab_rails['gitlab_email_from'] = 'xxxx@xx.com'
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails[<span class="s1">'smtp_enable'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">true
+</span>gitlab_rails[<span class="s1">'smtp_address'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"smtp.exmail.qq.com"</span>
+gitlab_rails[<span class="s1">'smtp_port'</span><span class="o">]</span> <span class="o">=</span> 465
+gitlab_rails[<span class="s1">'smtp_user_name'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"xxxx@xx.com"</span>
+gitlab_rails[<span class="s1">'smtp_password'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"password"</span>
+gitlab_rails[<span class="s1">'smtp_authentication'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"login"</span>
+gitlab_rails[<span class="s1">'smtp_enable_starttls_auto'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">true
+</span>gitlab_rails[<span class="s1">'smtp_tls'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">true
+</span>gitlab_rails[<span class="s1">'gitlab_email_from'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'xxxx@xx.com'</span>
 </code></pre></div></div>
 
-<h5 id="gmail-邮箱配置示例">Gmail 邮箱配置示例</h5>
+<h3 id="gmail-邮箱配置示例">Gmail 邮箱配置示例</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails['smtp_enable'] = true
-gitlab_rails['smtp_address'] = "smtp.gmail.com"
-gitlab_rails['smtp_port'] = 587
-gitlab_rails['smtp_user_name'] = "my.email@gmail.com"
-gitlab_rails['smtp_password'] = "my-gmail-password"
-gitlab_rails['smtp_domain'] = "smtp.gmail.com"
-gitlab_rails['smtp_authentication'] = "login"
-gitlab_rails['smtp_enable_starttls_auto'] = true
-gitlab_rails['smtp_tls'] = false
-gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails[<span class="s1">'smtp_enable'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">true
+</span>gitlab_rails[<span class="s1">'smtp_address'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"smtp.gmail.com"</span>
+gitlab_rails[<span class="s1">'smtp_port'</span><span class="o">]</span> <span class="o">=</span> 587
+gitlab_rails[<span class="s1">'smtp_user_name'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"my.email@gmail.com"</span>
+gitlab_rails[<span class="s1">'smtp_password'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"my-gmail-password"</span>
+gitlab_rails[<span class="s1">'smtp_domain'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"smtp.gmail.com"</span>
+gitlab_rails[<span class="s1">'smtp_authentication'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"login"</span>
+gitlab_rails[<span class="s1">'smtp_enable_starttls_auto'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">true
+</span>gitlab_rails[<span class="s1">'smtp_tls'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">false
+</span>gitlab_rails[<span class="s1">'smtp_openssl_verify_mode'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'peer'</span>
 </code></pre></div></div>
 
-<h5 id="outlook-邮箱配置示例">Outlook 邮箱配置示例</h5>
+<h3 id="outlook-邮箱配置示例">Outlook 邮箱配置示例</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails['smtp_enable'] = true
-gitlab_rails['smtp_address'] = "smtp-mail.outlook.com"
-gitlab_rails['smtp_port'] = 587
-gitlab_rails['smtp_user_name'] = "username@outlook.com"
-gitlab_rails['smtp_password'] = "password"
-gitlab_rails['smtp_domain'] = "smtp-mail.outlook.com"
-gitlab_rails['smtp_authentication'] = "login"
-gitlab_rails['smtp_enable_starttls_auto'] = true
-gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails[<span class="s1">'smtp_enable'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">true
+</span>gitlab_rails[<span class="s1">'smtp_address'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"smtp-mail.outlook.com"</span>
+gitlab_rails[<span class="s1">'smtp_port'</span><span class="o">]</span> <span class="o">=</span> 587
+gitlab_rails[<span class="s1">'smtp_user_name'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"username@outlook.com"</span>
+gitlab_rails[<span class="s1">'smtp_password'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"password"</span>
+gitlab_rails[<span class="s1">'smtp_domain'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"smtp-mail.outlook.com"</span>
+gitlab_rails[<span class="s1">'smtp_authentication'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"login"</span>
+gitlab_rails[<span class="s1">'smtp_enable_starttls_auto'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">true
+</span>gitlab_rails[<span class="s1">'smtp_openssl_verify_mode'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'peer'</span>
 </code></pre></div></div>
 
 <blockquote>
   <p>​:warning: ‘smtp_password’字段不应包含任何 Ruby或者YAML语法中的分隔符 (如<code class="language-plaintext highlighter-rouge">'</code>),以避免处理配置文件的过程中发生不必要的意外。</p>
 </blockquote>
 
-<h4 id="gitlab-日常维护">GitLab 日常维护</h4>
+<h2 id="gitlab-日常维护">GitLab 日常维护</h2>
 
-<h5 id="1-查看服务状态">1. 查看服务状态</h5>
+<h3 id="1-查看服务状态">1. 查看服务状态</h3>
 
 <p>使用 gitlab-ctl status 查看服务状态</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@6 ~]# sudo gitlab-ctl status
-run: gitaly: (pid 15055) 23089s; run: log: (pid 3142) 55379s
-run: gitlab-monitor: (pid 15060) 23088s; run: log: (pid 3325) 55357s
-run: gitlab-workhorse: (pid 15063) 23088s; run: log: (pid 3156) 55377s
-run: logrotate: (pid 17867) 1487s; run: log: (pid 3197) 55369s
-run: nginx: (pid 15077) 23087s; run: log: (pid 3169) 55375s
-run: node-exporter: (pid 15083) 23087s; run: log: (pid 3247) 55366s
-run: postgres-exporter: (pid 15088) 23086s; run: log: (pid 3311) 55358s
-run: postgresql: (pid 15093) 23086s; run: log: (pid 2988) 55412s
-run: prometheus: (pid 15101) 23085s; run: log: (pid 3230) 55368s
-run: redis: (pid 15109) 23085s; run: log: (pid 2931) 55419s
-run: redis-exporter: (pid 15113) 23085s; run: log: (pid 3290) 55364s
-run: sidekiq: (pid 17029) 22450s; run: log: (pid 3131) 55380s
-run: unicorn: (pid 17001) 22460s; run: log: (pid 3100) 55386s
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@6 ~]# <span class="nb">sudo </span>gitlab-ctl status
+run: gitaly: <span class="o">(</span>pid 15055<span class="o">)</span> 23089s<span class="p">;</span> run: log: <span class="o">(</span>pid 3142<span class="o">)</span> 55379s
+run: gitlab-monitor: <span class="o">(</span>pid 15060<span class="o">)</span> 23088s<span class="p">;</span> run: log: <span class="o">(</span>pid 3325<span class="o">)</span> 55357s
+run: gitlab-workhorse: <span class="o">(</span>pid 15063<span class="o">)</span> 23088s<span class="p">;</span> run: log: <span class="o">(</span>pid 3156<span class="o">)</span> 55377s
+run: logrotate: <span class="o">(</span>pid 17867<span class="o">)</span> 1487s<span class="p">;</span> run: log: <span class="o">(</span>pid 3197<span class="o">)</span> 55369s
+run: nginx: <span class="o">(</span>pid 15077<span class="o">)</span> 23087s<span class="p">;</span> run: log: <span class="o">(</span>pid 3169<span class="o">)</span> 55375s
+run: node-exporter: <span class="o">(</span>pid 15083<span class="o">)</span> 23087s<span class="p">;</span> run: log: <span class="o">(</span>pid 3247<span class="o">)</span> 55366s
+run: postgres-exporter: <span class="o">(</span>pid 15088<span class="o">)</span> 23086s<span class="p">;</span> run: log: <span class="o">(</span>pid 3311<span class="o">)</span> 55358s
+run: postgresql: <span class="o">(</span>pid 15093<span class="o">)</span> 23086s<span class="p">;</span> run: log: <span class="o">(</span>pid 2988<span class="o">)</span> 55412s
+run: prometheus: <span class="o">(</span>pid 15101<span class="o">)</span> 23085s<span class="p">;</span> run: log: <span class="o">(</span>pid 3230<span class="o">)</span> 55368s
+run: redis: <span class="o">(</span>pid 15109<span class="o">)</span> 23085s<span class="p">;</span> run: log: <span class="o">(</span>pid 2931<span class="o">)</span> 55419s
+run: redis-exporter: <span class="o">(</span>pid 15113<span class="o">)</span> 23085s<span class="p">;</span> run: log: <span class="o">(</span>pid 3290<span class="o">)</span> 55364s
+run: sidekiq: <span class="o">(</span>pid 17029<span class="o">)</span> 22450s<span class="p">;</span> run: log: <span class="o">(</span>pid 3131<span class="o">)</span> 55380s
+run: unicorn: <span class="o">(</span>pid 17001<span class="o">)</span> 22460s<span class="p">;</span> run: log: <span class="o">(</span>pid 3100<span class="o">)</span> 55386s
 </code></pre></div></div>
 
-<h5 id="2-启动关闭重启">2. 启动、关闭、重启</h5>
+<h3 id="2-启动关闭重启">2. 启动、关闭、重启</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 启动Gitlab所有组件
-sudo gitlab-ctl start
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 启动Gitlab所有组件</span>
+<span class="nb">sudo </span>gitlab-ctl start
 
-# 停止Gitlab所有组件
-sudo gitlab-ctl stop
+<span class="c"># 停止Gitlab所有组件</span>
+<span class="nb">sudo </span>gitlab-ctl stop
 
-# 重启Gitlab所有组件
-sudo gitlab-ctl restart
+<span class="c"># 重启Gitlab所有组件</span>
+<span class="nb">sudo </span>gitlab-ctl restart
 
-# 重启单个组件
-sudo gitlab-ctl restart sidekiq
+<span class="c"># 重启单个组件</span>
+<span class="nb">sudo </span>gitlab-ctl restart sidekiq
 </code></pre></div></div>
 
-<h5 id="3-控制台实时查看日志">3. 控制台实时查看日志</h5>
+<h3 id="3-控制台实时查看日志">3. 控制台实时查看日志</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 查看所有的logs; 按 Ctrl-C 退出
-sudo gitlab-ctl tail
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 查看所有的logs; 按 Ctrl-C 退出</span>
+<span class="nb">sudo </span>gitlab-ctl <span class="nb">tail</span>
 
-# 拉取/var/log/gitlab下子目录的日志
-sudo gitlab-ctl tail gitlab-rails
+<span class="c"># 拉取/var/log/gitlab下子目录的日志</span>
+<span class="nb">sudo </span>gitlab-ctl <span class="nb">tail </span>gitlab-rails
 
-# 拉取某个指定的日志文件
-sudo gitlab-ctl tail nginx/gitlab_error.log
+<span class="c"># 拉取某个指定的日志文件</span>
+<span class="nb">sudo </span>gitlab-ctl <span class="nb">tail </span>nginx/gitlab_error.log
 </code></pre></div></div>
 
-<h3 id="gitlab-安装后优化"><strong>GitLab 安装后优化</strong></h3>
+<h3 id="gitlab-安装后优化">GitLab 安装后优化</h3>
 
-<h4 id="启用-https">启用 HTTPS</h4>
+<h2 id="启用-https">启用 HTTPS</h2>
 
-<p>首先，你需要提供一个有可信任 CA 证书，默认情况下 GitLab 是没有启用 HTTPS 的，如果要启用 HTTPS 时，首先要修改<code>/etc/gitlab/gitlab.rb</code>中的<code>external_url</code>:</p>
+<p>首先，你需要提供一个有可信任 CA 证书，默认情况下 GitLab 是没有启用 HTTPS 的，如果要启用 HTTPS 时，首先要修改<code class="language-plaintext highlighter-rouge">/etc/gitlab/gitlab.rb</code>中的<code class="language-plaintext highlighter-rouge">external_url</code>:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 修改为https
-external_url "https://git.ultraera.org"
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 修改为https</span>
+external_url <span class="s2">"https://git.ultraera.org"</span>
 
-# 设置默认将http重定向到https
-nginx['redirect_http_to_https'] = true
+<span class="c"># 设置默认将http重定向到https</span>
+nginx[<span class="s1">'redirect_http_to_https'</span><span class="o">]</span> <span class="o">=</span> <span class="nb">true</span>
 </code></pre></div></div>
 
 <p>如果你暂时没有 https 证书，那么你可以临时自己颁发一个证书，注意这个证书是不受信任的。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir -p /etc/nginx/ssl/
-cd /etc/nginx/ssl/
-sudo openssl req -newkey rsa:2048 -x509 -nodes -days 3560 -out gitlab.crt -keyout gitlab.key
-sudo chmod o-r gitlab.key
-sudo mv gitlab.key gitlab.crt /etc/ssl/
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> /etc/nginx/ssl/
+<span class="nb">cd</span> /etc/nginx/ssl/
+<span class="nb">sudo </span>openssl req <span class="nt">-newkey</span> rsa:2048 <span class="nt">-x509</span> <span class="nt">-nodes</span> <span class="nt">-days</span> 3560 <span class="nt">-out</span> gitlab.crt <span class="nt">-keyout</span> gitlab.key
+<span class="nb">sudo chmod </span>o-r gitlab.key
+<span class="nb">sudo mv </span>gitlab.key gitlab.crt /etc/ssl/
 </code></pre></div></div>
 
 <p>另外，还需要在 gitlab-shell 中的 config.yml 中将 self_signed_cert 修改为启用：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>self_signed_cert = true
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>self_signed_cert <span class="o">=</span> <span class="nb">true</span>
 </code></pre></div></div>
 
-<h4 id="设置延迟启动">设置延迟启动</h4>
+<h2 id="设置延迟启动">设置延迟启动</h2>
 
-<p>为保证服务质量，我们可以设置让 omnibus-gitlab 的服务 (Nginx, Redis, Unicorn 等) 在指定的文件系统挂载成功后再启动，在<code>/etc/gitlab/gitlab.rb</code> 文件中添加如下内容：</p>
+<p>为保证服务质量，我们可以设置让 omnibus-gitlab 的服务 (Nginx, Redis, Unicorn 等) 在指定的文件系统挂载成功后再启动，在<code class="language-plaintext highlighter-rouge">/etc/gitlab/gitlab.rb</code> 文件中添加如下内容：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 等待/var/opt/gitlab 先被挂载
-high_availability['mountpoint'] = '/var/opt/gitlab'
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 等待/var/opt/gitlab 先被挂载</span>
+high_availability[<span class="s1">'mountpoint'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'/var/opt/gitlab'</span>
 </code></pre></div></div>
 
 <blockquote>
   <p>注意在修改配置之后，要使用重新 reconfigure 配置</p>
 </blockquote>
 
-<h4 id="backups-备份还原">Backups 备份还原</h4>
+<h2 id="backups-备份还原">Backups 备份还原</h2>
 
-<h5 id="备份">备份</h5>
+<h3 id="备份">备份</h3>
 
 <p>Gitlab 的配置也非常简单，使用一条命令即可创建完整的 Gitlab 备份：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab-rake gitlab:backup:create
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab-rake gitlab:backup:create
 </code></pre></div></div>
 
 <p>该命令会在<code class="language-plaintext highlighter-rouge">/var/opt/gitlab/backups</code>目录下创建一个名称类似为<code class="language-plaintext highlighter-rouge">1491989249_2017_04_12_gitlab_backup.tar</code>的压缩包，这个压缩包就是 Gitlab 整个的完整部分，其中开头的<code class="language-plaintext highlighter-rouge">1491989249_2017_04_12</code>是备份创建的日期，这也是我们等下恢复是要用的字段。</p>
 
-<h5 id="修改默认备份路径">修改默认备份路径</h5>
+<h3 id="修改默认备份路径">修改默认备份路径</h3>
 
 <p>如果你像我一样，是使用 yum 安装的，那么 GitLab 默认的备份目录应该在<code class="language-plaintext highlighter-rouge">/var/opt/gitlab/backups</code>，我建议将备份目录修改为其他位置，并添加定时自动备份脚本，可以通过修改<code class="language-plaintext highlighter-rouge">/etc/gitlab/gitlab.rb</code>来修改默认位置：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails['backup_path'] = '/mnt/backups'
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gitlab_rails[<span class="s1">'backup_path'</span><span class="o">]</span> <span class="o">=</span> <span class="s1">'/mnt/backups'</span>
 </code></pre></div></div>
 
-<h5 id="使用-crontab-添加自动备份">使用 crontab 添加自动备份</h5>
+<h3 id="使用-crontab-添加自动备份">使用 crontab 添加自动备份</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 每天凌晨00:00 自动备份
-00 00 * * * /opt/gitlab/bin/gitlab-rake gitlab:backup:create
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 每天凌晨00:00 自动备份</span>
+00 00 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /opt/gitlab/bin/gitlab-rake gitlab:backup:create
 </code></pre></div></div>
 
-<h5 id="备份恢复">备份恢复</h5>
+<h3 id="备份恢复">备份恢复</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 停止相关数据连接服务
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 停止相关数据连接服务</span>
 gitlab-ctl stop unicorn
 gitlab-ctl stop sidekiq
 
-# 从1491989249_2017_04_12编号备份中恢复
-gitlab-rake gitlab:backup:restore BACKUP=1491989249_2017_04_12
+<span class="c"># 从1491989249_2017_04_12编号备份中恢复</span>
+gitlab-rake gitlab:backup:restore <span class="nv">BACKUP</span><span class="o">=</span>1491989249_2017_04_12
 
-# 启动Gitlab
-sudo gitlab-ctl start unicorn
-sudo gitlab-ctl start sidekiq
+<span class="c"># 启动Gitlab</span>
+<span class="nb">sudo </span>gitlab-ctl start unicorn
+<span class="nb">sudo </span>gitlab-ctl start sidekiq
 </code></pre></div></div>
 
-<h3 id="gitlab-迁移"><strong>GitLab 迁移</strong></h3>
+<h3 id="gitlab-迁移">GitLab 迁移</h3>
 
 <p>只需将原服务器<code class="language-plaintext highlighter-rouge">/var/opt/gitlab/backups</code>目录下的备份文件拷贝到新服务器上的<code class="language-plaintext highlighter-rouge">/var/opt/gitlab/backups</code>上即可 (如果你没修改过默认备份目录的话)，但是需要注意的是新服务器上的 Gitlab 的版本必须与创建备份时的 Gitlab 版本号相同，比如新服务器安装的是最新的 9.0.5 版本的 Gitlab, 那么迁移之前，最好将老服务器的 Gitlab 升级为 9.0.5 在进行备份。</p>
 

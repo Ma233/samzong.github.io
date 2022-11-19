@@ -324,12 +324,12 @@
 
 <p>需要指定下 <code class="language-plaintext highlighter-rouge">plaform</code> ，当我运行在 Apple M1 上，变更部分如下：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>services:
-  # Database
-  db:
-    platform: linux/x86_64  # set platform
-    image: mysql-server:5.7
-    ...
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">services</span><span class="pi">:</span>
+  <span class="c1"># Database</span>
+  <span class="na">db</span><span class="pi">:</span>
+    <span class="na">platform</span><span class="pi">:</span> <span class="s">linux/x86_64</span>  <span class="c1"># set platform</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">mysql-server:5.7</span>
+    <span class="s">...</span>
 </code></pre></div></div>
 
 <p>如果只是在 docker pull 时，增加指定参数即可：</p>
@@ -446,11 +446,11 @@
                 
                 
                 
+                
+                
+                
+                
                 <li><a href="/post/2022/04/Docker-Run-at-Apple-Silicon-M1.html">Dockerfile Run at M1 processor build failed</a> - <span>04/17/2022</span></li>
-                
-                
-                
-                
                 
                 
                 

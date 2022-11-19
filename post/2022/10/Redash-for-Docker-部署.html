@@ -288,39 +288,41 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <p><strong>暗坑很多</strong></p>
+            <blockquote>
+  <p>暗坑很多</p>
+</blockquote>
 
 <h2 id="部署过程">部署过程</h2>
 
 <ol>
-  <li>需要自行维护一个 env 作为配置文件。</li>
+  <li>需要自行维护一个 env 作为配置文件</li>
 </ol>
 
-<!---->
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>REDASH_COOKIE_SECRET=a07cca441ab9f28b66c589f3118e0de48469b1bc6a5036eade7badbed305d96e
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>REDASH_COOKIE_SECRET=a07cca441ab9f28b66c589f3118e0de48469b1bc6a5036eade7badbed305d96e
 POSTGRES_HOST_AUTH_METHOD=trust
 REDASH_REDIS_URL=redis://redis:6379/0
 REDASH_DATABASE_URL=postgresql://postgres
 </code></pre></div></div>
 
-<ol>
-  <li>需要创建一个 postgres-data 并配置 docker-compose.yml 的路径，数据库持久化</li>
+<ul>
+  <li>
+    <p>需要创建一个 postgres-data 并配置 docker-compose.yml 的路径，数据库持久化</p>
+  </li>
   <li>需要给 postgres 容器增加 sudo 命令
-    <ol>
+    <ul>
       <li>apk add sudo</li>
-    </ol>
+    </ul>
   </li>
   <li>需要手工进入到 postgresql 容器内创建 role 和 database
-    <ol>
+    <ul>
       <li>createuser -U postgres redash</li>
       <li>createdb -U postgres redash</li>
-    </ol>
+    </ul>
   </li>
   <li>执行数据库初始化动作</li>
   <li>docker-compose run –rm server create_db</li>
   <li>然后重启 redash 全部服务即可 docker-compose down 后重启</li>
-</ol>
+</ul>
 
 <blockquote>
   <p>postgresql 在执行 psql 命令时，默认会读取当前系统用户作为执行 role；但 psql 默认用户是 postgres</p>
@@ -343,13 +345,14 @@ REDASH_DATABASE_URL=postgresql://postgres
 
 <h2 id="启动的服务介绍">启动的服务介绍</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>v10-redashio_adhoc_worker_1     # 执行查询任务的 worker
-v10-redashio_postgres_1       # 数据库
-v10-redashio_redis_1        # 缓存
-v10-redashio_scheduled_worker_1   # 执行计划任务的 worker
-v10-redashio_scheduler_1      # 计划任务管理 server
-v10-redashio_server_1        # 主体 server
-</code></pre></div></div>
+<ul>
+  <li>v10-redashio_adhoc_worker_1     # 执行查询任务的 worker</li>
+  <li>v10-redashio_postgres_1       # 数据库</li>
+  <li>v10-redashio_redis_1        # 缓存</li>
+  <li>v10-redashio_scheduled_worker_1   # 执行计划任务的 worker</li>
+  <li>v10-redashio_scheduler_1      # 计划任务管理 server</li>
+  <li>v10-redashio_server_1        # 主体 server</li>
+</ul>
 
 <p>以上主要会设计到 3 个镜像，redis、pgsql、redash，其中核心是 redash，所以关注镜像版本也是这个</p>
 
@@ -394,17 +397,19 @@ v10-redashio_server_1        # 主体 server
   <p>带来的问题，页面上无法选择到 Elasticsearch 作为数据源，没时间去研究了</p>
 </blockquote>
 
-<p>看了下还是可以使用 redash 的 API 去创建的 <code class="language-plaintext highlighter-rouge">/api/data_sources</code></p>
+<p>看了下还是可以使用 redash 的 API 去创建的 <code class="language-plaintext highlighter-rouge">/api/data_sources</code>:</p>
+
+<h2 id="配置">配置</h2>
 
 <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-    </span><span class="nl">"options"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"basic_auth_password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"basic_auth_user"</span><span class="p">:</span><span class="w"> </span><span class="s2">"elastic"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"server"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://10.6.51.101:31001/"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"skip_tls_verification"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"elasticsearch"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test-es"</span><span class="w">
+  </span><span class="nl">"options"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"basic_auth_password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"basic_auth_user"</span><span class="p">:</span><span class="w"> </span><span class="s2">"elastic"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"server"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://10.6.51.101:31001/"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"skip_tls_verification"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"elasticsearch"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test-es"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div></div>
 
@@ -427,11 +432,11 @@ v10-redashio_server_1        # 主体 server
                 
                 
                 
+                
+                
+                
+                
                 <li><a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a> - <span>10/22/2022</span></li>
-                
-                
-                
-                
                 
                 
                 

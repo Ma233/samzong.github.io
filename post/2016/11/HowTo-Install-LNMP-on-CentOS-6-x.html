@@ -301,140 +301,140 @@
 
 <h4 id="demo-system">Demo system</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]$ uname -a
-Linux Test01 2.6.32-504.el6.x86_64 #1 SMP Wed Oct 15 04:27:16 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
-[Alex@Test01 ~]$ ip addr | grep eth0
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">uname</span> <span class="nt">-a</span>
+Linux Test01 2.6.32-504.el6.x86_64 <span class="c">#1 SMP Wed Oct 15 04:27:16 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux</span>
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span>ip addr | <span class="nb">grep </span>eth0
 2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000
     inet 10.0.2.128/24 brd 10.0.2.255 scope global eth0
 </code></pre></div></div>
 
 <h4 id="install-httpd">Install httpd</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 yum.repos.d]$ sudo yum install -y httpd
-[Alex@Test01 ~]$ rpm -qa | grep httpd
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 yum.repos.d]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> httpd
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span>rpm <span class="nt">-qa</span> | <span class="nb">grep </span>httpd
 httpd-2.2.15-39.el6.centos.x86_64
 httpd-tools-2.2.15-39.el6.centos.x86_64
 
-# remove welcome page
-[Alex@Test01 yum.repos.d]$ sudo rm -f /etc/httpd/conf.d/welcome.conf
-# remove default error page
-[Alex@Test01 yum.repos.d]$ sudo rm -f /var/www/error/noindex.html
+<span class="c"># remove welcome page</span>
+<span class="o">[</span>Alex@Test01 yum.repos.d]<span class="nv">$ </span><span class="nb">sudo rm</span> <span class="nt">-f</span> /etc/httpd/conf.d/welcome.conf
+<span class="c"># remove default error page</span>
+<span class="o">[</span>Alex@Test01 yum.repos.d]<span class="nv">$ </span><span class="nb">sudo rm</span> <span class="nt">-f</span> /var/www/error/noindex.html
 </code></pre></div></div>
 
 <h4 id="configure-httpd--replace-the-server-name-to-you-own-one">Configure httpd . Replace the server name to you own one</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]# sudo vi /etc/httpd/conf/httpd.conf
-# line 44: change
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]# <span class="nb">sudo </span>vi /etc/httpd/conf/httpd.conf
+<span class="c"># line 44: change</span>
  ServerTokens Prod
-# line 76: change to ON
+<span class="c"># line 76: change to ON</span>
  KeepAlive On
-# line 262: Admin's address
+<span class="c"># line 262: Admin's address</span>
  ServerAdmin luchuanjia@msn.com
-# line 338: change
+<span class="c"># line 338: change</span>
  AllowOverride All
-# line 276: change to your server's name
+<span class="c"># line 276: change to your server's name</span>
  ServerName www.ultraera.org:80
-# line 402: add file name that it can access only with directory's name
+<span class="c"># line 402: add file name that it can access only with directory's name</span>
  DirectoryIndex index.html index.htm
-# line 536: change
+<span class="c"># line 536: change</span>
  ServerSignature Off
-# line 759: comment out
-# AddDefaultCharset UTF-8
-[Alex@Test01 ~]# sudo /etc/init.d/httpd start
- Starting httpd:[  OK  ]
-[Alex@Test01 ~]# sudo chkconfig httpd on     # set httpd start with system.
+<span class="c"># line 759: comment out</span>
+<span class="c"># AddDefaultCharset UTF-8</span>
+<span class="o">[</span>Alex@Test01 ~]# <span class="nb">sudo</span> /etc/init.d/httpd start
+ Starting httpd:[  OK  <span class="o">]</span>
+<span class="o">[</span>Alex@Test01 ~]# <span class="nb">sudo </span>chkconfig httpd on     <span class="c"># set httpd start with system.</span>
 </code></pre></div></div>
 
 <h4 id="create-a-html-test-page">create a HTML test page</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]# sudo vi /var/www/html/index.html
-it's ok.
-</code></pre></div></div>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]# <span class="nb">sudo </span>vi /var/www/html/index.html
+it<span class="s1">'s ok.
+</span></code></pre></div></div>
 
-<p><img src="http://s3.51cto.com/wyfs02/M00/70/DE/wKioL1XAUfuQoFfwAACC5LJWQgg039.jpg" alt="" /></p>
+<p><img src="http://s3.51cto.com/wyfs02/M00/70/DE/wKioL1XAUfuQoFfwAACC5LJWQgg039.jpg" alt="image" /></p>
 
 <h4 id="install-php">Install PHP</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]$ sudo yum install -y php php-mbstring php-pear
-[Alex@Test01 ~]$ rpm -qa | grep php
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> php php-mbstring php-pear
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span>rpm <span class="nt">-qa</span> | <span class="nb">grep </span>php
 php-common-5.3.3-46.el6_6.x86_64
 php-5.3.3-46.el6_6.x86_64
 php-mbstring-5.3.3-46.el6_6.x86_64
 php-cli-5.3.3-46.el6_6.x86_64
 php-pear-1.9.4-4.el6.noarch
 
-[Alex@Test01 ~]$ sudo vi /etc/httpd/conf/httpd.conf
-# line 402 add file name that it can access only with directory's name
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo </span>vi /etc/httpd/conf/httpd.conf
+<span class="c"># line 402 add file name that it can access only with directory's name</span>
   DirectoryIndex index.html index.htm index.php
-[Alex@Test01 ~]$ sudo vi /etc/php.ini
-# line 946 set your timezone
-date.timezone = "Asia/Shanghai"
-[Alex@Test01 ~]$ sudo /etc/init.d/httpd restart
- Stopping httpd:[  OK  ]
- Starting httpd:[  OK  ]
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo </span>vi /etc/php.ini
+<span class="c"># line 946 set your timezone</span>
+date.timezone <span class="o">=</span> <span class="s2">"Asia/Shanghai"</span>
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo</span> /etc/init.d/httpd restart
+ Stopping httpd:[  OK  <span class="o">]</span>
+ Starting httpd:[  OK  <span class="o">]</span>
 </code></pre></div></div>
 
 <h4 id="create-a-php-test-page">create a php test page</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]# sudo vi /var/www/html/index.php
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]# <span class="nb">sudo </span>vi /var/www/html/index.php
 
 &lt;?php
-    phpinfo();
+    phpinfo<span class="o">()</span><span class="p">;</span>
 ?&gt;
 </code></pre></div></div>
 
-<p><img src="http://s3.51cto.com/wyfs02/M02/70/DE/wKioL1XAUguwJCl2AARE16t4hyw682.jpg" alt="" /></p>
+<p><img src="http://s3.51cto.com/wyfs02/M02/70/DE/wKioL1XAUguwJCl2AARE16t4hyw682.jpg" alt="image" /></p>
 
 <h4 id="install-mysql">Install MySQL</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Alex@Test01 ~]$ sudo -y install mysql-server
-[Alex@Test01 ~]$ rpm -qa | grep mysql-server
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-y</span> <span class="nb">install </span>mysql-server
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span>rpm <span class="nt">-qa</span> | <span class="nb">grep </span>mysql-server
 mysql-server-5.1.73-5.el6_6.x86_64
 
-[Alex@Test01 ~]$ sudo vi /etc/my.cnf
-[mysqld]
-datadir=/var/lib/mysql
-socket=/var/lib/mysql/mysql.sock
-user=mysql
-# Disabling symbolic-links is recommended to prevent assorted security risks
-symbolic-links=0
-# add
-character-set-server=utf8
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo </span>vi /etc/my.cnf
+<span class="o">[</span>mysqld]
+<span class="nv">datadir</span><span class="o">=</span>/var/lib/mysql
+<span class="nv">socket</span><span class="o">=</span>/var/lib/mysql/mysql.sock
+<span class="nv">user</span><span class="o">=</span>mysql
+<span class="c"># Disabling symbolic-links is recommended to prevent assorted security risks</span>
+symbolic-links<span class="o">=</span>0
+<span class="c"># add</span>
+character-set-server<span class="o">=</span>utf8
 
-[Alex@Test01 ~]$ sudo /etc/rc.d/init.d/mysqld start
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo</span> /etc/rc.d/init.d/mysqld start
 
-Initializing MySQL database:  WARNING: The host 'www.ultraera.org' could not be looked up with resolveip.
+Initializing MySQL database:  WARNING: The host <span class="s1">'www.ultraera.org'</span> could not be looked up with resolveip.
 This probably means that your libc libraries are not 100 % compatible
 with this binary MySQL version. The MySQL daemon, mysqld, should work
 normally with the exception that host name resolving will not work.
 This means that you should use IP addresses instead of hostnames
-when specifying MySQL privileges !
+when specifying MySQL privileges <span class="o">!</span>
 Installing MySQL system tables...
 OK
-Filling help tables...
+Filling <span class="nb">help </span>tables...
 OK
 ...
 ...
 ...
-You can test the MySQL daemon with mysql-test-run.pl
-cd /usr/mysql-test ; perl mysql-test-run.pl
+You can <span class="nb">test </span>the MySQL daemon with mysql-test-run.pl
+<span class="nb">cd</span> /usr/mysql-test <span class="p">;</span> perl mysql-test-run.pl
 
 Please report any problems with the /usr/bin/mysqlbug script!
 
-                                              [  OK  ]
-Starting mysqld:                      [  OK  ]
-[Alex@Test01 ~]$ sudo chkconfig mysqld on
+                                              <span class="o">[</span>  OK  <span class="o">]</span>
+Starting mysqld:                      <span class="o">[</span>  OK  <span class="o">]</span>
+<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo </span>chkconfig mysqld on
 </code></pre></div></div>
 
 <h4 id="initial-settings-for-mysql">Initial settings for MySQL</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@www ~]#mysql_secure_installation
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@www ~]#mysql_secure_installation
 NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MySQL
       SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
 
-In order to log into MySQL to secure it, we'll need the current
-password for the root user.  If you've just installed MySQL, and
-you haven't set the root password yet, the password will be blank,
+In order to log into MySQL to secure it, we<span class="s1">'ll need the current
+password for the root user.  If you'</span>ve just installed MySQL, and
+you haven<span class="s1">'t set the root password yet, the password will be blank,
 so you should just press enter here.
 
 # Enter
@@ -463,7 +463,7 @@ production environment.
 
  ... Success!
 
-Normally, root should only be allowed to connect from 'localhost'.  This
+Normally, root should only be allowed to connect from '</span>localhost<span class="s1">'.  This
 ensures that someone cannot guess at the root password from the network.
 
 # disallow root login remotely
@@ -471,7 +471,7 @@ ensures that someone cannot guess at the root password from the network.
 
  ... Success!
 
-By default, MySQL comes with a database named 'test' that anyone can
+By default, MySQL comes with a database named '</span><span class="nb">test</span><span class="s1">' that anyone can
 access.  This is also intended only for testing, and should be removed
 before moving into a production environment.
 
@@ -493,45 +493,45 @@ will take effect immediately.
 
 Cleaning up...
 
-All done!  If you've completed all of the above steps, your MySQL
+All done!  If you'</span>ve completed all of the above steps, your MySQL
 installation should now be secure.
 
-Thanks for using MySQL!
+Thanks <span class="k">for </span>using MySQL!
 
-# try to connect with root
- [root@www ~]#mysql -u root -p
+<span class="c"># try to connect with root</span>
+ <span class="o">[</span>root@www ~]#mysql <span class="nt">-u</span> root <span class="nt">-p</span>
  Enter password:# MySQL root password
-Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 10
+Welcome to the MySQL monitor.  Commands end with <span class="p">;</span> or <span class="se">\g</span><span class="nb">.</span>
+Your MySQL connection <span class="nb">id </span>is 10
 Server version: 5.1.73 Source distribution
 
-Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+Copyright <span class="o">(</span>c<span class="o">)</span> 2000, 2013, Oracle and/or its affiliates. All rights reserved.
 
 Oracle is a registered trademark of Oracle Corporation and/or its
 affiliates. Other names may be trademarks of their respective
 owners.
 
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+Type <span class="s1">'help;'</span> or <span class="s1">'\h'</span> <span class="k">for </span>help. Type <span class="s1">'\c'</span> to clear the current input statement.
 
-# display user list
- mysql&gt;select user,host,password from mysql.user;
+<span class="c"># display user list</span>
+ mysql&gt;select user,host,password from mysql.user<span class="p">;</span>
 +------+-----------+-------------------------------------------+
 | user | host      | password                                  |
 +------+-----------+-------------------------------------------+
-| root | localhost | ***************************************** |
-| root | 127.0.0.1 | ***************************************** |
+| root | localhost | <span class="k">*****************************************</span> |
+| root | 127.0.0.1 | <span class="k">*****************************************</span> |
 +------+-----------+-------------------------------------------+
-2 rows in set (0.00 sec)
+2 rows <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
 
-# display database list
- mysql&gt;show databases;
+<span class="c"># display database list</span>
+ mysql&gt;show databases<span class="p">;</span>
 +--------------------+
 | Database           |
 +--------------------+
 | information_schema |
 | mysql              |
 +--------------------+
-2 rows in set (0.00 sec)
+2 rows <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
 mysql&gt;exit
 Bye
 </code></pre></div></div>
@@ -1457,12 +1457,12 @@ Bye
      
     	
       <li><a href="/categories.html#Linux">
-    		Linux <span>21</span>
+    		Linux <span>22</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#CentOS">
-    		CentOS <span>14</span>
+    		CentOS <span>15</span>
     	</a></li>
     
   

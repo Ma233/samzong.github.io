@@ -346,11 +346,9 @@ eth0      Link encap:Ethernet  HWaddr 00:0C:29:3A:F9:6F
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#::1   localhost localhost6 localhost6.localdomain6</span>
 </code></pre></div></div>
 
-<p><br /></p>
-
 <h2 id="2-centos-7x">2. CentOS 7.x</h2>
 
-<h4 id="setup-1-修改-grub-文件在启动引导时不加载-ipv6">Setup 1. 修改 grub 文件，在启动引导时不加载 ipv6</h4>
+<h3 id="setup-1-修改-grub-文件在启动引导时不加载-ipv6">Setup 1. 修改 grub 文件，在启动引导时不加载 ipv6</h3>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# vim /etc/default/grub
 
@@ -378,12 +376,8 @@ reboot
 </code></pre></div></div>
 
 <blockquote>
-  <p>IPv6 是默认支持的，所以当你要重新开起 IPv6 支持时，将以上添加的指令注释掉即可。</p>
-</blockquote>
-
-<blockquote>
-  <font color="red"><b>之前碰到过安装某些服务时，不能启动，后来检查原因是因为关闭 ipv6 的问题，因为在这些服务的 conf 文件，指定了类似监听 ipv6，因为关闭了 ipv6 导致服务无法启动，将其关闭即可。<b>&lt;/font&gt;
-</b></b></font>
+  <p>IPv6 是默认支持的，所以当你要重新开起 IPv6 支持时，将以上添加的指令注释掉即可。
+<strong>之前碰到过安装某些服务时，不能启动，后来检查原因是因为关闭 ipv6 的问题，因为在这些服务的 conf 文件，指定了类似监听 ipv6，因为关闭了 ipv6 导致服务无法启动，将其关闭即可。</strong></p>
 </blockquote>
 
         </div>
@@ -1307,12 +1301,12 @@ reboot
      
     	
       <li><a href="/categories.html#Linux">
-    		Linux <span>21</span>
+    		Linux <span>22</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#CentOS">
-    		CentOS <span>14</span>
+    		CentOS <span>15</span>
     	</a></li>
     
   
@@ -1332,7 +1326,7 @@ reboot
   
      
     	
-    	<li><a href="/tags.html#CentOS">CentOS <span>19</span></a></li>
+    	<li><a href="/tags.html#CentOS">CentOS <span>20</span></a></li>
     
   
 

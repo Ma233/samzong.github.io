@@ -290,7 +290,7 @@
         <div class="post-content" itemprop="articleBody">
             <p>由于刚开始做磁盘空间规划时，失误给根分区分配磁盘较小，导致后续实验环境无法进行，所以在经过研究后，决定尝试增加根分区的磁盘空间，注意这仅适用于创建在 LVM 上的文件系统。</p>
 
-<h3 id="实验环境">实验环境</h3>
+<h2 id="实验环境">实验环境</h2>
 
 <ul>
   <li>Parallels Desktop 12</li>
@@ -302,20 +302,20 @@
 
 <!-- more -->
 
-<h3 id="增加一块物理磁盘">增加一块物理磁盘</h3>
+<h2 id="增加一块物理磁盘">增加一块物理磁盘</h2>
 
 <p>Parallels Desktop 不能在线增加磁盘，所以要先将 VM 关闭，然后添加：
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/m5e1d.jpg" alt="" />
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/m5e1d.jpg" alt="image" />
 增加 12G 的磁盘
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/prgyd.jpg" alt="" /></p>
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/prgyd.jpg" alt="image" /></p>
 
-<p>然后启动 VM，这时可以通过<code>fdisk -l</code>查看当前已经增加了一块 12G 的磁盘</p>
+<p>然后启动 VM，这时可以通过<code class="language-plaintext highlighter-rouge">fdisk -l</code>查看当前已经增加了一块 12G 的磁盘</p>
 
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/tat9r.jpg" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/tat9r.jpg" alt="image" /></p>
 
-<h3 id="格式化磁盘并加入到-vgroup-组内">格式化磁盘并加入到 VGroup 组内</h3>
+<h2 id="格式化磁盘并加入到-vgroup-组内">格式化磁盘并加入到 VGroup 组内</h2>
 
-<h4 id="查看当前pvdisplay磁盘列表将devsdb创建-pv-块">查看当前<code>pvdisplay</code>磁盘列表，将<code>/dev/sdb</code>创建 pv 块</h4>
+<h3 id="查看当前pvdisplay磁盘列表将devsdb创建-pv-块">查看当前<code class="language-plaintext highlighter-rouge">pvdisplay</code>磁盘列表，将<code class="language-plaintext highlighter-rouge">/dev/sdb</code>创建 pv 块</h3>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# pvdisplay
   <span class="nt">---</span> Physical volume <span class="nt">---</span>
@@ -355,7 +355,7 @@
   PV UUID               XTpaBR-512W-vQIV-fwwz-So7L-ZCa3-yjDccQ
 </code></pre></div></div>
 
-<h4 id="查看当前vgdisplayvgroup-组将devsdb加入根目录所在-vgroup">查看当前<code>vgdisplay</code>VGroup 组，将<code>/dev/sdb</code>加入根目录所在 VGroup</h4>
+<h3 id="查看当前vgdisplayvgroup-组将devsdb加入根目录所在-vgroup">查看当前<code class="language-plaintext highlighter-rouge">vgdisplay</code>VGroup 组，将<code class="language-plaintext highlighter-rouge">/dev/sdb</code>加入根目录所在 VGroup</h3>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# vgdisplay
   <span class="nt">---</span> Volume group <span class="nt">---</span>
@@ -404,96 +404,96 @@
   VG UUID               szQ4fH-Sr1Z-V6c2-KVMp-ZUik-oUDP-rU8dQS
 </code></pre></div></div>
 
-<h4 id="查看lvdisplay根卷的名称将磁盘加入根卷的-lv">查看<code>lvdisplay</code>根卷的名称，将磁盘加入根卷的 LV</h4>
+<h3 id="查看lvdisplay根卷的名称将磁盘加入根卷的-lv">查看<code class="language-plaintext highlighter-rouge">lvdisplay</code>根卷的名称，将磁盘加入根卷的 LV</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@centos ~]# lvdisplay
-  --- Logical volume ---
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# lvdisplay
+  <span class="nt">---</span> Logical volume <span class="nt">---</span>
   LV Path                /dev/vg_hadoop01/lv_root
   LV Name                lv_root
   VG Name                vg_hadoop01
   LV UUID                tJDetu-Theq-BQ5g-3ZFe-Gan7-1SSv-OHeYrH
-  LV Write Access        read/write
-  LV Creation host, time hadoop01, 2017-04-18 07:09:58 +0800
+  LV Write Access        <span class="nb">read</span>/write
+  LV Creation host, <span class="nb">time </span>hadoop01, 2017-04-18 07:09:58 +0800
   LV Status              available
-  # open                 1
+  <span class="c"># open                 1</span>
   LV Size                6.71 GiB
   Current LE             1718
   Segments               1
   Allocation             inherit
   Read ahead sectors     auto
-  - currently set to     256
+  - currently <span class="nb">set </span>to     256
   Block device           253:0
 
-  --- Logical volume ---
+  <span class="nt">---</span> Logical volume <span class="nt">---</span>
   LV Path                /dev/vg_hadoop01/lv_swap
   LV Name                lv_swap
   VG Name                vg_hadoop01
   LV UUID                D4K7I6-tPO0-HMbC-VWkR-2HV4-WjAe-M82wYq
-  LV Write Access        read/write
-  LV Creation host, time hadoop01, 2017-04-18 07:09:59 +0800
+  LV Write Access        <span class="nb">read</span>/write
+  LV Creation host, <span class="nb">time </span>hadoop01, 2017-04-18 07:09:59 +0800
   LV Status              available
-  # open                 1
+  <span class="c"># open                 1</span>
   LV Size                816.00 MiB
   Current LE             204
   Segments               1
   Allocation             inherit
   Read ahead sectors     auto
-  - currently set to     256
+  - currently <span class="nb">set </span>to     256
   Block device           253:1
 
-[root@centos ~]# lvextend -l +100%FREE /dev/vg_hadoop01/lv_root
-  Size of logical volume vg_hadoop01/lv_root changed from 6.71 GiB (1718 extents) to 18.71 GiB (4789 extents).
+<span class="o">[</span>root@centos ~]# lvextend <span class="nt">-l</span> +100%FREE /dev/vg_hadoop01/lv_root
+  Size of logical volume vg_hadoop01/lv_root changed from 6.71 GiB <span class="o">(</span>1718 extents<span class="o">)</span> to 18.71 GiB <span class="o">(</span>4789 extents<span class="o">)</span><span class="nb">.</span>
   Logical volume lv_root successfully resized.
-[root@centos ~]# lvdisplay
-  --- Logical volume ---
+<span class="o">[</span>root@centos ~]# lvdisplay
+  <span class="nt">---</span> Logical volume <span class="nt">---</span>
   LV Path                /dev/vg_hadoop01/lv_root
   LV Name                lv_root
   VG Name                vg_hadoop01
   LV UUID                tJDetu-Theq-BQ5g-3ZFe-Gan7-1SSv-OHeYrH
-  LV Write Access        read/write
-  LV Creation host, time hadoop01, 2017-04-18 07:09:58 +0800
+  LV Write Access        <span class="nb">read</span>/write
+  LV Creation host, <span class="nb">time </span>hadoop01, 2017-04-18 07:09:58 +0800
   LV Status              available
-  # open                 1
+  <span class="c"># open                 1</span>
   LV Size                18.71 GiB
   Current LE             4789
   Segments               2
   Allocation             inherit
   Read ahead sectors     auto
-  - currently set to     256
+  - currently <span class="nb">set </span>to     256
   Block device           253:0
 
-  --- Logical volume ---
+  <span class="nt">---</span> Logical volume <span class="nt">---</span>
   LV Path                /dev/vg_hadoop01/lv_swap
   LV Name                lv_swap
   VG Name                vg_hadoop01
   LV UUID                D4K7I6-tPO0-HMbC-VWkR-2HV4-WjAe-M82wYq
-  LV Write Access        read/write
-  LV Creation host, time hadoop01, 2017-04-18 07:09:59 +0800
+  LV Write Access        <span class="nb">read</span>/write
+  LV Creation host, <span class="nb">time </span>hadoop01, 2017-04-18 07:09:59 +0800
   LV Status              available
-  # open                 1
+  <span class="c"># open                 1</span>
   LV Size                816.00 MiB
   Current LE             204
   Segments               1
   Allocation             inherit
   Read ahead sectors     auto
-  - currently set to     256
+  - currently <span class="nb">set </span>to     256
   Block device           253:1
 </code></pre></div></div>
 
-<h3 id="更新磁盘分区表">更新磁盘分区表</h3>
+<h2 id="更新磁盘分区表">更新磁盘分区表</h2>
 
-<p>当你增加完成之后，这时使用<code>df -h</code>查看的磁盘空间仍然没有变化，因为我们还需要将根卷的分区表刷新。</p>
+<p>当你增加完成之后，这时使用<code class="language-plaintext highlighter-rouge">df -h</code>查看的磁盘空间仍然没有变化，因为我们还需要将根卷的分区表刷新。</p>
 
-<h4 id="使用resize2fs刷新根卷信息">使用<code>resize2fs</code>刷新根卷信息</h4>
+<h3 id="使用resize2fs刷新根卷信息">使用<code class="language-plaintext highlighter-rouge">resize2fs</code>刷新根卷信息</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@centos ~]# resize2fs /dev/vg_hadoop01/lv_root
-resize2fs 1.41.12 (17-May-2010)
-Filesystem at /dev/vg_hadoop01/lv_root is mounted on /; on-line resizing required
-old desc_blocks = 1, new_desc_blocks = 2
-Performing an on-line resize of /dev/vg_hadoop01/lv_root to 4903936 (4k) blocks.
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# resize2fs /dev/vg_hadoop01/lv_root
+resize2fs 1.41.12 <span class="o">(</span>17-May-2010<span class="o">)</span>
+Filesystem at /dev/vg_hadoop01/lv_root is mounted on /<span class="p">;</span> on-line resizing required
+old desc_blocks <span class="o">=</span> 1, new_desc_blocks <span class="o">=</span> 2
+Performing an on-line resize of /dev/vg_hadoop01/lv_root to 4903936 <span class="o">(</span>4k<span class="o">)</span> blocks.
 The filesystem on /dev/vg_hadoop01/lv_root is now 4903936 blocks long.
 
-[root@centos ~]# df -h
+<span class="o">[</span>root@centos ~]# <span class="nb">df</span> <span class="nt">-h</span>
 Filesystem            Size  Used Avail Use% Mounted on
 /dev/mapper/vg_hadoop01-lv_root
                        19G  5.8G   12G  33% /
@@ -1422,12 +1422,12 @@ tmpfs                 244M     0  244M   0% /dev/shm
      
     	
       <li><a href="/categories.html#Linux">
-    		Linux <span>21</span>
+    		Linux <span>22</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#CentOS">
-    		CentOS <span>14</span>
+    		CentOS <span>15</span>
     	</a></li>
     
   

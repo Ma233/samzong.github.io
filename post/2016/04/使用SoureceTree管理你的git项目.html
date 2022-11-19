@@ -288,18 +288,14 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <h6 id="update">Update</h6>
+            <h2 id="update">Update</h2>
 
 <ul>
-  <li>
-    <font color="red">update: Windows 用户在初始化 Souretree 工具时，需要用到 Atlassian ID，新建用户时需要加载 google 验证码，这一步需要 VPN 的支持，请注意。</font>
-  </li>
+  <li>update: Windows 用户在初始化 Souretree 工具时，需要用到 Atlassian ID，新建用户时需要加载 google 验证码，这一步需要 VPN 的支持，请注意。</li>
   <li>找到一个版本的 SourceTree 工具可以不需要以上验证也能使用，下载链接：<a href="http://pan.baidu.com/s/1eRDMgEY">SourceTreeSetup_1.6.14.exe</a> 密码：c5l4</li>
 </ul>
 
-<p><br /></p>
-
-<h5 id="补充-1git-学习网站">补充 1：Git 学习网站</h5>
+<h3 id="补充-1git-学习网站">补充 1：Git 学习网站</h3>
 
 <ol>
   <li><a href="http://backlogtool.com/git-guide/cn/">猴子都能学会的 git 教程</a></li>
@@ -308,7 +304,7 @@
   <li><a href="http://zoomq.qiniudn.com/ZQScrapBook/ZqFLOSS/data/20081210180347/">Why Git is Better than X</a></li>
 </ol>
 
-<h5 id="补充-2利用-git-协同开发">补充 2：利用 Git 协同开发</h5>
+<h3 id="补充-2利用-git-协同开发">补充 2：利用 Git 协同开发</h3>
 
 <ol>
   <li><a href="https://ourai.ws/posts/working-with-git-in-team/">团队中的 Git 实践</a></li>
@@ -317,48 +313,46 @@
   <li><a href="http://marklodato.github.io/visual-git-guide/index-zh-cn.html">图解 Git</a></li>
 </ol>
 
-<hr />
+<h2 id="关于-sourcetree">关于 SourceTree</h2>
 
-<h2 id="1-关于-sourcetree">1. 关于 SourceTree</h2>
-
-<h4 id="sourcetree-是一款免费且同时支持-windows-和-mac-的-git-项目管理软件本文旨在给大家介绍这款应用的基础使用并用它来管理你的项目">SourceTree 是一款免费且同时支持 Windows 和 Mac 的 git 项目管理软件，本文旨在给大家介绍这款应用的基础使用，并用它来管理你的项目</h4>
+<p>SourceTree 是一款免费且同时支持 Windows 和 Mac 的 git 项目管理软件，本文旨在给大家介绍这款应用的基础使用，并用它来管理你的项目</p>
 
 <blockquote>
   <p>官网： <a href="https://www.sourcetreeapp.com/">https://www.sourcetreeapp.com/</a></p>
 </blockquote>
 
-<h2 id="2-git-帐号建立">2. git 帐号建立</h2>
+<h2 id="git-帐号建立">git 帐号建立</h2>
 
-<h3 id="1-新员工入职之后你的公司邮箱内会收到一封来自-gitlab-的邮件如下图">1. 新员工入职之后，你的公司邮箱内会收到一封来自 Gitlab 的邮件，如下图</h3>
+<h3 id="新员工入职之后你的公司邮箱内会收到一封来自-gitlab-的邮件如下图">新员工入职之后，你的公司邮箱内会收到一封来自 Gitlab 的邮件，如下图</h3>
 
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree02.jpg" alt="image" /></p>
 
-<h3 id="2-点击邮件中的click-here-to-set-your-password设置-gitlab-登陆密码">2. 点击邮件中的“Click here to set your password”，设置 gitlab 登陆密码</h3>
+<h3 id="点击邮件中的click-here-to-set-your-password设置-gitlab-登陆密码">点击邮件中的“Click here to set your password”，设置 gitlab 登陆密码</h3>
 
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsouretree03.jpg" alt="image" /></p>
 
-<h3 id="3-登陆-gitlab-帐号将会出现这个界面">3. 登陆 gitlab 帐号，将会出现这个界面</h3>
+<h3 id="登陆-gitlab-帐号将会出现这个界面">登陆 gitlab 帐号，将会出现这个界面</h3>
 
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree05.jpg" alt="image" /></p>
 
-<h3 id="4-设定个人信息">4. 设定个人信息</h3>
+<h3 id="设定个人信息">设定个人信息</h3>
 
 <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsouretree06.jpg" alt="image" /></p>
 
-<h3 id="5-sshkey">5. sshKey</h3>
+<h3 id="sshkey">sshKey</h3>
 
-<h4 id="51-在-linux-和-mac-上生成-sshkey">5.1 在 Linux 和 Mac 上生成 sshkey</h4>
+<h4 id="在-linux-和-mac-上生成-sshkey">在 Linux 和 Mac 上生成 sshkey</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ ssh-keygen -t rsa
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ ssh-keygen <span class="nt">-t</span> rsa
 Generating public/private rsa key pair.
-Enter file in which to save the key (/Users/Alex/.ssh/id_rsa):
-Enter passphrase (empty for no passphrase):
+Enter file <span class="k">in </span>which to save the key <span class="o">(</span>/Users/Alex/.ssh/id_rsa<span class="o">)</span>:
+Enter passphrase <span class="o">(</span>empty <span class="k">for </span>no passphrase<span class="o">)</span>:
 Enter same passphrase again:
-Your identification has been saved in /Users/Alex/.ssh/id_rsa.
-Your public key has been saved in /Users/Alex/.ssh/id_rsa.pub.
+Your identification has been saved <span class="k">in</span> /Users/Alex/.ssh/id_rsa.
+Your public key has been saved <span class="k">in</span> /Users/Alex/.ssh/id_rsa.pub.
 The key fingerprint is:
 SHA256:98jE3jhBhFT5nQlZRj34a3WOk1t6XF+Dbf/hliXl4WQ Alex@Alex-Mac
-The key's randomart image is:
+The key<span class="s1">'s randomart image is:
 +---[RSA 2048]----+
 |       ..oo. +=. |
 |        ... oo ..|
@@ -373,7 +367,7 @@ The key's randomart image is:
 ➜  ~ cat ~/.ssh/id_rsa.pub
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VIEkDvxKLFGcHsT7Ur4zXwEi9YiW2tVRrBSjcMALxuBjVm2IxYV6Lk8SLuGadyYy5telWGJmHsQ3VIPRuKwpzTkLN643kjqc6JFSlnZG/XoP9SPtCOsp2ql4u0s7Auc2bZay4RaTDXbcpJVU9OA0xM8Zy4oTTNYdZ4tvGittVmn+wLrhN255J7clORF5126dmDYxV3E8ZboaDdQpdLGIWmDNcBJQvl0CLwpKUCi7EUDqDVtm4bNgwIX9fEIkTxGdaWjBW1iXBk8TGXWkgB+Qp8B1IwaJ4GHUwUhQrefWvw9XeJ Alex@Alex-Mac
 ➜  ~
-</code></pre></div></div>
+</span></code></pre></div></div>
 
 <h4 id="52-在-windows-上生成-sshkey">5.2 在 Windows 上生成 sshkey</h4>
 
@@ -1205,11 +1199,11 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VI
                 
                 
                 
+                
+                
+                
+                
                 <li><a href="/post/2016/04/%E4%BD%BF%E7%94%A8SoureceTree%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84git%E9%A1%B9%E7%9B%AE.html">使用 SoureceTree 管理你的 git 项目</a> - <span>04/20/2016</span></li>
-                
-                
-                
-                
                 
                 
                 

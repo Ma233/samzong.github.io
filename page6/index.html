@@ -276,6 +276,73 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2021/11/Creating-DataFrame-using-list.html">Creating DataFrame using list</a></h1>
+    <div class="post_at_index">
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+  
+<span class="c1"># list of strings
+</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'For'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'is'</span><span class="p">,</span> 
+            <span class="s">'portal'</span><span class="p">,</span> <span class="s">'for'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">]</span>
+  
+<span class="c1"># Calling DataFrame constructor on list
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326317905-b923391a-6135-482f-8b43-9a67e1f6245f.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># import pandas as pd
+</span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="c1"># list of strings
+</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'For'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'is'</span><span class="p">,</span> <span class="s">'portal'</span><span class="p">,</span> <span class="s">'for'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">]</span>
+
+<span class="c1"># Calling DataFrame constructor on list
+# with indices and columns specified
+</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span><span class="p">[</span><span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">,</span> <span class="s">'d'</span><span class="p">,</span> <span class="s">'e'</span><span class="p">,</span> <span class="s">'f'</span><span class="p">,</span> <span class="s">'g'</span><span class="p">],</span>
+           <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'Names'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326330330-97380b9c-a674-479c-a4f4-074ef3128aa3.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Creating DataFrame using multi-dimensional list
+</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+ 
+<span class="c1"># List1
+</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'tom'</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> <span class="p">[</span><span class="s">'krish'</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
+ <span class="p">[</span><span class="s">'nick'</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span> <span class="p">[</span><span class="s">'juli'</span><span class="p">,</span> <span class="mi">22</span><span class="p">]]</span>
+ 
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'Name'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326375589-cd58c20f-3dde-4eeb-a097-19dd3bf3376a.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Using multi-dimensional list with column name and dtype specified.
+</span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+ 
+<span class="c1"># List1
+</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'tom'</span><span class="p">,</span> <span class="s">'reacher'</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> <span class="p">[</span><span class="s">'krish'</span><span class="p">,</span> <span class="s">'pete'</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
+ <span class="p">[</span><span class="s">'nick'</span><span class="p">,</span> <span class="s">'wilson'</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span> <span class="p">[</span><span class="s">'juli'</span><span class="p">,</span> <span class="s">'williams'</span><span class="p">,</span> <span class="mi">22</span><span class="p">]]</span>
+ 
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'FName'</span><span class="p">,</span> <span class="s">'LName'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">],</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-11-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Pandas">Pandas</a>
+      , 
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2021/11/Metabase-%E8%B8%A9%E5%9D%91-%E8%B7%B3%E8%BD%AC%E9%93%BE%E6%8E%A5%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98.html">Metabase 踩坑：跳转链接的浏览器缓存</a></h1>
     <div class="post_at_index">
       <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635955971186-4f85ab8d-9d1e-46ab-bd20-ee914c91fade.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
@@ -402,7 +469,7 @@ wget https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer <sp
 
 <p>在网络好的情况下，可以直接通过 <code class="language-plaintext highlighter-rouge">pyenv install 3.9.6</code> 安装对应的版本了，但是因为网络的问题，你会发现一直在下载 Python 包这一步，问题就是 www.python.org/ftp 网络的访问问题</p>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711398-96703bab-2e76-4f74-8b6d-1dfa212d39b1.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711398-96703bab-2e76-4f74-8b6d-1dfa212d39b1.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
 
 <p>遇到这个问题，可以尝试 先下载对应版本的安装包；可以使用国内的镜像站进行下载，或者在网络访问正常的地方进行下载包，然后上传到服务器中，这里推荐使用 淘宝的镜像站，把域名中 <a href="https://www.python.org/ftp">https://www.python.org/ftp</a> 替换为 <a href="https://npm.taobao.org/mirrors/">https://npm.taobao.org/mirrors/</a> ，下载到指定的目录</p>
 
@@ -410,7 +477,7 @@ wget https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer <sp
 <span class="nb">export </span><span class="nv">v</span><span class="o">=</span>3.8.6<span class="p">;</span>  <span class="nb">mkdir</span> <span class="nt">-p</span> ~/.pyenv/sources/<span class="nv">$v</span><span class="p">;</span> wget https://npm.taobao.org/mirrors/python/<span class="nv">$v</span>/Python-<span class="nv">$v</span>.tar.xz <span class="nt">-P</span> ~/.pyenv/sources/<span class="nv">$v</span><span class="p">;</span> pyenv <span class="nb">install</span> <span class="nv">$v</span> <span class="nt">-k</span>
 </code></pre></div></div>
 
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711423-9636d877-a9a2-4c9e-8cac-f82aaa3ff5b6.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="" /></p>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1630846711423-9636d877-a9a2-4c9e-8cac-f82aaa3ff5b6.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
 
 <blockquote>
   <p>在 pyenv 命令的最后增加一个 -k  会在安装时，优先检测本地的文件</p>
@@ -722,7 +789,7 @@ bash <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</sp
 Python 自带 json-tool 在转换是会导致中文乱码，以下在原有基础上进行了优化，并增加中文支持
 :::</p>
 
-<h3 id="no-bb-show-code">No BB, Show Code</h3>
+<h2 id="no-bb-show-code">No BB, Show Code</h2>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"""
 Command-line tool to validate and pretty-print JSON
@@ -774,7 +841,7 @@ Usage::
     <span class="n">main</span><span class="p">()</span>
 </code></pre></div></div>
 
-<h3 id="running">RUNNING</h3>
+<h2 id="running">RUNNING</h2>
 
 <p>将以上代码文件保存为 json-tool.json，然后使用 Python3 运行即可</p>
 
@@ -851,16 +918,16 @@ Usage::
     <div class="post_at_index">
       <p><code class="language-plaintext highlighter-rouge">REGEXP</code> 在 MySQL 中使用的正则表达式标识符，有着非常丰富的使用路径，代替<code class="language-plaintext highlighter-rouge">like</code>将有非常大的使用空间</p>
 
-<h2 id="梅里埃强制增加定位域名备案">梅里埃强制增加定位域名备案</h2>
+<h2 id="强制增加定位域名备案">强制增加定位域名备案</h2>
 
 <blockquote>
   <p>增加域名备案到页脚</p>
 </blockquote>
 
 <div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">"width: 100%; text-align: center; position:absolute; bottom:0; margin: auto;"</span><span class="nt">&gt;</span>
-   <span class="nt">&lt;p&gt;</span>
-       Copyright 2021 © 上海微企信息技术股份有限公司。<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://beian.miit.gov.cn"</span><span class="nt">&gt;</span>沪 ICP 备 12042952 号 -18<span class="nt">&lt;/a&gt;</span>  All Rights Reserved
-   <span class="nt">&lt;/p&gt;</span>
+   
+       Copyright 2021 © 上海微企信息技术股份有限公司。<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://beian.miit.gov.cn"</span><span class="nt">&gt;</span>沪 ICP 备 12042952 号 -18`  All Rights Reserved
+   
 <span class="nt">&lt;/div&gt;</span>
 </code></pre></div></div>
 
@@ -883,28 +950,6 @@ Usage::
     <br/>
     <div>
       <cite>2021-08-09</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SQL">SQL</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/08/%E5%B8%B8%E7%94%A8SQL.html">常用 SQL-拼接日期</a></h1>
-    <div class="post_at_index">
-      <h1 id="concat_ws">concat_ws</h1>
-
-<ul>
-  <li>concat_ws(‘-‘,year,month,day) =&gt; ‘2021-4-15’   拼接日期</li>
-</ul>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-08-08</cite> <i class="icon-tag"></i>
       <a href="/tags.html#SQL">SQL</a>
       
       
@@ -990,12 +1035,12 @@ Usage::
      
     	
       <li><a href="/categories.html#Linux">
-    		Linux <span>21</span>
+    		Linux <span>22</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#CentOS">
-    		CentOS <span>14</span>
+    		CentOS <span>15</span>
     	</a></li>
      
     	
@@ -1005,12 +1050,12 @@ Usage::
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>19</span>
+    		数据库 <span>18</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#MySQL">
-    		MySQL <span>15</span>
+    		MySQL <span>14</span>
     	</a></li>
      
     	
@@ -1035,7 +1080,7 @@ Usage::
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>17</span>
+    		Mac <span>16</span>
     	</a></li>
      
     	
@@ -1259,6 +1304,12 @@ Usage::
       <ul>
         
         <li>
+          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy To Markdwon</a>
+          
+
+        </li>
+        
+        <li>
           <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
           
   参考资料：
@@ -1277,7 +1328,9 @@ df = pandas.read_csv(‘somefile.txt’)
         
         <li>
           <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
-          暗坑很多
+          
+  暗坑很多
+
 
 
         </li>
@@ -1286,13 +1339,6 @@ df = pandas.read_csv(‘somefile.txt’)
           <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
           王路
 12 highlights
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/%E8%87%AA%E5%8D%91%E4%B8%8E%E8%B6%85%E8%B6%8A.html">自卑与超越</a>
-          【奥】阿尔弗雷德··阿德勒
 
 
         </li>

@@ -319,8 +319,7 @@ pip <span class="nb">install </span>mkdocs-awesome-pages-plugin
   <p>在文档内的路径展示</p>
 </blockquote>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="sb">```</span>sh
-docs
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docs
 ├── .pages.yaml     <span class="c"># 站点顶部导航配置文件，控制顺序和名称，一般不增加</span>
 ├── README.md       <span class="c"># 默认情况下 目录下 README.md 作为 default 页面</span>
 ├── SUMMARY.md
@@ -334,17 +333,18 @@ docs
 │   ├── .pages.yaml <span class="c"># 每个目录下都有一个 `.pages.yaml` 用来进行目录的配置</span>
 │   ├── README.md
 │   ├── ...
-</code></pre></div></div>
+~~~
 
-<p>通过对每个文件下的特定处理，默认情况下 <code class="language-plaintext highlighter-rouge">.pages.yaml</code> 为空即可，如需要特殊处理，可以在文档添加下方参数:</p>
+通过对每个文件下的特定处理，默认情况下 <span class="sb">`</span>.pages.yaml<span class="sb">`</span> 为空即可，如需要特殊处理，可以在文档添加下方参数:
 
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">title</span><span class="pi">:</span> <span class="s">Products</span>     <span class="c1"># 文件夹展示的标题</span>
-<span class="na">order</span><span class="pi">:</span> <span class="m">1</span>            <span class="c1"># 文件夹的顺序，数字越小越靠前</span>
-<span class="na">hide</span><span class="pi">:</span> <span class="no">false</span>         <span class="c1"># 是否隐藏，默认不隐藏</span>
-<span class="na">nav</span><span class="pi">:</span>                <span class="c1"># 采用自定义导航</span>
-    <span class="pi">-</span> <span class="s">filename.md</span>
-    <span class="pi">-</span> <span class="s">filename2.md</span>
-    <span class="pi">-</span> <span class="s">...</span>
+<span class="sb">```</span>yaml
+title: Products     <span class="c"># 文件夹展示的标题</span>
+order: 1            <span class="c"># 文件夹的顺序，数字越小越靠前</span>
+hide: <span class="nb">false</span>         <span class="c"># 是否隐藏，默认不隐藏</span>
+nav:                <span class="c"># 采用自定义导航</span>
+    - filename.md
+    - filename2.md
+    - ...
 </code></pre></div></div>
 
 <blockquote>

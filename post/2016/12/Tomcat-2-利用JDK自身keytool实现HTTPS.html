@@ -294,33 +294,33 @@
   <p>demo: CentOS 6.6 &amp; Tomcat 7 &amp; JDK 1.7</p>
 </blockquote>
 
-<h4 id="1-生成-keystore">1. 生成 keystore</h4>
+<h2 id="生成-keystore">生成 keystore</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test conf]# keytool -genkey -v -alias tomcat -keyalg RSA -keystore mykeystore
-Enter keystore password:              #设置密码
-Re-enter new password:                #重复一次
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test conf]# keytool <span class="nt">-genkey</span> <span class="nt">-v</span> <span class="nt">-alias</span> tomcat <span class="nt">-keyalg</span> RSA <span class="nt">-keystore</span> mykeystore
+Enter keystore password:              <span class="c">#设置密码</span>
+Re-enter new password:                <span class="c">#重复一次</span>
 What is your first and last name?
-  [Unknown]:  Alex Lu                #随便填
+  <span class="o">[</span>Unknown]:  Alex Lu                <span class="c">#随便填</span>
 What is the name of your organizational unit?
-  [Unknown]:  visionet                #随便填
+  <span class="o">[</span>Unknown]:  visionet                <span class="c">#随便填</span>
 What is the name of your organization?
-  [Unknown]:  visionet                #随便填
+  <span class="o">[</span>Unknown]:  visionet                <span class="c">#随便填</span>
 What is the name of your City or Locality?
-  [Unknown]:  SH                #随便填
+  <span class="o">[</span>Unknown]:  SH                <span class="c">#随便填</span>
 What is the name of your State or Province?
-  [Unknown]:  SH                #随便填
-What is the two-letter country code for this unit?
-  [Unknown]:  ZH                #随便填
-Is CN=Alex Lu, OU=visionet, O=visionet, L=SH, ST=SH, C=ZH correct?
-  [no]:  Y                    #这里要Y，确认前面信息。
+  <span class="o">[</span>Unknown]:  SH                <span class="c">#随便填</span>
+What is the two-letter country code <span class="k">for </span>this unit?
+  <span class="o">[</span>Unknown]:  ZH                <span class="c">#随便填</span>
+Is <span class="nv">CN</span><span class="o">=</span>Alex Lu, <span class="nv">OU</span><span class="o">=</span>visionet, <span class="nv">O</span><span class="o">=</span>visionet, <span class="nv">L</span><span class="o">=</span>SH, <span class="nv">ST</span><span class="o">=</span>SH, <span class="nv">C</span><span class="o">=</span>ZH correct?
+  <span class="o">[</span>no]:  Y                    <span class="c">#这里要Y，确认前面信息。</span>
 
-Generating 2,048 bit RSA key pair and self-signed certificate (SHA256withRSA) with a validity of 90 days
-    for: CN=Alex Lu, OU=visionet, O=visionet, L=SH, ST=SH, C=ZH
-Enter key password for &lt;tomcat&gt;
-    (RETURN if same as keystore password):        #默认回车即可，不需要设置太多密码
-[Storing mykeystore]
-[root@test conf]# ls
-Catalina  catalina.policy  catalina.properties  context.xml  logging.properties  mykeystore  server.xml  tomcat-users.xml  web.xml
+Generating 2,048 bit RSA key pair and self-signed certificate <span class="o">(</span>SHA256withRSA<span class="o">)</span> with a validity of 90 days
+    <span class="k">for</span>: <span class="nv">CN</span><span class="o">=</span>Alex Lu, <span class="nv">OU</span><span class="o">=</span>visionet, <span class="nv">O</span><span class="o">=</span>visionet, <span class="nv">L</span><span class="o">=</span>SH, <span class="nv">ST</span><span class="o">=</span>SH, <span class="nv">C</span><span class="o">=</span>ZH
+Enter key password <span class="k">for</span> &lt;tomcat&gt;
+    <span class="o">(</span>RETURN <span class="k">if </span>same as keystore password<span class="o">)</span>:        <span class="c">#默认回车即可，不需要设置太多密码</span>
+<span class="o">[</span>Storing mykeystore]
+<span class="o">[</span>root@test conf]# <span class="nb">ls
+</span>Catalina  catalina.policy  catalina.properties  context.xml  logging.properties  mykeystore  server.xml  tomcat-users.xml  web.xml
 </code></pre></div></div>
 
 <blockquote>
@@ -328,36 +328,36 @@ Catalina  catalina.policy  catalina.properties  context.xml  logging.properties 
        -validity 可以用来指定证书有效期，单位为天，缺省值为 90 天。</p>
 </blockquote>
 
-<h4 id="2-备份tomcatdirconfserverxml">2. 备份$tomcatdir/conf/server.xml</h4>
+<h2 id="2-备份tomcatdirconfserverxml">2. 备份$tomcatdir/conf/server.xml</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp $tomcatdir/conf/server.xml $tomcatdir/conf/server.xml
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cp</span> <span class="nv">$tomcatdir</span>/conf/server.xml <span class="nv">$tomcatdir</span>/conf/server.xml
 </code></pre></div></div>
 
-<h4 id="3-修改-serverxml">3. 修改 server.xml</h4>
+<h2 id="3-修改-serverxml">3. 修改 server.xml</h2>
 
-<h6 id="a-注释以下tomcat-注释用---xxxx----如何也想保留-http-访问可以不注释">a. 注释以下：（tomcat 注释用：&lt;!-- XXXX --&gt; ）,如何也想保留 http 访问，可以不注释</h6>
+<h3 id="a-注释以下tomcat-注释用---xxxx----如何也想保留-http-访问可以不注释">a. 注释以下：（tomcat 注释用：&lt;!-- XXXX --&gt; ）,如何也想保留 http 访问，可以不注释</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;!--
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!--
 &lt;Connector executor="tomcatThreadPool"
                 port="80" protocol="HTTP/1.1"
                 connectionTimeout="20000"
                 redirectPort="8443" /&gt;
---&gt;
+--&gt;</span>
 </code></pre></div></div>
 
-<h6 id="b-取消下面注释">b. 取消下面注释</h6>
+<h3 id="b-取消下面注释">b. 取消下面注释</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Connector port="443" protocol="HTTP/1.1" SSLEnabled="true"
-                maxThreads="150" scheme="https" secure="true"
-                clientAuth="false" sslProtocol="TLS" /&gt;
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;Connector</span> <span class="na">port=</span><span class="s">"443"</span> <span class="na">protocol=</span><span class="s">"HTTP/1.1"</span> <span class="na">SSLEnabled=</span><span class="s">"true"</span>
+                <span class="na">maxThreads=</span><span class="s">"150"</span> <span class="na">scheme=</span><span class="s">"https"</span> <span class="na">secure=</span><span class="s">"true"</span>
+                <span class="na">clientAuth=</span><span class="s">"false"</span> <span class="na">sslProtocol=</span><span class="s">"TLS"</span> <span class="nt">/&gt;</span>
 </code></pre></div></div>
 
-<h6 id="c-增加-keystorefile-和-keystorepass">c. 增加 keystoreFile 和 keystorePass</h6>
+<h3 id="c-增加-keystorefile-和-keystorepass">c. 增加 keystoreFile 和 keystorePass</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;Connector port="443" protocol="HTTP/1.1" SSLEnabled="true"
-               maxThreads="150" scheme="https" secure="true"
-               clientAuth="false" sslProtocol="TLS"
-               keystoreFile="conf/mykeystore" keystorePass="123456"/&gt;
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;Connector</span> <span class="na">port=</span><span class="s">"443"</span> <span class="na">protocol=</span><span class="s">"HTTP/1.1"</span> <span class="na">SSLEnabled=</span><span class="s">"true"</span>
+               <span class="na">maxThreads=</span><span class="s">"150"</span> <span class="na">scheme=</span><span class="s">"https"</span> <span class="na">secure=</span><span class="s">"true"</span>
+               <span class="na">clientAuth=</span><span class="s">"false"</span> <span class="na">sslProtocol=</span><span class="s">"TLS"</span>
+               <span class="na">keystoreFile=</span><span class="s">"conf/mykeystore"</span> <span class="na">keystorePass=</span><span class="s">"123456"</span><span class="nt">/&gt;</span>
 </code></pre></div></div>
 
 <blockquote>
@@ -365,9 +365,9 @@ Catalina  catalina.policy  catalina.properties  context.xml  logging.properties 
 keystorePass=跟当时 keytool 命令执行时输入的密码</p>
 </blockquote>
 
-<h4 id="4-重启-tomcat">4. 重启 tomcat</h4>
+<h2 id="4-重启-tomcat">4. 重启 tomcat</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@test conf]# ../bin/catalina.sh stop &amp;&amp; ../bin/catalina.sh start
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@test conf]# ../bin/catalina.sh stop <span class="o">&amp;&amp;</span> ../bin/catalina.sh start
 Using CATALINA_BASE:   /home/pms/apache-tomcat-6.0.44
 Using CATALINA_HOME:   /home/pms/apache-tomcat-6.0.44
 Using CATALINA_TMPDIR: /home/pms/apache-tomcat-6.0.44/temp
@@ -378,12 +378,12 @@ Using CATALINA_HOME:   /home/pms/apache-tomcat-6.0.44
 Using CATALINA_TMPDIR: /home/pms/apache-tomcat-6.0.44/temp
 Using JRE_HOME:        /home/pms/jdk1.7.0_65
 Using CLASSPATH:       /home/pms/apache-tomcat-6.0.44/bin/bootstrap.jar
-[root@test conf]# netstat -ntlup | grep -e "80\|443"
-tcp        0      0 0.0.0.0:80         0.0.0.0:*          LISTEN      21960/java
-tcp        0      0 0.0.0.0:443        0.0.0.0:*          LISTEN      21960/java
-tcp        0      0 127.0.0.1:8005     0.0.0.0:*          LISTEN      21960/java
-tcp        0      0 0.0.0.0:8009       0.0.0.0:*          LISTEN      21960/java
-[root@test conf]#
+<span class="o">[</span>root@test conf]# netstat <span class="nt">-ntlup</span> | <span class="nb">grep</span> <span class="nt">-e</span> <span class="s2">"80</span><span class="se">\|</span><span class="s2">443"</span>
+tcp        0      0 0.0.0.0:80         0.0.0.0:<span class="k">*</span>          LISTEN      21960/java
+tcp        0      0 0.0.0.0:443        0.0.0.0:<span class="k">*</span>          LISTEN      21960/java
+tcp        0      0 127.0.0.1:8005     0.0.0.0:<span class="k">*</span>          LISTEN      21960/java
+tcp        0      0 0.0.0.0:8009       0.0.0.0:<span class="k">*</span>          LISTEN      21960/java
+<span class="o">[</span>root@test conf]#
 </code></pre></div></div>
 
 <p>OK !</p>

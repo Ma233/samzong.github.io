@@ -658,12 +658,9 @@ clear
   <li><a href="https://accounts.google.com">Google Account ID</a></li>
 </ul>
 
-<p>最近看到身边朋友都在玩 Pokemon GO, 心痒难耐，于是跟同事请教琢磨了，终于在自己的手机上玩起来了，由于我的手机是 iPhone 5s，身边朋友也都是 iPhone，所以不确定是 Android 是否可以玩耍，想来应该是没有问题话，Android 平台做破解等操作一直以来比 iPhone 更加方便。
-</p>
+<p>最近看到身边朋友都在玩 Pokemon GO, 心痒难耐，于是跟同事请教琢磨了，终于在自己的手机上玩起来了，由于我的手机是 iPhone 5s，身边朋友也都是 iPhone，所以不确定是 Android 是否可以玩耍，想来应该是没有问题话，Android 平台做破解等操作一直以来比 iPhone 更加方便。</p>
 
-<div align="center">
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo1.jpg&gt;
-</div>
+<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo1.jpg" alt="image" /></p>
 
 <ol>
   <li>
@@ -680,38 +677,29 @@ clear
   </li>
   <li>
     <p>注册 Google Account ID，<a href="https://account.google.com">点击</a></p>
-  </li>
-</ol>
 
-<div align="center">
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo2.jpg width="360" height="640"&gt;
-</div>
-<ol>
-  <li>进入游戏，登录 Google ID，然后授权，进入游戏。</li>
-</ol>
-<div align="center">
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo3.png width="360" height="640"&gt;
-</div>
-<ol>
-  <li>开始捕捉你的小精灵吧，手动微笑。</li>
+    <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo2.jpg" alt="image" /></p>
+  </li>
+  <li>
+    <p>进入游戏，登录 Google ID，然后授权，进入游戏。</p>
+
+    <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo3.png&gt;" alt="image" /></p>
+  </li>
+  <li>
+    <p>开始捕捉你的小精灵吧，手动微笑。</p>
+  </li>
 </ol>
 
 <blockquote>
   <p>Tips：这款游戏会大量耗电发热，因为打开摄像头捕捉小精灵；另外很容易入迷，在室外玩耍时一定要注意安全。</p>
 </blockquote>
 
-<ol>
-  <li>注意：如果看到了 GPS signal not found，说明是 GPS 信息丢失，这是根据 GPS 定位的游戏，所以这很重要，记得选择美国的 VPN 代理。</li>
-</ol>
+<p>注意：如果看到了 GPS signal not found，说明是 GPS 信息丢失，这是根据 GPS 定位的游戏，所以这很重要，记得选择美国的 VPN 代理。</p>
 
-<div align="center">
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo4.png
-width="360" height="640"&gt;
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo5.png
-width="360" height="640"&gt;
-&lt;img src=http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo6.png
-width="360" height="640"&gt;
-</div>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>![image](http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo4.png)
+![image](http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo5.png)
+![image](http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo6.png)
+</code></pre></div></div>
 
       
     </div>
@@ -735,25 +723,25 @@ width="360" height="640"&gt;
 
 <h3 id="1-指定虚拟机">1. 指定虚拟机</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$vm = Get-AzureVM -ServiceName '云服务名称' -Name '虚拟机名称'
-$vm.GetInstance().ProvisionGuestAgent = $true
+<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$<span class="n">vm</span> = <span class="n">Get</span>-<span class="n">AzureVM</span> -<span class="n">ServiceName</span> <span class="s1">'云服务名称'</span> -<span class="n">Name</span> <span class="s1">'虚拟机名称'</span>
+$<span class="n">vm</span>.<span class="n">GetInstance</span>().<span class="n">ProvisionGuestAgent</span> = $<span class="n">true</span>
 </code></pre></div></div>
 
 <h3 id="2-输入您当前的用户名和新密码">2. 输入您当前的用户名和新密码</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$UserName = "指定用户名"
-$Password = "指定密码"
+<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$<span class="n">UserName</span> = <span class="s2">"指定用户名"</span>
+$<span class="n">Password</span> = <span class="s2">"指定密码"</span>
 
-$PrivateConfig = '{"username":"'+ $UserName + '", "password":"' +  $Password + '"}'
+$<span class="n">PrivateConfig</span> = <span class="s1">'{"username":"'</span>+ $<span class="n">UserName</span> + <span class="s1">'", "password":"'</span> +  $<span class="n">Password</span> + <span class="s1">'"}'</span>
 </code></pre></div></div>
 
-<h3 id="3-开始执行">3. 开始执行</h3>
+<h3 id="开始执行">开始执行</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ExtensionName = 'VMAccessForLinux'
-$Publisher = 'Microsoft.OSTCExtensions'
-$Version =  '1.0'
+<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$<span class="n">ExtensionName</span> = <span class="s1">'VMAccessForLinux'</span>
+$<span class="n">Publisher</span> = <span class="s1">'Microsoft.OSTCExtensions'</span>
+$<span class="n">Version</span> =  <span class="s1">'1.0'</span>
 
-Set-AzureVMExtension -ExtensionName $ExtensionName -VM  $vm -Publisher $Publisher -Version $Version -PrivateConfiguration $PrivateConfig | Update-AzureVM
+<span class="n">Set</span>-<span class="n">AzureVMExtension</span> -<span class="n">ExtensionName</span> $<span class="n">ExtensionName</span> -<span class="n">VM</span>  $<span class="n">vm</span> -<span class="n">Publisher</span> $<span class="n">Publisher</span> -<span class="n">Version</span> $<span class="n">Version</span> -<span class="n">PrivateConfiguration</span> $<span class="n">PrivateConfig</span> | <span class="n">Update</span>-<span class="n">AzureVM</span>
 
 </code></pre></div></div>
 
@@ -761,19 +749,19 @@ Set-AzureVMExtension -ExtensionName $ExtensionName -VM  $vm -Publisher $Publishe
   <p>Setup2: 如果是由于错误修改了 SSH 的配置文件导致无法登录，例如在登录时报错：This service allows sftp connections only.Connection to vm closed.这是因为错误配置了 sftp 导致的，那碰到这种问题需要做的是重置 ssh 服务。</p>
 </blockquote>
 
-<h3 id="1-指定虚拟机-1">1. 指定虚拟机</h3>
+<h3 id="指定虚拟机">指定虚拟机</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$vm = Get-AzureVM -ServiceName 'MyServiceName' -Name 'MyVMName'
-$PrivateConfig = '{"reset_ssh":"True"}''
+<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$<span class="n">vm</span> = <span class="n">Get</span>-<span class="n">AzureVM</span> -<span class="n">ServiceName</span> <span class="s1">'MyServiceName'</span> -<span class="n">Name</span> <span class="s1">'MyVMName'</span>
+$<span class="n">PrivateConfig</span> = <span class="s1">'{"reset_ssh":"True"}'</span><span class="err">'</span>
 </code></pre></div></div>
 
 <h3 id="2-开始执行">2. 开始执行</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ExtensionName = 'VMAccessForLinux'
-$Publisher = 'Microsoft.OSTCExtensions'
-$Version =  '1.0'
+<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$<span class="n">ExtensionName</span> = <span class="s1">'VMAccessForLinux'</span>
+$<span class="n">Publisher</span> = <span class="s1">'Microsoft.OSTCExtensions'</span>
+$<span class="n">Version</span> =  <span class="s1">'1.0'</span>
 
-Set-AzureVMExtension -ExtensionName $ExtensionName -VM  $vm -Publisher $Publisher -Version $Version -PrivateConfiguration $PrivateConfig | Update-AzureVM
+<span class="n">Set</span>-<span class="n">AzureVMExtension</span> -<span class="n">ExtensionName</span> $<span class="n">ExtensionName</span> -<span class="n">VM</span>  $<span class="n">vm</span> -<span class="n">Publisher</span> $<span class="n">Publisher</span> -<span class="n">Version</span> $<span class="n">Version</span> -<span class="n">PrivateConfiguration</span> $<span class="n">PrivateConfig</span> | <span class="n">Update</span>-<span class="n">AzureVM</span>
 </code></pre></div></div>
 
       
@@ -836,7 +824,7 @@ docker info
 
 <h3 id="1-faild-to-start-docker-on-centos-6x"><strong>1. Faild to start docker on CentOS 6.x</strong></h3>
 
-<p><code>***/usr/bin/docker: relocation error: /usr/bin/docker: symbol dm_task_get_info_with_deferred_remove, version Base not defined in file libdevmapper.so.1.02 with link time reference***</code></p>
+<p><code class="language-plaintext highlighter-rouge">***/usr/bin/docker: relocation error: /usr/bin/docker: symbol dm_task_get_info_with_deferred_remove, version Base not defined in file libdevmapper.so.1.02 with link time reference***</code></p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>the lib-device-mapper that you have isn<span class="s1">'t exporting a symbol ("Base") that Docker needs.
 this by upgrading lib-device-mapper to version 1.02.90.
@@ -848,7 +836,7 @@ sudo yum install device-mapper-event-libs
 
 <h3 id="2-faild-to-use-docker"><strong>2. Faild to use docker</strong></h3>
 
-<p><code>***Get &lt;http:///var/run/docker.sock/v1.19/info&gt;: dial unix /var/run/docker.sock: no such file or directory. Are you trying to connect to a TLS-enabled daemon without TLS?***</code></p>
+<p><code class="language-plaintext highlighter-rouge">***Get &lt;http:///var/run/docker.sock/v1.19/info&gt;: dial unix /var/run/docker.sock: no such file or directory. Are you trying to connect to a TLS-enabled daemon without TLS?***</code></p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># this is because docker no restart ok.</span>
 
@@ -880,7 +868,7 @@ docker images
     <div class="post_at_index">
       <h2 id="install-mysql-55-on-rhelcentos-567">Install Mysql 5.5 on RHEL/CentOS 5/6/7</h2>
 
-<h3 id="setup-1-use-repository">Setup 1. Use Repository</h3>
+<h3 id="1-use-repository">1. Use Repository</h3>
 
 <p>First, to set up the yum repository, install the mysql－community-server 5.5 RPM based on your CentOS/RHEL release:</p>
 
@@ -925,7 +913,7 @@ yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.5-communit
 yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.5-community/el/7/i386/mysql-community-release-el7-5.noarch.rpm
 </code></pre></div></div>
 
-<h3 id="setup-2-install-mysql-server-55">Setup 2. Install MySQL Server 5.5</h3>
+<h3 id="2-install-mysql-server-55">2. Install MySQL Server 5.5</h3>
 
 <p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:</p>
 
@@ -940,7 +928,7 @@ Otherwise, to install MySql client and server, then run:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> mysql-community-server
 </code></pre></div></div>
 
-<h3 id="setup-3-service-configure">Setup 3. Service Configure</h3>
+<h3 id="3-service-configure">3. Service Configure</h3>
 
 <p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).</p>
 
@@ -954,7 +942,7 @@ Otherwise, to install MySql client and server, then run:</p>
 
 <h2 id="install-mysql-56-on-rhelcentos-567">Install Mysql 5.6 on RHEL/CentOS 5/6/7</h2>
 
-<h3 id="setup-1-use-repository-1">Setup 1. Use Repository</h3>
+<h3 id="use-repository">Use Repository</h3>
 
 <p>First, to set up the yum repository, install the mysql－community-server 5.6 RPM based on your CentOS/RHEL release:</p>
 
@@ -985,7 +973,7 @@ yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.6-communit
 yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.6-community/el/7/i386/mysql-community-release-el7-5.noarch.rpm
 </code></pre></div></div>
 
-<h3 id="setup-2-install-mysql-server-56">Setup 2. Install MySQL Server 5.6</h3>
+<h3 id="install-mysql-server-56">Install MySQL Server 5.6</h3>
 
 <p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:</p>
 
@@ -999,7 +987,7 @@ Otherwise, to install MySql client and server, then run:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> mysql-community-server
 </code></pre></div></div>
 
-<h3 id="setup-3-service-configure-1">Setup 3. Service Configure</h3>
+<h3 id="service-configure">Service Configure</h3>
 
 <p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).</p>
 
@@ -1013,7 +1001,7 @@ Otherwise, to install MySql client and server, then run:</p>
 
 <h2 id="install-mysql-57-on-rhelcentos-567">Install Mysql 5.7 on RHEL/CentOS 5/6/7</h2>
 
-<h3 id="setup-use-repository">Setup Use Repository</h3>
+<h3 id="use-repository-57">Use Repository 5.7</h3>
 
 <p>First, to set up the yum repository, install the mysql－community-server 5.7 RPM based on your CentOS/RHEL release:</p>
 
@@ -1044,7 +1032,7 @@ yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.7-communit
 yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.7-community/el/7/i386/mysql-community-release-el7-7.noarch.rpm
 </code></pre></div></div>
 
-<h3 id="setup-2-install-mysql-server-57">Setup 2. Install MySQL Server 5.7</h3>
+<h3 id="2-install-mysql-server-57">2. Install MySQL Server 5.7</h3>
 
 <p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:</p>
 
@@ -1058,7 +1046,7 @@ Otherwise, to install MySql client and server, then run:</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> mysql-community-server
 </code></pre></div></div>
 
-<h3 id="setup-3-service-configure-2">Setup 3. Service Configure*</h3>
+<h3 id="3-service-configure-1">3. Service Configure*</h3>
 
 <p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).</p>
 
@@ -1090,43 +1078,43 @@ Otherwise, to install MySql client and server, then run:</p>
 
 <p>Frist, To install remi Repo and epel Repo.</p>
 
-<h4 id="remi-el6-for-centosrhel-6x">Remi EL6 for CentOS/RHEL 6.x</h4>
+<h3 id="remi-el6-for-centosrhel-6x">Remi EL6 for CentOS/RHEL 6.x</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm -Uvh https://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-Uvh</span> https://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+rpm <span class="nt">-Uvh</span> http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 </code></pre></div></div>
 
-<h4 id="remi-el5-for-centosrhel-5x">Remi EL5 for CentOS/RHEL 5.x</h4>
+<h3 id="remi-el5-for-centosrhel-5x">Remi EL5 for CentOS/RHEL 5.x</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm -Uvh https://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm
-rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-Uvh</span> https://dl.fedoraproject.org/pub/epel/5/x86_64/epel-release-5-4.noarch.rpm
+rpm <span class="nt">-Uvh</span> http://rpms.famillecollet.com/enterprise/remi-release-5.rpm
 </code></pre></div></div>
 
-<h4 id="有时间我们会碰到-remirepo-无法使用报错就像这样">有时间我们会碰到 remi.repo 无法使用报错，就像这样</h4>
+<h3 id="有时间我们会碰到-remirepo-无法使用报错就像这样">有时间我们会碰到 remi.repo 无法使用报错，就像这样</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://remi.schlundtech.de/enterprise/latest/remi/x86_64/repodata/repomd.xml: [Errno 14] PYCURL ERROR 22 - "The requested URL returned error: 404 Not Found"
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://remi.schlundtech.de/enterprise/latest/remi/x86_64/repodata/repomd.xml: <span class="o">[</span>Errno 14] PYCURL ERROR 22 - <span class="s2">"The requested URL returned error: 404 Not Found"</span>
 </code></pre></div></div>
 
-<h4 id="这时我们需要修改etcyumreposdremirepo像这样">这时我们需要修改/etc/yum.repos.d/remi.repo，像这样</h4>
+<h3 id="这时我们需要修改etcyumreposdremirepo像这样">这时我们需要修改/etc/yum.repos.d/remi.repo，像这样</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>baseurl=http://rpms.famillecollet.com/enterprise/5/remi/$basearch/
-#mirrorlist=http://rpms.famillecollet.com/enterprise/5/remi/mirror/$basearch/
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">baseurl</span><span class="o">=</span>http://rpms.famillecollet.com/enterprise/5/remi/<span class="nv">$basearch</span>/
+<span class="c">#mirrorlist=http://rpms.famillecollet.com/enterprise/5/remi/mirror/$basearch/</span>
 </code></pre></div></div>
 
 <h4 id="如果发现安装后-yum-makecache-没看到相应的源站点请检查-repo-文件的-enable-参数是否为-11-为开启0-为关闭状态">如果发现安装后 yum makecache 没看到相应的源站点，请检查 repo 文件的 enable 参数是否为 1，1 为开启，0 为关闭状态</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[repoName]
-name=repoName repo
-baseurl=http://repoPath
-gpgcheck=0                # 是否启用gpgkey检查
-enabled=0                 # 是否启用该源
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>repoName]
+<span class="nv">name</span><span class="o">=</span>repoName repo
+<span class="nv">baseurl</span><span class="o">=</span>http://repoPath
+<span class="nv">gpgcheck</span><span class="o">=</span>0                <span class="c"># 是否启用gpgkey检查</span>
+<span class="nv">enabled</span><span class="o">=</span>0                 <span class="c"># 是否启用该源</span>
 </code></pre></div></div>
 
-<h4 id="install-redis">Install Redis</h4>
+<h3 id="install-redis">Install Redis</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y redis
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> redis
 
-[root@zabbix yum.repos.d]# rpm -qi redis
+<span class="o">[</span>root@zabbix yum.repos.d]# rpm <span class="nt">-qi</span> redis
 Name        : redis
 Version     : 3.2.1
 Release     : 2.el5.remi
@@ -1139,7 +1127,7 @@ Signature   : DSA/SHA1, Fri 24 Jun 2016 01:30:12 PM CST, Key ID 004e6f4700f97f56
 Source RPM  : redis-3.2.1-2.el5.remi.src.rpm
 Build Date  : Fri 24 Jun 2016 01:28:27 PM CST
 Build Host  : builder.remirepo.net
-Relocations : (not relocatable)
+Relocations : <span class="o">(</span>not relocatable<span class="o">)</span>
 Packager    : http://blog.remirepo.net/
 Vendor      : Remi Collet
 URL         : http://redis.io
@@ -1148,67 +1136,69 @@ Summary     : A persistent key-value database
 
 <h2 id="setup-2-基本配置项">Setup 2. 基本配置项</h2>
 
-<h4 id="redis-配置默认文件etcredisconf">Redis 配置默认文件/etc/redis.conf</h4>
+<h3 id="redis-配置默认文件etcredisconf">Redis 配置默认文件/etc/redis.conf</h3>
 
-<p>＃ 设置 Redis 的运行模式，yes 表示后台运行，no 表示不开启后台运行。</p>
+<p>设置 Redis 的运行模式，yes 表示后台运行，no 表示不开启后台运行。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>daemonize yes
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>daemonize <span class="nb">yes</span>
 </code></pre></div></div>
 
-<p>＃ 指定 redis 监听端口，默认为 6379</p>
+<p>指定 redis 监听端口，默认为 6379</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>port 6379
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>port 6379
 </code></pre></div></div>
 
-<p>＃ 设置 bind_ip，默认监听接口，默认是监听本地，如果未配置的情况下，只有本地可以访问 redis，如果取消，则默认监听所有接口</p>
+<p>设置 bind_ip，默认监听接口，默认是监听本地，如果未配置的情况下，只有本地可以访问 redis，如果取消，则默认监听所有接口</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># bind 127.0.0.1
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># bind 127.0.0.1</span>
 </code></pre></div></div>
 
-<p>＃ 指定日志记录级别</p>
+<p>指定日志记录级别</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># debug  记录很多信息，用于开发和测试
-# varbose 很多精简的有用信息，不像 debug 会记录那么多
-# notice 普通的 verbose，常用于生产环境
-# warning 只有非常重要或者严重的信息会记录到日志
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># debug  记录很多信息，用于开发和测试</span>
+<span class="c"># varbose 很多精简的有用信息，不像 debug 会记录那么多</span>
+<span class="c"># notice 普通的 verbose，常用于生产环境</span>
+<span class="c"># warning 只有非常重要或者严重的信息会记录到日志</span>
 
 loglevel verbose
 </code></pre></div></div>
 
-<p>＃ 配置 log 文件名称和全路径地址，默认为 stdout，即标准输出，输出到/dev/null，可以手动指定 redis 日志文件地址，建议级别不要太高，否则会产生大量日志，注意避免磁盘因此撑满。</p>
+<p>配置 log 文件名称和全路径地址，默认为 stdout，即标准输出，输出到/dev/null，可以手动指定 redis 日志文件地址，建议级别不要太高，否则会产生大量日志，注意避免磁盘因此撑满。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>logfile stdout
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>logfile stdout
 </code></pre></div></div>
 
-<p>＃ 可用数据库数，默认值为 16，默认数据库存储在 DB 0 号 ID 库中，无特殊需求，建议仅设置一个数据库<br />
+<p>＃ 可用数据库数，默认值为 16，默认数据库存储在 DB 0 号 ID 库中，无特殊需求，建议仅设置一个数据库
 ＃ 查询数据库使用  SELECT ‘dbid’，dbid 介于 0 到 ‘databases’-1 之间。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>database 16
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>database 16
 </code></pre></div></div>
 
-<p>＃ 安全限定，要求客户端在处理任何命令时都要验证身份和设置密码。<br />
-＃ 默认不启用，若要启用，需要将下行取消注释，并将 foobared 设置自定一的密码接即可。<br />
-＃ 因为 redis 加密是通过配置文件进行，所以目前各大云厂家的 redis PAAS 服务，都不支持 redis 加密，在程序开发时需要注意。</p>
+<ul>
+  <li>安全限定，要求客户端在处理任何命令时都要验证身份和设置密码。</li>
+  <li>默认不启用，若要启用，需要将下行取消注释，并将 foobared 设置自定一的密码接即可。</li>
+  <li>因为 redis 加密是通过配置文件进行，所以目前各大云厂家的 redis PAAS 服务，都不支持 redis 加密，在程序开发时需要注意。</li>
+</ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># requirepass foobared
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># requirepass foobared</span>
 
-# 如果开启了安全验证，这时通过redis-cli登录时需要首先执行auth，否则不能正常使用。
+<span class="c"># 如果开启了安全验证，这时通过redis-cli登录时需要首先执行auth，否则不能正常使用。</span>
 redis-cli&gt; auth foobared
 </code></pre></div></div>
 
-<p>＃ 向 redis 内插入一条数据</p>
+<p>向 redis 内插入一条数据</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt;  set [key] [values]
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt;  <span class="nb">set</span> <span class="o">[</span>key] <span class="o">[</span>values]
 </code></pre></div></div>
 
-<p>＃ 获取 key 的值</p>
+<p>获取 key 的值</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt; get key
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt; get key
 </code></pre></div></div>
 
-<p>＃ 查看 redis 的 db 信息</p>
+<p>查看 redis 的 db 信息</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt; info
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>redis-cli&gt; info
 </code></pre></div></div>
 
 <h2 id="setup-3-others">Setup 3. Others</h2>
@@ -1218,8 +1208,6 @@ redis-cli&gt; auth foobared
   <li>master/slave</li>
   <li>slow log</li>
 </ul>
-
-<h3 id="font-colorblackmsis-size45-wait--font">&lt;font color=blackm,sis size=45 &gt;Wait … &lt;/font&gt;</h3>
 
       
     </div>
@@ -1241,10 +1229,9 @@ redis-cli&gt; auth foobared
     
     <h1><a class="title" href="/post/2016/07/HowTo-Use-Fuse-sshfs-to-Mount-Remote-Filesystems.html">HowTo Use Fuse-sshfs to Mount Remote Filesystems</a></h1>
     <div class="post_at_index">
-      <p>传统我们服务器之间文件共享的方式有采用 NFS、Samba 等等，但是在我看来配置都有一定的复杂性，当然复杂也有它们的优势，这里推荐一个依赖于 SSH 的文件共享工具，Fuse-sshfs。<br />
+      <p>传统我们服务器之间文件共享的方式有采用 NFS、Samba 等等，但是在我看来配置都有一定的复杂性，当然复杂也有它们的优势，这里推荐一个依赖于 SSH 的文件共享工具，Fuse-sshfs。
 SSH 是一个强大且安全的工具，我们除了可以用它来远程管理主机外，还可以通过它建立 SSH tunnel 作 Proxy 用，远程传输文件等等。而这里我想要介绍另外一个功能，那就是结合 sshfs 这个工具可以把远程主机的文件系统映射到本地主机上，透过 SSH 把远程文件系统挂载到本机上，这样我们可以不必使用 scp 工具就可以做到直接复制及删除远程主机的文件了，就像操作本地磁盘一样方便。
-<br />sshfs 是基于 FUSE 构建的 SSH 文件系统客户端程序，通过它远程主机的配置无需作任何改变，就可以透过 SSH 协议来挂载远程文件系统了，非常方便及安全。
-<br /></p>
+sshfs 是基于 FUSE 构建的 SSH 文件系统客户端程序，通过它远程主机的配置无需作任何改变，就可以透过 SSH 协议来挂载远程文件系统了，非常方便及安全。</p>
 
 <h2 id="install-fuse-sshfs">Install fuse-sshfs</h2>
 
@@ -1480,8 +1467,6 @@ show variables like <span class="s1">'%lower_case_table_names%'</span>
   <li>使用 apr 插件，提高 tomcat 响应时间</li>
 </ul>
 
-<p><br /></p>
-
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="o">(</span>1<span class="o">)</span>安装APR tomcat-native
     apr-1.3.8.tar.gz   安装在/usr/local/apr
     <span class="c">#tar zxvf apr-1.3.8.tar.gz</span>
@@ -1663,12 +1648,12 @@ There is NO WARRANTY, to the extent permitted by law.
      
     	
       <li><a href="/categories.html#Linux">
-    		Linux <span>21</span>
+    		Linux <span>22</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#CentOS">
-    		CentOS <span>14</span>
+    		CentOS <span>15</span>
     	</a></li>
      
     	
@@ -1678,12 +1663,12 @@ There is NO WARRANTY, to the extent permitted by law.
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>19</span>
+    		数据库 <span>18</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#MySQL">
-    		MySQL <span>15</span>
+    		MySQL <span>14</span>
     	</a></li>
      
     	
@@ -1708,7 +1693,7 @@ There is NO WARRANTY, to the extent permitted by law.
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>17</span>
+    		Mac <span>16</span>
     	</a></li>
      
     	
@@ -1932,6 +1917,12 @@ There is NO WARRANTY, to the extent permitted by law.
       <ul>
         
         <li>
+          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy To Markdwon</a>
+          
+
+        </li>
+        
+        <li>
           <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
           
   参考资料：
@@ -1950,7 +1941,9 @@ df = pandas.read_csv(‘somefile.txt’)
         
         <li>
           <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
-          暗坑很多
+          
+  暗坑很多
+
 
 
         </li>
@@ -1959,13 +1952,6 @@ df = pandas.read_csv(‘somefile.txt’)
           <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
           王路
 12 highlights
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/%E8%87%AA%E5%8D%91%E4%B8%8E%E8%B6%85%E8%B6%8A.html">自卑与超越</a>
-          【奥】阿尔弗雷德··阿德勒
 
 
         </li>

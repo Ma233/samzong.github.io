@@ -300,11 +300,11 @@
 
 <h3 id="1-无论是-denbian-系还是-rehat-系列软件仓库内已经加入了-s3cmd">1. 无论是 Denbian 系还是 Rehat 系列，软件仓库内已经加入了 s3cmd</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 1.1 Ubuntu &amp; Debian
-$ sudo apt-get install -y s3cmd
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 1.1 Ubuntu &amp; Debian</span>
+<span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install</span> <span class="nt">-y</span> s3cmd
 
-# 1.2 RHEL &amp; CentOS
-$ sudo yum install s3cmd
+<span class="c"># 1.2 RHEL &amp; CentOS</span>
+<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>s3cmd
 </code></pre></div></div>
 
 <h3 id="2-如果您的系统比较特殊软件仓库内找不到-s3cmd还有-s3cmd-的-github-上去获取相关安装信息链接">2. 如果您的系统比较特殊，软件仓库内找不到 s3cmd，还有 s3cmd 的 Github 上去获取相关安装信息：<a href="https://github.com/s3tools/s3cmd">链接</a></h3>
@@ -313,7 +313,7 @@ $ sudo yum install s3cmd
 
 <h3 id="1-第一次运行-s3cmd-需要首先预配置相关-s3-信息">1. 第一次运行 s3cmd 需要首先预配置相关 s3 信息</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>s3cmd --configure
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>s3cmd <span class="nt">--configure</span>
 </code></pre></div></div>
 
 <p>它会问你一系列问题：</p>
@@ -331,7 +331,7 @@ $ sudo yum install s3cmd
 
 <p>笔者在第一次运行时，始终无法添加成功，报错信息如下：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ERROR: Test failed: 403 (InvalidAccessKeyId): The AWS Accecc Key Id you provided does not exist in our records.
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ERROR: Test failed: 403 <span class="o">(</span>InvalidAccessKeyId<span class="o">)</span>: The AWS Accecc Key Id you provided does not exist <span class="k">in </span>our records.
 </code></pre></div></div>
 
 <p>起初以为是 Access Key 不对，在经过多次测试之后，才发现问题，这是因为 s3cmd 内置 s3 的 Domain 为 Global 的信息，而中国与 Global 是独立存在的所以查找不到我们的 Access Key。所以，如果你使用的 Global AWS 那么上面一步应该已经配置好了你的 s3cmd，如果你是 AWS China 的用户，那么你要做以下操作。</p>
@@ -342,24 +342,24 @@ $ sudo yum install s3cmd
   <li>保存设置之后，编辑配置文件（~/.s3cfg ) 修改其中的如下字段，并将其中%(bucket)s 用您实际的某一个存储桶名字代替掉</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bucket_location = %(location)
-host_base = s3.cn-north-1.amazonaws.com.cn
-host_bucket = %(bucket)s.s3.cn-north-1.amazonaws.com.cn
-website_endpoint = http://%(bucket)s.s3-website-%(location)s.amazonaws.com.cn/
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bucket_location <span class="o">=</span> %<span class="o">(</span>location<span class="o">)</span>
+host_base <span class="o">=</span> s3.cn-north-1.amazonaws.com.cn
+host_bucket <span class="o">=</span> %<span class="o">(</span>bucket<span class="o">)</span>s.s3.cn-north-1.amazonaws.com.cn
+website_endpoint <span class="o">=</span> http://%<span class="o">(</span>bucket<span class="o">)</span>s.s3-website-%<span class="o">(</span>location<span class="o">)</span>s.amazonaws.com.cn/
 </code></pre></div></div>
 
 <p>例如，你的存储桶的名字为 s3chinatest: 地域为北京。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bucket_location = cn-north-1
-host_base = s3.cn-north-1.amazonaws.com.cn
-host_bucket = s3chinatest.s3.cn-north-1.amazonaws.com.cn
-website_endpoint = http://s3chinatest.s3-website.amazonaws.com.cn/
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bucket_location <span class="o">=</span> cn-north-1
+host_base <span class="o">=</span> s3.cn-north-1.amazonaws.com.cn
+host_bucket <span class="o">=</span> s3chinatest.s3.cn-north-1.amazonaws.com.cn
+website_endpoint <span class="o">=</span> http://s3chinatest.s3-website.amazonaws.com.cn/
 </code></pre></div></div>
 
 <h3 id="3-保存配置文件然后用命令测试一下确认-s3cmd-可以正常工作">3. 保存配置文件，然后用命令测试一下，确认 s3cmd 可以正常工作</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd ls
-2016-11-18 22:30 s3://s3chinatest
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd <span class="nb">ls
+</span>2016-11-18 22:30 s3://s3chinatest
 2016-10-29 00:14 s3://bucket2
 </code></pre></div></div>
 
@@ -367,56 +367,56 @@ website_endpoint = http://s3chinatest.s3-website.amazonaws.com.cn/
 
 <h3 id="1-查看当前账户下所有现有的桶-bucket">1. 查看当前账户下所有现有的桶 (bucket)</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd ls
-2016-11-18 22:30 s3://s3chinatest
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd <span class="nb">ls
+</span>2016-11-18 22:30 s3://s3chinatest
 2016-10-29 00:14 s3://bucket2
 </code></pre></div></div>
 
 <h3 id="2-创建新的-bucket">2. 创建新的 bucket</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd mb s3://s3chinatest2
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd mb s3://s3chinatest2
 
 Bucket ’s3://s3chinatest2/’ created
 </code></pre></div></div>
 
 <h3 id="3-上传文件到-bucket">3. 上传文件到 bucket</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd put file1.txt file2.txt file3.txt s3://s3chinatest2
-upload: 'file1.txt' -&gt; 's3://s3chinatest2/file1.txt'  [1 of 3]
- 2432 of 2432   100% in    0s    43.27 kB/s  done
-upload: 'file2.txt' -&gt; 's3://s3chinatest2/file2.txt'  [2 of 3]
- 2432 of 2432   100% in    0s    59.83 kB/s  done
-upload: 'file3.txt' -&gt; 's3://s3chinatest2/file3.txt'  [3 of 3]
- 2432 of 2432   100% in    0s    58.93 kB/s  done
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd put file1.txt file2.txt file3.txt s3://s3chinatest2
+upload: <span class="s1">'file1.txt'</span> -&gt; <span class="s1">'s3://s3chinatest2/file1.txt'</span>  <span class="o">[</span>1 of 3]
+ 2432 of 2432   100% <span class="k">in    </span>0s    43.27 kB/s  <span class="k">done
+</span>upload: <span class="s1">'file2.txt'</span> -&gt; <span class="s1">'s3://s3chinatest2/file2.txt'</span>  <span class="o">[</span>2 of 3]
+ 2432 of 2432   100% <span class="k">in    </span>0s    59.83 kB/s  <span class="k">done
+</span>upload: <span class="s1">'file3.txt'</span> -&gt; <span class="s1">'s3://s3chinatest2/file3.txt'</span>  <span class="o">[</span>3 of 3]
+ 2432 of 2432   100% <span class="k">in    </span>0s    58.93 kB/s  <span class="k">done</span>
 
- $ s3cmd ls s3://s3chinatest2
+ <span class="nv">$ </span>s3cmd <span class="nb">ls </span>s3://s3chinatest2
  2016-11-18 15:11      2432   s3://s3chinatest2/file1.txt
 2016-11-18 15:11      2432   s3://s3chinatest2/file2.txt
 2016-11-18 15:11      2432   s3://s3chinatest2/file3.txt
 </code></pre></div></div>
 
-<p>上传的文件默认访问权限为私有 (private)，只能用户自己可以访问，使用正确的访问和安全密码即可。<br />
+<p>上传的文件默认访问权限为私有 (private)，只能用户自己可以访问，使用正确的访问和安全密码即可。
 如果要上传公开访问权限的文件，需要添加 –acl-public 参数。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd put  --acl-public file4.txt s3://s3chinatest2
-upload: 'file4.txt' -&gt; 's3://s3chinatest2/file1.txt'  [1 of 1]
- 2432 of 2432   100% in    0s    43.27 kB/s  done
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd put  <span class="nt">--acl-public</span> file4.txt s3://s3chinatest2
+upload: <span class="s1">'file4.txt'</span> -&gt; <span class="s1">'s3://s3chinatest2/file1.txt'</span>  <span class="o">[</span>1 of 1]
+ 2432 of 2432   100% <span class="k">in    </span>0s    43.27 kB/s  <span class="k">done</span>
 </code></pre></div></div>
 
 <h3 id="4-下载-bucket-内的文件">4. 下载 bucket 内的文件</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd get s3://s3chinatest2/file1.txt
-download: 's3://s3chinatest2/file1.txt' -&gt; './file1.txt'  [1 of 1]
- 2432 of 2432   100% in    0s    27.65 kB/s  done
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd get s3://s3chinatest2/file1.txt
+download: <span class="s1">'s3://s3chinatest2/file1.txt'</span> -&gt; <span class="s1">'./file1.txt'</span>  <span class="o">[</span>1 of 1]
+ 2432 of 2432   100% <span class="k">in    </span>0s    27.65 kB/s  <span class="k">done</span>
 
- # 支持 " * "匹配任意字符
- $ s3cmd get s3://s3chinatest2/file*.txt
-download: 's3://s3chinatest2/file1.txt' -&gt; './file1.txt'  [1 of 3]
- 2432 of 2432   100% in    0s    48.11 kB/s  done
-download: 's3://s3chinatest2/file2.txt' -&gt; './file2.txt'  [2 of 3]
- 2432 of 2432   100% in    0s    84.76 kB/s  done
-download: 's3://s3chinatest2/file3.txt' -&gt; './file3.txt'  [3 of 3]
- 2432 of 2432   100% in    0s    75.28 kB/s  done
+ <span class="c"># 支持 " * "匹配任意字符</span>
+ <span class="nv">$ </span>s3cmd get s3://s3chinatest2/file<span class="k">*</span>.txt
+download: <span class="s1">'s3://s3chinatest2/file1.txt'</span> -&gt; <span class="s1">'./file1.txt'</span>  <span class="o">[</span>1 of 3]
+ 2432 of 2432   100% <span class="k">in    </span>0s    48.11 kB/s  <span class="k">done
+</span>download: <span class="s1">'s3://s3chinatest2/file2.txt'</span> -&gt; <span class="s1">'./file2.txt'</span>  <span class="o">[</span>2 of 3]
+ 2432 of 2432   100% <span class="k">in    </span>0s    84.76 kB/s  <span class="k">done
+</span>download: <span class="s1">'s3://s3chinatest2/file3.txt'</span> -&gt; <span class="s1">'./file3.txt'</span>  <span class="o">[</span>3 of 3]
+ 2432 of 2432   100% <span class="k">in    </span>0s    75.28 kB/s  <span class="k">done</span>
 </code></pre></div></div>
 
 <blockquote>
@@ -425,16 +425,16 @@ download: 's3://s3chinatest2/file3.txt' -&gt; './file3.txt'  [3 of 3]
 
 <h3 id="5-删除-bucket-内的文件">5. 删除 bucket 内的文件</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># del 与 rm 都可以使用.
-$ s3cmd del s3://s3chinatest2/file1.txt
-delete: 's3://s3chinatest2/file1.txt'
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># del 与 rm 都可以使用.</span>
+<span class="nv">$ </span>s3cmd del s3://s3chinatest2/file1.txt
+delete: <span class="s1">'s3://s3chinatest2/file1.txt'</span>
 </code></pre></div></div>
 
 <h3 id="6-获取当前-bucket-信息">6. 获取当前 bucket 信息</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># bucket的存储位置及访问权限设置
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># bucket的存储位置及访问权限设置</span>
 s3cmd info s3://s3chinatest2
-s3://s3chinatest2/ (bucket):
+s3://s3chinatest2/ <span class="o">(</span>bucket<span class="o">)</span>:
    Location:  cn-north-1
    Payer:     BucketOwner
    Expiration Rule: none
@@ -447,30 +447,30 @@ s3://s3chinatest2/ (bucket):
 
 <p>当用 s3cmd 下载一个加密过的文件时，它会自动检测加密并在下载过程解密，因此下载和访问加密文件时，就像通常所做的一样</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd -e put t_result.java s3://s3chinatest2
-upload: '/tmp/tmpfile-S9lUXERAEUdnNaz5zHba' -&gt; 's3://s3chinatest2/t_result.java'  [1 of 1]
- 3355 of 3355   100% in    0s    39.25 kB/s  done
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd <span class="nt">-e</span> put t_result.java s3://s3chinatest2
+upload: <span class="s1">'/tmp/tmpfile-S9lUXERAEUdnNaz5zHba'</span> -&gt; <span class="s1">'s3://s3chinatest2/t_result.java'</span>  <span class="o">[</span>1 of 1]
+ 3355 of 3355   100% <span class="k">in    </span>0s    39.25 kB/s  <span class="k">done</span>
 </code></pre></div></div>
 
 <h3 id="8-查看-bucket-使用情况">8. 查看 bucket 使用情况</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd du s3://s3chinatest2
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd <span class="nb">du </span>s3://s3chinatest2
 8219     3 objects s3://s3chinatest2/
 </code></pre></div></div>
 
 <h3 id="9-删除一个-bucket">9. 删除一个 bucket</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ s3cmd rb s3://s3chinatest2
-ERROR: S3 error: 409 (BucketNotEmpty): The bucket you tried to delete is not empty
-# 默认不能删除非空的bucket，所以要先清空存储桶内数据
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>s3cmd rb s3://s3chinatest2
+ERROR: S3 error: 409 <span class="o">(</span>BucketNotEmpty<span class="o">)</span>: The bucket you tried to delete is not empty
+<span class="c"># 默认不能删除非空的bucket，所以要先清空存储桶内数据</span>
 
-$ s3cmd rm s3://s3chinatest2/*
-delete: 's3://s3chinatest2/file2.txt'
-delete: 's3://s3chinatest2/file3.txt'
-delete: 's3://s3chinatest2/t_result.java'
+<span class="nv">$ </span>s3cmd <span class="nb">rm </span>s3://s3chinatest2/<span class="k">*</span>
+delete: <span class="s1">'s3://s3chinatest2/file2.txt'</span>
+delete: <span class="s1">'s3://s3chinatest2/file3.txt'</span>
+delete: <span class="s1">'s3://s3chinatest2/t_result.java'</span>
 
-$ s3cmd rb s3://s3chinatest2
-Bucket 's3://s3chinatest2/' removed
+<span class="nv">$ </span>s3cmd rb s3://s3chinatest2
+Bucket <span class="s1">'s3://s3chinatest2/'</span> removed
 </code></pre></div></div>
 
 <h2 id="other"><em>Other</em></h2>

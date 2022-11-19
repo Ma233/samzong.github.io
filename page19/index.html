@@ -278,22 +278,25 @@
     
     <h1><a class="title" href="/post/2016/05/Azure-HowTo-Use-Azure-CLI-on-Mac.html">HowTo Use Azure CLI on Mac</a></h1>
     <div class="post_at_index">
-      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## Install azure-cli on Mac and CentOS</span>
+      <h2 id="install-azure-cli-on-mac-and-centos">Install azure-cli on Mac and CentOS</h2>
 
-<span class="c">### In Mac</span>
-1. Install brew.
-2. brew <span class="nb">install </span>nodejs
-3. <span class="nb">echo</span> “registry <span class="o">=</span> https://registry.npm.taobao.org” <span class="o">&gt;</span> ~/.npmrc
-4. npm <span class="nb">install </span>azure-cli <span class="nt">-g</span>
+<h3 id="in-mac">In Mac</h3>
 
+<ol>
+  <li>Install brew.</li>
+  <li>brew install nodejs</li>
+  <li>echo “registry = <a href="https://registry.npm.taobao.org">https://registry.npm.taobao.org</a>” &gt; ~/.npmrc</li>
+  <li>npm install azure-cli -g</li>
+</ol>
 
-<span class="c">### In CentOS</span>
-1. Install epel
-2. yum <span class="nb">install</span> <span class="nt">-y</span> nodejs npm
-3. <span class="nb">echo</span> “registry <span class="o">=</span> https://registry.npm.taobao.org” <span class="o">&gt;</span> ~/.npmrc
-4. npm <span class="nb">install </span>azure-cli <span class="nt">-g</span>
+<h3 id="in-centos">In CentOS</h3>
 
-</code></pre></div></div>
+<ol>
+  <li>Install epel</li>
+  <li>yum install -y nodejs npm</li>
+  <li>echo “registry = <a href="https://registry.npm.taobao.org">https://registry.npm.taobao.org</a>” &gt; ~/.npmrc</li>
+  <li>npm install azure-cli -g</li>
+</ol>
 
       
     </div>
@@ -311,7 +314,7 @@
     
     <h1><a class="title" href="/post/2016/05/Azure-3-HowTo-Use-Azure-CLI-on-Mac.html">Azure CLI Import AcountInfo</a></h1>
     <div class="post_at_index">
-      <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/05/D50E240D-1468-486F-8CA7-C5D3DC7463DE.png" alt="" /></p>
+      <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/05/D50E240D-1468-486F-8CA7-C5D3DC7463DE.png" alt="image" /></p>
 
       
     </div>
@@ -342,7 +345,7 @@ yum <span class="nb">install </span>php<span class="k">*</span> <span class="nt"
 ConfigurationTemplatesImport(在右上角)
 选择导出的模板文件，点击 Import 完成导入</p>
 
-<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/05/zabbix-mysql01.png" alt="" /></p>
+<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/05/zabbix-mysql01.png" alt="image" /></p>
 
 <h2 id="安装-agent">安装 Agent</h2>
 
@@ -375,7 +378,7 @@ sed -i s/cactiuser/percona/g /var/lib/zabbix/percona/scripts/ss_get_mysql_stats.
 cd /var/lib/zabbix/percona/scripts/
 ./get_mysql_stats_wrapper.sh gg
 如果获取到值，则说明配置成功
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/05/zabbix-mysql02.png" alt="" /></p>
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/05/zabbix-mysql02.png" alt="image" /></p>
 
 <p>注意：执行完脚本后，请手动删除/tmp/文件夹下生成的*-mysql_cacti_stats.txt 文件，然后让程序自己调用创建新文件。</p>
 
@@ -529,24 +532,24 @@ http://[ip]:8080/client
     
     <h1><a class="title" href="/post/2016/05/OpenStak-%E4%BB%8B%E7%BB%8D.html">OpenStak 介绍</a></h1>
     <div class="post_at_index">
-      <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide01.jpg" alt="" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide02.jpg" alt="" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide03.jpg" alt="" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide04.jpg" alt="" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide05.jpg" alt="" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide07.jpg" alt="" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide08.jpg" alt="" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide09.jpg" alt="" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide10.jpg" alt="" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide11.jpg" alt="" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide12.jpg" alt="" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide13.jpg" alt="" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide14.jpg" alt="" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide15.jpg" alt="" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide16.jpg" alt="" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide17.jpg" alt="" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide18.jpg" alt="" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide19.jpg" alt="" /></p>
+      <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide01.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide02.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide03.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide04.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide05.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide07.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide08.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide09.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide10.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide11.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide12.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide13.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide14.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide15.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide16.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide17.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide18.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide19.jpg" alt="image" /></p>
 
       
     </div>
@@ -629,8 +632,8 @@ pip <span class="nb">install </span>fabric
     <div class="post_at_index">
       <h2 id="关闭防火墙">关闭防火墙</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   systemctl stop firewalld.service   # 关闭
-   systemctl disable firewalld.service # 开机不自启动
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   systemctl stop firewalld.service   <span class="c"># 关闭</span>
+   systemctl disable firewalld.service <span class="c"># 开机不自启动</span>
 </code></pre></div></div>
 
       
@@ -651,11 +654,11 @@ pip <span class="nb">install </span>fabric
     <div class="post_at_index">
       <h2 id="centos-7-修改主机名">CentOS 7 修改主机名</h2>
 
-<h3 id="方法1--hostname-主机名">方法1: <code> hostname 主机名</code></h3>
+<h3 id="方法-1-hostname-主机名">方法 1: hostname 主机名</h3>
 
 <p>这种方式，只能修改临时的主机名，当重启机器后，主机名称又变回来了。</p>
 
-<h3 id="方法2--hostnamectl-set-hostname---code">方法2: <code> hostnamectl set-hostname <主机名>  &lt;/code&gt;</主机名></code></h3>
+<h3 id="方法-2-hostnamectl-set-hostname-">方法 2: hostnamectl set-hostname <主机名></主机名></h3>
 
 <p>使用这种方式修改，可以永久性的修改主机名称！</p>
 
@@ -673,183 +676,261 @@ pip <span class="nb">install </span>fabric
     <hr/>
     
     
-    <h1><a class="title" href="/post/2016/05/MySQL-3-mysqldump%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0.html">mysqldump 常用参数</a></h1>
+    <h1><a class="title" href="/post/2016/05/HowTo-Automatic-EasyBackup-MysqlDB.html">CentOS 修改系统主机名</a></h1>
     <div class="post_at_index">
-      <p>常用的 mysqldump 命令组合。</p>
+      <h2 id="centos-7-修改主机名">CentOS 7 修改主机名</h2>
 
-<h2 id="备份数据库">备份数据库</h2>
+<h3 id="方法-1-hostname-主机名">方法 1: <code class="language-plaintext highlighter-rouge">hostname 主机名</code></h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump db_name &gt; bak_name.sql
-mysqldump -A -u [dbuser] -p db_name &gt; bak_name.sql
-mysqldump -d -A --add-drop-table -uroot -p &gt;xxx.sql
+<p>这种方式，只能修改临时的主机名，当重启机器后，主机名称又变回来了。</p>
+
+<h3 id="方法-2-hostnamectl-set-hostname-主机名">方法 2: <code class="language-plaintext highlighter-rouge">hostnamectl set-hostname &lt;主机名&gt;</code></h3>
+
+<p>使用这种方式修改，可以永久性的修改主机名称！
+<img src="http://ww1.sinaimg.cn/large/006tKfTcgy1ffogclgk9dj30f00cq3zf.jpg" alt="image" /></p>
+
+<p>所以我们的步骤应该：</p>
+
+<ol>
+  <li>测试备份命令是否可以正常执行</li>
+  <li>安装测试命令行邮件工具 mailx</li>
+  <li>安装计划任务工具 Crontab</li>
+  <li>编写备份脚本</li>
+  <li>添加计划任务</li>
+</ol>
+
+<h4 id="测试备份命令">测试备份命令</h4>
+
+<p>首先你要获得你要备份的数据库对应的 select 权限，仅需要 select 权限即可，mysql 在管理方面，应该坚持只赋予必须权限的原则。</p>
+
+<pre><code class="language-mysql">mysql&gt; grant select on ghost.* to 'ghost_backuser'@'localhost' identified by 'backupPass';
+Query OK, 0 rows affected (0.00 sec)
+</code></pre>
+
+<p>因为我只在本地执行备份操作，所以我只赋予了<code class="language-plaintext highlighter-rouge">localhost</code>的权限，你的权限应该要是执行备份工作的服务器主机信息。</p>
+
+<pre><code class="language-mysql"># 创建仅授权本地访问的用户
+mysql&gt; create user dbackuser@'localhost';
+# 创建授权所有来源地址的用户
+mysql&gt; create user dbackuser@'%';
+# 创建仅授权从特定IP的用户
+mysql&gt; create user dbackuser@'192.168.0.230';
+# 创建仅授权从特定IP段访问的用户
+mysql&gt; create user dbackuser@'192.168.0.0/23';
+# 创建仅授权从特定域名来访问的用户
+mysql&gt; create user dbackuser@'samzong.me';
+</code></pre>
+
+<p>好了，接下来我们测试对应用户是否有权限。</p>
+
+<pre><code class="language-mysql">➜  ~ mysql -u ghost_backuser -pbackupPass
+Warning: Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 7
+Server version: 5.6.35 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql&gt; show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| ghost              |
++--------------------+
+2 rows in set (0.00 sec)
+
+mysql&gt; use ghost;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+
+mysql&gt; select name from users;
++------+
+| name |
++------+
+| ALEX |
++------+
+1 row in set (0.00 sec)
+</code></pre>
+
+<p>测试<code class="language-plaintext highlighter-rouge">mysqldump</code>备份命令，注意 mysqldump 备份会锁表，但对于正在工作的数据库，锁表会影响到正常业务，所以我们可以使用<code class="language-plaintext highlighter-rouge">--single-transaction</code>参数，不锁表备份。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ mysqldump <span class="nt">-u</span> ghost_backuser <span class="nt">-pbackupPass</span> ghost <span class="o">&gt;</span> ghost.bak.sql
+Warning: Using a password on the <span class="nb">command </span>line interface can be insecure.
+mysqldump: Got error: 1044: Access denied <span class="k">for </span>user <span class="s1">'ghost_backuser'</span>@<span class="s1">'localhost'</span> to database <span class="s1">'ghost'</span> when using LOCK TABLES
+➜  ~ mysqldump <span class="nt">-u</span> ghost_backuser <span class="nt">-pbackupPass</span> <span class="nt">--single-transaction</span> ghost <span class="o">&gt;</span> ghost.bak.sql
+Warning: Using a password on the <span class="nb">command </span>line interface can be insecure.
+➜  ~ <span class="nb">ls</span> <span class="nt">-lh</span>
+total 780K
+<span class="nt">-rw-r--r--</span> 1 root   root  780K May 17 16:24 ghost.bak.sql
+➜  ~
 </code></pre></div></div>
 
-<h2 id="备份所有库到一个单独的文件">备份所有库到一个单独的文件</h2>
+<h4 id="安装命令行邮件工具-mailx">安装命令行邮件工具 mailx</h4>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql <span class="nt">-e</span> <span class="s1">'show databases'</span> | <span class="nb">sed</span> <span class="nt">-n</span> <span class="s1">'2,$p'</span> | xargs <span class="nt">-I</span> DB <span class="s1">'mysqldump DB &gt; DB.sql'</span>
+<p>安装 mailx 在CentOS/RehHat:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ yum <span class="nb">install</span> <span class="nt">-y</span> mailx
 </code></pre></div></div>
 
-<h3 id="1-导出结构不导出数据">1. 导出结构不导出数据</h3>
+<p>测试发送邮件：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　--opt　-d　db_name　-u　root　-p　&gt;　xxx.sql
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">echo</span> <span class="s2">"test"</span> | mail <span class="nt">-s</span> <span class="s2">"this a test email"</span> samzong.lu@gmail.com
 </code></pre></div></div>
 
-<h3 id="2-导出数据不导出结构">2. 导出数据不导出结构</h3>
+<p><img src="http://ww2.sinaimg.cn/large/006tKfTcgy1ffogc7wksdj30ms03t3ym.jpg" alt="image" /></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　-t　db_name　-uroot　-p　&gt;　xxx.sql
+<h4 id="安装计划任务工具-crontab">安装计划任务工具 Crontab</h4>
+
+<p>crontab 命令常见于 Unix 和类 Unix 的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“crontab”文件中。通常，crontab 储存的指令被守护进程激活，crond 常常在后台运行，每一分钟检查是否有预定的作业需要执行。这类作业一般称为 cron jobs。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ yum <span class="nb">install </span>vixie-cron
+➜  ~ yum <span class="nb">install </span>crontabs
 </code></pre></div></div>
 
-<h3 id="3-导出数据和表结构">3. 导出数据和表结构</h3>
+<blockquote>
+  <p>vixie-cron 软件包是 cron 的主程序；</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　db_name　-uroot　-p　&gt;　xxx.sql
+  <p>crontabs 软件包是用来安装、卸装、或列举用来驱动 cron 守护进程的表格的程序。</p>
+</blockquote>
+
+<p>启动 crond 并设置为开机自启动：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ service crond start
+Starting crond:                                            <span class="o">[</span>  OK  <span class="o">]</span>
+➜  ~ chkconfig crond on
 </code></pre></div></div>
 
-<h3 id="4-导出特定表的结构">4. 导出特定表的结构</h3>
+<p>crontab 基础命令：</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysqldump　-uroot　-p　-B　db_name　--table　tb_name　&gt;　xxx.sql
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>语　　法：crontab <span class="o">[</span><span class="nt">-u</span> &lt;用户名称&gt;][配置文件] 或 crontab <span class="o">[</span><span class="nt">-u</span> &lt;用户名称&gt;][-elr]
+
+补充说明：cron是一个常驻服务，它提供计时器的功能，让用户在特定的时间得以执行预设的指令或程序。只要用户会编辑计时器的配置文件，就可以使用计时器的功能。
+
+配置文件格式：Minute Hour Day Month DayOFWeek Command
+
+参　　数：
+<span class="nt">-e</span> 　编辑该用户的计时器设置。
+<span class="nt">-l</span> 　列出该用户的计时器设置。
+<span class="nt">-r</span> 　删除该用户的计时器设置。
+<span class="nt">-u</span>&lt;用户名称&gt; 　指定要设定计时器的用户名称。
 </code></pre></div></div>
 
-<h2 id="导入数据">导入数据</h2>
+<p>crontab 配置的基本格式：</p>
 
-<p>因为 mysqldump 导出的是完整的 SQL 语句，所以用 mysql 客户程序很容易就能把数据导入了：</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">*</span>     <span class="k">*</span> 　 <span class="k">*</span>　  <span class="k">*</span>　  <span class="k">*</span>　　command
+分　  时　 日　 月　 周　  命令
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql -u db_user -p db_name  &lt; xxx.sql
-mysql&gt; source /path/xxx.sql
+ 第1列表示分钟1～59 每分钟用<span class="k">*</span>或者 <span class="k">*</span>/1表示
+ 第2列表示小时1～23（0表示0点）
+ 第3列表示日期1～31
+ 第4列表示月份1～12
+ 第5列标识号星期0～6（0表示星期天）
+ 第6列要运行的命令
 </code></pre></div></div>
 
-<h2 id="mysqldump-参数详解">mysqldump 参数详解</h2>
+<p>crontab 的一些例子：</p>
 
-<p><code>–all-databases , -A </code>
-导出全部数据库<br />
-mysqldump -uroot -p –all-databases</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#每晚的21:30 重启apache</span>
+30 21 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/local/etc/rc.d/lighttpd restart
 
-<p><code>–all-tablespaces , -Y</code>
-导出全部表空间<br />
-mysqldump -uroot -p –all-databases –all-tablespaces</p>
+<span class="c">#每月1、10、22日的4 : 45重启apache</span>
+45 4 1,10,22 <span class="k">*</span> <span class="k">*</span> /usr/local/etc/rc.d/lighttpd restart
 
-<p><code>–no-tablespaces , -y</code>
-不导出任何表空间信息<br />
-mysqldump -uroot -p –all-databases –no-tablespaces</p>
+<span class="c">#每周六、周日的1 : 10重启apache</span>
+10 1 <span class="k">*</span> <span class="k">*</span> 6,0 /usr/local/etc/rc.d/lighttpd restart
 
-<p><code>–add-drop-database</code>
-每个数据库创建之前添加 drop 数据库语句<br />
-mysqldump -uroot -p –all-databases –add-drop-database</p>
+<span class="c">#每天18 : 00至23 : 00之间每隔30分钟重启apache</span>
+0,30 18-23 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/local/etc/rc.d/lighttpd restart
 
-<p><code>–add-drop-table</code>
-每个数据表创建之前添加 drop 数据表语句。(默认为打开状态，使用–skip-add-drop-table 取消选项)<br />
-mysqldump -uroot -p –all-databases (默认添加 drop 语句)
-mysqldump -uroot -p –all-databases –skip-add-drop-table (取消 drop 语句)</p>
+<span class="c">#每星期六的11 : 00 pm重启apache</span>
+0 23 <span class="k">*</span> <span class="k">*</span> 6 /usr/local/etc/rc.d/lighttpd restart
 
-<p><code>–add-locks</code>
-在每个表导出之前增加 LOCK TABLES 并且之后 UNLOCK TABLE。(默认为打开状态，使用–skip-add-locks 取消选项)<br />
-mysqldump -uroot -p –all-databases(默认添加 LOCK 语句)
-mysqldump -uroot -p –all-databases –skip-add-locks (取消 LOCK 语句)</p>
+<span class="c">#晚上11点到早上7点之间，每隔一小时重启apache</span>
+<span class="k">*</span> 23-7/1 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/local/etc/rc.d/lighttpd restart
 
-<p><code>–comments</code>
-附加注释信息。<br />
-默认为打开，可以用–skip-comments 取消 mysqldump -uroot -p –all-databases (默认记录注释)mysqldump -uroot -p –all-databases “code”
-skip-comments (取消注释)</p>
+<span class="c">#每一小时重启apache</span>
+<span class="k">*</span> <span class="k">*</span>/1 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/local/etc/rc.d/lighttpd restart
 
-<p><code>–compact</code>
-导出更少的输出信息 (用于调试),去掉注释和头尾等结构，可以使用选项：–skip-add-drop-table –skip-add-locks –skip-comments –skip-disable-keys<br />
-mysqldump -uroot -p –all-databases –compact</p>
+<span class="c">#每月的4号与每周一到周三的11点重启apache</span>
+0 11 4 <span class="k">*</span> mon-wed /usr/local/etc/rc.d/lighttpd restart
 
-<p><code>–complete-insert, -c</code>
-使用完整的 insert 语句 (包含列名称)。这么做能提高插入效率，但是可能会受到 max_allowed_packet 参数的影响而导致插入失败。<br />
-mysqldump -uroot -p –all-databases –complete-insert</p>
+<span class="c">#一月一号的4点重启apache</span>
+0 4 1 jan <span class="k">*</span> /usr/local/etc/rc.d/lighttpd restart
 
-<p><code>–compress, -C</code>
-在客户端和服务器之间启用压缩传递所有信息<br />
-mysqldump -uroot -p –all-databases –compress</p>
+<span class="c">#每半小时同步一下时间</span>
+<span class="k">*</span>/30 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/sbin/ntpdate 210.72.145.44
+</code></pre></div></div>
 
-<p><code>–databases, -B</code>
-导出几个数据库。参数后面所有名字参量都被看作数据库名。<br />
-mysqldump -uroot -p –databases test mysql</p>
+<h4 id="编写备份脚本">编写备份脚本</h4>
 
-<p><code>–debug</code>
-输出 debug 信息，用于调试。<br />
-默认值为：d:t:o,/tmp/mysqldump.trace<br />
-mysqldump -uroot -p –all-databases –debug<br />
-mysqldump -uroot -p –all-databases –debug=”d:t:o,/tmp/debug.trace”</p>
+<p>好了，以上我们测试需要用到的各个模块，下面我们要编写备份脚本：</p>
 
-<p><code>–debug-info</code>
-输出调试信息并退出<br />
-mysqldump -uroot -p –all-databases –debug-info</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#  mysqldump scripts.</span>
+<span class="c"># filepath: /usr/local/bin/ghost_sqldump.sh</span>
+<span class="c"># Author: samzong</span>
 
-<p><code>–default-character-set</code>
-设置默认字符集，默认值为 utf8<br />
-mysqldump -uroot -p –all-databases –default-character-set=latin1</p>
+<span class="c">#  set TIME variable</span>
+<span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H%M%S"</span><span class="sb">`</span>
 
-<p><code>–delayed-insert</code>
-采用延时插入方式（INSERT DELAYED）导出数据<br />
-mysqldump -uroot -p –all-databases –delayed-insert</p>
+<span class="c"># backup db ghost to /mysqlbak/</span>
+mysqldump <span class="nt">--single-transaction</span> <span class="nt">-h</span> localhost <span class="nt">-u</span> ghost_backuser <span class="nt">-pbackupPass</span> ghost  <span class="o">&gt;</span> /mysqlbak/ghost_<span class="nv">$TIME</span>.sql
 
-<p><code>–events, -E</code>
-导出事件<br />
-mysqldump -uroot -p –all-databases –events</p>
+<span class="c"># tar sql files.</span>
+<span class="nb">tar </span>czvf /mysqlbak/ghost_<span class="nv">$TIME</span>.sql.tgz /mysqlbak/ghost_<span class="nv">$TIME</span>.sql <span class="nt">--remove-files</span>
 
-<p><code>–flush-logs</code>
-开始导出之前刷新日志<br />
-请注意：假如一次导出多个数据库 (使用选项–databases 或者–all-databases)，将会逐个数据库刷新日志。除使用–lock-all-tables 或者–master-data 外。在这种情况下，日志将会被刷新一次，相应的所以表同时被锁定。因此，如果打算同时导出和刷新日志应该使用–lock-all-tables 或者–master-data 和–flush-logs.<br />
-mysqldump -uroot -p –all-databases –flush-logs</p>
+<span class="c"># remove over 7 days sql files.</span>
+find /mysqlbak/ <span class="nt">-mtime</span> +7 <span class="nt">-exec</span> <span class="nb">rm</span> <span class="nt">-f</span> <span class="o">{}</span> <span class="se">\;</span>
 
-<p><code>–flush-privileges</code>
-在导出 mysql 数据库之后，发出一条 FLUSH PRIVILEGES 语句。为了正确恢复，该选项应该用于导出 mysql 数据库和依赖 mysql 数据库数据的任何时候。<br />
-mysqldump -uroot -p –all-databases –flush-privileges</p>
+<span class="c"># send mial to admin'mial</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span>
+<span class="k">then
+ </span><span class="nb">echo</span> <span class="s2">"ghost SQL dump is successfully. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-successfully  samzong.lu@gmail.com
+<span class="k">else
+ </span><span class="nb">echo</span> <span class="s2">" Error Error ghost SQL dump is Error. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-error samzong.lu@gmail.com
+<span class="k">fi</span>
+</code></pre></div></div>
 
-<p><code>–force</code>
-在导出过程中忽略出现的 SQL 错误<br />
-mysqldump -uroot -p –all-databases –force</p>
+<p>注意脚本中的以下内容要根据你的实际情况修改：</p>
 
-<p><code>–host, -h</code>
-需要导出的主机信息<br />
-mysqldump -uroot -p –host=localhost –all-databases</p>
+<ul>
+  <li>-h “ “  这是数据库所在的主机</li>
+  <li>-u “ “       这是数据库可备份的用户名</li>
+  <li>-p” “        备份用户的密码</li>
+</ul>
 
-<p><code>–ignore-table</code></p>
+<h4 id="添加计划任务">添加计划任务</h4>
 
-<p>不导出指定表。
-指定忽略多个表时，需要重复多次，每次一个表。每个表必须同时指定数据库和表名。
-例如：<br />–ignore-table=database.table1 –ignore-table=database.table2 ……<br />
-mysqldump -uroot -p –host=localhost –all-databases –ignore-table=mysql.user</p>
+<p>经过以上测试，已经很好的完成备份脚本，接下来将脚本添加到 crontab 内，并设置自动执行的时间：</p>
 
-<p><code>–lock-all-tables, -x</code>
-提交请求锁定所有数据库中的所有表，以保证数据的一致性。
-这是一个全局读锁，并且自动关闭–single-transaction 和–lock-tables 选项。<br />
-mysqldump -uroot -p –host=localhost –all-databases –lock-all-tables</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ crontab <span class="nt">-e</span>
+00 00 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> sh /usr/local/bin/ghost_sqldump.sh
+</code></pre></div></div>
 
-<p><code>–lock-tables, -l</code>
-开始导出前，锁定所有表。<br />
-用 READ LOCAL 锁定表以允许 MyISAM 表并行插入。对于支持事务的表例如 InnoDB 和 BDB，–single-transaction 是一个更好的选择，因为它根本不需要锁定表.<br />
-请注意当导出多个数据库时，–lock-tables 分别为每个数据库锁定表。因此，该选项不能保证导出文件中的表在数据库之间的逻辑一致性。不同数据库表的导出状态可以完全不同。<br />
-mysqldump -uroot -p –host=localhost –all-databases –lock-tables</p>
+<p>重启 crontab 服务，并确认 crontab 已经设置为开机自启动</p>
 
-<p><code>–no-create-db, -n </code>
-只导出数据，而不添加 CREATE DATABASE 语句。<br />
-mysqldump -uroot -p –host=localhost –all-databases –no-create-db</p>
-
-<p><code>–no-create-info,-t</code>
-只导出数据，而不添加 CREATE TABLE 语句<br />
-mysqldump -uroot -p –host=localhost –all-databases –no-create-info</p>
-
-<p><code> –no-data, -d </code>
-不导出任何数据，只导出数据库表结构<br />
-mysqldump -uroot -p –host=localhost –all-databases –no-data</p>
-
-<p><code> –password, -p </code>
-连接数据库密码</p>
-
-<p><code> –port, -P </code>
-连接数据库端口号</p>
-
-<p><code> –user, -u </code>
-指定连接的用户名。</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ service crond restart
+Stopping crond:                                            <span class="o">[</span>  OK  <span class="o">]</span>
+Starting crond:                                            <span class="o">[</span>  OK  <span class="o">]</span>
+➜  ~ chkconfig <span class="nt">--list</span> | <span class="nb">grep </span>crond
+crond           0:off 1:off 2:on 3:on 4:on 5:on 6:off
+</code></pre></div></div>
 
       
     </div>
     <br/>
     <div>
-      <cite>2016-05-04</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
+      <cite>2016-05-05</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#CentOS">CentOS</a>
       
       
       
@@ -934,12 +1015,12 @@ mysqldump -uroot -p –host=localhost –all-databases –no-data</p>
      
     	
       <li><a href="/categories.html#Linux">
-    		Linux <span>21</span>
+    		Linux <span>22</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#CentOS">
-    		CentOS <span>14</span>
+    		CentOS <span>15</span>
     	</a></li>
      
     	
@@ -949,12 +1030,12 @@ mysqldump -uroot -p –host=localhost –all-databases –no-data</p>
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>19</span>
+    		数据库 <span>18</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#MySQL">
-    		MySQL <span>15</span>
+    		MySQL <span>14</span>
     	</a></li>
      
     	
@@ -979,7 +1060,7 @@ mysqldump -uroot -p –host=localhost –all-databases –no-data</p>
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>17</span>
+    		Mac <span>16</span>
     	</a></li>
      
     	
@@ -1203,6 +1284,12 @@ mysqldump -uroot -p –host=localhost –all-databases –no-data</p>
       <ul>
         
         <li>
+          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy To Markdwon</a>
+          
+
+        </li>
+        
+        <li>
           <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
           
   参考资料：
@@ -1221,7 +1308,9 @@ df = pandas.read_csv(‘somefile.txt’)
         
         <li>
           <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
-          暗坑很多
+          
+  暗坑很多
+
 
 
         </li>
@@ -1230,13 +1319,6 @@ df = pandas.read_csv(‘somefile.txt’)
           <a href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a>
           王路
 12 highlights
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/%E8%87%AA%E5%8D%91%E4%B8%8E%E8%B6%85%E8%B6%8A.html">自卑与超越</a>
-          【奥】阿尔弗雷德··阿德勒
 
 
         </li>

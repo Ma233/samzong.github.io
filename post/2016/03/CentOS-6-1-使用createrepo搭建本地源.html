@@ -304,30 +304,30 @@
 
 <h3 id="2-实验步骤">2. 实验步骤</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 2.1 因为配置本地yum源需要修改/目录下的文件及/etc下面的配置文件，建议更换到root用户。
-[adam@ultraera ~]$ su -
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 2.1 因为配置本地yum源需要修改/目录下的文件及/etc下面的配置文件，建议更换到root用户。</span>
+<span class="o">[</span>adam@ultraera ~]<span class="nv">$ </span>su -
 Password:
-[root@ultraera ~]#
+<span class="o">[</span>root@ultraera ~]#
 
-# 2.2 首先在本地创建一个存放rpm包的目录，我这里选择直接在/下创建，你可以自定义：
-[root@ultraera ~]# mkdir /yumload
-[root@ultraera ~]# cd /yumload/
-[root@ultraera yumload]# pwd
+<span class="c"># 2.2 首先在本地创建一个存放rpm包的目录，我这里选择直接在/下创建，你可以自定义：</span>
+<span class="o">[</span>root@ultraera ~]# mkdir /yumload
+<span class="o">[</span>root@ultraera ~]# cd /yumload/
+<span class="o">[</span>root@ultraera yumload]# pwd
 /yumload
-# 2.3 接下来把两张DVD中的Packages中的rpm包全部拷贝到/yumload:
-[root@ultraera yumload]# cp /media/CentOS_6.5_Final/Packages/* ./
-[root@ultraera yumload]# ll ./*.rpm | wc -l
+<span class="c"># 2.3 接下来把两张DVD中的Packages中的rpm包全部拷贝到/yumload:</span>
+<span class="o">[</span>root@ultraera yumload]# cp /media/CentOS_6.5_Final/Packages/<span class="k">*</span> ./
+<span class="o">[</span>root@ultraera yumload]# ll ./<span class="k">*</span>.rpm | wc -l
 
-#两张DVD一共有的rpm包的数量:
+<span class="c">#两张DVD一共有的rpm包的数量:</span>
 4802
 
 
-# 2.4 然后使用createrepo指令创建本地repo，CentOS6默认不安装createrepo，需要手动安装，没关系，在我们的DVD光盘中已经集成了createrepo的包，如果报需要依赖安装其他包的使用，依次安装即可。
+<span class="c"># 2.4 然后使用createrepo指令创建本地repo，CentOS6默认不安装createrepo，需要手动安装，没关系，在我们的DVD光盘中已经集成了createrepo的包，如果报需要依赖安装其他包的使用，依次安装即可。</span>
 
-[root@ultraera yumload]# rpm -ivh createrepo-0.9.9-18.el6.noarch.rpm
+<span class="o">[</span>root@ultraera yumload]# rpm -ivh createrepo-0.9.9-18.el6.noarch.rpm
 
-# 2.5 创建yum仓库，耐心等待，可以加-v参数列出执行信息
-[root@ultraera yumload]# createrepo /yumload/
+<span class="c"># 2.5 创建yum仓库，耐心等待，可以加-v参数列出执行信息</span>
+<span class="o">[</span>root@ultraera yumload]# createrepo /yumload/
 Spawning worker 0 with 4802 pkgs
 Workers Finished
 Gathering worker results
@@ -336,26 +336,26 @@ Saving file lists metadata
 Saving other metadata
 Generating sqlite DBs
 Sqlite DBs complete
-[root@ultraera yumload]#
+<span class="o">[</span>root@ultraera yumload]#
 
-# 2.6 在/etc/yum.repo.d/下创建一个repo文件，文件名可以自定义，但一定要以repo结尾，并添加一下内容：
-[ultraera.org] #仓库名称可以自定义
-name=This is a local repo #描述信息
-baseurl=file:///yumload/ #这里填写仓库的url，注意 有三个正斜线
-enabled=1 #是否开启仓库，1为开启，0为关闭
-gpgcheck=0 #是否检查gpgkey，1为开启，0为关闭
+<span class="c"># 2.6 在/etc/yum.repo.d/下创建一个repo文件，文件名可以自定义，但一定要以repo结尾，并添加一下内容：</span>
+<span class="o">[</span>ultraera.org] <span class="c">#仓库名称可以自定义</span>
+<span class="nv">name</span><span class="o">=</span>This is a local repo <span class="c">#描述信息</span>
+<span class="nv">baseurl</span><span class="o">=</span>file:///yumload/ <span class="c">#这里填写仓库的url，注意 有三个正斜线</span>
+<span class="nv">enabled</span><span class="o">=</span>1 <span class="c">#是否开启仓库，1为开启，0为关闭</span>
+<span class="nv">gpgcheck</span><span class="o">=</span>0 <span class="c">#是否检查gpgkey，1为开启，0为关闭</span>
 
-# 2.7 另外如果想要添加软件包group的信息，可以把DVD1中的repodata文件中的*-comps.xml文件，使用ceraterepo -g 加载本地仓库即可，代码如下：
-[root@ultraera repodata]# createrepo -g [字符可能不一样，后缀正确就行]c6-i386-comps.xml /yumload/
+<span class="c"># 2.7 另外如果想要添加软件包group的信息，可以把DVD1中的repodata文件中的*-comps.xml文件，使用ceraterepo -g 加载本地仓库即可，代码如下：</span>
+<span class="o">[</span>root@ultraera repodata]# createrepo -g [字符可能不一样，后缀正确就行]c6-i386-comps.xml /yumload/
 
 
-# 2.8 到这里本地yum源就已经搭建完成了，接下来重新初始化yum缓存：
-[root@ultraera repodata]# yum clean all
+<span class="c"># 2.8 到这里本地yum源就已经搭建完成了，接下来重新初始化yum缓存：</span>
+<span class="o">[</span>root@ultraera repodata]# yum clean all
 Loaded plugins: fastestmirror, refresh-packagekit, security
 Cleaning repos: ultraera.org
 Cleaning up Everything
 Cleaning up list of fastest mirrors
-[root@ultraera repodata]# yum makecache
+<span class="o">[</span>root@ultraera repodata]# yum makecache
 Loaded plugins: fastestmirror, refresh-packagekit, security
 Determining fastest mirrors
 ultraera.org | 2.9 kB 00:00 ...
@@ -364,8 +364,8 @@ ultraera.org/primary_db | 3.5 MB 00:00 ...
 ultraera.org/other_db | 2.1 MB 00:00 ...
 Metadata Cache Created
 
-# 2.9 测试group信息是否添加正确可以用如下代码，只要有正确输出信息就表示成功了
-[root@ultraera ~]# yum grouplist
+<span class="c"># 2.9 测试group信息是否添加正确可以用如下代码，只要有正确输出信息就表示成功了</span>
+<span class="o">[</span>root@ultraera ~]# yum grouplist
 
 
 </code></pre></div></div>
@@ -1291,12 +1291,12 @@ Metadata Cache Created
      
     	
       <li><a href="/categories.html#Linux">
-    		Linux <span>21</span>
+    		Linux <span>22</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#CentOS">
-    		CentOS <span>14</span>
+    		CentOS <span>15</span>
     	</a></li>
     
   

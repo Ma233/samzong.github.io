@@ -288,11 +288,9 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <h4 id="介绍">介绍</h4>
+            <h2 id="介绍">介绍</h2>
 
-<p>
-MariaDB Galera Cluster 是一套在 MySQL InnoDB 存储引擎上面实现 multi-master 及数据实时同步的系统架构，业务层面无需做读写分离工作，数据库读写压力都能按照既定的规则分发到 各个节点上去。在数据方面完全兼容 MariaDB 和 MySQL。使用 MariaDB Galera 的解决方案，可以方便快速的搭建出高可用的数据库 Cluster，不是主备模式，而是双活模式，也就是说，没有主节点和备份节点，每个节点都可以看做是主节点，都可以进行读写，由 Galera 来实现底层的数据同步。
-</p>
+<p>MariaDB Galera Cluster 是一套在 MySQL InnoDB 存储引擎上面实现 multi-master 及数据实时同步的系统架构，业务层面无需做读写分离工作，数据库读写压力都能按照既定的规则分发到 各个节点上去。在数据方面完全兼容 MariaDB 和 MySQL。使用 MariaDB Galera 的解决方案，可以方便快速的搭建出高可用的数据库 Cluster，不是主备模式，而是双活模式，也就是说，没有主节点和备份节点，每个节点都可以看做是主节点，都可以进行读写，由 Galera 来实现底层的数据同步。</p>
 
 <ul>
   <li>真正的多主架构，任何节点都可以进行读写</li>
@@ -301,7 +299,7 @@ MariaDB Galera Cluster 是一套在 MySQL InnoDB 存储引擎上面实现 multi-
   <li>自动节点配置，无需手工备份当前数据库并拷贝至新节点</li>
 </ul>
 
-<h4 id="实验环境">实验环境</h4>
+<h2 id="实验环境">实验环境</h2>
 
 <ul>
   <li>Cluster node4 IP address 172.16.102.168</li>
@@ -312,10 +310,10 @@ MariaDB Galera Cluster 是一套在 MySQL InnoDB 存储引擎上面实现 multi-
 </ul>
 
 <blockquote>
-  <p>使用 vmware 测试需注意：克隆机器需要删除 <code>/etc/udev/rules.d/70-persistent-net.rules</code> 以及<code>/etc/sysconfig/network-scripts/ifcfg-eth0</code>中的网卡 mac 地址选项，不然网卡起不来</p>
+  <p>使用 vmware 测试需注意：克隆机器需要删除 <code class="language-plaintext highlighter-rouge">/etc/udev/rules.d/70-persistent-net.rules</code> 以及<code class="language-plaintext highlighter-rouge">/etc/sysconfig/network-scripts/ifcfg-eth0</code>中的网卡 mac 地址选项，不然网卡起不来</p>
 </blockquote>
 
-<h4 id="环境检测">环境检测</h4>
+<h2 id="环境检测">环境检测</h2>
 
 <ul>
   <li>
@@ -343,164 +341,167 @@ MariaDB Galera Cluster 是一套在 MySQL InnoDB 存储引擎上面实现 multi-
   <li>检查网络是否通畅：ping www.baidu.com</li>
 </ul>
 
-<h4 id="安装">安装</h4>
+<h2 id="安装">安装</h2>
 
-<h5 id="1-在所有节点编辑etchosts">1. 在所有节点编辑/etc/hosts</h5>
+<h3 id="1-在所有节点编辑etchosts">1. 在所有节点编辑/etc/hosts</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# vi /etc/hosts
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node4 ~]# vi /etc/hosts
 
 127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
 ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
 
-# add follows
+<span class="c"># add follows</span>
 172.16.102.164 node6
 172.16.102.165 node5
 172.16.102.168 node4
 
-[root@node4 ~]#
+<span class="o">[</span>root@node4 ~]#
 
-# 依次在node5和node6上编辑/etc/hosts
+<span class="c"># 依次在node5和node6上编辑/etc/hosts</span>
 </code></pre></div></div>
 
-<h5 id="2-在所有-node-上安装-mariadb-galera">2. 在所有 node 上安装 MariaDB Galera</h5>
+<h3 id="2-在所有-node-上安装-mariadb-galera">2. 在所有 node 上安装 MariaDB Galera</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# vi /etc/yum.repos.d/mariadb.repo
- # MariaDB 10.0 CentOS repository list
-# http://mariadb.org/mariadb/repositories/
-[mariadb]
-name = MariaDB
-baseurl = http://yum.mariadb.org/10.0/centos6-amd64
-gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
-gpgcheck=1
-enabled=0
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node4 ~]# vi /etc/yum.repos.d/mariadb.repo
+ <span class="c"># MariaDB 10.0 CentOS repository list</span>
+<span class="c"># http://mariadb.org/mariadb/repositories/</span>
+<span class="o">[</span>mariadb]
+name <span class="o">=</span> MariaDB
+baseurl <span class="o">=</span> http://yum.mariadb.org/10.0/centos6-amd64
+<span class="nv">gpgkey</span><span class="o">=</span>https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+<span class="nv">gpgcheck</span><span class="o">=</span>1
+<span class="nv">enabled</span><span class="o">=</span>0
 
-[root@node4 ~]# yum --enablerepo=mariadb -y install MariaDB-Galera-server
+<span class="o">[</span>root@node4 ~]# yum <span class="nt">--enablerepo</span><span class="o">=</span>mariadb <span class="nt">-y</span> <span class="nb">install </span>MariaDB-Galera-server
 
-# 依次在node5和node6上安装 MariaDB-Galera-server
+<span class="c"># 依次在node5和node6上安装 MariaDB-Galera-server</span>
 </code></pre></div></div>
 
 <blockquote>
-  <p><i>注意安装完成之后，不要启动 mysql</i></p>
+  <p>注意安装完成之后，不要启动 mysql</p>
 </blockquote>
 
-<h5 id="3-在其中一个节点上编辑etcmycnfdservercnf配置文件">3. 在其中一个节点上编辑/etc/my.cnf.d/server.cnf配置文件</h5>
+<h3 id="3-在其中一个节点上编辑etcmycnfdservercnf配置文件">3. 在其中一个节点上编辑/etc/my.cnf.d/server.cnf配置文件</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# vi /etc/my.cnf.d/server.cnf
-# 19 行，取消下面的注释，并修改为需求
-[galera]
-wsrep_provider=/usr/lib64/galera/libgalera_smm.so
-# 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。
-wsrep_cluster_address="gcomm://node4,node5,node6"
-binlog_format=row
-default_storage_engine=InnoDB
-innodb_autoinc_lock_mode=2
-bind-address=0.0.0.0
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node4 ~]# vi /etc/my.cnf.d/server.cnf
+<span class="c"># 19 行，取消下面的注释，并修改为需求</span>
+<span class="o">[</span>galera]
+<span class="nv">wsrep_provider</span><span class="o">=</span>/usr/lib64/galera/libgalera_smm.so
+<span class="c"># 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。</span>
+<span class="nv">wsrep_cluster_address</span><span class="o">=</span><span class="s2">"gcomm://node4,node5,node6"</span>
+<span class="nv">binlog_format</span><span class="o">=</span>row
+<span class="nv">default_storage_engine</span><span class="o">=</span>InnoDB
+<span class="nv">innodb_autoinc_lock_mode</span><span class="o">=</span>2
+bind-address<span class="o">=</span>0.0.0.0
 
-# add follows
-# cluster name
-wsrep_cluster_name="Visionet_MariaDB_Cluster"
-# replication provider
-wsrep_sst_method=rsync
-# own IP address
-wsrep_node_address="172.16.102.168"
-wsrep_node_name="node4"
+<span class="c"># add follows</span>
+<span class="c"># cluster name</span>
+<span class="nv">wsrep_cluster_name</span><span class="o">=</span><span class="s2">"Visionet_MariaDB_Cluster"</span>
+<span class="c"># replication provider</span>
+<span class="nv">wsrep_sst_method</span><span class="o">=</span>rsync
+<span class="c"># own IP address</span>
+<span class="nv">wsrep_node_address</span><span class="o">=</span><span class="s2">"172.16.102.168"</span>
+<span class="nv">wsrep_node_name</span><span class="o">=</span><span class="s2">"node4"</span>
 
-# 启动数据库
-[root@node4 ~]# /etc/rc.d/init.d/mysql bootstrap
+<span class="c"># 启动数据库</span>
+<span class="o">[</span>root@node4 ~]# /etc/rc.d/init.d/mysql bootstrap
 Starting MySQL. SUCCESS!
 
-# 初始化你的数据库
-[root@node4 ~]# mysql_secure_installation
+<span class="c"># 初始化你的数据库</span>
+<span class="o">[</span>root@node4 ~]# mysql_secure_installation
 </code></pre></div></div>
 
-<h5 id="4-在其它节点上编辑etcmycnfdservercnf配置文件">4. 在其它节点上编辑/etc/my.cnf.d/server.cnf配置文件</h5>
+<h3 id="4-在其它节点上编辑etcmycnfdservercnf配置文件">4. 在其它节点上编辑/etc/my.cnf.d/server.cnf配置文件</h3>
 
-<h5 id="node5">node5</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node5 ~]# vi /etc/my.cnf.d/server.cnf
-# 19 行，取消下面的注释，并修改为需求
-[galera]
-wsrep_provider=/usr/lib64/galera/libgalera_smm.so
-# 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。
-wsrep_cluster_address="gcomm://node4,node5,node6"
-binlog_format=row
-default_storage_engine=InnoDB
-innodb_autoinc_lock_mode=2
-bind-address=0.0.0.0
-
-# add follows
-# cluster name
-wsrep_cluster_name="Visionet_MariaDB_Cluster"
-# replication provider
-wsrep_sst_method=rsync
-
-# 以下内容注意，注意应设置为当前服务器信息
-wsrep_node_address="172.16.102.165"
-wsrep_node_name="node5"
-
-# 启动数据库
-[root@node5 ~]# /etc/rc.d/init.d/mysql start
-Starting MySQL...SST in progress, setting sleep higher. SUCCESS!
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node4 ~]# vim /etc/my.cnf.d/server.cnf
 </code></pre></div></div>
 
-<h5 id="node6">node6</h5>
+<h3 id="node5">node5</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node6 ~]# vi /etc/my.cnf.d/server.cnf
-# 19 行，取消下面的注释，并修改为需求
-[galera]
-wsrep_provider=/usr/lib64/galera/libgalera_smm.so
-# 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。
-wsrep_cluster_address="gcomm://node4,node5,node6"
-binlog_format=row
-default_storage_engine=InnoDB
-innodb_autoinc_lock_mode=2
-bind-address=0.0.0.0
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node5 ~]# vi /etc/my.cnf.d/server.cnf
+<span class="c"># 19 行，取消下面的注释，并修改为需求</span>
+<span class="o">[</span>galera]
+<span class="nv">wsrep_provider</span><span class="o">=</span>/usr/lib64/galera/libgalera_smm.so
+<span class="c"># 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。</span>
+<span class="nv">wsrep_cluster_address</span><span class="o">=</span><span class="s2">"gcomm://node4,node5,node6"</span>
+<span class="nv">binlog_format</span><span class="o">=</span>row
+<span class="nv">default_storage_engine</span><span class="o">=</span>InnoDB
+<span class="nv">innodb_autoinc_lock_mode</span><span class="o">=</span>2
+bind-address<span class="o">=</span>0.0.0.0
 
-# add follows
-# cluster name
-wsrep_cluster_name="Visionet_MariaDB_Cluster"
-# replication provider
-wsrep_sst_method=rsync
+<span class="c"># add follows</span>
+<span class="c"># cluster name</span>
+<span class="nv">wsrep_cluster_name</span><span class="o">=</span><span class="s2">"Visionet_MariaDB_Cluster"</span>
+<span class="c"># replication provider</span>
+<span class="nv">wsrep_sst_method</span><span class="o">=</span>rsync
 
-# 以下内容注意，注意应设置为当前服务器信息
-wsrep_node_address="172.16.102.164"
-wsrep_node_name="node6"
+<span class="c"># 以下内容注意，注意应设置为当前服务器信息</span>
+<span class="nv">wsrep_node_address</span><span class="o">=</span><span class="s2">"172.16.102.165"</span>
+<span class="nv">wsrep_node_name</span><span class="o">=</span><span class="s2">"node5"</span>
 
-# 启动数据库
-[root@node6 ~]# /etc/rc.d/init.d/mysql start
-Starting MySQL...SST in progress, setting sleep higher. SUCCESS!
+<span class="c"># 启动数据库</span>
+<span class="o">[</span>root@node5 ~]# /etc/rc.d/init.d/mysql start
+Starting MySQL...SST <span class="k">in </span>progress, setting <span class="nb">sleep </span>higher. SUCCESS!
+</code></pre></div></div>
+
+<h3 id="node6">node6</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node6 ~]# vi /etc/my.cnf.d/server.cnf
+<span class="c"># 19 行，取消下面的注释，并修改为需求</span>
+<span class="o">[</span>galera]
+<span class="nv">wsrep_provider</span><span class="o">=</span>/usr/lib64/galera/libgalera_smm.so
+<span class="c"># 指定节点地址，这里也可以使用ip,如果没做安装1，可以直接把cluster的ip写在这里。</span>
+<span class="nv">wsrep_cluster_address</span><span class="o">=</span><span class="s2">"gcomm://node4,node5,node6"</span>
+<span class="nv">binlog_format</span><span class="o">=</span>row
+<span class="nv">default_storage_engine</span><span class="o">=</span>InnoDB
+<span class="nv">innodb_autoinc_lock_mode</span><span class="o">=</span>2
+bind-address<span class="o">=</span>0.0.0.0
+
+<span class="c"># add follows</span>
+<span class="c"># cluster name</span>
+<span class="nv">wsrep_cluster_name</span><span class="o">=</span><span class="s2">"Visionet_MariaDB_Cluster"</span>
+<span class="c"># replication provider</span>
+<span class="nv">wsrep_sst_method</span><span class="o">=</span>rsync
+
+<span class="c"># 以下内容注意，注意应设置为当前服务器信息</span>
+<span class="nv">wsrep_node_address</span><span class="o">=</span><span class="s2">"172.16.102.164"</span>
+<span class="nv">wsrep_node_name</span><span class="o">=</span><span class="s2">"node6"</span>
+
+<span class="c"># 启动数据库</span>
+<span class="o">[</span>root@node6 ~]# /etc/rc.d/init.d/mysql start
+Starting MySQL...SST <span class="k">in </span>progress, setting <span class="nb">sleep </span>higher. SUCCESS!
 </code></pre></div></div>
 
 <blockquote>
   <p>注意：只需要初始化第一个节点服务器的数据库，其他数据的配置文件会自动同步，所以你给 node4 设置的 root 可以在 node5 和 node6 直接使用，当然这是安装正确的前提。</p>
 </blockquote>
 
-<h4 id="登陆各个节点数据库检查配置是否成功">登陆各个节点数据库检查配置是否成功</h4>
+<h2 id="登陆各个节点数据库检查配置是否成功">登陆各个节点数据库检查配置是否成功</h2>
 
 <p>server.cnf 的配置如果没有问题，那么 wsrep_local_state_comment 的状态应该是 Synced。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@node4 ~]# mysql -u root -p
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@node4 ~]# mysql <span class="nt">-u</span> root <span class="nt">-p</span>
 Enter password:
-Welcome to the MariaDB monitor.  Commands end with ; or \g.
-Your MariaDB connection id is 15
+Welcome to the MariaDB monitor.  Commands end with <span class="p">;</span> or <span class="se">\g</span><span class="nb">.</span>
+Your MariaDB connection <span class="nb">id </span>is 15
 Server version: 10.0.26-MariaDB-wsrep MariaDB Server, wsrep_25.13.raf7f02e
 
-Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+Copyright <span class="o">(</span>c<span class="o">)</span> 2000, 2016, Oracle, MariaDB Corporation Ab and others.
 
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+Type <span class="s1">'help;'</span> or <span class="s1">'\h'</span> <span class="k">for </span>help. Type <span class="s1">'\c'</span> to clear the current input statement.
 
-MariaDB [(none)]&gt; show status like 'wsrep_local_state_comment';
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span> show status like <span class="s1">'wsrep_local_state_comment'</span><span class="p">;</span>
 +---------------------------+--------+
 | Variable_name             | Value  |
 +---------------------------+--------+
 | wsrep_local_state_comment | Synced |
 +---------------------------+--------+
-1 row in set (0.01 sec)
+1 row <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.01 sec<span class="o">)</span>
 
-MariaDB [(none)]&gt;
+MariaDB <span class="o">[(</span>none<span class="o">)]&gt;</span>
 </code></pre></div></div>
 
-<h4 id="结论">结论</h4>
+<h2 id="结论">结论</h2>
 
 <p>MariaDB Galera 没有主节点和备份节点，配置成功之后，可以在任何一个 node 节点上操作会自动同步到其他节点，任何一个节点宕机不会影响其他节点的数据和稳定性，配置 HAProxy 设置 VIP 的方式来实现负载均衡，提高服务的高可用性，另外，当宕机节点上线之后，事务会自动同步不丢失。</p>
 
@@ -1427,12 +1428,12 @@ MariaDB [(none)]&gt;
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>19</span>
+    		数据库 <span>18</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#MySQL">
-    		MySQL <span>15</span>
+    		MySQL <span>14</span>
     	</a></li>
     
   
@@ -1455,7 +1456,7 @@ MariaDB [(none)]&gt;
     	<li><a href="/tags.html#MariaDB">MariaDB <span>1</span></a></li>
      
     	
-    	<li><a href="/tags.html#CentOS">CentOS <span>19</span></a></li>
+    	<li><a href="/tags.html#CentOS">CentOS <span>20</span></a></li>
     
   
 

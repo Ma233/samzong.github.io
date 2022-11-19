@@ -290,25 +290,25 @@
         <div class="post-content" itemprop="articleBody">
             <h3 id="this-is-my-nginx-config">This is my nginx config</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server {
- listen blog.ultraera.org:80;
- server_name blog.ultraera.org;
+<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">server</span> {
+ <span class="n">listen</span> <span class="n">blog</span>.<span class="n">ultraera</span>.<span class="n">org</span>:<span class="m">80</span>;
+ <span class="n">server_name</span> <span class="n">blog</span>.<span class="n">ultraera</span>.<span class="n">org</span>;
 
- location / {
-  proxy_set_header X-Real-IP $remote_addr;
-  proxy_set_header Host $http_host;
-  proxy_pass   http://127.0.0.1:2368;
+ <span class="n">location</span> / {
+  <span class="n">proxy_set_header</span> <span class="n">X</span>-<span class="n">Real</span>-<span class="n">IP</span> $<span class="n">remote_addr</span>;
+  <span class="n">proxy_set_header</span> <span class="n">Host</span> $<span class="n">http_host</span>;
+  <span class="n">proxy_pass</span>   <span class="n">http</span>://<span class="m">127</span>.<span class="m">0</span>.<span class="m">0</span>.<span class="m">1</span>:<span class="m">2368</span>;
  }
 }
 
-server {
- listen piwik.ultraera.org:80;
- server_name piwik.ultraera.org;
+<span class="n">server</span> {
+ <span class="n">listen</span> <span class="n">piwik</span>.<span class="n">ultraera</span>.<span class="n">org</span>:<span class="m">80</span>;
+ <span class="n">server_name</span> <span class="n">piwik</span>.<span class="n">ultraera</span>.<span class="n">org</span>;
 
- location / {
-  proxy_set_header X-Real-IP $remote_addr;
-  proxy_set_header Host $http_host;
-  proxy_pass   http://127.0.0.1:2080;
+ <span class="n">location</span> / {
+  <span class="n">proxy_set_header</span> <span class="n">X</span>-<span class="n">Real</span>-<span class="n">IP</span> $<span class="n">remote_addr</span>;
+  <span class="n">proxy_set_header</span> <span class="n">Host</span> $<span class="n">http_host</span>;
+  <span class="n">proxy_pass</span>   <span class="n">http</span>://<span class="m">127</span>.<span class="m">0</span>.<span class="m">0</span>.<span class="m">1</span>:<span class="m">2080</span>;
  }
 }
 

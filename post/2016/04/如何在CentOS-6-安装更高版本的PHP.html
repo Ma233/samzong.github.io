@@ -288,9 +288,7 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <p>
-CentOS 6 默认安装的 PHP 版本是 5.3，但现在很多应用对于 LAMP 中，PHP 的版本最低 5.4，所以本篇文章的主要内容是，如何升级 PHP5.3 到 5.4 以及更高版本
- </p>
+            <p>CentOS 6 默认安装的 PHP 版本是 5.3，但现在很多应用对于 LAMP 中，PHP 的版本最低 5.4，所以本篇文章的主要内容是，如何升级 PHP5.3 到 5.4 以及更高版本</p>
 
 <h2 id="实验环境centos-64">实验环境：CentOS 6.4</h2>
 
@@ -300,23 +298,23 @@ CentOS 6 默认安装的 PHP 版本是 5.3，但现在很多应用对于 LAMP �
   <p>经过测试，该升级办法同样适用目前 CentOS 6.x 所有版本</p>
 </blockquote>
 
-<h4 id="1-安装-remi-源">1. 安装 Remi 源</h4>
+<h3 id="安装-remi-源">安装 Remi 源</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 因为remi依赖epel源仓库，所有我们要先安装它。
-[root@visionet8 ~]# yum install -y epel-release
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 因为remi依赖epel源仓库，所有我们要先安装它。</span>
+<span class="o">[</span>root@visionet8 ~]# yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
 
-[root@visionet8 ~]# wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
-[root@visionet8 ~]# rpm -Uvh remi-release-6.rpm
+<span class="o">[</span>root@visionet8 ~]# wget http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+<span class="o">[</span>root@visionet8 ~]# rpm <span class="nt">-Uvh</span> remi-release-6.rpm
 </code></pre></div></div>
 
 <h4 id="2-我们看下-remi-的的-yum-配置文件">2. 我们看下 Remi 的的 yum 配置文件</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Repository: http://rpms.remirepo.net/
-# Blog:       http://blog.remirepo.net/
-# Forum:      http://forum.remirepo.net/
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Repository: http://rpms.remirepo.net/</span>
+<span class="c"># Blog:       http://blog.remirepo.net/</span>
+<span class="c"># Forum:      http://forum.remirepo.net/</span>
 
-[remi]
-name=Remi's RPM repository for Enterprise Linux 6 - $basearch
+<span class="o">[</span>remi]
+<span class="nv">name</span><span class="o">=</span>Remi<span class="s1">'s RPM repository for Enterprise Linux 6 - $basearch
 baseurl=http://rpms.remirepo.net/enterprise/6/remi/$basearch/
 #mirrorlist=http://rpms.remirepo.net/enterprise/6/remi/mirror
 enabled=1
@@ -324,64 +322,64 @@ gpgcheck=0
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
 
 [remi-php55]
-name=Remi's PHP 5.5 RPM repository for Enterprise Linux 6 - $basearch
-#baseurl=http://rpms.remirepo.net/enterprise/6/php55/$basearch/
-mirrorlist=http://rpms.remirepo.net/enterprise/6/php55/mirror
-# NOTICE: common dependencies are in "remi-safe"
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
+name=Remi'</span>s PHP 5.5 RPM repository <span class="k">for </span>Enterprise Linux 6 - <span class="nv">$basearch</span>
+<span class="c">#baseurl=http://rpms.remirepo.net/enterprise/6/php55/$basearch/</span>
+<span class="nv">mirrorlist</span><span class="o">=</span>http://rpms.remirepo.net/enterprise/6/php55/mirror
+<span class="c"># NOTICE: common dependencies are in "remi-safe"</span>
+<span class="nv">enabled</span><span class="o">=</span>0
+<span class="nv">gpgcheck</span><span class="o">=</span>1
+<span class="nv">gpgkey</span><span class="o">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
 
-[remi-php56]
-name=Remi's PHP 5.6 RPM repository for Enterprise Linux 6 - $basearch
+<span class="o">[</span>remi-php56]
+<span class="nv">name</span><span class="o">=</span>Remi<span class="s1">'s PHP 5.6 RPM repository for Enterprise Linux 6 - $basearch
 #baseurl=http://rpms.remirepo.net/enterprise/6/php56/$basearch/
 mirrorlist=http://rpms.remirepo.net/enterprise/6/php56/mirror
 # NOTICE: common dependencies are in "remi-safe"
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
-</code></pre></div></div>
+</span></code></pre></div></div>
 
 <p>经过测试，启用 remi 源之后，默认情况下 php 版本为 5.4，这时我们只需要升级 php 即可。</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@visionet8 html]# yum update -y php*
-Failed to set locale, defaulting to C
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@visionet8 html]# yum update <span class="nt">-y</span> php<span class="k">*</span>
+Failed to <span class="nb">set </span>locale, defaulting to C
 Loaded plugins: fastestmirror, refresh-packagekit, security
 Loading mirror speeds from cached hostfile
- * base: mirrors.163.com
- * epel: mirrors.ustc.edu.cn
- * extras: mirrors.aliyun.com
- * remi-safe: mirrors.tuna.tsinghua.edu.cn
- * updates: mirrors.cn99.com
+ <span class="k">*</span> base: mirrors.163.com
+ <span class="k">*</span> epel: mirrors.ustc.edu.cn
+ <span class="k">*</span> extras: mirrors.aliyun.com
+ <span class="k">*</span> remi-safe: mirrors.tuna.tsinghua.edu.cn
+ <span class="k">*</span> updates: mirrors.cn99.com
 remi                                                                               | 2.9 kB     00:00
 remi/primary_db                                                                    | 1.6 MB     00:05
 Setting up Update Process
 Resolving Dependencies
---&gt; Running transaction check
----&gt; Package php.x86_64 0:5.3.3-48.el6_8 will be updated
----&gt; Package php.x86_64 0:5.4.45-12.el6.remi will be an update
----&gt; Package php-cli.x86_64 0:5.3.3-48.el6_8 will be updated
----&gt; Package php-cli.x86_64 0:5.4.45-12.el6.remi will be an update
----&gt; Package php-common.x86_64 0:5.3.3-48.el6_8 will be updated
----&gt; Package php-common.x86_64 0:5.4.45-12.el6.remi will be an update
----&gt; Package php-gd.x86_64 0:5.3.3-48.el6_8 will be updated
----&gt; Package php-gd.x86_64 0:5.4.45-12.el6.remi will be an update
---&gt; Processing Dependency: libt1.so.5()(64bit) for package: php-gd-5.4.45-12.el6.remi.x86_64
----&gt; Package php-mcrypt.x86_64 0:5.3.3-4.el6 will be updated
----&gt; Package php-mcrypt.x86_64 0:5.4.45-12.el6.remi will be an update
----&gt; Package php-mysql.x86_64 0:5.3.3-48.el6_8 will be updated
----&gt; Package php-mysql.x86_64 0:5.4.45-12.el6.remi will be an update
----&gt; Package php-pdo.x86_64 0:5.3.3-48.el6_8 will be updated
----&gt; Package php-pdo.x86_64 0:5.4.45-12.el6.remi will be an update
---&gt; Running transaction check
----&gt; Package t1lib.x86_64 0:5.1.2-6.el6_2.1 will be installed
---&gt; Finished Dependency Resolution
+<span class="nt">--</span><span class="o">&gt;</span> Running transaction check
+<span class="nt">---</span><span class="o">&gt;</span> Package php.x86_64 0:5.3.3-48.el6_8 will be updated
+<span class="nt">---</span><span class="o">&gt;</span> Package php.x86_64 0:5.4.45-12.el6.remi will be an update
+<span class="nt">---</span><span class="o">&gt;</span> Package php-cli.x86_64 0:5.3.3-48.el6_8 will be updated
+<span class="nt">---</span><span class="o">&gt;</span> Package php-cli.x86_64 0:5.4.45-12.el6.remi will be an update
+<span class="nt">---</span><span class="o">&gt;</span> Package php-common.x86_64 0:5.3.3-48.el6_8 will be updated
+<span class="nt">---</span><span class="o">&gt;</span> Package php-common.x86_64 0:5.4.45-12.el6.remi will be an update
+<span class="nt">---</span><span class="o">&gt;</span> Package php-gd.x86_64 0:5.3.3-48.el6_8 will be updated
+<span class="nt">---</span><span class="o">&gt;</span> Package php-gd.x86_64 0:5.4.45-12.el6.remi will be an update
+<span class="nt">--</span><span class="o">&gt;</span> Processing Dependency: libt1.so.5<span class="o">()(</span>64bit<span class="o">)</span> <span class="k">for </span>package: php-gd-5.4.45-12.el6.remi.x86_64
+<span class="nt">---</span><span class="o">&gt;</span> Package php-mcrypt.x86_64 0:5.3.3-4.el6 will be updated
+<span class="nt">---</span><span class="o">&gt;</span> Package php-mcrypt.x86_64 0:5.4.45-12.el6.remi will be an update
+<span class="nt">---</span><span class="o">&gt;</span> Package php-mysql.x86_64 0:5.3.3-48.el6_8 will be updated
+<span class="nt">---</span><span class="o">&gt;</span> Package php-mysql.x86_64 0:5.4.45-12.el6.remi will be an update
+<span class="nt">---</span><span class="o">&gt;</span> Package php-pdo.x86_64 0:5.3.3-48.el6_8 will be updated
+<span class="nt">---</span><span class="o">&gt;</span> Package php-pdo.x86_64 0:5.4.45-12.el6.remi will be an update
+<span class="nt">--</span><span class="o">&gt;</span> Running transaction check
+<span class="nt">---</span><span class="o">&gt;</span> Package t1lib.x86_64 0:5.1.2-6.el6_2.1 will be installed
+<span class="nt">--</span><span class="o">&gt;</span> Finished Dependency Resolution
 
 Dependencies Resolved
 
-==========================================================================================================
+<span class="o">==========================================================================================================</span>
  Package                  Arch                 Version                           Repository          Size
-==========================================================================================================
+<span class="o">==========================================================================================================</span>
 Updating:
  php                      x86_64               5.4.45-12.el6.remi                remi               2.8 M
  php-cli                  x86_64               5.4.45-12.el6.remi                remi               4.1 M
@@ -390,25 +388,25 @@ Updating:
  php-mcrypt               x86_64               5.4.45-12.el6.remi                remi                60 k
  php-mysql                x86_64               5.4.45-12.el6.remi                remi               145 k
  php-pdo                  x86_64               5.4.45-12.el6.remi                remi               129 k
-Installing for dependencies:
+Installing <span class="k">for </span>dependencies:
  t1lib                    x86_64               5.1.2-6.el6_2.1                   base               160 k
 
 Transaction Summary
-==========================================================================================================
-Install       1 Package(s)
-Upgrade       7 Package(s)
+<span class="o">==========================================================================================================</span>
+Install       1 Package<span class="o">(</span>s<span class="o">)</span>
+Upgrade       7 Package<span class="o">(</span>s<span class="o">)</span>
 
 Total download size: 8.5 M
 Downloading Packages:
-(1/8): php-5.4.45-12.el6.remi.x86_64.rpm                                           | 2.8 MB     00:07
-(2/8): php-cli-5.4.45-12.el6.remi.x86_64.rpm                                       | 4.1 MB     00:06
-(3/8): php-common-5.4.45-12.el6.remi.x86_64.rpm                                    | 968 kB     00:02
-(4/8): php-gd-5.4.45-12.el6.remi.x86_64.rpm                                        | 152 kB     00:01
-(5/8): php-mcrypt-5.4.45-12.el6.remi.x86_64.rpm                                    |  60 kB     00:00
-(6/8): php-mysql-5.4.45-12.el6.remi.x86_64.rpm                                     | 145 kB     00:00
-(7/8): php-pdo-5.4.45-12.el6.remi.x86_64.rpm                                       | 129 kB     00:01
-(8/8): t1lib-5.1.2-6.el6_2.1.x86_64.rpm                                            | 160 kB     00:00
-----------------------------------------------------------------------------------------------------------
+<span class="o">(</span>1/8<span class="o">)</span>: php-5.4.45-12.el6.remi.x86_64.rpm                                           | 2.8 MB     00:07
+<span class="o">(</span>2/8<span class="o">)</span>: php-cli-5.4.45-12.el6.remi.x86_64.rpm                                       | 4.1 MB     00:06
+<span class="o">(</span>3/8<span class="o">)</span>: php-common-5.4.45-12.el6.remi.x86_64.rpm                                    | 968 kB     00:02
+<span class="o">(</span>4/8<span class="o">)</span>: php-gd-5.4.45-12.el6.remi.x86_64.rpm                                        | 152 kB     00:01
+<span class="o">(</span>5/8<span class="o">)</span>: php-mcrypt-5.4.45-12.el6.remi.x86_64.rpm                                    |  60 kB     00:00
+<span class="o">(</span>6/8<span class="o">)</span>: php-mysql-5.4.45-12.el6.remi.x86_64.rpm                                     | 145 kB     00:00
+<span class="o">(</span>7/8<span class="o">)</span>: php-pdo-5.4.45-12.el6.remi.x86_64.rpm                                       | 129 kB     00:01
+<span class="o">(</span>8/8<span class="o">)</span>: t1lib-5.1.2-6.el6_2.1.x86_64.rpm                                            | 160 kB     00:00
+<span class="nt">----------------------------------------------------------------------------------------------------------</span>
 Total                                                                     338 kB/s | 8.5 MB     00:25
 Running rpm_check_debug
 Running Transaction Test
@@ -458,31 +456,25 @@ Updated:
 Complete!
 </code></pre></div></div>
 
-<h4 id="3-测试">3. 测试</h4>
+<h4 id="测试">测试</h4>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@visionet8 html]# php -v
-PHP 5.4.45 (cli) (built: Sep 19 2016 15:31:07)
-Copyright (c) 1997-2014 The PHP Group
-Zend Engine v2.4.0, Copyright (c) 1998-2014 Zend Technologies
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@visionet8 html]# php <span class="nt">-v</span>
+PHP 5.4.45 <span class="o">(</span>cli<span class="o">)</span> <span class="o">(</span>built: Sep 19 2016 15:31:07<span class="o">)</span>
+Copyright <span class="o">(</span>c<span class="o">)</span> 1997-2014 The PHP Group
+Zend Engine v2.4.0, Copyright <span class="o">(</span>c<span class="o">)</span> 1998-2014 Zend Technologies
 </code></pre></div></div>
 
-<h4 id="4-php-55-和-php56">4. php 5.5 和 php5.6</h4>
+<h4 id="php-55-和-php56">php 5.5 和 php5.6</h4>
 
 <blockquote>
-  <p>若要升级到 5.5 或 5.6，根据 remi 源的配置文件，将 php5.5 的 enable 参数设置为 1，并将默认 enable 修改为 0，然后<code>yum update php*</code>即可。</p>
+  <p>若要升级到 5.5 或 5.6，根据 remi 源的配置文件，将 php5.5 的 enable 参数设置为 1，并将默认 enable 修改为 0，然后<code class="language-plaintext highlighter-rouge">yum update php*</code>即可。</p>
 </blockquote>
-<hr />
 
 <h4 id="5-php-7">5. php 7</h4>
 
 <blockquote>
-  <p>安装完成之后发现，在安装 remi 源之后，在<code>/etc/yum.repos.d</code>除了<code>remi.repo</code>之外，还有<code>remi-php70.repo</code>和<code>remi-php71.repo</code>，测试下，如果要升级到 php7，可以打开相应源仓库的配置文件，之后升级即可。</p>
-</blockquote>
-
-<p><br /></p>
-
-<blockquote>
-  <p><b>以上功能在升级时，要考虑其他组件的版本兼容性，不要盲目升级。</b></p>
+  <p>安装完成之后发现，在安装 remi 源之后，在<code class="language-plaintext highlighter-rouge">/etc/yum.repos.d</code>除了<code class="language-plaintext highlighter-rouge">remi.repo</code>之外，还有<code class="language-plaintext highlighter-rouge">remi-php70.repo</code>和<code class="language-plaintext highlighter-rouge">remi-php71.repo</code>，测试下，如果要升级到 php7，可以打开相应源仓库的配置文件，之后升级即可。
+<strong>以上功能在升级时，要考虑其他组件的版本兼容性，不要盲目升级。</strong></p>
 </blockquote>
 
         </div>
@@ -490,6 +482,10 @@ Zend Engine v2.4.0, Copyright (c) 1998-2014 Zend Technologies
         <div id="related">
             <h2>Related Posts</h2>
             <ul class="posts"><!--当一篇文章有两个tag一样时显示-->
+                
+                
+                
+                
                 
                 
                 
@@ -1373,10 +1369,6 @@ Zend Engine v2.4.0, Copyright (c) 1998-2014 Zend Technologies
                 
                 
                 
-                
-                
-                
-                
             </ul>
         </div>
 
@@ -1428,7 +1420,7 @@ Zend Engine v2.4.0, Copyright (c) 1998-2014 Zend Technologies
   
      
     	
-    	<li><a href="/tags.html#CentOS">CentOS <span>19</span></a></li>
+    	<li><a href="/tags.html#CentOS">CentOS <span>20</span></a></li>
      
     	
     	<li><a href="/tags.html#PHP">PHP <span>1</span></a></li>

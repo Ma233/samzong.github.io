@@ -291,10 +291,10 @@
             <p>最近项目上由于 BUG 问题导致 Tomcat 程序在运行过程中经常内存泄漏，而本身监控系统之中没有更好的检测到 Tomcat 堆空间 (Head Memory) 的使用情况导致报警频发，这篇文章主要讲述，如何在 Zabbix 之中调用 jmx 监控服务器上 Tomcat 堆空间的使用情况并增加对应报警功能。</p>
 
 <blockquote>
-  <p>测试环境：<br />
-CentOS 6.8 <br />
-Zabbix 2.4 <br />
-Tomcat 7.0 <br /></p>
+  <p>测试环境：
+CentOS 6.8 
+Zabbix 2.4 
+Tomcat 7.0</p>
 </blockquote>
 
 <p>实验前提默认是各位已经安装 Zabbix Server 服务器，并且至少有一台 Zabbix agent 服务器正常监控。关于如何搭建 Zabbix 监控集群，会有专门文章描述。</p>
@@ -360,8 +360,6 @@ tcp  0      0 :::12345   :::*     LISTEN      8793/java
 [root@6 ~]#
 </code></pre></div></div>
 
-<hr />
-
 <h4 id="fix-1---zabbix-agent-与-server-存在复杂网络环境">==<em>fix 1</em> == : zabbix agent 与 server 存在复杂网络环境</h4>
 
 <p>这里疏忽了 1 个问题，如果您的 zabbix server 与 agent 端之间有防火墙规则，而按照我上面的所述只是增加了 12345 这个端口，那么很可能，您在/var/log/zabbix/zabbix_java_gateway.log 中会看到“No route to host”的报错，这是因为 JMX 不光开启了 12345 端口，还开启了另外两个随机端口，而在获取监控数据时会使用到其中一个，这就导致了无法通过固定的防火墙规则来开放该端口。其实有另外一个替代方式来使该监听端口固定下来——使用 Tomcat 提供的额外组件 catalina-jmx-remote.jar，这个组件是需要另外下载的：</p>
@@ -398,8 +396,6 @@ wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-7/v7.0.57/bin/extras/catalina
 </code></pre></div></div>
 
 <p>完成之后，重启 tomcat 这时会发现 jmx 默认端口已经固定为 12345 何 12346，而 server 依然可以正常获取监控数据。</p>
-
-<hr />
 
 <h4 id="3-configure-zabbix-server">3. Configure Zabbix Server</h4>
 <p>首先需要修改 zabbix_server.conf 启用 zabbix-java-gateway，让 zabbix 可以检测到服务，修改如下：</p>
@@ -525,17 +521,17 @@ Starting zabbix server:              [  OK  ]
 </code></pre></div></div>
 
 <h4 id="4-adding-jmx-host-on-zabbix-web-consloe">4. Adding jmx host on Zabbix Web consloe</h4>
-<p>首先，上传 Template Tomcat Head Memory 模板，这个我做了一个简单的模板，只针对了堆内存空间的监控，并针对使用率超过 60% 以及 80%，不同的警报。需要的同学可以直接从我这里下载，然后在 Configuration-Templates 导入到 zabbix 模板库内。<br />
+<p>首先，上传 Template Tomcat Head Memory 模板，这个我做了一个简单的模板，只针对了堆内存空间的监控，并针对使用率超过 60% 以及 80%，不同的警报。需要的同学可以直接从我这里下载，然后在 Configuration-Templates 导入到 zabbix 模板库内。
 下载请点击：<a href="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zbx_template_app_tomcat_head_memory.xml">Template App Tomcat Head Memory</a></p>
 
-<p>然后，增加服务器的 jmx 监控<br />
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-jmx-settings.png" alt="" />
-<br />
-关联模板<br />
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-host-select-template.png" alt="" /></p>
+<p>然后，增加服务器的 jmx 监控
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-jmx-settings.png" alt="image" /></p>
+
+<p>关联模板
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-host-select-template.png" alt="image" /></p>
 
 <h4 id="5-view-the-head-memory-monitoring">5. View the Head Memory Monitoring.</h4>
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-view-monitor.png" alt="" /></p>
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-view-monitor.png" alt="image" /></p>
 
         </div>
 

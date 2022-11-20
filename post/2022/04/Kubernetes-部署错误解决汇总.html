@@ -292,7 +292,7 @@
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <h3 id="1-kubeadm-init失败-提示-kubelet-启动失败或-不健康">1. <code class="language-plaintext highlighter-rouge">kubeadm init</code>失败 ，提示 kubelet 启动失败或 不健康</h3>
+            <h3 id="1-kubeadm-init失败提示-kubelet-启动失败或-不健康">1. <code class="language-plaintext highlighter-rouge">kubeadm init</code>失败，提示 kubelet 启动失败或 不健康</h3>
 
 <p>解决思路：</p>
 
@@ -337,17 +337,17 @@ Apr 21 00:55:30 master1 systemd[1]: kubelet.service: Main process exited, <span 
 </span></code></pre></div></div>
 
 <blockquote>
-  <p>问题原因： 注意看 <code class="language-plaintext highlighter-rouge">**"Failed to run kubelet"** 后面的 err原因 : err=**"failed to run Kubelet: running with swap on is not&gt;**</code></p>
+  <p>问题原因：注意看 <code class="language-plaintext highlighter-rouge">**"Failed to run kubelet"** 后面的 err原因 : err=**"failed to run Kubelet: running with swap on is not&gt;**</code></p>
 </blockquote>
 
-<p>这里是因为 主机上的 swap 还是打开的，所以导致 kubelet 启动失败； 原因是：在 Kubernetes 1.22 之前，节点不支持使用虚拟内存，如果在节点上检测到虚拟内存，kubelet 将默认无法启动。</p>
+<p>这里是因为 主机上的 swap 还是打开的，所以导致 kubelet 启动失败；原因是：在 Kubernetes 1.22 之前，节点不支持使用虚拟内存，如果在节点上检测到虚拟内存，kubelet 将默认无法启动。</p>
 
 <blockquote>
   <p>知识扩展</p>
 </blockquote>
 
 <ol>
-  <li>什么是 swap memory ？ 一般称为虚拟内存，虚拟内存的作用是</li>
+  <li>什么是 swap memory？一般称为虚拟内存，虚拟内存的作用是</li>
 </ol>
 
 <h3 id="1-多次使用-kubeadm-init时报错提示文件已存在端口被占用">1. 多次使用 <code class="language-plaintext highlighter-rouge">kubeadm init</code>时报错，提示文件已存在，端口被占用</h3>
@@ -1363,7 +1363,7 @@ To see the stack trace of this error execute with <span class="nt">--v</span><sp
      
     	
       <li><a href="/categories.html#Kubernetes">
-    		Kubernetes <span>10</span>
+    		Kubernetes <span>14</span>
     	</a></li>
     
   

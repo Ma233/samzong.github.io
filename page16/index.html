@@ -371,8 +371,8 @@ mysql&gt; show keys from tb_name;
 
 <blockquote>
   <p>测试环境：
-CentOS 6.8 
-Zabbix 2.4 
+CentOS 6.8
+Zabbix 2.4
 Tomcat 7.0</p>
 </blockquote>
 
@@ -477,7 +477,9 @@ wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-7/v7.0.57/bin/extras/catalina
 <p>完成之后，重启 tomcat 这时会发现 jmx 默认端口已经固定为 12345 何 12346，而 server 依然可以正常获取监控数据。</p>
 
 <h4 id="3-configure-zabbix-server">3. Configure Zabbix Server</h4>
+
 <p>首先需要修改 zabbix_server.conf 启用 zabbix-java-gateway，让 zabbix 可以检测到服务，修改如下：</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Option: JavaGateway
  #       IP address (or hostname) of Zabbix Java gateway.
  #       Only required if Java pollers are started.
@@ -515,7 +517,9 @@ JavaGateway=10.211.55.4 # 设置为你的zabbixsever IP
  StartJavaPollers=5 # 设置多线程启动
 
 </code></pre></div></div>
+
 <p>然后修改 zabbix_java_gateway.conf 配置如下：</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 ### Option: zabbix.listenIP
 
@@ -578,6 +582,7 @@ JavaGateway=10.211.55.4 # 设置为你的zabbixsever IP
 </code></pre></div></div>
 
 <p>最后启动启动 zabbix-java-gateway，并重启 zabbix-server</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 [root@6 ~]# service zabbix-java-gateway start
 Starting zabbix java gateway:              [  OK  ]
@@ -588,6 +593,7 @@ Starting zabbix server:              [  OK  ]
 </code></pre></div></div>
 
 <p>我在尝试重启发现一问题，zabbix-java-gateway 通过 service 命令管理 stop 不能删除 pid 文件导致服务无法启动，如果你也碰到，解决办法如下：</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 [root@6 zabbix]# vim /etc/rc.d/init.d/zabbix-java-gateway
 
@@ -600,6 +606,7 @@ Starting zabbix server:              [  OK  ]
 </code></pre></div></div>
 
 <h4 id="4-adding-jmx-host-on-zabbix-web-consloe">4. Adding jmx host on Zabbix Web consloe</h4>
+
 <p>首先，上传 Template Tomcat Head Memory 模板，这个我做了一个简单的模板，只针对了堆内存空间的监控，并针对使用率超过 60% 以及 80%，不同的警报。需要的同学可以直接从我这里下载，然后在 Configuration-Templates 导入到 zabbix 模板库内。
 下载请点击：<a href="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zbx_template_app_tomcat_head_memory.xml">Template App Tomcat Head Memory</a></p>
 
@@ -609,7 +616,8 @@ Starting zabbix server:              [  OK  ]
 <p>关联模板
 <img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-host-select-template.png" alt="image" /></p>
 
-<h4 id="5-view-the-head-memory-monitoring">5. View the Head Memory Monitoring.</h4>
+<h4 id="5-view-the-head-memory-monitoring">5. View the Head Memory Monitoring</h4>
+
 <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-view-monitor.png" alt="image" /></p>
 
       
@@ -788,7 +796,7 @@ fi
     <br/>
     <div>
       <cite>2017-01-07</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Docker">Docker</a>
+      <a href="/tags.html#DockerHub">DockerHub</a>
       
       
       
@@ -1186,28 +1194,23 @@ Python 3.4.3
   
      
     	
+      <li><a href="/categories.html#故事汇">
+    		故事汇 <span>23</span>
+    	</a></li>
+     
+    	
       <li><a href="/categories.html#Linux">
     		Linux <span>22</span>
     	</a></li>
      
     	
-      <li><a href="/categories.html#CentOS">
-    		CentOS <span>15</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#HTML">
-    		HTML <span>1</span>
+      <li><a href="/categories.html#前端">
+    		前端 <span>5</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#数据库">
-    		数据库 <span>19</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#MySQL">
-    		MySQL <span>14</span>
+    		数据库 <span>30</span>
     	</a></li>
      
     	
@@ -1216,28 +1219,13 @@ Python 3.4.3
     	</a></li>
      
     	
-      <li><a href="/categories.html#TortoiseGit">
-    		TortoiseGit <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#MongoDB">
-    		MongoDB <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#PHP">
-    		PHP <span>1</span>
-    	</a></li>
-     
-    	
       <li><a href="/categories.html#Mac">
     		Mac <span>16</span>
     	</a></li>
      
     	
-      <li><a href="/categories.html#SourceTree">
-    		SourceTree <span>2</span>
+      <li><a href="/categories.html#Tools">
+    		Tools <span>7</span>
     	</a></li>
      
     	
@@ -1246,53 +1234,23 @@ Python 3.4.3
     	</a></li>
      
     	
-      <li><a href="/categories.html#Piwik">
-    		Piwik <span>1</span>
-    	</a></li>
-     
-    	
       <li><a href="/categories.html#Python">
     		Python <span>45</span>
     	</a></li>
      
     	
-      <li><a href="/categories.html#云服务">
-    		云服务 <span>6</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Azure">
-    		Azure <span>4</span>
+      <li><a href="/categories.html#云平台">
+    		云平台 <span>8</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#虚拟化">
-    		虚拟化 <span>7</span>
+    		虚拟化 <span>3</span>
     	</a></li>
      
     	
-      <li><a href="/categories.html#OpenStack">
-    		OpenStack <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#CloudStack">
-    		CloudStack <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Zabbix">
-    		Zabbix <span>2</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Tomcat">
-    		Tomcat <span>5</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Redis">
-    		Redis <span>1</span>
+      <li><a href="/categories.html#Java">
+    		Java <span>6</span>
     	</a></li>
      
     	
@@ -1301,68 +1259,13 @@ Python 3.4.3
     	</a></li>
      
     	
-      <li><a href="/categories.html#Shell">
-    		Shell <span>2</span>
-    	</a></li>
-     
-    	
       <li><a href="/categories.html#Blog">
-    		Blog <span>4</span>
+    		Blog <span>7</span>
     	</a></li>
      
     	
-      <li><a href="/categories.html#Ghost">
-    		Ghost <span>2</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#PostgreSQL">
-    		PostgreSQL <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#AWS">
-    		AWS <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Aliyun">
-    		Aliyun <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Redmine">
-    		Redmine <span>2</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Bigdata">
-    		Bigdata <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Tools">
-    		Tools <span>4</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#VPN">
-    		VPN <span>2</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Windows">
-    		Windows <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Jmeter">
-    		Jmeter <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#随笔">
-    		随笔 <span>1</span>
+      <li><a href="/categories.html#安全">
+    		安全 <span>1</span>
     	</a></li>
      
     	
@@ -1371,118 +1274,18 @@ Python 3.4.3
     	</a></li>
      
     	
-      <li><a href="/categories.html#SQL">
-    		SQL <span>5</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Node">
-    		Node <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#BI">
-    		BI <span>2</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Network">
-    		Network <span>1</span>
-    	</a></li>
-     
-    	
       <li><a href="/categories.html#微服务">
     		微服务 <span>2</span>
     	</a></li>
      
     	
-      <li><a href="/categories.html#ClickHouse">
-    		ClickHouse <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#闲聊">
-    		闲聊 <span>3</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Hexo">
-    		Hexo <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Javascript">
-    		Javascript <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Telegram">
-    		Telegram <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Metabase">
-    		Metabase <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#学习">
-    		学习 <span>2</span>
-    	</a></li>
-     
-    	
       <li><a href="/categories.html#Kubernetes">
-    		Kubernetes <span>10</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Github">
-    		Github <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#kubernetes">
-    		kubernetes <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#腾讯云">
-    		腾讯云 <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#阿里云">
-    		阿里云 <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Gitlab">
-    		Gitlab <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#前端">
-    		前端 <span>1</span>
+    		Kubernetes <span>14</span>
     	</a></li>
      
     	
       <li><a href="/categories.html#DaoCloud Enterprise">
     		DaoCloud Enterprise <span>2</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Kubrnetes">
-    		Kubrnetes <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#Kafka">
-    		Kafka <span>1</span>
-    	</a></li>
-     
-    	
-      <li><a href="/categories.html#云原生">
-    		云原生 <span>1</span>
     	</a></li>
     
   
@@ -1496,8 +1299,9 @@ Python 3.4.3
       <ul>
         
         <li>
-          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy To Markdwon</a>
-          
+          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy to Markdown</a>
+          背景
+
 
         </li>
         

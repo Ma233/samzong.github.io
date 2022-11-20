@@ -296,8 +296,8 @@
 
 <blockquote>
   <p>测试环境：
-CentOS 6.8 
-Zabbix 2.4 
+CentOS 6.8
+Zabbix 2.4
 Tomcat 7.0</p>
 </blockquote>
 
@@ -402,7 +402,9 @@ wget http://mirror.bit.edu.cn/apache/tomcat/tomcat-7/v7.0.57/bin/extras/catalina
 <p>完成之后，重启 tomcat 这时会发现 jmx 默认端口已经固定为 12345 何 12346，而 server 依然可以正常获取监控数据。</p>
 
 <h4 id="3-configure-zabbix-server">3. Configure Zabbix Server</h4>
+
 <p>首先需要修改 zabbix_server.conf 启用 zabbix-java-gateway，让 zabbix 可以检测到服务，修改如下：</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### Option: JavaGateway
  #       IP address (or hostname) of Zabbix Java gateway.
  #       Only required if Java pollers are started.
@@ -440,7 +442,9 @@ JavaGateway=10.211.55.4 # 设置为你的zabbixsever IP
  StartJavaPollers=5 # 设置多线程启动
 
 </code></pre></div></div>
+
 <p>然后修改 zabbix_java_gateway.conf 配置如下：</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 ### Option: zabbix.listenIP
 
@@ -503,6 +507,7 @@ JavaGateway=10.211.55.4 # 设置为你的zabbixsever IP
 </code></pre></div></div>
 
 <p>最后启动启动 zabbix-java-gateway，并重启 zabbix-server</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 [root@6 ~]# service zabbix-java-gateway start
 Starting zabbix java gateway:              [  OK  ]
@@ -513,6 +518,7 @@ Starting zabbix server:              [  OK  ]
 </code></pre></div></div>
 
 <p>我在尝试重启发现一问题，zabbix-java-gateway 通过 service 命令管理 stop 不能删除 pid 文件导致服务无法启动，如果你也碰到，解决办法如下：</p>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 [root@6 zabbix]# vim /etc/rc.d/init.d/zabbix-java-gateway
 
@@ -525,6 +531,7 @@ Starting zabbix server:              [  OK  ]
 </code></pre></div></div>
 
 <h4 id="4-adding-jmx-host-on-zabbix-web-consloe">4. Adding jmx host on Zabbix Web consloe</h4>
+
 <p>首先，上传 Template Tomcat Head Memory 模板，这个我做了一个简单的模板，只针对了堆内存空间的监控，并针对使用率超过 60% 以及 80%，不同的警报。需要的同学可以直接从我这里下载，然后在 Configuration-Templates 导入到 zabbix 模板库内。
 下载请点击：<a href="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zbx_template_app_tomcat_head_memory.xml">Template App Tomcat Head Memory</a></p>
 
@@ -534,7 +541,8 @@ Starting zabbix server:              [  OK  ]
 <p>关联模板
 <img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-host-select-template.png" alt="image" /></p>
 
-<h4 id="5-view-the-head-memory-monitoring">5. View the Head Memory Monitoring.</h4>
+<h4 id="5-view-the-head-memory-monitoring">5. View the Head Memory Monitoring</h4>
+
 <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/12/zabbix-view-monitor.png" alt="image" /></p>
 
         </div>
@@ -1524,8 +1532,8 @@ Starting zabbix server:              [  OK  ]
     	</a></li>
      
     	
-      <li><a href="/categories.html#Zabbix">
-    		Zabbix <span>2</span>
+      <li><a href="/categories.html#Java">
+    		Java <span>6</span>
     	</a></li>
     
   

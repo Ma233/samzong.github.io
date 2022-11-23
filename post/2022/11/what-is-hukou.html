@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 	<link rel="manifest" href="/static/pwa/manifest.json">
-	<title> learn sqlalchemy | 船长的课记 </title>
+	<title> What is Hukou | 船长的课记 </title>
     
 		
     <meta name="author" content="船长">
@@ -279,39 +279,91 @@
 <div class="row" itemscope itemtype="http://schema.org/Article">
     <div class="col-xs-12 col-md-8">
         <div class="page-header" itemprop="name">
-            <h1>learn sqlalchemy 
+            <h1>What is Hukou 
             </h1>
         </div>
         <div class="post-meta">
             
-            <span class="entry-date" itemprop="datePublished">Posted on 12/13/2020</span>
+            <span class="entry-date" itemprop="datePublished">Posted on 11/23/2022</span>
             
             
             <span class="entry-author" itemprop="author">by 船长</span>
-            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/main/_posts/2020-12-13-learn sqlalchemy.md"
+            | <a class="revision-histroy" href="https://github.com/samzong/samzong.me/commits/main/_posts/2022-11-23-what-is-hukou.md"
                  target="_blank">View revision history</a>
         </div>
         <div class="post-content" itemprop="articleBody">
-            <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># python3 on Mac</span>
+            <h2 id="背景">背景</h2>
 
-pip3 <span class="nb">install </span>sqlalchemy mysqclient
+<p>对于一个大型企业，内部有几十个业务系统是非常正常的一件事情。</p>
 
-<span class="c"># CentOS</span>
-yum <span class="nb">install </span>MySQL-python
-</code></pre></div></div>
+<p>在这个背景下，有一个具体的服务可以很干净的只做一件事情是非常棒的：把人管好。</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sqlalchemy</span>
-<span class="kn">import</span> <span class="nn">MySQLdb</span>
+<h2 id="功能接入">功能接入</h2>
 
-<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span><span class="p">,</span> <span class="n">MetaData</span>
+<ul>
+  <li>支持接收其他业务系统的注册
+    <ul>
+      <li>支持配置 system_key</li>
+      <li>支持自定义回调地址</li>
+    </ul>
+  </li>
+  <li>通用的身份认证接入方式
+    <ul>
+      <li>接入方系统只需要简单的集成即可完成用户身份的登录支持</li>
+    </ul>
+  </li>
+  <li>支持一键禁用账号登录
+    <ul>
+      <li>增强版能力，支持广播账号身份信息发生变化，实时触发账号验证
+        <ul>
+          <li>可选项，由接入方系统根据需求决定是否接入</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>支持与三方业务系统集成
+    <ul>
+      <li>钉钉</li>
+      <li>飞书</li>
+      <li>etc.</li>
+    </ul>
+  </li>
+</ul>
 
-<span class="k">def</span> <span class="nf">connect_db</span> <span class="p">():</span>
- <span class="c1"># connect db:
-</span> <span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s">"mysql://user:pass@localhost/db"</span><span class="p">,</span> <span class="n">echo</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<h2 id="功能逻辑说明">功能逻辑说明</h2>
 
-    <span class="n">meta</span> <span class="o">=</span> <span class="n">MetaData</span><span class="p">()</span>
-    <span class="n">conn</span> <span class="o">=</span> <span class="n">engine</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
-</code></pre></div></div>
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/20221123145010.png?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<blockquote>
+  <p>验证流程图</p>
+</blockquote>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/VIzBnN.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<h2 id="相关技术和开源实现">相关技术和开源实现</h2>
+
+<ul>
+  <li>开源项目
+    <ul>
+      <li>Keyclock</li>
+    </ul>
+  </li>
+  <li>相关技术
+    <ul>
+      <li>Microsoft AD</li>
+      <li>LDAP</li>
+      <li>OIDC</li>
+      <li>OAtuh</li>
+    </ul>
+  </li>
+  <li>SaaS 产品
+    <ul>
+      <li>飞书 <门神></门神></li>
+      <li><a href="https://auth0.com">auth0.com</a></li>
+      <li><a href="https://fusionauth.io/">fusionauth</a></li>
+    </ul>
+  </li>
+</ul>
 
         </div>
 
@@ -1274,13 +1326,13 @@ yum <span class="nb">install </span>MySQL-python
         <nav>
             <ul class="pager">
                 
-                <li class="previous"><a href="/post/2020/12/covert-timestamp2datetime.html" title="covert timestamp2datetime">&larr;
+                <li class="previous"><a href="/post/2022/11/Copy-To-Markdwon.html" title="Copy to Markdown">&larr;
                     Previous（前一篇）</a></li>
                 
                 <!-- <li><a href="/static/archive.html">Archive（目录）</a></li> -->
                 <li><a href="/archive.html">Archive（目录）</a></li>
                 
-                <li class="next"><a href="/post/2020/12/Mac-%E8%B0%83%E6%95%B4Launchpad%E5%9B%BE%E6%A0%87%E5%A4%A7%E5%B0%8F.html" title="Mac 调整 Launchpad 图标大小">Next（后一篇） &rarr;</a></li>
+                <li class="next disabled"><a>Next（后一篇） &rarr;</a></li>
                 
             </ul>
         </nav>
@@ -1297,8 +1349,8 @@ yum <span class="nb">install </span>MySQL-python
   
      
     	
-      <li><a href="/categories.html#Python">
-    		Python <span>45</span>
+      <li><a href="/categories.html#安全">
+    		安全 <span>2</span>
     	</a></li>
     
   
@@ -1318,7 +1370,7 @@ yum <span class="nb">install </span>MySQL-python
   
      
     	
-    	<li><a href="/tags.html#Python">Python <span>45</span></a></li>
+    	<li><a href="/tags.html#OAuth">OAuth <span>1</span></a></li>
     
   
 

@@ -280,6 +280,214 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/07/HowTo-Install-MySQL-5-5-6-7-on-RHEL-CentOS-5-6-7.html">HowTo Install MySQL 5.5/6/7 on RHEL/CentOS 5/6/7</a></h1>
+    <div class="post_at_index">
+      <h2 id="install-mysql-55-on-rhelcentos-567">Install Mysql 5.5 on RHEL/CentOS 5/6/7</h2>
+
+<h3 id="1-use-repository">1. Use Repository</h3>
+
+<p>First, to set up the yum repository, install the mysql－community-server 5.5 RPM based on your CentOS/RHEL release:</p>
+
+<hr />
+
+<h4 id="mysql-server-55repo-for-centosrhel-5x">mysql-server-5.5.repo for CentOS/RHEL 5.x</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-Uvh</span> http://mirror.webtatic.com/yum/el5/latest.rpm
+</code></pre></div></div>
+
+<h4 id="-only-install-mysql-55-on-centos-5x">* Only Install MySQL 5.5 On CentOS 5.x</h4>
+
+<p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you can upgrade using the following method:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install </span>mysql.<span class="sb">`</span><span class="nb">uname</span> <span class="nt">-i</span><span class="sb">`</span> yum-plugin-replace
+yum replace mysql <span class="nt">--replace-with</span> mysql55w
+</code></pre></div></div>
+
+<p>“yum install mysql” is only there to make sure yum-plugin-replace can resolve dependencies correctly if only mysql-server was installed.
+Otherwise, to install MySql client and server, then run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install </span>mysql55w mysql55w-server
+</code></pre></div></div>
+
+<hr />
+
+<h4 id="mysql-server-55repo-for-centosrhel-6x">mysql-server-5.5.repo for CentOS/RHEL 6.x</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For x86_64</span>
+yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.5-community/el/6/x86_64/mysql-community-release-el6-5.noarch.rpm
+
+<span class="c"># For i386</span>
+yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.5-community/el/6/i386/mysql-community-release-el6-5.noarch.rpm
+</code></pre></div></div>
+
+<h4 id="mysql-server-55repo-for-centosrhel-7x">mysql-server-5.5.repo for CentOS/RHEL 7.x</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For x86_64</span>
+yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.5-community/el/7/x86_64/mysql-community-release-el7-5.noarch.rpm
+
+<span class="c"># For i386</span>
+yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.5-community/el/7/i386/mysql-community-release-el7-5.noarch.rpm
+</code></pre></div></div>
+
+<h3 id="2-install-mysql-server-55">2. Install MySQL Server 5.5</h3>
+
+<p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># It's RHEL/CentOS 6/7</span>
+yum remove <span class="nt">-y</span> mysql-server
+yum remove <span class="nt">-y</span> mysql<span class="k">*</span>
+</code></pre></div></div>
+
+<p>If you don’t have mysql-server was installed.
+Otherwise, to install MySql client and server, then run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> mysql-community-server
+</code></pre></div></div>
+
+<h3 id="3-service-configure">3. Service Configure</h3>
+
+<p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service mysqld start
+</code></pre></div></div>
+
+<p>This will issue a password prompt for the user. If you don’t have a root user password, remove the “-p”</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql_secure_installation
+</code></pre></div></div>
+
+<h2 id="install-mysql-56-on-rhelcentos-567">Install Mysql 5.6 on RHEL/CentOS 5/6/7</h2>
+
+<h3 id="use-repository">Use Repository</h3>
+
+<p>First, to set up the yum repository, install the mysql－community-server 5.6 RPM based on your CentOS/RHEL release:</p>
+
+<h4 id="mysql-server-56repo-for-centosrhel-5x">mysql-server-5.6.repo for CentOS/RHEL 5.x</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For x86_64</span>
+yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.6-community/el/5/x86_64/mysql-community-release-el5-5.noarch.rpm
+
+<span class="c"># For i386</span>
+yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.6-community/el/5/i386/mysql-community-release-el5-5.noarch.rpm
+</code></pre></div></div>
+
+<h4 id="mysql-server-56repo-for-centosrhel-6x">mysql-server-5.6.repo for CentOS/RHEL 6.x</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For x86_64</span>
+yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.6-community/el/6/x86_64/mysql-community-release-el6-5.noarch.rpm
+
+<span class="c"># For i386</span>
+yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.6-community/el/6/i386/mysql-community-release-el6-5.noarch.rpm
+</code></pre></div></div>
+
+<h4 id="mysql-server-56repo-for-centosrhel-7x">mysql-server-5.6.repo for CentOS/RHEL 7.x</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For x86_64</span>
+yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.6-community/el/7/x86_64/mysql-community-release-el7-5.noarch.rpm
+
+<span class="c"># For i386</span>
+yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.6-community/el/7/i386/mysql-community-release-el7-5.noarch.rpm
+</code></pre></div></div>
+
+<h3 id="install-mysql-server-56">Install MySQL Server 5.6</h3>
+
+<p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum remove <span class="nt">-y</span> mysql-server
+yum remove <span class="nt">-y</span> mysql<span class="k">*</span>
+</code></pre></div></div>
+
+<p>If you don’t have mysql-server was installed.
+Otherwise, to install MySql client and server, then run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> mysql-community-server
+</code></pre></div></div>
+
+<h3 id="service-configure">Service Configure</h3>
+
+<p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service mysqld start
+</code></pre></div></div>
+
+<p>This will issue a password prompt for the user. If you don’t have a root user password, remove the “-p”</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql_secure_installation
+</code></pre></div></div>
+
+<h2 id="install-mysql-57-on-rhelcentos-567">Install Mysql 5.7 on RHEL/CentOS 5/6/7</h2>
+
+<h3 id="use-repository-57">Use Repository 5.7</h3>
+
+<p>First, to set up the yum repository, install the mysql－community-server 5.7 RPM based on your CentOS/RHEL release:</p>
+
+<h4 id="mysql-server-57repo-for-centosrhel-5x">mysql-server-5.7.repo for CentOS/RHEL 5.x</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For x86_64</span>
+yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.7-community/el/5/x86_64/mysql-community-release-el5-7.noarch.rpm
+
+<span class="c"># For i386</span>
+yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.7-community/el/5/i386/mysql-community-release-el5-7.noarch.rpm
+</code></pre></div></div>
+
+<h4 id="mysql-server-57repo-for-centosrhel-6x">mysql-server-5.7.repo for CentOS/RHEL 6.x</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For x86_64</span>
+yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.7-community/el/6/x86_64/mysql-community-release-el6-7.noarch.rpm
+
+<span class="c"># For i386</span>
+yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.7-community/el/6/i386/mysql-community-release-el6-7.noarch.rpm
+</code></pre></div></div>
+
+<h4 id="mysql-server-57repo-for-centosrhel-7x">mysql-server-5.7.repo for CentOS/RHEL 7.x</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># For x86_64</span>
+yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.7-community/el/7/x86_64/mysql-community-release-el7-7.noarch.rpm
+
+<span class="c"># For i386</span>
+yum <span class="nb">install </span>http://repo.mysql.com/yum/mysql-5.7-community/el/7/i386/mysql-community-release-el7-7.noarch.rpm
+</code></pre></div></div>
+
+<h3 id="2-install-mysql-server-57">2. Install MySQL Server 5.7</h3>
+
+<p>If you already have MySql client or server installed (rpm -q mysql mysql-server), then you must uninstall using the following method:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum remove <span class="nt">-y</span> mysql-server
+yum remove <span class="nt">-y</span> mysql<span class="k">*</span>
+</code></pre></div></div>
+
+<p>If you don’t have mysql-server was installed.
+Otherwise, to install MySql client and server, then run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> mysql-community-server
+</code></pre></div></div>
+
+<h3 id="3-service-configure-1">3. Service Configure*</h3>
+
+<p>You should upgrade existing tables before setting the server to become a production machine, which can be done by starting the server and running the mysql_upgrade script (this may take time depending on the size of the database).</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service mysqld start
+</code></pre></div></div>
+
+<p>This will issue a password prompt for the user. If you don’t have a root user password, remove the “-p”</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql_secure_installation
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-07-07</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#MySQL">MySQL</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/07/HowTo-Use-Remi-Install-Redis.html">HowTo Use Remi Install Redis</a></h1>
     <div class="post_at_index">
       <h2 id="setup-1-install">Setup 1. Install</h2>
@@ -1033,41 +1241,6 @@ http://[ip]:8080/client
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/05/OpenStak-%E4%BB%8B%E7%BB%8D.html">OpenStak 介绍</a></h1>
-    <div class="post_at_index">
-      <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide01.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide02.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide03.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide04.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide05.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide07.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide08.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide09.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide10.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide11.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide12.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide13.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide14.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide15.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide16.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide17.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide18.jpg" alt="image" />
-<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F05%2FSlide19.jpg" alt="image" /></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-05-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#OpenStack">OpenStack</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1215,7 +1388,7 @@ http://[ip]:8080/client
      
     	
       <li><a href="/categories.html#安全">
-    		安全 <span>1</span>
+    		安全 <span>2</span>
     	</a></li>
      
     	
@@ -1249,6 +1422,13 @@ http://[ip]:8080/client
       <ul>
         
         <li>
+          <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
+          背景
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/11/Copy-To-Markdwon.html">Copy to Markdown</a>
           背景
 
@@ -1276,26 +1456,6 @@ df = pandas.read_csv(‘somefile.txt’)
           <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
           
   暗坑很多
-
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/JWT-%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F.html">JWT 内置的方式</a>
-          
-  支持为 API 启用 jwt token 解码的能力 ,  读取网关的 jwt key
-    
-      读取请求 Header 中的 Authorization
-    
-  
-  需要支持为网关配置多 jwt key , and 加密长度 ?
-    
-      解密的性能问题
-      expire_time 过期时间的配置
-      解密后的参数传递
-    
-  
 
 
 

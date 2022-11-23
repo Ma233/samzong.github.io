@@ -280,6 +280,150 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/04/%E4%BD%BF%E7%94%A8SoureceTree%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84git%E9%A1%B9%E7%9B%AE.html">使用 SoureceTree 管理你的 git 项目</a></h1>
+    <div class="post_at_index">
+      <h2 id="update">Update</h2>
+
+<ul>
+  <li>update: Windows 用户在初始化 Souretree 工具时，需要用到 Atlassian ID，新建用户时需要加载 google 验证码，这一步需要 VPN 的支持，请注意。</li>
+  <li>找到一个版本的 SourceTree 工具可以不需要以上验证也能使用，下载链接：<a href="http://pan.baidu.com/s/1eRDMgEY">SourceTreeSetup_1.6.14.exe</a> 密码：c5l4</li>
+</ul>
+
+<h3 id="补充-1git-学习网站">补充 1：Git 学习网站</h3>
+
+<ol>
+  <li><a href="http://backlogtool.com/git-guide/cn/">猴子都能学会的 git 教程</a></li>
+  <li><a href="http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html">常用 Git 命令清单</a></li>
+  <li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">廖雪峰的 git 教程</a></li>
+  <li><a href="http://zoomq.qiniudn.com/ZQScrapBook/ZqFLOSS/data/20081210180347/">Why Git is Better than X</a></li>
+</ol>
+
+<h3 id="补充-2利用-git-协同开发">补充 2：利用 Git 协同开发</h3>
+
+<ol>
+  <li><a href="https://ourai.ws/posts/working-with-git-in-team/">团队中的 Git 实践</a></li>
+  <li><a href="http://www.ruanyifeng.com/blog/2015/08/git-use-process.html">Git 使用规范流程</a></li>
+  <li><a href="http://nvie.com/files/Git-branching-model.pdf">Git 分支管理模型</a></li>
+  <li><a href="http://marklodato.github.io/visual-git-guide/index-zh-cn.html">图解 Git</a></li>
+</ol>
+
+<h2 id="关于-sourcetree">关于 SourceTree</h2>
+
+<p>SourceTree 是一款免费且同时支持 Windows 和 Mac 的 git 项目管理软件，本文旨在给大家介绍这款应用的基础使用，并用它来管理你的项目</p>
+
+<blockquote>
+  <p>官网： <a href="https://www.sourcetreeapp.com/">https://www.sourcetreeapp.com/</a></p>
+</blockquote>
+
+<h2 id="git-帐号建立">git 帐号建立</h2>
+
+<h3 id="新员工入职之后你的公司邮箱内会收到一封来自-gitlab-的邮件如下图">新员工入职之后，你的公司邮箱内会收到一封来自 Gitlab 的邮件，如下图</h3>
+
+<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree02.jpg" alt="image" /></p>
+
+<h3 id="点击邮件中的click-here-to-set-your-password设置-gitlab-登陆密码">点击邮件中的“Click here to set your password”，设置 gitlab 登陆密码</h3>
+
+<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsouretree03.jpg" alt="image" /></p>
+
+<h3 id="登陆-gitlab-帐号将会出现这个界面">登陆 gitlab 帐号，将会出现这个界面</h3>
+
+<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree05.jpg" alt="image" /></p>
+
+<h3 id="设定个人信息">设定个人信息</h3>
+
+<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsouretree06.jpg" alt="image" /></p>
+
+<h3 id="sshkey">sshKey</h3>
+
+<h4 id="在-linux-和-mac-上生成-sshkey">在 Linux 和 Mac 上生成 sshkey</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ ssh-keygen <span class="nt">-t</span> rsa
+Generating public/private rsa key pair.
+Enter file <span class="k">in </span>which to save the key <span class="o">(</span>/Users/Alex/.ssh/id_rsa<span class="o">)</span>:
+Enter passphrase <span class="o">(</span>empty <span class="k">for </span>no passphrase<span class="o">)</span>:
+Enter same passphrase again:
+Your identification has been saved <span class="k">in</span> /Users/Alex/.ssh/id_rsa.
+Your public key has been saved <span class="k">in</span> /Users/Alex/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:98jE3jhBhFT5nQlZRj34a3WOk1t6XF+Dbf/hliXl4WQ Alex@Alex-Mac
+The key<span class="s1">'s randomart image is:
++---[RSA 2048]----+
+|       ..oo. +=. |
+|        ... oo ..|
+|          .. o.o.|
+|         o  . +E+|
+|        S =   **=|
+|         = * .=BB|
+|          * o oOO|
+|           .  +o*|
+|              .oo|
++----[SHA256]-----+
+➜  ~ cat ~/.ssh/id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvuQAq65b+nLZPqqc3b3Mj9e7Pt8oWKasJFa2QH1VIEkDvxKLFGcHsT7Ur4zXwEi9YiW2tVRrBSjcMALxuBjVm2IxYV6Lk8SLuGadyYy5telWGJmHsQ3VIPRuKwpzTkLN643kjqc6JFSlnZG/XoP9SPtCOsp2ql4u0s7Auc2bZay4RaTDXbcpJVU9OA0xM8Zy4oTTNYdZ4tvGittVmn+wLrhN255J7clORF5126dmDYxV3E8ZboaDdQpdLGIWmDNcBJQvl0CLwpKUCi7EUDqDVtm4bNgwIX9fEIkTxGdaWjBW1iXBk8TGXWkgB+Qp8B1IwaJ4GHUwUhQrefWvw9XeJ Alex@Alex-Mac
+➜  ~
+</span></code></pre></div></div>
+
+<h4 id="52-在-windows-上生成-sshkey">5.2 在 Windows 上生成 sshkey</h4>
+
+<h4 id="因为-windows-没有自带-openssl-模块所以在-windows-环境中使用第三方工具-puttygenexe-生成-sshkey-下载地址">因为 windows 没有自带 openssl 模块，所以在 Windows 环境中使用第三方工具 puttygen.exe 生成 sshkey <a href="http://the.earth.li/~sgtatham/putty/0.67/x86/puttygen.exe">下载地址</a></h4>
+
+<h4 id="步骤如下">步骤如下</h4>
+
+<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree13.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree14.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree15.jpg" alt="image" /></p>
+
+<h4 id="当-sourcetree-首次启动时会弹出加载-sshkey-的提示按提示操作找到之前保存的-privateppk-文件">当 sourcetree 首次启动时，会弹出加载 sshkey 的提示，按提示操作，找到之前保存的 private.ppk 文件</h4>
+
+<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree12.jpg" alt="image" /></p>
+
+<h4 id="53-上传-sshkey">5.3 上传 sshkey</h4>
+
+<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree07.jpg" alt="image" /></p>
+
+<h3 id="6-回到-dashboard点击项目名称进入详情">6. 回到 dashboard，点击项目名称进入详情</h3>
+
+<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree08.jpg" alt="image" /></p>
+
+<h3 id="7-使用-souretree-将项目从-git-服务器-clone-到本地">7. 使用 souretree 将项目从 git 服务器 clone 到本地</h3>
+
+<h4 id="71-安装-souretree-软件-略">7.1 安装 souretree 软件 ［略］</h4>
+
+<h4 id="72-clone-项目到本地">7.2 clone 项目到本地</h4>
+
+<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree09.jpg" alt="image" />
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree10.jpg" alt="image" /></p>
+
+<h3 id="8-进入项目工作台">8. 进入项目工作台</h3>
+
+<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016%2F04%2Fsourcetree11.jpg" alt="image" /></p>
+
+<h4 id="9-关于-sourcetree-工具的使用下面是一些-git-操作的释疑">9. 关于 sourcetree 工具的使用，下面是一些 git 操作的释疑</h4>
+
+<ul>
+  <li>检出仓库：将在本地创建一个 git 仓库的克隆版本</li>
+  <li>工作流：本地仓库由 git 维护的三棵“树”组成。第一个是 工作目录，它持有实际文件；第二个是 缓存区（Index），它像个缓存区域，临时保存改动；最后是 HEAD，指向最近一次提交后的结果。</li>
+  <li>提交：可以计划改动（把它们添加到缓存区),将改动提交到了 HEAD，但是还没到提交到远端仓库。</li>
+  <li>拉取：从远端仓库拉取最新版本状态，特别是在其他人员有所改动之后。</li>
+  <li>推送：改动现在已经在本地仓库的 HEAD 中了。这时可以使用它将这些改动提交到远端仓库。</li>
+  <li>分支：分支是用来将特性开发分离出来的。在创建仓库的时候，master 是“默认的”。创建分支将可以从主线开发上分离开来，然后在不影响主线的同时继续工作，完成后再将它们合并到主分支上。</li>
+  <li>合并：将分支功能并入主分支。</li>
+</ul>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-04-20</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#SourceTree">SourceTree</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/04/Mac-1-%E8%B0%83%E6%95%B4Launchpad%E5%9B%BE%E6%A0%87%E5%A4%A7%E5%B0%8F.html">MacTips 调整 Launchpad 图标大小</a></h1>
     <div class="post_at_index">
       <p>很多人觉得默认 Launchpad 的应用程序图标很大，空间比较拥挤，不过这个其实是可以通过调整 Launchpad 每一行和每一列图标的数量，来调整 Launchpad 图标大小。</p>
@@ -1493,229 +1637,6 @@ cron 是linux的内置服务，但它不自动起来，可以用以下的方法�
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/03/Linux-%E7%AC%94%E8%AF%95%E8%AF%95%E9%A2%98.html">Linux 笔试试题</a></h1>
-    <div class="post_at_index">
-      <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>一。选择题（1 题 1 分）
-1. 当登录 Linux 时，一个具有唯一进程 ID 号的 shell 将被调用，这个 ID 是什么 (   )
-A. NID  B. PID  C. UID  D. CID
-答案:B
-2. 用 vi 打开一个文件，如何用字母"new"来代替字母"old" (   )
-A. :s/old/new/g　　　B. :s/old/new　　C. :1,$s/old/new/g　　　D. :r/old/new
-答案:A
-3. 请选择对标准的变量 PS2 正确的描述 (   )
-A. 是一个主 shell 提示符变量    B. 是一个一般的 shell 提示符变量
-C. 是第二主 shell 提示符变量     D. 是一个连续提示符变量
-答案:B
-4. 哪一个命令能用来查找文件 TESTFILE 中只包含四个字符的行？(   )
-A. grep '^????$' TESTFILE    B. grep '????' TESTFILE
-C. grep '^....$' TESTFILE     D. grep '....' TESTFILE
-答案:C
-5. 一个 bash shell 脚本的第一行是什么 (   )
-A. #!/bin/bash  B. #/bin/bash  C. #/bin/csh   D. /bin/bash
-答案:A
-6. 用标准的输出重定向 (&gt;) 像"&gt; file01"能使文件 file01 的数据（   ）
-A. 被移动  B. 被复制  C. 被打印   D. 被覆盖
-答案:D
-7. 下面哪个命令是用来定义 shell 的全局变量 (    )
-A. exportfs  B. alias  C. exports  D. export
-答案:D
-8. 如果想加载一个/dev/sdb1的windows95分区到/mnt/win95目录，需要运行哪个命令(   )
-A. mount -t hpfs /dev/sdb1 /mnt/win95
-B. mount -t hpfs /mnt/win95 /dev/sdb1
-C. mount -t vfat /dev/sdb1 /mnt/win95
-D. mount -t vfat /mnt/win95 /dev/sdb1
-答案:C
-9. 哪个文件存放用户密码信息 (   )
-A. /boot/passwd   B. /etc/shadow   C. /var/passwd  D. /dev/passwd
-答案:B
-10. 假定 kernel 支持 vfat 分区，下面哪一个操作是将/dev/sda1，一个 window98 分区加载到/win 目录 (   )
-A. mount -s win /dev'sda1 /win
-B. mount -fs=msdos /dev/sda1 /win
-C. mount -t vfat /dev/sda1 /win
-D. mount -t windows /win /dev/sda1
-答案:C
-11. 默认情况下管理员创建了一个用户，就会在 (   ) 目录下创建一个用户主目录。
-A. /usr  B. /home   C. /root  D. /etc
-答案:B
-12. 如果要列出一个目录下的所有文件需要使用命令行 (    )。
-A. ls –l  B. ls   C. ls –a   D. ls -d
-答案:C
-13. 利用哪个工具可以设置用户在文件系统中的空间大小 (   )。
-A. turboservice  B. turbofscfg  C. turbonetcfg   D. turboxcfg
-答案:B
-14. 哪个命令可以将普通用户转换成超级用户 (   )
-A. super  B. passwd  C. tar   D. su
-答案:D
-15. 哪个命令用来显示/home及其子目录下文件名(   )
-A. ls -R /home  B. ls -d /home  C. ls -a /home    D. ls -l /home
-答案:A
-16. 在 vi 模式下，哪个命令用来删除光标处的字符 (    )
-A. xd   B. x   C. dd   D. d
-答案:B　　dd删除一行,x删除当前字符
-17. 在一行内运行多个命令需要用什么字符隔开 (   )
-A. @  B. $   C. ;  D. *
-答案:C
-18. 确定 myfile 的文件类型的命令是 (   )
-A. whatis myfile
-B. file myfile
-C. type myfile
-D. type -q myfile
-答案:B
-19. 哪些命令组合起来能统计多少用户登录系统 (    )
-A. who | wc –w   B. who | wc –l   C. who | wc –c   D. who | wc
-答案:BD
-20. 用 "rm -i",系统会提示什么来让你确认 (   )
-A. 命令行的每个选项  B. 是否真的删除  C. 是否有写的权限   D. 文件的位置
-答案:B
-21. Linux 启动的第一个进程 init 启动的第一个脚本程序是 (   )。
-A. /etc/rc.d/init.d   B. /etc/rc.d/rc.sysinit  C. /etc/rc.d/rc5.d  D. /etc/rc.d/rc3.d
-答案:B
-22. 按下 (   ) 键能终止当前运行的命令
-A. Ctrl-C   B. Ctrl-F   C. Ctrl-B   D. Ctrl-D
-答案:a
-23. 用来分离目录名和文件名的字符是 (   )
-A. dash (-)  B. slash (/)  C. period (.)   D. asterisk (*)
-答案:B
-24. 系统的配置文件在 (  ) 目录下
-A. /home   B. /dev  C. /etc   D. /usr
-答案:C
-25. 显示用户的主目录的命令是什么？(   )
-A. echo $HOME  B. echo $USERDIR   C. echo $ENV  D. echo $ECHO
-答案:A
-26. 在 vi 编辑器里，哪个命令能将光标移到第 200 行 (    )
-A. g200  B. G200  C. :200   D. 200g
-答案:C
-:200 可以，200G 也可以
-27. 用"useradd jerry"命令添加一个用户，这个用户的主目录是什么？(   )
-A. /etc/jerry   B. /var/jerry  C. /home/jerry   D. /bin/jerry
-答案:C
-28. 哪一个命令能用来删除当前目录及其子目录下名为'core'的文件 (   )
-A. find . -name core -exec rm {} \ ;
-B. find . -name core -exec rm ;
-C. find . -name core -exec rm {} ;
-D. find . -name core -exec rm {} -;
-答案:A
-29. 以下哪条命令在创建一个 xp 用户的时候将用户加入到 root 组中 (  )
-A. useradd -g xp root  B. useradd -r root xp  C. useradd -g root xp   D. useradd root xp
-答案:C
-30. 不改变运行级别而重新读入 inittab 文件的命令是 (    )。
-A. init s  B. init q  C. init S   D. init Q
-答案:B
-31. 以下哪个命令可以终止一个用户的所有进程 (   )
-A. skillall   B. skill  C. kill   D. killall
-答案:D
-32. 通过修改哪个文件可以在创建用户的时候改变用 户主目录的路径 (   )
-A. /etc/default/passwd   B. /etc/default/useradd  C. /etc/profile  D. /etc/fstab
-答案:B
-33. 以只读方式打开一个文件并进入 vi 编辑器的命令是 (   )
-A. view -r filename   B. view filename   C. vi filename   D. vi -r filename
-答案:B
-34. 以下哪个命令是将缓存中的内容粘贴到光标之前 (   )
-A. a   B. i   C. P   D. p
-答案:C
-35. 以下哪条 vi 命令能将文档 5-20 行间出现的 abc 替换成为 cba (   )
-A. :1,$s/abc/cba/g　　　B. :5,20/abc/cba/g　　C. :5-20s/abc/cba/g　　　D. :5,20s/abc/cba/g
-答案:D
-. 在 vi 中通过哪条命令可以将 ps 命令执行的结果插入到文档中 (   )
-A. :r!ps   B. :!ps   C. :!rps    D. :w!ps
-答案:A
-36. 以下哪个vi命令可以在当前位置插入/etc/passwd文本文件(   )
-A. :r /etc/passwd   B. :i /etc/passwd  C. :w /etc/passwd   D. :s /etc/passwd
-答案:A
-37. vi 中复制整行的命令是 (   )
-A. y1   B. yy   C. ss   D. dd
-答案:B
-38. 以下哪个 vi 命令可以给文档的每行加上一个编号 (    )
-A. :e number   B. :set number  C. :r!date     D. :200g
-答案:B
-38. 以下哪些文件只有根用户才能读写 (   )
-A. /etc/bashrc   B. /etc/profile   C. /etc/shadow    D. /etc/passwd
-答案:BC
-39. 使用 groupdel 删除一个组的时候，命令执行失败，原因可能是 (   )
-A. 该组是系统组   B. 该组是空的   C. 该组中成员非空   D. 该组不存在
-答案:CD
-40. Linux 中文件名构成的规则比较灵活表现在 (   )
-A. 文件名长度多达 256 个字符     B. 可以使用除了/符号外的所有ASCII字符
-C. 不区分大小写            D. 无扩展名限制
-答案:ABD
-41. 对用户的口令进行加解锁的命令是 passwd，参数选项是 (   )
-A. –l  B. –L  C. –u   D. -U
-答案:AC
-42. 如果你对文件和目录的权限不确定，则不能用 (   ) 命令来检测权限
-A. ps   B. ck    C. ls –l   D. chown
-答案:ABD
-43. 选择对/proc文件系统不正确的描述(    )
-A. 通常情况下，不提供中断、IO 端口、CPU 等信息   B. /proc 文件系统可以提供系统核心的许多参数
-C. /proc 是一个虚拟的文件系统            D. 可以得到系统中运行的进程的一些信息
-答案:A
-44. 以下哪些符号可以用来连接多条命令 (   )
-A. ||    B. &amp;&amp;   C. ;   D. |
-答案:ABCD
-45. 在 shell 中，下面哪些字符串当作普通字符串时候需要使用"\"来转义 (   )
-A. 分号 (;)   B. 双引号 (")  C. 单引号 (')   D. 反斜杆 (\)
-答案:BCD
-46. Linux 中提供了几个重要的工具用来改变服务和进程的运行状态和运行级别以及初始化进程，它们是 (   )。
-A. chkconfig  B. service  C. turboservice   D. ksysv
-答案:ABCD
-47. 在/etc/rc.d/init.d目录下的所有脚本至少支持两个运行参数,它们是(    )。
-A. start   B. restart    C. stop   D. reload
-答案:AC
-48. Linux 一般被称为是稳定的服务器系统，它的安全性表现在 (   )
-A. 网络防火墙  B. 用户管理策略 C. 系统、目录、文件的权限控制 D. 封闭源码便于及时修正漏洞等
-答案:ABC
-49. 在 vi 中下列哪些命令不能用来在光标前插入文本 (   )
-A. p [text]　　B. i [text]　　C. o [text]　　　D. a [text]
-答案:ACD
-50. 在本地的文件系统中下列哪些 linux 路径结构是无效的 (   )
-A. \usr/zhang/memo   B. /usr/zhang/memo   C. //usr\zhang/memo   D. \usr\zhang\memo
-答案:ACD
-
-二、简答题（1 题 3 分）
-
-1.常见的 Linux 发行版本都有什么？你最擅长哪一个？它的官网网站是什么？说明你擅长哪一块？
-
-2.Linux 开机启动流程详细步骤是什么？系统安装完，忘记密码如何破解？
-
-4.某一天突然发现 Linux 系统文件只读，该怎么办呢？完整操作步骤。
-
-5.安装一台系统使用 DVD 光盘安装，如何安装 50 台 Linux 系统如何安装呢？思考一下。
-
-6.用虚拟机安装了一台 Linux 系统，突然想克隆一台服务器，克隆后发现无法上网，如何解决？
-
-7.Linux 网卡配置文件路径是什么？要使服务器上外网，必须满足的条件有哪些？需要配置什么？
-
-8.一般可以使用什么软件远程 linux 服务器？通过什么上传文件和下载文件？
-
-9./mnt 目录主要用于什么？/root 目录跟 root 用户有什么关系？/根目录与/boot 目录有什么联系？
-
-10.某一天误操作，执行了 rm  -rf  * ，会有哪些情况发生？请举例。
-
-
-三、公有云题目（1 题 5 分）
-1. 请解释上云的好处是什么？传统业务类型与公有云也为类型有什么区别？请举例说明。
-
-2. 列出你用过的阿里云\AWS\Azure 服务？并讲述他们的作用？
-
-3. 请列出你觉得阿里云\AWS\Azure 目前的特色和不成熟的地方是那些？你觉得应该如何改正。
-
-4. 请用阿里云\AWS\Azure 设计一个视频网站的架构图并进行解释说明。
-
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-03-23</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#基础知识">基础知识</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1863,7 +1784,7 @@ A. \usr/zhang/memo   B. /usr/zhang/memo   C. //usr\zhang/memo   D. \usr\zhang\me
      
     	
       <li><a href="/categories.html#安全">
-    		安全 <span>1</span>
+    		安全 <span>2</span>
     	</a></li>
      
     	
@@ -1897,6 +1818,13 @@ A. \usr/zhang/memo   B. /usr/zhang/memo   C. //usr\zhang/memo   D. \usr\zhang\me
       <ul>
         
         <li>
+          <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
+          背景
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/11/Copy-To-Markdwon.html">Copy to Markdown</a>
           背景
 
@@ -1924,26 +1852,6 @@ df = pandas.read_csv(‘somefile.txt’)
           <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
           
   暗坑很多
-
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/JWT-%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F.html">JWT 内置的方式</a>
-          
-  支持为 API 启用 jwt token 解码的能力 ,  读取网关的 jwt key
-    
-      读取请求 Header 中的 Authorization
-    
-  
-  需要支持为网关配置多 jwt key , and 加密长度 ?
-    
-      解密的性能问题
-      expire_time 过期时间的配置
-      解密后的参数传递
-    
-  
 
 
 

@@ -280,6 +280,121 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2022/05/MacOS%E9%9A%90%E8%97%8FDock%E6%A0%8F%E4%B8%AD%E7%89%B9%E5%AE%9A%E5%BA%94%E7%94%A8.html">MacOS 隐藏 Dock 栏中特定应用</a></h1>
+    <div class="post_at_index">
+      <h2 id="背景说明">背景说明</h2>
+
+<p>MacOS Dock 栏的空间是有限的，而且绝大部分应用都会占用一个 Dock 的槽位；但并不是所有软件都提供了 <code class="language-plaintext highlighter-rouge">Hidden  in Dock</code> 的能力，所以从来不点击，但一直存在，挺痛苦的。</p>
+
+<p>为不具备隐藏 Dock Icon 的应用附加隐藏能力</p>
+
+<blockquote>
+  <p>符合这类特征的软件：a. 常驻应用，开机自启动，基本不会打开；b. 像我这样的 Alfred 爱好者</p>
+</blockquote>
+
+<p>之前了解到一些软件对系统的影响都比较大，基本上都是要接管 整个<code class="language-plaintext highlighter-rouge">Dock</code>，要关闭 <code class="language-plaintext highlighter-rouge">SIP</code>，使用成本太好，基本不值得采用。</p>
+
+<h2 id="github-全球同性交友网站">Github 全球同性交友网站</h2>
+
+<p>下午在闲逛的时候，发现了这个仓库： <a href="https://github.com/FirePanther/MacOS-Hide-Dock-Icon">https://github.com/FirePanther/MacOS-Hide-Dock-Icon</a> ，一个非常简单的 PHP 脚本，貌似可以提供这个能力，于是我就简单的 Download，按照 README.md 的方法执行了一下。</p>
+
+<p>很神奇的！满足了我的需求！所以，我在这里记录和分享给大家，如果你也需要的话。</p>
+
+<h2 id="操作步骤">操作步骤</h2>
+
+<blockquote>
+  <p>当然，你也可以直接 从这切换到 官方仓库的 <code class="language-plaintext highlighter-rouge">README.md</code> 去操作</p>
+</blockquote>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 下载 脚本文件</span>
+➜  ~ wget https://raw.githubusercontent.com/FirePanther/MacOS-Hide-Dock-Icon/master/hideDockIcon.php <span class="nt">-O</span> hideDockIcon.php
+
+<span class="c"># 备份地址</span>
+➜  ~ wget https://raw.githubusercontent.com/SAMZONG/MacOS-Hide-Dock-Icon/master/hideDockIcon.php <span class="nt">-O</span> hideDockIcon.php
+</code></pre></div></div>
+
+<p>确保你的 Mac 内装有 PHP</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>php   <span class="c"># just one command</span>
+</code></pre></div></div>
+
+<p>接下就是操作步骤了：在此之前，你需要完全退出被隐藏的软件**</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20220507152104232.png?x-oss-process=image/resize,w_960,m_lfit" alt="image-20220507152104232" /></p>
+
+<p>下方是脚本的执行过程：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">sudo </span>php hideDockIcon.php
+App name: BaiduNetdisk_mac
+Cracking app BaiduNetdisk_mac
+Info.plist successfully injected
+Signing <span class="nt">------</span>
+/Applications/BaiduNetdisk_mac.app: replacing existing signature
+<span class="nt">------</span>
+
+Finished  <span class="c"># 看到这个就是成功了</span>
+</code></pre></div></div>
+
+<p>执行成功后，再次打开 App，App 会先在 Dock 栏跳动加载，加载完后图标自动消失，但 App 依旧在运行。</p>
+
+<p>以上，你就成功的隐藏这个需要的软件，经过在测试，脚本的健壮性很好：</p>
+
+<p>支持的 PC : <strong>2022 年 M1 Max MacOS12.3.1</strong></p>
+
+<h2 id="注意事项">注意事项</h2>
+
+<h3 id="确认对的-app-name">确认对的 App Name</h3>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20220507153226027.png?x-oss-process=image/resize,w_960,m_lfit" alt="image-20220507153226027" /></p>
+
+<h3 id="恢复被隐藏的应用">恢复被隐藏的应用</h3>
+
+<p><strong>首先 &gt;</strong> 还是要退出 App，这时 Dock 栏也不显示了，菜单栏也没有，所以不好使用 <code class="language-plaintext highlighter-rouge">邮件退出的方式</code>，那么接下来我们要找到下方这个软件：</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20220507153525040.png?x-oss-process=image/resize,w_960,m_lfit" alt="image-20220507153525040" /></p>
+
+<p>打开软件后，等待加载完成，通过搜索窗口利用 App name 找到被隐藏的软件</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20220507154000558.png?x-oss-process=image/resize,w_960,m_lfit" alt="image-20220507154000558" /></p>
+
+<p>然后使用上方的，<code class="language-plaintext highlighter-rouge">X</code> 关闭按钮，在弹窗中，选择 <code class="language-plaintext highlighter-rouge">Quit</code></p>
+
+<p>然后 &gt; 再去执行下 <code class="language-plaintext highlighter-rouge">hideDockIcon.php</code> 这个脚本：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  <span class="nb">sudo </span>php hideDockIcon.php
+Password:
+App name: BaiduNetDisk_mac
+Cracking app BaiduNetDisk_mac
+This app should be invisible <span class="k">in </span>the Dock
+Would you like to show it? <span class="o">(</span>y/n<span class="o">)</span> y
+Info.plist successfully injected
+Signing <span class="nt">------</span>
+/Applications/BaiduNetDisk_mac.app: replacing existing signature
+<span class="nt">------</span>
+
+Finished
+</code></pre></div></div>
+
+<p>然后再次启动 App，那么就会出现在 Dock 栏并且不再隐藏</p>
+
+<h2 id="结语">结语</h2>
+
+<p>没事儿还是要逛逛 Github</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-05-07</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2022/05/%E6%BB%A1%E8%B6%B3%E9%A2%84%E6%9C%9F%E7%9A%84%E6%96%87%E6%A1%A3%E7%AB%99-Mkdocs.html">满足预期的文档站 Mkdocs</a></h1>
     <div class="post_at_index">
       <h2 id="组合三件套">组合三件套</h2>
@@ -1283,28 +1398,6 @@ To see the stack trace of this error execute with <span class="nt">--v</span><sp
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/04/%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E7%AB%9E%E5%93%81.html">需要了解的 K8s 发行版本</a></h1>
-    <div class="post_at_index">
-      <h2 id="k8s-的发行版本">K8s 的发行版本</h2>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/6ngC8v.png" alt="6ngC8v" /></p>
-
-<p>开始学习喜欢的东西，上面的每一个都要了解</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-19</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#竞品">竞品</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1450,7 +1543,7 @@ To see the stack trace of this error execute with <span class="nt">--v</span><sp
      
     	
       <li><a href="/categories.html#安全">
-    		安全 <span>1</span>
+    		安全 <span>2</span>
     	</a></li>
      
     	
@@ -1484,6 +1577,13 @@ To see the stack trace of this error execute with <span class="nt">--v</span><sp
       <ul>
         
         <li>
+          <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
+          背景
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/11/Copy-To-Markdwon.html">Copy to Markdown</a>
           背景
 
@@ -1511,26 +1611,6 @@ df = pandas.read_csv(‘somefile.txt’)
           <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
           
   暗坑很多
-
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/JWT-%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F.html">JWT 内置的方式</a>
-          
-  支持为 API 启用 jwt token 解码的能力 ,  读取网关的 jwt key
-    
-      读取请求 Header 中的 Authorization
-    
-  
-  需要支持为网关配置多 jwt key , and 加密长度 ?
-    
-      解密的性能问题
-      expire_time 过期时间的配置
-      解密后的参数传递
-    
-  
 
 
 

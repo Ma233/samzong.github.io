@@ -280,6 +280,92 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2018/08/HowTo-Skip-Atlassian-Auth-for-SourceTree.html">HowTo Skip Atlassian Auth for SourceTree</a></h1>
+    <div class="post_at_index">
+      <h2 id="问题">问题</h2>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/eaxem.png" alt="image" /></p>
+
+<p>因为国内的网络的原因，导致我们在首次打开 SourceTree 时需要验证 Atlassian 账号，但是 Atlassian 的注册页面使用 requirejs 是用了 Google 的 CDN 服务，所以无法正常通过验证，如果你有翻墙工具，那么这就没有问题，下面我要讲的方法是在不翻墙的情况下跳过初始化验证。</p>
+
+<blockquote>
+  <p>目前我解决的是在 Windows 平台上的问题，关于 Mac 平台，我稍后会更新到文档中。</p>
+</blockquote>
+
+<h2 id="解决思路">解决思路</h2>
+
+<p>我的想法是通过增加<code class="language-plaintext highlighter-rouge">account</code>信息，让<code class="language-plaintext highlighter-rouge">SourceTree</code>跳过验证；经过测试<code class="language-plaintext highlighter-rouge">2.0.19</code>及以下版本都支持，但是 SourceTree 在最新版本 2.0.20 时可能修订验证方式，所以导致我的这个方式不适用，大家可以在我的百度云盘共享中下载 2.0.19，功能上并没发生多少变化。</p>
+
+<p>链接：<a href="https://pan.baidu.com/s/1qYsHKWs">https://pan.baidu.com/s/1qYsHKWs</a> 密码：wnc3</p>
+
+<h2 id="解决步骤">解决步骤</h2>
+
+<h3 id="net-452">.NET 4.5.2</h3>
+
+<p>SourceTree 依赖的.NET 环境最低是 4.5.2，当然在你安装的过程中，会提示你下载安装，你只需要确认即可，不过这样下载会比较慢，所以建议你使用 Offline 的形式安装，下面是微软官方下载地址：</p>
+
+<p><a href="https://www.microsoft.com/en-us/download/confirmation.aspx?id=42642">https://www.microsoft.com/en-us/download/confirmation.aspx?id=42642</a></p>
+
+<h3 id="sourcetree">SourceTree</h3>
+
+<p>安装过程中，默认一路“Next”即可，在安装完成之后，我们需要找到 SourceTree 在 LocalAppData 中的路径，请打开资源管理窗口，然后输入以下地址：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%LocalAppData%<span class="se">\A</span>tlassian<span class="se">\S</span>ourceTree<span class="se">\</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>如果路径不存在，创建目录即可</p>
+</blockquote>
+
+<p>然后将之前百度云盘的文件<code class="language-plaintext highlighter-rouge">accounts.json</code>复制到这个位置，它的路径应该是：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>%LocalAppData%<span class="se">\A</span>tlassian<span class="se">\S</span>ourceTree<span class="se">\a</span>ccounts.json
+</code></pre></div></div>
+
+<p>文件内容：</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"$id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"$type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SourceTree.Api.Host.Identity.Model.IdentityAccount, SourceTree.Api.Host.Identity"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"Authenticate"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"HostInstance"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"$id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"$type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SourceTree.Host.Atlassianaccount.AtlassianAccountInstance, SourceTree.Host.AtlassianAccount"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"Host"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"$id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"$type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SourceTree.Host.Atlassianaccount.AtlassianAccountHost, SourceTree.Host.AtlassianAccount"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"Id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"atlassian account"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"BaseUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://id.atlassian.com/"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"Credentials"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"$id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"$type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SourceTree.Model.BasicAuthCredentials, SourceTree.Api.Account"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"Username"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"Email"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"IsDefault"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div></div>
+
+<p>添加完成之后，启动 SourceTree 即可发现已经跳过了验证界面。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2018-08-04</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#SourceTree">SourceTree</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2018/02/%E4%BD%BF%E7%94%A8%E5%9B%BD%E5%86%85pypi%E6%BA%90%E5%8A%A0%E9%80%9Fpip%E5%AE%89%E8%A3%85.html">使用国内 pypi 源加速 pip 安装</a></h1>
     <div class="post_at_index">
       <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/mxb19.png" alt="image" /></p>
@@ -1278,235 +1364,6 @@ pause
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2017/04/CentOS%E5%A2%9E%E5%8A%A0%E6%96%B0%E7%A1%AC%E7%9B%98%E7%BB%99%E6%A0%B9%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%89%A9%E5%AE%B9.html">CentOS 增加新硬盘给根文件系统扩容</a></h1>
-    <div class="post_at_index">
-      <p>由于刚开始做磁盘空间规划时，失误给根分区分配磁盘较小，导致后续实验环境无法进行，所以在经过研究后，决定尝试增加根分区的磁盘空间，注意这仅适用于创建在 LVM 上的文件系统。</p>
-
-<h2 id="实验环境">实验环境</h2>
-
-<ul>
-  <li>Parallels Desktop 12</li>
-  <li>CentOS 6.9</li>
-  <li>根分区空间 6.5GB</li>
-  <li>已使用 5.8GB</li>
-  <li>预计 增加 12G 磁盘空间</li>
-</ul>
-
-<!-- more -->
-
-<h2 id="增加一块物理磁盘">增加一块物理磁盘</h2>
-
-<p>Parallels Desktop 不能在线增加磁盘，所以要先将 VM 关闭，然后添加：
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/m5e1d.jpg" alt="image" />
-增加 12G 的磁盘
-<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/prgyd.jpg" alt="image" /></p>
-
-<p>然后启动 VM，这时可以通过<code class="language-plaintext highlighter-rouge">fdisk -l</code>查看当前已经增加了一块 12G 的磁盘</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/tat9r.jpg" alt="image" /></p>
-
-<h2 id="格式化磁盘并加入到-vgroup-组内">格式化磁盘并加入到 VGroup 组内</h2>
-
-<h3 id="查看当前pvdisplay磁盘列表将devsdb创建-pv-块">查看当前<code class="language-plaintext highlighter-rouge">pvdisplay</code>磁盘列表，将<code class="language-plaintext highlighter-rouge">/dev/sdb</code>创建 pv 块</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# pvdisplay
-  <span class="nt">---</span> Physical volume <span class="nt">---</span>
-  PV Name               /dev/sda2
-  VG Name               vg_hadoop01
-  PV Size               7.51 GiB / not usable 3.00 MiB
-  Allocatable           <span class="nb">yes</span> <span class="o">(</span>but full<span class="o">)</span>
-  PE Size               4.00 MiB
-  Total PE              1922
-  Free PE               0
-  Allocated PE          1922
-  PV UUID               MUCrDa-eJpZ-EXwE-YwwM-S2Az-p2m7-K9q3Fo
-
-<span class="o">[</span>root@centos ~]# pvcreate /dev/sdb
-  Physical volume <span class="s2">"/dev/sdb"</span> successfully created
-<span class="o">[</span>root@centos ~]# pvdisplay
-  <span class="nt">---</span> Physical volume <span class="nt">---</span>
-  PV Name               /dev/sda2
-  VG Name               vg_hadoop01
-  PV Size               7.51 GiB / not usable 3.00 MiB
-  Allocatable           <span class="nb">yes</span> <span class="o">(</span>but full<span class="o">)</span>
-  PE Size               4.00 MiB
-  Total PE              1922
-  Free PE               0
-  Allocated PE          1922
-  PV UUID               MUCrDa-eJpZ-EXwE-YwwM-S2Az-p2m7-K9q3Fo
-
-  <span class="nt">---</span> Physical volume <span class="nt">---</span>
-  PV Name               /dev/sdb
-  VG Name               vg_hadoop01
-  PV Size               12.00 GiB / not usable 4.00 MiB
-  Allocatable           <span class="nb">yes
-  </span>PE Size               4.00 MiB
-  Total PE              3071
-  Free PE               3071
-  Allocated PE          0
-  PV UUID               XTpaBR-512W-vQIV-fwwz-So7L-ZCa3-yjDccQ
-</code></pre></div></div>
-
-<h3 id="查看当前vgdisplayvgroup-组将devsdb加入根目录所在-vgroup">查看当前<code class="language-plaintext highlighter-rouge">vgdisplay</code>VGroup 组，将<code class="language-plaintext highlighter-rouge">/dev/sdb</code>加入根目录所在 VGroup</h3>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# vgdisplay
-  <span class="nt">---</span> Volume group <span class="nt">---</span>
-  VG Name               vg_hadoop01
-  System ID
-  Format                lvm2
-  Metadata Areas        1
-  Metadata Sequence No  3
-  VG Access             <span class="nb">read</span>/write
-  VG Status             resizable
-  MAX LV                0
-  Cur LV                2
-  Open LV               2
-  Max PV                0
-  Cur PV                1
-  Act PV                1
-  VG Size               7.51 GiB
-  PE Size               4.00 MiB
-  Total PE              1922
-  Alloc PE / Size       1922 / 7.51 GiB
-  Free  PE / Size       0 / 0
-  VG UUID               szQ4fH-Sr1Z-V6c2-KVMp-ZUik-oUDP-rU8dQS
-
-<span class="o">[</span>root@centos ~]# vgextend vg_hadoop01 /dev/sdb
-  Volume group <span class="s2">"vg_hadoop01"</span> successfully extended
-<span class="o">[</span>root@centos ~]# vgdisplay
-  <span class="nt">---</span> Volume group <span class="nt">---</span>
-  VG Name               vg_hadoop01
-  System ID
-  Format                lvm2
-  Metadata Areas        2
-  Metadata Sequence No  4
-  VG Access             <span class="nb">read</span>/write
-  VG Status             resizable
-  MAX LV                0
-  Cur LV                2
-  Open LV               2
-  Max PV                0
-  Cur PV                2
-  Act PV                2
-  VG Size               19.50 GiB
-  PE Size               4.00 MiB
-  Total PE              4993
-  Alloc PE / Size       1922 / 7.51 GiB
-  Free  PE / Size       3071 / 12.00 GiB
-  VG UUID               szQ4fH-Sr1Z-V6c2-KVMp-ZUik-oUDP-rU8dQS
-</code></pre></div></div>
-
-<h3 id="查看lvdisplay根卷的名称将磁盘加入根卷的-lv">查看<code class="language-plaintext highlighter-rouge">lvdisplay</code>根卷的名称，将磁盘加入根卷的 LV</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# lvdisplay
-  <span class="nt">---</span> Logical volume <span class="nt">---</span>
-  LV Path                /dev/vg_hadoop01/lv_root
-  LV Name                lv_root
-  VG Name                vg_hadoop01
-  LV UUID                tJDetu-Theq-BQ5g-3ZFe-Gan7-1SSv-OHeYrH
-  LV Write Access        <span class="nb">read</span>/write
-  LV Creation host, <span class="nb">time </span>hadoop01, 2017-04-18 07:09:58 +0800
-  LV Status              available
-  <span class="c"># open                 1</span>
-  LV Size                6.71 GiB
-  Current LE             1718
-  Segments               1
-  Allocation             inherit
-  Read ahead sectors     auto
-  - currently <span class="nb">set </span>to     256
-  Block device           253:0
-
-  <span class="nt">---</span> Logical volume <span class="nt">---</span>
-  LV Path                /dev/vg_hadoop01/lv_swap
-  LV Name                lv_swap
-  VG Name                vg_hadoop01
-  LV UUID                D4K7I6-tPO0-HMbC-VWkR-2HV4-WjAe-M82wYq
-  LV Write Access        <span class="nb">read</span>/write
-  LV Creation host, <span class="nb">time </span>hadoop01, 2017-04-18 07:09:59 +0800
-  LV Status              available
-  <span class="c"># open                 1</span>
-  LV Size                816.00 MiB
-  Current LE             204
-  Segments               1
-  Allocation             inherit
-  Read ahead sectors     auto
-  - currently <span class="nb">set </span>to     256
-  Block device           253:1
-
-<span class="o">[</span>root@centos ~]# lvextend <span class="nt">-l</span> +100%FREE /dev/vg_hadoop01/lv_root
-  Size of logical volume vg_hadoop01/lv_root changed from 6.71 GiB <span class="o">(</span>1718 extents<span class="o">)</span> to 18.71 GiB <span class="o">(</span>4789 extents<span class="o">)</span><span class="nb">.</span>
-  Logical volume lv_root successfully resized.
-<span class="o">[</span>root@centos ~]# lvdisplay
-  <span class="nt">---</span> Logical volume <span class="nt">---</span>
-  LV Path                /dev/vg_hadoop01/lv_root
-  LV Name                lv_root
-  VG Name                vg_hadoop01
-  LV UUID                tJDetu-Theq-BQ5g-3ZFe-Gan7-1SSv-OHeYrH
-  LV Write Access        <span class="nb">read</span>/write
-  LV Creation host, <span class="nb">time </span>hadoop01, 2017-04-18 07:09:58 +0800
-  LV Status              available
-  <span class="c"># open                 1</span>
-  LV Size                18.71 GiB
-  Current LE             4789
-  Segments               2
-  Allocation             inherit
-  Read ahead sectors     auto
-  - currently <span class="nb">set </span>to     256
-  Block device           253:0
-
-  <span class="nt">---</span> Logical volume <span class="nt">---</span>
-  LV Path                /dev/vg_hadoop01/lv_swap
-  LV Name                lv_swap
-  VG Name                vg_hadoop01
-  LV UUID                D4K7I6-tPO0-HMbC-VWkR-2HV4-WjAe-M82wYq
-  LV Write Access        <span class="nb">read</span>/write
-  LV Creation host, <span class="nb">time </span>hadoop01, 2017-04-18 07:09:59 +0800
-  LV Status              available
-  <span class="c"># open                 1</span>
-  LV Size                816.00 MiB
-  Current LE             204
-  Segments               1
-  Allocation             inherit
-  Read ahead sectors     auto
-  - currently <span class="nb">set </span>to     256
-  Block device           253:1
-</code></pre></div></div>
-
-<h2 id="更新磁盘分区表">更新磁盘分区表</h2>
-
-<p>当你增加完成之后，这时使用<code class="language-plaintext highlighter-rouge">df -h</code>查看的磁盘空间仍然没有变化，因为我们还需要将根卷的分区表刷新。</p>
-
-<h3 id="使用resize2fs刷新根卷信息">使用<code class="language-plaintext highlighter-rouge">resize2fs</code>刷新根卷信息</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# resize2fs /dev/vg_hadoop01/lv_root
-resize2fs 1.41.12 <span class="o">(</span>17-May-2010<span class="o">)</span>
-Filesystem at /dev/vg_hadoop01/lv_root is mounted on /<span class="p">;</span> on-line resizing required
-old desc_blocks <span class="o">=</span> 1, new_desc_blocks <span class="o">=</span> 2
-Performing an on-line resize of /dev/vg_hadoop01/lv_root to 4903936 <span class="o">(</span>4k<span class="o">)</span> blocks.
-The filesystem on /dev/vg_hadoop01/lv_root is now 4903936 blocks long.
-
-<span class="o">[</span>root@centos ~]# <span class="nb">df</span> <span class="nt">-h</span>
-Filesystem            Size  Used Avail Use% Mounted on
-/dev/mapper/vg_hadoop01-lv_root
-                       19G  5.8G   12G  33% /
-tmpfs                 244M     0  244M   0% /dev/shm
-/dev/sda1             477M   52M  400M  12% /boot
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-04-18</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#LVM">LVM</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1676,6 +1533,11 @@ tmpfs                 244M     0  244M   0% /dev/shm
       <li><a href="/categories.html#DaoCloud Enterprise">
     		DaoCloud Enterprise <span>2</span>
     	</a></li>
+     
+    	
+      <li><a href="/categories.html#春松客服">
+    		春松客服 <span>1</span>
+    	</a></li>
     
   
 
@@ -1686,6 +1548,13 @@ tmpfs                 244M     0  244M   0% /dev/shm
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
+          项目起源
+
+
+        </li>
         
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
@@ -1714,15 +1583,6 @@ tmpfs                 244M     0  244M   0% /dev/shm
           <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
           ```python
 df = pandas.read_csv(‘somefile.txt’)
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
-          
-  暗坑很多
-
 
 
         </li>

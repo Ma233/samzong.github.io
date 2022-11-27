@@ -280,6 +280,86 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2020/12/python-%E5%AE%8C%E6%88%90%E6%8A%96%E5%BA%97API%E6%8E%88%E6%9D%83.html">python 完成抖店 API 授权</a></h1>
+    <div class="post_at_index">
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="c1"># 替换 app_key, app_secret
+</span><span class="n">app_key</span> <span class="o">=</span> <span class="s">"1122233333444555"</span>
+<span class="n">app_secret</span> <span class="o">=</span> <span class="s">"beddee55a0-reerw2452ff4-5deeweec2d7faf1"</span>
+
+<span class="n">current_time</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()))</span>
+<span class="n">timestamp</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="p">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">current_time</span><span class="p">()))</span>
+<span class="n">param_json</span> <span class="o">=</span> <span class="s">"{</span><span class="se">\"</span><span class="s">page</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">0</span><span class="se">\"</span><span class="s">,</span><span class="se">\"</span><span class="s">size</span><span class="se">\"</span><span class="s">:</span><span class="se">\"</span><span class="s">10</span><span class="se">\"</span><span class="s">}"</span>
+<span class="n">method</span> <span class="o">=</span> <span class="s">"product.list"</span>
+<span class="n">v</span> <span class="o">=</span> <span class="s">"2"</span>
+
+
+<span class="k">def</span> <span class="nf">access_token</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">"https://openapi-fxg.jinritemai.com/oauth2/access_token?app_id="</span> <span class="o">+</span> <span class="n">app_key</span> <span class="o">+</span> <span class="s">"&amp;app_secret="</span> <span class="o">+</span> <span class="n">app_secret</span> <span class="o">+</span> <span class="s">"&amp;grant_type=authorization_self"</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">req</span><span class="p">.</span><span class="n">json</span><span class="p">()[</span><span class="s">'data'</span><span class="p">][</span><span class="s">'access_token'</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">sign</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">):</span>
+    <span class="c1"># 请按照顺序拼装 app_secret,app_key,method,param_json,timestamp,v,app_secret
+</span>    <span class="nb">str</span> <span class="o">=</span> <span class="n">app_secret</span> <span class="o">+</span> <span class="s">"app_key"</span> <span class="o">+</span> <span class="n">app_key</span> <span class="o">+</span> <span class="s">"method"</span> <span class="o">+</span> <span class="n">method</span> <span class="o">+</span> <span class="s">"param_json"</span> <span class="o">+</span> <span class="n">param_json</span> <span class="o">+</span> <span class="s">"timestamp"</span> <span class="o">+</span> <span class="n">timestamp</span> <span class="o">+</span> <span class="s">"v"</span> <span class="o">+</span> <span class="n">v</span> <span class="o">+</span> <span class="n">app_secret</span>
+
+    <span class="c1"># sha256
+</span>    <span class="n">code</span> <span class="o">=</span> <span class="n">hashlib</span><span class="p">.</span><span class="n">sha256</span><span class="p">(</span><span class="nb">str</span><span class="p">.</span><span class="n">encode</span><span class="p">()).</span><span class="n">hexdigest</span><span class="p">()</span>
+
+    <span class="c1"># md5
+</span>    <span class="c1"># code = hashlib.md5(str.encode()).hexdigest()
+</span>
+    <span class="k">return</span> <span class="n">code</span>
+
+
+<span class="k">def</span> <span class="nf">testItem</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s">"https://openapi-fxg.jinritemai.com/product/list"</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">access_token</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">)</span>
+    <span class="n">sign_code</span> <span class="o">=</span> <span class="n">sign</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span>
+
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"method"</span><span class="p">:</span> <span class="n">method</span><span class="p">,</span>
+        <span class="s">"app_key"</span><span class="p">:</span> <span class="n">app_key</span><span class="p">,</span>
+        <span class="s">"access_token"</span><span class="p">:</span> <span class="n">token</span><span class="p">,</span>
+        <span class="s">"param_json"</span><span class="p">:</span> <span class="n">param_json</span><span class="p">,</span>
+        <span class="s">"timestamp"</span><span class="p">:</span> <span class="n">timestamp</span><span class="p">,</span>
+        <span class="s">"v"</span><span class="p">:</span> <span class="n">v</span><span class="p">,</span>
+        <span class="s">"sign"</span><span class="p">:</span> <span class="n">sign_code</span><span class="p">,</span>
+        <span class="s">"sign_method"</span><span class="p">:</span> <span class="s">"hmac-sha256"</span>  <span class="c1"># 如果 sign 算法类型是 md5, 这里需要输入 md5
+</span>    <span class="p">}</span>
+
+    <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">req</span><span class="p">.</span><span class="n">status_code</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"access_token: '{}'"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">access_token</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"sign: '{}'"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">sign</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"sign test status: '{}'"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">testItem</span><span class="p">(</span><span class="n">app_key</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">)))</span>
+
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-12-08</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2020/12/python3-str-%E5%8E%BB%E9%99%A4%E7%89%B9%E5%AE%9A%E5%86%85%E5%AE%B9.html">python3 str 去除特定内容</a></h1>
     <div class="post_at_index">
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">string</span>
@@ -812,39 +892,6 @@ python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2020/11/Django-%E4%BF%AE%E6%94%B9modules%E6%97%B6%E5%87%BA%E9%94%99.html">Django 修改 modules 时出错</a></h1>
-    <div class="post_at_index">
-      <h2 id="djangodbutilsintegrityerror-not-null-constraint-failed">django.db.utils.IntegrityError: NOT NULL constraint failed</h2>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span> <span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">migrate</span> 
-<span class="n">错误</span><span class="err">：</span><span class="n">django</span><span class="p">.</span><span class="n">db</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">IntegrityError</span><span class="p">:</span> <span class="n">NOT</span> <span class="n">NULL</span> <span class="n">constraint</span> <span class="n">failed</span>
-
-<span class="c1"># 在执行 migrate 遇到了以上错误，但实际上已经把错误添加的字段给移除后重新 makemigrations
-</span>
-<span class="c1"># 解决办法
-</span>
-<span class="n">删除</span> <span class="n">migrations</span> <span class="n">中对应生成的</span> <span class="sb">`0006`</span> <span class="n">文件</span>
-
-<span class="n">然后</span><span class="err">，</span><span class="n">再次运行2个命令</span>
-
-<span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">makemigrations</span>
-<span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">migrate</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2020-11-06</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1014,6 +1061,11 @@ python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号
       <li><a href="/categories.html#DaoCloud Enterprise">
     		DaoCloud Enterprise <span>2</span>
     	</a></li>
+     
+    	
+      <li><a href="/categories.html#春松客服">
+    		春松客服 <span>1</span>
+    	</a></li>
     
   
 
@@ -1024,6 +1076,13 @@ python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
+          项目起源
+
+
+        </li>
         
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
@@ -1052,15 +1111,6 @@ python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号
           <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
           ```python
 df = pandas.read_csv(‘somefile.txt’)
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
-          
-  暗坑很多
-
 
 
         </li>

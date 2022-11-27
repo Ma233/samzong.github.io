@@ -280,6 +280,235 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2017/04/CentOS%E5%A2%9E%E5%8A%A0%E6%96%B0%E7%A1%AC%E7%9B%98%E7%BB%99%E6%A0%B9%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%89%A9%E5%AE%B9.html">CentOS 增加新硬盘给根文件系统扩容</a></h1>
+    <div class="post_at_index">
+      <p>由于刚开始做磁盘空间规划时，失误给根分区分配磁盘较小，导致后续实验环境无法进行，所以在经过研究后，决定尝试增加根分区的磁盘空间，注意这仅适用于创建在 LVM 上的文件系统。</p>
+
+<h2 id="实验环境">实验环境</h2>
+
+<ul>
+  <li>Parallels Desktop 12</li>
+  <li>CentOS 6.9</li>
+  <li>根分区空间 6.5GB</li>
+  <li>已使用 5.8GB</li>
+  <li>预计 增加 12G 磁盘空间</li>
+</ul>
+
+<!-- more -->
+
+<h2 id="增加一块物理磁盘">增加一块物理磁盘</h2>
+
+<p>Parallels Desktop 不能在线增加磁盘，所以要先将 VM 关闭，然后添加：
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/m5e1d.jpg" alt="image" />
+增加 12G 的磁盘
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/prgyd.jpg" alt="image" /></p>
+
+<p>然后启动 VM，这时可以通过<code class="language-plaintext highlighter-rouge">fdisk -l</code>查看当前已经增加了一块 12G 的磁盘</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/tat9r.jpg" alt="image" /></p>
+
+<h2 id="格式化磁盘并加入到-vgroup-组内">格式化磁盘并加入到 VGroup 组内</h2>
+
+<h3 id="查看当前pvdisplay磁盘列表将devsdb创建-pv-块">查看当前<code class="language-plaintext highlighter-rouge">pvdisplay</code>磁盘列表，将<code class="language-plaintext highlighter-rouge">/dev/sdb</code>创建 pv 块</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# pvdisplay
+  <span class="nt">---</span> Physical volume <span class="nt">---</span>
+  PV Name               /dev/sda2
+  VG Name               vg_hadoop01
+  PV Size               7.51 GiB / not usable 3.00 MiB
+  Allocatable           <span class="nb">yes</span> <span class="o">(</span>but full<span class="o">)</span>
+  PE Size               4.00 MiB
+  Total PE              1922
+  Free PE               0
+  Allocated PE          1922
+  PV UUID               MUCrDa-eJpZ-EXwE-YwwM-S2Az-p2m7-K9q3Fo
+
+<span class="o">[</span>root@centos ~]# pvcreate /dev/sdb
+  Physical volume <span class="s2">"/dev/sdb"</span> successfully created
+<span class="o">[</span>root@centos ~]# pvdisplay
+  <span class="nt">---</span> Physical volume <span class="nt">---</span>
+  PV Name               /dev/sda2
+  VG Name               vg_hadoop01
+  PV Size               7.51 GiB / not usable 3.00 MiB
+  Allocatable           <span class="nb">yes</span> <span class="o">(</span>but full<span class="o">)</span>
+  PE Size               4.00 MiB
+  Total PE              1922
+  Free PE               0
+  Allocated PE          1922
+  PV UUID               MUCrDa-eJpZ-EXwE-YwwM-S2Az-p2m7-K9q3Fo
+
+  <span class="nt">---</span> Physical volume <span class="nt">---</span>
+  PV Name               /dev/sdb
+  VG Name               vg_hadoop01
+  PV Size               12.00 GiB / not usable 4.00 MiB
+  Allocatable           <span class="nb">yes
+  </span>PE Size               4.00 MiB
+  Total PE              3071
+  Free PE               3071
+  Allocated PE          0
+  PV UUID               XTpaBR-512W-vQIV-fwwz-So7L-ZCa3-yjDccQ
+</code></pre></div></div>
+
+<h3 id="查看当前vgdisplayvgroup-组将devsdb加入根目录所在-vgroup">查看当前<code class="language-plaintext highlighter-rouge">vgdisplay</code>VGroup 组，将<code class="language-plaintext highlighter-rouge">/dev/sdb</code>加入根目录所在 VGroup</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# vgdisplay
+  <span class="nt">---</span> Volume group <span class="nt">---</span>
+  VG Name               vg_hadoop01
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  3
+  VG Access             <span class="nb">read</span>/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                2
+  Open LV               2
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               7.51 GiB
+  PE Size               4.00 MiB
+  Total PE              1922
+  Alloc PE / Size       1922 / 7.51 GiB
+  Free  PE / Size       0 / 0
+  VG UUID               szQ4fH-Sr1Z-V6c2-KVMp-ZUik-oUDP-rU8dQS
+
+<span class="o">[</span>root@centos ~]# vgextend vg_hadoop01 /dev/sdb
+  Volume group <span class="s2">"vg_hadoop01"</span> successfully extended
+<span class="o">[</span>root@centos ~]# vgdisplay
+  <span class="nt">---</span> Volume group <span class="nt">---</span>
+  VG Name               vg_hadoop01
+  System ID
+  Format                lvm2
+  Metadata Areas        2
+  Metadata Sequence No  4
+  VG Access             <span class="nb">read</span>/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                2
+  Open LV               2
+  Max PV                0
+  Cur PV                2
+  Act PV                2
+  VG Size               19.50 GiB
+  PE Size               4.00 MiB
+  Total PE              4993
+  Alloc PE / Size       1922 / 7.51 GiB
+  Free  PE / Size       3071 / 12.00 GiB
+  VG UUID               szQ4fH-Sr1Z-V6c2-KVMp-ZUik-oUDP-rU8dQS
+</code></pre></div></div>
+
+<h3 id="查看lvdisplay根卷的名称将磁盘加入根卷的-lv">查看<code class="language-plaintext highlighter-rouge">lvdisplay</code>根卷的名称，将磁盘加入根卷的 LV</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# lvdisplay
+  <span class="nt">---</span> Logical volume <span class="nt">---</span>
+  LV Path                /dev/vg_hadoop01/lv_root
+  LV Name                lv_root
+  VG Name                vg_hadoop01
+  LV UUID                tJDetu-Theq-BQ5g-3ZFe-Gan7-1SSv-OHeYrH
+  LV Write Access        <span class="nb">read</span>/write
+  LV Creation host, <span class="nb">time </span>hadoop01, 2017-04-18 07:09:58 +0800
+  LV Status              available
+  <span class="c"># open                 1</span>
+  LV Size                6.71 GiB
+  Current LE             1718
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently <span class="nb">set </span>to     256
+  Block device           253:0
+
+  <span class="nt">---</span> Logical volume <span class="nt">---</span>
+  LV Path                /dev/vg_hadoop01/lv_swap
+  LV Name                lv_swap
+  VG Name                vg_hadoop01
+  LV UUID                D4K7I6-tPO0-HMbC-VWkR-2HV4-WjAe-M82wYq
+  LV Write Access        <span class="nb">read</span>/write
+  LV Creation host, <span class="nb">time </span>hadoop01, 2017-04-18 07:09:59 +0800
+  LV Status              available
+  <span class="c"># open                 1</span>
+  LV Size                816.00 MiB
+  Current LE             204
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently <span class="nb">set </span>to     256
+  Block device           253:1
+
+<span class="o">[</span>root@centos ~]# lvextend <span class="nt">-l</span> +100%FREE /dev/vg_hadoop01/lv_root
+  Size of logical volume vg_hadoop01/lv_root changed from 6.71 GiB <span class="o">(</span>1718 extents<span class="o">)</span> to 18.71 GiB <span class="o">(</span>4789 extents<span class="o">)</span><span class="nb">.</span>
+  Logical volume lv_root successfully resized.
+<span class="o">[</span>root@centos ~]# lvdisplay
+  <span class="nt">---</span> Logical volume <span class="nt">---</span>
+  LV Path                /dev/vg_hadoop01/lv_root
+  LV Name                lv_root
+  VG Name                vg_hadoop01
+  LV UUID                tJDetu-Theq-BQ5g-3ZFe-Gan7-1SSv-OHeYrH
+  LV Write Access        <span class="nb">read</span>/write
+  LV Creation host, <span class="nb">time </span>hadoop01, 2017-04-18 07:09:58 +0800
+  LV Status              available
+  <span class="c"># open                 1</span>
+  LV Size                18.71 GiB
+  Current LE             4789
+  Segments               2
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently <span class="nb">set </span>to     256
+  Block device           253:0
+
+  <span class="nt">---</span> Logical volume <span class="nt">---</span>
+  LV Path                /dev/vg_hadoop01/lv_swap
+  LV Name                lv_swap
+  VG Name                vg_hadoop01
+  LV UUID                D4K7I6-tPO0-HMbC-VWkR-2HV4-WjAe-M82wYq
+  LV Write Access        <span class="nb">read</span>/write
+  LV Creation host, <span class="nb">time </span>hadoop01, 2017-04-18 07:09:59 +0800
+  LV Status              available
+  <span class="c"># open                 1</span>
+  LV Size                816.00 MiB
+  Current LE             204
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently <span class="nb">set </span>to     256
+  Block device           253:1
+</code></pre></div></div>
+
+<h2 id="更新磁盘分区表">更新磁盘分区表</h2>
+
+<p>当你增加完成之后，这时使用<code class="language-plaintext highlighter-rouge">df -h</code>查看的磁盘空间仍然没有变化，因为我们还需要将根卷的分区表刷新。</p>
+
+<h3 id="使用resize2fs刷新根卷信息">使用<code class="language-plaintext highlighter-rouge">resize2fs</code>刷新根卷信息</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@centos ~]# resize2fs /dev/vg_hadoop01/lv_root
+resize2fs 1.41.12 <span class="o">(</span>17-May-2010<span class="o">)</span>
+Filesystem at /dev/vg_hadoop01/lv_root is mounted on /<span class="p">;</span> on-line resizing required
+old desc_blocks <span class="o">=</span> 1, new_desc_blocks <span class="o">=</span> 2
+Performing an on-line resize of /dev/vg_hadoop01/lv_root to 4903936 <span class="o">(</span>4k<span class="o">)</span> blocks.
+The filesystem on /dev/vg_hadoop01/lv_root is now 4903936 blocks long.
+
+<span class="o">[</span>root@centos ~]# <span class="nb">df</span> <span class="nt">-h</span>
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/mapper/vg_hadoop01-lv_root
+                       19G  5.8G   12G  33% /
+tmpfs                 244M     0  244M   0% /dev/shm
+/dev/sda1             477M   52M  400M  12% /boot
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-04-18</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#LVM">LVM</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2017/04/HowTo-Install-GitLab.html">HowTo Install GitLab</a></h1>
     <div class="post_at_index">
       <p>目前最为主流的在线 Git 版本控制系统可以说是非 GitHub 莫属，对于个人开发者和开源项目可以直接选择 GitHub 作为 Git 版本控制系统即可，但是，对于企业内部开发管理的 Git 版本控制系统，在对保密性有高要求时 GitHub 就不合适了，这时 GitLab 作为一个可以完全搭建在企业内部的 Git 版本控制系统，而且基本囊括了 GitHub 的所有功能。</p>
@@ -1592,75 +1821,6 @@ server {
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2017/02/HowTo-Upgrade-Your-Ghost-Version.html">HowTo Upgrade Your Ghost Version</a></h1>
-    <div class="post_at_index">
-      <h4 id="1-下载最新版的-ghost">1. 下载最新版的 Ghost</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -LOk https://ghost.org/zip/ghost-latest.zip
-</code></pre></div></div>
-
-<h4 id="2-创建临时目录并解压-ghost-latestzip-到此">2. 创建临时目录，并解压 ghost-latest.zip 到此</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir /usr/ghost-tmp
-unzip ghost-latest.zip -d /usr/ghost-tmp
-</code></pre></div></div>
-
-<h4 id="3-进入到原-ghost-目录删除-core">3. 进入到原 ghost 目录，删除 core</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd  /usr/ghost
-rm -rf core
-</code></pre></div></div>
-
-<h4 id="4进入到新版本的-ghost-临时目录">4.进入到新版本的 ghost 临时目录</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /usr/ghost-tmp
-</code></pre></div></div>
-
-<h4 id="5-拷贝所需文件到-ghost-升级目录">5. 拷贝所需文件到 ghost 升级目录</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp -R core /usr/ghost
-cp index.js *.json /usr/ghost
-</code></pre></div></div>
-
-<h4 id="6-可选-升级-casperghost-默认主题">6. (可选) 升级 casper，ghost 默认主题</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp -R content/themes/casper /usr/ghost/content/themes/
-</code></pre></div></div>
-
-<h4 id="7-切换回到-ghost-安装目录">7. 切换回到 ghost 安装目录</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd /usr/ghost
-</code></pre></div></div>
-
-<h4 id="8-修改文件目录所有者和所属组为-ghost">8. 修改文件目录所有者和所属组为 ghost</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chown -R ghost:ghost ./*
-</code></pre></div></div>
-
-<h4 id="9-重新安装环境">9. 重新安装环境</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm install --production
-</code></pre></div></div>
-
-<h4 id="10-重启-ghost">10. 重启 Ghost</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pm2 restart ghost
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-02-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Ghost">Ghost</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1830,6 +1990,11 @@ cp index.js *.json /usr/ghost
       <li><a href="/categories.html#DaoCloud Enterprise">
     		DaoCloud Enterprise <span>2</span>
     	</a></li>
+     
+    	
+      <li><a href="/categories.html#春松客服">
+    		春松客服 <span>1</span>
+    	</a></li>
     
   
 
@@ -1840,6 +2005,13 @@ cp index.js *.json /usr/ghost
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
+          项目起源
+
+
+        </li>
         
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
@@ -1868,15 +2040,6 @@ cp index.js *.json /usr/ghost
           <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
           ```python
 df = pandas.read_csv(‘somefile.txt’)
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
-          
-  暗坑很多
-
 
 
         </li>

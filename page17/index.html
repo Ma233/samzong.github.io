@@ -280,6 +280,37 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/12/%E8%A1%80%E6%88%98%E9%92%A2%E9%94%AF%E5%B2%AD.html">血战钢锯岭</a></h1>
+    <div class="post_at_index">
+      <p>历史才是最好的教科书，我们从一段又一段历史中汲取经验和教训，尽量让人生走得不去更加艰难，而这毫无疑问战争是最好的老师，最残酷的史实，人类从千百的历史中依然没能学会和平，战争，让这个世界变得满目疮痍。</p>
+
+<p>今天去看了《血战钢锯岭》，有多久没有感动到流下眼泪，很好，前半段在讲述道斯如何与军队抗争，坚守自己的信仰，信仰是个好东西，但愿你我都有。后半段战争的场面极其的血腥暴力，电影尚是如此，真实又怎样想象，人生从来没有 NG，因为真实，才最有力量；我们都喜欢甜美的故事，我也为了道斯的爱情而感动，也因战争的残酷而愤怒。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/gjt1b.jpg" alt="道斯和妻子吻别" />
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/w4nzi.jpg" alt="道斯冒着枪林弹雨拯救受伤的士兵" /></p>
+
+<p>这是我最喜欢的电影了，最让我感动的话是在军事法庭上道斯说：世界已经分崩离析，我要把它拼成原来的样子。看到这里心都碎了，这个世界上总有些人，哪怕与所有人为敌，所有人不信任，经受磨难羞辱，也坚持自己的信仰，这才是英雄；放下枪的人才是勇敢，他教会我们，我们应该成为怎样的人，不能忘记历史带给我们的伤痛，不能忘记而不是去恨，珍惜美好生活，不要战争。</p>
+
+<p>在这段时期，同样想起的是南京大屠杀，同样是二战时期日军留下的暴行，他们是魔鬼，他们终将会受到应有的惩罚；首先，我们都不能忘记，这是我们的伤痛，真实的历史远比想象的更加残酷，哪些被迫害的人，哪些南京大屠杀纪念馆的人名册，这些人是多么的绝望啊，数以千万计的道斯奋战的美好世界，怎能让战争败类去迫害，我不喜欢战争，任何一个国家。</p>
+
+<p>同样的选择给我，我会选择拿起枪，鲁迅先生说过：学医是救不了中国的，我终于不是道斯，看到咫尺近前的战友被日本人用刺刀刺死，却选择不拿起枪，我做不到；实际上，我也是一个有信仰的人，我的信仰的是我在乎的人，我愿意为了他们奋不顾身直到死亡，因为，他们是我的逆鳞啊！</p>
+
+<p>小时候，常听老人家说，要忆苦思甜，实际上应该是要铭记战争带给我们的伤痛，要铭记那段时期，勇敢的坚持的信仰，更加重要的是珍惜现在的美好。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-12-11</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/12/HowTo-Install-Python3-on-CentOS-6-x.html">HowTo Install Python3 on CentOS 6.x</a></h1>
     <div class="post_at_index">
       <p>接触过 Python2.x 与 Python3.x 的应该知道，它们二者的区别也是蛮大的，而随着 Python3.x 的盛行，越来越多的应用运行与 Python3.x 的环境之上，但是我们的 CentOS 的系列，目前都默认安装时 Python2.x（CentOS 7.x 也是），所以不得不我们需要自己行动手安装 Python 3.x 的环境。</p>
@@ -1471,77 +1502,6 @@ DAEMON_PURGE <span class="o">=</span> 1h
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/11/MySQL-5-%E6%B8%85%E7%A9%BA%E8%A1%A8%E5%91%BD%E4%BB%A4%E4%B9%8B-truncate%E4%B8%8Edelete%E5%8C%BA%E5%88%AB.html">MySQL 清空表命令之：truncate 与 delete 区别</a></h1>
-    <div class="post_at_index">
-      <p>在实际工作中，有时我们会想要去清空一张表的所有数据，常用的命令有 delete 和 truncate 这两个命令。</p>
-
-<h3 id="1-delete">1. delete</h3>
-
-<p>在很多情况，我们对于 delete 的应用更多，因为它支持更多的匹配模式，我们可以使用 where 条件语句，清理一些特定的数据，关于 delete 的操作，这里不做过多解释，有空就专门写写 delete 的使用和原理。delete 在清空表时，如果表内有自增 ID 的设定，那么在 delete 清空之后，再插入数据时，自增 ID 不会从 1 开始，默认会继续增加; 除非我们使用 OPTIMIZE TABLE，重置表属性；</p>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">delete</span> <span class="k">from</span> <span class="n">piwik_tmp</span><span class="p">;</span>
-<span class="n">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span> <span class="n">sec</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="2-truncate">2. truncate</h3>
-
-<p>truncate 在清空表时，会同时将自增 ID 重置，再插入新数据时会从 1 开始，而且 truncate 在清空表时，不关心表的行数，所以执行效率会高于 delete；</p>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">truncate</span> <span class="k">table</span> <span class="n">piwik_tmp</span><span class="p">;</span>
-<span class="n">Query</span> <span class="n">OK</span><span class="p">,</span> <span class="mi">0</span> <span class="k">rows</span> <span class="n">affected</span> <span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">01</span> <span class="n">sec</span><span class="p">)</span>
-
-</code></pre></div></div>
-
-<h3 id="3-释放表空间">3. 释放表空间</h3>
-
-<p>但是在 truncate 清空表数据时，myisam 的表和 innodb 的表在使用上有一定的区别；myisam 表会清空所有数据，并释放表空间，即硬盘空间会得到释放。innodb 表也会清空所有数据，但不释放表空间。Innodb 数据库对于已经删除的数据只是标记为删除，并不真正释放所占用的磁盘空间，这就导致 InnoDB 数据库文件不断增长。如果想彻底释放这些已经删除的数据，需要把数据库导出，删除 InnoDB 数据库文件，然后再导入。</p>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span> <span class="err">备份数据库：</span>
-<span class="n">mysqldump</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">p</span> <span class="c1">--quick --force --all-databases &gt; mysqldump.sql</span>
-
-<span class="o">#</span> <span class="err">停止数据库</span>
-<span class="n">service</span> <span class="n">mysqld</span> <span class="n">stop</span>
-
-<span class="o">#</span> <span class="err">删除这些大文件</span>
-<span class="n">rm</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">ibdata1</span>
-<span class="n">rm</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="k">local</span><span class="o">/</span><span class="n">mysql</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">ib_logfile</span><span class="o">*</span>
-
-<span class="o">#</span> <span class="err">手动删除除</span><span class="n">Mysql</span><span class="err">之外所有数据库文件夹，然后启动数据库</span>
-<span class="n">service</span> <span class="n">mysqld</span> <span class="k">start</span>
-
-<span class="o">#</span> <span class="err">还原数据</span>
-<span class="n">mysql</span> <span class="o">-</span><span class="n">uroot</span> <span class="o">-</span><span class="n">proot</span> <span class="o">&lt;</span> <span class="n">mysqldump</span><span class="p">.</span><span class="k">sql</span>
-</code></pre></div></div>
-
-<h3 id="4-innodb_file_per_table">4. innodb_file_per_table</h3>
-
-<p>还有一种方式是在创建数据库的时候设置 innodb_file_per_table，这样 InnoDB 会对每个表创建一个数据文件，然后只需要运行 OPTIMIZE TABLE 命令就可以释放所有已经删除的磁盘空间。</p>
-
-<h4 id="41-修改-mysql-默认配置文件">4.1 修改 mysql 默认配置文件</h4>
-
-<p>编辑 my.ini 或 my.cnf 在 innodb 段中加入 innodb_file_per_table=1 # 1 为启用，0 为禁用</p>
-
-<h4 id="42-查看修改结果">4.2 查看修改结果</h4>
-
-<p>通过 mysql 语句可以查看该变量的值：</p>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span> <span class="k">show</span> <span class="n">variables</span> <span class="k">like</span> <span class="s1">'%per_table%'</span><span class="p">;</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-11-09</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1711,6 +1671,11 @@ DAEMON_PURGE <span class="o">=</span> 1h
       <li><a href="/categories.html#DaoCloud Enterprise">
     		DaoCloud Enterprise <span>2</span>
     	</a></li>
+     
+    	
+      <li><a href="/categories.html#春松客服">
+    		春松客服 <span>1</span>
+    	</a></li>
     
   
 
@@ -1721,6 +1686,13 @@ DAEMON_PURGE <span class="o">=</span> 1h
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
+          项目起源
+
+
+        </li>
         
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
@@ -1749,15 +1721,6 @@ DAEMON_PURGE <span class="o">=</span> 1h
           <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
           ```python
 df = pandas.read_csv(‘somefile.txt’)
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
-          
-  暗坑很多
-
 
 
         </li>

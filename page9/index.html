@@ -280,6 +280,84 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2021/06/iPhone_iPad-%E4%B8%8D%E8%B6%8A%E7%8B%B1%E5%AE%89%E8%A3%85%E6%97%A7%E7%89%88%E7%A8%8B%E5%BA%8F.html">iPhone/iPad 不越狱安装旧版程序</a></h1>
+    <div class="post_at_index">
+      <h2 id="前言">前言</h2>
+
+<p>软件版本迭代是会带来新的功能和 BUG 修复，为给用户带来更好的使用体验，我也是乐于尝鲜的性格，所以在软件推出发布新版本时都会及时更新，但用户体验其实是一个玄学的话题，有时并不能给你带来更好的体验，在 iOS 上，由于苹果商店严格的管理机制导致我们在升级后，想要回退到之前版本变得十分困难。</p>
+
+<p>虾米音乐升级到 6.0 版本之后，改变很大，作为一位老虾米非常不适应，所以就瞄准了 6.0 之前的最后一个版本：5.9.4。</p>
+
+<p>解决办法是在 iTunes 下载程序时，使用抓包工具对与苹果应用商店服务器之间的请求进行分析，通过修改下载请求中程序版本识别序列号来下载旧版本。</p>
+
+<h2 id="准备">准备</h2>
+
+<p>网上较多的解决办法是使用 Fiddler+iTunes 是在 Windows 平台，因为我只有 Mac，所以用 Charles 代替 Fiddler，这里需要注意的是 iTunes 的版本，在笔者写这篇教程的前一天 iTunes 更新到 12.7，在 12.7 中有一个很大的变化移除了 App store，所以请使用低于 12.7 版本的 iTunes。</p>
+
+<h3 id="charles-安装">Charles 安装</h3>
+
+<p>对于 Charles 版本并没有特殊要求，我这边是通过 brew 安装，你也可以到 Charles 官网下载安装，Charles 是需要付费的软件，但是有 30 天免费使用期限，如果你有长期使用打算，建议购买正版授权。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/x4dkc.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<h3 id="charles-ssl-证书导入系统">Charles SSL 证书导入系统</h3>
+
+<p>从 Charles 中导出证书文件</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/v815e.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>在 KeyChain Access 中导入证书</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/883p7.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>选中导入的证书，然后右键选择 ‘Get Info’ ，设置证书信任状态</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/xoalz.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<h2 id="虾米音乐的三次下载">“虾米音乐”的三次下载</h2>
+
+<h3 id="第一次下载">第一次下载</h3>
+
+<p>打开 Charles，开启监听，然后使用搜索虾米音乐，点击 Downloads 按钮。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/6dt52.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<p>点击下载后，在 Charles 会出现监听到信息，找到一条 ‘p[xx]-buy.itunes.apple.com’ ，其中 xx 是一个随机的数字，选中它，然后右键菜单栏中勾选 ‘Enable SSL Proxying’ 和 ‘Breakpoints’ 。设置完成后，在 iTunes 下载中，清理下载记录。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/ea85i.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<h3 id="第二次下载">第二次下载</h3>
+
+<p>重新搜索虾米音乐，并点击下载按钮，这时 Charles 会弹出窗口，然后在弹出窗口的右下三个按钮中选择 ‘Execute’ ，这一步是我们请求服务器，紧接着出现的就是服务器给我们的响应，然后选择 ‘Edit Response’ - ‘XML Text’ ，然后向下滚动找到下图中的部分，这里是所有虾米音乐的版本的序列数字，但是这里没有办法直接看到版本号，越大的数字版本号越新。这里可以通过在手机 App store 中查看软件的版本记录，找到大概要回退多少个版本，然后数字从大到小找个半个序列数字记录下来，然后在下面三个按钮中选择 ‘Abort’ ，这时 iTunes 会弹出一个报错窗口，关掉即可。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/27nit.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<h3 id="第三次下载">第三次下载</h3>
+
+<p>再次重新搜索虾米音乐，并点击下载，在这次 Charles 弹出窗口中我们需要直接修改 ‘Edit Requset’ - ‘XML Text’ ，将如下图中的 ‘appExtVrsid’ 对应的值修改为，我们上一步中记录的序列数字，然后就一直在每次弹出选择时，选择 ‘Execute’ ，直到下载完成记录。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/h7zzu.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<h2 id="验证">验证</h2>
+
+<p>下载完成后，你的 iTunes App Library 中已经有了一个虾米音乐，连接上你的手机，将其安装到手机上即可，下图是我安装后的版本截图。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/ppy2m.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2021-06-25</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2021/06/Mac-%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%BD%95%E5%88%B6GiF%E5%B0%8F%E8%A7%86%E9%A2%91.html">Mac 如何快速录制 GiF 小视频</a></h1>
     <div class="post_at_index">
       <p>在平时的沟通中经常有需要用到分享一个连续的操作等，在很多时候截图不能满足我的需求，录制视频文件的话呢，文件过大，不同平台限制过多是一个很麻烦的视频，所以录制 GIF 是一个非常好的解决办法，今天给大家推荐两款软件，关于录制 GIF 和 GIF 编辑。</p>
@@ -648,26 +726,6 @@
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2021/03/%E6%88%91%E4%BB%AC%E7%94%9F%E6%B4%BB%E5%9C%A8%E5%B7%A8%E5%A4%A7%E7%9A%84%E5%B7%AE%E8%B7%9D%E9%87%8C.html">我们生活在巨大的差距里</a></h1>
-    <div class="post_at_index">
-      <ul>
-  <li>知道自己无知不是完全的无知，完全的无知是不知道自己无知的无知。</li>
-</ul>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-03-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#读书笔记">读书笔记</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -837,6 +895,11 @@
       <li><a href="/categories.html#DaoCloud Enterprise">
     		DaoCloud Enterprise <span>2</span>
     	</a></li>
+     
+    	
+      <li><a href="/categories.html#春松客服">
+    		春松客服 <span>1</span>
+    	</a></li>
     
   
 
@@ -847,6 +910,13 @@
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
+          项目起源
+
+
+        </li>
         
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
@@ -875,15 +945,6 @@
           <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
           ```python
 df = pandas.read_csv(‘somefile.txt’)
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
-          
-  暗坑很多
-
 
 
         </li>

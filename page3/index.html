@@ -280,6 +280,208 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8.html">jq 命令行 Json 处理神器</a></h1>
+    <div class="post_at_index">
+      <ul>
+  <li>
+    <p><a href="https://mozillazg.com/2018/01/jq-use-examples-cookbook.html">https://mozillazg.com/2018/01/jq-use-examples-cookbook.htm</a>-</p>
+  </li>
+  <li>
+    <p>jq 命令日常练习 <a href="https://jqplay.org/s/KhRuUFCP2h">https://jqplay.org/s/KhRuUFCP2h</a></p>
+  </li>
+</ul>
+
+<p>一个灵活的轻量级命令行 JSON 处理器</p>
+
+<h2 id="说明">说明</h2>
+
+<p>jq 是 stedolan 开发的一个轻量级的和灵活的命令行 JSON 处理器，源码请参考 <a href="https://github.com/stedolan/jq">jq 项目主页</a> 。jq 用于处理 JSON 输入，将给定过滤器应用于其 JSON 文本输入并在标准输出上将过滤器的结果生成为 JSON；最简单的过滤器是<code class="language-plaintext highlighter-rouge">.</code>，它将 jq 的输入未经修改地复制到其输出中（格式设置除外）；请注意，jq 当前仅支持 64 位双精度浮点数（IEEE754）。</p>
+
+<h2 id="安装">安装</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Debian系，如 Ubuntu</span>
+<span class="nb">sudo </span>apt-get <span class="nb">install </span>jq
+
+<span class="c"># RedHat系, 如 CentOS</span>
+yum <span class="nb">install </span>jq
+
+<span class="c"># MacOS</span>
+brew <span class="nb">install </span>jq
+</code></pre></div></div>
+
+<h2 id="语法">语法</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jq <span class="o">[</span>options] &lt;jq filter&gt; <span class="o">[</span>file...]
+jq <span class="o">[</span>options] <span class="nt">--args</span> &lt;jq filter&gt; <span class="o">[</span>strings...]
+jq <span class="o">[</span>options] <span class="nt">--jsonargs</span> &lt;jq filter&gt; <span class="o">[</span>JSON_TEXTS...]
+</code></pre></div></div>
+
+<h2 id="选项">选项</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">-c</span>               紧凑而不是漂亮的输出<span class="p">;</span>
+<span class="nt">-n</span>               使用<span class="sb">`</span>null<span class="sb">`</span>作为单个输入值<span class="p">;</span>
+<span class="nt">-e</span>               根据输出设置退出状态代码<span class="p">;</span>
+<span class="nt">-s</span>               将所有输入读取（吸取）到数组中；应用过滤器<span class="p">;</span>
+<span class="nt">-r</span>               输出原始字符串，而不是JSON文本<span class="p">;</span>
+<span class="nt">-R</span>               读取原始字符串，而不是JSON文本<span class="p">;</span>
+<span class="nt">-C</span>               为JSON着色<span class="p">;</span>
+<span class="nt">-M</span>               单色（不要为JSON着色）<span class="p">;</span>
+<span class="nt">-S</span>               在输出上排序对象的键<span class="p">;</span>
+<span class="nt">--tab</span>            使用制表符进行缩进<span class="p">;</span>
+<span class="nt">--arg</span> a v        将变量<span class="nv">$a</span>设置为value&lt;v&gt;<span class="p">;</span>
+<span class="nt">--argjson</span> a v    将变量<span class="nv">$a</span>设置为JSON value&lt;v&gt;<span class="p">;</span>
+<span class="nt">--slurpfile</span> a f  将变量<span class="nv">$a</span>设置为从&lt;f&gt;读取的JSON文本数组<span class="p">;</span>
+<span class="nt">--rawfile</span> a f    将变量<span class="nv">$a</span>设置为包含&lt;f&gt;内容的字符串<span class="p">;</span>
+<span class="nt">--args</span>           其余参数是字符串参数，而不是文件<span class="p">;</span>
+<span class="nt">--jsonargs</span>       其余的参数是JSON参数，而不是文件<span class="p">;</span>
+<span class="nt">--</span>               终止参数处理<span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="例子">例子</h2>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">.</code>: 以漂亮的方式输出</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{ "foo": { "bar": { "baz": 123 } } }'</span> | jq <span class="s1">'.'</span>
+<span class="o">{</span>
+  <span class="s2">"foo"</span>: <span class="o">{</span>
+    <span class="s2">"bar"</span>: <span class="o">{</span>
+      <span class="s2">"baz"</span>: 123
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">.foo, .foo.bar, .foo?</code>: 获取一个键的值</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{"foo": 42, "bar": "less interesting data"}'</span> | jq <span class="s1">'.foo'</span>
+42
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">.[], .[]?, .[2], .[10:15]</code>: 数组运算</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[{"name":"JSON", "good":true}, {"name":"XML", "good":false}]'</span> | jq <span class="s1">'.[1]'</span>
+<span class="o">{</span>
+  <span class="s2">"name"</span>: <span class="s2">"XML"</span>,
+  <span class="s2">"good"</span>: <span class="nb">false</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">[], {}</code>: 构造一个数组/对象</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{"user":"stedolan","titles":["JQ Primer", "More JQ"]}'</span> | jq <span class="s1">'{user, title: .titles[]}'</span>
+<span class="o">{</span>
+  <span class="s2">"user"</span>: <span class="s2">"stedolan"</span>,
+  <span class="s2">"title"</span>: <span class="s2">"JQ Primer"</span>
+<span class="o">}</span>
+<span class="o">{</span>
+  <span class="s2">"user"</span>: <span class="s2">"stedolan"</span>,
+  <span class="s2">"title"</span>: <span class="s2">"More JQ"</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">length</code>: 计算一个值的长度</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[[1,2], "string", {"a":2}, null]'</span> | jq <span class="s1">'.[] | length'</span>                                  
+2
+6
+1
+0
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">keys</code>: 取出数组中的键</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{"abc": 1, "abcd": 2, "Foo": 3}'</span> | jq <span class="s1">'keys'</span>                                        
+<span class="o">[</span>
+  <span class="s2">"Foo"</span>,
+  <span class="s2">"abc"</span>,
+  <span class="s2">"abcd"</span>
+<span class="o">]</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">,</code>: 使用多个过滤器</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'{ "foo": 42, "bar": "something else", "baz": true}'</span> | jq <span class="s1">'.foo, .bar'</span> 
+42
+<span class="s2">"something else"</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">|</code>: 通过管道将一个过滤器的输出当做下一个过滤器的输入</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[{"name":"JSON", "good":true}, {"name":"XML", "good":false}]'</span> | jq <span class="s1">'.[] | .name'</span>                                                 
+<span class="s2">"JSON"</span>
+<span class="s2">"XML"</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">select(foo)</code>: 如果 foo 返回 true，则输入保持不变</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[1,5,3,0,7]'</span> | jq <span class="s1">'map(select(. &gt;= 2))'</span>                                                    
+<span class="o">[</span>
+  5,
+  3,
+  7
+<span class="o">]</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">map(foo)</code>: 每个输入调用过滤器</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'[1,2,3]'</span> | jq <span class="s1">'map(.+1)'</span>
+<span class="o">[</span>
+  2,
+  3,
+  4
+<span class="o">]</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">if-then-else-end</code>: 条件判断</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'2'</span> | jq <span class="s1">'if . == 0 then "zero" elif . == 1 then "one" else "many" end'</span>
+<span class="s2">"many"</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">\(foo)</code>: 在字符串中插入值并进行运算</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">'42'</span> | jq <span class="s1">'"The input was \(.), which is one less than \(.+1)"'</span>          
+<span class="s2">"The input was 42, which is one less than 43"</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-07-22</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#unix command">unix command</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2022/07/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%BC%95%E6%93%8E%E7%BD%91%E5%85%B3%E8%83%BD%E5%8A%9B%E4%BB%8B%E7%BB%8D.html">微服务引擎网关能力介绍</a></h1>
     <div class="post_at_index">
       <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1656640362731-d86ebb64-4193-4e1e-8f45-7248a8d70fc3.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
@@ -1385,78 +1587,6 @@ mysql-shell                                    mysqlworkbench                   
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/05/Contour-%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5.html">Contour 设计理念</a></h1>
-    <div class="post_at_index">
-      <p>Contour 是一个第 7 层 <strong>HTTP</strong> 中间件反向代理，用于启用 Kubernetes 集群的入口。</p>
-
-<h2 id="没有目标">没有目标</h2>
-
-<ul>
-  <li>Contour 不是服务网格</li>
-  <li>Contour 也无意公开 Envoy 的所有功能或配置选项</li>
-  <li>Contour 不适用于代理第 4 层协议，例如 TCP 或 UDP，除非它们需要传递 HTTP。</li>
-</ul>
-
-<blockquote>
-  <p>因此，TCP 代理是可用的，但希望代理用于通过 HTTPS。将来可能会添加一些 UDP 支持，以便我们可以支持使用 UDP 作为传输的 QUIC。使用 Contour 代理原始 TCP 或 UDP 流量可能有效，但不是预期用途</p>
-</blockquote>
-
-<h2 id="最终用户">最终用户</h2>
-
-<h3 id="集群管理员">集群管理员</h3>
-
-<p>集群管理员负责 Kubernetes 集群的运行状况和运行。他们负责与外部世界的连接、TLS 秘密管理和 DNS 等。他们负责安装 Contour 和 Envoy、这些应用程序的软件生命周期以及 Contour 应用程序配置</p>
-
-<h3 id="应用程序开发人员">应用程序开发人员</h3>
-
-<p>应用程序开发人员是希望在 Kubernetes 集群上部署 Web 应用程序或微服务工作负载的人，并且对集群的访问权限少于管理员。它们通过创建 Contour 可以理解的类型的 Kubernetes 对象与 Contour 进行交互，并且除了对这些对象的影响之外，它们与 Contour 本身没有交互。</p>
-
-<h2 id="意见评价">意见/评价</h2>
-
-<p>Contour 是一个有着专一的项目。我们认为 Contour 的很大一部分价值在于它专精的方法。我们相信这种方式可以让我们编写更好的软件来满足维护者和用户的需求</p>
-
-<h3 id="合理的默认值">合理的默认值</h3>
-
-<p>互联网中的许多项目提供了广泛的配置范围。总的来说，这是一件好事。大多数项目都是由几乎没有机构来运营的。因此必须可以在运行时进行配置。然而，这种做法已经演变为 <strong>如果某些东西可以配置，那么它应该是可配置的。</strong></p>
-
-<blockquote>
-  <p>Contour 的设计理念，尽可能使用 Envoy 的配置参数，不会过多的增加配置，而是根据实际需要的用户做出取舍。</p>
-</blockquote>
-
-<p>Contour 的立场是，当 Envoy 配置参数有合理的默认值时，Contour 将无条件地应用它。过去，我们通过无条件压缩 HTTP 响应主体、禁止 TLS/1.0、选择激进的密码套件等来使用此位置。
-如果我们无法找到普遍接受的值，Contour 将为管理员或开发人员提供一种方法来提供他们选择的值作为最后的手段。在该项目的历史上，第二种情况很少发生。通常，由更改特定参数的愿望引发的讨论导致对 Contour 的使用方式有更深入的了解，否则不会发生这种情况。</p>
-
-<h2 id="明确的功能范围定义">明确的功能范围定义</h2>
-
-<p><strong>Kubernetes 集群上 HTTP 工作负载的反向代理实现</strong>。Contour 对 TCP 代理的有限支持仅用于 Contour 支持希望直接处理 TLS 的 Web 应用程序。</p>
-
-<h3 id="应用程序开发人员或集群管理员可以支持每个功能">应用程序开发人员或集群管理员可以支持每个功能</h3>
-
-<p>对于我们添加的每个功能，我们都必须有一个问题的答案——最终用户能否在无需升级到 Contour 维护人员的情况下调试此功能中的故障？
-如果涉及第三方组件，我们如何将应用程序开发人员连接到失败的组件，以使他们在无需我们调解的情况下彼此作为第一方知道对方？
-这意味着我们更愿意避免添加客户无法自行调试的功能——即使是他们的系统出了问题。
-在添加验证功能时，我们会在设计空间方面犯错，即使它不是最完整的，也要尽快给客户反馈；即，由 api 服务器强制执行的 CRD 验证优于对象上的状态字段。
-在设计 Kubernetes 对象时，我们尝试将信息尽可能靠近需要它的对象公开。例如，我们将确保 HTTPProxy 对象具有状态条件，告诉创建它们的用户是否存在问题，而不仅仅是从 Contour 本身记录该信息。</p>
-
-<h3 id="我们在用户所在的地方与他们会面">我们在用户所在的地方与他们会面</h3>
-
-<p>Contour 目前支持 Ingress、HTTPproxy 和 Kubernetes Gateway API。我们不要求用户选择他们想要使用的入口 API，相反，我们会考虑为任何请求的类型提供支持，以满足任何地方的用户。
-这个目标与最小表面积的目标相冲突，但我们意识到将我们所有的用户引导到仅在 Contour 中实现的 API 不利于他们的互操作性，并限制了我们的总目标市场。这个目标的想法是，我们会在新的入口类型可用时深思熟虑地考虑它们，如果我们认为这是一个好主意，就将它们添加进去。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-05-11</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Contour">Contour</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1624,6 +1754,11 @@ mysql-shell                                    mysqlworkbench                   
       <li><a href="/categories.html#DaoCloud Enterprise">
     		DaoCloud Enterprise <span>2</span>
     	</a></li>
+     
+    	
+      <li><a href="/categories.html#春松客服">
+    		春松客服 <span>1</span>
+    	</a></li>
     
   
 
@@ -1634,6 +1769,13 @@ mysql-shell                                    mysqlworkbench                   
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
+          项目起源
+
+
+        </li>
         
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
@@ -1662,15 +1804,6 @@ mysql-shell                                    mysqlworkbench                   
           <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
           ```python
 df = pandas.read_csv(‘somefile.txt’)
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
-          
-  暗坑很多
-
 
 
         </li>

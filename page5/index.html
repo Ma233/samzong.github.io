@@ -280,6 +280,112 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2022/04/Kubernetes-%E9%83%A8%E7%BD%B2%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3%E6%B1%87%E6%80%BB.html">Kubernetes 部署错误解决汇总</a></h1>
+    <div class="post_at_index">
+      <h3 id="1-kubeadm-init失败提示-kubelet-启动失败或-不健康">1. <code class="language-plaintext highlighter-rouge">kubeadm init</code>失败，提示 kubelet 启动失败或 不健康</h3>
+
+<p>解决思路：</p>
+
+<ul>
+  <li>systemctl status kubelet 查看当前状态</li>
+  <li>通过 journalctl -xeu kubelet 查看 启动时的错误原因，得到错误原因如下</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@master1:~# journalctl <span class="nt">-xeu</span> kubelet
+<span class="nt">--</span> Subject: A stop job <span class="k">for </span>unit kubelet.service has finished
+<span class="nt">--</span> Defined-By: systemd
+<span class="nt">--</span> Support: http://www.ubuntu.com/support
+<span class="nt">--</span>
+<span class="nt">--</span> A stop job <span class="k">for </span>unit kubelet.service has finished.
+<span class="nt">--</span>
+<span class="nt">--</span> The job identifier is 33099 and the job result is <span class="k">done</span><span class="nb">.</span>
+Apr 21 00:55:30 master1 systemd[1]: Started kubelet: The Kubernetes Node Agent.
+<span class="nt">--</span> Subject: A start job <span class="k">for </span>unit kubelet.service has finished successfully
+<span class="nt">--</span> Defined-By: systemd
+<span class="nt">--</span> Support: http://www.ubuntu.com/support
+<span class="nt">--</span>
+<span class="nt">--</span> A start job <span class="k">for </span>unit kubelet.service has finished successfully.
+<span class="nt">--</span>
+<span class="nt">--</span> The job identifier is 33099.
+Apr 21 00:55:30 master1 kubelet[13732]: Flag <span class="nt">--network-plugin</span> has been deprecated, will be removed along with dockershim.
+Apr 21 00:55:30 master1 kubelet[13732]: Flag <span class="nt">--network-plugin</span> has been deprecated, will be removed along with dockershim.
+Apr 21 00:55:30 master1 kubelet[13732]: I0421 00:55:30.937042   13732 server.go:446] <span class="s2">"Kubelet version"</span> <span class="nv">kubeletVersion</span><span class="o">=</span><span class="s2">"v1.23.5"</span>
+Apr 21 00:55:30 master1 kubelet[13732]: I0421 00:55:30.937252   13732 server.go:874] <span class="s2">"Client rotation is on, will bootstrap in background"</span>
+Apr 21 00:55:30 master1 kubelet[13732]: I0421 00:55:30.938245   13732 certificate_store.go:130] Loading cert/key pair from <span class="s2">"/var/lib/kubelet/pki/kubelet-client-curr&gt;
+Apr 21 00:55:30 master1 kubelet[13732]: I0421 00:55:30.938707   13732 dynamic_cafile_content.go:156] "</span>Starting controller<span class="s2">" name="</span>client-ca-bundle::/etc/kubernetes/p&gt;
+Apr 21 00:55:30 master1 kubelet[13732]: W0421 00:55:30.971257   13732 machine.go:65] Cannot <span class="nb">read </span>vendor <span class="nb">id </span>correctly, <span class="nb">set </span>empty.
+Apr 21 00:55:30 master1 kubelet[13732]: I0421 00:55:30.971823   13732 server.go:693] <span class="s2">"--cgroups-per-qos enabled, but --cgroup-root was not specified.  defaulting to&gt;
+Apr 21 00:55:30 master1 kubelet[13732]: E0421 00:55:30.971921   13732 server.go:302] "</span>Failed to run kubelet<span class="s2">" err="</span>failed to run Kubelet: running with swap on is not&gt;
+Apr 21 00:55:30 master1 systemd[1]: kubelet.service: Main process exited, <span class="nv">code</span><span class="o">=</span>exited, <span class="nv">status</span><span class="o">=</span>1/FAILURE
+<span class="nt">--</span> Subject: Unit process exited
+<span class="nt">--</span> Defined-By: systemd
+<span class="nt">--</span> Support: http://www.ubuntu.com/support
+<span class="nt">--</span>
+<span class="nt">--</span> An <span class="nv">ExecStart</span><span class="o">=</span> process belonging to unit kubelet.service has exited.
+<span class="nt">--</span>
+<span class="nt">--</span> The process<span class="s1">' exit code is '</span>exited<span class="s1">' and its exit status is 1.
+</span></code></pre></div></div>
+
+<blockquote>
+  <p>问题原因：注意看 <code class="language-plaintext highlighter-rouge">**"Failed to run kubelet"** 后面的 err原因 : err=**"failed to run Kubelet: running with swap on is not&gt;**</code></p>
+</blockquote>
+
+<p>这里是因为 主机上的 swap 还是打开的，所以导致 kubelet 启动失败；原因是：在 Kubernetes 1.22 之前，节点不支持使用虚拟内存，如果在节点上检测到虚拟内存，kubelet 将默认无法启动。</p>
+
+<blockquote>
+  <p>知识扩展</p>
+</blockquote>
+
+<ol>
+  <li>什么是 swap memory？一般称为虚拟内存，虚拟内存的作用是</li>
+</ol>
+
+<h3 id="1-多次使用-kubeadm-init时报错提示文件已存在端口被占用">1. 多次使用 <code class="language-plaintext highlighter-rouge">kubeadm init</code>时报错，提示文件已存在，端口被占用</h3>
+
+<p>错误原因：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@master1:~# kubeadm init
+<span class="o">[</span>init] Using Kubernetes version: v1.23.5
+<span class="o">[</span>preflight] Running pre-flight checks
+error execution phase preflight: <span class="o">[</span>preflight] Some fatal errors occurred:
+ <span class="o">[</span>ERROR Port-6443]: Port 6443 is <span class="k">in </span>use
+ <span class="o">[</span>ERROR Port-10259]: Port 10259 is <span class="k">in </span>use
+ <span class="o">[</span>ERROR Port-10257]: Port 10257 is <span class="k">in </span>use
+ <span class="o">[</span>ERROR FileAvailable--etc-kubernetes-manifests-kube-apiserver.yaml]: /etc/kubernetes/manifests/kube-apiserver.yaml already exists
+ <span class="o">[</span>ERROR FileAvailable--etc-kubernetes-manifests-kube-controller-manager.yaml]: /etc/kubernetes/manifests/kube-controller-manager.yaml already exists
+ <span class="o">[</span>ERROR FileAvailable--etc-kubernetes-manifests-kube-scheduler.yaml]: /etc/kubernetes/manifests/kube-scheduler.yaml already exists
+ <span class="o">[</span>ERROR FileAvailable--etc-kubernetes-manifests-etcd.yaml]: /etc/kubernetes/manifests/etcd.yaml already exists
+ <span class="o">[</span>ERROR Port-10250]: Port 10250 is <span class="k">in </span>use
+ <span class="o">[</span>ERROR Port-2379]: Port 2379 is <span class="k">in </span>use
+ <span class="o">[</span>ERROR Port-2380]: Port 2380 is <span class="k">in </span>use
+ <span class="o">[</span>ERROR DirAvailable--var-lib-etcd]: /var/lib/etcd is not empty
+<span class="o">[</span>preflight] If you know what you are doing, you can make a check non-fatal with <span class="sb">`</span><span class="nt">--ignore-preflight-errors</span><span class="o">=</span>...<span class="sb">`</span>
+To see the stack trace of this error execute with <span class="nt">--v</span><span class="o">=</span>5 or higher
+</code></pre></div></div>
+
+<h4 id="解决方法">解决方法</h4>
+
+<ul>
+  <li>需要将之前产生的文件进行清楚，一个简单的命令</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubeadm reset
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-21</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Kubernetes">Kubernetes</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2022/04/%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E7%AB%9E%E5%93%81.html">需要了解的 K8s 发行版本</a></h1>
     <div class="post_at_index">
       <h2 id="k8s-的发行版本">K8s 的发行版本</h2>
@@ -1109,68 +1215,6 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/04/awsome-telegram-bot.html">Awsome Telegram Bot</a></h1>
-    <div class="post_at_index">
-      <h2 id="关于电报群">关于电报群</h2>
-
-<p>从 2014 年开始使用电报群，在这个不存在的通讯工具中，结识不少有趣的朋友，也发现了大量有价值的群组或 BOT，可以很方便你的生活</p>
-
-<blockquote>
-  <p>P.S. 不要过分关注那些黑产、广告和色情信息，它们虽然利用了这个工具，但是也只是其中一小部分</p>
-</blockquote>
-
-<h2 id="我在电报做的事情">我在电报做的事情</h2>
-
-<ul>
-  <li>美剧、电影和图书，所以最新的资源基本在电报群出现了，远比各种关注微信公众号套娃的营销号好很多</li>
-  <li>技术群，感谢技术群里的各位大佬给的帮助，尤其感谢 Taiwan 的几个技术社群，会有人认真解答你的问题
-    <ul>
-      <li>Go/Php 各类开发群</li>
-      <li>开源软件的沟通群，在这里你可以和开发者们进行沟通，并且提供你的建议，甚至讨论 PR</li>
-    </ul>
-  </li>
-  <li>各类 BOT
-    <ul>
-      <li>Temp Mail 生成临时邮箱</li>
-      <li>资料查询</li>
-      <li>GitHub 助手</li>
-      <li>短连接</li>
-      <li>网站服务监控</li>
-    </ul>
-  </li>
-  <li>羊毛群/合租群/VPN群，这里不用详细说明</li>
-</ul>
-
-<h2 id="使用的一些技巧">使用的一些技巧</h2>
-
-<ul>
-  <li>你需要一个 !+86 的手机号，保障你与所有的网友的友好交流，可以考虑使用 G 家 Voice 买个美区号方便</li>
-  <li>DO NOT USE CHINESE ! 这会让你发现不一样的 Telegram</li>
-</ul>
-
-<h2 id="develop-in-telegram">Develop in Telegram</h2>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/7a0Bjv.png" alt="7a0Bjv" /></p>
-
-<ul>
-  <li><a href="https://telegra.ph/">telegra.ph</a> 匿名博客，Writing is Sharing ~</li>
-  <li><a href="https://core.telegram.org/bots/api">telegram.bot_api</a> 定制开发你的 webhook</li>
-</ul>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Telegram">Telegram</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1338,6 +1382,11 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
       <li><a href="/categories.html#DaoCloud Enterprise">
     		DaoCloud Enterprise <span>2</span>
     	</a></li>
+     
+    	
+      <li><a href="/categories.html#春松客服">
+    		春松客服 <span>1</span>
+    	</a></li>
     
   
 
@@ -1348,6 +1397,13 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
+          项目起源
+
+
+        </li>
         
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
@@ -1376,15 +1432,6 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
           <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
           ```python
 df = pandas.read_csv(‘somefile.txt’)
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
-          
-  暗坑很多
-
 
 
         </li>

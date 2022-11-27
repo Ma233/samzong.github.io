@@ -280,6 +280,90 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/07/HowTo-Install-Docker-on-CentOS-6-x.html">HowTo Install Docker on CentOS 6.x</a></h1>
+    <div class="post_at_index">
+      <h2 id="1-add-the-epel-repository"><strong>1. Add the EPEL Repository</strong></h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-iUvh</span> http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+</code></pre></div></div>
+
+<h2 id="2-update-your-system"><strong>2. Update your system</strong></h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum update <span class="nt">-y</span>
+</code></pre></div></div>
+
+<h2 id="3-install"><strong>3. Install</strong></h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> docker-io
+</code></pre></div></div>
+
+<h2 id="4-configure"><strong>4. Configure</strong></h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service docker start
+chkconfig docker on
+
+docker info
+</code></pre></div></div>
+
+<h2 id="5-download-a-docker-container"><strong>5. Download a Docker Container</strong></h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull centos
+</code></pre></div></div>
+
+<h2 id="6-run-a-docker-container"><strong>6. Run a Docker Container</strong></h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-i</span> <span class="nt">-t</span> centos /bin/bash
+</code></pre></div></div>
+
+<h2 id="7-find-docker-container"><strong>7. Find Docker Container</strong></h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker search ubuntu
+</code></pre></div></div>
+
+<h2 id="faq"><strong>FAQ</strong></h2>
+
+<h3 id="1-faild-to-start-docker-on-centos-6x"><strong>1. Faild to start docker on CentOS 6.x</strong></h3>
+
+<p><code class="language-plaintext highlighter-rouge">***/usr/bin/docker: relocation error: /usr/bin/docker: symbol dm_task_get_info_with_deferred_remove, version Base not defined in file libdevmapper.so.1.02 with link time reference***</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>the lib-device-mapper that you have isn<span class="s1">'t exporting a symbol ("Base") that Docker needs.
+this by upgrading lib-device-mapper to version 1.02.90.
+
+# You may have to enable the public_ol6_latest repo in order to get this package.
+sudo yum-config-manager --enable public_ol6_latest
+sudo yum install device-mapper-event-libs
+</span></code></pre></div></div>
+
+<h3 id="2-faild-to-use-docker"><strong>2. Faild to use docker</strong></h3>
+
+<p><code class="language-plaintext highlighter-rouge">***Get &lt;http:///var/run/docker.sock/v1.19/info&gt;: dial unix /var/run/docker.sock: no such file or directory. Are you trying to connect to a TLS-enabled daemon without TLS?***</code></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># this is because docker no restart ok.</span>
+
+pkill <span class="nt">-9</span> docker <span class="o">&amp;&amp;</span> service docker start
+</code></pre></div></div>
+
+<h3 id="3-howto-save-docker-run--i--t-xxx-binbash"><strong>3. HowTo save ‘docker run -i -t xxx /bin/bash’</strong></h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps <span class="nt">-l</span>
+docker commit ID newname
+docker images
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-07-07</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#CentOS">CentOS</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/07/HowTo-Install-MySQL-5-5-6-7-on-RHEL-CentOS-5-6-7.html">HowTo Install MySQL 5.5/6/7 on RHEL/CentOS 5/6/7</a></h1>
     <div class="post_at_index">
       <h2 id="install-mysql-55-on-rhelcentos-567">Install Mysql 5.5 on RHEL/CentOS 5/6/7</h2>
@@ -1109,138 +1193,6 @@ cd /var/lib/zabbix/percona/scripts/
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/05/HowTo-Install-CloudStack-4-8-on-CentOS-6-x.html">HowTo Install CloudStack 4.8 on CentOS 6.x</a></h1>
-    <div class="post_at_index">
-      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-
-<span class="c"># Install  CloudStack.sh</span>
-
-<span class="c"># setting static ip in : /etc/sysconfig/network-scripts/ifcfg-eth0</span>
-
-<span class="c"># Check Service</span>
-
-<span class="c"># Install</span>
-
-<span class="c"># hostname --fqdn</span>
-
-<span class="c"># service network restart</span>
-
-<span class="c"># trun off selinux in : /etc/selinux/config</span>
-<span class="c">#SELinux=disabed</span>
-
-<span class="c"># trun off iptables.</span>
-service iptables stop
-service ip6tables stop
-
-chkconfig iptables off
-chkconfig ip6tables off
-
-<span class="c">#NTP</span>
-yum <span class="nb">install</span> <span class="nt">-y</span> ntp
-chkconfig ntpd on
-service ntpd start
-
-<span class="c"># adding cloudstack repos</span>
-<span class="o">[</span>cloudstack]
-<span class="nv">name</span><span class="o">=</span>cloudstack
-<span class="nv">baseurl</span><span class="o">=</span>http://cloudstack.apt-get.eu/centos/6/4.5/
-<span class="nv">enabled</span><span class="o">=</span>1
-<span class="nv">gpgcheck</span><span class="o">=</span>0
-
-<span class="c">#NFS</span>
-yum <span class="nb">install</span> <span class="nt">-y</span> nfs-utils
-
-<span class="c"># /etc/exports</span>
-/secondary <span class="k">*</span><span class="o">(</span>rw,async,no_root_squash,no_subtree_check<span class="o">)</span>
-/primary <span class="k">*</span><span class="o">(</span>rw,async,no_root_squash,no_subtree_check<span class="o">)</span>
-<span class="c"># add top to /etc/sysconfig/nfs</span>
-<span class="nv">LOCKD_TCPPORT</span><span class="o">=</span>32803
-<span class="nv">LOCKD_UDPPORT</span><span class="o">=</span>32769
-<span class="nv">MOUNTD_PORT</span><span class="o">=</span>892
-<span class="nv">RQUOTAD_PORT</span><span class="o">=</span>875
-<span class="nv">STATD_PORT</span><span class="o">=</span>662
-<span class="nv">STATD_OUTGOING_PORT</span><span class="o">=</span>2020
-<span class="c"># add iptable rules to /etc/sysconfig/iptables</span>
-<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 111 <span class="nt">-j</span> ACCEPT
-<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 111 <span class="nt">-j</span> ACCEPT
-<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 2049 <span class="nt">-j</span> ACCEPT
-<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 32803 <span class="nt">-j</span> ACCEPT
-<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 32769 <span class="nt">-j</span> ACCEPT
-<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 892 <span class="nt">-j</span> ACCEPT
-<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 892 <span class="nt">-j</span> ACCEPT
-<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 875 <span class="nt">-j</span> ACCEPT
-<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 875 <span class="nt">-j</span> ACCEPT
-<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> tcp <span class="nt">--dport</span> 662 <span class="nt">-j</span> ACCEPT
-<span class="nt">-A</span> INPUT <span class="nt">-s</span> 172.16.10.0/24 <span class="nt">-m</span> state <span class="nt">--state</span> NEW <span class="nt">-p</span> udp <span class="nt">--dport</span> 662 <span class="nt">-j</span> ACCEPT
-<span class="c"># service iptables restart</span>
-service rpcbind start
-service nfs start
-chkconfig rpcbind on
-chkconfig nfs on
-
-<span class="c"># MySQL server</span>
-yum <span class="nb">install</span> <span class="nt">-y</span> mysql-server
-<span class="c"># adding configure file in /etc/my.cnf : [mysqld]</span>
-<span class="nv">innodb_rollback_on_timeout</span><span class="o">=</span>1
-<span class="nv">innodb_lock_wait_timeout</span><span class="o">=</span>600
-<span class="nv">max_connections</span><span class="o">=</span>350
-log-bin<span class="o">=</span>mysql-bin
-binlog-format <span class="o">=</span> <span class="s1">'ROW'</span>
-
-service mysqld start
-chkconfig mysqld on
-mysql_secure_installation  <span class="c"># remeber the root pass.</span>
-
-<span class="c"># Cloudstack-management</span>
-yum <span class="nt">-y</span> <span class="nb">install </span>cloudstack-management
-cloudstack-setup-databases cloud:[password]@localhost <span class="nt">--deploy-as</span><span class="o">=</span>root:[password]
-cloudstack-setup-management
-
-<span class="c">#System Template Setup</span>
-/usr/share/cloudstack-common/scripts/storage/secondary/cloud-install-sys-tmplt <span class="nt">-m</span> /secondary <span class="nt">-u</span> http://cloudstack.apt-get.eu/systemvm/4.6/systemvm64template-4.6.0-kvm.qcow2.bz2 <span class="nt">-h</span> kvm <span class="nt">-F</span>
-
-
-<span class="c"># Install kvm</span>
-yum <span class="nt">-y</span> <span class="nb">install </span>cloudstack-agent
-
-<span class="c"># qemu configuration : /etc/libvirt/qemu.conf</span>
-<span class="nv">vnc_listen</span><span class="o">=</span>0.0.0.0
-<span class="c"># Libvirt Configuration : /etc/libvirt/libvirtd.conf</span>
-listen_tls <span class="o">=</span> 0
-listen_tcp <span class="o">=</span> 1
-tcp_port <span class="o">=</span> <span class="s2">"16059"</span>
-auth_tcp <span class="o">=</span> <span class="s2">"none"</span>
-mdns_adv <span class="o">=</span> 0
-<span class="c">#  /etc/sysconfig/libvirtd</span>
-<span class="nv">LIBVIRTD_ARGS</span><span class="o">=</span><span class="s2">"--listen"</span>
-
-service libvirtd restart
-
-lsmod | <span class="nb">grep </span>kvm:
-kvm_intel              55496  0
-kvm                   337772  1 kvm_intel
-
-
-<span class="c">##### UI Setting ####</span>
-http://[ip]:8080/client
-
-
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-05-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#CloudStack">CloudStack</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1410,6 +1362,11 @@ http://[ip]:8080/client
       <li><a href="/categories.html#DaoCloud Enterprise">
     		DaoCloud Enterprise <span>2</span>
     	</a></li>
+     
+    	
+      <li><a href="/categories.html#春松客服">
+    		春松客服 <span>1</span>
+    	</a></li>
     
   
 
@@ -1420,6 +1377,13 @@ http://[ip]:8080/client
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
+          项目起源
+
+
+        </li>
         
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
@@ -1448,15 +1412,6 @@ http://[ip]:8080/client
           <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
           ```python
 df = pandas.read_csv(‘somefile.txt’)
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
-          
-  暗坑很多
-
 
 
         </li>

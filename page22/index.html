@@ -280,6 +280,48 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/04/HowTo-Install-piwik-with-nginx-on-centos-6-x.html">HowTo Install piwik with nginx on centos 6.x</a></h1>
+    <div class="post_at_index">
+      <h3 id="this-is-my-nginx-config">This is my nginx config</h3>
+
+<div class="language-conf highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">server</span> {
+ <span class="n">listen</span> <span class="n">blog</span>.<span class="n">ultraera</span>.<span class="n">org</span>:<span class="m">80</span>;
+ <span class="n">server_name</span> <span class="n">blog</span>.<span class="n">ultraera</span>.<span class="n">org</span>;
+
+ <span class="n">location</span> / {
+  <span class="n">proxy_set_header</span> <span class="n">X</span>-<span class="n">Real</span>-<span class="n">IP</span> $<span class="n">remote_addr</span>;
+  <span class="n">proxy_set_header</span> <span class="n">Host</span> $<span class="n">http_host</span>;
+  <span class="n">proxy_pass</span>   <span class="n">http</span>://<span class="m">127</span>.<span class="m">0</span>.<span class="m">0</span>.<span class="m">1</span>:<span class="m">2368</span>;
+ }
+}
+
+<span class="n">server</span> {
+ <span class="n">listen</span> <span class="n">piwik</span>.<span class="n">ultraera</span>.<span class="n">org</span>:<span class="m">80</span>;
+ <span class="n">server_name</span> <span class="n">piwik</span>.<span class="n">ultraera</span>.<span class="n">org</span>;
+
+ <span class="n">location</span> / {
+  <span class="n">proxy_set_header</span> <span class="n">X</span>-<span class="n">Real</span>-<span class="n">IP</span> $<span class="n">remote_addr</span>;
+  <span class="n">proxy_set_header</span> <span class="n">Host</span> $<span class="n">http_host</span>;
+  <span class="n">proxy_pass</span>   <span class="n">http</span>://<span class="m">127</span>.<span class="m">0</span>.<span class="m">0</span>.<span class="m">1</span>:<span class="m">2080</span>;
+ }
+}
+
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-04-27</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Piwik">Piwik</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/04/%E4%BD%BF%E7%94%A8SoureceTree%E7%AE%A1%E7%90%86%E4%BD%A0%E7%9A%84git%E9%A1%B9%E7%9B%AE.html">使用 SoureceTree 管理你的 git 项目</a></h1>
     <div class="post_at_index">
       <h2 id="update">Update</h2>
@@ -1485,158 +1527,6 @@ sftp&gt;
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/03/MySQL-6-%E5%88%A9%E7%94%A8Linux%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1%E5%AE%9A%E6%97%B6%E5%90%8C%E6%AD%A5MySQL.html">利用 Linux 计划任务定时同步 MySQL</a></h1>
-    <div class="post_at_index">
-      <p>说下实际项目场景，公司一个应用已部署主从数据库，业务也正式上线；现在客户公司领导希望可以看到每天的业务数据报表，本设定直接到从库拿数据，然后进行数据处理，生成报表，但是 Java 同事提出需求新增用户和权限表，这样一来，如果直接使用生产库的表会导致后台系统管理人员与领导的账户和权限混淆，经过讨论决定，按照生产库的表结构新增特殊用户表和权限表；这样操作实际是可以在从库上新增表单，且不影响主从库之间的数据同步，但是从安全性的考虑，新增表单设计需要给用户 Insert 权限，为了保证从库只有利用主库同步写入数据，则只能给其他用户 select 权限。</p>
-
-<p><strong>最终决定，因为报表系统的使用率低，直接在报表系统的服务器安装本地 mysql 数据库，通过计划任务定时到从库上同步数据。</strong></p>
-
-<h3 id="1-测试环境">1. 测试环境</h3>
-
-<ul>
-  <li>MacBook Pro 15’ i7 16GB</li>
-  <li>VMware Fushion 8 Pro</li>
-  <li>MySQL Version 5.6</li>
-  <li>CentOS Linux 6.x</li>
-  <li>slave Server : 172.16.102.129</li>
-  <li>local Server : 172.167.102.133</li>
-</ul>
-
-<h3 id="2-利用-mysqldump-导出-sql-文件">2. 利用 mysqldump 导出 sql 文件</h3>
-
-<p>需要注意的是，mysqldump 时会锁表，需要给 mysqldump 传递“–single-transaction”参数，可以使得 mysqldump 时不锁表，如下：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/mysqldump <span class="nt">-h</span> 172.168.102.129 <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> <span class="nt">--single-transaction</span> slave <span class="o">&gt;</span> slave.sql
-</code></pre></div></div>
-
-<h3 id="3-使用-mysql-恢复-sql-文件到数据库中">3. 使用 mysql 恢复 sql 文件到数据库中</h3>
-
-<p>需要注意的是，如果该 local server 的 slave 库中有数据表，当表名与 slave server 的表名相同时，数据表内的数据会被覆盖；如果 local server 的表在 slave.sql 中不存在，则不受影响，正是利用这个特性解决用户需求。</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/mysql <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> report &lt; /home/.mysql/slave.sql
-</code></pre></div></div>
-
-<h3 id="4-编写脚本">4. 编写脚本</h3>
-
-<p>首先在本地某一位置作为临时 sql 存储地址：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# <span class="nb">mkdir</span> /home/.mysql     <span class="c"># 这个目录可以自定义</span>
-</code></pre></div></div>
-
-<p>脚本 1：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-
-<span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H"</span><span class="sb">`</span>
-
-<span class="nb">rm</span> <span class="nt">-rf</span> /home/.mysql/<span class="k">*</span>
-
-/usr/bin/mysqldump <span class="nt">-h</span> 172.168.102.129 <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> <span class="nt">--single-transaction</span> slave <span class="o">&gt;</span> /home/.mysql/slave_<span class="nv">$TIME</span>.sql
-
-/usr/bin/mysql <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> report &lt; /home/.mysql/slave_<span class="nv">$TIME</span>.sql
-
-</code></pre></div></div>
-
-<h3 id="5-增加邮件通知功能">5. 增加邮件通知功能</h3>
-
-<p>因为前期同事需要得知备份的执行结果，所以希望数据同步成功后获得邮件提醒，这里使用 sendmail 实现，在 CentOS 里预装是没有安装 sendmail，所以我们需要安装 sendmail 服务，另外一个安装命令行邮件工具 mailx：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# yum <span class="nb">install</span> <span class="nt">-y</span> sendmail mailx
-
-......
-
-<span class="o">[</span>root@report ~]# service sendmail start
-Starting sendmail:                                         <span class="o">[</span>  OK  <span class="o">]</span>
-Starting sm-client:                                        <span class="o">[</span>  OK  <span class="o">]</span>
-<span class="o">[</span>root@report ~]# chkconfig sendmail on
-
-</code></pre></div></div>
-
-<p>完整脚本：report_sync.sh，如下：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-
-<span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H"</span><span class="sb">`</span>
-
-<span class="nb">rm</span> <span class="nt">-rf</span> /home/.mysql/<span class="k">*</span>
-
-/usr/bin/mysqldump <span class="nt">-h</span> 172.168.102.129 <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> <span class="nt">--single-transaction</span> slave <span class="o">&gt;</span> /home/.mysql/slave_<span class="nv">$TIME</span>.sql
-
-/usr/bin/mysql <span class="nt">-u</span> dbuser <span class="nt">-pdbuser</span> report &lt; /home/.mysql/slave_<span class="nv">$TIME</span>.sql
-
-<span class="c"># send mail to adminuser</span>
-<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span>
-<span class="k">then
-        </span><span class="nb">echo</span> <span class="s2">"report SQL sync is successfully. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> report-sync-successfully  hello@abc.cn
-<span class="k">else
-        </span><span class="nb">echo</span> <span class="s2">" Error Error report SQL sync is Error. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> report-sync-error  hello@abc.cn
-<span class="k">fi</span>
-
-</code></pre></div></div>
-
-<p>查看下邮件通知：
-<img src="http://blog.ultraera.org:80/content/images/2016/03/24/p01.jpg" alt="image" /></p>
-
-<h3 id="6-计划任务-crontab">6. 计划任务 crontab</h3>
-
-<p>和同事及客户沟通，确认每天 1、5、9、13、17、21 整时到从库拉去数据，Linux 选择使用 crontab 做计划任务，crontab 命令常见于 Unix 和类 Unix 的操作系统之中，用于设置周期性被执行的指令。该命令从标准输入设备读取指令，并将其存放于“crontab”文件中。通常，crontab 储存的指令被守护进程激活，crond 常常在后台运行，每一分钟检查是否有预定的作业需要执行。这类作业一般称为 cron jobs。</p>
-
-<h4 id="61-安装-crontab">6.1 安装 crontab</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# yum <span class="nb">install</span> <span class="nt">-y</span> vixie-cron
-<span class="o">[</span>root@report ~]# yum <span class="nb">install</span> <span class="nt">-y</span> crontabs
-
-说明：
-vixie-cron软件包是cron的主程序；
-crontabs软件包是用来安装、卸装、或列举用来驱动 crond 守护进程的表格的程序。
-
-cron 是linux的内置服务，但它不自动起来，可以用以下的方法启动、关闭这个服务：
-/sbin/service crond start <span class="c">#启动服务</span>
-/sbin/service crond stop <span class="c">#关闭服务</span>
-/sbin/service crond restart <span class="c">#重启服务</span>
-/sbin/service crond reload <span class="c">#重新载入配置</span>
-
-设置crond开机自启动
-<span class="o">[</span>root@report ~]# chkconfig crond on
-
-</code></pre></div></div>
-
-<h3 id="7-添加计划任务">7. 添加计划任务</h3>
-
-<p>将脚本 report_sync.sh 保存到/usr/bin下：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# <span class="nb">mv </span>report_sync.sh /usr/bin
-</code></pre></div></div>
-
-<p>增加计划任务：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@report ~]# crontab <span class="nt">-e</span>
-
-<span class="c"># add this word.</span>
-<span class="k">*</span> 1-21/4  <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/bin/report_sync.sh
-
-<span class="c"># 表示在每天的1-21时间内，每4小时执行一个脚本</span>
-
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-03-24</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#MySQL">MySQL</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
-      , 
-      <a href="/tags.html#Shell">Shell</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1806,6 +1696,11 @@ cron 是linux的内置服务，但它不自动起来，可以用以下的方法�
       <li><a href="/categories.html#DaoCloud Enterprise">
     		DaoCloud Enterprise <span>2</span>
     	</a></li>
+     
+    	
+      <li><a href="/categories.html#春松客服">
+    		春松客服 <span>1</span>
+    	</a></li>
     
   
 
@@ -1816,6 +1711,13 @@ cron 是linux的内置服务，但它不自动起来，可以用以下的方法�
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
+          项目起源
+
+
+        </li>
         
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
@@ -1844,15 +1746,6 @@ cron 是linux的内置服务，但它不自动起来，可以用以下的方法�
           <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
           ```python
 df = pandas.read_csv(‘somefile.txt’)
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a>
-          
-  暗坑很多
-
 
 
         </li>

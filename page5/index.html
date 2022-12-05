@@ -280,6 +280,106 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2022/04/GitHub-Pages-%E7%9A%84%E5%A6%99%E7%94%A8.html">GitHub Pages 的妙用</a></h1>
+    <div class="post_at_index">
+      <h2 id="本来是想好好工作的">本来是想好好工作的</h2>
+
+<p>最近换了新工作（后面找个时间好好说说），大量接触 k8s &amp; docker，开始写了比较多的 yaml 和 Dockerfile；散落在电脑上的话，还是很不方便，有个仓库管理起来的话，就会很方便了，于是有了这个项目 <a href="https://github.com/SAMZONG/k8s-yaml">samzong/k8s-yaml</a></p>
+
+<p>k8s-yaml 一开始的定义就是 public，希望给更多其他的人提供帮助，索性就再增加了一个网页吧</p>
+
+<h2 id="一分钟快速搭建网站">一分钟快速搭建网站</h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch gh-pages
+<span class="nb">echo</span> <span class="s2">"## Hello gh-pages"</span> <span class="o">&gt;</span> index.md
+git push origin gh-pages
+</code></pre></div></div>
+
+<p>eeen…. 这样就 ok！</p>
+
+<p><code class="language-plaintext highlighter-rouge">gh-pages</code> 是每个 GitHub 仓库的默认 github pages 分支，当你创建这个分支并推动到 GitHub 时，会自动触发 Pages 的构建任务，大约 30s 左右，你就会得到一个网站</p>
+
+<blockquote>
+  <p><a href="http://[github_username">http://[github_username</a>].github.io/[github_repo_name]</p>
+</blockquote>
+
+<h2 id="简单的配置">简单的配置</h2>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/X4tbDt.png?x-oss-process=image/resize,w_960,m_lfit" alt="X4tbDt" /></p>
+
+<p>上图简单指引了如何打开 GitHub Pages 的配置路径，下面对主要的几个模块进行说明：</p>
+
+<ol>
+  <li>Source  - 指定的 以那个分支作为 built 源和文件夹，默认是 gh-pages, 建议不动，统一认知</li>
+  <li>Theme Chooser - 选择对应的博客主题，大概有 10 个，都比较普通，根据自己喜好来，可以自定义，这里不展开 (Google Jekyll themes 一大堆</li>
+  <li>Custom Domain - 可以指定默认的特定的域名，需要配置 <code class="language-plaintext highlighter-rouge">/CNAME</code>，需要和这里的域名一致，同时域名解析需要配置好 CNAME</li>
+  <li>Enforce HTTPS - 启用 HTTPS，默认不启动，建议启用</li>
+</ol>
+
+<blockquote>
+  <p>CNAME 配置，将指定的域名指向到 <code class="language-plaintext highlighter-rouge">[github_username].github.io</code></p>
+</blockquote>
+
+<p>经过简单的配置，这个仓库的网站，已经完成了你想要的；在 <code class="language-plaintext highlighter-rouge">index.md</code> 内修改为你想要的内容。</p>
+
+<h2 id="高级功能结合-github-issue-的评论功能">高级功能：结合 GitHub issue 的评论功能</h2>
+
+<p>这里采用的 评论组件是 <a href="https://utteranc.es/">utterances</a>, 提供轻量级的博客评论功能，并且评论是直接创建 GitHub issue，方便管理</p>
+
+<p>这里不赘述安装细节的，比较简单，直接去看下面几个网站即可</p>
+
+<ul>
+  <li><a href="https://utteranc.es/">https://utteranc.es/</a></li>
+  <li><a href="https://roife.github.io/2021/02/12/use-utterances-for-comment/">https://roife.github.io/2021/02/12/use-utterances-for-comment/</a></li>
+  <li><a href="https://www.evanlin.com/jekyll-remove-disqus/">https://www.evanlin.com/jekyll-remove-disqus/</a></li>
+</ul>
+
+<blockquote>
+  <p>注意需要增加的文件</p>
+</blockquote>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir _layouts
+wget https://raw.githubusercontent.com/SAMZONG/k8s-yaml/gh-pages/_layouts/post.html -o _layouts/post.html
+</code></pre></div></div>
+
+<p>index.md 增加 layout 参数，追加在最顶部</p>
+
+<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">layout</span><span class="pi">:</span> <span class="s">post</span>
+<span class="nn">---</span>
+</code></pre></div></div>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add _layouts/post.html
+git add index.md
+
+git commit <span class="nt">-m</span> <span class="s2">"add comment module with utterances"</span>
+git push origin gh-pages
+</code></pre></div></div>
+
+<h2 id="end">End</h2>
+
+<p>以上就是全部的部署内容了，可以去看下我的网站和项目</p>
+
+<ul>
+  <li><a href="https://k8s-yaml.samzong.me">https://k8s-yaml.samzong.me</a></li>
+</ul>
+
+<p>如果你觉得喜欢，求 fork，求 star</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-22</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Github">Github</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2022/04/Kubernetes-%E9%83%A8%E7%BD%B2%E9%94%99%E8%AF%AF%E8%A7%A3%E5%86%B3%E6%B1%87%E6%80%BB.html">Kubernetes 部署错误解决汇总</a></h1>
     <div class="post_at_index">
       <h3 id="1-kubeadm-init失败提示-kubelet-启动失败或-不健康">1. <code class="language-plaintext highlighter-rouge">kubeadm init</code>失败，提示 kubelet 启动失败或 不健康</h3>
@@ -1095,126 +1195,6 @@ EOF
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/04/Git-%E4%BF%AE%E5%A4%8D%E5%8E%86%E5%8F%B2%E9%94%99%E8%AF%AF%E7%9A%84Author%E4%BF%A1%E6%81%AF.html">Git 修复历史错误的 Author 信息</a></h1>
-    <div class="post_at_index">
-      <h2 id="git-author-的作用">git author 的作用</h2>
-
-<p>一般情况下 git 仓库，都是通过 author 中的 <code class="language-plaintext highlighter-rouge">user.email</code> 的判定提交者的身份；而这个配置一般在新电脑上需要初始化配置，否则还是容易出错。</p>
-
-<ul>
-  <li>个人软件仓库使用了公司的 author 信息 [信息泄漏的风险]</li>
-  <li>和其他开发者使用了相同的 author 信息 [影响 commit 追踪]</li>
-</ul>
-
-<h2 id="-修改为正确的-author-信息">✅ 修改为正确的 author 信息</h2>
-
-<blockquote>
-  <p>注意修改全局需要增加 <code class="language-plaintext highlighter-rouge">--global</code> 参数</p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 修改系统默认（影响全部项目）谨慎使用
-git config <span class="nt">--global</span> user.name <span class="s2">"samzong"</span>
-git config <span class="nt">--global</span> user.email <span class="s2">"samzong.lu@gmail.com"</span>
-
-// 修改单个项目
-git config user.name <span class="s2">"samzong"</span>
-git config user.email <span class="s2">"samzong.lu@gmail.com"</span>
-</code></pre></div></div>
-
-<p>但是，通过以上的变更后，仅对后续的操作生效；所以这样可以帮助你回到正确的轨道上，但无法解决历史遗留的错误问题！</p>
-
-<p>下面我将演示如何解决这个问题</p>
-
-<h2 id="修订最近一次提交-amend">修订最近一次提交 (–amend)</h2>
-
-<p><code class="language-plaintext highlighter-rouge">git commit</code> 提供了 –amend 的参数，作用是对 commit 进行修正，如果你是最近一次提交出错，那么可以直接使用下方命令完成补救。</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 📢 注意替换 user.name &amp; user.email 为正确的选项</span>
-git commit <span class="nt">--amend</span> <span class="nt">--author</span><span class="o">=</span><span class="s2">"{user.name} &lt;{user.email}&gt;"</span>
-</code></pre></div></div>
-
-<p>以上变更完成后，你会发现最近一次的提交被修正成功了，可以使用 <code class="language-plaintext highlighter-rouge">git log -1</code> 来对比前后的 author 信息的变更；确认无误后，将你的修改推送到目标仓库中即可；</p>
-
-<blockquote>
-  <p>如果修改后的结果不满意，是可以再次修订</p>
-</blockquote>
-
-<h2 id="修改更早之前的提交-谨慎使用">修改更早之前的提交 (谨慎使用)</h2>
-
-<p>写在前面的话，如果你知道 rebase 的作用，请谨慎使用的同时记住，可以在任何过程中终止你的操作，这非常重要，使用如下命令</p>
-
-<pre><code class="language-bashe">git rebase --abort
-</code></pre>
-
-<p>如果需要修改更早之前的提交，那就需要结合 <code class="language-plaintext highlighter-rouge">git rebase</code> 的能力，来实现了</p>
-
-<blockquote>
-  <p>rebase 是个危险的操作，其产生的风险也就是目前我们要做的修改历史；<strong>仅建议在测试项目或者个人项目中使用，涉及到多人协作的开源、商业化项目谨慎使用</strong></p>
-</blockquote>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## 使用 git log 找到你想要修改的提交</span>
-git log
-</code></pre></div></div>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>commit 145a3eb180c3f45fd99c2d61cad6439177cbc319
-Author: samzong.lu &lt;samzong.lu@gmail.com&gt;
-Date:   Sun Mar 20 22:22:58 2022 +0800
-
-commit 7e04c7ebaf06b2eea1951a29b79a571090cd1d8b  <span class="o">{</span>commit_id<span class="o">}</span>
-Author: samzong.lu &lt;samzong.lu@gmail.com&gt;
-Date:   Sun Mar 20 22:19:48 2022 +0800
-</code></pre></div></div>
-
-<p>找到你想要更新的 commit_id, 然后使用 rebase 命令来进行处理</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git rebase <span class="nt">-i</span> <span class="o">{</span>commit_id<span class="o">}</span>
-</code></pre></div></div>
-
-<p>然后继续使用 <code class="language-plaintext highlighter-rouge">git commit --amend</code> 来修改 author 信息，可以增加 –no-edit 来提效，表示无需弹出修改 commit info 的窗口</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit <span class="nt">--amend</span> <span class="nt">--author</span><span class="o">=</span><span class="s2">"{user.name} &lt;{user.email}&gt;"</span>
-</code></pre></div></div>
-
-<p>最后使用 <code class="language-plaintext highlighter-rouge">git rebase --coutine</code> 继续完成剩余的提交</p>
-
-<h2 id="更高级做法-filter-branch">更高级做法 <code class="language-plaintext highlighter-rouge">filter-branch</code></h2>
-
-<p><code class="language-plaintext highlighter-rouge">filter-branch</code> 虽然被官方推荐，但也不是可以轻易使用的工具；本次的目的只是修改 author 中邮箱，所以一定要加上 <code class="language-plaintext highlighter-rouge">--commit-filter</code>，官方的脚本实例我直接 copy 在下方了</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git filter-branch <span class="nt">--commit-filter</span> <span class="s1">'
-        if [ "$GIT_AUTHOR_EMAIL" = "schacon@localhost" ];
-        then
-                GIT_AUTHOR_NAME="Scott Chacon";
-                GIT_AUTHOR_EMAIL="schacon@example.com";
-                git commit-tree "$@";
-        else
-                git commit-tree "$@";
-        fi'</span> HEAD
-</code></pre></div></div>
-
-<h2 id="push-到-repo-的注意事项">push 到 repo 的注意事项</h2>
-
-<p>注意以上的消息会导致提交包含了“它们父提交的 SHA-1 校验”和“这个命令修改历史中的每一个提交的 SHA-1 校验”，再加上修改后的 author 信息，所以在 push 时会遇到警告，可以使用下方命令强制提交</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push <span class="nt">--force</span> origin <span class="o">{</span>branch_name<span class="o">}</span>
-</code></pre></div></div>
-
-<p>在多人协作的场景可能会出现覆盖他人代码的情况，请注意协商并 fetch 分支的变更，确保最新状态</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-11</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Git">Git</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1375,7 +1355,7 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
      
     	
       <li><a href="/categories.html#Kubernetes">
-    		Kubernetes <span>14</span>
+    		Kubernetes <span>15</span>
     	</a></li>
      
     	
@@ -1397,6 +1377,13 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
+          前言
+
+
+        </li>
         
         <li>
           <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
@@ -1424,14 +1411,6 @@ Date:   Sun Mar 20 22:19:48 2022 +0800
           
   参考资料：
 
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
-          ```python
-df = pandas.read_csv(‘somefile.txt’)
 
 
         </li>

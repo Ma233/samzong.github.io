@@ -280,6 +280,126 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2022/04/Git-%E4%BF%AE%E5%A4%8D%E5%8E%86%E5%8F%B2%E9%94%99%E8%AF%AF%E7%9A%84Author%E4%BF%A1%E6%81%AF.html">Git 修复历史错误的 Author 信息</a></h1>
+    <div class="post_at_index">
+      <h2 id="git-author-的作用">git author 的作用</h2>
+
+<p>一般情况下 git 仓库，都是通过 author 中的 <code class="language-plaintext highlighter-rouge">user.email</code> 的判定提交者的身份；而这个配置一般在新电脑上需要初始化配置，否则还是容易出错。</p>
+
+<ul>
+  <li>个人软件仓库使用了公司的 author 信息 [信息泄漏的风险]</li>
+  <li>和其他开发者使用了相同的 author 信息 [影响 commit 追踪]</li>
+</ul>
+
+<h2 id="-修改为正确的-author-信息">✅ 修改为正确的 author 信息</h2>
+
+<blockquote>
+  <p>注意修改全局需要增加 <code class="language-plaintext highlighter-rouge">--global</code> 参数</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 修改系统默认（影响全部项目）谨慎使用
+git config <span class="nt">--global</span> user.name <span class="s2">"samzong"</span>
+git config <span class="nt">--global</span> user.email <span class="s2">"samzong.lu@gmail.com"</span>
+
+// 修改单个项目
+git config user.name <span class="s2">"samzong"</span>
+git config user.email <span class="s2">"samzong.lu@gmail.com"</span>
+</code></pre></div></div>
+
+<p>但是，通过以上的变更后，仅对后续的操作生效；所以这样可以帮助你回到正确的轨道上，但无法解决历史遗留的错误问题！</p>
+
+<p>下面我将演示如何解决这个问题</p>
+
+<h2 id="修订最近一次提交-amend">修订最近一次提交 (–amend)</h2>
+
+<p><code class="language-plaintext highlighter-rouge">git commit</code> 提供了 –amend 的参数，作用是对 commit 进行修正，如果你是最近一次提交出错，那么可以直接使用下方命令完成补救。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 📢 注意替换 user.name &amp; user.email 为正确的选项</span>
+git commit <span class="nt">--amend</span> <span class="nt">--author</span><span class="o">=</span><span class="s2">"{user.name} &lt;{user.email}&gt;"</span>
+</code></pre></div></div>
+
+<p>以上变更完成后，你会发现最近一次的提交被修正成功了，可以使用 <code class="language-plaintext highlighter-rouge">git log -1</code> 来对比前后的 author 信息的变更；确认无误后，将你的修改推送到目标仓库中即可；</p>
+
+<blockquote>
+  <p>如果修改后的结果不满意，是可以再次修订</p>
+</blockquote>
+
+<h2 id="修改更早之前的提交-谨慎使用">修改更早之前的提交 (谨慎使用)</h2>
+
+<p>写在前面的话，如果你知道 rebase 的作用，请谨慎使用的同时记住，可以在任何过程中终止你的操作，这非常重要，使用如下命令</p>
+
+<pre><code class="language-bashe">git rebase --abort
+</code></pre>
+
+<p>如果需要修改更早之前的提交，那就需要结合 <code class="language-plaintext highlighter-rouge">git rebase</code> 的能力，来实现了</p>
+
+<blockquote>
+  <p>rebase 是个危险的操作，其产生的风险也就是目前我们要做的修改历史；<strong>仅建议在测试项目或者个人项目中使用，涉及到多人协作的开源、商业化项目谨慎使用</strong></p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## 使用 git log 找到你想要修改的提交</span>
+git log
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>commit 145a3eb180c3f45fd99c2d61cad6439177cbc319
+Author: samzong.lu &lt;samzong.lu@gmail.com&gt;
+Date:   Sun Mar 20 22:22:58 2022 +0800
+
+commit 7e04c7ebaf06b2eea1951a29b79a571090cd1d8b  <span class="o">{</span>commit_id<span class="o">}</span>
+Author: samzong.lu &lt;samzong.lu@gmail.com&gt;
+Date:   Sun Mar 20 22:19:48 2022 +0800
+</code></pre></div></div>
+
+<p>找到你想要更新的 commit_id, 然后使用 rebase 命令来进行处理</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git rebase <span class="nt">-i</span> <span class="o">{</span>commit_id<span class="o">}</span>
+</code></pre></div></div>
+
+<p>然后继续使用 <code class="language-plaintext highlighter-rouge">git commit --amend</code> 来修改 author 信息，可以增加 –no-edit 来提效，表示无需弹出修改 commit info 的窗口</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit <span class="nt">--amend</span> <span class="nt">--author</span><span class="o">=</span><span class="s2">"{user.name} &lt;{user.email}&gt;"</span>
+</code></pre></div></div>
+
+<p>最后使用 <code class="language-plaintext highlighter-rouge">git rebase --coutine</code> 继续完成剩余的提交</p>
+
+<h2 id="更高级做法-filter-branch">更高级做法 <code class="language-plaintext highlighter-rouge">filter-branch</code></h2>
+
+<p><code class="language-plaintext highlighter-rouge">filter-branch</code> 虽然被官方推荐，但也不是可以轻易使用的工具；本次的目的只是修改 author 中邮箱，所以一定要加上 <code class="language-plaintext highlighter-rouge">--commit-filter</code>，官方的脚本实例我直接 copy 在下方了</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git filter-branch <span class="nt">--commit-filter</span> <span class="s1">'
+        if [ "$GIT_AUTHOR_EMAIL" = "schacon@localhost" ];
+        then
+                GIT_AUTHOR_NAME="Scott Chacon";
+                GIT_AUTHOR_EMAIL="schacon@example.com";
+                git commit-tree "$@";
+        else
+                git commit-tree "$@";
+        fi'</span> HEAD
+</code></pre></div></div>
+
+<h2 id="push-到-repo-的注意事项">push 到 repo 的注意事项</h2>
+
+<p>注意以上的消息会导致提交包含了“它们父提交的 SHA-1 校验”和“这个命令修改历史中的每一个提交的 SHA-1 校验”，再加上修改后的 author 信息，所以在 push 时会遇到警告，可以使用下方命令强制提交</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push <span class="nt">--force</span> origin <span class="o">{</span>branch_name<span class="o">}</span>
+</code></pre></div></div>
+
+<p>在多人协作的场景可能会出现覆盖他人代码的情况，请注意协商并 fetch 分支的变更，确保最新状态</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-11</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Git">Git</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2022/04/awsome-telegram-bot.html">Awsome Telegram Bot</a></h1>
     <div class="post_at_index">
       <h2 id="关于电报群">关于电报群</h2>
@@ -1302,69 +1422,6 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/01/ClickHouse-%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E4%BD%BF%E7%94%A8.html">ClickHouse 常用函数使用</a></h1>
-    <div class="post_at_index">
-      <h2 id="1-调整时区">1. 调整时区</h2>
-
-<p>用于调整时区为查询者的时区</p>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- clickhouse</span>
-<span class="n">toString</span><span class="p">(</span><span class="n">toDateTime</span><span class="p">(</span><span class="n">event_time</span><span class="p">),</span> <span class="s1">'Asia/Shanghai'</span><span class="p">)</span> <span class="k">AS</span> <span class="n">event_time</span>
-
-<span class="c1">-- mysql howto</span>
-<span class="k">SELECT</span>  <span class="n">CONVERT_TZ</span><span class="p">(</span><span class="s1">'2020-04-06 02:00:00'</span><span class="p">,</span><span class="s1">'UTC'</span><span class="p">,</span><span class="s1">'Asia/Hong_Kong'</span><span class="p">)</span> <span class="k">as</span> <span class="n">event_time</span>
-</code></pre></div></div>
-
-<h2 id="2-提前-json-中的字符串">2. 提前 Json 中的字符串</h2>
-
-<p>通过 <code class="language-plaintext highlighter-rouge">JSONExtractRaw</code>对多层 Json 结构的数据进行 <code class="language-plaintext highlighter-rouge">精准提取</code></p>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- clickhouse</span>
-<span class="n">JSONExtractRaw</span><span class="p">(</span><span class="n">_data</span><span class="p">,</span><span class="s1">'properties'</span><span class="p">)</span> <span class="k">as</span> <span class="n">properties</span><span class="p">,</span>
-<span class="n">JSONExtractRaw</span><span class="p">(</span><span class="n">JSONExtractRaw</span><span class="p">(</span><span class="n">_data</span><span class="p">,</span><span class="s1">'properties'</span><span class="p">),</span><span class="s1">'app_env'</span><span class="p">)</span> <span class="k">as</span> <span class="n">app_env</span>
-
-<span class="c1">-- mysql howto</span>
-<span class="n">json_extract</span><span class="p">(</span><span class="n">_data</span><span class="p">,</span><span class="s1">'$.properties'</span><span class="p">)</span> <span class="k">as</span> <span class="n">properties</span><span class="p">,</span>
-<span class="n">json_extract</span><span class="p">(</span><span class="n">json_extract</span><span class="p">(</span><span class="n">_data</span><span class="p">,</span><span class="s1">'$.properties'</span><span class="p">),</span><span class="s1">'$.app_env'</span><span class="p">)</span> <span class="k">as</span> <span class="n">app_env</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>提取字符串，然后剔除双引号 <code class="language-plaintext highlighter-rouge">""</code></p>
-</blockquote>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- clickhouse</span>
-<span class="n">JSONExtractString</span><span class="p">(</span><span class="n">JSONExtractRaw</span><span class="p">(</span><span class="n">_data</span><span class="p">,</span><span class="s1">'app_env'</span><span class="p">))</span> <span class="k">as</span> <span class="n">app_env</span>
-
-<span class="c1">-- mysql</span>
-<span class="n">json_unquote</span><span class="p">(</span><span class="n">json_extract</span><span class="p">(</span><span class="n">_data</span><span class="p">,</span><span class="s1">'$.app_env'</span><span class="p">))</span> <span class="k">as</span> <span class="n">app_env</span>
-</code></pre></div></div>
-
-<h2 id="3-判断字段不为空">3. 判断字段不为空</h2>
-
-<p>使用在 where 条件中，判断字段 为空或者不为空</p>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">where</span>
- <span class="mi">1</span><span class="o">=</span><span class="mi">1</span>
- <span class="k">and</span> <span class="n">notEmpty</span><span class="p">(</span><span class="n">client_version</span><span class="p">)</span>  <span class="c1">--不为空</span>
-  <span class="k">and</span> <span class="n">empty</span><span class="p">(</span><span class="n">app_version</span><span class="p">)</span> <span class="c1">--为空</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-01-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#ClickHouse">ClickHouse</a>
-      , 
-      <a href="/tags.html#SQL">SQL</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1527,7 +1584,7 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
      
     	
       <li><a href="/categories.html#Kubernetes">
-    		Kubernetes <span>14</span>
+    		Kubernetes <span>15</span>
     	</a></li>
      
     	
@@ -1549,6 +1606,13 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
+          前言
+
+
+        </li>
         
         <li>
           <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
@@ -1576,14 +1640,6 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
           
   参考资料：
 
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
-          ```python
-df = pandas.read_csv(‘somefile.txt’)
 
 
         </li>

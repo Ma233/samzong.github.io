@@ -280,6 +280,420 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2022/07/Contour-&-Envoy-%E6%8C%87%E6%A0%87.html">Contour & Envoy 指标</a></h1>
+    <div class="post_at_index">
+      <h2 id="contour--envoy-指标">Contour &amp; Envoy 指标</h2>
+
+<p>本文档内容与Contour与 Envoy 的metrics相关, 据Contour与envoy的官网内容并参考源码、第三方blog等汇总而成. 因为 Contour 指标较少, 所以在文中全部列出,且个人主观的将其暂分为:必须与可选的； 在envoy中 metrics被称为stats 通过管理接口向公众暴露,因其指标过多,所以按官方建议只选取Cluster与HCM相关指标,并只抽取个人认为比较重要且现阶段需要的指标列出,如需要相看详情,请点击相应链接.</p>
+
+<h2 id="contour-指标">Contour 指标</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Required</th>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>YES</td>
+      <td>contour_build_info</td>
+      <td>Gauge</td>
+      <td>branch, revision, version</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>NO</td>
+      <td>contour_cachehandler_onupdate_duration_seconds</td>
+      <td>Summary</td>
+      <td>Histogram for the runtime of xDS cache regeneration.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>YES</td>
+      <td>contour_dagrebuild_timestamp</td>
+      <td>Gauge</td>
+      <td>Timestamp of the last DAG rebuild.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>NO</td>
+      <td>contour_dagrebuild_total</td>
+      <td>Counter</td>
+      <td>Total number of times DAG has been rebuilt since startup</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>YES</td>
+      <td>contour_eventhandler_operation_total</td>
+      <td>Counter</td>
+      <td>Total number of Kubernetes object changes Contour has received by operation and object kind.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>YES</td>
+      <td>contour_httpproxy</td>
+      <td>Gauge</td>
+      <td>Total number of HTTPProxies that exist regardless of status.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>NO</td>
+      <td>contour_httpproxy_invalid</td>
+      <td>Gauge</td>
+      <td>Total number of invalid HTTPProxies.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>NO</td>
+      <td>contour_httpproxy_orphaned</td>
+      <td>Gauge</td>
+      <td>Total number of orphaned HTTPProxies which have no root delegating to them.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>YES</td>
+      <td>contour_httpproxy_root</td>
+      <td>Gauge</td>
+      <td>Total number of root HTTPProxies. Note there will only be a single</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>YES</td>
+      <td>contour_httpproxy_valid</td>
+      <td>Gauge</td>
+      <td>Total number of valid HTTPProxies.</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="envoy-指标">Envoy 指标</h2>
+
+<h3 id="cluster"><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats#config-cluster-manager-cluster-stats">Cluster</a></h3>
+
+<h3 id="general">General</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>cluster_added/modified/removed/updated</td>
+      <td>Counter</td>
+      <td>Total clusters added / modified / removed / updated</td>
+    </tr>
+    <tr>
+      <td>active_clusters</td>
+      <td>Gauge</td>
+      <td>Number of currently active (warmed) clusters</td>
+    </tr>
+    <tr>
+      <td>upstream_cx_total</td>
+      <td>Counter</td>
+      <td>Total connections</td>
+    </tr>
+    <tr>
+      <td>upstream_cx_active</td>
+      <td>Gauge</td>
+      <td>Total active connections</td>
+    </tr>
+    <tr>
+      <td>upstream_cx_connect_fail</td>
+      <td>Counter</td>
+      <td>Total connection failures</td>
+    </tr>
+    <tr>
+      <td>upstream_cx_connect_timeout</td>
+      <td>Counter</td>
+      <td>Total connection connect timeouts</td>
+    </tr>
+    <tr>
+      <td>upstream_cx_connect_ms</td>
+      <td>Histogram</td>
+      <td>Connection establishment milliseconds</td>
+    </tr>
+    <tr>
+      <td>upstream_cx_rx_bytes_total</td>
+      <td>Counter</td>
+      <td>Total received connection bytes</td>
+    </tr>
+    <tr>
+      <td>upstream_cx_tx_bytes_total</td>
+      <td>Counter</td>
+      <td>Total sent connection bytes</td>
+    </tr>
+    <tr>
+      <td>upstream_rq_total</td>
+      <td>Counter</td>
+      <td>Total requests</td>
+    </tr>
+    <tr>
+      <td>upstream_rq_active Gauge</td>
+      <td>Total</td>
+      <td>active requests</td>
+    </tr>
+    <tr>
+      <td>upstream_rq_timeout</td>
+      <td>Counter</td>
+      <td>Total requests that timed out waiting for a response</td>
+    </tr>
+    <tr>
+      <td>upstream_rq_retry</td>
+      <td>Counter</td>
+      <td>Total request retries</td>
+    </tr>
+    <tr>
+      <td>upstream_rq_retry_success</td>
+      <td>Counter</td>
+      <td>Total request retry successes</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="request-response-size-statistics">Request Response Size statistics</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>upstream_rq_headers_size</td>
+      <td>Histogram</td>
+      <td>Request headers size in bytes per upstream</td>
+    </tr>
+    <tr>
+      <td>upstream_rq_body_size</td>
+      <td>Histogram</td>
+      <td>Request body size in bytes per upstream</td>
+    </tr>
+    <tr>
+      <td>upstream_rs_headers_size</td>
+      <td>Histogram</td>
+      <td>Response headers size in bytes per upstream</td>
+    </tr>
+    <tr>
+      <td>upstream_rs_body_size</td>
+      <td>Histogram</td>
+      <td>Response body size in bytes per upstream</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="hcm"><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/stats#statistics">HCM</a></h3>
+
+<h3 id="general-1"><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/stats#statistics">General</a></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>downstream_cx_total</td>
+      <td>Counter</td>
+      <td>Total connections</td>
+    </tr>
+    <tr>
+      <td>downstream_cx_active</td>
+      <td>Gauge</td>
+      <td>Total active connections</td>
+    </tr>
+    <tr>
+      <td>downstream_cx_rx_bytes_total</td>
+      <td>Counter</td>
+      <td>Total bytes received</td>
+    </tr>
+    <tr>
+      <td>downstream_cx_tx_bytes_total</td>
+      <td>Counter</td>
+      <td>Total bytes sent</td>
+    </tr>
+    <tr>
+      <td>downstream_rq_total</td>
+      <td>Counter</td>
+      <td>Total requests</td>
+    </tr>
+    <tr>
+      <td>downstream_rq_active</td>
+      <td>Gauge</td>
+      <td>Total active requests</td>
+    </tr>
+    <tr>
+      <td>downstream_rq_1/2/3/4/5xx</td>
+      <td>Counter</td>
+      <td>Total 1/2/3/4/5xx responses</td>
+    </tr>
+    <tr>
+      <td>downstream_rq_completed</td>
+      <td>Counter</td>
+      <td>Total requests that resulted in a response (e.g. does not include aborted requests)</td>
+    </tr>
+    <tr>
+      <td>downstream_rq_time</td>
+      <td>Histogram</td>
+      <td>Total time for request and response (milliseconds)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="per-user-agent-statistics"><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/stats#per-user-agent-statistics">Per user agent statistics</a></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>downstream_cx_total</td>
+      <td>Counter</td>
+      <td>Total connections</td>
+    </tr>
+    <tr>
+      <td>downstream_rq_total</td>
+      <td>Counter</td>
+      <td>Total requests</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="http-per-listener-statistics"><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/stats#http-per-listener-statistics">HTTP per listener statistics¶</a></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>downstream_rq_completed</td>
+      <td>Counter</td>
+      <td>Total responses</td>
+    </tr>
+    <tr>
+      <td>downstream_rq_1/2/3/4/5xx</td>
+      <td>Counter</td>
+      <td>Total 1/2/3/4/5xx responses</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="tracing-statistics"><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/stats#tracing-statistics">Tracing statistics</a></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>random_sampling</td>
+      <td>Counter</td>
+      <td>Total number of traceable decisions by random sampling</td>
+    </tr>
+    <tr>
+      <td>service_forced</td>
+      <td>Counter</td>
+      <td>Total number of traceable decisions by server runtime flag tracing.global_enabled</td>
+    </tr>
+    <tr>
+      <td>client_enabled</td>
+      <td>Counter</td>
+      <td>Total number of traceable decisions by request header x-envoy-force-trace</td>
+    </tr>
+    <tr>
+      <td>not_traceable</td>
+      <td>Counter</td>
+      <td>Total number of non-traceable decisions by request id</td>
+    </tr>
+    <tr>
+      <td>health_check</td>
+      <td>Counter</td>
+      <td>Total number of non-traceable decisions by health check</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+  <li><a href="https://projectcontour.io/guides/prometheus/">Collecting Metrics with Prometheus</a></li>
+  <li><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats#config-cluster-manager-cluster-stats">Cluster Stats</a></li>
+  <li><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/stats#statistics">HTTP Stats</a></li>
+  <li><a href="https://prometheus.io/docs/concepts/metric_types/#Counter">Counter</a></li>
+  <li><a href="https://prometheus.io/docs/concepts/metric_types/#Gauge">Gauge</a></li>
+  <li><a href="https://prometheus.io/docs/concepts/metric_types/#Summary">Summary</a></li>
+</ul>
+
+<hr />
+
+<p>关于监控指标的问题答疑：</p>
+
+<ul>
+  <li>实时 启动之后一直有的</li>
+  <li>时间范围的数据</li>
+  <li>数据统计维度
+    <ul>
+      <li>contour httpproxy count</li>
+      <li>envoy request count</li>
+      <li>httpproxy -&gt; route -&gt; request info summary</li>
+    </ul>
+  </li>
+  <li>现阶段暂时未接入 prom，需要考虑如何处理，接入后会联动到 grafana，这部分跟 insight 怎么处理</li>
+  <li>告警怎么做？拿到了数据指标之后怎么处理</li>
+</ul>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20221120000945266.png?x-oss-process=image/resize,w_960,m_lfit" alt="image-20221120000945266" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-07-22</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Contour">Contour</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2022/07/jq-%E5%91%BD%E4%BB%A4%E8%A1%8C-Json-%E5%A4%84%E7%90%86%E7%A5%9E%E5%99%A8.html">jq 命令行 Json 处理神器</a></h1>
     <div class="post_at_index">
       <ul>
@@ -1565,28 +1979,6 @@ mysql-shell                                    mysqlworkbench                   
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/05/Kubernetes-Operator.html">Kubernetes Operator</a></h1>
-    <div class="post_at_index">
-      <p><a href="https://www.redhat.com/zh/topics/containers/what-is-a-kubernetes-operator">https://www.redhat.com/zh/topics/containers/what-is-a-kubernetes-operator</a></p>
-
-<p>Kubernetes Operator 是一种封装、部署和管理 Kubernetes 应用的方法。我们使用 Kubernetes API（应用编程接口）和 kubectl 工具在 Kubernetes 上部署并管理 Kubernetes 应用。</p>
-
-<p>Kubernetes Operator 是一种特定于应用的控制器，可扩展 Kubernetes API 的功能，来代表 Kubernetes 用户创建、配置和管理复杂应用的实例</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-05-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Operator">Operator</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1747,7 +2139,7 @@ mysql-shell                                    mysqlworkbench                   
      
     	
       <li><a href="/categories.html#Kubernetes">
-    		Kubernetes <span>14</span>
+    		Kubernetes <span>15</span>
     	</a></li>
      
     	
@@ -1769,6 +2161,13 @@ mysql-shell                                    mysqlworkbench                   
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
+          前言
+
+
+        </li>
         
         <li>
           <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
@@ -1796,14 +2195,6 @@ mysql-shell                                    mysqlworkbench                   
           
   参考资料：
 
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
-          ```python
-df = pandas.read_csv(‘somefile.txt’)
 
 
         </li>

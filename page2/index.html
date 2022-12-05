@@ -280,6 +280,103 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2022/09/GitLab-Forked-%E5%A6%82%E4%BD%95%E8%B7%9F%E9%9A%8Fupstream%E4%B8%BB%E5%BA%93.html">GitLab Forked 如何跟随 upstream 主库</a></h1>
+    <div class="post_at_index">
+      <p>:::info
+通过 PR 的方式共同对主仓库进行贡献的方式，是开源项目协作的非常有效的方法；通常我们不会直接对主仓库直接提交代码。
+:::</p>
+
+<p>一般情况下，我们的操作是，在需要贡献时，Fork 一份项目，然后自己修改以 PR 的方式提交贡献请求。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1664330743895-9b2e0dc6-527e-4bcd-8b63-c223aa634b8f.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" title="一份完整的 Github贡献指南" /></p>
+
+<h2 id="github-的实现方式">Github 的实现方式</h2>
+
+<p>熟悉 Github 的同学会发现，在 Github 上最近更新了 <code class="language-plaintext highlighter-rouge">Sync fork</code>的功能，通过简单的点击操作，即可完成对源库 (upstream) 的更新同步。
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1664330528512-563a5536-1734-4fd0-b41c-9c5d121327e0.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="CleanShot 2022-09-28 at 10.01.33.jpg" title="当 upstream 超前时，提示 update branch" />
+通过以上方式，我们可以方便在跟随主库的更新</p>
+
+<blockquote>
+  <p>Tips Github 的方式，仅在 Web 端 和 Github CLI 官方提供的 GH 才可以使用这样的功能</p>
+</blockquote>
+
+<h2 id="no-github-when-gitlab-">No Github, When Gitlab ?</h2>
+
+<p>Github 更多在开源项目时贡献，实际上，在我们日常的工作当中，更多会有自建的 Gitlab 或者其他的代码 Hub，这里以 Gitlab 为例</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1664331575915-853554f5-c047-4f14-8e79-67e2214429bc.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="CleanShot 2022-09-28 at 10.19.20.jpg" title="gitlab 默认项目首页" />
+Gitlab 并未提供 Sync fork 的功能，所以我们需要自行解决同步的需求</p>
+
+<h2 id="为仓库添加-upstream-源仓库">为仓库添加 upstream 源仓库</h2>
+
+<p>:::success
+以下方式会在终端或本地使用<code class="language-plaintext highlighter-rouge">Sourcetree</code>更加自由，仅使用 Git 的方式协作，自由度很大
+:::
+基于这个方式我们可以实现，有关联的 主库到从库的同步；也可以完成跨 Hub 的同步，比如：</p>
+
+<ul>
+  <li>Github -&gt;  Gitlab</li>
+  <li>Github -&gt; Github</li>
+  <li>Gitlab  -&gt; Gitlab</li>
+  <li>Gitlab  -&gt;  Github</li>
+  <li>Gitee  -&gt;  Gitlab</li>
+  <li>Gitee -&gt; Github</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>samzonglu at samzongs-MacBook-Pro <span class="k">in</span> ~/Git/daocloud/DaoCloud-docs<span class="o">(</span>main✔<span class="o">)</span>
+± git remote add upstream https://github.com/DaoCloud/DaoCloud-docs.git
+Alias tip: gra upstream https://github.com/DaoCloud/DaoCloud-docs.git
+
+samzonglu at samzongs-MacBook-Pro <span class="k">in</span> ~/Git/daocloud/DaoCloud-docs<span class="o">(</span>main✔<span class="o">)</span>
+± git remote
+Alias tip: gr
+origin
+upstream
+
+samzonglu at samzongs-MacBook-Pro <span class="k">in</span> ~/Git/daocloud/DaoCloud-docs<span class="o">(</span>main✔<span class="o">)</span>
+± git fetch upstream
+Alias tip: gf upstream
+remote: Enumerating objects: 1268, <span class="k">done</span><span class="nb">.</span>
+remote: Counting objects: 100% <span class="o">(</span>182/182<span class="o">)</span>, <span class="k">done</span><span class="nb">.</span>
+remote: Compressing objects: 100% <span class="o">(</span>5/5<span class="o">)</span>, <span class="k">done</span><span class="nb">.</span>
+remote: Total 1268 <span class="o">(</span>delta 177<span class="o">)</span>, reused 182 <span class="o">(</span>delta 177<span class="o">)</span>, pack-reused 1086
+Receiving objects: 100% <span class="o">(</span>1268/1268<span class="o">)</span>, 1.87 MiB | 2.74 MiB/s, <span class="k">done</span><span class="nb">.</span>
+Resolving deltas: 100% <span class="o">(</span>637/637<span class="o">)</span>, completed with 119 <span class="nb">local </span>objects.
+From https://github.com/DaoCloud/DaoCloud-docs
+ <span class="k">*</span> <span class="o">[</span>new branch]      feature/theme                            -&gt; upstream/feature/theme
+ <span class="k">*</span> <span class="o">[</span>new branch]      fix-typo                                 -&gt; upstream/fix-typo
+ <span class="k">*</span> <span class="o">[</span>new branch]      gh-pages                                 -&gt; upstream/gh-pages
+ <span class="k">*</span> <span class="o">[</span>new branch]      main                                     -&gt; upstream/main
+ <span class="k">*</span> <span class="o">[</span>new branch]      patch-new-gh-pages-01                    -&gt; upstream/patch-new-gh-pages-01
+ <span class="k">*</span> <span class="o">[</span>new branch]      stash/bug-codes                          -&gt; upstream/stash/bug-codes
+
+samzonglu at samzongs-MacBook-Pro <span class="k">in</span> ~/Git/daocloud/DaoCloud-docs<span class="o">(</span>main✔<span class="o">)</span>
+± git pull upstream main
+Alias tip: gl upstream main
+From https://github.com/DaoCloud/DaoCloud-docs
+ <span class="k">*</span> branch            main       -&gt; FETCH_HEAD
+Already up to date.
+
+samzonglu at samzongs-MacBook-Pro <span class="k">in</span> ~/Git/daocloud/DaoCloud-docs<span class="o">(</span>main✔<span class="o">)</span>
+± git push origin main
+Alias tip: gp origin main
+Everything up-to-date
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-09-28</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#GitLab">GitLab</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2022/09/Kafka-%E7%AB%9E%E5%93%81%E8%B0%83%E7%A0%94%E5%8F%8A%E5%8A%9F%E8%83%BD%E8%AE%BE%E8%AE%A1.html">Kafka 调研及功能设计</a></h1>
     <div class="post_at_index">
       <h2 id="调研对象">调研对象</h2>
@@ -2747,420 +2844,6 @@ pipreqs <span class="nb">.</span> <span class="nt">--force</span>
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/07/Contour-&-Envoy-%E6%8C%87%E6%A0%87.html">Contour & Envoy 指标</a></h1>
-    <div class="post_at_index">
-      <h2 id="contour--envoy-指标">Contour &amp; Envoy 指标</h2>
-
-<p>本文档内容与Contour与 Envoy 的metrics相关, 据Contour与envoy的官网内容并参考源码、第三方blog等汇总而成. 因为 Contour 指标较少, 所以在文中全部列出,且个人主观的将其暂分为:必须与可选的； 在envoy中 metrics被称为stats 通过管理接口向公众暴露,因其指标过多,所以按官方建议只选取Cluster与HCM相关指标,并只抽取个人认为比较重要且现阶段需要的指标列出,如需要相看详情,请点击相应链接.</p>
-
-<h2 id="contour-指标">Contour 指标</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Required</th>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-      <th> </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>YES</td>
-      <td>contour_build_info</td>
-      <td>Gauge</td>
-      <td>branch, revision, version</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>NO</td>
-      <td>contour_cachehandler_onupdate_duration_seconds</td>
-      <td>Summary</td>
-      <td>Histogram for the runtime of xDS cache regeneration.</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>YES</td>
-      <td>contour_dagrebuild_timestamp</td>
-      <td>Gauge</td>
-      <td>Timestamp of the last DAG rebuild.</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>NO</td>
-      <td>contour_dagrebuild_total</td>
-      <td>Counter</td>
-      <td>Total number of times DAG has been rebuilt since startup</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>YES</td>
-      <td>contour_eventhandler_operation_total</td>
-      <td>Counter</td>
-      <td>Total number of Kubernetes object changes Contour has received by operation and object kind.</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>YES</td>
-      <td>contour_httpproxy</td>
-      <td>Gauge</td>
-      <td>Total number of HTTPProxies that exist regardless of status.</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>NO</td>
-      <td>contour_httpproxy_invalid</td>
-      <td>Gauge</td>
-      <td>Total number of invalid HTTPProxies.</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>NO</td>
-      <td>contour_httpproxy_orphaned</td>
-      <td>Gauge</td>
-      <td>Total number of orphaned HTTPProxies which have no root delegating to them.</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>YES</td>
-      <td>contour_httpproxy_root</td>
-      <td>Gauge</td>
-      <td>Total number of root HTTPProxies. Note there will only be a single</td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-      <td> </td>
-    </tr>
-    <tr>
-      <td>YES</td>
-      <td>contour_httpproxy_valid</td>
-      <td>Gauge</td>
-      <td>Total number of valid HTTPProxies.</td>
-      <td> </td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="envoy-指标">Envoy 指标</h2>
-
-<h3 id="cluster"><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats#config-cluster-manager-cluster-stats">Cluster</a></h3>
-
-<h3 id="general">General</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>cluster_added/modified/removed/updated</td>
-      <td>Counter</td>
-      <td>Total clusters added / modified / removed / updated</td>
-    </tr>
-    <tr>
-      <td>active_clusters</td>
-      <td>Gauge</td>
-      <td>Number of currently active (warmed) clusters</td>
-    </tr>
-    <tr>
-      <td>upstream_cx_total</td>
-      <td>Counter</td>
-      <td>Total connections</td>
-    </tr>
-    <tr>
-      <td>upstream_cx_active</td>
-      <td>Gauge</td>
-      <td>Total active connections</td>
-    </tr>
-    <tr>
-      <td>upstream_cx_connect_fail</td>
-      <td>Counter</td>
-      <td>Total connection failures</td>
-    </tr>
-    <tr>
-      <td>upstream_cx_connect_timeout</td>
-      <td>Counter</td>
-      <td>Total connection connect timeouts</td>
-    </tr>
-    <tr>
-      <td>upstream_cx_connect_ms</td>
-      <td>Histogram</td>
-      <td>Connection establishment milliseconds</td>
-    </tr>
-    <tr>
-      <td>upstream_cx_rx_bytes_total</td>
-      <td>Counter</td>
-      <td>Total received connection bytes</td>
-    </tr>
-    <tr>
-      <td>upstream_cx_tx_bytes_total</td>
-      <td>Counter</td>
-      <td>Total sent connection bytes</td>
-    </tr>
-    <tr>
-      <td>upstream_rq_total</td>
-      <td>Counter</td>
-      <td>Total requests</td>
-    </tr>
-    <tr>
-      <td>upstream_rq_active Gauge</td>
-      <td>Total</td>
-      <td>active requests</td>
-    </tr>
-    <tr>
-      <td>upstream_rq_timeout</td>
-      <td>Counter</td>
-      <td>Total requests that timed out waiting for a response</td>
-    </tr>
-    <tr>
-      <td>upstream_rq_retry</td>
-      <td>Counter</td>
-      <td>Total request retries</td>
-    </tr>
-    <tr>
-      <td>upstream_rq_retry_success</td>
-      <td>Counter</td>
-      <td>Total request retry successes</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="request-response-size-statistics">Request Response Size statistics</h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>upstream_rq_headers_size</td>
-      <td>Histogram</td>
-      <td>Request headers size in bytes per upstream</td>
-    </tr>
-    <tr>
-      <td>upstream_rq_body_size</td>
-      <td>Histogram</td>
-      <td>Request body size in bytes per upstream</td>
-    </tr>
-    <tr>
-      <td>upstream_rs_headers_size</td>
-      <td>Histogram</td>
-      <td>Response headers size in bytes per upstream</td>
-    </tr>
-    <tr>
-      <td>upstream_rs_body_size</td>
-      <td>Histogram</td>
-      <td>Response body size in bytes per upstream</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="hcm"><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/stats#statistics">HCM</a></h3>
-
-<h3 id="general-1"><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/stats#statistics">General</a></h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>downstream_cx_total</td>
-      <td>Counter</td>
-      <td>Total connections</td>
-    </tr>
-    <tr>
-      <td>downstream_cx_active</td>
-      <td>Gauge</td>
-      <td>Total active connections</td>
-    </tr>
-    <tr>
-      <td>downstream_cx_rx_bytes_total</td>
-      <td>Counter</td>
-      <td>Total bytes received</td>
-    </tr>
-    <tr>
-      <td>downstream_cx_tx_bytes_total</td>
-      <td>Counter</td>
-      <td>Total bytes sent</td>
-    </tr>
-    <tr>
-      <td>downstream_rq_total</td>
-      <td>Counter</td>
-      <td>Total requests</td>
-    </tr>
-    <tr>
-      <td>downstream_rq_active</td>
-      <td>Gauge</td>
-      <td>Total active requests</td>
-    </tr>
-    <tr>
-      <td>downstream_rq_1/2/3/4/5xx</td>
-      <td>Counter</td>
-      <td>Total 1/2/3/4/5xx responses</td>
-    </tr>
-    <tr>
-      <td>downstream_rq_completed</td>
-      <td>Counter</td>
-      <td>Total requests that resulted in a response (e.g. does not include aborted requests)</td>
-    </tr>
-    <tr>
-      <td>downstream_rq_time</td>
-      <td>Histogram</td>
-      <td>Total time for request and response (milliseconds)</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="per-user-agent-statistics"><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/stats#per-user-agent-statistics">Per user agent statistics</a></h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>downstream_cx_total</td>
-      <td>Counter</td>
-      <td>Total connections</td>
-    </tr>
-    <tr>
-      <td>downstream_rq_total</td>
-      <td>Counter</td>
-      <td>Total requests</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="http-per-listener-statistics"><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/stats#http-per-listener-statistics">HTTP per listener statistics¶</a></h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>downstream_rq_completed</td>
-      <td>Counter</td>
-      <td>Total responses</td>
-    </tr>
-    <tr>
-      <td>downstream_rq_1/2/3/4/5xx</td>
-      <td>Counter</td>
-      <td>Total 1/2/3/4/5xx responses</td>
-    </tr>
-  </tbody>
-</table>
-
-<h3 id="tracing-statistics"><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/stats#tracing-statistics">Tracing statistics</a></h3>
-
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>random_sampling</td>
-      <td>Counter</td>
-      <td>Total number of traceable decisions by random sampling</td>
-    </tr>
-    <tr>
-      <td>service_forced</td>
-      <td>Counter</td>
-      <td>Total number of traceable decisions by server runtime flag tracing.global_enabled</td>
-    </tr>
-    <tr>
-      <td>client_enabled</td>
-      <td>Counter</td>
-      <td>Total number of traceable decisions by request header x-envoy-force-trace</td>
-    </tr>
-    <tr>
-      <td>not_traceable</td>
-      <td>Counter</td>
-      <td>Total number of non-traceable decisions by request id</td>
-    </tr>
-    <tr>
-      <td>health_check</td>
-      <td>Counter</td>
-      <td>Total number of non-traceable decisions by health check</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="参考">参考</h2>
-
-<ul>
-  <li><a href="https://projectcontour.io/guides/prometheus/">Collecting Metrics with Prometheus</a></li>
-  <li><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/upstream/cluster_manager/cluster_stats#config-cluster-manager-cluster-stats">Cluster Stats</a></li>
-  <li><a href="https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/stats#statistics">HTTP Stats</a></li>
-  <li><a href="https://prometheus.io/docs/concepts/metric_types/#Counter">Counter</a></li>
-  <li><a href="https://prometheus.io/docs/concepts/metric_types/#Gauge">Gauge</a></li>
-  <li><a href="https://prometheus.io/docs/concepts/metric_types/#Summary">Summary</a></li>
-</ul>
-
-<hr />
-
-<p>关于监控指标的问题答疑：</p>
-
-<ul>
-  <li>实时 启动之后一直有的</li>
-  <li>时间范围的数据</li>
-  <li>数据统计维度
-    <ul>
-      <li>contour httpproxy count</li>
-      <li>envoy request count</li>
-      <li>httpproxy -&gt; route -&gt; request info summary</li>
-    </ul>
-  </li>
-  <li>现阶段暂时未接入 prom，需要考虑如何处理，接入后会联动到 grafana，这部分跟 insight 怎么处理</li>
-  <li>告警怎么做？拿到了数据指标之后怎么处理</li>
-</ul>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/image-20221120000945266.png?x-oss-process=image/resize,w_960,m_lfit" alt="image-20221120000945266" /></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-07-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Contour">Contour</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -3321,7 +3004,7 @@ pipreqs <span class="nb">.</span> <span class="nt">--force</span>
      
     	
       <li><a href="/categories.html#Kubernetes">
-    		Kubernetes <span>14</span>
+    		Kubernetes <span>15</span>
     	</a></li>
      
     	
@@ -3343,6 +3026,13 @@ pipreqs <span class="nb">.</span> <span class="nt">--force</span>
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
+          前言
+
+
+        </li>
         
         <li>
           <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
@@ -3370,14 +3060,6 @@ pipreqs <span class="nb">.</span> <span class="nt">--force</span>
           
   参考资料：
 
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
-          ```python
-df = pandas.read_csv(‘somefile.txt’)
 
 
         </li>

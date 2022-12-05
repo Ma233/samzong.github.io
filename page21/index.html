@@ -280,6 +280,74 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/05/HowTo-Monitoring-MySQL-server-for-Zabbix.html">HowTo Monitoring MySQL server for Zabbix</a></h1>
+    <div class="post_at_index">
+      <h2 id="安装插件包">安装插件包</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install </span>http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm <span class="nt">-y</span>
+yum <span class="nb">install </span>percona-zabbix-templates.noarch <span class="nt">-y</span>
+yum <span class="nb">install </span>php<span class="k">*</span> <span class="nt">-y</span>
+</code></pre></div></div>
+
+<h2 id="导入模板">导入模板</h2>
+
+<p>把/var/lib/zabbix/percona/templates/zabbix_agent_template_percona_mysql_server_ht_2.0.9-sver1.1.6.xml 文件拷贝出来，通过 Zabbix 的监控页面导入：
+ConfigurationTemplatesImport(在右上角)
+选择导出的模板文件，点击 Import 完成导入</p>
+
+<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/05/zabbix-mysql01.png" alt="image" /></p>
+
+<h2 id="安装-agent">安装 Agent</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rpm <span class="nt">-ivh</span> http://repo.zabbix.com/zabbix/2.4/rhel/6/x86_64/zabbix-release-2.4-1.el6.noarch.rpm
+yum <span class="nb">install </span>zabbix-agent
+vim /etc/zabbix/zabbix-agentd.conf
+<span class="c">#配置监控服务器地址</span>
+<span class="nv">Server</span><span class="o">=</span>192.168.1.15
+<span class="c">#导入配置文件</span>
+<span class="nb">cp</span> /var/lib/zabbix/percona/templates/userparameter_percona_mysql.conf /etc/zabbix/zabbix_agentd.d/
+<span class="c">#重启agent</span>
+service zabbix-agent restart
+
+</code></pre></div></div>
+
+<h2 id="mysql-新建用户">Mysql 新建用户</h2>
+
+<p>登陆 Mysql 数据库，新建一个本地的只有查询权限的 mysql 用户
+grant select on <em>.</em> to ‘percona’@’localhost’ identified by ‘percona’;
+flush tables;</p>
+
+<h2 id="配置-percona-插件">配置 Percona 插件</h2>
+
+<p>修改插件使用的 mysql 用户名密码
+sed -i s/cactiuser/percona/g /var/lib/zabbix/percona/scripts/ss_get_mysql_stats.php</p>
+
+<h2 id="测试">测试</h2>
+
+<p>测试是否可以获取到值
+cd /var/lib/zabbix/percona/scripts/
+./get_mysql_stats_wrapper.sh gg
+如果获取到值，则说明配置成功
+<img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/05/zabbix-mysql02.png" alt="image" /></p>
+
+<p>注意：执行完脚本后，请手动删除/tmp/文件夹下生成的*-mysql_cacti_stats.txt 文件，然后让程序自己调用创建新文件。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-05-20</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#MySQL">MySQL</a>
+      , 
+      <a href="/tags.html#Zabbix">Zabbix</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/05/HowTo-Install-CloudStack-4-8-on-CentOS-6-x.html">HowTo Install CloudStack 4.8 on CentOS 6.x</a></h1>
     <div class="post_at_index">
       <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
@@ -1097,57 +1165,6 @@ python2.7 setup.py <span class="nb">install</span>
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/04/HowTo-Add-Piwik-Tracking-to-Ghost.html">HowTo Add Piwik Tracking to Ghost</a></h1>
-    <div class="post_at_index">
-      <p>This is what about piwik on wiki. <a href="https://en.wikipedia.org/wiki/Piwik">goto</a></p>
-
-<h2 id="step-1---getting-your-piwik-tracking-code">Step 1 - Getting your Piwik Tracking code</h2>
-
-<p>The first step to having Piwik tracking your Ghost blog will be to add a new website in Piwik, if you are unfamiliar with this process you can checkout the Piwik documention on Managing Websites. With your Ghost blog added into Piwik you will end up with tracking code that will look similar to the following:</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;<span class="o">!</span><span class="nt">--</span> Piwik <span class="nt">--</span><span class="o">&gt;</span>
-&lt;script <span class="nb">type</span><span class="o">=</span><span class="s2">"text/javascript"</span><span class="o">&gt;</span>
-    var _paq <span class="o">=</span> _paq <span class="o">||</span> <span class="o">[]</span><span class="p">;</span>
-    <span class="o">(</span><span class="k">function</span><span class="o">(){</span> var <span class="nv">u</span><span class="o">=((</span><span class="s2">"https:"</span> <span class="o">==</span> document.location.protocol<span class="o">)</span> ? <span class="s2">"https://{</span><span class="nv">$PIWIK_URL</span><span class="s2">}/"</span> : <span class="s2">"http://{</span><span class="nv">$PIWIK_URL</span><span class="s2">}/"</span><span class="o">)</span><span class="p">;</span>
-    _paq.push<span class="o">([</span><span class="s1">'setSiteId'</span>, <span class="o">{</span><span class="nv">$IDSITE</span><span class="o">}])</span><span class="p">;</span>
-    _paq.push<span class="o">([</span><span class="s1">'setTrackerUrl'</span>, u+<span class="s1">'piwik.php'</span><span class="o">])</span><span class="p">;</span>
-    _paq.push<span class="o">([</span><span class="s1">'trackPageView'</span><span class="o">])</span><span class="p">;</span>
-    _paq.push<span class="o">([</span><span class="s1">'enableLinkTracking'</span><span class="o">])</span><span class="p">;</span>
-    var <span class="nv">d</span><span class="o">=</span>document, <span class="nv">g</span><span class="o">=</span>d.createElement<span class="o">(</span><span class="s1">'script'</span><span class="o">)</span>, <span class="nv">s</span><span class="o">=</span>d.getElementsByTagName<span class="o">(</span><span class="s1">'script'</span><span class="o">)[</span>0]<span class="p">;</span> g.type<span class="o">=</span><span class="s1">'text/javascript'</span><span class="p">;</span> g.defer<span class="o">=</span><span class="nb">true</span><span class="p">;</span> g.async<span class="o">=</span><span class="nb">true</span><span class="p">;</span> g.src<span class="o">=</span>u+<span class="s1">'piwik.js'</span><span class="p">;</span>
-    s.parentNode.insertBefore<span class="o">(</span>g,s<span class="o">)</span><span class="p">;</span> <span class="o">})()</span><span class="p">;</span>
-&lt;/script&gt;
-&lt;<span class="o">!</span><span class="nt">--</span> End Piwik Code <span class="nt">--</span><span class="o">&gt;</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>Where <code class="language-plaintext highlighter-rouge">$PIWIK_URL</code> will be the domain name you have setup for Piwik.</p>
-</blockquote>
-
-<h2 id="step-2---adding-piwik-tracking-code-to-ghost-theme-file">Step 2 - Adding Piwik Tracking Code To Ghost Theme File</h2>
-
-<p>Piwik recommends that you add the tracking code right above the <code class="language-plaintext highlighter-rouge">&amp;#60;/body&amp;#62;</code> tag, which you can find in your Ghost’s <code class="language-plaintext highlighter-rouge">default.hbs</code> theme file. You will find the <code class="language-plaintext highlighter-rouge">default.hbs</code> file in <code class="language-plaintext highlighter-rouge">/path/to/ghost/content/themes/your-theme/default.hbs</code>
-How you add the tracking code to your <code class="language-plaintext highlighter-rouge">default.hbs</code> will depend on if you are editing the file on your local computer or directly on the server. If you are editing your theme locally you can edit this file in any text editor and when you are finished upload this file to your server. Otherwise if you are editing this file directly on the server you can use the command line editor, <code class="language-plaintext highlighter-rouge">vim</code>, to add the tracking code.</p>
-
-<h2 id="step-3---restart-ghost">Step 3 - Restart Ghost</h2>
-
-<p>For the changes in your theme to take effect you will need to restart Ghost. Restarting Ghost will load up a fresh copy of your theme files, with your Piwik tracking code. How you restart Ghost depends on how you started Ghost. If you followed our <a href="https://www.howtoinstallghost.com/how-to-start-ghost-with-forever/">https://www.howtoinstallghost.com/how-to-start-ghost-with-forever/</a> Keep Ghost Running with forever<code class="language-plaintext highlighter-rouge">, then you can restart Ghost with</code> forever restart ghost`.
-Within a few moments you will start to see data coming in for your Ghost blog!
-If you have any questions about setting this up or run into any issues please leave us a comment below and we will do what we can to help.</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-04-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Piwik">Piwik</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1310,7 +1327,7 @@ If you have any questions about setting this up or run into any issues please le
      
     	
       <li><a href="/categories.html#Kubernetes">
-    		Kubernetes <span>14</span>
+    		Kubernetes <span>15</span>
     	</a></li>
      
     	
@@ -1332,6 +1349,13 @@ If you have any questions about setting this up or run into any issues please le
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
+          前言
+
+
+        </li>
         
         <li>
           <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
@@ -1359,14 +1383,6 @@ If you have any questions about setting this up or run into any issues please le
           
   参考资料：
 
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
-          ```python
-df = pandas.read_csv(‘somefile.txt’)
 
 
         </li>

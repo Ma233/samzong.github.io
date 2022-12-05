@@ -280,6 +280,134 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2017/05/Wannacry%E8%A0%95%E8%99%AB%E7%97%85%E6%AF%92%E4%BA%8B%E4%BB%B6%E5%8F%8A%E4%BF%AE%E5%A4%8D%E6%96%B9%E6%A1%88.html">Wannacry 蠕虫病毒事件及修复方案</a></h1>
+    <div class="post_at_index">
+      <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/3d0jo.png" alt="image" /></p>
+
+<h3 id="事件背景">事件背景</h3>
+
+<p>5 月 12 日晚，WannaCry 蠕虫病毒在全球大肆爆发。据 BBC、CNN 等媒体报道，恶意攻击者利用 NSA（美国国家安全局）泄露的 Windows 0day 利用工具对 99 个国家实施了超过 75000 次攻击，主要影响 SMB 和 RDP 服务，主要影响了 137、138、139、445 端口。</p>
+
+<p>目前已知已知的 Windows 版本包括但不限于一下都受影响：</p>
+
+<ul>
+  <li>Windows NT</li>
+  <li>Windows 2000</li>
+  <li>Windows XP</li>
+  <li>Windows 2003</li>
+  <li>Windows Vista</li>
+  <li>Windows 7</li>
+  <li>Windows 8</li>
+  <li>Windows 10</li>
+  <li>Windows 2008</li>
+  <li>Windows 2008 R2</li>
+  <li>Windows Server 2012 SP0</li>
+</ul>
+
+<p>勒索者源头来自暗网，攻击具备兼容性、多语言支持，多个行业受到影响，国内高校网络系统沦为感染重灾区。据有关机构统计，目前国内每天有数万台机器遭到该蠕虫病毒袭击，国内的 ATM 机、火车站、自助终端、邮政、医院、政府办事终端、视频监控都可能遭受攻击。据报道，今日全国多地的中石油加油站无法进行网络支付，只能进行现金支付。中石油有关负责人表示，怀疑受到病毒攻击，具体情况还在核查。而截至目前，一些公安系统已经遭到入侵。</p>
+
+<p>如果你也遇到了这样的问题，请不要担心，我在下面给出了如何修复这个漏洞的建议。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/9y7cc.jpg" alt="image" /></p>
+
+<h3 id="什么是比特币蠕虫病毒">什么是比特币蠕虫病毒？</h3>
+
+<p>这次攻击的始作俑者是一款名为“WannaCry”（中文名：想哭）的勒索病毒，带有加密功能，它利用 Windows 在 445 端口的安全漏洞潜入电脑并对多种文件类型加密并添加后缀 (.onion) 使用户无法打开，用户电脑存在文档被加密的情况，攻击者称需支付比特币解锁。(比特币是一种全球通用的互联网加密货币)</p>
+
+<h3 id="漏洞验证">漏洞验证</h3>
+
+<ol>
+  <li>
+    <p>使用<code class="language-plaintext highlighter-rouge">Win</code>+<code class="language-plaintext highlighter-rouge">R</code>按键打开运行窗口，输入 cmd，进入命令行工具，然后输入<code class="language-plaintext highlighter-rouge">netstat -an</code> 查看是否开放了对应的端口。</p>
+
+    <p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/3m1jm.png" alt="image" /></p>
+
+    <p>上图中的服务器就是开放了 445 端口，这有很大的风险可能会 WannaCry 蠕虫病毒被攻击到，所以我们应该关掉对应端口，并修复漏洞。</p>
+  </li>
+</ol>
+
+<h3 id="漏洞修复">漏洞修复</h3>
+
+<ol>
+  <li>目前微软已发布补丁 MS17-010 修复了“永恒之蓝”攻击的系统漏洞，请尽快为电脑安装此补丁，网址为<a href="https://laod.cn/go.php?url=https://technet.microsoft.com/zh-cn/library/security/MS17-010">https://technet.microsoft.com/zh-cn/library/security/MS17-010</a></li>
+  <li>对于 XP、2003 等微软已不再提供安全更新的机器，推荐使用 360“NSA 武器库免疫工具”检测系统是否存在漏洞，并关闭受到漏洞影响的端口，可以避免遭到勒索软件等病毒的侵害，可以在 360 电脑安全管家中找到。</li>
+  <li>开启系统防火墙，利用系统防火墙的“高级设置”阻止外部对 445 端口进的访问（存在一定影响，该操作会影响使用 445 端口的服务）。</li>
+</ol>
+
+<h3 id="修复脚本">修复脚本</h3>
+
+<p>如果以上方式都不能修复漏洞，大家可以使用我以下的批处理脚本文件来尝试关闭端口及服务，批处理禁用该漏洞可能利用到的端口，全版本通用，右键管理员启动即可，注意这需要打开 Windows 的防火墙。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>net stop SCardSvr
+net stop SCPolicySvc
+sc config SCardSvr <span class="nv">start</span><span class="o">=</span>disabled
+sc config SCPolicySvc <span class="nv">start</span><span class="o">=</span>disabled
+net start MpsSvc
+sc config MpsSvc <span class="nv">start</span><span class="o">=</span>auto
+netsh advfirewall <span class="nb">set </span>allprofiles state on
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny udp 137"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>udp <span class="nv">localport</span><span class="o">=</span>137 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny tcp 137"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>tcp <span class="nv">localport</span><span class="o">=</span>137 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny udp 138"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>udp <span class="nv">localport</span><span class="o">=</span>138 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny tcp 138"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>tcp <span class="nv">localport</span><span class="o">=</span>138 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny udp 139"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>udp <span class="nv">localport</span><span class="o">=</span>139 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny tcp 139"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>tcp <span class="nv">localport</span><span class="o">=</span>139 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny udp 445"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>udp <span class="nv">localport</span><span class="o">=</span>445 <span class="nv">action</span><span class="o">=</span>block
+netsh advfirewall firewall add rule <span class="nv">name</span><span class="o">=</span><span class="s2">"deny tcp 445"</span> <span class="nb">dir</span><span class="o">=</span><span class="k">in </span><span class="nv">protocol</span><span class="o">=</span>tcp <span class="nv">localport</span><span class="o">=</span>445 <span class="nv">action</span><span class="o">=</span>block
+pause
+</code></pre></div></div>
+
+<p>我已经将脚本上传到百度云盘中，大家可以自行下载运行，注意解压缩 Zip 包之后的 fix_WannaCry.bat</p>
+
+<p>下载链接：<a href="https://pan.baidu.com/s/1gfceNRH">https://pan.baidu.com/s/1gfceNRH</a></p>
+
+<h3 id="添加防火规则">添加防火规则</h3>
+
+<ol>
+  <li>
+    <p>打开控制面板中的 Windows 防火墙，并保证防火墙处于启用状态；</p>
+  </li>
+  <li>
+    <p>打开防火墙的高级设置；</p>
+  </li>
+  <li>
+    <p>在“入站规则”中新建一条规则，本地端口号选择 445，操作选择阻止连接。</p>
+
+    <p><img src="https://pic3.zhimg.com/v2-85f14330cdba1fbf89369b26b9e48f52_b.png" alt="image" /></p>
+
+    <p><img src="https://pic2.zhimg.com/v2-1bbe08395ec8ef8d0e2028cbccb01055_b.png" alt="image" /></p>
+  </li>
+</ol>
+
+<h3 id="手动导入安全策略">手动导入安全策略</h3>
+
+<p>下载策略文件</p>
+
+<p><a href="https://share.weiyun.com/15b7bbd3f86c493a66721dd948a81c54">https://share.weiyun.com/15b7bbd3f86c493a66721dd948a81c54</a></p>
+
+<p>打开控制面板–管理工具 - 本地安全策略–IP 安全策略 –&gt;所有任务–&gt;导入策略：</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/hj9f4.jpg" alt="image" /></p>
+
+<p>或者，通过<code class="language-plaintext highlighter-rouge">Win</code>+<code class="language-plaintext highlighter-rouge">R</code>，输入<code class="language-plaintext highlighter-rouge">gpedit.msc</code></p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/9vsqx.jpg" alt="image" /></p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/tosjk.jpg" alt="image" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-05-15</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Windows">Windows</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2017/04/CentOS%E5%A2%9E%E5%8A%A0%E6%96%B0%E7%A1%AC%E7%9B%98%E7%BB%99%E6%A0%B9%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E6%89%A9%E5%AE%B9.html">CentOS 增加新硬盘给根文件系统扩容</a></h1>
     <div class="post_at_index">
       <p>由于刚开始做磁盘空间规划时，失误给根分区分配磁盘较小，导致后续实验环境无法进行，所以在经过研究后，决定尝试增加根分区的磁盘空间，注意这仅适用于创建在 LVM 上的文件系统。</p>
@@ -1607,220 +1735,6 @@ datadirectory<span class="s1">' =&gt; '</span>/nextcloud/data
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2017/02/HowTo-Install-Redmine.html">HowTo Install Redmine</a></h1>
-    <div class="post_at_index">
-      <h4 id="runtime-environment">Runtime environment</h4>
-
-<ul>
-  <li>CentOS 6.x</li>
-  <li>Redmine 3.3.2</li>
-  <li>Ruby 2.2.6</li>
-  <li>rails 4.2</li>
-  <li>MySQL 5.1</li>
-  <li>Nginx 1.10</li>
-</ul>
-
-<h4 id="安装-rvm">安装 rvm</h4>
-
-<h5 id="导入公钥">导入公钥</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# curl -sSL https://rvm.io/mpapis.asc | gpg --import
-</code></pre></div></div>
-
-<h5 id="安装">安装</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# curl -L https://get.rvm.io | bash -s stable
-</code></pre></div></div>
-
-<h5 id="加载-rvm-环境并安装基础依赖包">加载 rvm 环境并安装基础依赖包</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# source /etc/profile.d/rvm.sh
-[root@localhost ~]# rvm requirements
-</code></pre></div></div>
-
-<h4 id="安装-ruby">安装 ruby</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# rvm install 2.2.6
-...
-[root@localhost ~]# rvm use 2.2.6 --default
-</code></pre></div></div>
-
-<h4 id="安装-rails">安装 rails</h4>
-
-<h5 id="更换-gem-源">更换 gem 源</h5>
-
-<p>默认 gem 的源站点是<a href="https://rubygems.org">https://rubygems.org</a> 由于国内的网络原因导致无法连接，所以导致无法使用 gem 安装，这里换成国内淘宝的 gem 镜像站点</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# gem sources -l
-*** CURRENT SOURCES ***
-
-https://rubygems.org/
-[root@localhost ~]# gem sources --remove https://rubygems.org/
-[root@localhost ~]# gem sources -a https://ruby.taobao.org/
-[root@localhost ~]# gem sources -l
-*** CURRENT SOURCES ***
-
-https://ruby.taobao.org/
-</code></pre></div></div>
-
-<h5 id="安装-1">安装</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# gem install rails -v=4.2
-</code></pre></div></div>
-
-<h4 id="安装-mysql">安装 MySQL</h4>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# yum install -y mysql-server mysql-libs mysql-devel mysql
-[root@localhost ~]# service mysqld start
-[root@localhost ~]# mysql_secure_installation
-</code></pre></div></div>
-
-<h4 id="安装-redmine">安装 redmine</h4>
-
-<h5 id="下载-redmine-332">下载 Redmine 3.3.2</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# wget http://www.redmine.org/releases/redmine-3.3.2.tar.gz
-[root@localhost ~]# tar xf redmine-3.3.2.tar.gz
-[root@localhost ~]# mv redmine-3.3.2 /opt
-</code></pre></div></div>
-
-<h5 id="安装管理-ruby-的包管理工具-bundler">安装管理 ruby 的包管理工具 bundler</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 注意，一定要在redmine目录下操作
-[root@localhost ~]# cd /opt/redmine-3.3.2
-[root@localhost redmine-3.3.2]# gem install bundler
-</code></pre></div></div>
-
-<h5 id="安装-redmine-运行所需要的依赖包">安装 redmine 运行所需要的依赖包</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# bundle install --without development test rmagick
-</code></pre></div></div>
-
-<h5 id="为-rails-生产-cookies-秘钥">为 rails 生产 cookies 秘钥</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# rake generate_secret_token
-</code></pre></div></div>
-
-<h5 id="创建-redmine-的数据库">创建 redmine 的数据库</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; create database redmine character set utf8;
-mysql&gt; grant all privileges on redmine.* to 'redmine'@'localhost' identified by 'redmine_pass';
-</code></pre></div></div>
-
-<h5 id="修改-redmine-的-databaseyml">修改 redmine 的 database.yml</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# cp config/database.yml.example config/database.yml
-[root@localhost redmine-3.3.2]# vim config/database.yml
-production:
-  adapter: mysql2
-  database: redmine
-  host: localhost
-  username: redmine
-  password: "redmine_pass"
-  encoding: utf8
-</code></pre></div></div>
-
-<h5 id="创建数据库结构">创建数据库结构</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# RAILS_ENV=production bundle exec rake db:migrate
-</code></pre></div></div>
-
-<h5 id="生产缺省数据">生产缺省数据</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# RAILS_ENV=production bundle exec rake redmine:load_default_data
-# 选择默认语言，之后可更改，初始为en
-</code></pre></div></div>
-
-<h5 id="测试是否安装成功">测试是否安装成功</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# bundle exec rails server webrick -e production -b 0.0.0.0
-</code></pre></div></div>
-
-<blockquote>
-  <p>默认运行 3000 端口，默认管理员 admin/admin</p>
-</blockquote>
-
-<h4 id="配置-redmine-在-nginx-上运行">配置 Redmine 在 Nginx 上运行</h4>
-
-<p>Redmine 常用的解决办法是使用 passenger+nginx，但是 Nginx 不支持装载模块，所以需要重新编译安装 Nginx，安装 Nginx 的 Passenger 有两种方式</p>
-
-<ul>
-  <li>采用 Passenger 提供的脚本进行安装，适合新环境</li>
-  <li>手动编译安装 Nginx 增加 Passenger 模块，适合已存在 Nginx 环境</li>
-</ul>
-
-<h5 id="采用-passenger-提供脚本安装">采用 Passenger 提供脚本安装</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# gem install passenger
-[root@localhost redmine-3.3.2]# passenger-install-nginx-module --auto --prefix=/opt/nginx
-</code></pre></div></div>
-
-<h5 id="采用重新编译-nginx-增加-passenger-模块">采用重新编译 Nginx 增加 Passenger 模块</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 获取passenger的安装路径
-[root@localhost ~]# passenger-config --root
-/usr/local/rvm/gems/ruby-2.2.6/gems/passenger-5.1.2
-
-# 重新编译Nginx并添加模块
-[root@localhost ~]# wget http://nginx.org/download/nginx-1.10.3.tar.gz
-[root@localhost ~]# tar xf nginx-1.10.3.tar.gz
-[root@localhost ~]# cd nginx-1.10.3
-[root@localhost nginx-1.10.3]# ./configure ... -add-module=/usr/local/rvm/gems/ruby-2.2.6/gems/passenger-5.1.2
-</code></pre></div></div>
-
-<h5 id="增加-http-模块内以下配置">增加 HTTP 模块内以下配置</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>passenger_root /usr/local/rvm/gems/ruby-2.2.6/gems/passenger-5.1.2
-</code></pre></div></div>
-
-<h5 id="配置-nginxconf-修改-server-模块中-location-的配置">配置 nginx.conf 修改 server 模块中 location 的配置</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ...
-server {
-  # ...
-  passenger_enabled on;
-  location / {
-    root /opt/redmine-3.3.2/public;
-    index index.html index.htm;
-  }
-}
-# ...
-</code></pre></div></div>
-
-<h5 id="启动-nginx">启动 Nginx</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost ~]# /root/nginx-1.10.3/sbin/nginx -c /root/nginx-1.10.3/conf/nginx.conf
-</code></pre></div></div>
-
-<h4 id="其他">其他</h4>
-
-<p>到这里，所有的安装都完成了，过程中我遇到这些问题，你也注意下：</p>
-
-<h5 id="71-could-not-find-gem-mysql2--0311-in-any-of-the-gem-sources-listed-in-your-gemfile">7.1 Could not find gem ‘mysql2 (~&gt; 0.3.11)’ in any of the gem sources listed in your Gemfile</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[root@localhost redmine-3.3.2]# rm -f Gemfile.lock
-[root@localhost redmine-3.3.2]# bundle install
-</code></pre></div></div>
-
-<h5 id="72-curl-tools">7.2 curl-tools</h5>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install libcurl-devel
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-02-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Redmine">Redmine</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1983,7 +1897,7 @@ server {
      
     	
       <li><a href="/categories.html#Kubernetes">
-    		Kubernetes <span>14</span>
+    		Kubernetes <span>15</span>
     	</a></li>
      
     	
@@ -2005,6 +1919,13 @@ server {
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
+          前言
+
+
+        </li>
         
         <li>
           <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
@@ -2032,14 +1953,6 @@ server {
           
   参考资料：
 
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
-          ```python
-df = pandas.read_csv(‘somefile.txt’)
 
 
         </li>

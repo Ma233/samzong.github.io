@@ -280,6 +280,27 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2020/12/covert-timestamp2datetime.html">covert timestamp2datetime</a></h1>
+    <div class="post_at_index">
+      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="n">datetime</span><span class="p">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">res</span><span class="p">.</span><span class="n">json</span><span class="p">()[</span><span class="s">"updated_at"</span><span class="p">]</span> <span class="o">/</span><span class="mi">1000</span><span class="p">)).</span><span class="n">strftime</span><span class="p">(</span><span class="s">'%Y-%m-%d %H:%M:%S'</span><span class="p">)</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-12-09</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2020/12/python-%E5%AE%8C%E6%88%90%E6%8A%96%E5%BA%97API%E6%8E%88%E6%9D%83.html">python 完成抖店 API 授权</a></h1>
     <div class="post_at_index">
       <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">hashlib</span>
@@ -848,50 +869,6 @@ python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2020/11/join-%E4%B8%8E-format-%E4%B8%8D%E5%90%8C%E7%9A%84%E7%94%A8%E6%B3%95.html">join 与 format 不同的用法</a></h1>
-    <div class="post_at_index">
-      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Join
-</span><span class="k">print</span><span class="p">(</span><span class="s">"and"</span><span class="p">.</span><span class="n">join</span><span class="p">([</span><span class="s">"Jack"</span><span class="p">,</span> <span class="s">"Tom"</span><span class="p">]))</span>
-<span class="o">&gt;</span> <span class="n">Jack</span> <span class="ow">and</span> <span class="n">Tom</span>
-
-<span class="k">print</span><span class="p">(</span><span class="s">"and"</span><span class="p">.</span><span class="n">join</span><span class="p">([</span><span class="s">"Jack"</span><span class="p">,</span> <span class="s">"Tom"</span><span class="p">,</span> <span class="s">"Jessica"</span><span class="p">]))</span>
-<span class="o">&gt;</span> <span class="n">Jack</span> <span class="ow">and</span> <span class="n">Tom</span> <span class="ow">and</span> <span class="n">Jessica</span>
-
-<span class="c1"># Format
-</span><span class="k">print</span><span class="p">(</span><span class="s">"你和{}"</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">"我"</span><span class="p">))</span>
-<span class="o">&gt;</span> <span class="n">你和我</span>
-
-<span class="k">print</span><span class="p">(</span><span class="s">"{}你和"</span><span class="p">.</span><span class="n">Format</span><span class="p">(</span><span class="s">"我"</span><span class="p">))</span>
-<span class="o">&gt;</span><span class="n">我你和</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>当然还有 <code class="language-plaintext highlighter-rouge">%s</code> ，但更推荐使用 format，任何在设计到字符替换的都可使用到</p>
-</blockquote>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"{}_name.txt"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">api</span><span class="p">),</span> <span class="s">"a+"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="s">"{}, {}</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">uid</span><span class="p">[</span><span class="s">"user-id"</span><span class="p">],</span> <span class="n">uid</span><span class="p">.</span><span class="n">string</span><span class="p">))</span>
-    <span class="n">f</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
-    
-<span class="n">string_to_sign</span> <span class="o">=</span> <span class="s">'{}</span><span class="se">\n</span><span class="s">{}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">)</span>
-
-<span class="n">msg</span> <span class="o">=</span> <span class="s">"You get a new version. {}</span><span class="se">\n</span><span class="s">The download link : {}</span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">get_version</span><span class="p">,</span> <span class="n">get_url</span><span class="p">)</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2020-11-06</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1054,7 +1031,7 @@ python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号
      
     	
       <li><a href="/categories.html#Kubernetes">
-    		Kubernetes <span>14</span>
+    		Kubernetes <span>15</span>
     	</a></li>
      
     	
@@ -1076,6 +1053,13 @@ python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
+          前言
+
+
+        </li>
         
         <li>
           <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
@@ -1103,14 +1087,6 @@ python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号
           
   参考资料：
 
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
-          ```python
-df = pandas.read_csv(‘somefile.txt’)
 
 
         </li>

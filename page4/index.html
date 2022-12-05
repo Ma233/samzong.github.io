@@ -280,6 +280,28 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2022/05/Kubernetes-Operator.html">Kubernetes Operator</a></h1>
+    <div class="post_at_index">
+      <p><a href="https://www.redhat.com/zh/topics/containers/what-is-a-kubernetes-operator">https://www.redhat.com/zh/topics/containers/what-is-a-kubernetes-operator</a></p>
+
+<p>Kubernetes Operator 是一种封装、部署和管理 Kubernetes 应用的方法。我们使用 Kubernetes API（应用编程接口）和 kubectl 工具在 Kubernetes 上部署并管理 Kubernetes 应用。</p>
+
+<p>Kubernetes Operator 是一种特定于应用的控制器，可扩展 Kubernetes API 的功能，来代表 Kubernetes 用户创建、配置和管理复杂应用的实例</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-05-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Operator">Operator</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2022/05/Contour-%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5.html">Contour 设计理念</a></h1>
     <div class="post_at_index">
       <p>Contour 是一个第 7 层 <strong>HTTP</strong> 中间件反向代理，用于启用 Kubernetes 集群的入口。</p>
@@ -1264,106 +1286,6 @@ kernel.pid_max <span class="o">=</span> 65535
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/04/GitHub-Pages-%E7%9A%84%E5%A6%99%E7%94%A8.html">GitHub Pages 的妙用</a></h1>
-    <div class="post_at_index">
-      <h2 id="本来是想好好工作的">本来是想好好工作的</h2>
-
-<p>最近换了新工作（后面找个时间好好说说），大量接触 k8s &amp; docker，开始写了比较多的 yaml 和 Dockerfile；散落在电脑上的话，还是很不方便，有个仓库管理起来的话，就会很方便了，于是有了这个项目 <a href="https://github.com/SAMZONG/k8s-yaml">samzong/k8s-yaml</a></p>
-
-<p>k8s-yaml 一开始的定义就是 public，希望给更多其他的人提供帮助，索性就再增加了一个网页吧</p>
-
-<h2 id="一分钟快速搭建网站">一分钟快速搭建网站</h2>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch gh-pages
-<span class="nb">echo</span> <span class="s2">"## Hello gh-pages"</span> <span class="o">&gt;</span> index.md
-git push origin gh-pages
-</code></pre></div></div>
-
-<p>eeen…. 这样就 ok！</p>
-
-<p><code class="language-plaintext highlighter-rouge">gh-pages</code> 是每个 GitHub 仓库的默认 github pages 分支，当你创建这个分支并推动到 GitHub 时，会自动触发 Pages 的构建任务，大约 30s 左右，你就会得到一个网站</p>
-
-<blockquote>
-  <p><a href="http://[github_username">http://[github_username</a>].github.io/[github_repo_name]</p>
-</blockquote>
-
-<h2 id="简单的配置">简单的配置</h2>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/X4tbDt.png?x-oss-process=image/resize,w_960,m_lfit" alt="X4tbDt" /></p>
-
-<p>上图简单指引了如何打开 GitHub Pages 的配置路径，下面对主要的几个模块进行说明：</p>
-
-<ol>
-  <li>Source  - 指定的 以那个分支作为 built 源和文件夹，默认是 gh-pages, 建议不动，统一认知</li>
-  <li>Theme Chooser - 选择对应的博客主题，大概有 10 个，都比较普通，根据自己喜好来，可以自定义，这里不展开 (Google Jekyll themes 一大堆</li>
-  <li>Custom Domain - 可以指定默认的特定的域名，需要配置 <code class="language-plaintext highlighter-rouge">/CNAME</code>，需要和这里的域名一致，同时域名解析需要配置好 CNAME</li>
-  <li>Enforce HTTPS - 启用 HTTPS，默认不启动，建议启用</li>
-</ol>
-
-<blockquote>
-  <p>CNAME 配置，将指定的域名指向到 <code class="language-plaintext highlighter-rouge">[github_username].github.io</code></p>
-</blockquote>
-
-<p>经过简单的配置，这个仓库的网站，已经完成了你想要的；在 <code class="language-plaintext highlighter-rouge">index.md</code> 内修改为你想要的内容。</p>
-
-<h2 id="高级功能结合-github-issue-的评论功能">高级功能：结合 GitHub issue 的评论功能</h2>
-
-<p>这里采用的 评论组件是 <a href="https://utteranc.es/">utterances</a>, 提供轻量级的博客评论功能，并且评论是直接创建 GitHub issue，方便管理</p>
-
-<p>这里不赘述安装细节的，比较简单，直接去看下面几个网站即可</p>
-
-<ul>
-  <li><a href="https://utteranc.es/">https://utteranc.es/</a></li>
-  <li><a href="https://roife.github.io/2021/02/12/use-utterances-for-comment/">https://roife.github.io/2021/02/12/use-utterances-for-comment/</a></li>
-  <li><a href="https://www.evanlin.com/jekyll-remove-disqus/">https://www.evanlin.com/jekyll-remove-disqus/</a></li>
-</ul>
-
-<blockquote>
-  <p>注意需要增加的文件</p>
-</blockquote>
-
-<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir _layouts
-wget https://raw.githubusercontent.com/SAMZONG/k8s-yaml/gh-pages/_layouts/post.html -o _layouts/post.html
-</code></pre></div></div>
-
-<p>index.md 增加 layout 参数，追加在最顶部</p>
-
-<div class="language-md highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
-<span class="na">layout</span><span class="pi">:</span> <span class="s">post</span>
-<span class="nn">---</span>
-</code></pre></div></div>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add _layouts/post.html
-git add index.md
-
-git commit <span class="nt">-m</span> <span class="s2">"add comment module with utterances"</span>
-git push origin gh-pages
-</code></pre></div></div>
-
-<h2 id="end">End</h2>
-
-<p>以上就是全部的部署内容了，可以去看下我的网站和项目</p>
-
-<ul>
-  <li><a href="https://k8s-yaml.samzong.me">https://k8s-yaml.samzong.me</a></li>
-</ul>
-
-<p>如果你觉得喜欢，求 fork，求 star</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Github">Github</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1524,7 +1446,7 @@ git push origin gh-pages
      
     	
       <li><a href="/categories.html#Kubernetes">
-    		Kubernetes <span>14</span>
+    		Kubernetes <span>15</span>
     	</a></li>
      
     	
@@ -1546,6 +1468,13 @@ git push origin gh-pages
     <div>
       <h2>最近文章</h2>
       <ul>
+        
+        <li>
+          <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
+          前言
+
+
+        </li>
         
         <li>
           <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
@@ -1573,14 +1502,6 @@ git push origin gh-pages
           
   参考资料：
 
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Panads-fill-NaN-value-to-Zero.html">Panads fill NaN value to Zero</a>
-          ```python
-df = pandas.read_csv(‘somefile.txt’)
 
 
         </li>

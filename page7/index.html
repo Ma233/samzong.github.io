@@ -237,6 +237,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -278,6 +282,121 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2022/02/%E4%B8%80%E4%B8%AAPython%E9%A1%B9%E7%9B%AE%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1.html">一个 Python 项目的目录结构设计</a></h1>
+    <div class="post_at_index">
+      <h2 id="参考的目录结构设计">参考的目录结构设计</h2>
+
+<blockquote>
+  <p>thanks <a href="https://www.justdopython.com/2020/01/18/python-web-flask-project-125/">https://www.justdopython.com/2020/01/18/python-web-flask-project-125/</a></p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">project</span><span class="o">/</span>
+  <span class="n">forms</span><span class="o">/</span>
+    <span class="n">myform</span><span class="p">.</span><span class="n">py</span>
+    <span class="p">...</span>
+  <span class="n">models</span><span class="o">/</span>
+    <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+    <span class="n">profile</span><span class="p">.</span><span class="n">py</span>
+    <span class="n">user</span><span class="p">.</span><span class="n">py</span>
+    <span class="p">...</span>
+  <span class="n">routes</span><span class="o">/</span>
+    <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+    <span class="n">home</span><span class="p">.</span><span class="n">py</span>
+    <span class="n">profile</span><span class="p">.</span><span class="n">py</span>
+    <span class="p">...</span>
+  <span class="n">static</span><span class="o">/</span>
+    <span class="p">...</span>
+  <span class="n">services</span><span class="o">/</span>
+    <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+    <span class="p">...</span>
+  <span class="n">templates</span><span class="o">/</span>
+    <span class="n">createprofile</span><span class="p">.</span><span class="n">html</span>
+    <span class="n">profile</span><span class="p">.</span><span class="n">html</span>
+    <span class="p">...</span>
+  <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+  <span class="n">config</span><span class="p">.</span><span class="n">py</span>
+  <span class="o">*</span><span class="n">utils</span><span class="o">/*</span>
+    <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
+    <span class="n">jwt_decode</span><span class="p">.</span><span class="n">py</span>
+    <span class="p">...</span>
+
+</code></pre></div></div>
+
+<ul>
+  <li>forms（表单）：存放表单对象</li>
+  <li>models（模型）：存放数据模型，即库表在程序中的映射对象，以及对象之间的关系
+    <ul>
+      <li>不同的表，分开存储</li>
+    </ul>
+  </li>
+  <li>routes（路由）：存放请求路由以及处理逻辑</li>
+  <li>static（静态文件）：Flask 约定存放静态文件的目录</li>
+  <li>templates（模板）：Flask 约定存放页面模板的目录</li>
+  <li>services（服务）：存放业务逻辑或者其他服务类功能</li>
+  <li><strong>init</strong>.py：Flask app 初始化方法
+    <ul>
+      <li>在每个目录下都增加对应的 <strong>init</strong>.py 将目录变成 package 方便调用</li>
+      <li>并在 <strong>init</strong>.py 完成一些程序的初始化</li>
+    </ul>
+  </li>
+  <li>config.py：项目配置文件
+    <ul>
+      <li>区分配置类型</li>
+    </ul>
+  </li>
+  <li><strong>增加 utils/</strong>将工具类的放在 utils 内实现，方便使用</li>
+</ul>
+
+<p>:::danger
+需要后续考虑的问题，一个项目较为复杂时，如果分解多应用的问题，留在后面考虑
+:::</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-02-11</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/01/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a></h1>
+    <div class="post_at_index">
+      <ul>
+  <li>strip() 删除字符串中的内容，删除后仍旧是 str</li>
+  <li>split() 分割字符串，根据特定的标识，分割后=list</li>
+</ul>
+
+<blockquote>
+  <p>两者处理过程中都不会修改原字符串的内容</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python3</span>
+
+<span class="nb">str</span><span class="p">.</span><span class="n">strip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串末尾的","
+</span><span class="nb">str</span><span class="p">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串末尾的","
+</span><span class="nb">str</span><span class="p">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串开通的","
+</span></code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-01-21</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2022/01/ClickHouse-%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0%E4%BD%BF%E7%94%A8.html">ClickHouse 常用函数使用</a></h1>
@@ -628,144 +747,6 @@ git config <span class="nt">--global</span> https.https://github.com.proxy https
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2021/11/Creating-DataFrame-using-list.html">Creating DataFrame using list</a></h1>
-    <div class="post_at_index">
-      <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-  
-<span class="c1"># list of strings
-</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'For'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'is'</span><span class="p">,</span> 
-            <span class="s">'portal'</span><span class="p">,</span> <span class="s">'for'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">]</span>
-  
-<span class="c1"># Calling DataFrame constructor on list
-</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326317905-b923391a-6135-482f-8b43-9a67e1f6245f.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># import pandas as pd
-</span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-
-<span class="c1"># list of strings
-</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'For'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">,</span> <span class="s">'is'</span><span class="p">,</span> <span class="s">'portal'</span><span class="p">,</span> <span class="s">'for'</span><span class="p">,</span> <span class="s">'Geeks'</span><span class="p">]</span>
-
-<span class="c1"># Calling DataFrame constructor on list
-# with indices and columns specified
-</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span><span class="p">[</span><span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">,</span> <span class="s">'d'</span><span class="p">,</span> <span class="s">'e'</span><span class="p">,</span> <span class="s">'f'</span><span class="p">,</span> <span class="s">'g'</span><span class="p">],</span>
-           <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'Names'</span><span class="p">])</span>
-</code></pre></div></div>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326330330-97380b9c-a674-479c-a4f4-074ef3128aa3.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Creating DataFrame using multi-dimensional list
-</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
- 
-<span class="c1"># List1
-</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'tom'</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> <span class="p">[</span><span class="s">'krish'</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
- <span class="p">[</span><span class="s">'nick'</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span> <span class="p">[</span><span class="s">'juli'</span><span class="p">,</span> <span class="mi">22</span><span class="p">]]</span>
- 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'Name'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">])</span>
-</code></pre></div></div>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1639326375589-cd58c20f-3dde-4eeb-a097-19dd3bf3376a.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Using multi-dimensional list with column name and dtype specified.
-</span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
- 
-<span class="c1"># List1
-</span><span class="n">lst</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'tom'</span><span class="p">,</span> <span class="s">'reacher'</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> <span class="p">[</span><span class="s">'krish'</span><span class="p">,</span> <span class="s">'pete'</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span>
- <span class="p">[</span><span class="s">'nick'</span><span class="p">,</span> <span class="s">'wilson'</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span> <span class="p">[</span><span class="s">'juli'</span><span class="p">,</span> <span class="s">'williams'</span><span class="p">,</span> <span class="mi">22</span><span class="p">]]</span>
- 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span><span class="p">[</span><span class="s">'FName'</span><span class="p">,</span> <span class="s">'LName'</span><span class="p">,</span> <span class="s">'Age'</span><span class="p">],</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-11-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Pandas">Pandas</a>
-      , 
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2021/11/Metabase-%E8%B8%A9%E5%9D%91-%E8%B7%B3%E8%BD%AC%E9%93%BE%E6%8E%A5%E7%9A%84%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98.html">Metabase 踩坑：跳转链接的浏览器缓存</a></h1>
-    <div class="post_at_index">
-      <p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635955971186-4f85ab8d-9d1e-46ab-bd20-ee914c91fade.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<h3 id="背景说明">背景说明</h3>
-
-<p>最近在使用 Metabase 做一个内部工具的跳转传送门，大概实现的方式是这样：
-<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635956694248-79aec951-9e6d-4360-b4e9-37bd2cefd740.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<ul>
-  <li>通过 Metabase 带有的字段支持链接跳转的功能，拼接上查询结果的部分</li>
-  <li>后端服务完成对用户行为的校验，并且完成身份预认证，生成验证 token</li>
-  <li>然后带着预认证的信息跳转到对应的系统内</li>
-</ul>
-
-<h3 id="问题分析">问题分析</h3>
-
-<p>起初用的时候发现还好，不过陆续有同学反馈有些行数的结果不能够进入后台去，而让其他人使用又是没问题；</p>
-
-<p>简单分析了下服务端日志，发现不能正常登录情况是请求根本没有到后端服务器，浏览器直接进行了跳转，而之前签发的 token 是有时效的，超过时间就过期了，所以导致跳转后校验不通过</p>
-
-<p><a href="https://juejin.cn/post/6844904130482274318"><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635957317795-60317ecd-b550-42d6-ab25-3f0b7d9247d9.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></a></p>
-
-<blockquote>
-  <p>有兴趣的同学，可以点击上方的图片链接，去详细介绍的原文看看</p>
-</blockquote>
-
-<h3 id="解决思路">解决思路
-
-</h3>
-
-<p>靠着对前端和浏览器一知半解+Google 出来的结果，<strong>只要欺骗浏览器每次请求的路径不一样，就可以解决这个问题。</strong></p>
-
-<p>所以解铃还须系铃人，当然还是靠着 Metabase 来解决这个问题</p>
-
-<p>:::success
-在 SQL 查询结果中增加一个每次都是不一样的结果字段 <strong>取 unixtimestamp 时间</strong>，然后将结果拼接到 url 中
-:::</p>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span>
- <span class="n">UNIX_TIMESTAMP</span><span class="p">(</span><span class="n">now</span><span class="p">())</span> <span class="k">AS</span> <span class="nv">`ts`</span> <span class="o">//</span><span class="err">每次取值当前时间</span>
-<span class="k">FROM</span>
- <span class="k">table_name</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>解决之后对比</p>
-</blockquote>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1635957781278-bd41df03-24be-4640-b77f-54ba77774bea.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<p>🎆🎆🎆  完毕，问题得以解决</p>
-
-<h3 id="其他">其他</h3>
-
-<p>注意在后端服务上去除对时间参数的过滤，因为我是只处理了我想要的字段，所以这样的调整 服务端代码都不用改</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2021-11-03</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Metabase">Metabase</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -807,7 +788,7 @@ git config <span class="nt">--global</span> https.https://github.com.proxy https
             <li class="active"><a>7</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page24">24</a></li>
+          <li><a href="/page25">25</a></li>
         
 
         
@@ -868,7 +849,7 @@ git config <span class="nt">--global</span> https.https://github.com.proxy https
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>16</span>
+    		Mac <span>18</span>
     	</a></li>
      
     	
@@ -952,6 +933,20 @@ git config <span class="nt">--global</span> https.https://github.com.proxy https
       <ul>
         
         <li>
+          <a href="/post/2022/12/raycast-01.html">Raycast 你的年度报告已到达</a>
+          从 Alfred 切换到 Raycast 也就 2 个多月的时间；使用体验有着比较大的提升。
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/12/Skoala-Install-Dce5.html">DCE5-Skoala 安装教程</a>
+          使用之前的话
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
           前言
 
@@ -968,22 +963,6 @@ git config <span class="nt">--global</span> https.https://github.com.proxy https
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
           背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy to Markdown</a>
-          背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
-          
-  参考资料：
-
 
 
         </li>

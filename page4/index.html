@@ -237,6 +237,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -278,6 +282,190 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2022/05/Gitlab-%E5%8F%91%E9%80%81%E4%BC%81%E5%BE%AE%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%B6%88%E6%81%AF.html">Gitlab 发送企微机器人消息</a></h1>
+    <div class="post_at_index">
+      <ul>
+  <li>企业微信机器人消息说明： <a href="https://developer.work.weixin.qq.com/document/path/91770">https://developer.work.weixin.qq.com/document/path/91770</a></li>
+  <li>GitLab Webhook Event：   <a href="https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html">https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html</a></li>
+</ul>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652838666817-16490352-2dcb-4e6f-a4d6-0e060090287a.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<h2 id="gitlab-配置">Gitlab 配置</h2>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652837377264-dc310e99-bcbc-4495-a4f0-f507c6f54f1e.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" title="Gitlab 项目配置" />
+:::info
+=&gt; 高级用法 开启鉴权
+:::</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">-</span> 在 Gitlab 配置好之后 Secret token
+<span class="p">-</span> 在服务端接收推送时验证
+</code></pre></div></div>
+
+<h2 id="实现中转站服务">实现中转站服务</h2>
+
+<p>:::warning
+<strong>基本需求说明：</strong></p>
+
+<ul>
+  <li>可以 接受  gitlab 的 event 推送</li>
+  <li>可以 发送 消息到微信服务器</li>
+  <li>稳定
+:::</li>
+</ul>
+
+<p>我采用的方式，腾讯云函数；薅羊毛的方式</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">url_for</span><span class="p">,</span> <span class="n">send_from_directory</span>
+<span class="kn">from</span> <span class="nn">werkzeug.utils</span> <span class="kn">import</span> <span class="n">secure_filename</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">IS_SERVERLESS</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'SERVERLESS'</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">IS_SERVERLESS</span><span class="p">)</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="c1"># send_msg_wecom
+</span><span class="k">def</span> <span class="nf">msg_send_wecom</span><span class="p">(</span><span class="n">md_content</span><span class="p">):</span>
+    <span class="s">"""msg_send_wecom
+    {
+        "msgtype": "markdown",
+        "markdown": {
+            "content": "实时新增用户反馈&lt;font color=</span><span class="se">\"</span><span class="s">warning</span><span class="se">\"</span><span class="s">&gt;132 例，请相关同事注意。</span><span class="se">\n</span><span class="s">
+             &gt;类型:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;用户反馈
+             &gt;普通用户反馈:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;117 例
+             &gt;VIP 用户反馈:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;15 例"
+        }
+    }
+    """</span>
+
+    <span class="n">url</span> <span class="o">=</span> <span class="s">"https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key="</span>
+
+    <span class="n">webhooks</span> <span class="o">=</span> <span class="p">[</span><span class="s">"xxxxxxxxxxxxxxxxxxxxxxxxxxx"</span><span class="p">]</span> <span class="c1"># 多个 webhook 需要推送时
+</span>    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Content-Type'</span><span class="p">:</span> <span class="s">'application/json'</span><span class="p">}</span>
+
+    <span class="n">message</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"msgtype"</span><span class="p">:</span> <span class="s">"markdown"</span><span class="p">,</span>
+        <span class="s">"markdown"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s">"content"</span><span class="p">:</span> <span class="n">md_content</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">webhook</span> <span class="ow">in</span> <span class="n">webhooks</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="o">+</span><span class="n">webhook</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">message</span><span class="p">)</span>
+        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span> 
+            <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+
+<span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/from_gitlab_webhook"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">'POST'</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">say_hello</span><span class="p">():</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">get_json</span><span class="p">()</span>
+    <span class="n">event_type</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'object_kind'</span><span class="p">]</span>
+
+    <span class="n">resp</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'event'</span><span class="p">:</span> <span class="n">event_type</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="n">md_content</span> <span class="o">=</span> <span class="s">""</span>
+
+    <span class="k">if</span> <span class="n">event_type</span> <span class="o">==</span> <span class="s">'push'</span><span class="p">:</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'commits'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'message'</span><span class="p">].</span><span class="n">replace</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="s">""</span><span class="p">)</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'user_username'</span><span class="p">]</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'project'</span><span class="p">][</span><span class="s">'name'</span><span class="p">]</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'project'</span><span class="p">][</span><span class="s">'web_url'</span><span class="p">]</span>
+
+        <span class="c1"># fit md_content
+</span>        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"## 文档站 &lt;font color=</span><span class="se">\"</span><span class="s">info</span><span class="se">\"</span><span class="s">&gt;{} 通知：</span><span class="se">\n\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'event'</span><span class="p">])</span>
+        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 项目：[{}]({}) </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">],</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">])</span>
+        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 更新人：*{}* </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">])</span>
+        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 提交信息：{} </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">])</span>
+
+    <span class="k">elif</span> <span class="n">event_type</span> <span class="o">==</span> <span class="s">'build'</span><span class="p">:</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'user'</span><span class="p">][</span><span class="s">'username'</span><span class="p">]</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'repository'</span><span class="p">][</span><span class="s">'name'</span><span class="p">]</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'repository'</span><span class="p">][</span><span class="s">'homepage'</span><span class="p">]</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'commit'</span><span class="p">][</span><span class="s">'message'</span><span class="p">].</span><span class="n">replace</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="s">""</span><span class="p">)</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">]</span>
+        <span class="n">resp</span><span class="p">[</span><span class="s">'build_duration'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'build_duration'</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'failed'</span><span class="p">:</span>
+            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"## 文档站 {} &lt;font color=</span><span class="se">\"</span><span class="s">warning</span><span class="se">\"</span><span class="s">&gt;{} 通知：</span><span class="se">\n\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'event'</span><span class="p">],</span> <span class="n">resp</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">])</span>
+            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 项目：[{}]({}) </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">],</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">])</span>
+            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 请 **{}** 关注最近提交的内容 </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">])</span>
+            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 提交信息：{} </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">])</span>
+
+    <span class="n">msg_send_wecom</span><span class="p">(</span><span class="n">md_content</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">"INFO: "</span> <span class="o">+</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">resp</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+
+<span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/"</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s">"code"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="s">"msg"</span><span class="p">:</span> <span class="s">"it's ok!"</span><span class="p">}</span>
+
+<span class="c1"># 启动服务，监听 9000 端口，监听地址为 0.0.0.0
+</span><span class="n">app</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="n">IS_SERVERLESS</span> <span class="o">!=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">9000</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">'0.0.0.0'</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h2 id="创建企微群机器人">创建企微群机器人</h2>
+
+<p>成功创建机器人后，会获取到一个 用于推送消息的 webhook Key
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652837537654-e5be191b-d8c6-4752-ae0b-76118ec55ac4.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" />
+:::info
+=&gt; 高级用法 针对推送来源进行 IP 限制
+:::
+<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652837738144-f9f88da1-eae9-44e3-8a8b-ad9e98247ffd.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<h2 id="消息呈现展示">消息呈现展示</h2>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652838264735-b525d863-e8a9-4041-9b11-d349a3df7420.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-05-18</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#GitLab">GitLab</a>
+      , 
+      <a href="/tags.html#Webhook">Webhook</a>
+      , 
+      <a href="/tags.html#Bot">Bot</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/05/%E5%9B%BD%E5%86%85%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA-MacOS-K8s-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.html">国内环境搭建 MacOS K8s 开发环境</a></h1>
+    <div class="post_at_index">
+      <h2 id="minikube">Minikube</h2>
+
+<p>在 Mac 上搭建开发环境，这里主要使用了 Kubernetes 官方推荐的 minikube 和 docker-for-desktop 环境</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>minikube start <span class="nt">--image-mirror-country</span> cn <span class="se">\</span>
+    <span class="nt">--registry-mirror</span><span class="o">=</span>https://vbj8usl3.mirror.aliyuncs.com
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-05-17</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#K8s">K8s</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2022/05/Kubernetes-Operator.html">Kubernetes Operator</a></h1>
@@ -966,326 +1154,6 @@ format code  extension  resolution note
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/05/%E6%B7%98%E5%AE%9DPython-SDK%E4%BC%98%E5%8C%96%E6%94%AF%E6%8C%81Python3.html">淘宝 Python SDK 优化支持 Python3</a></h1>
-    <div class="post_at_index">
-      <p>淘宝开放平台的 SDK，Python 的 SDK 是在 2012 年，仅支持 Python2.7 及以上，但不支持 Python3；二现在是 2102 年了，像我这样的新手都是直接从 Python3 开始的，</p>
-
-<h4 id="1-python3-int-替代了-long">1. Python3 int 替代了 long</h4>
-
-<p><code class="language-plaintext highlighter-rouge">P_TIMESTAMP: str(int(time.time() * 1000))</code></p>
-
-<h4 id="2-用-items-替代-iteritems">2. 用 items 替代 iteritems</h4>
-
-<p><code class="language-plaintext highlighter-rouge">for key, value in application_parameter.items():</code></p>
-
-<h4 id="3-查阅资料发现有人说到-dict-methods-dictkeys-dictitems-and-dictvalues-returnviewsinstead-of-lists这样就显而易见知道怎么改了">3. 查阅资料，发现有人说到 dict methods dict.keys(), dict.items() and dict.values() return“views”instead of lists.这样就显而易见知道怎么改了</h4>
-
-<p><code class="language-plaintext highlighter-rouge">keys = sorted(keys)</code></p>
-
-<h4 id="4-英文意思很明确unicode-对象在哈希之前必须进行编码转换想起之前又看到过中文字符在-python-中是以-unicode-存在的所以">4. 英文意思很明确，unicode 对象在哈希之前必须进行编码转换，想起之前又看到过中文字符在 python 中是以 unicode 存在的，所以</h4>
-
-<p><code class="language-plaintext highlighter-rouge">sign = hashlib.md5(parameters.encode("utf-8")).hexdigest().upper()</code></p>
-
-<h4 id="5-这是花费时间最长的一个错误首先直接看最后错误在-soketpy-里心凉了半截难道这里的调用都不一样了再网上看又是-python-3x-的-http-模块去百度了半天也没有发现类似的错误只能自己硬着头皮去看模块功夫不负有心人其实也很简单在类-httpconnection-的初始化函数是这样定义的">5. 这是花费时间最长的一个错误。首先，直接看最后，错误在 soket.py 里，心凉了半截，难道这里的调用都不一样了，再网上看又是 python 3.X 的 http 模块，去百度了半天也没有发现类似的错误，只能自己硬着头皮去看模块，功夫不负有心人，其实也很简单，在类 HTTPConnection 的初始化函数是这样定义的</h4>
-
-<p><code class="language-plaintext highlighter-rouge">connection = httplib.HTTPConnection(self.__domain, self.__port, timeout)</code></p>
-
-<blockquote>
-  <p>比较下参数发现，python 2 比 3 多了一个参数，去掉即可，这个错误主要是是报错的地方和修改的地方不在一起，所以很难插出原因。</p>
-</blockquote>
-
-<h4 id="6-官方文档是这样解释的urllib-has-been-split-up-in-python-3-the-urlliburlencode-function-is-now-urllibparseurlencode-and-the-urlliburlopen-function-is-now-urllibrequesturlopen">6. 官方文档是这样解释的：urllib has been split up in Python 3. The urllib.urlencode() function is now urllib.parse.urlencode(), and the urllib.urlopen() function is now urllib.request.urlopen()</h4>
-
-<p><code class="language-plaintext highlighter-rouge">url = N_REST + "?" + urllib.parse.urlencode(sys_parameters)</code></p>
-
-<h4 id="7-这个错误是在-api-调用出异常的时候暴露出来的原因前面已经提到了稍微查了下替代的方法">7. 这个错误是在 API 调用出异常的时候暴露出来的。原因前面已经提到了，稍微查了下替代的方法</h4>
-
-<p><code class="language-plaintext highlighter-rouge">if "error_response" in jsonobj:</code></p>
-
-<p><code class="language-plaintext highlighter-rouge">if P_CODE in jsonobj["error_response"]:</code></p>
-
-<h4 id="8-在-if-需要使用反向时应该是--而不是使用-is-not这个也是-pycharm-给的建议所以在使用时所以简单调整下就好了">8. 在 if 需要使用反向时，应该是 != ，而不是使用  is not；这个也是 PyCharm 给的建议，所以在使用时，所以简单调整下就好了</h4>
-
-<p><code class="language-plaintext highlighter-rouge">if response.status != 200:</code></p>
-
-<p>以上调整之后，基本就可以正常跑起来了，基本是可以支持 Python3 的使用，我试过了 Python3.6-3.9，都是 OK 的。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-05-03</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/04/kubernetes-%E5%AD%A6%E4%B9%A0%E4%B9%8B%E8%B7%AF.html">kubernetes 学习之路</a></h1>
-    <div class="post_at_index">
-      <h2 id="基础环境">基础环境</h2>
-
-<ul>
-  <li>MacOS M1</li>
-  <li>Paralles Desktop 17</li>
-  <li>Ubuntu 20.04.4</li>
-</ul>
-
-<h3 id="ubuntu-安装替换系统源">ubuntu 安装替换系统源</h3>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 默认注释了源码仓库，如有需要可自行取消注释</span>
-deb https://mirrors.aliyun.com/ubuntu-ports/ xenial main restricted universe multiverse
-<span class="c"># deb-src https://mirrors.aliyun.com/ubuntu-ports/ xenial main main restricted universe multiverse</span>
-deb https://mirrors.aliyun.com/ubuntu-ports/ xenial-updates main restricted universe multiverse
-<span class="c"># deb-src https://mirrors.aliyun.com/ubuntu-ports/ xenial-updates main restricted universe multiverse</span>
-deb https://mirrors.aliyun.com/ubuntu-ports/ xenial-backports main restricted universe multiverse
-<span class="c"># deb-src https://mirrors.aliyun.com/ubuntu-ports/ xenial-backports main restricted universe multiverse</span>
-deb https://mirrors.aliyun.com/ubuntu-ports/ xenial-security main restricted universe multiverse
-<span class="c"># deb-src https://mirrors.aliyun.com/ubuntu-ports/ xenial-security main restricted universe multiverse</span>
-</code></pre></div></div>
-
-<h3 id="ubuntu-基础系统优化">ubuntu 基础系统优化</h3>
-
-<blockquote>
-  <p>时区问题处理</p>
-</blockquote>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 调整为为北京时区</span>
-<span class="nb">sudo cp</span> /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-
-<span class="c"># 增加时间自动同步</span>
-<span class="nb">sudo </span>crontab <span class="nt">-e</span>
-<span class="k">*</span>/15 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> /usr/sbin/ntpdate 1.cn.pool.ntp.org  <span class="o">&gt;</span>/dev/null 2&gt;&amp;1
-</code></pre></div></div>
-
-<h3 id="kubernetes-镜像源替换">Kubernetes 镜像源替换</h3>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt-get update <span class="o">&amp;&amp;</span> apt-get <span class="nb">install</span> <span class="nt">-y</span> apt-transport-https
-curl https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | apt-key add - 
-<span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> &gt;/etc/apt/sources.list.d/kubernetes.list
-deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main
-</span><span class="no">EOF
-</span>apt-get update
-apt-get <span class="nb">install</span> <span class="nt">-y</span> kubelet kubeadm kubectl
-</code></pre></div></div>
-
-<h3 id="docker-安装及源替换">docker 安装及源替换</h3>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># step 1: 安装必要的一些系统工具</span>
-<span class="nb">sudo </span>apt-get update
-<span class="nb">sudo </span>apt-get <span class="nt">-y</span> <span class="nb">install </span>apt-transport-https ca-certificates curl software-properties-common
-
-<span class="c"># step 2: 安装GPG证书</span>
-curl <span class="nt">-fsSL</span> http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | <span class="nb">sudo </span>apt-key add -
-
-<span class="c"># Step 3: 写入软件源信息</span>
-<span class="nb">sudo </span>add-apt-repository <span class="s2">"deb http://mirrors.aliyun.com/docker-ce/linux/ubuntu </span><span class="si">$(</span>lsb_release <span class="nt">-cs</span><span class="si">)</span><span class="s2"> stable"</span>
-
-<span class="c"># Step 4: 更新并安装 Docker-CE</span>
-<span class="nb">sudo </span>apt-get <span class="nt">-y</span> update
-<span class="nb">sudo </span>apt-get <span class="nt">-y</span> <span class="nb">install </span>docker-ce docker-ce-cli containerd.io
-</code></pre></div></div>
-
-<p>docker 的安装源配置</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh"> &gt; /etc/docker/daemon.json
-{
-  "registry-mirrors": [
-    "https://hub-mirror.c.163.com",
-    "https://mirror.baidubce.com"
-  ],
-  "exec-opts": ["native.cgroupdriver=systemd"]
-}
-</span><span class="no">EOF
-
-</span>systemctl daemon-reload
-systemctl restart docker
-</code></pre></div></div>
-
-<blockquote>
-  <p>docker cgroupdriver 在多个 node 和 master 之间不一致，会导致 node join 失败</p>
-</blockquote>
-
-<h2 id="kubernetes-部署机器">Kubernetes 部署机器</h2>
-
-<ul>
-  <li>4 核 4G 3 台
-    <ul>
-      <li>10.211.55.7 <strong>master1</strong></li>
-      <li>10.211.55.9 node1</li>
-      <li>10.211.55.10 node2</li>
-    </ul>
-  </li>
-</ul>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># This is the network config written by 'subiquity'</span>
-<span class="na">network</span><span class="pi">:</span>
-  <span class="na">ethernets</span><span class="pi">:</span>
-    <span class="na">enp0s5</span><span class="pi">:</span>
-      <span class="na">addresses</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">10.211.55.10/24</span><span class="pi">]</span>
-      <span class="na">dhcp4</span><span class="pi">:</span> <span class="s">no</span>
-      <span class="na">gateway4</span><span class="pi">:</span> <span class="s">10.211.55.1</span>
-      <span class="na">nameservers</span><span class="pi">:</span>
-      <span class="na">addresses</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">114.114.114.114</span><span class="pi">]</span>
-  <span class="na">version</span><span class="pi">:</span> <span class="m">2</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>为了防止多台机器之间的 DHCP IP 冲突，全部限定静态 IP
-&lt; 采用的是 Parallels Desktop Clone pvm 的方式 产生的多台机器</p>
-</blockquote>
-
-<h3 id="kubernetes-从-k8sgcrio-仓库拉取镜像失败">Kubernetes 从 k8s.gcr.io 仓库拉取镜像失败</h3>
-
-<p>这是因为 k8s 部署是在 google 自家的所以… ，好在国内基本都有对应的镜像仓库，这里以 阿里云为例：</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@master1:~# kubeadm config images list
-k8s.gcr.io/kube-apiserver:v1.23.5
-k8s.gcr.io/kube-controller-manager:v1.23.5
-k8s.gcr.io/kube-scheduler:v1.23.5
-k8s.gcr.io/kube-proxy:v1.23.5
-k8s.gcr.io/pause:3.6
-k8s.gcr.io/etcd:3.5.1-0
-k8s.gcr.io/coredns/coredns:v1.8.6
-</code></pre></div></div>
-
-<p>使用 docker pull 分布拉取这些 image，将 <code class="language-plaintext highlighter-rouge">k8s.gcr.io</code> 替换为 <code class="language-plaintext highlighter-rouge">registry.aliyuncs.com/google_containers/</code></p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 原为</span>
-docker pull k8s.gcr.io/kube-apiserver:v1.23.5
-<span class="c"># 改为</span>
-docker pull registry.aliyuncs.com/google_containers/kube-apiserver:v1.23.5
-</code></pre></div></div>
-
-<p>然后，依次将所有需要的 image 都拉取下来，使用 docker image list 查看拉取的镜像</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@master1:~# docker image <span class="nb">ls
-</span>REPOSITORY                                                        TAG       IMAGE ID       CREATED        SIZE
-registry.aliyuncs.com/google_containers/kube-apiserver            v1.23.5   dc83c48dbe3b   5 weeks ago    132MB
-registry.aliyuncs.com/google_containers/kube-controller-manager   v1.23.5   de8edc9077c1   5 weeks ago    122MB
-registry.aliyuncs.com/google_containers/kube-scheduler            v1.23.5   48609f8bab08   5 weeks ago    53MB
-registry.aliyuncs.com/google_containers/kube-proxy                v1.23.5   48d3a9e595bc   5 weeks ago    109MB
-registry.aliyuncs.com/google_containers/etcd                      3.5.1-0   1040f7790951   5 months ago   132MB
-registry.aliyuncs.com/google_containers/coredns                   v1.8.6    edaa71f2aee8   6 months ago   46.8MB
-registry.aliyuncs.com/google_containers/pause                     3.6       7d46a07936af   7 months ago   484kB
-
-</code></pre></div></div>
-
-<p>由于 kubeadm 认的是 <code class="language-plaintext highlighter-rouge">k8s.gcr.io</code>，所以还需改回去 Tag，修改方式采用 docker tag 的方式处理</p>
-
-<h3 id="kubeadm-初始化-k8s-环境">kubeadm 初始化 k8s 环境</h3>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root@master1:~# kubeadm init <span class="nt">--kubernetes-version</span><span class="o">=</span>v1.23.5 <span class="nt">--pod-network-cidr</span><span class="o">=</span>10.244.0.0/16
-<span class="o">[</span>init] Using Kubernetes version: v1.23.5
-<span class="o">[</span>preflight] Running pre-flight checks
-<span class="o">[</span>preflight] Pulling images required <span class="k">for </span>setting up a Kubernetes cluster
-<span class="o">[</span>preflight] This might take a minute or two, depending on the speed of your internet connection
-<span class="o">[</span>preflight] You can also perform this action <span class="k">in </span>beforehand using <span class="s1">'kubeadm config images pull'</span>
-<span class="o">[</span>certs] Using certificateDir folder <span class="s2">"/etc/kubernetes/pki"</span>
-<span class="o">[</span>certs] Generating <span class="s2">"ca"</span> certificate and key
-<span class="o">[</span>certs] Generating <span class="s2">"apiserver"</span> certificate and key
-<span class="o">[</span>certs] apiserver serving cert is signed <span class="k">for </span>DNS names <span class="o">[</span>kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local master1] and IPs <span class="o">[</span>10.96.0.1 10.211.55.7]
-<span class="o">[</span>certs] Generating <span class="s2">"apiserver-kubelet-client"</span> certificate and key
-<span class="o">[</span>certs] Generating <span class="s2">"front-proxy-ca"</span> certificate and key
-<span class="o">[</span>certs] Generating <span class="s2">"front-proxy-client"</span> certificate and key
-<span class="o">[</span>certs] Generating <span class="s2">"etcd/ca"</span> certificate and key
-<span class="o">[</span>certs] Generating <span class="s2">"etcd/server"</span> certificate and key
-<span class="o">[</span>certs] etcd/server serving cert is signed <span class="k">for </span>DNS names <span class="o">[</span>localhost master1] and IPs <span class="o">[</span>10.211.55.7 127.0.0.1 ::1]
-<span class="o">[</span>certs] Generating <span class="s2">"etcd/peer"</span> certificate and key
-<span class="o">[</span>certs] etcd/peer serving cert is signed <span class="k">for </span>DNS names <span class="o">[</span>localhost master1] and IPs <span class="o">[</span>10.211.55.7 127.0.0.1 ::1]
-<span class="o">[</span>certs] Generating <span class="s2">"etcd/healthcheck-client"</span> certificate and key
-<span class="o">[</span>certs] Generating <span class="s2">"apiserver-etcd-client"</span> certificate and key
-<span class="o">[</span>certs] Generating <span class="s2">"sa"</span> key and public key
-<span class="o">[</span>kubeconfig] Using kubeconfig folder <span class="s2">"/etc/kubernetes"</span>
-<span class="o">[</span>kubeconfig] Writing <span class="s2">"admin.conf"</span> kubeconfig file
-<span class="o">[</span>kubeconfig] Writing <span class="s2">"kubelet.conf"</span> kubeconfig file
-<span class="o">[</span>kubeconfig] Writing <span class="s2">"controller-manager.conf"</span> kubeconfig file
-<span class="o">[</span>kubeconfig] Writing <span class="s2">"scheduler.conf"</span> kubeconfig file
-<span class="o">[</span>kubelet-start] Writing kubelet environment file with flags to file <span class="s2">"/var/lib/kubelet/kubeadm-flags.env"</span>
-<span class="o">[</span>kubelet-start] Writing kubelet configuration to file <span class="s2">"/var/lib/kubelet/config.yaml"</span>
-<span class="o">[</span>kubelet-start] Starting the kubelet
-<span class="o">[</span>control-plane] Using manifest folder <span class="s2">"/etc/kubernetes/manifests"</span>
-<span class="o">[</span>control-plane] Creating static Pod manifest <span class="k">for</span> <span class="s2">"kube-apiserver"</span>
-<span class="o">[</span>control-plane] Creating static Pod manifest <span class="k">for</span> <span class="s2">"kube-controller-manager"</span>
-<span class="o">[</span>control-plane] Creating static Pod manifest <span class="k">for</span> <span class="s2">"kube-scheduler"</span>
-<span class="o">[</span>etcd] Creating static Pod manifest <span class="k">for </span><span class="nb">local </span>etcd <span class="k">in</span> <span class="s2">"/etc/kubernetes/manifests"</span>
-<span class="o">[</span>wait-control-plane] Waiting <span class="k">for </span>the kubelet to boot up the control plane as static Pods from directory <span class="s2">"/etc/kubernetes/manifests"</span><span class="nb">.</span> This can take up to 4m0s
-<span class="o">[</span>apiclient] All control plane components are healthy after 4.511137 seconds
-<span class="o">[</span>upload-config] Storing the configuration used <span class="k">in </span>ConfigMap <span class="s2">"kubeadm-config"</span> <span class="k">in </span>the <span class="s2">"kube-system"</span> Namespace
-<span class="o">[</span>kubelet] Creating a ConfigMap <span class="s2">"kubelet-config-1.23"</span> <span class="k">in </span>namespace kube-system with the configuration <span class="k">for </span>the kubelets <span class="k">in </span>the cluster
-NOTE: The <span class="s2">"kubelet-config-1.23"</span> naming of the kubelet ConfigMap is deprecated. Once the UnversionedKubeletConfigMap feature gate graduates to Beta the default name will become just <span class="s2">"kubelet-config"</span><span class="nb">.</span> Kubeadm upgrade will handle this transition transparently.
-<span class="o">[</span>upload-certs] Skipping phase. Please see <span class="nt">--upload-certs</span>
-<span class="o">[</span>mark-control-plane] Marking the node master1 as control-plane by adding the labels: <span class="o">[</span>node-role.kubernetes.io/master<span class="o">(</span>deprecated<span class="o">)</span> node-role.kubernetes.io/control-plane node.kubernetes.io/exclude-from-external-load-balancers]
-<span class="o">[</span>mark-control-plane] Marking the node master1 as control-plane by adding the taints <span class="o">[</span>node-role.kubernetes.io/master:NoSchedule]
-<span class="o">[</span>bootstrap-token] Using token: k2qw1l.lpnjzo138zfynmb1
-<span class="o">[</span>bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
-<span class="o">[</span>bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to get nodes
-<span class="o">[</span>bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to post CSRs <span class="k">in </span>order <span class="k">for </span>nodes to get long term certificate credentials
-<span class="o">[</span>bootstrap-token] configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
-<span class="o">[</span>bootstrap-token] configured RBAC rules to allow certificate rotation <span class="k">for </span>all node client certificates <span class="k">in </span>the cluster
-<span class="o">[</span>bootstrap-token] Creating the <span class="s2">"cluster-info"</span> ConfigMap <span class="k">in </span>the <span class="s2">"kube-public"</span> namespace
-<span class="o">[</span>kubelet-finalize] Updating <span class="s2">"/etc/kubernetes/kubelet.conf"</span> to point to a rotatable kubelet client certificate and key
-<span class="o">[</span>addons] Applied essential addon: CoreDNS
-<span class="o">[</span>addons] Applied essential addon: kube-proxy
-
-Your Kubernetes control-plane has initialized successfully!
-
-To start using your cluster, you need to run the following as a regular user:
-
-  <span class="nb">mkdir</span> <span class="nt">-p</span> <span class="nv">$HOME</span>/.kube
-  <span class="nb">sudo cp</span> <span class="nt">-i</span> /etc/kubernetes/admin.conf <span class="nv">$HOME</span>/.kube/config
-  <span class="nb">sudo chown</span> <span class="si">$(</span><span class="nb">id</span> <span class="nt">-u</span><span class="si">)</span>:<span class="si">$(</span><span class="nb">id</span> <span class="nt">-g</span><span class="si">)</span> <span class="nv">$HOME</span>/.kube/config
-
-Alternatively, <span class="k">if </span>you are the root user, you can run:
-
-  <span class="nb">export </span><span class="nv">KUBECONFIG</span><span class="o">=</span>/etc/kubernetes/admin.conf
-
-You should now deploy a pod network to the cluster.
-Run <span class="s2">"kubectl apply -f [podnetwork].yaml"</span> with one of the options listed at:
-  https://kubernetes.io/docs/concepts/cluster-administration/addons/
-
-Then you can <span class="nb">join </span>any number of worker nodes by running the following on each as root:
-
-kubeadm <span class="nb">join </span>10.211.55.7:6443 <span class="nt">--token</span> k2qw1l.lpnjzo138zfynmb1 <span class="se">\</span>
- <span class="nt">--discovery-token-ca-cert-hash</span> sha256:974a7569ca2d243dc907ca121adbdba9407ae462ea72791342ccf2048ee46b31
-</code></pre></div></div>
-
-<h2 id="k8s-系统优化">k8s 系统优化</h2>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 增加到文件最后，进行系统层级优化</span>
-
-net.ipv4.ip_forward <span class="o">=</span> 1
-vm.swappiness <span class="o">=</span> 1
-net.bridge.bridge-nf-call-arptables <span class="o">=</span> 1
-net.bridge.bridge-nf-call-ip6tables <span class="o">=</span> 1
-net.bridge.bridge-nf-call-iptables <span class="o">=</span> 1
-net.ipv4.ip_local_reserved_ports <span class="o">=</span> 30000-32767
-vm.max_map_count <span class="o">=</span> 262144
-fs.inotify.max_user_instances <span class="o">=</span> 524288
-kernel.pid_max <span class="o">=</span> 65535
-</code></pre></div></div>
-
-<p>Kubesphere registry 仓库：</p>
-
-<p>registry.cn-beijing.aliyuncs.com/kubesphereio/</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-24</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#基础知识">基础知识</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1325,7 +1193,7 @@ kernel.pid_max <span class="o">=</span> 65535
             
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page24">24</a></li>
+          <li><a href="/page25">25</a></li>
         
 
         
@@ -1386,7 +1254,7 @@ kernel.pid_max <span class="o">=</span> 65535
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>16</span>
+    		Mac <span>18</span>
     	</a></li>
      
     	
@@ -1470,6 +1338,20 @@ kernel.pid_max <span class="o">=</span> 65535
       <ul>
         
         <li>
+          <a href="/post/2022/12/raycast-01.html">Raycast 你的年度报告已到达</a>
+          从 Alfred 切换到 Raycast 也就 2 个多月的时间；使用体验有着比较大的提升。
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/12/Skoala-Install-Dce5.html">DCE5-Skoala 安装教程</a>
+          使用之前的话
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
           前言
 
@@ -1486,22 +1368,6 @@ kernel.pid_max <span class="o">=</span> 65535
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
           背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy to Markdown</a>
-          背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
-          
-  参考资料：
-
 
 
         </li>

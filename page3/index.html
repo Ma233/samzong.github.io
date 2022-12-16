@@ -237,6 +237,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -278,6 +282,139 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2022/08/Contour-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html">Contour 学习笔记</a></h1>
+    <div class="post_at_index">
+      <h2 id="contour-官方的资料">Contour 官方的资料</h2>
+
+<ul>
+  <li><a href="https://hackmd.io/84Xbl4WBTpm7OBhaOAsSiw">https://hackmd.io/84Xbl4WBTpm7OBhaOAsSiw</a>  Contour Community Meeting Notes</li>
+  <li><a href="https://www.youtube.com/watch?v=fpRzvQWiHjI&amp;list=PLk2K7YhXu5KtYU1UGEYNC8ApH5gsWihDJ">https://www.youtube.com/watch?v=fpRzvQWiHjI&amp;list=PLk2K7YhXu5KtYU1UGEYNC8ApH5gsWihDJ</a>  双周例会</li>
+  <li><a href="https://kubernetes.slack.com/archives/C8XRH2R4J">https://kubernetes.slack.com/archives/C8XRH2R4J</a>  Slack Chat Channel</li>
+  <li><a href="https://bitnami.com/stack/contour/helm">https://bitnami.com/stack/contour/helm</a>  Helm 部署 Contour 资料</li>
+  <li><a href="https://juejin.cn/post/7029286464802258974">https://juejin.cn/post/7029286464802258974</a>  Envoy Ingress：Contour 基本原理和源码分析
+    <ul>
+      <li><a href="https://juejin.cn/user/3878732754069272">https://juejin.cn/user/3878732754069272</a> 掘金大佬</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="参考文档一使用-contour-接管-k8s-南北流量">参考文档一：使用 Contour 接管 K8s 南北流量</h2>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652658255610-3a38d8d3-2062-486b-a0b9-3b0a1d47dc5c.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" />
+容器公司 <a href="https://heptio.com/">Heptio</a> 开源的项目 <a href="https://github.com/heptio/contour">Contour</a> 使用 Envoy 作为 Kubernetes 的 Ingress Controller 实现。</p>
+
+<h3 id="contour-的组成">Contour 的组成</h3>
+
+<p>Contour Ingress controller 由两个组件组成：</p>
+
+<ul>
+  <li>Envoy : 提供高性能反向代理。</li>
+  <li>Contour : 充当 Envoy 的控制平面，为 Envoy 的路由配置提供统一的来源。</li>
+</ul>
+
+<h3 id="contour-的部署方式">Contour 的部署方式</h3>
+
+<p>官方文档提供了三种部署方法：</p>
+
+<ol>
+  <li>通过 DaemonSet 来部署，每个节点上跑一个 Contour 实例（Contour 与 Envoy 在同一个 Pod 中）。</li>
+  <li>通过 Deployment 来部署，总共跑两个 Contour 实例（Contour 与 Envoy 在同一个 Pod 中）。</li>
+  <li>通过 Deployment 来部署 Contour，总共跑两个 Contour 实例；通过 DaemonSet 来部署 Envoy，每个节点上跑一个 Envoy 实例。</li>
+</ol>
+
+<p>第三种方案比较巧妙，这样可以让 Contour 和 Envoy 这两个组件解耦，可以分别按需对不同的组件进行扩展，具体的优势如下：</p>
+
+<ul>
+  <li>Envoy 以 Daemonset 的形式运行，具有很强的扩展性，后续可通过 ipvs 和 keepalived 等工具来实现其负载均衡和高可用。</li>
+  <li>Envoy 运行的网络模式是 hostNetwork，减少了额外的网络性能损耗。</li>
+  <li>Contour 与 Envoy 之间通过双向认证的自签名证书进行通信，大大增强了安全性。</li>
+  <li>升级 Contour 不需要重启 Envoy。</li>
+</ul>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652658571911-263003fa-2d88-47d9-9650-7929589a49c8.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<blockquote>
+  <p>启动分析</p>
+</blockquote>
+
+<p>在 Envoy 的 Pod 初始化期间，Contour 作为 Init 容器运行，并将 bootstrap（初始化）配置写入一个 temporary volume。该 Volume 被传递给 Envoy 容器并告诉 Envoy 将另一个 Deployment 中的 Contour 容器视为控制平面。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652659925765-50a45ceb-22f8-44a9-8c48-34fa832cda3e.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
+
+<blockquote>
+  <p>Contour 会根据启动参数和 K8S API Server 中的配置信息生成 Envoy 的初始配置文件</p>
+</blockquote>
+
+<ol>
+  <li>Envoy initContainer 根据启动参数和 K8S API Server 中的配置信息生成 Envoy 的初始配置文件 envoy.json，该文件告诉 Envoy 从 xDS server 中获取动态配置信息，并配置了 xDS server 的地址信息，即控制平面的 Contour。</li>
+  <li>Envoy 使用配置文件 envoy.json 启动。</li>
+  <li>Envoy 根据获取到的动态配置启动 Listener，并根据 Listener 的配置，结合 Route 和 Cluster 对进入的流量进行处理。</li>
+</ol>
+
+<p>Contour 作为 Envoy 的 initContainer</p>
+
+<h2 id="参考文档-二contour-中-envoy-优雅停服的实现与源码分析">参考文档 二：Contour 中 Envoy 优雅停服的实现与源码分析</h2>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-08-10</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Contour">Contour</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/07/%E9%80%9A%E8%BF%87pipreqs%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E9%A1%B9%E7%9B%AE%E7%9A%84%E4%BE%9D%E8%B5%96%E5%BA%93.html">通过 pipreqs 获取当前项目的依赖库</a></h1>
+    <div class="post_at_index">
+      <p>如果在开始开发一个项目时，未注意项目的依赖库隔离；可能会导致后续给项目打包时：</p>
+
+<ul>
+  <li>导致缺少依赖库，导致项目初始化麻烦</li>
+  <li>读取了全局依赖库，导致项目安装了大量的实际无用的库</li>
+</ul>
+
+<p>这里推荐一个专门解决这个问题的 Python 库， <code class="language-plaintext highlighter-rouge">pipreqs</code></p>
+
+<h3 id="使用注意事项">使用注意事项</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># linux &amp; mac</span>
+pipreqs <span class="nv">$python_project_dir</span>
+
+<span class="c"># Windows 需要增加 --encoding=utf-8 字母编码，否则会有出错，懂得都懂</span>
+pipreqs ./ <span class="nt">--encoding</span><span class="o">=</span>utf-8
+
+<span class="c"># 会自动在当前目录生成一个 requirements.txt， 如果已存在会提示失败</span>
+<span class="c"># 也可以使用 --force 强制覆盖</span>
+pipreqs <span class="nb">.</span> <span class="nt">--force</span>
+</code></pre></div></div>
+
+<h3 id="支持的其他功能">支持的其他功能</h3>
+
+<p>更多的功能，可以在安装后研究下，通过 -h 可以获取更多有价值的信息</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>\--diff &lt;file&gt;         将 requirements.txt 中的模块与项目导入进行比较。  &gt;&gt; 仅追加
+\--clean &lt;file&gt;     通过删除项目中没有导入的模块来清理 requirements.txt   &gt;&gt; 瘦身
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-07-24</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2022/07/Contour-&-Envoy-%E6%8C%87%E6%A0%87.html">Contour & Envoy 指标</a></h1>
@@ -1795,190 +1932,6 @@ mysql-shell                                    mysqlworkbench                   
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/05/Gitlab-%E5%8F%91%E9%80%81%E4%BC%81%E5%BE%AE%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%B6%88%E6%81%AF.html">Gitlab 发送企微机器人消息</a></h1>
-    <div class="post_at_index">
-      <ul>
-  <li>企业微信机器人消息说明： <a href="https://developer.work.weixin.qq.com/document/path/91770">https://developer.work.weixin.qq.com/document/path/91770</a></li>
-  <li>GitLab Webhook Event：   <a href="https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html">https://docs.gitlab.com/ee/user/project/integrations/webhook_events.html</a></li>
-</ul>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652838666817-16490352-2dcb-4e6f-a4d6-0e060090287a.jpeg?x-oss-process=image/resize,w_960,m_lfit" alt="image" /></p>
-
-<h2 id="gitlab-配置">Gitlab 配置</h2>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652837377264-dc310e99-bcbc-4495-a4f0-f507c6f54f1e.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" title="Gitlab 项目配置" />
-:::info
-=&gt; 高级用法 开启鉴权
-:::</p>
-
-<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">-</span> 在 Gitlab 配置好之后 Secret token
-<span class="p">-</span> 在服务端接收推送时验证
-</code></pre></div></div>
-
-<h2 id="实现中转站服务">实现中转站服务</h2>
-
-<p>:::warning
-<strong>基本需求说明：</strong></p>
-
-<ul>
-  <li>可以 接受  gitlab 的 event 推送</li>
-  <li>可以 发送 消息到微信服务器</li>
-  <li>稳定
-:::</li>
-</ul>
-
-<p>我采用的方式，腾讯云函数；薅羊毛的方式</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">url_for</span><span class="p">,</span> <span class="n">send_from_directory</span>
-<span class="kn">from</span> <span class="nn">werkzeug.utils</span> <span class="kn">import</span> <span class="n">secure_filename</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-
-<span class="n">IS_SERVERLESS</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'SERVERLESS'</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="n">IS_SERVERLESS</span><span class="p">)</span>
-
-<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
-
-<span class="c1"># send_msg_wecom
-</span><span class="k">def</span> <span class="nf">msg_send_wecom</span><span class="p">(</span><span class="n">md_content</span><span class="p">):</span>
-    <span class="s">"""msg_send_wecom
-    {
-        "msgtype": "markdown",
-        "markdown": {
-            "content": "实时新增用户反馈&lt;font color=</span><span class="se">\"</span><span class="s">warning</span><span class="se">\"</span><span class="s">&gt;132 例，请相关同事注意。</span><span class="se">\n</span><span class="s">
-             &gt;类型:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;用户反馈
-             &gt;普通用户反馈:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;117 例
-             &gt;VIP 用户反馈:&lt;font color=</span><span class="se">\"</span><span class="s">comment</span><span class="se">\"</span><span class="s">&gt;15 例"
-        }
-    }
-    """</span>
-
-    <span class="n">url</span> <span class="o">=</span> <span class="s">"https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key="</span>
-
-    <span class="n">webhooks</span> <span class="o">=</span> <span class="p">[</span><span class="s">"xxxxxxxxxxxxxxxxxxxxxxxxxxx"</span><span class="p">]</span> <span class="c1"># 多个 webhook 需要推送时
-</span>    <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s">'Content-Type'</span><span class="p">:</span> <span class="s">'application/json'</span><span class="p">}</span>
-
-    <span class="n">message</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s">"msgtype"</span><span class="p">:</span> <span class="s">"markdown"</span><span class="p">,</span>
-        <span class="s">"markdown"</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s">"content"</span><span class="p">:</span> <span class="n">md_content</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-
-    <span class="k">for</span> <span class="n">webhook</span> <span class="ow">in</span> <span class="n">webhooks</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="o">+</span><span class="n">webhook</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">message</span><span class="p">)</span>
-        <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span> 
-            <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-
-
-<span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/from_gitlab_webhook"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">'POST'</span><span class="p">])</span>
-<span class="k">def</span> <span class="nf">say_hello</span><span class="p">():</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">get_json</span><span class="p">()</span>
-    <span class="n">event_type</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'object_kind'</span><span class="p">]</span>
-
-    <span class="n">resp</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s">'event'</span><span class="p">:</span> <span class="n">event_type</span><span class="p">,</span>
-        <span class="p">}</span>
-
-    <span class="n">md_content</span> <span class="o">=</span> <span class="s">""</span>
-
-    <span class="k">if</span> <span class="n">event_type</span> <span class="o">==</span> <span class="s">'push'</span><span class="p">:</span>
-        <span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'commits'</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s">'message'</span><span class="p">].</span><span class="n">replace</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="s">""</span><span class="p">)</span>
-        <span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'user_username'</span><span class="p">]</span>
-        <span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'project'</span><span class="p">][</span><span class="s">'name'</span><span class="p">]</span>
-        <span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'project'</span><span class="p">][</span><span class="s">'web_url'</span><span class="p">]</span>
-
-        <span class="c1"># fit md_content
-</span>        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"## 文档站 &lt;font color=</span><span class="se">\"</span><span class="s">info</span><span class="se">\"</span><span class="s">&gt;{} 通知：</span><span class="se">\n\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'event'</span><span class="p">])</span>
-        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 项目：[{}]({}) </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">],</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">])</span>
-        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 更新人：*{}* </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">])</span>
-        <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 提交信息：{} </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">])</span>
-
-    <span class="k">elif</span> <span class="n">event_type</span> <span class="o">==</span> <span class="s">'build'</span><span class="p">:</span>
-        <span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'user'</span><span class="p">][</span><span class="s">'username'</span><span class="p">]</span>
-        <span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'repository'</span><span class="p">][</span><span class="s">'name'</span><span class="p">]</span>
-        <span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'repository'</span><span class="p">][</span><span class="s">'homepage'</span><span class="p">]</span>
-        <span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'commit'</span><span class="p">][</span><span class="s">'message'</span><span class="p">].</span><span class="n">replace</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="s">""</span><span class="p">)</span>
-        <span class="n">resp</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">]</span>
-        <span class="n">resp</span><span class="p">[</span><span class="s">'build_duration'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s">'build_duration'</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
-
-        <span class="k">if</span> <span class="n">resp</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">]</span> <span class="o">==</span> <span class="s">'failed'</span><span class="p">:</span>
-            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"## 文档站 {} &lt;font color=</span><span class="se">\"</span><span class="s">warning</span><span class="se">\"</span><span class="s">&gt;{} 通知：</span><span class="se">\n\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'event'</span><span class="p">],</span> <span class="n">resp</span><span class="p">[</span><span class="s">'build_status'</span><span class="p">])</span>
-            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 项目：[{}]({}) </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_name'</span><span class="p">],</span><span class="n">resp</span><span class="p">[</span><span class="s">'project_url'</span><span class="p">])</span>
-            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 请 **{}** 关注最近提交的内容 </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'author'</span><span class="p">])</span>
-            <span class="n">md_content</span> <span class="o">+=</span> <span class="s">"- 提交信息：{} </span><span class="se">\n</span><span class="s">"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">resp</span><span class="p">[</span><span class="s">'commit_msg'</span><span class="p">])</span>
-
-    <span class="n">msg_send_wecom</span><span class="p">(</span><span class="n">md_content</span><span class="p">)</span>
-
-    <span class="k">print</span><span class="p">(</span><span class="s">"INFO: "</span> <span class="o">+</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">resp</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
-
-<span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">"/"</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s">"code"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="s">"msg"</span><span class="p">:</span> <span class="s">"it's ok!"</span><span class="p">}</span>
-
-<span class="c1"># 启动服务，监听 9000 端口，监听地址为 0.0.0.0
-</span><span class="n">app</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="n">IS_SERVERLESS</span> <span class="o">!=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">9000</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">'0.0.0.0'</span><span class="p">)</span>
-
-</code></pre></div></div>
-
-<h2 id="创建企微群机器人">创建企微群机器人</h2>
-
-<p>成功创建机器人后，会获取到一个 用于推送消息的 webhook Key
-<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652837537654-e5be191b-d8c6-4752-ae0b-76118ec55ac4.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" />
-:::info
-=&gt; 高级用法 针对推送来源进行 IP 限制
-:::
-<img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652837738144-f9f88da1-eae9-44e3-8a8b-ad9e98247ffd.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<h2 id="消息呈现展示">消息呈现展示</h2>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1652838264735-b525d863-e8a9-4041-9b11-d349a3df7420.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-05-18</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#GitLab">GitLab</a>
-      , 
-      <a href="/tags.html#Webhook">Webhook</a>
-      , 
-      <a href="/tags.html#Bot">Bot</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/05/%E5%9B%BD%E5%86%85%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA-MacOS-K8s-%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83.html">国内环境搭建 MacOS K8s 开发环境</a></h1>
-    <div class="post_at_index">
-      <h2 id="minikube">Minikube</h2>
-
-<p>在 Mac 上搭建开发环境，这里主要使用了 Kubernetes 官方推荐的 minikube 和 docker-for-desktop 环境</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>minikube start <span class="nt">--image-mirror-country</span> cn <span class="se">\</span>
-    <span class="nt">--registry-mirror</span><span class="o">=</span>https://vbj8usl3.mirror.aliyuncs.com
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-05-17</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#K8s">K8s</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -2018,7 +1971,7 @@ mysql-shell                                    mysqlworkbench                   
             
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page24">24</a></li>
+          <li><a href="/page25">25</a></li>
         
 
         
@@ -2079,7 +2032,7 @@ mysql-shell                                    mysqlworkbench                   
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>16</span>
+    		Mac <span>18</span>
     	</a></li>
      
     	
@@ -2163,6 +2116,20 @@ mysql-shell                                    mysqlworkbench                   
       <ul>
         
         <li>
+          <a href="/post/2022/12/raycast-01.html">Raycast 你的年度报告已到达</a>
+          从 Alfred 切换到 Raycast 也就 2 个多月的时间；使用体验有着比较大的提升。
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/12/Skoala-Install-Dce5.html">DCE5-Skoala 安装教程</a>
+          使用之前的话
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
           前言
 
@@ -2179,22 +2146,6 @@ mysql-shell                                    mysqlworkbench                   
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
           背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy to Markdown</a>
-          背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
-          
-  参考资料：
-
 
 
         </li>

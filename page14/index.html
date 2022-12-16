@@ -237,6 +237,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -278,6 +282,123 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2019/07/MySQL-%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BE%85%E5%8A%A9-mycli.html">MySQL 命令行辅助 mycli</a></h1>
+    <div class="post_at_index">
+      <h5 id="install">Install</h5>
+
+<p>Mycli is tested on macOS and Linux. It runs on Python 2.7 and 3.4+.</p>
+
+<blockquote>
+  <p>NOTE: Python 2.6 support was dropped in mycli 1.9.0. If you’re running Python 2.6, you’ll want to install mycli 1.8.1.</p>
+</blockquote>
+
+<h6 id="python-package">Python Package</h6>
+
+<p>If you already know how to install python packages, then you can do:</p>
+
+<ul>
+  <li>You might need sudo.</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>pip <span class="nb">install </span>mycli
+or
+<span class="nv">$ </span>easy_install mycli
+
+<span class="c"># Windows:</span>
+<span class="c"># Follow the instructions on this blogpost to install mycli on Windows:  https://www.codewall.co.uk/installing-using-mycli-on-windows/</span>
+
+<span class="c"># macOS:</span>
+<span class="c">#The easiest way install mycli on a Mac is to use Homebrew.</span>
+<span class="nv">$ </span>brew <span class="nb">install </span>mycli
+
+
+<span class="c"># Linux:</span>
+<span class="c"># Debian/Ubuntu Package:</span>
+<span class="c"># https://packages.debian.org/search?keywords=mycli</span>
+<span class="nv">$ </span><span class="nb">sudo </span>apt-get update
+<span class="nv">$ </span><span class="nb">sudo </span>apt-get <span class="nb">install </span>mycli
+
+<span class="c"># Fedora</span>
+<span class="nv">$ </span><span class="nb">sudo </span>dnf <span class="nb">install </span>mycli
+
+
+<span class="c"># RHEL, Centos:</span>
+<span class="c"># We don't have packages for RHEL or Centos, yet. Instead, use pip to install mycli. You can install pip on your system using:</span>
+<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install </span>python-pip python-devel
+<span class="c"># Once that is installed, you can install mycli:</span>
+<span class="nv">$ </span><span class="nb">sudo </span>pip <span class="nb">install </span>mycli
+</code></pre></div></div>
+
+<h5 id="install-error-qa">Install Error QA</h5>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Cannot uninstall <span class="s1">'configobj'</span><span class="nb">.</span> It is a distutils installed project and thus we cannot accurately determine which files belong to it which would lead to only a partial uninstall.
+</code></pre></div></div>
+
+<h6 id="fix-code">Fix code</h6>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install</span> <span class="nt">--ignore-installed</span> mycli
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2019-07-03</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#MySQL">MySQL</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2019/01/Mac%E5%A6%82%E4%BD%95%E5%BF%AB%E9%80%9F%E5%BD%95%E5%88%B6GiF%E5%B0%8F%E8%A7%86%E9%A2%91.html">MacTips 如何快速录制 GiF 小视频</a></h1>
+    <div class="post_at_index">
+      <p>在平时的沟通中经常有需要用到分享一个连续的操作等，在很多时候截图不能满足我的需求，录制视频文件的话呢，文件过大，不同平台限制过多是一个很麻烦的视频，所以录制 GIF 是一个非常好的解决办法，今天给大家推荐两款软件，关于录制 GIF 和 GIF 编辑。</p>
+
+<h2 id="录制工具-1-kap">录制工具 (1) Kap</h2>
+
+<p>Kap 是一款轻量级开源的 GIF 录制工具，这意味它是免费简单易用；你可以从官网下载。<a href="https://getkap.co/">官网</a></p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/sbuwo.gif" alt="image" /></p>
+
+<p>安装完成，启动 Kap，它是以一个圆环的形式显示在状态栏上，所有的界面都在这里，你可以点击红框直接开始录制，点击后你的屏幕上会出现一个虚线框，你可以通过拖动四角调整大小。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/vcaug.gif" alt="image" /></p>
+
+<p>确定好录制范围之后，这时你发现 Kap 上红色录制按钮一个变成一个红色实心圆，再次单击即可开始录制。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/9txw3.gif" alt="image" /></p>
+
+<p>在你操作完成之后，再次单击，即可结束录制。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/lws2b.gif" alt="image" /></p>
+
+<h2 id="录制工具-2-macappquicktime-player">录制工具 (2) MacApp：QuickTime Player</h2>
+
+<p>以上管理 Kap 的使用 GIF 录制我是用过 Mac 自带的 QuickTime Player 录制，教程可以直接看 @JasonZone 的教程 <a href="https://mp.weixin.qq.com/s/lgHOrpZ2PE8hJWU3O_IDUA">链接</a></p>
+
+<h2 id="gif-编辑">GIF 编辑</h2>
+
+<p>在@JasonZone 最后使用的是一个网站进行了从 mov 转换为 gif 格式的操作，这里推荐一个 Mac 应用 <a href="http://www.aiseesoft.com/app-store/video-to-gif-maker/">Video to Gif Maker</a>，可以批量进行多个 GIF 文件转换，也支持在 GIF 增加文字或图片，这很实用。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/5yogy.gif" alt="image" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2019-01-22</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2018/11/MacTips-%E5%8D%95%E7%8B%AC%E8%AE%BE%E7%BD%AE%E7%A8%8B%E5%BA%8F%E8%AF%AD%E8%A8%80.html">MacTips 单独设置程序语言</a></h1>
@@ -962,363 +1083,6 @@ vim /var/data/redmine/config/configuration.yml
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2017/06/%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98Python%E5%AE%A2%E6%88%B7%E7%AB%AF.html">bypy 百度网盘 Python 客户端</a></h1>
-    <div class="post_at_index">
-      <p>最近在 GitHub 上发现一个有趣的项目，<a href="https://github.com/houtianze/bypy">百度网盘 Python 客户端</a>(bypy)，主要使用在 Linux 命令行下，这样很大的一个好处是可以利用到百度云盘 2TB 的存储空间 (如果你是会员有 6TB)；你可以在任何服务器上，利用自动化脚本实现一些数据文件、日志文件等等备份操作，同时也提供丰富的文件列表、上传、下载、对比、同步以及批量操作等。</p>
-
-<blockquote>
-  <p>虽然百度网盘 Python 客户端提供很大的便利，但是我强烈不建议将一些重要数据放到百度云盘</p>
-</blockquote>
-
-<h2 id="实验目的">实验目的</h2>
-
-<p>数据库备份文件自动上传到百度网盘</p>
-
-<h2 id="环境依赖">环境依赖</h2>
-
-<ul>
-  <li>Python 2.7 or 3.0 以上</li>
-  <li>Encoding UTF-8</li>
-</ul>
-
-<h2 id="python-环境">Python 环境</h2>
-
-<p>首先使用<code class="language-plaintext highlighter-rouge">python -V</code>检查你的 Python 版本，如果你的版本是 2.7 或以上，那么就不需要做任何操作，可以直接安装 bypy，但是如果你像我一样多数是 CentOS 6.x 那么就需要先升级 Python 版本。我这里是将 Python 升级到 2.7。</p>
-
-<h3 id="install-python-27">Install Python 2.7</h3>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Check current Python version</span>
-➜  ~ python <span class="nt">-V</span>
-Python 2.6.6
-
-<span class="c"># Download python 2.7.13 or new packge.</span>
-➜  ~ wget http://www.python.org/ftp/python/2.7.13/Python-2.7.13.tar.xz
-
-<span class="c"># Extract and change in</span>
-➜  ~ <span class="nb">tar </span>xf Python-2.7.13.tar.xz
-➜  ~ <span class="nb">cd </span>Python-2.7.13
-
-<span class="c"># Run the configure:</span>
-➜  Python-2.7.13 ./configure <span class="nt">--prefix</span><span class="o">=</span>/usr/local
-
-<span class="c"># Compile and install it:</span>
-➜  Python-2.7.13 make <span class="o">&amp;&amp;</span> make altinstall
-
-<span class="c"># Check Python Version</span>
-➜  Python-2.7.13 python2.7 <span class="nt">-V</span>
-Python 2.7.13
-</code></pre></div></div>
-
-<p>虽然 Python2.7 已经安装成功了，但是默认的 Python 仍然是 2.6 版本，所以我们要替换默认 Python 命令指到 2.7</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Update bin python to python2.7</span>
-➜  ~ ll /usr/bin/python /usr/local/bin/python2.7
-➜  ~ ll /usr/bin/python-config /usr/local/bin/python2.7-config
-➜  ~ python <span class="nt">-V</span>
-Python 2.7.13
-</code></pre></div></div>
-
-<h3 id="can-not-use-yum-">Can not use Yum ?</h3>
-
-<p>因为<code class="language-plaintext highlighter-rouge">yum</code>必须要使用 Python2.6，所以当升级成功之后，发现 yum 无法使用，这时我们要稍微修改下：</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ which-command yum
-/usr/bin/yum
-
-<span class="c">#Update frist line "#!/usr/bin/python" to "#!/usr/bin/python2.6"</span>
-➜  ~ vim /usr/bin/yum
-</code></pre></div></div>
-
-<h2 id="安装bypy">安装<code class="language-plaintext highlighter-rouge">bypy</code></h2>
-
-<h3 id="install-setuptools--requests">Install Setuptools &amp; requests</h3>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ wget <span class="nt">--no-check-certificate</span> https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz
-<span class="nb">tar </span>xf setuptools-1.4.2.tar.gz
-➜  ~ python setup.py <span class="nb">install</span>
-
-➜  ~ pip2.7 <span class="nb">install </span>requests
-</code></pre></div></div>
-
-<h3 id="clone---install">Clone &amp;  Install</h3>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ git clone https://github.com/houtianze/bypy.git
-➜  ~ <span class="nb">cd </span>bypy
-➜  bypy git:<span class="o">(</span>master<span class="o">)</span> python setup.py <span class="nb">install</span>
-</code></pre></div></div>
-
-<p>如果安装失败，注意看报错，是否缺少 Python 依赖包，或者版本不对</p>
-
-<h3 id="基本操作">基本操作</h3>
-
-<p>在成功安装完成之后，以下需要注意：</p>
-
-<h4 id="授权">授权</h4>
-
-<p>首次安装之后，需要进行授权，只需要运行任何一个命令都可以，例如<code class="language-plaintext highlighter-rouge">bypy info</code>，然后根据提示，打开网页登录你的百度网盘账号，取得授权码，即可。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/2grhz.png" alt="image" /></p>
-
-<p>复制上图中的链接到你的浏览器中，打开可以看到百度 API 授权页面，如下图，将授权码粘贴到命令行，然后回车等待验证通过即可。</p>
-
-<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/9zhdm.png" alt="image" /></p>
-
-<p>然后再次运行命令时，就不需要进行身份验证了</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost bypy]# bypy info
-Quota: 6.103TB
-Used: 180.074GB
-</code></pre></div></div>
-
-<p>你可以看到我的百度网盘有 6.103TB 的空间，已经使用了 180.074GB</p>
-
-<h4 id="常用操作">常用操作</h4>
-
-<p>由于百度 PCS API 权限限制，程序只能存取百度云端/apps/bypy 目录下面的文件和目录。通过以下链接可以打开你的 bypy 默认路径：</p>
-
-<p><a href="https://pan.baidu.com/disk/home#list/vmode=list&amp;path=%2Fapps%2Fbypy">https://pan.baidu.com/disk/home#list/vmode=list&amp;path=%2Fapps%2Fbypy</a></p>
-
-<h4 id="查看">查看</h4>
-
-<p>我在百度网盘内增加了一个 v6 的文件夹，对应我服务器名称，这是我在服务器内利用命令即可看到。</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost bypy]# bypy list
-/apps/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
-D v6 0 2017-06-02, 10:28:41
-</code></pre></div></div>
-
-<h4 id="创建文件夹">创建文件夹</h4>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy <span class="nb">mkdir </span>v6/bypy
-<span class="o">[</span>root@localhost ~]# bypy list v6
-/apps/bypy/v6 <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
-D bypy 0 2017-06-02, 10:35:53
-</code></pre></div></div>
-
-<h4 id="上传">上传</h4>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy upload bypy.tgz
-<span class="o">[</span>root@localhost ~]# bypy list
-/apps/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
-D v6 0 2017-06-02, 10:28:41
-D v6_1 0 2017-06-02, 10:34:52
-F bypy.tgz 2867963 2017-06-02, 10:37:30 aa4160cdbf2f4eca9baf0fcd395241fe
-</code></pre></div></div>
-
-<h4 id="本地同步到百度网盘">本地同步到百度网盘</h4>
-
-<p>使用<code class="language-plaintext highlighter-rouge">syncup</code>参数将本地目录文件同步到百度网盘</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy syncup ./bypy v6/bypy
-<span class="o">[</span>root@localhost ~]# bypy list v6/bypy
-/apps/bypy/v6/bypy <span class="o">(</span><span class="nv">$t</span> <span class="nv">$f</span> <span class="nv">$s</span> <span class="nv">$m</span> <span class="nv">$d</span><span class="o">)</span>:
-D .git 0 2017-06-02, 10:45:31
-D baidudoc 0 2017-06-02, 10:44:50
-D build 0 2017-06-02, 10:45:11
-D bypy 0 2017-06-02, 10:45:54
-D bypy.egg-info 0 2017-06-02, 10:45:00
-D dist 0 2017-06-02, 10:44:54
-D update 0 2017-06-02, 10:45:08
-F .editorconfig 277 2017-06-02, 10:45:08 d9f71b00f908626ae68da571ca47cbe2
-F .gitignore 484 2017-06-02, 10:45:00 833d8511a69044a1f1c6e0fe4b3c3117
-F .travis.yml 628 2017-06-02, 10:44:58 9f377251309ced0a55548c18896ebd7a
-F CONTRIBUTING.md 683 2017-06-02, 10:44:52 f5e8a568937039e5853613ff0fe296ee
-F genrst.py 129 2017-06-02, 10:45:30 4565eddf226c2e8bed73d2c30dfae9f3
-F HISTORY.md 2542 2017-06-02, 10:45:11 16605670a55a3dd9768d4c862543eac4
-F HISTORY.rst 2639 2017-06-02, 10:44:57 7215fbd0a3be667fd7f9fda14f06c1a9
-F LICENSE 1078 2017-06-02, 10:44:59 ebd1a0c53ea3046f505b995629faf8fb
-F MANIFEST.in 116 2017-06-02, 10:44:50 c98e18e65329b318f13abd031a4397c4
-F README.md 6276 2017-06-02, 10:46:15 d4b88fd543d93c6b63863d28f5c4e716
-F release.sh 1795 2017-06-02, 10:45:53 c086eb283e9554bbcd23daf0888e2819
-F requirements.txt 42 2017-06-02, 10:44:54 28b314f2f2d2ed79957a7a7e6d3f7c17
-F setup.cfg 70 2017-06-02, 10:45:11 b23579970dcedbcaeaaa00636d601335
-F setup.py 2377 2017-06-02, 10:44:58 34d63d5143ab02d3db7808321a7f9df4
-<span class="o">[</span>root@localhost ~]# bypy syncup ./bypy v6/bypy
-<span class="o">[</span>root@localhost ~]#
-</code></pre></div></div>
-
-<h4 id="搜索">搜索</h4>
-
-<p><code class="language-plaintext highlighter-rouge">bypy</code> 同样支持搜索，根据文件名检索，自动递归所有目录</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@localhost ~]# bypy search release.sh
-Found:
-F /apps/bypy/v6/bypy/release.sh 1795 2017-06-02, 10:45:53 2017-06-02, 10:45:53 c086eb283e9554bbcd23daf0888e2819
-</code></pre></div></div>
-
-<h4 id="比较本地与百度网盘">比较本地与百度网盘</h4>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 先删除本地一个文件</span>
-<span class="o">[</span>root@localhost ~]# <span class="nb">rm</span> ./bypy/release.sh
-
-<span class="c"># 对比</span>
-<span class="o">[</span>root@localhost ~]# bypy compare v6/bypy ./bypy
-<span class="o">====</span> Same files <span class="o">===</span>
-F - MANIFEST.in
-... omit ...
-F - bypy/monkey.py
-F - README.md
-<span class="o">====</span> Different files <span class="o">===</span>
-<span class="o">====</span> Local only <span class="o">====</span>
-<span class="o">====</span> Remote only <span class="o">====</span>
-F - release.sh
-
-Statistics:
-<span class="nt">--------------------------------</span>
-Same: 131
-Different: 0
-Local only: 0
-Remote only: 1
-</code></pre></div></div>
-
-<p>通过以上可以看到，相同文件 131，远程目录多了一个文件。</p>
-
-<h4 id="其他">其他</h4>
-
-<p><code class="language-plaintext highlighter-rouge">bypy</code>支持的操作很多，使用<code class="language-plaintext highlighter-rouge">bypy help</code>即可以看到，若要调试，使用以下参数可以打开对应调试信息：</p>
-
-<ul>
-  <li>运行时添加<code class="language-plaintext highlighter-rouge">-v</code>参数，会显示进度详情。</li>
-  <li>运行时添加<code class="language-plaintext highlighter-rouge">-d</code>，会显示一些调试信息。</li>
-  <li>运行时添加<code class="language-plaintext highlighter-rouge">-ddd</code>，还会会显示 HTTP 通讯信息（<strong>警告：非常多</strong>）</li>
-</ul>
-
-<h2 id="数据库备份自动上传到百度网盘">数据库备份自动上传到百度网盘</h2>
-
-<p>之前也写过很多关于 Mysql 备份的文章，如果要详细查看，请打开以下链接：<a href="https://samzong.me/categories/MySQL/">分类 MySQL</a></p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># create back script.</span>
-<span class="o">[</span>root@localhost ~]# <span class="nb">touch </span>mysql_back.sh
-
-<span class="c"># add executable permissions</span>
-<span class="o">[</span>root@localhost ~]# <span class="nb">chmod</span> +x mysql_back.sh
-
-<span class="o">[</span>root@localhost ~]# vim mysql_back.sh
-<span class="c">#!/bin/bash</span>
-<span class="c">#  </span>
-<span class="c"># backup mysqldump file to baidu yunPan</span>
-<span class="c"># filepath: /usr/local/bin/mysql_back.sh</span>
-<span class="c"># Author: samzong</span>
-<span class="c">#</span>
-
-<span class="k">function </span>upload_file<span class="o">(){</span>
-        <span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H%M%S"</span><span class="sb">`</span>
-        <span class="nv">folder</span><span class="o">=</span><span class="s2">"/mysqlbak"</span>
-        <span class="nv">filename</span><span class="o">=</span><span class="s2">"db_</span><span class="nv">$TIME</span><span class="s2">.sql"</span>
-        <span class="nv">filePath</span><span class="o">=</span><span class="nv">$folder</span>/<span class="nv">$filename</span>
-
-        <span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="nv">$filePath</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
-                </span><span class="nb">echo</span> <span class="s2">"[ERROR]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] </span><span class="nv">$folder</span><span class="s2">/</span><span class="nv">$filename</span><span class="s2"> not found."</span>
-        <span class="k">else
-                </span><span class="nb">echo</span> <span class="s2">"[INFO]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] </span><span class="nv">$folder</span><span class="s2">/</span><span class="nv">$filename</span><span class="s2"> has been found. Start uploading ......"</span>
-                bypy upload <span class="s2">"</span><span class="nv">$filePath</span><span class="s2">"</span> <span class="s2">"v6/mysql_backup/</span><span class="nv">$filename</span><span class="s2">"</span>
-                <span class="nb">echo</span> <span class="s2">"[INFO]["</span><span class="sb">`</span><span class="nb">date</span> +%Y-%m-%d<span class="s1">' '</span>%H:%M:%S<span class="sb">`</span><span class="s2">"] Uploading end."</span>
-        <span class="k">fi</span>
-<span class="o">}</span>
-
-<span class="c">#  set TIME variable</span>
-<span class="nv">TIME</span><span class="o">=</span><span class="sb">`</span><span class="nb">date</span> <span class="s2">"+%Y%m%d%H%M%S"</span><span class="sb">`</span>
-
-<span class="c"># backup db ghost to /mysqlbak/</span>
-mysqldump <span class="nt">--single-transaction</span> <span class="nt">-h</span> localhost <span class="nt">-u</span> ghost_backuser <span class="nt">-pbackupPass</span> ghost  <span class="o">&gt;</span> /mysqlbak/db_<span class="nv">$TIME</span>.sql
-
-<span class="c"># tar sql file</span>
-<span class="nb">tar </span>czvf /mysqlbak/ghost_<span class="nv">$TIME</span>.sql.tgz /mysqlbak/ghost_<span class="nv">$TIME</span>.sql <span class="nt">--remove-files</span>
-
-<span class="c"># upload sql file to baidu yunPan.</span>
-upload_file<span class="p">;</span>
-
-<span class="c"># send mial to admin'mial</span>
-<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span><span class="p">;</span> <span class="k">then
-    </span><span class="nb">echo</span> <span class="s2">"ghost SQL dump is successfully. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-successfully  samzong.lu@gmail.com
-<span class="k">else
-    </span><span class="nb">echo</span> <span class="s2">" Error Error ghost SQL dump is Error. At time: </span><span class="sb">`</span><span class="nb">date</span><span class="sb">`</span><span class="s2"> "</span> | mail <span class="nt">-s</span> ghost-dump-error samzong.lu@gmail.com
-<span class="k">fi</span>
-</code></pre></div></div>
-
-<h2 id="添加计划任务">添加计划任务</h2>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ~ crontab <span class="nt">-e</span>
-00 00 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> sh /usr/local/bin/mysql_back.sh
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-06-02</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2017/05/%E6%88%91%E6%9D%A5%E5%88%B0%E8%BF%99%E4%B8%96%E4%B8%8A.html">我来到这世上</a></h1>
-    <div class="post_at_index">
-      <p>我也没有等你，只是还没找不到一个比你还让我更喜欢的人。</p>
-
-<p><a href="https://www.zhihu.com/question/25401683/answer/157581428">知乎</a> @七万</p>
-
-<p>苦涩困在胸中，日夜锥心刺骨，却如鲠在喉。</p>
-
-<p>有人说：“你不必等我。”</p>
-
-<p>我觉得话已经说的很明白了，
-再多问一句，都是作践自己。</p>
-
-<p>我到底还是喜欢的，可是喜欢的情绪从心里涌出嘴的时候，自尊就会死死的掐着脖子，根本不能说话，能好好呼吸都是享受。</p>
-
-<p>我得自己走了，谢谢你带我来山顶看烟花。</p>
-
-<p>你说，这事儿得怪谁呢？</p>
-
-<p>该怨你吗？怨字说不口。
-终究是我一个人的梦，没理由非得拽你一起圆。</p>
-
-<p>该怨我吗？实在是不忍心。
-我心里住了两个小人儿。
-一个跪在地上，涕零如雨，边哭边求。
-另一个站他旁边，气冲斗牛，边骂边羞。
-它们撕扯着我，片刻不停。</p>
-
-<p>真他妈难受。</p>
-
-<p>最后还是得走啊。来生，要是有来生。
-我就做你的影子吧，你不必一定爱我，你也赶不走我。
-或者做你手边的一本书，咱们能心平气和的聊聊天。
-再不济就做你床头柜里的成人玩具，你知我长短，我知你深浅……
-这辈子，是什么都不行了。</p>
-
-<p>小的时候，觉得女儿国国王就是个小贱婊，
-妈的，勾搭大和尚！各种挽留，留你妈哔啊，赶紧让人办正事去得了。</p>
-
-<p>长大后才知道，
-这个电视剧里最可怜的不是历尽艰险的唐僧，
-不是一次又一次被赶走的孙猴儿，
-不是被傲娇玉帝罚的一脸懵逼的凤仙郡百姓，
-不是那群刚出场就被孙悟空打死的智障炮灰，
-是女儿国王啊，
-这娘们把能给的都给出去了，那和尚瞅都没瞅，一句女施主请自重，断绝了她所有的念想。</p>
-
-<p>唉，你没来之前我也是个要脸的人啊。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2017-05-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1360,7 +1124,7 @@ upload_file<span class="p">;</span>
             <li class="active"><a>14</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page24">24</a></li>
+          <li><a href="/page25">25</a></li>
         
 
         
@@ -1421,7 +1185,7 @@ upload_file<span class="p">;</span>
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>16</span>
+    		Mac <span>18</span>
     	</a></li>
      
     	
@@ -1505,6 +1269,20 @@ upload_file<span class="p">;</span>
       <ul>
         
         <li>
+          <a href="/post/2022/12/raycast-01.html">Raycast 你的年度报告已到达</a>
+          从 Alfred 切换到 Raycast 也就 2 个多月的时间；使用体验有着比较大的提升。
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/12/Skoala-Install-Dce5.html">DCE5-Skoala 安装教程</a>
+          使用之前的话
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
           前言
 
@@ -1521,22 +1299,6 @@ upload_file<span class="p">;</span>
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
           背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy to Markdown</a>
-          背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
-          
-  参考资料：
-
 
 
         </li>

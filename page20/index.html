@@ -237,6 +237,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -278,6 +282,445 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2016/07/Manage-Tomcat-Service-Use-Shell-Script.html">Manage Tomcat Service Use Shell Script</a></h1>
+    <div class="post_at_index">
+      <h4 id="tomcat-项目管理交互式脚本">Tomcat 项目管理交互式脚本</h4>
+
+<ul>
+  <li>Install pssh</li>
+  <li>Use Key Login Server Hosts</li>
+  <li>~/.ssh/config 配置使用 host 名登录服务</li>
+  <li>指定 Server Group Files 存放位置</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="c"># Author Alex LU</span>
+<span class="c"># Date 2016-07-20</span>
+<span class="c"># Version 1.0</span>
+
+<span class="c"># HostFile</span>
+<span class="nv">HostDIR</span><span class="o">=</span>~/.ssh/host/
+
+<span class="c"># war包上传到该目录</span>
+<span class="c"># /warfolder</span>
+
+:<span class="s1">'
+jobs_select (){
+    STRING=``cat $vmname | grep group
+    if [ -z "$STRING" ]
+    then
+        job_tomcat
+    else
+        job2_tomcat
+    fi
+}
+'</span>
+
+<span class="k">function </span>HOST<span class="o">()</span>
+<span class="o">{</span>
+    <span class="nb">echo</span> <span class="s2">""</span>
+    <span class="nb">echo</span> <span class="s2">"############ Host List ###############"</span>
+    <span class="nb">echo</span> <span class="s2">"ckgroup:ck01,ck02,ck03,ck04"</span>
+    <span class="nb">echo</span> <span class="s2">"sjgroup:sj01,sj02,sj03,sj04"</span>
+    <span class="nb">echo</span> <span class="s2">"ddgroup:dd01,dd02,dd03,dd04"</span>
+    <span class="nb">echo</span> <span class="s2">"htgroup:ht01,ht02"</span>
+    <span class="nb">echo</span> <span class="s2">"othergroup:report,tg"</span>
+    <span class="nb">echo</span> <span class="s2">"######################################"</span>
+    <span class="nb">echo</span> <span class="s2">""</span>
+    <span class="nb">echo</span> <span class="s2">" Tips: 如果要选择ck01，则输入ck01即可，如果输入ck组，输入ckgroup即可,如果要退出当前脚本输入exit"</span>
+    <span class="nb">echo</span> <span class="s2">" Tips: 退回上一步请输入back"</span>
+    <span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"请输入你的选择:"</span> vmname
+
+    <span class="k">case</span> <span class="s2">"</span><span class="nv">$vmname</span><span class="s2">"</span> <span class="k">in
+        </span>ck01|ck02|ck03|ck04|sj01|sj02|sj03|sj04|dd01|dd02|dd03|dd04|report|tg|ht01|ht02<span class="p">)</span>
+            job_tomcat <span class="nv">$vmname</span>
+            <span class="p">;;</span>
+        ckgroup|sjgroup|htgroup|ddgroup|othergroup<span class="p">)</span>
+            job2_tomcat <span class="nv">$vmname</span>
+            <span class="p">;;</span>
+        <span class="nb">exit</span><span class="p">)</span>
+            <span class="nb">exit </span>0<span class="p">;</span>
+            <span class="p">;;</span>
+        back<span class="p">)</span>
+            clear
+            <span class="nb">echo</span> <span class="s2">""</span>
+            <span class="nb">echo</span> <span class="s2">"Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"</span>
+            main
+            <span class="p">;;</span>
+        <span class="k">*</span><span class="p">)</span>
+            <span class="nb">echo</span> <span class="s2">"请输入的选择!"</span>
+            HOST
+            <span class="p">;;</span>
+    <span class="k">esac</span>
+<span class="o">}</span>
+
+<span class="k">function </span>job_tomcat <span class="o">()</span>
+<span class="o">{</span>
+    <span class="nb">echo</span> <span class="s2">""</span>
+    <span class="nb">echo</span> <span class="s2">"############ 动作 ###############"</span>
+    <span class="nb">echo</span> <span class="s2">"  1. 查看当前tomcat7状态"</span>
+    <span class="nb">echo</span> <span class="s2">"  2. 关闭tomcat7"</span>
+    <span class="nb">echo</span> <span class="s2">"  3. 启动tomcat7"</span>
+    <span class="nb">echo</span> <span class="s2">"  4. 重启tomcat7"</span>
+    <span class="nb">echo</span> <span class="s2">"  5. 获取最近200行日志"</span>
+    <span class="nb">echo</span> <span class="s2">"  6. 重新选择主机"</span>
+    <span class="nb">echo</span> <span class="s2">"  7. 回到顶层目录"</span>
+    <span class="nb">echo</span> <span class="s2">""</span>
+    <span class="nb">echo</span> <span class="s2">"#################################"</span>
+
+    <span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"请输入你的选择:"</span> service_tomcat
+
+    <span class="k">case</span> <span class="nv">$service_tomcat</span> <span class="k">in
+        </span>1<span class="p">)</span>
+        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"ps aux | grep tomcat"</span>
+        job_tomcat
+        <span class="p">;;</span>
+        2<span class="p">)</span>
+        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 stop"</span>
+        <span class="c"># tips： 下面grep的字符串要和你的tomcat项目名称契合</span>
+        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"ps aux | grep tomcat7 | awk '{print </span><span class="nv">$2</span><span class="s2">}' | xargs kill -9 "</span>
+        <span class="c"># tips: 下面用到的路径为绝对路径，请更改为自己tomcat的目录，也可以在前面增加自定义变量</span>
+        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/work/*"</span>
+        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/logs/*"</span>
+        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/temp/*"</span>
+        job_tomcat
+        <span class="p">;;</span>
+        3<span class="p">)</span>
+        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 start"</span>
+        job_tomcat
+        <span class="p">;;</span>
+        4<span class="p">)</span>
+        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 stop"</span>
+        <span class="c"># tips： 下面grep的字符串要和你的tomcat项目名称契合</span>
+        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"ps aux | grep tomcat7 | awk '{print </span><span class="nv">$2</span><span class="s2">}' | xargs kill -9 "</span>
+        <span class="c"># tips: 下面用到的路径为绝对路径，请更改为自己tomcat的目录，也可以在前面增加自定义变量</span>
+        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/work/*"</span>
+        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/logs/*"</span>
+        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/temp/*"</span>
+        <span class="nb">sleep </span>1
+        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 start"</span>
+        job_tomcat
+        <span class="p">;;</span>
+        5<span class="p">)</span>
+        pssh <span class="nt">-H</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"tail -n 200 /tomcat7/logs/catalina.out"</span>
+        job_tomcat
+        <span class="p">;;</span>
+        6<span class="p">)</span>
+        <span class="nb">echo</span> <span class="s2">""</span>
+        HOST
+        <span class="p">;;</span>
+        7<span class="p">)</span>
+        clear
+        <span class="nb">echo</span> <span class="s2">""</span>
+        <span class="nb">echo</span> <span class="s2">"Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"</span>
+        main
+        <span class="p">;;</span>
+        <span class="k">*</span><span class="p">)</span>
+        <span class="nb">echo</span> <span class="s2">"请输入正确的选项！"</span>
+        job_tomcat
+        <span class="p">;;</span>
+    <span class="k">esac</span>
+<span class="o">}</span>
+
+<span class="k">function </span>job2_tomcat <span class="o">()</span>
+<span class="o">{</span>
+    <span class="nb">echo</span> <span class="s2">""</span>
+    <span class="nb">echo</span> <span class="s2">"############ 动作 ###############"</span>
+    <span class="nb">echo</span> <span class="s2">"  1. 查看当前tomcat7状态"</span>
+    <span class="nb">echo</span> <span class="s2">"  2. 关闭tomcat7"</span>
+    <span class="nb">echo</span> <span class="s2">"  3. 启动tomcat7"</span>
+    <span class="nb">echo</span> <span class="s2">"  4. 重启tomcat7"</span>
+    <span class="nb">echo</span> <span class="s2">"  5. 获取最近200行日志"</span>
+    <span class="nb">echo</span> <span class="s2">"  6. 重新选择主机"</span>
+    <span class="nb">echo</span> <span class="s2">"  7. 回到顶层目录"</span>
+    <span class="nb">echo</span> <span class="s2">""</span>
+    <span class="nb">echo</span> <span class="s2">"################################"</span>
+
+    <span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"请输入你的选择:"</span> service_tomcat
+
+    <span class="k">case</span> <span class="nv">$service_tomcat</span> <span class="k">in
+        </span>1<span class="p">)</span>
+        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"ps aux | grep tomcat"</span>
+        job2_tomcat
+        <span class="p">;;</span>
+        2<span class="p">)</span>
+        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 stop"</span>
+        <span class="c"># tips： 下面grep的字符串要和你的tomcat项目名称契合</span>
+        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"ps aux | grep tomcat7 | awk '{print </span><span class="nv">$2</span><span class="s2">}' | xargs kill -9 "</span>
+        <span class="c"># tips: 下面用到的路径为绝对路径，请更改为自己tomcat的目录，也可以在前面增加自定义变量</span>
+        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/work/*"</span>
+        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/logs/*"</span>
+        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/temp/*"</span>
+        job2_tomcat
+        <span class="p">;;</span>
+        3<span class="p">)</span>
+        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 start"</span>
+        job2_tomcat
+        <span class="p">;;</span>
+        4<span class="p">)</span>
+        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 stop"</span>
+        <span class="c"># tips： 下面grep的字符串要和你的tomcat项目名称契合</span>
+        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"ps aux | grep tomcat7 | awk '{print </span><span class="nv">$2</span><span class="s2">}' | xargs kill -9 "</span>
+        <span class="c"># tips: 下面用到的路径为绝对路径，请更改为自己tomcat的目录，也可以在前面增加自定义变量</span>
+        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/work/*"</span>
+        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/logs/*"</span>
+        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"rm -rf /tomcat7/temp/*"</span>
+        <span class="nb">sleep </span>1
+        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 start"</span>
+        job2_tomcat
+        <span class="p">;;</span>
+        5<span class="p">)</span>
+        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"tail -n 200 /tomcat7/logs/catalina.out"</span>
+        job2_tomcat
+        <span class="p">;;</span>
+        6<span class="p">)</span>
+        <span class="nb">echo</span> <span class="s2">""</span>
+        HOST
+        <span class="p">;;</span>
+        7<span class="p">)</span>
+        clear
+        <span class="nb">echo</span> <span class="s2">""</span>
+        <span class="nb">echo</span> <span class="s2">"Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"</span>
+        main
+        <span class="p">;;</span>
+        <span class="k">*</span><span class="p">)</span>
+        <span class="nb">echo</span> <span class="s2">"请输入正确的选项！"</span>
+        job_tomcat
+        <span class="p">;;</span>
+    <span class="k">esac</span>
+<span class="o">}</span>
+
+<span class="k">function </span>HOST2<span class="o">()</span>
+<span class="o">{</span>
+    <span class="nb">echo</span> <span class="s2">""</span>
+    <span class="nb">echo</span> <span class="s2">"############ Host List ###############"</span>
+    <span class="nb">echo</span> <span class="s2">"ckgroup:ck01,ck02,ck03,ck04"</span>
+    <span class="nb">echo</span> <span class="s2">"sjgroup:sj01,sj02,sj03,sj04"</span>
+    <span class="nb">echo</span> <span class="s2">"ddgroup:dd01,dd02,dd03,dd04"</span>
+    <span class="nb">echo</span> <span class="s2">"htgroup:ht01,ht02"</span>
+    <span class="nb">echo</span> <span class="s2">"othergroup:report,tg"</span>
+    <span class="nb">echo</span> <span class="s2">"######################################"</span>
+    <span class="nb">echo</span> <span class="s2">""</span>
+<span class="c"># 确认是否所有项目包发布后立即启动</span>
+    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[7m 更新订单服务器的war包时，会自动启动tomcat程序，为了释放war包，修改order.no，请设置war包内order.no＝0 ,其它服务器tomcat不会自启动，请使用命令操作 </span><span class="se">\0</span><span class="s2">33[0m"</span>
+    <span class="nb">echo</span> <span class="s2">" Tips: 如果要选择ck01，则输入ck01即可，如果输入ck组，输入ckgroup即可,如果要退出当前脚本输入exit"</span>
+    <span class="nb">echo</span> <span class="s2">" Tips: 退回上一步请输入back"</span>
+    <span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"请输入你的选择:"</span> vmname
+    <span class="k">case</span> <span class="s2">"</span><span class="nv">$vmname</span><span class="s2">"</span> <span class="k">in
+        </span>ck01|ck02|ck03|ck04|sj01|sj02|sj03|sj04|dd01|dd02|dd03|dd04|report|tg|ht01|ht02<span class="p">)</span>
+            <span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"请输入war包的名称,例如:dzcx_ck.war :"</span> warname
+            pscp_tomcat <span class="nv">$vmname</span> <span class="nv">$warname</span>
+            <span class="p">;;</span>
+        ckgroup|sjgroup|htgroup|othergroup<span class="p">)</span>
+            <span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"请输入war包的名称,例如:dzcx_ck.war :"</span> warname
+            pscp2_tomcat <span class="nv">$vmname</span> <span class="nv">$warname</span>
+            <span class="p">;;</span>
+        ddgroup<span class="p">)</span>
+            <span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"请输入war包的名称,例如:dzcx_ck.war :"</span> warname
+            pscp3_tomcat <span class="nv">$vmname</span> <span class="nv">$warname</span>
+            <span class="p">;;</span>
+        <span class="nb">exit</span><span class="p">)</span>
+            <span class="nb">exit </span>0<span class="p">;</span>
+            <span class="p">;;</span>
+        back<span class="p">)</span>
+            clear
+            <span class="nb">echo</span> <span class="s2">""</span>
+            <span class="nb">echo</span> <span class="s2">"Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"</span>
+            main
+            <span class="p">;;</span>
+        <span class="k">*</span><span class="p">)</span>
+            <span class="nb">echo</span> <span class="s2">"请输入的选择!"</span>
+            HOST
+            <span class="p">;;</span>
+    <span class="k">esac</span>
+<span class="o">}</span>
+
+<span class="k">function </span>pscp_tomcat <span class="o">()</span>
+<span class="o">{</span>
+    <span class="c"># single host</span>
+    pscp.pssh <span class="nt">-H</span> <span class="nv">$vmname</span> /warfolder/<span class="s2">"</span><span class="nv">$warname</span><span class="s2">"</span> /tomcat7/webapps/
+    HOST2
+<span class="o">}</span>
+
+<span class="k">function </span>pscp2_tomcat <span class="o">()</span>
+<span class="o">{</span>
+    <span class="c"># group</span>
+    pscp.pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> /warfolder/<span class="s2">"</span><span class="nv">$warname</span><span class="s2">"</span> /tomcat7/webapps/
+    HOST2
+<span class="o">}</span>
+
+<span class="k">function </span>pscp3_tomcat <span class="o">()</span>
+<span class="o">{</span>
+    <span class="c"># group dd 因为订单需要修改服务器编号</span>
+    pscp.pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/<span class="nv">$vmname</span> /warfolder/<span class="s2">"</span><span class="nv">$warname</span><span class="s2">"</span> /tomcat7/webapps/
+    pssh <span class="nt">-h</span> <span class="nv">$vmname</span> <span class="nt">-i</span> <span class="s2">"service tomcat7 start"</span>
+    <span class="nb">sleep </span>10
+    pssh <span class="nt">-H</span> dd02 <span class="s2">"sed -i 's/order.no=0/order.no=1/g' /tomcat7/webapps/dzcx_socket/WEB-INF/classes/base.properties"</span>
+    pssh <span class="nt">-H</span> dd03 <span class="s2">"sed -i 's/order.no=0/order.no=2/g' /tomcat7/webapps/dzcx_socket/WEB-INF/classes/base.properties"</span>
+    pssh <span class="nt">-H</span> dd04 <span class="s2">"sed -i 's/order.no=0/order.no=3/g' /tomcat7/webapps/dzcx_socket/WEB-INF/classes/base.properties"</span>
+    HOST2
+<span class="o">}</span>
+
+<span class="k">function </span>main <span class="o">()</span>
+<span class="o">{</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">"######################################"</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">"#  1. 更新war包"</span>
+<span class="nb">echo</span> <span class="s2">"#  2. 管理tomcat7"</span>
+<span class="nb">echo</span> <span class="s2">"#  3. 管理mysql"</span>
+<span class="nb">echo</span> <span class="s2">"#  4. 管理redis"</span>
+<span class="nb">echo</span> <span class="s2">"#  5. 同步服务器时间"</span>
+<span class="nb">echo</span> <span class="s2">"#  6. 清理当前屏幕"</span>
+<span class="nb">echo</span> <span class="s2">"#  7. 退出"</span>
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">"######################################"</span>
+
+<span class="nb">read</span> <span class="nt">-p</span> <span class="s2">"请输入你的选择:"</span> num
+
+<span class="k">case</span> <span class="s2">"</span><span class="nv">$num</span><span class="s2">"</span> <span class="k">in
+    </span>1<span class="p">)</span>
+        HOST2
+        <span class="p">;;</span>
+    2<span class="p">)</span>
+        HOST
+        <span class="p">;;</span>
+    3<span class="p">)</span>
+        <span class="nb">echo</span> <span class="s2">"该功能暂未开放"</span>
+        <span class="p">;;</span>
+    4<span class="p">)</span>
+        <span class="nb">echo</span> <span class="s2">"该功能暂未开放"</span>
+        <span class="p">;;</span>
+    5<span class="p">)</span>
+        pssh <span class="nt">-h</span> <span class="nv">$HostDIR</span>/allhost <span class="nt">-i</span> <span class="s2">"service ntpd restart"</span>
+        <span class="p">;;</span>
+    6<span class="p">)</span>
+        clear
+        <span class="nb">echo</span> <span class="s2">""</span>
+        <span class="nb">echo</span> <span class="s2">"Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"</span>
+        main
+        <span class="p">;;</span>
+    7<span class="p">)</span>
+        <span class="nb">exit </span>0
+        <span class="p">;;</span>
+    <span class="k">*</span><span class="p">)</span>
+        <span class="nb">echo</span> <span class="s2">"请输入正确的数值！"</span>
+        main
+    <span class="p">;;</span>
+<span class="k">esac</span>
+
+<span class="o">}</span>
+
+<span class="c"># --------------------------------- main -------------------------------------------------</span>
+
+clear
+
+<span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">"Tips: 欢迎使用Tomcat项目服务管理工具,您需要预先安装pssh工具，以及配置好ssh免密登录到服务器"</span>
+<span class="nb">command</span> <span class="nt">-v</span> pssh <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
+
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> <span class="nt">-eq</span> 0 <span class="o">]</span>
+<span class="k">then
+    </span>main
+<span class="k">else
+    </span><span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[07m"</span>
+    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"系统检测到您还没安装pssh，请预先安装pssh"</span>
+    <span class="nb">echo</span> <span class="s2">"yum install -y epel-release"</span>
+    <span class="nb">echo</span> <span class="s2">"yum install -y pssh"</span>
+    <span class="nb">echo</span> <span class="s2">"安装成功请重新运行此脚本"</span>
+    <span class="nb">echo</span> <span class="nt">-e</span> <span class="s2">"</span><span class="se">\0</span><span class="s2">33[0m"</span>
+
+<span class="k">fi</span>
+
+
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-07-26</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Shell">Shell</a>
+      , 
+      <a href="/tags.html#CentOS">CentOS</a>
+      , 
+      <a href="/tags.html#Tomcat">Tomcat</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/07/HowTo-Play-Pokemon-GO-in-China.html">HowTo Play Pokemon GO in China</a></h1>
+    <div class="post_at_index">
+      <h2 id="installtions">Installtions</h2>
+
+<ul>
+  <li><a href="http://www.tutuapp.cn">TuTuAPP</a></li>
+  <li><a href="https://shadowsocks.biz/?ref=518">VPN</a></li>
+  <li><a href="https://accounts.google.com">Google Account ID</a></li>
+</ul>
+
+<p>最近看到身边朋友都在玩 Pokemon GO, 心痒难耐，于是跟同事请教琢磨了，终于在自己的手机上玩起来了，由于我的手机是 iPhone 5s，身边朋友也都是 iPhone，所以不确定是 Android 是否可以玩耍，想来应该是没有问题话，Android 平台做破解等操作一直以来比 iPhone 更加方便。</p>
+
+<p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo1.jpg" alt="image" /></p>
+
+<ol>
+  <li>
+    <p>点击上面的 TuTuAPP，可以打开兔兔助手的网站，用手机扫描首页的二维码 (可以用微信等，带有二维码扫描的都可以)，注意如果你的 iPhone 已经越狱，请切换标签页到越狱版本。</p>
+  </li>
+  <li>
+    <p>安装时注意按照提示添加信任，等待兔兔助手安装完成之后，打开软件，在 Search 栏输入“精灵宝可梦 GO”，请下载美区版，有两个版本：懒人版与移动版；懒人版有移动按钮，可以不需要走动躺在床上玩耍，移动版是需要人走动才能玩耍，我下载的移动版，你根据自己的喜欢选择，选择完成后，按提示按钮安装即可。</p>
+  </li>
+  <li>
+    <p>安装完成 Pokemon GO 之后也需要设定信任，请按照提示操作；好了，到这一步，Pokemon GO 已经安装在你的手机上了，下一步就是怎么登录玩耍。</p>
+  </li>
+  <li>
+    <p>到这里及一下的步骤能继续下去的前提是，你有一个美国的 VPN 节点。打开你手机 App Store，搜索 VPN，列表中会有很多的免费应用，因为我一直用的是付费 VPN，所以对这些不是很清楚，朋友推荐<strong>ArkVPN</strong>，如果你没有付费 VPN，可以试试这个，注意 VPN 节点要选择 US，如果你也要使付费 VPN 的，我推荐 Shadowsocks＋Potatso( App)</p>
+  </li>
+  <li>
+    <p>注册 Google Account ID，<a href="https://account.google.com">点击</a></p>
+
+    <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo2.jpg" alt="image" /></p>
+  </li>
+  <li>
+    <p>进入游戏，登录 Google ID，然后授权，进入游戏。</p>
+
+    <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo3.png&gt;" alt="image" /></p>
+  </li>
+  <li>
+    <p>开始捕捉你的小精灵吧，手动微笑。</p>
+  </li>
+</ol>
+
+<blockquote>
+  <p>Tips：这款游戏会大量耗电发热，因为打开摄像头捕捉小精灵；另外很容易入迷，在室外玩耍时一定要注意安全。</p>
+</blockquote>
+
+<p>注意：如果看到了 GPS signal not found，说明是 GPS 信息丢失，这是根据 GPS 定位的游戏，所以这很重要，记得选择美国的 VPN 代理。</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>![image](http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo4.png)
+![image](http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo5.png)
+![image](http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/07/pokemongo6.png)
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-07-24</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#iPhone">iPhone</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2016/07/HowTo-Reset-Azure-VM-Linux-Password.html">HowTo Reset Azure VM Linux Password</a></h1>
@@ -1134,60 +1577,6 @@ There is NO WARRANTY, to the extent permitted by law.
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/05/Azure-HowTo-Use-Azure-CLI-on-Mac.html">HowTo Use Azure CLI on Mac</a></h1>
-    <div class="post_at_index">
-      <h2 id="install-azure-cli-on-mac-and-centos">Install azure-cli on Mac and CentOS</h2>
-
-<h3 id="in-mac">In Mac</h3>
-
-<ol>
-  <li>Install brew.</li>
-  <li>brew install nodejs</li>
-  <li>echo “registry = <a href="https://registry.npm.taobao.org">https://registry.npm.taobao.org</a>” &gt; ~/.npmrc</li>
-  <li>npm install azure-cli -g</li>
-</ol>
-
-<h3 id="in-centos">In CentOS</h3>
-
-<ol>
-  <li>Install epel</li>
-  <li>yum install -y nodejs npm</li>
-  <li>echo “registry = <a href="https://registry.npm.taobao.org">https://registry.npm.taobao.org</a>” &gt; ~/.npmrc</li>
-  <li>npm install azure-cli -g</li>
-</ol>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-05-24</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Azure">Azure</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/05/Azure-3-HowTo-Use-Azure-CLI-on-Mac.html">Azure CLI Import AcountInfo</a></h1>
-    <div class="post_at_index">
-      <p><img src="http://samzong.oss-cn-shenzhen.aliyuncs.com/2016/05/D50E240D-1468-486F-8CA7-C5D3DC7463DE.png" alt="image" /></p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-05-24</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Azure">Azure</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1229,7 +1618,7 @@ There is NO WARRANTY, to the extent permitted by law.
             <li class="active"><a>20</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page24">24</a></li>
+          <li><a href="/page25">25</a></li>
         
 
         
@@ -1290,7 +1679,7 @@ There is NO WARRANTY, to the extent permitted by law.
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>16</span>
+    		Mac <span>18</span>
     	</a></li>
      
     	
@@ -1374,6 +1763,20 @@ There is NO WARRANTY, to the extent permitted by law.
       <ul>
         
         <li>
+          <a href="/post/2022/12/raycast-01.html">Raycast 你的年度报告已到达</a>
+          从 Alfred 切换到 Raycast 也就 2 个多月的时间；使用体验有着比较大的提升。
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/12/Skoala-Install-Dce5.html">DCE5-Skoala 安装教程</a>
+          使用之前的话
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
           前言
 
@@ -1390,22 +1793,6 @@ There is NO WARRANTY, to the extent permitted by law.
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
           背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy to Markdown</a>
-          背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
-          
-  参考资料：
-
 
 
         </li>

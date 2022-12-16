@@ -237,6 +237,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -278,6 +282,206 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2016/11/%E4%B8%96%E7%95%8C%E4%B8%8A%E6%9C%80%E6%B2%A1%E7%94%A8%E7%9A%84%E4%B8%9C%E8%A5%BF.html">世界上最没用的东西</a></h1>
+    <div class="post_at_index">
+      <p><a href="https://www.zhihu.com/question/21905681/answer/93684468">知乎</a></p>
+
+<p>@匿名用户</p>
+
+<p>旧手机的充电器</p>
+
+<p>暗恋时的独角戏</p>
+
+<p>情人节后的鲜花</p>
+
+<p>单身狗的第二杯半价</p>
+
+<p>政客上任的许诺</p>
+
+<p>渴望理解的诉说</p>
+
+<p>花前月下的誓言</p>
+
+<p>回忆里微笑的脸</p>
+
+<p>过期的悔恨</p>
+
+<p>懦弱的容忍</p>
+
+<p>寒假前的作息表</p>
+
+<p>满街的宣传口号</p>
+
+<p>天赋不足的认真</p>
+
+<p>无疾而终的情深</p>
+
+<p>所谓寂寞空虚冷</p>
+
+<p>不可说与人知的疼</p>
+
+<p>失败后的借口</p>
+
+<p>酒桌上的朋友</p>
+
+<p>年轻时为你写的诗</p>
+
+<p>心血来潮时的雄心壮志</p>
+
+<p>收藏夹里的心灵鸡汤</p>
+
+<p>总结汇报的官样文章</p>
+
+<p>额度不够的信用卡</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-11-27</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2016/11/Denyhosts%E5%A2%9E%E5%8A%A0%E6%9C%8D%E5%8A%A1%E5%99%A8SSH%E9%BB%91%E5%90%8D%E5%8D%95%E6%9C%BA%E5%88%B6.html">Denyhosts 增加服务器 SSH 黑名单机制</a></h1>
+    <div class="post_at_index">
+      <h2 id="查看当前服务器失败登录的统计">查看当前服务器失败登录的统计</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat</span> /var/log/secure | <span class="nb">awk</span> <span class="s1">'/Failed/{print $(NF-3)}'</span> | <span class="nb">sort</span> | <span class="nb">uniq</span> <span class="nt">-c</span> | <span class="nb">sort</span> <span class="nt">-n</span> |  <span class="nb">awk</span> <span class="s1">'{print $2" = "$1}'</span>
+</code></pre></div></div>
+
+<h2 id="install-denyhosts">Install denyhosts</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 需要预先安装epel源</span>
+<span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
+<span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> denyhosts
+</code></pre></div></div>
+
+<h2 id="配置文件解析">配置文件解析</h2>
+
+<p>默认配置文件/etc/denyhosts。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 查看的sshd日志文件</span>
+SECURE_LOG <span class="o">=</span> /var/log/secure
+
+<span class="c"># 将阻止IP写入的配置文件</span>
+HOSTS_DENY <span class="o">=</span> /etc/hosts.deny
+
+<span class="c"># 过多久之后清除，其中w代表周，d代表天，h代表小时，s代表秒，m代表分钟。</span>
+PURGE_DENY <span class="o">=</span> 4h
+
+<span class="c"># 阻止的服务名称</span>
+BLOCK_SERVICE  <span class="o">=</span> sshd
+
+<span class="c"># 允许无效用户（在/etc/passwd未列出）登录失败次数,允许无效用户登录失败的次数.</span>
+DENY_THRESHOLD_INVALID <span class="o">=</span> 1
+
+<span class="c"># 允许普通用户登录失败的次数</span>
+DENY_THRESHOLD_VALID <span class="o">=</span> 5
+
+<span class="c"># 允许root登录失败的次数</span>
+DENY_THRESHOLD_ROOT <span class="o">=</span> 2
+DENY_THRESHOLD_RESTRICTED <span class="o">=</span> 1
+
+<span class="c"># 设定 deny host 写入到该资料夹</span>
+WORK_DIR <span class="o">=</span> /var/lib/denyhosts
+
+<span class="c"># 将deny的host或ip纪录到Work_dir中</span>
+<span class="nv">SUSPICIOUS_LOGIN_REPORT_ALLOWED_HOSTS</span><span class="o">=</span>YES
+
+<span class="c"># 是否做域名反解</span>
+<span class="nv">HOSTNAME_LOOKUP</span><span class="o">=</span>YES
+
+<span class="c"># 将DenyHOts启动的pid纪录到LOCK_FILE中，已确保服务正确启动，防止同时启动多个服务。</span>
+LOCK_FILE <span class="o">=</span> /var/lock/subsys/denyhosts
+
+<span class="c"># 设置管理员邮件地址</span>
+ADMIN_EMAIL <span class="o">=</span> luchuanjia@msn.com
+SMTP_HOST <span class="o">=</span> localhost
+SMTP_PORT <span class="o">=</span> 25
+SMTP_FROM <span class="o">=</span> DenyHosts &lt;nobody@localhost&gt;
+SMTP_SUBJECT <span class="o">=</span> DenyHosts Report from <span class="nv">$[</span>HOSTNAME]
+
+<span class="c"># 有效用户登录失败计数归零的时间</span>
+<span class="nv">AGE_RESET_VALID</span><span class="o">=</span>1d
+
+<span class="c"># root用户登录失败计数归零的时间</span>
+<span class="nv">AGE_RESET_ROOT</span><span class="o">=</span>25d
+
+<span class="c"># 用户的失败登录计数重置为0的时间(/usr/share/denyhosts/data/restricted-usernames)</span>
+<span class="nv">AGE_RESET_RESTRICTED</span><span class="o">=</span>25d
+
+<span class="c"># 无效用户登录失败计数归零的时间</span>
+<span class="nv">AGE_RESET_INVALID</span><span class="o">=</span>10d
+
+<span class="c"># denyhosts的日志文件位置</span>
+DAEMON_LOG <span class="o">=</span> /var/log/denyhosts
+
+<span class="c"># denyhosts的轮询时间</span>
+DAEMON_SLEEP <span class="o">=</span> 30s
+
+<span class="c"># 该项与PURGE_DENY 设置一样，也是清除hosts.deny中 ssh用户的时间</span>
+DAEMON_PURGE <span class="o">=</span> 1h
+</code></pre></div></div>
+
+<h2 id="faq">FAQ</h2>
+
+<ol>
+  <li>如果想删除一个已经禁止的主机 IP，并加入到允许主机例表，只在 /etc/hosts.deny 删除是没用的，还需要以下：</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/var/lib/denyhosts 目录，进入以下操作：
+<span class="c"># 停止denyhosts服务</span>
+<span class="nb">sudo </span>service denyhosts stop
+
+<span class="c"># 进入denyhosts的目录</span>
+<span class="nb">cd</span> /var/lib/denyhosts
+
+<span class="c"># 查看哪些文件添加了ssh限制,将IP_addr替换成你的IP</span>
+<span class="nb">sudo grep </span>IP_addr /usr/share/denyhosts/data/<span class="k">*</span>
+
+<span class="c"># 然后一个个删除文件中你想取消的主机IP所在的行:</span>
+/usr/share/denyhosts/data/hosts
+/usr/share/denyhosts/data/hosts-restricted
+/usr/share/denyhosts/data/hosts-root
+/usr/share/denyhosts/data/hosts-valid
+/usr/share/denyhosts/data/users-hosts
+
+<span class="c"># 添加你想允许的主机IP地址到allowed-hosts:</span>
+<span class="nb">sudo echo </span>IP_addr <span class="o">&gt;&gt;</span>/usr/share/denyhosts/data/allowed-hostsps
+
+<span class="c"># 启动 DenyHosts服务：</span>
+ service denyhosts start
+</code></pre></div></div>
+
+<h2 id="tips">Tips</h2>
+
+<ul>
+  <li>尽量是用 key 验证登录服务器</li>
+  <li>尽量从固定 IP 点登录服务器，然后将该地址加入白名单</li>
+</ul>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-11-23</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#DenyHosts">DenyHosts</a>
+      , 
+      <a href="/tags.html#CentOS">CentOS</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2016/11/Python-1-%E5%9F%BA%E7%A1%80.html">Python 基础</a></h1>
@@ -1384,176 +1588,6 @@ Date: Sun, 18 Sep 2016 11:14:06 GMT
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/08/%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%B2%81.html">二十四岁</a></h1>
-    <div class="post_at_index">
-      <p>现在时间凌晨 2 点多，已经记不得这是第几个凌晨 2 点还没睡觉了，好像早睡已经是很久远的事情了，看书学习，刷视频，发呆，玩手机平板，总之不想睡觉；花在睡觉上的时间越来越少，感觉，其实挺累的，生活在大都市里啊，忙碌工作生活奔波，总感觉时间不够用，要做的事情太多，你总要面对很多事情和责任，与人相处；我很努力么，也不那么见得，一旦你成为这个社会一员，总有人或事再推着你前进，在你耳边脑海嚷嚷着不要停，不要停啊！</p>
-
-<p>每年生日的时候，都会给自己写点东西，回首曾经的岁月又多了一年，我不知道这个习惯会坚持到什么时候，或许写着写着就不想写了，或者自己落入庸俗的圈套，不敢回首过往岁月；我一直坚持的，就是希望在将来回望曾经岁月时不会面带羞愧，我没想过自己会有怎么牛逼的人生，如果回想起今天能觉得，哎哟，不错哦，那就很好了啊；我会坚持去自己想做的事，年岁在增长，不忘初心；就像，这个我喜欢啊，嗯，那就坚持下去咯。</p>
-
-<p>早上醒来的时候，收到前女友的“生日快乐”，挺意外的，然后感动；中午收到爸妈姐姐姐夫外甥的祝福，觉得自己好幸福啊，感恩这些在乎我的人，我爱他们，我想这些会是我生活的动力；今年的生日和往常一样，没有庆祝，我性格不太喜欢仪式感很强烈的事情，没有太多的心思，过的开心就好了，费那么大劲折腾犯不着，生活就是这样。</p>
-
-<p>今年好像没什么好说的，工作没换，现在单位还不错，有自己努力的方向，领导也重视，比之去年也有提升，唯一的感觉就是时间不够用，要学习的东西太多了，但是还学的进去，这一点我很满足，接下来的一年要坚持下去；学业学习上来说，去年报的上外英本，今年上半年都没去上课了，虽然不是翘课，但是关心的力度不够，抽个时间要去趟学校，跟班主任聊聊接下来的学习规划，毕竟还是要考试的；生活上呢，终于感觉到我是爸妈亲生的了啊喂，超幸福美满，这个没得说，还有一个优秀的妹妹，作为谈心的伙伴和学习的榜样也是十分满足；不过，与朋友相处这块近期有些糟糕，这个要好好检讨，以后在这方面要更加成熟；总之目标啊就是努力挣钱啊挣钱啊，上海买房啊买房啊，虽然这座城市生活着挺辛苦的，但是我爱它，所以我要留在这里；至于恋爱结婚什么的，没什么进展也没什么打算，总之先努力工作，努力生活咯。</p>
-
-<p>还是和往年一样，自从奶奶去世，我一直不喜欢过节，还是会想念她，不愿意听别人提及她，工作累了，与人相处不融洽的时候，很多时候，我都会想起她，想起小时候，为我遮风挡雨，是我最温暖最踏实的依靠，生活虽然艰辛，但那是我一生最快乐的时光，教我做人做事，让我努力，支持我鼓励我教训我，可是我却未能报答这份恩情，每次清明节回去，望着那座坟墓，总是还想听听您喊我的名字；所以呢，我要努力过好自己的人生，才能对得起奶奶的期望，人生的努力，终有一个理由。</p>
-
-<p>好了，接下来要开始走向 25 岁了。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-08-19</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2016/08/Script-Install-LNMP.html">Use Script Install LNMP</a></h1>
-    <div class="post_at_index">
-      <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-
-<span class="c">#</span>
-
-<span class="k">if</span> <span class="o">[[</span> <span class="nv">$1</span> <span class="o">==</span> <span class="s2">"uninstall"</span> <span class="o">]]</span><span class="p">;</span><span class="k">then
- </span><span class="nb">echo</span> <span class="s2">"starting backup data..."</span>
- <span class="nb">mkdir</span> <span class="nt">-p</span> /www/backup
- service mysqld stop
- service nginxd stop
- service httpd stop
- service wdapache stop
- service pureftpd stop
- <span class="nb">tar </span>zcvf /www/backup/mysqldatdbk.tar.gz /www/wdlinux/mysql/var
- <span class="nb">tar </span>zcvf /www/backup/ngconfbk.tar.gz /www/wdlinux/nginx/conf
- <span class="nb">tar </span>zcvf /www/backup/apconfbk.tar.gz /www/wdlinux/apache/conf
- rpm <span class="nt">-e</span> lanmp_wdcp <span class="nt">--nodeps</span>
- <span class="nb">rm</span> <span class="nt">-fr</span> /www/wdlinux
- <span class="nb">echo
- echo</span> <span class="s2">" lanmp,wdcp remove is OK"</span>
- <span class="nb">echo
- exit </span>0
-<span class="k">fi
-
-</span><span class="nb">echo</span> <span class="s2">"Turn off selinux..."</span>
-setenforce 0
-<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/SELINUX=enforcing/SELINUX=disabled/g'</span> /etc/selinux/config
-<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/^exclude=/#exclude=/g'</span> /etc/yum.conf
-yum <span class="nb">install</span> <span class="nt">-y</span> gcc gcc-c++ make autoconf libtool-ltdl-devel gd-devel freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel patch libmcrypt-devel libmhash-devel ncurses-devel <span class="nb">sudo </span>bzip2 iptables sendmail iptables unzip
-
-<span class="c">#echo "Check the network..."</span>
-<span class="c">#ping -c 2 113.105.167.1</span>
-<span class="c">#if [[ $? != 0 ]];then</span>
-<span class="c"># echo</span>
-<span class="c"># echo "network err"</span>
-<span class="c"># exit 1</span>
-<span class="c">#fi</span>
-ping <span class="nt">-c</span> 3 dl.wdlinux.cn
-<span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> <span class="o">==</span> 2 <span class="o">]]</span><span class="p">;</span><span class="k">then
- </span><span class="nb">echo
- echo</span> <span class="s2">"dns error"</span>
- <span class="nb">exit </span>1
-<span class="k">fi
-
-if</span> <span class="o">[[</span> <span class="o">!</span> <span class="nt">-d</span> /www/wdlinux <span class="o">]]</span><span class="p">;</span><span class="k">then
- </span><span class="nb">echo
- echo</span> <span class="s2">"rpm remove..."</span>
- rpm <span class="nt">-e</span> php <span class="nt">--nodeps</span>
- rpm <span class="nt">-e</span> httpd <span class="nt">--nodeps</span>
- rpm <span class="nt">-e</span> mysql-server <span class="nt">--nodeps</span>
- rpm <span class="nt">-e</span> mysql <span class="nt">--nodeps</span>
-<span class="k">fi
-
-</span><span class="nb">echo</span> <span class="s2">"yum update..."</span>
-yum <span class="nb">install</span> <span class="nt">-y</span> make autoconf <span class="nb">sudo </span>wget libtool-ltdl-devel gd-devel freetype-devel libxml2-devel libjpeg-devel libpng-devel openssl-devel curl-devel patch libmcrypt-devel libmhash-devel ncurses-devel iptables
-
-<span class="nb">arch</span><span class="o">=</span>i386
-<span class="nv">Aurl</span><span class="o">=</span><span class="s2">"http://dl.wdlinux.cn:5180/rpms"</span>
-<span class="k">if</span> <span class="o">[[</span> <span class="sb">`</span><span class="nb">uname</span> <span class="nt">-m</span><span class="sb">`</span> <span class="o">==</span> <span class="s2">"x86_64"</span> <span class="o">]]</span><span class="p">;</span><span class="k">then
- </span><span class="nb">arch</span><span class="o">=</span><span class="s2">"x86_64"</span>
-<span class="k">fi
-
-function </span>in_finsh <span class="o">{</span>
-        <span class="nb">echo
-        echo</span> <span class="s2">"          configuration ,lamp or lnmp,wdcp install is finshed"</span>
-        <span class="nb">echo</span> <span class="s2">"          visit http://ip"</span>
-        <span class="nb">echo</span> <span class="s2">"          wdcp visit http://ip:8080"</span>
-        <span class="nb">echo</span> <span class="s2">"          more infomation please visit http://www.wdlinux.cn"</span>
-        <span class="nb">echo</span>
-<span class="o">}</span>
-
-<span class="k">function </span>in_check <span class="o">{</span>
-        <span class="k">if</span> <span class="o">[[</span> <span class="nv">$1</span> <span class="o">==</span> 1 <span class="o">]]</span><span class="p">;</span><span class="k">then
-                </span><span class="nb">echo
-                echo</span> <span class="s2">"============  </span><span class="nv">$2</span><span class="s2"> install error  ============="</span>
-                <span class="nb">echo
-                exit </span>1
-        <span class="k">else
-                </span><span class="nb">echo
-                echo</span> <span class="s2">"============  </span><span class="nv">$2</span><span class="s2"> install OK  =============="</span>
-                <span class="nb">echo
-                echo
-        </span><span class="k">fi</span>
-<span class="o">}</span>
-
-<span class="nb">grep</span> <span class="nt">-E</span> <span class="s1">'wdOS 1|5\.'</span> /etc/redhat-release <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
-<span class="nv">v1</span><span class="o">=</span><span class="nv">$?</span>
-<span class="nb">grep</span> <span class="nt">-E</span> <span class="s1">'wdOS 2|6\.'</span> /etc/redhat-release <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
-<span class="nv">v2</span><span class="o">=</span><span class="nv">$?</span>
-<span class="k">if</span> <span class="o">[</span> <span class="nv">$v1</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
- </span><span class="nv">RF</span><span class="o">=</span><span class="s2">"lanmp_wdcp-2-5.</span><span class="nv">$arch</span><span class="s2">.rpm"</span><span class="p">;</span>
-<span class="k">elif</span> <span class="o">[</span> <span class="nv">$v2</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
- </span><span class="nv">RF</span><span class="o">=</span><span class="s2">"lanmp_wdcp-2-5.el6.</span><span class="nv">$arch</span><span class="s2">.rpm"</span><span class="p">;</span>
- <span class="k">if</span> <span class="o">[</span> <span class="nv">$arch</span> <span class="o">==</span> <span class="s2">"x86_64"</span> <span class="o">]</span><span class="p">;</span><span class="k">then
-  </span>wget <span class="nt">-c</span> http://dl.wdlinux.cn:5180/soft/rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
-  rpm <span class="nt">-ivh</span> rpmforge-release-0.5.2-2.el6.rf.x86_64.rpm
- <span class="k">else
-  </span>wget <span class="nt">-c</span> http://dl.wdlinux.cn:5180/soft/rpmforge-release-0.5.2-2.el6.rf.i686.rpm
-  rpm <span class="nt">-ivh</span> rpmforge-release-0.5.2-2.el6.rf.i686.rpm
- <span class="k">fi
- </span>yum <span class="nb">install</span> <span class="nt">-y</span> mhash-devel libmcrypt-devel
-<span class="k">else
- </span><span class="nb">echo
- echo</span> <span class="s2">"The current system does not support"</span>
- <span class="nb">echo
- exit
-</span><span class="k">fi
-</span>wget <span class="nt">-c</span> http://dl.wdlinux.cn:5180/rpms/<span class="nv">$RF</span>
-rpm <span class="nt">-ivh</span> <span class="nv">$RF</span> <span class="nt">--nodeps</span>
-<span class="nv">I_F</span><span class="o">=</span><span class="nv">$?</span>
-<span class="k">if</span> <span class="o">[</span> <span class="nv">$I_F</span> <span class="o">==</span> 0 <span class="o">]</span><span class="p">;</span><span class="k">then
- </span><span class="nb">echo
-</span><span class="k">fi
-</span>in_check <span class="nv">$I_F</span> lanmp_wdcp
-
-<span class="nb">rm</span> <span class="nt">-f</span> wdcp_v<span class="k">*</span>
-wget <span class="nt">-c</span> http://down.wdlinux.cn/down/wdcp_v2.5.tar.gz <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
-<span class="nb">tar </span>zxvf wdcp_v2.5.tar.gz <span class="nt">-C</span> / <span class="o">&gt;</span> /dev/null 2&gt;&amp;1
-
-in_finsh
-
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-08-13</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Shell">Shell</a>
-      , 
-      <a href="/tags.html#CentOS">CentOS</a>
-      , 
-      <a href="/tags.html#LNMP">LNMP</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1595,7 +1629,7 @@ in_finsh
             <li class="active"><a>18</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page24">24</a></li>
+          <li><a href="/page25">25</a></li>
         
 
         
@@ -1656,7 +1690,7 @@ in_finsh
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>16</span>
+    		Mac <span>18</span>
     	</a></li>
      
     	
@@ -1740,6 +1774,20 @@ in_finsh
       <ul>
         
         <li>
+          <a href="/post/2022/12/raycast-01.html">Raycast 你的年度报告已到达</a>
+          从 Alfred 切换到 Raycast 也就 2 个多月的时间；使用体验有着比较大的提升。
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/12/Skoala-Install-Dce5.html">DCE5-Skoala 安装教程</a>
+          使用之前的话
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
           前言
 
@@ -1756,22 +1804,6 @@ in_finsh
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
           背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy to Markdown</a>
-          背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
-          
-  参考资料：
-
 
 
         </li>

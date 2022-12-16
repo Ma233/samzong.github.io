@@ -237,6 +237,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -278,6 +282,363 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2022/12/raycast-01.html">Raycast 你的年度报告已到达</a></h1>
+    <div class="post_at_index">
+      <p>从 Alfred 切换到 Raycast 也就 2 个多月的时间；使用体验有着比较大的提升。</p>
+
+<p>我觉得的优势提升：
+● Raycast 的插件生态目前很火热，自己开发插件也是非常方便
+● 颜值很高
+● 展示免费可用</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/baomNz.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/LYzycF.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/aIggtS.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/kl85Wi.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-12-16</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      , 
+      <a href="/tags.html#Raycast">Raycast</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/12/Skoala-Install-Dce5.html">DCE5-Skoala 安装教程</a></h1>
+    <div class="post_at_index">
+      <h2 id="使用之前的话">使用之前的话</h2>
+
+<p>本教程旨在补充需要手工安装和升级的方式。</p>
+
+<ul>
+  <li><strong>优先通过安装器进行安装 <a href="https://docs.daocloud.io/install/intro/">https://docs.daocloud.io/install/intro/</a> ，请以官方教程文档为准。</strong></li>
+  <li><strong>优先通过安装器进行安装 <a href="https://docs.daocloud.io/install/intro/">https://docs.daocloud.io/install/intro/</a> ，请以官方教程文档为准。</strong></li>
+  <li><strong>优先通过安装器进行安装 <a href="https://docs.daocloud.io/install/intro/">https://docs.daocloud.io/install/intro/</a> ，请以官方教程文档为准。</strong></li>
+</ul>
+
+<h3 id="安装器-v0328-及之前">安装器 v0.3.28 及之前</h3>
+
+<p>默认安装不支持；在安装规划时，可以修改 <strong>mainfest.yaml</strong> 开启 Skoala 自动安装</p>
+
+<blockquote>
+  <p>检查预装环境</p>
+</blockquote>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./dce5-installer install-app <span class="nt">-m</span> /sample/manifest.yaml
+</code></pre></div></div>
+
+<h3 id="安装器-v0329">安装器 v0.3.29</h3>
+
+<p>20222.12.15 即将发版）支持默认安装 Skoala；仍旧建议检查<strong>mainfest.yaml</strong> ，确保 Skoala 会被安装器安装。</p>
+
+<blockquote>
+  <p>enable 需要为 true，需要指定对应的 helmVersion：</p>
+</blockquote>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">...</span>
+<span class="na">components</span><span class="pi">:</span>
+  <span class="na">skoala</span><span class="pi">:</span>
+    <span class="na">enable</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">helmVersion</span><span class="pi">:</span> <span class="s">v0.12.2</span>
+    <span class="na">variables</span><span class="pi">:</span>
+<span class="nn">...</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>重要的话：默认安装器版本携带的是当时最新经过测试的版本；如无特殊情况，不建议更新默认的 helm 安装版本。</strong></li>
+  <li><strong>重要的话：默认安装器版本携带的是当时最新经过测试的版本；如无特殊情况，不建议更新默认的 helm 安装版本。</strong></li>
+  <li><strong>重要的话：默认安装器版本携带的是当时最新经过测试的版本；如无特殊情况，不建议更新默认的 helm 安装版本。</strong></li>
+</ul>
+
+<h2 id="安装前的检测">安装前的检测</h2>
+
+<h3 id="检测-skoala-安装情况">检测 skoala 安装情况</h3>
+
+<p>查看 命名空间为 skoala-system 的之中是否有以下对应的资源，如果没有任何资源，说明 Skoala 的确没有安装。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ kubectl <span class="nt">-n</span> skoala-system get pods
+NAME                                   READY   STATUS    RESTARTS        AGE
+hive-8548cd9b59-948j2                  2/2     Running   2 <span class="o">(</span>3h48m ago<span class="o">)</span>   3h48m
+sesame-5955c878c6-jz8cd                2/2     Running   0               3h48m
+ui-7c9f5b7b67-9rpzc                    2/2     Running   0               3h48m
+ 
+~ helm <span class="nt">-n</span> skoala-system list
+NAME        NAMESPACE       REVISION    UPDATED                                 STATUS      CHART               APP VERSION
+skoala      skoala-system   3           2022-12-16 11:17:35.187799553 +0800 CST deployed    skoala-0.13.0       0.13.0
+</code></pre></div></div>
+
+<h3 id="22-依赖-common-mysql-的安装情况">2.2. 依赖 common-mysql 的安装情况</h3>
+
+<p>skoala 在安装时需要用到 mysql 来存储配置，所以必须要保证数据库存在；另外查看下 common-mysql 是否有 skoala 这个数据库。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ kubectl <span class="nt">-n</span> mcamel-system get statefulset
+NAME                                          READY   AGE
+mcamel-common-mysql-cluster-mysql             2/2     7d23h
+</code></pre></div></div>
+
+<p>建议给到 skoala 用到的数据库信息如下：</p>
+
+<ul>
+  <li>host: mcamel-common-mysql-cluster-mysql-master.mcamel-system.svc.cluster.local</li>
+  <li>port: 3306</li>
+  <li>database : skoala</li>
+  <li>user: skoala</li>
+  <li>password:</li>
+</ul>
+
+<h3 id="关于insight-agent">关于 insight-agent</h3>
+
+<p>Skoala 所有的监控的信息，需要依赖 Insight 的能力，则需要在集群中安装对应的 insight-agent；</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/KEjgFX.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<p>对 Skoala 的影响：</p>
+
+<ul>
+  <li>如果 skoala-init 安装时未先安装 insight-agent，不会安装 service-monitor</li>
+  <li>如果需要安装 service-monitor，请先安装 insight-agent，再安装 skoala-init</li>
+</ul>
+
+<blockquote>
+  <p>如果先安装了 skoala-init, <strong>目前需要在安装 insight-agent 后，重装 skoala-init</strong></p>
+</blockquote>
+
+<h2 id="手动安装过程">手动安装过程</h2>
+
+<h3 id="初始化-数据库表">初始化 数据库表</h3>
+
+<p>如果在 common-mysql 内的 skoala 数据库为空，请登录到 skoala 数据库后，执行以下 SQL：</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="nv">`registry`</span> <span class="p">(</span>
+    <span class="nv">`id`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="nb">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+    <span class="nv">`uid`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="nv">`name`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="nv">`type`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="nv">`addresses`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="nv">`namespaces`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="nv">`deleted_at`</span> <span class="nb">timestamp</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">'Time deteled'</span><span class="p">,</span>
+    <span class="nv">`created_at`</span> <span class="nb">timestamp</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="k">current_timestamp</span><span class="p">(),</span>
+    <span class="nv">`updated_at`</span> <span class="nb">timestamp</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="k">current_timestamp</span><span class="p">()</span> <span class="k">ON</span> <span class="k">UPDATE</span> <span class="k">current_timestamp</span><span class="p">(),</span>
+    <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="nv">`id`</span><span class="p">),</span>
+    <span class="k">UNIQUE</span> <span class="k">KEY</span> <span class="nv">`idx_uid`</span> <span class="p">(</span><span class="nv">`uid`</span><span class="p">),</span>
+    <span class="k">UNIQUE</span> <span class="k">KEY</span> <span class="nv">`idx_name`</span> <span class="p">(</span><span class="nv">`name`</span><span class="p">)</span>
+    <span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="n">AUTO_INCREMENT</span><span class="o">=</span><span class="mi">1</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span><span class="p">;</span>
+ 
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="nv">`book`</span> <span class="p">(</span>
+    <span class="nv">`id`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="nb">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+    <span class="nv">`uid`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="nv">`name`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="nv">`author`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="nv">`status`</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="k">DEFAULT</span> <span class="mi">1</span> <span class="k">COMMENT</span> <span class="s1">'0:下架，1:上架'</span><span class="p">,</span>
+    <span class="nv">`isPublished`</span> <span class="nb">tinyint</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="nb">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="mi">1</span> <span class="k">COMMENT</span> <span class="s1">'0: unpublished, 1: published'</span><span class="p">,</span>
+    <span class="nv">`publishedAt`</span> <span class="nb">timestamp</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">'出版时间'</span><span class="p">,</span>
+    <span class="nv">`deleted_at`</span> <span class="nb">timestamp</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">'Time deteled'</span><span class="p">,</span>
+    <span class="nv">`createdAt`</span> <span class="nb">timestamp</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="k">current_timestamp</span><span class="p">(),</span>
+    <span class="nv">`updatedAt`</span> <span class="nb">timestamp</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="k">current_timestamp</span><span class="p">()</span> <span class="k">ON</span> <span class="k">UPDATE</span> <span class="k">current_timestamp</span><span class="p">(),</span>
+    <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="nv">`id`</span><span class="p">),</span>
+    <span class="k">UNIQUE</span> <span class="k">KEY</span> <span class="nv">`idx_uid`</span> <span class="p">(</span><span class="nv">`uid`</span><span class="p">),</span>
+    <span class="k">UNIQUE</span> <span class="k">KEY</span> <span class="nv">`idx_name`</span> <span class="p">(</span><span class="nv">`name`</span><span class="p">)</span>
+    <span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="n">AUTO_INCREMENT</span><span class="o">=</span><span class="mi">1</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span><span class="p">;</span>
+ 
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="nv">`api`</span> <span class="p">(</span>
+    <span class="nv">`id`</span> <span class="nb">bigint</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="nb">unsigned</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+    <span class="nv">`is_hosted`</span> <span class="nb">tinyint</span> <span class="k">DEFAULT</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="nv">`registry`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="nv">`service_name`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="nv">`nacos_namespace`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">'Nacos namespace id'</span><span class="p">,</span>
+    <span class="nv">`nacos_group_name`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="nv">`data_type`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">'JSON or YAML.'</span><span class="p">,</span>
+    <span class="nv">`detail`</span> <span class="nb">mediumtext</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="nv">`deleted_at`</span> <span class="nb">timestamp</span> <span class="k">NULL</span> <span class="k">COMMENT</span> <span class="s1">'Time deteled'</span><span class="p">,</span>
+    <span class="nv">`created_at`</span> <span class="nb">timestamp</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="k">current_timestamp</span><span class="p">(),</span>
+    <span class="nv">`updated_at`</span> <span class="nb">timestamp</span> <span class="k">NOT</span> <span class="k">NULL</span> <span class="k">DEFAULT</span> <span class="k">current_timestamp</span><span class="p">()</span> <span class="k">ON</span> <span class="k">UPDATE</span> <span class="k">current_timestamp</span><span class="p">(),</span>
+    <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="nv">`id`</span><span class="p">),</span>
+    <span class="k">UNIQUE</span> <span class="k">KEY</span> <span class="nv">`idx_registry_and_service_name`</span> <span class="p">(</span><span class="nv">`registry`</span><span class="p">,</span> <span class="nv">`service_name`</span><span class="p">)</span>
+    <span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="n">AUTO_INCREMENT</span><span class="o">=</span><span class="mi">1</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8mb4</span><span class="p">;</span>
+ 
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="nv">`book`</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">'book-init'</span><span class="p">,</span><span class="s1">'MicroService Pattern'</span><span class="p">,</span><span class="s1">'daocloud'</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">'2022-03-23 13:50:00'</span><span class="p">,</span><span class="k">null</span><span class="p">,</span><span class="n">now</span><span class="p">(),</span><span class="n">now</span><span class="p">());</span>
+ 
+<span class="k">alter</span> <span class="k">table</span> <span class="n">registry</span> <span class="k">add</span> <span class="n">is_hosted</span> <span class="nb">tinyint</span> <span class="k">default</span> <span class="mi">0</span> <span class="k">not</span> <span class="k">null</span> <span class="k">after</span> <span class="n">namespaces</span><span class="p">;</span>
+<span class="k">alter</span> <span class="k">table</span> <span class="n">registry</span> <span class="k">add</span> <span class="n">workspace_id</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">not</span> <span class="k">null</span> <span class="k">DEFAULT</span> <span class="s1">'default'</span> <span class="k">after</span> <span class="n">uid</span><span class="p">;</span>
+<span class="k">alter</span> <span class="k">table</span> <span class="n">registry</span> <span class="k">add</span> <span class="n">ext_id</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span> <span class="k">null</span> <span class="k">after</span> <span class="n">workspace_id</span><span class="p">;</span>
+ 
+<span class="k">drop</span> <span class="k">index</span> <span class="n">idx_name</span> <span class="k">on</span> <span class="n">registry</span><span class="p">;</span>
+<span class="k">create</span> <span class="k">unique</span> <span class="k">index</span> <span class="n">idx_name</span> <span class="k">on</span> <span class="n">registry</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">workspace_id</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>完成以上操作，会在 Skoala 数据库内有 3 张表，注意检测对应 SQL 是否全部是生效。</p>
+</blockquote>
+
+<h3 id="配置-skoala-helm-repo">配置 skoala helm repo</h3>
+
+<p>配置好 skoala 仓库，即可查看和获取到 skoala 的应用 chart</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ helm repo add skoala-release https://release.daocloud.io/chartrepo/skoala
+~ helm repo update
+</code></pre></div></div>
+
+<p>重点内容： ** 增加完成后 Skoala-release 之后，常用需要关注的有 2 个 Chart：</p>
+
+<ul>
+  <li>Skoala   是 Skoala 的控制端的服务，
+    <ul>
+      <li><strong>安装完成后，可以网页看到微服务引擎的入口</strong></li>
+      <li>包含 3 个组件 ui、hive、sesame</li>
+      <li>需要安装在全局管理集群</li>
+    </ul>
+  </li>
+  <li>Skoala-init 是 Skoala 所有的组件 Operator
+    <ul>
+      <li><strong>仅安装到指定工作集群即可</strong></li>
+      <li>包含组件有：skoala-agent, nacos, contour, sentinel</li>
+      <li><strong>未安装时，创建注册中心和网关时会提示缺少组件</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<p>默认情况下，安装完成 skoala 到 kpanda-global-cluster(全局管理集群)，就可以在侧边栏看到对应的微服务引擎的入口了。</p>
+
+<h3 id="查看-skoala-组件-最新版本">查看 skoala 组件 最新版本</h3>
+
+<p>在全局管理集群，查看 Skoala 的最新版本，直接通过 helm repo 来更新获取最新的；</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ helm repo update skoala-release
+~ helm search repo skoala-release/skoala <span class="nt">--versions</span>
+NAME                        CHART VERSION   APP VERSION DESCRIPTION
+skoala-release/skoala       0.13.0          0.13.0      The helm chart <span class="k">for </span>Skoala
+skoala-release/skoala       0.12.2          0.12.2      The helm chart <span class="k">for </span>Skoala
+skoala-release/skoala       0.12.1          0.12.1      The helm chart <span class="k">for </span>Skoala
+skoala-release/skoala       0.12.0          0.12.0      The helm chart <span class="k">for </span>Skoala
+......
+</code></pre></div></div>
+
+<blockquote>
+  <p>在部署 skoala 时，会携带当时最新的前端版本，如果想要指定前端 ui 的版本，
+可以去看前端代码仓库获取对应的版本号： <a href="https://gitlab.daocloud.cn/ndx/frontend-engineering/skoala-ui/-/tags">https://gitlab.daocloud.cn/ndx/frontend-engineering/skoala-ui/-/tags</a></p>
+</blockquote>
+
+<p>在工作集群，查看 Skoala-init 的最新版本，直接通过 helm repo 来更新获取最新的</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ helm repo update skoala-release
+~ helm search repo skoala-release/skoala-init <span class="nt">--versions</span>
+NAME                        CHART VERSION   APP VERSION DESCRIPTION
+skoala-release/skoala-init  0.13.0          0.13.0      A Helm Chart <span class="k">for </span>Skoala init, it includes Skoal...
+skoala-release/skoala-init  0.12.2          0.12.2      A Helm Chart <span class="k">for </span>Skoala init, it includes Skoal...
+skoala-release/skoala-init  0.12.1          0.12.1      A Helm Chart <span class="k">for </span>Skoala init, it includes Skoal...
+skoala-release/skoala-init  0.12.0          0.12.0      A Helm Chart <span class="k">for </span>Skoala init, it includes Skoal...
+......
+</code></pre></div></div>
+
+<h3 id="34-执行部署同样适用于升级">3.4. 执行部署（同样适用于升级）</h3>
+
+<p>直接执行命令即可，注意对应的版本号</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ helm upgrade <span class="nt">--install</span> skoala <span class="nt">--create-namespace</span> <span class="nt">-n</span> skoala-system <span class="nt">--cleanup-on-fail</span> <span class="se">\</span>
+    <span class="nt">--set</span> ui.image.tag<span class="o">=</span>v0.9.0 <span class="se">\</span>
+    <span class="nt">--set</span> sweet.enable<span class="o">=</span><span class="nb">true</span> <span class="se">\</span>
+    <span class="nt">--set</span> hive.configMap.data.database.host<span class="o">=</span>mcamel-common-mysql-cluster-mysql-master.mcamel-system.svc.cluster.local <span class="se">\</span>
+    <span class="nt">--set</span> hive.configMap.data.database.port<span class="o">=</span>3306 <span class="se">\</span>
+    <span class="nt">--set</span> hive.configMap.data.database.user<span class="o">=</span>root <span class="se">\</span>
+    <span class="nt">--set</span> hive.configMap.data.database.password<span class="o">=</span>xxxxxxxx <span class="se">\</span>
+    <span class="nt">--set</span> hive.configMap.data.database.database<span class="o">=</span>skoala <span class="se">\</span>
+    skoala-release/skoala <span class="se">\</span>
+    <span class="nt">--version</span> 0.13.0
+</code></pre></div></div>
+
+<blockquote>
+  <p>自定义并初始化数据库参数；需要将数据库信息做配置添加进去<br />
+–set sweet.enable=true <br />
+–set hive.configMap.data.database.host= \<br />
+–set hive.configMap.data.database.port= \<br />
+–set hive.configMap.data.database.user= <br />
+–set hive.configMap.data.database.password= \<br />
+–set hive.configMap.data.database.database= \</p>
+
+  <p>自定义前端 ui 版本
+ui.image.tag=v0.9.0</p>
+</blockquote>
+
+<p>查看部署的 pod 是否启动成功</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ kubectl <span class="nt">-n</span> skoala-system get pods
+NAME                                   READY   STATUS    RESTARTS        AGE
+hive-8548cd9b59-948j2                  2/2     Running   2 <span class="o">(</span>3h48m ago<span class="o">)</span>   3h48m
+sesame-5955c878c6-jz8cd                2/2     Running   0               3h48m
+ui-7c9f5b7b67-9rpzc                    2/2     Running   0               3h48m
+</code></pre></div></div>
+
+<h3 id="卸载-skoala">卸载 skoala</h3>
+
+<p>这一步骤卸载，会把 skoala 相关的资源删除。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ helm uninstall skoala <span class="nt">-n</span> skoala-system
+</code></pre></div></div>
+
+<h3 id="更新-skoala">更新 skoala</h3>
+
+<p>更新操作同 3.4 部署，使用 helm upgrade 指定新版本即可</p>
+
+<h3 id="更多参数的配置">更多参数的配置</h3>
+
+<p>请查看 Skoala 代码仓库 <a href="https://gitlab.daocloud.cn/ndx/skoala/-/tree/main/build/charts/skoala">https://gitlab.daocloud.cn/ndx/skoala/-/tree/main/build/charts/skoala</a></p>
+
+<h3 id="38-安装-skoala-init-到工作集群">3.8.  安装 skoala-init 到工作集群</h3>
+
+<p>由于 Skoala 涉及的组件较多，我们将这些组件打包到同一个 Chart 内，也就是 skoala-init，所以我们应该在用到微服务引擎的工作集群安装好 skoala-init</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~  helm search repo skoala-release/skoala-init <span class="nt">--versions</span>
+NAME                        CHART VERSION   APP VERSION DESCRIPTION
+skoala-release/skoala-init  0.13.0          0.13.0      A Helm Chart <span class="k">for </span>Skoala init, it includes Skoal...
+skoala-release/skoala-init  0.12.2          0.12.2      A Helm Chart <span class="k">for </span>Skoala init, it includes Skoal...
+skoala-release/skoala-init  0.12.1          0.12.1      A Helm Chart <span class="k">for </span>Skoala init, it includes Skoal...
+skoala-release/skoala-init  0.12.0          0.12.0      A Helm Chart <span class="k">for </span>Skoala init, it includes Skoal...
+......
+</code></pre></div></div>
+
+<p>安装命令，同更新; 确认需要安装到指定的命名空间，确认看到全部 Pod 启动成功。</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ helm upgrade <span class="nt">--install</span> skoala-init <span class="nt">--create-namespace</span> <span class="nt">-n</span> skoala-system <span class="nt">--cleanup-on-fail</span> <span class="se">\</span>
+    skoala-release/skoala-init <span class="se">\</span>
+    <span class="nt">--version</span> 0.13.0
+</code></pre></div></div>
+
+<p><strong>除了通过终端安装，UI 的方式 可以在 Kpanda 集群管理中 Helm 应用内找到 Skoala-init 进行安装。</strong></p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/5JAl1G.jpg?x-oss-process=image/resize,w_960,m_lfit" alt="resize,w_960,m_lfit" /></p>
+
+<p>卸载命令</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ helm uninstall skoala-init <span class="nt">-n</span> skoala-system
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-12-15</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      , 
+      <a href="/tags.html#Raycast">Raycast</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a></h1>
@@ -2673,7 +3034,7 @@ kubectl rollout restart statefulset/ghippo-keycloak <span class="nt">-n</span> g
 
 <p>点击该网页中出现的“在线客服”按钮，出现聊天窗口，可以作为访客，与客服聊天了。</p>
 
-<p>【提示】春松客服提供一个测试网页客户端的例子，可以使用 <em>[http:///testclient.html</em> 进行访问。</p>
+<p>【提示】春松客服提供一个测试网页客户端的例子，可以使用 <em><a href="https://docs.cskefu.com/docs/accountinghttp://%7B%7B%E6%98%A5%E6%9D%BE%E6%98%A5%E6%9D%BE%E5%AE%A2%E6%9C%8DIP:%5BPORT">http://IP:PORT</a>]}}/testclient.html</em> 进行访问。</p>
 
 <h3 id="facebook-渠道">Facebook 渠道</h3>
 
@@ -3560,84 +3921,6 @@ REDASH_DATABASE_URL=postgresql://postgres
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a></h1>
-    <div class="post_at_index">
-      <p><a href="https://www.amazon.cn/gp/product/B01951CHO6/ref=as_li_qf_sp_asin_tl?ie=UTF8\&amp;camp=536\&amp;creative=3200\&amp;creativeASIN=B01951CHO6\&amp;linkCode=as2\&amp;tag=llll1-23">王路</a>
-12 highlights</p>
-
-<ul>
-  <li>
-    <p>同样一潭池水，天人视之为清波，饿鬼视之为阳焰。所有的看法，无非是一个人的世界观投在故事上的倒影，它</p>
-  </li>
-  <li>
-    <p>就常有这样的经验。比如碰见好久不见的老友，事前特别期待，想到有很多话可以聊，等坐到桌上，却发现只剩下老生常谈。这怪不得谁，每个人的生活都不一样，各自感兴趣的事儿都不同。不像以往，大家都在同一个班里，每天的生活都是类似的，所思所想也都差不了太远。</p>
-  </li>
-  <li>
-    <p>要想在一个圈子里得到认同，需要遵照这个圈子的价值标准和话语体系。</p>
-  </li>
-  <li>
-    <p>很久之后，我才慢慢明白自己当初的做法多么愚蠢。想要一个人改变习惯，很难。而尤其不应该的是，总把自己以为便利的东西强加给别人。年龄和岁月足以让一个人的学习能力慢慢退化，并最终丧失对新事物的好奇。从头掌握最基本的技能，对不年轻的人来说，成本太高昂。他们需要为养家糊口奔波，为时不多的暇余，并不足以支撑他们疲惫的身心去探究世界的种种新奇。于是，他们就远远被时代抛下了。</p>
-  </li>
-  <li>
-    <p>圣诞老人的意思就是：在你爱的人不知道的时候，把礼物放到他的身边。因为收到礼物的人不知道，所以这个夜晚是寂静的。</p>
-  </li>
-  <li>
-    <p>许多东西，只在此时、此地、此景有。没办法绸缪，也没办法复盘。可贵的事物之所以可贵，正在其转瞬即逝，不可复得。在一刹那灭去，并成为永恒。</p>
-  </li>
-  <li>
-    <p>屏蔽掉一个人，看不到他的样子，听不到他的声音，却抑制不了不去想他。世间的痛苦和烦恼，不在于不能得到，而在于不能割舍。不在于不想屏蔽的东西被屏蔽，而在于想屏蔽的东西无法屏蔽</p>
-  </li>
-  <li>
-    <p>对于贪著心，真正可怕的不是一件事情上的得失，而是串习的力量对一个人行为举止的巨大影响。这种影响是潜在的，却是深刻而难以磨灭的。</p>
-  </li>
-  <li>
-    <p>三涂之苦</p>
-  </li>
-  <li>
-    <p>编程谓之 Class，《</p>
-  </li>
-  <li>
-    <p>钱穆先生曾在《宋明理学概述》序言里说：““虽居乡僻，未尝敢一日废学。虽经乱离困厄，未尝敢一日颓其志。虽或名利当前，未尝敢动其心。虽或毁誉横生，未尝敢馁其气。虽学不足以自成立，未尝或忘先儒之榘矱，时切其向慕。虽垂老无以自靖献，未尝不于国家民族世道人心，自任以匹夫之有其责。””</p>
-  </li>
-  <li>
-    <p>佛家说烦恼即是般若，那些让你斩不断的愁丝才是真正度你到彼岸的船筏。</p>
-  </li>
-</ul>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-10-06</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#旧书摘">旧书摘</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/10/%E8%87%AA%E5%8D%91%E4%B8%8E%E8%B6%85%E8%B6%8A.html">自卑与超越</a></h1>
-    <div class="post_at_index">
-      <p><a href="https://www.amazon.cn/gp/product/B013GD8VEY/ref=as_li_qf_sp_asin_tl?ie=UTF8\&amp;camp=536\&amp;creative=3200\&amp;creativeASIN=B013GD8VEY\&amp;linkCode=as2\&amp;tag=llll1-23">【奥】阿尔弗雷德··阿德勒</a></p>
-
-<p>前言 阿德勒：超越自卑，找到生命的真正意义 阿德勒是个体心理学的先驱和代表。个体心理学与其他心理学流派相比，最突出显要的一点在于，它对人的研究是以个体为始，即首先关注个体本身的成长发展和人生历程。有趣的是，如果你对阿德勒本人的人生经历及其学说有所了解的话，你会发现其人的发展轨迹恰好印证了他所秉持的观点和理论。阿德勒认为，每个人都有不同程度的自卑感，而优越感则是自卑感的补偿。但自卑感的存在并不是一件坏事，因为它激励了人不断追求卓越，克服自身的障碍，在有限的生命空间内发挥出最大的价值。可以说，正是由于人类会有自卑感，才会有不断取得发展和进步的不竭动力。与此相印证的是，阿德勒本人就是一个““先天发展不足””、一开始就存在着极为强烈自卑感的人。阿德勒是一个直到 4 岁才会走路的体弱多病的儿童。他患有佝偻病，无法进行激烈的体育活动。但他并没有让身体上的缺陷压倒自己，相反，这刺激了他的上进心。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-10-04</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#旧书摘">旧书摘</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -3670,7 +3953,7 @@ REDASH_DATABASE_URL=postgresql://postgres
         </li>
         
         <li><span>...</span></li>
-        <li><a href="/page24">24</a></li>
+        <li><a href="/page25">25</a></li>
         
 
         
@@ -3734,7 +4017,7 @@ REDASH_DATABASE_URL=postgresql://postgres
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>16</span>
+    		Mac <span>18</span>
     	</a></li>
      
     	
@@ -3818,6 +4101,20 @@ REDASH_DATABASE_URL=postgresql://postgres
       <ul>
         
         <li>
+          <a href="/post/2022/12/raycast-01.html">Raycast 你的年度报告已到达</a>
+          从 Alfred 切换到 Raycast 也就 2 个多月的时间；使用体验有着比较大的提升。
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/12/Skoala-Install-Dce5.html">DCE5-Skoala 安装教程</a>
+          使用之前的话
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
           前言
 
@@ -3834,22 +4131,6 @@ REDASH_DATABASE_URL=postgresql://postgres
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
           背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy to Markdown</a>
-          背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
-          
-  参考资料：
-
 
 
         </li>

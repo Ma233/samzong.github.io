@@ -237,6 +237,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -278,6 +282,280 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2022/04/%E6%B7%98%E5%AE%9DPython-SDK%E4%BC%98%E5%8C%96%E6%94%AF%E6%8C%81Python3.html">淘宝 Python SDK 优化支持 Python3</a></h1>
+    <div class="post_at_index">
+      <p>淘宝开放平台的 SDK，Python 的 SDK 是在 2012 年，仅支持 Python2.7 及以上，但不支持 Python3；二现在是 2102 年了，像我这样的新手都是直接从 Python3 开始的</p>
+
+<ul>
+  <li>我已经把这个项目开放在 GitHub <a href="https://github.com/SAMZONG/taobao-openapi">https://github.com/SAMZONG/taobao-openapi</a></li>
+  <li>同时放在了 Python pypi 软件仓库 <a href="https://pypi.org/project/taobao-openapi/">https://pypi.org/project/taobao-openapi/</a></li>
+</ul>
+
+<h2 id="install--usage">Install &amp; Usage</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>taobao-openapi
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">import</span> <span class="nn">taobao</span><span class="o">-</span><span class="n">openapi</span> <span class="k">as</span> <span class="n">tbapi</span>
+
+</code></pre></div></div>
+
+<h2 id="持续补充-sdk-能力">持续补充 SDK 能力</h2>
+
+<p>淘宝开放平台后台下载获取到的 SDK 文件，会根据应用的权限生产对应的 SDK 包，所以你可能获取到的是几十个或者上百个</p>
+
+<p>NOTE: <strong>如果你有其他的 SDK 没有在文档中找到，可以反馈给我或者提 <code class="language-plaintext highlighter-rouge">Pull requests</code>，大家一起扩充 SDK</strong></p>
+
+<ul>
+  <li>v1.0.6 fix 文档错误</li>
+  <li>v1.0.4 增加更多接口</li>
+  <li>v1.0.3 增加更多接口</li>
+  <li>v1.0.2 添加 Wdt QimenCloud-openapi</li>
+  <li>v1.0.1 适配 taobao-openapi</li>
+</ul>
+
+<h2 id="使用说明">使用说明</h2>
+
+<pre><code class="language-python3">
+import top.api
+import json
+
+app_key = 
+app_secret = 
+session_key = 
+
+def trade_rates_get_request():
+ req = top.api.TraderatesGetRequest()
+ req.set_app_info(top.appinfo(app_key, app_secret))
+ 
+ req.fields = "tid,oid,role,nick,result,created,rated_nick,item_title,item_price,content,reply,num_iid"
+ req.rate_type = "get"
+ req.role = "buyer"
+ 
+ try:
+  resp = req.getResponse(session_key)
+ except Exception as e:
+  print(e)
+
+
+if __name__ == '__main__':
+ result = trade_rates_get_request()
+ print(result)
+
+</code></pre>
+
+<h2 id="适配部分介绍">适配部分介绍</h2>
+
+<blockquote>
+  <p>以下为了省时间，基本引用了 <a href="https://blog.csdn.net/starryhwj/article/details/103026402">https://blog.csdn.net/starryhwj/article/details/103026402</a> 补充了 8
+同时感谢 <a href="https://github.com/ymj4023">@ymj4023</a></p>
+</blockquote>
+
+<h3 id="1-python3-int-替代了-long">1. Python3 int 替代了 long</h3>
+
+<pre><code class="language-python3">FROM: str(long(time.time() * 1000))
+
+TO: P_TIMESTAMP: str(int(time.time() * 1000))
+</code></pre>
+
+<h3 id="2-用-items-替代-iteritems">2. 用 items 替代 iteritems</h3>
+
+<pre><code class="language-python3">FROM: for key, value in application_parameter.iteritems():
+
+TO: for key, value in application_parameter.items():
+</code></pre>
+
+<h3 id="3-dict-方法优化">3. dict 方法优化</h3>
+
+<p>查阅资料，发现有人说到 dict methods dict.keys(), dict.items() and dict.values() return“views”instead of lists.这样就显而易见知道怎么改了：</p>
+
+<pre><code class="language-python3">FROM: keys = keys.sort()
+
+TO: keys = sorted(keys)
+</code></pre>
+
+<h3 id="4-unicode-对象需要编码">4. unicode 对象需要编码</h3>
+
+<p>英文意思很明确，unicode 对象在哈希之前必须进行编码转换，想起之前又看到过中文字符在 python 中是以 unicode 存在的，所以：</p>
+
+<pre><code class="language-python3">FROM: sign = hashlib.md5(parameters)).hexdigest().upper()
+
+TO: sign = hashlib.md5(parameters.encode("utf-8")).hexdigest().upper()
+</code></pre>
+
+<h3 id="5-soketpy-httpconnection">5. soket.py HttpConnection</h3>
+
+<p>这是花费时间最长的一个错误。首先，直接看最后，错误在 soket.py 里，心凉了半截，难道这里的调用都不一样了，再网上看又是 python 3.X 的 http 模块，去百度了半天也没有发现类似的错误，只能自己硬着头皮去看模块，功夫不负有心人，其实也很简单，在类 HTTPConnection 的初始化函数是这样定义的：</p>
+
+<pre><code class="language-python3">FROM: connection = httplib.HTTPConnection(self.__domain, self.__port, False, timeout)
+
+TO: connection = httplib.HTTPConnection(self.__domain, self.__port, timeout)
+</code></pre>
+
+<blockquote>
+  <p>比较下参数发现，python 2 比 3 多了一个参数，去掉即可，这个错误主要是是报错的地方和修改的地方不在一起，所以很难插出原因。</p>
+</blockquote>
+
+<h3 id="6-urllib-方法升级">6. urllib 方法升级</h3>
+
+<p>官方文档是这样解释的：urllib has been split up in Python 3. The urllib.urlencode() function is now urllib.parse.urlencode(), and the urllib.urlopen() function is now urllib.request.urlopen()</p>
+
+<pre><code class="language-python3">FROM: url = N_REST + "?" + urllib.parse.urlencode(sys_parameters)
+
+TO: url = N_REST + "?" + urllib.urlencode(sys_parameters)
+</code></pre>
+
+<h3 id="7-jsonobj-异常抛出">7. jsonobj 异常抛出</h3>
+
+<p>这个错误是在 API 调用出异常的时候暴露出来的。原因前面已经提到了，稍微查了下替代的方法：</p>
+
+<pre><code class="language-python3">if "error_response" in jsonobj:
+
+if P_CODE in jsonobj["error_response"]:
+</code></pre>
+
+<h3 id="8-is-not-修改为-">8. is not 修改为 !=</h3>
+
+<p>在 if 需要使用反向时，应该是 != ，而不是使用  is not；这个也是 PyCharm 给的建议，所以在使用时，所以简单调整下就好了</p>
+
+<pre><code class="language-python3">FROM: if respone.status is not 200:
+
+TO: if response.status != 200:
+</code></pre>
+
+<hr />
+
+<p>以上调整之后，基本就可以正常跑起来了，基本是可以支持 Python3 的使用，我试过了 Python3.6-3.9，都是 OK 的。</p>
+
+<h2 id="pypi-howto">pypi HowTo</h2>
+
+<p>把你的库上传到 pypi 之前，主要依赖的是 setup.py，下方是对应的 demo</p>
+
+<ul>
+  <li>打包 python3 steup.py sdist</li>
+  <li>twine upload dist/*</li>
+</ul>
+
+<blockquote>
+  <p>注意：需要先安装 setuptools twine</p>
+</blockquote>
+
+<pre><code class="language-python3"># /usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import setuptools
+from distutils.core import setup
+import codecs
+import os
+import sys
+
+try:
+ from setuptools import setup, find_packages
+except:
+ from distutils import setup
+
+with open('README.md', 'r', encoding="utf-8") as fp:
+ readme = fp.read()
+
+VERSION = "1.0.0"
+LICENSE = "MIT"
+
+setup(
+ name='taobao-openapi',
+ version=VERSION,
+ description=(
+  '集合了淘宝开放平台的商铺 OPEN API，并适配了 Python3'
+ ),
+ long_description=readme,
+ long_description_content_type='text/markdown',
+ author='samzong.lu',
+ author_email='samzong.lu@gmail.com',
+ maintainer='samzong.lu',
+ maintainer_email='samzong.lu@gmail.com',
+ license=LICENSE,
+ packages=find_packages(),
+ platforms=["all"],
+ url='https://github.com/SAMZONG/taobao-sdk-python3',
+ install_requires=[
+  "requests"
+  ],
+ classifiers=[
+  'Development Status :: 4 - Beta',
+  'Operating System :: OS Independent',
+  'Intended Audience :: Developers',
+  'License :: OSI Approved :: BSD License',
+  'Programming Language :: Python',
+  'Programming Language :: Python :: Implementation',
+  'Programming Language :: Python :: 3',
+  'Programming Language :: Python :: 3.4',
+  'Programming Language :: Python :: 3.5',
+  'Programming Language :: Python :: 3.6',
+  'Programming Language :: Python :: 3.7',
+  'Programming Language :: Python :: 3.8',
+  'Programming Language :: Python :: 3.9',
+  'Topic :: Software Development :: Libraries'
+  ],
+ )
+</code></pre>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-14</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2022/04/Python-Pip-%E5%9B%BD%E5%86%85%E5%8A%A0%E9%80%9F.html">Python Pip 国内加速</a></h1>
+    <div class="post_at_index">
+      <p>目前国内还是有比较多的镜像站，截止目前使用下比较稳定的只有下面这个 清华的镜像站了</p>
+
+<ul>
+  <li><a href="https://pypi.tuna.tsinghua.edu.cn/simple">https://pypi.tuna.tsinghua.edu.cn/simple</a></li>
+</ul>
+
+<h2 id="安装特定包时加速">安装特定包时加速</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+pip <span class="nb">install </span>pandas <span class="nt">-i</span> http://pypi.douban.com/simple
+</code></pre></div></div>
+
+<h2 id="修改默认的-pip-源">修改默认的 pip 源</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c"># mkdir ~/.pip</span>
+
+<span class="c"># cat ~/.pip/pip.conf  &lt;&lt;EOF</span>
+<span class="o">[</span>global]
+index-url <span class="o">=</span> https://pypi.tuna.tsinghua.edu.cn/simple
+<span class="o">[</span><span class="nb">install</span><span class="o">]</span>
+trusted-host <span class="o">=</span> pypi.tuna.tsinghua.edu.cn
+EOF
+</code></pre></div></div>
+
+<p>文件保存后，pip 的源就更新成功了，使用 <code class="language-plaintext highlighter-rouge">pip config list</code> 确认下是否切换成功</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-14</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2022/04/Git-%E4%BF%AE%E5%A4%8D%E5%8E%86%E5%8F%B2%E9%94%99%E8%AF%AF%E7%9A%84Author%E4%BF%A1%E6%81%AF.html">Git 修复历史错误的 Author 信息</a></h1>
@@ -1307,121 +1585,6 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/02/%E4%B8%80%E4%B8%AAPython%E9%A1%B9%E7%9B%AE%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1.html">一个 Python 项目的目录结构设计</a></h1>
-    <div class="post_at_index">
-      <h2 id="参考的目录结构设计">参考的目录结构设计</h2>
-
-<blockquote>
-  <p>thanks <a href="https://www.justdopython.com/2020/01/18/python-web-flask-project-125/">https://www.justdopython.com/2020/01/18/python-web-flask-project-125/</a></p>
-</blockquote>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">project</span><span class="o">/</span>
-  <span class="n">forms</span><span class="o">/</span>
-    <span class="n">myform</span><span class="p">.</span><span class="n">py</span>
-    <span class="p">...</span>
-  <span class="n">models</span><span class="o">/</span>
-    <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
-    <span class="n">profile</span><span class="p">.</span><span class="n">py</span>
-    <span class="n">user</span><span class="p">.</span><span class="n">py</span>
-    <span class="p">...</span>
-  <span class="n">routes</span><span class="o">/</span>
-    <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
-    <span class="n">home</span><span class="p">.</span><span class="n">py</span>
-    <span class="n">profile</span><span class="p">.</span><span class="n">py</span>
-    <span class="p">...</span>
-  <span class="n">static</span><span class="o">/</span>
-    <span class="p">...</span>
-  <span class="n">services</span><span class="o">/</span>
-    <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
-    <span class="p">...</span>
-  <span class="n">templates</span><span class="o">/</span>
-    <span class="n">createprofile</span><span class="p">.</span><span class="n">html</span>
-    <span class="n">profile</span><span class="p">.</span><span class="n">html</span>
-    <span class="p">...</span>
-  <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
-  <span class="n">config</span><span class="p">.</span><span class="n">py</span>
-  <span class="o">*</span><span class="n">utils</span><span class="o">/*</span>
-    <span class="n">__init__</span><span class="p">.</span><span class="n">py</span>
-    <span class="n">jwt_decode</span><span class="p">.</span><span class="n">py</span>
-    <span class="p">...</span>
-
-</code></pre></div></div>
-
-<ul>
-  <li>forms（表单）：存放表单对象</li>
-  <li>models（模型）：存放数据模型，即库表在程序中的映射对象，以及对象之间的关系
-    <ul>
-      <li>不同的表，分开存储</li>
-    </ul>
-  </li>
-  <li>routes（路由）：存放请求路由以及处理逻辑</li>
-  <li>static（静态文件）：Flask 约定存放静态文件的目录</li>
-  <li>templates（模板）：Flask 约定存放页面模板的目录</li>
-  <li>services（服务）：存放业务逻辑或者其他服务类功能</li>
-  <li><strong>init</strong>.py：Flask app 初始化方法
-    <ul>
-      <li>在每个目录下都增加对应的 <strong>init</strong>.py 将目录变成 package 方便调用</li>
-      <li>并在 <strong>init</strong>.py 完成一些程序的初始化</li>
-    </ul>
-  </li>
-  <li>config.py：项目配置文件
-    <ul>
-      <li>区分配置类型</li>
-    </ul>
-  </li>
-  <li><strong>增加 utils/</strong>将工具类的放在 utils 内实现，方便使用</li>
-</ul>
-
-<p>:::danger
-需要后续考虑的问题，一个项目较为复杂时，如果分解多应用的问题，留在后面考虑
-:::</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-02-11</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2022/01/python3-%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-strip()-split().html">python3 文本处理 strip() split()</a></h1>
-    <div class="post_at_index">
-      <ul>
-  <li>strip() 删除字符串中的内容，删除后仍旧是 str</li>
-  <li>split() 分割字符串，根据特定的标识，分割后=list</li>
-</ul>
-
-<blockquote>
-  <p>两者处理过程中都不会修改原字符串的内容</p>
-</blockquote>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">python3</span>
-
-<span class="nb">str</span><span class="p">.</span><span class="n">strip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串末尾的","
-</span><span class="nb">str</span><span class="p">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串末尾的","
-</span><span class="nb">str</span><span class="p">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s">","</span><span class="p">)</span> <span class="c1"># 删除字符串开通的","
-</span></code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-01-21</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1463,7 +1626,7 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
             <li class="active"><a>6</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page24">24</a></li>
+          <li><a href="/page25">25</a></li>
         
 
         
@@ -1524,7 +1687,7 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>16</span>
+    		Mac <span>18</span>
     	</a></li>
      
     	
@@ -1608,6 +1771,20 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
       <ul>
         
         <li>
+          <a href="/post/2022/12/raycast-01.html">Raycast 你的年度报告已到达</a>
+          从 Alfred 切换到 Raycast 也就 2 个多月的时间；使用体验有着比较大的提升。
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/12/Skoala-Install-Dce5.html">DCE5-Skoala 安装教程</a>
+          使用之前的话
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
           前言
 
@@ -1624,22 +1801,6 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
           背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy to Markdown</a>
-          背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
-          
-  参考资料：
-
 
 
         </li>

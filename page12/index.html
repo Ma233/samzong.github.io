@@ -237,6 +237,10 @@
       
     
   
+    
+      
+    
+  
 
 
 
@@ -278,6 +282,76 @@
 				<meta itemprop="image" content="https://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com/uPic/telegram-cloud-photo-size-4-5971176114485308439-x.jpg">
 <div class="row">
   <div class="col-xs-12 col-md-8">
+    
+    
+    <h1><a class="title" href="/post/2020/12/Mac-%E8%B0%83%E6%95%B4Launchpad%E5%9B%BE%E6%A0%87%E5%A4%A7%E5%B0%8F.html">Mac 调整 Launchpad 图标大小</a></h1>
+    <div class="post_at_index">
+      <p><img src="assets/mac-1-diao-zhenglaunchpad-tu-biao-da-xiao" alt="image" />  很多人觉得默认 Launchpad 的应用程序图标很大，空间比较拥挤，不过这个其实是可以通过调整 Launchpad 每一行和每一列图标的数量，来调整 Launchpad 图标大小。</p>
+
+<p>默认如下图：
+<img src="/Users/samzonglu/deploy/yuque/yuque-exporter/storage/果粉日记/assets/mac-1-diao-zhenglaunchpad-tu-biao-da-xiao/2016%2F04%2FQQ20160408-1.jpg" alt="image" /></p>
+
+<p>代码块：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 调整每一行显示数量为8个。
+➜ defaults write com.apple.dock springboard-columns -int 10
+
+＃ 重启Launchpad
+➜ defaults write com.apple.dock ResetLaunchPad -bool TRUE;killall Dock
+</code></pre></div></div>
+
+<p>修改后如下：
+<img src="assets/mac-1-diao-zhenglaunchpad-tu-biao-da-xiao/2016%2F04%2FQQ20160408-2.jpg" alt="image" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-12-25</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
+    <h1><a class="title" href="/post/2020/12/learn-sqlalchemy.html">learn sqlalchemy</a></h1>
+    <div class="post_at_index">
+      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># python3 on Mac</span>
+
+pip3 <span class="nb">install </span>sqlalchemy mysqclient
+
+<span class="c"># CentOS</span>
+yum <span class="nb">install </span>MySQL-python
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sqlalchemy</span>
+<span class="kn">import</span> <span class="nn">MySQLdb</span>
+
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span><span class="p">,</span> <span class="n">MetaData</span>
+
+<span class="k">def</span> <span class="nf">connect_db</span> <span class="p">():</span>
+ <span class="c1"># connect db:
+</span> <span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s">"mysql://user:pass@localhost/db"</span><span class="p">,</span> <span class="n">echo</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+
+    <span class="n">meta</span> <span class="o">=</span> <span class="n">MetaData</span><span class="p">()</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">engine</span><span class="p">.</span><span class="n">connect</span><span class="p">()</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2020-12-13</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Python">Python</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
     
     
     <h1><a class="title" href="/post/2020/12/covert-timestamp2datetime.html">covert timestamp2datetime</a></h1>
@@ -733,142 +807,6 @@ comment in Avro IDL
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2020/11/autoscraper-%E7%88%AC%E8%99%AB-%E6%89%80%E8%A7%81%E5%8D%B3%E6%89%80%E5%BE%97.html">autoscraper 爬虫 所见即所得</a></h1>
-    <div class="post_at_index">
-      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Install</span>
-
-<span class="nv">$ </span>pip3 <span class="nb">install </span>autoscraper
-</code></pre></div></div>
-
-<h2 id="一分钟上手">一分钟上手</h2>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">autoscraper</span> <span class="kn">import</span> <span class="n">AutoScraper</span>
-
-<span class="n">url</span> <span class="o">=</span> <span class="s">'https://stackoverflow.com/questions/2081586/web-scraping-with-python'</span>
-
-<span class="c1"># We can add one or multiple candidates here.
-# You can also put urls here to retrieve urls.
-</span><span class="n">wanted_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">"How to call an external command?"</span><span class="p">]</span>
-
-<span class="n">scraper</span> <span class="o">=</span> <span class="n">AutoScraper</span><span class="p">()</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">scraper</span><span class="p">.</span><span class="n">build</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">wanted_list</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div></div>
-
-<ul>
-  <li>url 是你需要爬取的网页</li>
-  <li>wanted_list 是一个 list，其中有你需要的元素目标，注意会爬取相同 tag 和范围的数据</li>
-</ul>
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1605241399644-c035e6f7-8096-438b-806d-7a9da7bee65f.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
-
-<h2 id="更多使用技巧">更多使用技巧</h2>
-
-<blockquote>
-  <p>请关注 Github 仓库： <a href="https://github.com/alirezamika/autoscraper">https://github.com/alirezamika/autoscraper</a></p>
-</blockquote>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2020-11-16</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
-    
-    <h1><a class="title" href="/post/2020/11/Django-%E5%88%9D%E5%A7%8B%E5%8C%96project.html">Django 初始化 project</a></h1>
-    <div class="post_at_index">
-      <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 初始化 mysite 项目</span>
-
-django-admin startproject mysite
-
-
-- manage.py
-- mysite
-  - settings.py
-  - urls.py
-  - wsgi.py
-</code></pre></div></div>
-
-<h3 id="项目初始化">项目初始化</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python3 manage.py <span class="nt">--help</span> <span class="c"># 用于管理项目以及服务</span>
-python3 manage.py runserver  <span class="c"># 启动服务</span>
-python3 manage.py startapp <span class="s1">'blog'</span>  <span class="c"># 用于在项目下创建一个app</span>
-
-
-<span class="c"># 新项目初始化步骤</span>
-
-django-admin startproject mysite  <span class="c"># 创建项目</span>
-<span class="nb">cd </span>mysite
-python3 manage.py migrate  <span class="c"># 初始化数据库</span>
-python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号</span>
-</code></pre></div></div>
-
-<h3 id="常见项目配置">常见项目配置</h3>
-
-<blockquote>
-  <p>settings.py</p>
-</blockquote>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 切换数据库为 MySQL , Default = sqlite
-</span>
-<span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s">'default'</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s">'ENGINE'</span><span class="p">:</span> <span class="s">'django.db.backends.mysql'</span><span class="p">,</span>
-        <span class="s">'NAME'</span><span class="p">:</span> <span class="s">'mysite'</span><span class="p">,</span>
-        <span class="s">'USER'</span><span class="p">:</span> <span class="s">'root'</span><span class="p">,</span>
-        <span class="s">'PASSWORD'</span><span class="p">:</span> <span class="s">'luchuanjia'</span><span class="p">,</span>
-        <span class="s">'HOST'</span><span class="p">:</span> <span class="s">'127.0.0.1'</span><span class="p">,</span>
-        <span class="s">'PORT'</span><span class="p">:</span> <span class="s">'3306'</span><span class="p">,</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1"># ! 需要安装插件 pip install mysql
-</span>
-<span class="o">---</span>
-
-<span class="c1"># 修改项目时区
-</span><span class="n">TIME_ZONE</span> <span class="o">=</span> <span class="s">'Asia/Shanghai'</span>  <span class="c1"># Default UTC
-</span>
-<span class="c1"># 修改语言
-</span><span class="n">LANGUAGE_CODE</span> <span class="o">=</span> <span class="s">'zh-Hans'</span>  <span class="c1"># 简体中文
-</span></code></pre></div></div>
-
-<h3 id="导出项目的依赖库">导出项目的依赖库</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pip</span> <span class="n">freeze</span> <span class="o">&gt;</span> <span class="n">requirements</span><span class="p">.</span><span class="n">txt</span>   <span class="c1"># 将目前虚拟环境的 依赖库，导出到文件中
-</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="p">.</span><span class="n">txt</span> <span class="c1"># 从 requirements.txt 中读取依赖库，并进行安装
-</span></code></pre></div></div>
-
-<h3 id="modules-变更后需要同步变更数据库表">modules 变更后，需要同步变更数据库表</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 修改 module.py 后，需要执行以下命令，将变更同步到数据库，否则不生效
-</span><span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">makemigrations</span>
-<span class="n">python3</span> <span class="n">manage</span><span class="p">.</span><span class="n">py</span> <span class="n">migrate</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2020-11-09</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -910,7 +848,7 @@ python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号
             <li class="active"><a>12</a></li>
           
           <li class="disabled"><span>...</span></li>
-          <li><a href="/page24">24</a></li>
+          <li><a href="/page25">25</a></li>
         
 
         
@@ -971,7 +909,7 @@ python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号
      
     	
       <li><a href="/categories.html#Mac">
-    		Mac <span>16</span>
+    		Mac <span>18</span>
     	</a></li>
      
     	
@@ -1055,6 +993,20 @@ python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号
       <ul>
         
         <li>
+          <a href="/post/2022/12/raycast-01.html">Raycast 你的年度报告已到达</a>
+          从 Alfred 切换到 Raycast 也就 2 个多月的时间；使用体验有着比较大的提升。
+
+
+        </li>
+        
+        <li>
+          <a href="/post/2022/12/Skoala-Install-Dce5.html">DCE5-Skoala 安装教程</a>
+          使用之前的话
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
           前言
 
@@ -1071,22 +1023,6 @@ python3 manage.py createsuperuser  <span class="c"># 创建超级管理员账号
         <li>
           <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
           背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Copy-To-Markdwon.html">Copy to Markdown</a>
-          背景
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/Dubbo-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86.html">Dubbo 基础知识梳理</a>
-          
-  参考资料：
-
 
 
         </li>

@@ -284,6 +284,153 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/02/HowTo-use-TortoiseGit-for-Windows.html">HowTo use TortoiseGit for Windows</a></h1>
+    <div class="post_at_index">
+      <p>Git 是目前最先进的版本控制系统，越来越多的业务场景都在使用 Git，风靡全球的 Github 更是让 Git 版本控制系统名声大震，但是 GitHub 旨在建立一个开源的生态环境，所以不适合企业内部的管理系统，在之前的文章中，我也讲到了如何搭建 GitLab，可以在企业内部自建一套功能完善的 Git 版本控制系统。</p>
+
+<p>GitLab 是一个非常成熟的服务端应用，但是作为一名开发人员，我们在使用 GitLab 与其他人员协同版本时，需要有一个工作对我们的每次修改更新以及推送，这也是版本控制工具的真正精髓；在不同的平台有着很多丰富的应用软件，所以挑选一款适合自己的 Git GUI 工具很重要。</p>
+
+<p>目前在众多 Git Client 之中做的比较好的是 SourceTree，并且同时支持 Mac 和 Windows 双平台，但是有一个问题，当我们在初次安装时需要验证 Atlassian 账号，但是 Atlassian 的注册页面用了 requirejs，而且是用了 Google 的 CDN 服务，所以必须翻墙，这对很多中国用户的使用造成了不变；所以，今天我在这里推荐一个在 Windows 平台下同样可以作为 Git 图形化客户端工具的：<a href="https://tortoisegit.org/">TortoiseGit</a></p>
+
+<p>TortoiseGit 是 TortoiseSVN 的 Git 版本，TortoiseGit 用于迁移 TortoiseSVN 到 TortoiseGit，解决了在 Windows 平台之上没有合适 Git 图形化客户端的问题，TortoiseGit 不仅免费，而且同样支持丰富的语言包，但是需要独立下载语言包安装，默认只有英文，注意语言包与程序版本一定要匹配。</p>
+
+<h4 id="下载">下载</h4>
+
+<p>TortoiseGit 的官方下载地址是这里：<a href="https://tortoisegit.org/download/">https://tortoisegit.org/download/</a> ，下载时请注意与你系统的兼容性。</p>
+
+<blockquote>
+  <p>注意 TortoiseGit 1.8.16 之后的版本不在支持 Windows XP 和 Server 2003</p>
+</blockquote>
+
+<p>因为 TortoiseGit 官网不在国内，所以在访问下载时速度非常的慢，我将目前的稳定版本 2.4 上传到我的百度云盘，但是以后我可能不能及时更新，所以如果你对版本要求不是很高，可以点击下面链接下载。</p>
+
+<p>链接：<a href="https://pan.baidu.com/s/1eScNjA6">https://pan.baidu.com/s/1eScNjA6</a> 密码：31hu</p>
+
+<blockquote>
+  <p>如链接失效，您可以通过本页面右下角展开通过邮箱，与我取得联系。</p>
+</blockquote>
+
+<h4 id="安装">安装</h4>
+
+<h5 id="git-for-windows">Git for Windows</h5>
+
+<p>首先，我们需要安装 Git 在你的电脑上，这保证你的 TortoiseGit 运行时所需要的依赖环境。</p>
+
+<p>下载地址：<a href="https://git-for-windows.github.io/">https://git-for-windows.github.io/</a></p>
+
+<p>同样，因为某些网络的原因，导致我们在下载时也会很慢，所以我也将目前最新 2.13 版本上传到了我的百度云盘：</p>
+
+<p>链接：<a href="https://pan.baidu.com/s/1c12ZvRq">https://pan.baidu.com/s/1c12ZvRq</a> 密码：43yt</p>
+
+<p>安装过程，这里不在展示，通常情况下，你只需要一路点击 Next 即可，但是如果你想要修改一些设置，例如默认的安装位置，那么你需要注意下，在 TortoiseGit 初次启动时，你需要手动设置 Git.exe 的位置。</p>
+
+<h5 id="tortoisegit">TortoiseGit</h5>
+
+<p>我的测试系统是 Windows 7 旗舰版 64 位，并且支持 TortoiseGit 最新的版本。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/q39b4.jpg" alt="image" /></p>
+
+<p>请依次安装上图中两个软件，注意 LanguagePack 应该在主程序之后安装，同样，你也只需要一路点击 Next 即可。</p>
+
+<p>在你安装完成之后，在该目录的空白区域，单击鼠标右键，你应该会看到新增了 TortoiseGit 的选项，我们选择”TortoiseGit”&gt;“Settings”来初始化我们设置。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/educ5.jpg" alt="image" /></p>
+
+<h5 id="修改程序语言为中文">修改程序语言为中文</h5>
+
+<p>如果英文你的使用不会有影响，你可以略过这一步骤，同样你也不需要下载上面的 LanguagePack 包。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/afmvd.jpg" alt="image" /></p>
+
+<p>好了，按照如上图中操作，你应该已经修改了程序语言为中文，再次到空白区域单击测试就可以看到了。</p>
+
+<h4 id="使用-tortoisegit-克隆你的项目">使用 TortoiseGit 克隆你的项目</h4>
+
+<p>在我们安装了好 TortoiseGit 和 Git 的基本基础环境之后，我们需要使用 TortoiseGit 克隆项目，这里我们是在 GitHub 创建了一个测试项目，你可以直接使用你的项目地址即可。</p>
+
+<h5 id="测试项目">测试项目</h5>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/ot84j.jpg" alt="image" /></p>
+
+<p>GitHub 和 GitLab 都提供了通过使用 HTTPS 和 SSH 的方式，这两种方式有些不同，我会在下面分开讲述如何使用。</p>
+
+<h5 id="ssh-验证方式">SSH 验证方式</h5>
+
+<p>如果采用 SSH 验证方式，那么你需要生成一对公钥和私钥，并且将公钥上传到你的 GitLab 或 GitHub 上，然后在克隆你的项目时，使用匹配的私钥即可。</p>
+
+<p>那在 Windows 如何上生成私钥呢？其实我们在安装 TortoiseGit 时已经默认安装 PuTTYgen 工具，我们可以利用它来创建秘钥。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/dh1fb.jpg" alt="image" /></p>
+
+<p>打开 PuTTYgen，点击 generate 即可创建密钥，PuTTYgen 其实是按照鼠标运行的轨迹来计算的，所以在点击后，我们不停的使用鼠标移动，等待进度条完成就可以了。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/2uyf3.jpg" alt="image" /></p>
+
+<p>当创建完成之后，你可以看到以下以下内容，注意不要关闭，我们要点击<code class="language-plaintext highlighter-rouge">Save public key</code>和<code class="language-plaintext highlighter-rouge">Save private key</code>，并将上 public key 传到你的 GitHub 或 GitLab 账户之中。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/stgw9.jpg" alt="image" /></p>
+
+<blockquote>
+  <p>注意，我在图中隐去了其他 SSH keys 信息，我建议你在做类似分享时也注意隐去你的重要信息</p>
+</blockquote>
+
+<p>好了，接下来，我们就要开克隆我们的项目了，在你想要存放项目的目录内，鼠标右键选择”Git 克隆“，然后输入你的项目 URL，并且加载我们刚刚生产私钥文件。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/y7dsh.jpg" alt="image" /></p>
+
+<p>注意，在你确认都没问题的情况下，点击确认，然后你就会看到如下页面，如果这个过程中出现问题，请注意检查项目 URL 和私钥文件是否正确。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/bltrs.jpg" alt="image" /></p>
+
+<p>到这里，我们 SSH 验证仓库的方式就全好，接下来我们就可以使用开始进行我们的工作，但在首次提交我们的项目时，需要设置用户名和密码，这是为了方便验证我们的身份。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/07sxd.jpg" alt="image" /></p>
+
+<p>点击”是“，在弹出的窗口中设定用户名和邮箱，保存即可。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/wid9v.jpg" alt="image" /></p>
+
+<h5 id="https-or-http">HTTPS or HTTP</h5>
+
+<p>在使用 GitLab 为公司内部仓库时，可以不开通 HTTPS 验证，HTTP 也不会影响我们的验证方式，但是从安全的角度上来说，强烈建议启用 HTTPS，HTTPS 加密传输可以给我们的代码和用户信息的安全提供更好的保护。</p>
+
+<p>如果使用 HTTPS or HTTP 的方式，我们不需要增加任何密钥文件或怎样，只需要使用我们现有的 GitHub 或 GitLab 账号即可；在你想要存放项目的目录内，鼠标右键选择”Git 克隆“，在弹出的窗口中，注意项目 URL 要是用 HTTPS，并且去掉勾选加载密钥选项。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/givvr.jpg" alt="image" /></p>
+
+<p><strong>如果你的项目在 GitLab 上</strong>，并且这个项目是一个私有项目，那么这里就会要求你输入你的 GitLab 用户名和密码，输入正确的用户和密码就可以成功克隆了。</p>
+
+<p>但是，由于我的测试项目在 GitHub 上，GitHub 上的项目默认都是公开项目，所以在这一步骤不会询问我的用户名和密码，只有在我需要将本地更新推送到 GitHub 时才会验证；所以接下来我在项目目录下新增文件 newfile2.txt，</p>
+
+<blockquote>
+  <p>注意，Git 不同 SVN，Git 的提交不会将更新推送到远端服务器，所以我们在提交成功之后，再去手动推送</p>
+</blockquote>
+
+<p>右键选择 Git 提交，会弹出提交页面，我们需要这里，输入提交说明信息，和需要提交的文件。</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/ata4r.jpg" alt="image" /></p>
+
+<p>点击”提交之后“，我们会看成功提交的窗口，然后在窗口选择点击推送；</p>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/q4cq7.jpg" alt="image" /></p>
+
+<p>当我们点击推送之后，会要求输入对应的 GitHub 用户名和密码：</p>
+
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-02-12</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Tools">Tools</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/01/Install_mariadb10_centos7.html">How to install MariaDB 10.1 on CentOS 7.x</a></h1>
     <div class="post_at_index">
       <p>CentOS 7.x 默认的 MariaDB 版本是 5.5，但是在有些情况我们需要用到 10 版本，注意 MariaDB 与 MySQL 版本是不一样的，下面简单降下如何快速安装 MariaDB10.1 到 CentOS 7.x.</p>
@@ -709,32 +856,6 @@ freeze          暂停更新所有zone状态
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2014/03/%E6%88%91%E6%98%AF%E4%B8%80%E4%B8%AA%E6%9C%80%E4%B8%8D%E4%BC%9A%E5%86%99%E6%A0%87%E9%A2%98%E7%9A%84%E4%BA%BA.html">我是一个最不会写标题的人</a></h1>
-    <div class="post_at_index">
-      <p>之前一直我以为自己是在纠结到底哪里适合写 IT 学习的博文，新浪、网易亦或腾讯，折腾了许久，其实自己明白，不是在哪里写的问题，根本在于自己能否坚持下来，我本身是一个不怎么能耐下来性子的人，学习 Linux、C 还要考学历，总是做做这个，做做那个，没能认真研究，所以这么久时间还是停留在一个“初学者”的位置。</p>
-
-<p>2014 年，这一年是一开始就让我悲痛到无以复加的一年，陷入迷茫让我不知道自己未来的路怎么走，能走多久，可是，我也清清楚楚地明白，我要努力改变，人生充满了太多的不可思议以及你无能为力的悲剧，今年已经过了近四个月份了，一直没能好好整理自己的心情，太沉溺过去的人是个弱者，人生会有很多我们无能为力的事，这让我们心生沮丧，可是不敢逃离还是面对，事情都已经发生在了过去，某一个时间点，是一个想起来都会让自己泪眼婆娑的时间点，我失去了一个生命中最最重要的人，往事只能回忆，也许到我将离去的时候，我才能够坦然面对人生旅途中走着走着就消失的人，我怀念，无时不刻。</p>
-
-<p>谈恋爱，是我这个年纪最容易被提及的问题，我一直排斥去谈恋爱，很多人不明白为什么会是这样；其实，是因为害怕失去，所以不敢拥有，有过一段失败的经历，让我不敢再次尝试，因为我没有把握，也没有勇气，小心翼翼；我总是夸夸其谈着别人的经历，却对自己不敢触及，我所说的努力让自己变得更好，才配得上爱我的人，只是害怕因为自己不够好，致使爱我的人离我而去，不是不相信另一半，是不相信自己，这个现实到令人发指的社会，我不能自私的以为爱情可以战胜一切，这种人也许别人会感到可怜，但最终会被人鄙夷，好姑娘都应该有一个好的归宿，在我没有能力肩负起爱情的责任时，抱歉，我不能说“爱”。其实，我缺少的，钱只是一小部分，更多的是缺少的是一颗勇敢的心，不够成熟的自己，当我不能够做好自己时，如何能够不负责任地肆意冲进别人的生活，伤害了别人，也羞辱了自己。</p>
-
-<p>生理年龄不代表心里年龄，明白自己想做什么，就应该努力去做，尽管我这么大了，这里也是一个开始，命运之轮是不可琢磨的，任何事在该发生的时候就会发生，早一点，晚一点，都是悲剧，如果我错过了一个深爱的姑娘，那么对不起，我想是我的修炼不够；生活在别处，我在这里，安静地学习，成长，成熟，对现实的忍耐，对未来的憧憬，不惊奇也不平淡，命运之轮不会偏移一丝一毫，我想做的只是让自己蜕变，尽量去做我想做的自己。</p>
-
-<p>近期一直在看《德川家康》，还没看完，深刻感受到，在大势中人的渺小与乏力，如果想要成为你想要成为的人，那么首先，你要学会忍耐，坚持，是一个足以让人发疯的忍耐，一定要坚持，不然所有的努力都是笑话，在成为你想成为的人之前，需要舍弃很多东西，你必须足够理智，你必须谨小慎微，不然所有的努力还是成为笑话；但是，哪怕你所有的事儿都做了，你也只是有可能成功，毕竟，命运这事儿，谁有说的准呢？</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2014-03-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -852,7 +973,7 @@ freeze          暂停更新所有zone状态
      
     	
       <li><a href="/categories.html#Python">
-    		Python <span>45</span>
+    		Python <span>46</span>
     	</a></li>
      
     	
@@ -921,6 +1042,13 @@ freeze          暂停更新所有zone状态
       <ul>
         
         <li>
+          <a href="/post/2023/02/Ketbrains%E6%BF%80%E6%B4%BB%E6%9C%8D%E5%8A%A1%E5%99%A8.html">在线服务器激活 Ketbrains</a>
+          Ketbrains 激活服务器
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/12/raycast-01.html">Raycast 你的年度报告已到达</a>
           从 Alfred 切换到 Raycast 也就 2 个多月的时间；使用体验有着比较大的提升。
 
@@ -944,13 +1072,6 @@ freeze          暂停更新所有zone状态
         <li>
           <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
           项目起源
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
-          背景
 
 
         </li>

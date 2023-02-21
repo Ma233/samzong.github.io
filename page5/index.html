@@ -284,6 +284,170 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2022/05/youtube-dl-%E4%B8%8B%E8%BD%BD-YouTube-%E8%A7%86%E9%A2%91.html">youtube-dl 下载 YouTube 视频</a></h1>
+    <div class="post_at_index">
+      <blockquote>
+  <p>截止 2022.5 <code class="language-plaintext highlighter-rouge">youtube-dl</code> 已经较长时间未更新了，建议采用 <a href="https://github.com/yt-dlp/yt-dlp"><code class="language-plaintext highlighter-rouge">yt-dlp</code></a>, 将命令进行替换即可</p>
+</blockquote>
+
+<h2 id="安装新版本的-yt-dlp">安装新版本的 <code class="language-plaintext highlighter-rouge">yt-dlp</code></h2>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>yt-dlp/taps/yt-dlp
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">yt-dlp</code> 是从 <code class="language-plaintext highlighter-rouge">youtube-dl</code> 分支出来的版本，提供持续更新和向前兼容，在友好型上做了优化；仅需要将所有安装命令中 <code class="language-plaintext highlighter-rouge">youtube-dl</code> 替换为 <code class="language-plaintext highlighter-rouge">yt-dlp</code></p>
+
+<p>如果你还是喜欢使用 youtube-dl，可以使用以下命令将程序默认替换，同时不影响你的使用：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ <span class="nb">alias </span>youtube-dl<span class="o">=</span>yt-dlp
+➜  ~ <span class="nb">echo</span> <span class="s2">"alias youtube-dl=yt-dlp"</span>  <span class="o">&gt;&gt;</span> ~/.zshrc  <span class="c"># or ~/.bashrc</span>
+</code></pre></div></div>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/JwWiwh.png?x-oss-process=image/resize,w_960,m_lfit" /></p>
+
+<hr />
+
+<h2 id="youtube-dl-下载-youtube-视频">youtube-dl 下载 YouTube 视频</h2>
+
+<p>视频下载命令行工具里，网友推荐通常都是『国外视频用 youtube-dl』，有这两个工具国内外主流视频网站的视频基本就横扫了，适合想收藏或者喜欢下载后用本地播放器的 Geek 群体。</p>
+
+<ul>
+  <li><a href="http://rg3.github.io/youtube-dl/download.html">youtube-dl</a></li>
+</ul>
+
+<p>命令行工具本身其实不复杂，理解了它们的语法就能开始使用了，结合 Alfred 还可以把常用的命令设置成触发的动作，提升交互体验和效率。然而很多人一看网站的介绍估计和我最初的感受差不多，还要部署一堆使用环境啊。</p>
+
+<h2 id="xcode-的命令行工具">Xcode 的命令行工具</h2>
+
+<p>Homebrew 环境安装前先检查一下 Xcode 的命令行工具是否已经安装，如果 macOS 系统更新过可能也需要重新安装一次，「终端」（应用程序 - 实用工具 - 终端）中输入 <code class="language-plaintext highlighter-rouge">xcode-select --install</code>。</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ xcode-select <span class="nt">--install</span>
+xcode-select: error: <span class="nb">command </span>line tools are already installed, use <span class="s2">"Software Update"</span> to <span class="nb">install </span>updates
+➜  ~
+</code></pre></div></div>
+
+<p><em>先前配置时已经安装过 Xcode 命令行工具，所以会出现上面的提示信息。</em></p>
+
+<h2 id="homebrew-依赖">Homebrew 依赖</h2>
+
+<p><a href="https://brew.sh/index_zh-cn.html">Homebrew</a> 是一个 macOS 上的软件包管理工具，通过命令行的方式安装和卸载软件，大部分的流行软件都提供了 Homebrew 的安装方式，也是开源世界里安装和更新软件的主流方式；</p>
+
+<h3 id="homebrew"><a href="https://brew.sh/index_zh-cn.html">Homebrew</a></h3>
+
+<p>只需要在联网的情况下运行一行命令：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/ruby <span class="nt">-e</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/master/install<span class="si">)</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>更多关于 Homebrew 的使用相关，可以查看我的另一篇文章  <a href="https://samzong.me/2022/05/03/Mac%E4%B8%8Bhomebrew%E7%9A%84%E4%BD%BF%E7%94%A8/">Mac 下 Homebrew 的使用</a></p>
+</blockquote>
+
+<h2 id="安装-youtube-dl">安装 youtube-dl</h2>
+
+<p>上面刚学习到的命令可以先用起来，先看看 youtube-dl 的软件信息，在终端里输入 <code class="language-plaintext highlighter-rouge">brew info youtube-dl</code>，了解一下 youtube-dl 的依存环境和需要搭档的其他应用。</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/S4sQmN.png?x-oss-process=image/resize,w_960,m_lfit" /></p>
+
+<p>从终端运行的反馈能看到，youtube-dl 的使用环境是 Python3，合并视频片断还会用到 <code class="language-plaintext highlighter-rouge">ffmpeg</code>  这个组件，也就是说安装完 youtube-dl，还要再运行一次 <code class="language-plaintext highlighter-rouge">brew install ffmpeg</code></p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>youtube-dl
+brew <span class="nb">install </span>ffmpeg
+</code></pre></div></div>
+
+<h2 id="youtube-dl-的基本用法">youtube-dl 的基本用法</h2>
+
+<p>前 3 步结束已经可以用命令行下载视频了，这里介绍几个常用的命令，更多的命令用法在官网都有介绍，查看 Github 更全的操作指引 <a href="https://github.com/ytdl-org/youtube-dl/blob/master/README.md#description">Document</a></p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ youtube-dl <span class="nt">-h</span> | <span class="nb">grep </span>Options
+Options:
+  General Options:
+  Network Options:
+  Download Options:
+  Filesystem Options:
+  Thumbnail Options:
+  Verbosity / Simulation Options:
+  Video Format Options:
+  Subtitle Options:
+  Authentication Options:
+  Adobe Pass Options:
+  Post-processing Options:
+</code></pre></div></div>
+
+<h3 id="导出视频指定文件名称">导出视频指定文件名称</h3>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>youtube-dl https://www.youtube.com/watch?v<span class="o">=</span>Ga4UCK627nU <span class="nt">-o</span> <span class="s2">"~/Downloads/aaa.mp4"</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">youtube-dl</code> 还提供了 一些变量的方式，可以作用在文件名上，比较常用的如下：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># %(title)s.%(ext)s 则是指定了文件名的格式，%(title)s 是视频的标题，%(ext)s 则是视频的文件扩展名</span>
+youtube-dl https://www.youtube.com/watch?v<span class="o">=</span>Ga4UCK627nU <span class="nt">-o</span> <span class="s2">"~/Downloads/%(title)s.%(ext)s"</span>
+</code></pre></div></div>
+
+<p>通过 <code class="language-plaintext highlighter-rouge">视频名.扩展名</code> 这样可以规范化导出文档的名称；还有其他非常丰富的变量支持，可以去这里找到你想要的 <a href="https://github.com/ytdl-org/youtube-dl/blob/master/README.md#output-template">Output Template</a></p>
+
+<h3 id="查询视频支持的版本">查询视频支持的版本</h3>
+
+<p>导出的画质不如意，希望自定义导出画质，可以采用这个方式，使用 <code class="language-plaintext highlighter-rouge">-F</code> 查看视频资源支持的类型，通过 <code class="language-plaintext highlighter-rouge">-f</code> 指定对应的版本进行下载</p>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/eUUy9N.png?x-oss-process=image/resize,w_960,m_lfit" /></p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  ~ youtube-dl <span class="nt">-F</span> https://www.youtube.com/watch<span class="se">\?</span>v<span class="se">\=</span>BYkHLlKFEsM
+<span class="o">[</span>youtube] BYkHLlKFEsM: Downloading webpage
+<span class="o">[</span>info] Available formats <span class="k">for </span>BYkHLlKFEsM:
+format code  extension  resolution note
+249          webm       audio only tiny   53k , webm_dash container, opus @ 53k <span class="o">(</span>48000Hz<span class="o">)</span>, 2.44MiB
+250          webm       audio only tiny   70k , webm_dash container, opus @ 70k <span class="o">(</span>48000Hz<span class="o">)</span>, 3.22MiB
+140          m4a        audio only tiny  129k , m4a_dash container, mp4a.40.2@129k <span class="o">(</span>44100Hz<span class="o">)</span>, 5.93MiB
+251          webm       audio only tiny  136k , webm_dash container, opus @136k <span class="o">(</span>48000Hz<span class="o">)</span>, 6.27MiB
+160          mp4        256x144    144p   32k , mp4_dash container, avc1.4d400c@  32k, 30fps, video only, 1.48MiB
+278          webm       256x144    144p   75k , webm_dash container, vp9@  75k, 30fps, video only, 3.45MiB
+133          mp4        426x240    240p   48k , mp4_dash container, avc1.4d4015@  48k, 30fps, video only, 2.21MiB
+242          webm       426x240    240p   76k , webm_dash container, vp9@  76k, 30fps, video only, 3.51MiB
+134          mp4        638x360    360p   80k , mp4_dash container, avc1.4d401e@  80k, 30fps, video only, 3.70MiB
+243          webm       638x360    360p  115k , webm_dash container, vp9@ 115k, 30fps, video only, 5.28MiB
+135          mp4        852x480    480p  120k , mp4_dash container, avc1.4d401f@ 120k, 30fps, video only, 5.50MiB
+244          webm       852x480    480p  161k , webm_dash container, vp9@ 161k, 30fps, video only, 7.41MiB
+136          mp4        1278x720   720p  217k , mp4_dash container, avc1.4d401f@ 217k, 30fps, video only, 9.97MiB
+247          webm       1278x720   720p  273k , webm_dash container, vp9@ 273k, 30fps, video only, 12.52MiB
+248          webm       1916x1080  1080p  896k , webm_dash container, vp9@ 896k, 30fps, video only, 41.01MiB
+137          mp4        1916x1080  1080p  923k , mp4_dash container, avc1.640028@ 923k, 30fps, video only, 42.24MiB
+18           mp4        638x360    360p  350k , avc1.42001E, 30fps, mp4a.40.2 <span class="o">(</span>44100Hz<span class="o">)</span>, 16.07MiB <span class="o">(</span>best<span class="o">)</span>
+
+➜  ~ youtube-dl <span class="nt">-f</span> 137 https://www.youtube.com/watch<span class="se">\?</span>v<span class="se">\=</span>BYkHLlKFEsM  <span class="c"># 下载对应的 format code</span>
+➜  ~ youtube-dl <span class="nt">-f</span> best https://www.youtube.com/watch<span class="se">\?</span>v<span class="se">\=</span>BYkHLlKFEsM  <span class="c"># 下载最佳的版本</span>
+</code></pre></div></div>
+
+<h3 id="仅导出音频文件">仅导出音频文件</h3>
+
+<p>:::information_source: 经常拿过来做个人的歌曲库导出，<code class="language-plaintext highlighter-rouge">youtube-dl -x</code> 提供了 -x 参数来进行指定 仅导出音频，<code class="language-plaintext highlighter-rouge">--extract-audio</code> 这里需要使用到 <code class="language-plaintext highlighter-rouge">ffmpeg</code> 。</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>youtube-dl <span class="nt">-x</span> https://www.youtube.com/watch?v<span class="o">=</span>Ga4UCK627nU <span class="nt">-o</span> <span class="s2">"~/Downloads/%(title)s.%(ext)s"</span>
+</code></pre></div></div>
+
+<p>默认下载的音频文件类型，可能无法满足你，这个时候，可以使用 <code class="language-plaintext highlighter-rouge">--audio-format</code> 参数，来指定对应的音频格式（使用 ffmpeg 自动转码），目前支持个格式类型有：</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Specify audio format: <span class="s2">"best"</span>, <span class="s2">"aac"</span>,<span class="s2">"flac"</span>, <span class="s2">"mp3"</span>, <span class="s2">"m4a"</span>, <span class="s2">"opus"</span>, <span class="s2">"vorbis"</span>,or <span class="s2">"wav"</span><span class="p">;</span> <span class="s2">"best"</span> by default
+</code></pre></div></div>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>youtube-dl <span class="nt">-x</span> https://www.youtube.com/watch?v<span class="o">=</span>Ga4UCK627nU <span class="nt">-o</span> <span class="s2">"~/Downloads/%(title)s.%(ext)s"</span> <span class="nt">--audio-format</span> mp3
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-05-03</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Mac">Mac</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2022/05/%E6%B7%98%E5%AE%9DPython-SDK%E4%BC%98%E5%8C%96%E6%94%AF%E6%8C%81Python3.html">淘宝 Python SDK 优化支持 Python3</a></h1>
     <div class="post_at_index">
       <p>淘宝开放平台的 SDK，Python 的 SDK 是在 2012 年，仅支持 Python2.7 及以上，但不支持 Python3；二现在是 2102 年了，像我这样的新手都是直接从 Python3 开始的，</p>
@@ -1210,41 +1374,6 @@ ps aux | <span class="nb">grep </span>python | <span class="nb">grep</span> <spa
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/04/SQL-%E5%AF%B9%E6%97%B6%E9%97%B4%E6%95%B4%E7%82%B9%E7%9A%84%E5%A4%84%E7%90%86.html">SQL 对时间整点的处理</a></h1>
-    <div class="post_at_index">
-      <h2 id="需要取值整点时间">需要取值整点时间</h2>
-
-<p>项目上需要取值上一个整点的数据查询处理，落表，然后实现按小时更新</p>
-
-<blockquote>
-  <p>ClickHouse</p>
-</blockquote>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">subtractHours</span><span class="p">(</span><span class="n">date_trunc</span><span class="p">(</span><span class="s1">'hour'</span><span class="p">,</span><span class="n">now</span><span class="p">()),</span><span class="mi">1</span><span class="p">)</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>MySQL</p>
-</blockquote>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">and</span> <span class="n">auth_time</span> <span class="o">&gt;=</span> <span class="n">DATE_SUB</span><span class="p">(</span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="s1">'%Y-%m-%d %H:00:00'</span><span class="p">),</span><span class="n">interval</span> <span class="mi">1</span> <span class="n">hour</span><span class="p">)</span>
-<span class="k">and</span> <span class="n">auth_time</span> <span class="o">&lt;</span> <span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="s1">'%Y-%m-%d %H:00:00'</span><span class="p">)</span>
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-04-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#ClickHouse">ClickHouse</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1360,7 +1489,7 @@ ps aux | <span class="nb">grep </span>python | <span class="nb">grep</span> <spa
      
     	
       <li><a href="/categories.html#Python">
-    		Python <span>45</span>
+    		Python <span>46</span>
     	</a></li>
      
     	
@@ -1429,6 +1558,13 @@ ps aux | <span class="nb">grep </span>python | <span class="nb">grep</span> <spa
       <ul>
         
         <li>
+          <a href="/post/2023/02/Ketbrains%E6%BF%80%E6%B4%BB%E6%9C%8D%E5%8A%A1%E5%99%A8.html">在线服务器激活 Ketbrains</a>
+          Ketbrains 激活服务器
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/12/raycast-01.html">Raycast 你的年度报告已到达</a>
           从 Alfred 切换到 Raycast 也就 2 个多月的时间；使用体验有着比较大的提升。
 
@@ -1452,13 +1588,6 @@ ps aux | <span class="nb">grep </span>python | <span class="nb">grep</span> <spa
         <li>
           <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
           项目起源
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
-          背景
 
 
         </li>

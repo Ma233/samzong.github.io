@@ -284,6 +284,117 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/07/Yum%E4%B8%AD-releasever%E5%92%8C-basearch%E7%9A%84%E5%8F%96%E5%80%BC.html">Yum 中$releasever 和$basearch 的取值</a></h1>
+    <div class="post_at_index">
+      <h4 id="查看etcyumreposdcentos-baserepo">查看/etc/yum.repos.d/CentOS-Base.repo</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>base]
+<span class="nv">name</span><span class="o">=</span>CentOS-<span class="nv">$releasever</span> - Base
+<span class="nv">mirrorlist</span><span class="o">=</span>http://mirrorlist.centos.org/?release<span class="o">=</span><span class="nv">$releasever</span>&amp;arch<span class="o">=</span><span class="nv">$basearch</span>&amp;repo<span class="o">=</span>os&amp;infra<span class="o">=</span><span class="nv">$infra</span>
+<span class="c">#baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/</span>
+<span class="nv">gpgcheck</span><span class="o">=</span>1
+<span class="nv">gpgkey</span><span class="o">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+</code></pre></div></div>
+
+<p>其实在日常使用之中，我们在很多地方，特别是脚本内看到了调用<code class="language-plaintext highlighter-rouge">$releasever</code>和<code class="language-plaintext highlighter-rouge">$basearch</code></p>
+
+<ol>
+  <li>$releasever 的值，这个表示当前系统的发行版本</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera /]# rpm <span class="nt">-qi</span> centos-release
+Name        : centos-release               Relocations: <span class="o">(</span>not relocatable<span class="o">)</span>
+Version     : 6                                 Vendor: CentOS
+Release     : 7.el6.centos.12.3             Build Date: Tue 04 Aug 2015 12:13:46 AM CST
+Install Date: Sat 21 May 2016 03:31:27 AM CST      Build Host: c6b9.bsys.dev.centos.org
+Group       : System Environment/Base       Source RPM: centos-release-6-7.el6.centos.12.3.src.rpm
+Size        : 35634                            License: GPLv2
+Signature   : RSA/SHA1, Tue 04 Aug 2015 12:15:08 AM CST, Key ID 0946fca2c105b9de
+Packager    : CentOS BuildSystem &lt;http://bugs.centos.org&gt;
+Summary     : CentOS release file
+Description :
+CentOS release files
+
+<span class="c"># 其中Version 6 就是我们的版本号</span>
+</code></pre></div></div>
+
+<p>$basearch 是我们的系统硬件架构 (CPU 指令集),就是我们常说的 i386\i486\i586\i686\</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera /]# <span class="nb">arch
+</span>i386
+</code></pre></div></div>
+
+<p>但是，当我在命令行查看是却发现<code class="language-plaintext highlighter-rouge">$releasever</code>和<code class="language-plaintext highlighter-rouge">$basearch</code>是空的。</p>
+
+<p>Google 一下之后，说明 Yum 变量的说明可以在这里（5.3.3. Using Yum Variables）找到，说明如下：</p>
+<blockquote>
+  <p>5.3.3. Using Yum Variables</p>
+</blockquote>
+
+<p>You can use and reference the following built-in variables in yum commands and in all Yum configuration files (that is, /etc/yum.conf and all .repo files in the /etc/yum.repos.d/ directory):</p>
+
+<p>$releasever
+You can use this variable to reference the release version of Red Hat Enterprise Linux. Yum obtains the value of $releasever from the distroverpkg=value line in the /etc/yum.conf configuration file. If there is no such line in /etc/yum.conf, then yum infers the correct value by deriving the version number from the redhat-release package.</p>
+
+<p>$arch
+You can use this variable to refer to the system’s CPU architecture as returned when calling Python’s os.uname() function. Valid values for $arch include: i586, i686 and x86_64.</p>
+
+<p>$basearch
+You can use $basearch to reference the base architecture of the system. For example, i686 and i586 machines both have a base architecture of i386, and AMD64 and Intel64 machines have a base architecture of x86_64.</p>
+
+<p>$YUM0-9
+These ten variables are each replaced with the value of any shell environment variables with the same name. If one of these variables is referenced (in /etc/yum.conf for example) and a shell environment variable with the same name does not exist, then the configuration file variable is not replaced.</p>
+
+<p>To define a custom variable or to override the value of an existing one, create a file with the same name as the variable (without the “$” sign) in the /etc/yum/vars/ directory, and add the desired value on its first line.</p>
+
+<p>For example, repository descriptions often include the operating system name. To define a new variable called $osname, create a new file with “Red Hat Enterprise Linux” on the first line and save it as /etc/yum/vars/osname:</p>
+
+<p><code class="language-plaintext highlighter-rouge">echo "Red Hat Enterprise Linux" &gt; /etc/yum/vars/osname</code></p>
+
+<p>Instead of “Red Hat Enterprise Linux 6”, you can now use the following in the .repo files: name=$osname $releasever</p>
+
+<p>文中说到$releasever 的定义可以查看 /etc/yum.conf 文件的事 distroverpkg=value 行，打开 /etc/yum.conf 看一下，默认文件（我的是 CentOS 6）内容如下：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>main]
+<span class="nv">cachedir</span><span class="o">=</span>/var/cache/yum/<span class="nv">$basearch</span>/<span class="nv">$releasever</span>
+<span class="nv">keepcache</span><span class="o">=</span>0
+<span class="nv">debuglevel</span><span class="o">=</span>2
+<span class="nv">logfile</span><span class="o">=</span>/var/log/yum.log
+<span class="nv">exactarch</span><span class="o">=</span>1
+<span class="nv">obsoletes</span><span class="o">=</span>1
+<span class="nv">gpgcheck</span><span class="o">=</span>1
+<span class="nv">plugins</span><span class="o">=</span>1
+<span class="nv">installonly_limit</span><span class="o">=</span>5
+<span class="nv">bugtracker_url</span><span class="o">=</span>http://bugs.centos.org/set_project.php?project_id<span class="o">=</span>16&amp;ref<span class="o">=</span>http://bugs.centos.org/bug_report_page.php?category<span class="o">=</span>yum
+<span class="nv">distroverpkg</span><span class="o">=</span>centos-release
+</code></pre></div></div>
+
+<p>distroverpkg=centos-release 代表什么？去哪找 centos-release。找到这里我再一次表示困惑。
+不过另一篇文章进行了我的视野：yum 的$releasever 真是太反动了，关键内空如下：
+在 /etc/yum.repos.d/ 目录下的软件库定义文件中，常常会在 baseurl 的路径中提到 $releasever 这个变量，表示当前发行版的大版本号，但大家知道这个变量是在哪设置的吗？我 grep 了整个 etc 目录都没找到，还是看了 yum.conf 才知道的，是在 yum.conf 文件里 distroverpkg 选项定义的。但这个选项就很有问题：
+distroverpkg 和 releasever 名字不同，且看不出什么联系
+distroverpkg 的值，并不是明文，而是“redhat-release”。不知道大家看到这个会有什么想法，反正我是首先想到了 /etc/redhat-release 文件，但我错了。实际上指的是 redhat-release 这个 RPM 包。所谓“distroverpkg=redhat-release”的意思，其实是将 $releasever 设置为 redhat-release 这个 RPM 包的版本号。</p>
+
+<h5 id="小结">小结</h5>
+
+<p>yum 中的$releasever 变量是取 redhat-release-server rpm 包的属性值 ( %{version})。
+[root@ldap01 ~]# rpm -q –qf %{version} redhat-release-server;echo
+6Server</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-07-27</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#CentOS">CentOS</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/07/Manage-Tomcat-Service-Use-Shell-Script.html">Manage Tomcat Service Use Shell Script</a></h1>
     <div class="post_at_index">
       <h4 id="tomcat-项目管理交互式脚本">Tomcat 项目管理交互式脚本</h4>
@@ -1518,65 +1629,6 @@ show variables like <span class="s1">'%lower_case_table_names%'</span>
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/06/%E4%BD%BF%E7%94%A8mosh%E4%BB%A3%E6%9B%BFssh%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8.html">使用 mosh 代替 ssh 连接服务器</a></h1>
-    <div class="post_at_index">
-      <p>身为一名服务器运维人员，每天打交道最多的就是服务器了，最常用的连接服务器的工具就是 SSH，因为 SSH 是一个不可持续的连接，当网络出现波动时，SSH 断开会导致当前正在运行的服务中断，对工作产生非常大的影响，无意间看到了 Mosh 这个东西，安装使用下，发现网络波动这种事情不会导致服务器连接断开了，特意查了下，原来 Mosh 使用的是 UDP 方式传输：虽然也支持使用 SSH 配置进行认证登录，但是数据传输本身是使用 UDP 方式的，Mosh 支持在会话中断时，不会立即退出，而是启用一个计时器，当网络恢复后会自动连接，同时会延续之前的会话，不会重新开启一个。</p>
-
-<h2 id="mosh-主页">Mosh <a href="https://mosh.mit.edu/#getting">主页</a></h2>
-
-<h2 id="1-安装配置">1. 安装配置</h2>
-
-<p>需要在服务端和客户端同时安装 Mosh：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>＃ 以centos 6.x 为例：
-<span class="o">[</span>user@host ~]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
-<span class="o">[</span>user@host ~]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> mosh
-</code></pre></div></div>
-
-<h2 id="2-采用-ssh-配置进行认证登录只需要将-ssh-替换为-mosh-即可">2. 采用 SSH 配置进行认证登录，只需要将 ssh 替换为 mosh 即可</h2>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>user@host ~]<span class="nv">$ </span>mosh user@host
-
-<span class="c"># 如何需要指定特定的ssh port或者使用ssh keyfile. 可以使用-ssh参数：</span>
-<span class="o">[</span>user@host ~]<span class="nv">$ </span>mosh <span class="nt">-ssh</span><span class="o">=</span><span class="s2">"ssh -i ~/.ssh/id_rsa -p 10002"</span> user@host
-</code></pre></div></div>
-
-<h2 id="3-other">3. Other</h2>
-
-<p>另外 Mosh 还支持使用临时 key 的方式认证，需要服务器端创建临时 key，然后客户端通过这个 key 进行登录，该 key 在会话结束的十分钟后自动失效。</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 创建临时key</span>
-<span class="o">[</span>user@host ~]<span class="nv">$ </span>mosh-server
-MOSH CONNECT 53371 asdAADfdse234LSDSdIbow
-mosh-server <span class="o">(</span>mosh 1.2.4<span class="o">)</span>
-Copyright 2012 Keith Winstein &lt;mosh-devel@mit.edu&gt;
-License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;.
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-<span class="o">[</span>mosh-server detached, pid <span class="o">=</span> 27290]
-
-<span class="c"># 然后在client定义MOSH_KEY</span>
-<span class="o">[</span>user@host ~]<span class="nv">$ </span><span class="nb">export </span><span class="nv">MOSH_KEY</span><span class="o">=</span>asdAADfdse234LSDSdIbow
-<span class="c"># 注意mosh-client只能跟上具体的ip和临时端口，不支持主机名和域名方式</span>
-
-<span class="c"># 使用临时key连接服务器</span>
-<span class="o">[</span>user@host ~]<span class="nv">$ </span>mosh-client 10.0.2.4 53371
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-06-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#SSH">SSH</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1694,7 +1746,7 @@ There is NO WARRANTY, to the extent permitted by law.
      
     	
       <li><a href="/categories.html#Python">
-    		Python <span>45</span>
+    		Python <span>46</span>
     	</a></li>
      
     	
@@ -1763,6 +1815,13 @@ There is NO WARRANTY, to the extent permitted by law.
       <ul>
         
         <li>
+          <a href="/post/2023/02/Ketbrains%E6%BF%80%E6%B4%BB%E6%9C%8D%E5%8A%A1%E5%99%A8.html">在线服务器激活 Ketbrains</a>
+          Ketbrains 激活服务器
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/12/raycast-01.html">Raycast 你的年度报告已到达</a>
           从 Alfred 切换到 Raycast 也就 2 个多月的时间；使用体验有着比较大的提升。
 
@@ -1786,13 +1845,6 @@ There is NO WARRANTY, to the extent permitted by law.
         <li>
           <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
           项目起源
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
-          背景
 
 
         </li>

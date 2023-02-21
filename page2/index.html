@@ -284,6 +284,64 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2022/10/JWT-%E5%86%85%E7%BD%AE%E7%9A%84%E6%96%B9%E5%BC%8F.html">JWT 内置的方式</a></h1>
+    <div class="post_at_index">
+      <ul>
+  <li>支持为 API 启用 jwt token 解码的能力 ,  读取网关的 jwt key
+    <ul>
+      <li>读取请求 Header 中的 Authorization</li>
+    </ul>
+  </li>
+  <li>需要支持为网关配置多 jwt key , and 加密长度 ?
+    <ul>
+      <li>解密的性能问题</li>
+      <li>expire_time 过期时间的配置</li>
+      <li>解密后的参数传递</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/1666060887030-ff0a6f09-9bf0-44d5-a92b-dc36fc9b7d47.png?x-oss-process=image/resize,w_960,m_lfit" alt="image.png" /></p>
+
+<h3 id="迭代的方向">迭代的方向</h3>
+
+<ol>
+  <li>采用外置的 Jwt server 认证服务
+    <ol>
+      <li>配置 jwt server url</li>
+      <li>respone 解密后的  json 内容；进行参数传递</li>
+    </ol>
+  </li>
+  <li>采用托管的 Jwt server 来进行托管
+    <ol>
+      <li>配置 jwt key (支持自动生成)</li>
+      <li>expire_time</li>
+      <li>加密长度</li>
+      <li>自动配置参数传递
+        <ol>
+          <li>全部传递</li>
+          <li>全部传递 (not token)</li>
+          <li>白名单传递</li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+</ol>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-10-18</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Contour">Contour</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2022/10/%E5%94%A7%E5%94%A7%E5%A4%8D%E5%94%A7%E5%94%A7.html">唧唧复唧唧</a></h1>
     <div class="post_at_index">
       <p><a href="https://www.amazon.cn/gp/product/B01951CHO6/ref=as_li_qf_sp_asin_tl?ie=UTF8\&amp;camp=536\&amp;creative=3200\&amp;creativeASIN=B01951CHO6\&amp;linkCode=as2\&amp;tag=llll1-23">王路</a>
@@ -2753,46 +2811,6 @@ docker0: <span class="nv">flags</span><span class="o">=</span>4163&lt;UP,BROADCA
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/08/%E7%93%A6%E5%B0%94%E7%99%BB%E6%B9%96.html">瓦尔登湖</a></h1>
-    <div class="post_at_index">
-      <p><a href="https://www.amazon.cn/s/ref=as_li_ss_tl?_encoding=UTF8\&amp;camp=536\&amp;creative=3132\&amp;field-keywords=%E7%93%A6%E5%B0%94%E7%99%BB%E6%B9%96\&amp;linkCode=ur2\&amp;tag=llll1-23\&amp;url=search-alias%3Dbooks">亨利••大卫••梭罗</a>
-7 highlights, 1 note</p>
-
-<ul>
-  <li>在这段时间里把车钱挣出来了，会在明天的什么时候到达那里，如果你幸运地及时找到了工作，也可能今晚到达。你大半天的时间不是去了菲奇堡，却是在这里干活。因此，如果铁路通到全世界，我想我还是会在你前头；至于说长见识，如果净是那方面的见识，我就得和你完全断绝来往了。</li>
-  <li>如果你决定明天开始做一件事情，那为什么不现在就开始呢？实用主义，不应该追求虚无的东西。</li>
-  <li>
-    <p>最好在坏事一开始的时候就防止它。</p>
-  </li>
-  <li>
-    <p>在任何一个社会中，书籍的作者都是天生的极富魅力的精英分子，对人类发挥着比帝王们更大的影响。当目不识丁的、也许还是鄙视一切的商人，通过魄力和勤奋挣得了垂涎已久的闲暇和衣食无忧的生活，进入了财富和时尚的圈子以后，最终不可避免地会转向那更高的然而却难以企及的知识和才赋的圈子，这时他才会意识到自己文化的残缺，以及他一切财富的空虚无用；于是他不遗余力地要使子女获得知识文化，他深刻地感到自己这方面的不足，从而证明了他的明智；就这样，他成了一个家族的缔造者。</p>
-  </li>
-  <li>
-    <p>我们应该和古代的圣贤一样优秀，但是首先要知道他们有多么优秀。我们是一群矮子，我们智力翱翔所达之处只不过稍高于报纸的专栏而已。</p>
-  </li>
-  <li>
-    <p>德不孤，必有邻。</p>
-  </li>
-  <li>
-    <p>孤独不能以一个人和别人之间有多少英里的空间来衡量。</p>
-  </li>
-  <li>在他身上肉体的人得到了充分发展。</li>
-</ul>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-08-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#读书笔记">读书笔记</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -2908,7 +2926,7 @@ docker0: <span class="nv">flags</span><span class="o">=</span>4163&lt;UP,BROADCA
      
     	
       <li><a href="/categories.html#Python">
-    		Python <span>45</span>
+    		Python <span>46</span>
     	</a></li>
      
     	
@@ -2977,6 +2995,13 @@ docker0: <span class="nv">flags</span><span class="o">=</span>4163&lt;UP,BROADCA
       <ul>
         
         <li>
+          <a href="/post/2023/02/Ketbrains%E6%BF%80%E6%B4%BB%E6%9C%8D%E5%8A%A1%E5%99%A8.html">在线服务器激活 Ketbrains</a>
+          Ketbrains 激活服务器
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/12/raycast-01.html">Raycast 你的年度报告已到达</a>
           从 Alfred 切换到 Raycast 也就 2 个多月的时间；使用体验有着比较大的提升。
 
@@ -3000,13 +3025,6 @@ docker0: <span class="nv">flags</span><span class="o">=</span>4163&lt;UP,BROADCA
         <li>
           <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
           项目起源
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
-          背景
 
 
         </li>

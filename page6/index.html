@@ -284,6 +284,41 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2022/04/SQL-%E5%AF%B9%E6%97%B6%E9%97%B4%E6%95%B4%E7%82%B9%E7%9A%84%E5%A4%84%E7%90%86.html">SQL 对时间整点的处理</a></h1>
+    <div class="post_at_index">
+      <h2 id="需要取值整点时间">需要取值整点时间</h2>
+
+<p>项目上需要取值上一个整点的数据查询处理，落表，然后实现按小时更新</p>
+
+<blockquote>
+  <p>ClickHouse</p>
+</blockquote>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">subtractHours</span><span class="p">(</span><span class="n">date_trunc</span><span class="p">(</span><span class="s1">'hour'</span><span class="p">,</span><span class="n">now</span><span class="p">()),</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>MySQL</p>
+</blockquote>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">and</span> <span class="n">auth_time</span> <span class="o">&gt;=</span> <span class="n">DATE_SUB</span><span class="p">(</span><span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="s1">'%Y-%m-%d %H:00:00'</span><span class="p">),</span><span class="n">interval</span> <span class="mi">1</span> <span class="n">hour</span><span class="p">)</span>
+<span class="k">and</span> <span class="n">auth_time</span> <span class="o">&lt;</span> <span class="n">DATE_FORMAT</span><span class="p">(</span><span class="n">now</span><span class="p">(),</span><span class="s1">'%Y-%m-%d %H:00:00'</span><span class="p">)</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-15</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#ClickHouse">ClickHouse</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2022/04/%E6%B7%98%E5%AE%9DPython-SDK%E4%BC%98%E5%8C%96%E6%94%AF%E6%8C%81Python3.html">淘宝 Python SDK 优化支持 Python3</a></h1>
     <div class="post_at_index">
       <p>淘宝开放平台的 SDK，Python 的 SDK 是在 2012 年，仅支持 Python2.7 及以上，但不支持 Python3；二现在是 2102 年了，像我这样的新手都是直接从 Python3 开始的</p>
@@ -1560,31 +1595,6 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/02/FastAPI-%E4%BD%BF%E7%94%A8%E6%96%87%E6%A1%A3.html">FastAPI 使用文档</a></h1>
-    <div class="post_at_index">
-      <h2 id="安装基础环境">安装基础环境
-
-</h2>
-
-<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">poetry</span> <span class="k">add</span> <span class="n">fastapi</span>
-</code></pre></div></div>
-
-<h2 id="首个程序文件">首个程序文件</h2>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-02-24</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Python">Python</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1702,7 +1712,7 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
      
     	
       <li><a href="/categories.html#Python">
-    		Python <span>45</span>
+    		Python <span>46</span>
     	</a></li>
      
     	
@@ -1771,6 +1781,13 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
       <ul>
         
         <li>
+          <a href="/post/2023/02/Ketbrains%E6%BF%80%E6%B4%BB%E6%9C%8D%E5%8A%A1%E5%99%A8.html">在线服务器激活 Ketbrains</a>
+          Ketbrains 激活服务器
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/12/raycast-01.html">Raycast 你的年度报告已到达</a>
           从 Alfred 切换到 Raycast 也就 2 个多月的时间；使用体验有着比较大的提升。
 
@@ -1794,13 +1811,6 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
         <li>
           <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
           项目起源
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
-          背景
 
 
         </li>

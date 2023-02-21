@@ -284,6 +284,219 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/09/HowTo-Install-a-Tomcat-Server-7.html">HowTo Install a Tomcat Server 7</a></h1>
+    <div class="post_at_index">
+      <p>本文件是采用的模板是 CentOS 6，同样适用于 CentOS 系列其他发行版本。</p>
+
+<h4 id="1-测试环境">1. 测试环境</h4>
+
+<ul>
+  <li>VMware Fushion 8 Pro # windows Use <a href="https://www.virtualbox.org/wiki/Downloads">VirtualBox</a></li>
+  <li><a href="http://mirrors.aliyun.com/centos/6.8/isos/x86_64/CentOS-6.8-x86_64-minimal.iso">CentOS-6.8-x86_64-minimal.iso</a></li>
+  <li><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">JDK 7</a></li>
+  <li><a href="http://ftp.riken.jp/net/apache/tomcat/tomcat-7/">Tomcat 7</a></li>
+</ul>
+
+<h4 id="2-install-java-se-development-kit-7-jdk7">2. Install Java SE Development Kit 7 (JDK7)</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# curl <span class="nt">-LO</span> <span class="nt">-H</span> <span class="s2">"Cookie: oraclelicense=accept-securebackup-cookie"</span> <span class="se">\</span>
+<span class="s2">"http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-linux-x64.rpm"</span>
+<span class="o">[</span>root@ultraera ~]# rpm <span class="nt">-Uvh</span> jdk-7u75-linux-x64.rpm
+Preparing...                <span class="c">########################################### [100%]</span>
+   1:jdk                    <span class="c">########################################### [100%]</span>
+Unpacking JAR files...
+        rt.jar...
+        jsse.jar...
+        charsets.jar...
+        tools.jar...
+        localedata.jar...
+        jfxrt.jar...
+</code></pre></div></div>
+
+<h4 id="3-build-java-environment">3. Build Java Environment</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# vi /etc/profile
+<span class="c"># add follows to the end</span>
+<span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/java/default
+<span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$JAVA_HOME</span>/bin
+<span class="nb">export </span><span class="nv">CLASSPATH</span><span class="o">=</span>.:<span class="nv">$JAVA_HOME</span>/jre/lib:<span class="nv">$JAVA_HOME</span>/lib:<span class="nv">$JAVA_HOME</span>/lib/tools.jar
+<span class="o">[</span>root@ultraera ~]# <span class="nb">source</span> /etc/profile
+<span class="o">[</span>root@ultraera ~]# java <span class="nt">-version</span>
+java version <span class="s2">"1.7.0_75"</span>
+Java<span class="o">(</span>TM<span class="o">)</span> SE Runtime Environment <span class="o">(</span>build 1.7.0_75-b13<span class="o">)</span>
+Java HotSpot<span class="o">(</span>TM<span class="o">)</span> 64-Bit Server VM <span class="o">(</span>build 24.75-b04, mixed mode<span class="o">)</span>
+</code></pre></div></div>
+
+<h4 id="4-download-tomcat7">4. Download Tomcat7</h4>
+
+<p>Make sure the latest one and download it from the site below.
+=》 <a href="http://ftp.riken.jp/net/apache/tomcat/tomcat-7/">http://ftp.riken.jp/net/apache/tomcat/tomcat-7/</a></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# wget http://ftp.riken.jp/net/apache/tomcat/tomcat-7/v7.0.70/bin/apache-tomcat-7.0.70.tar.gz
+<span class="o">[</span>root@ultraera ~]# <span class="nb">tar </span>zxvf apache-tomcat-7.0.70.tar.gz
+<span class="o">[</span>root@ultraera ~]# <span class="nb">mv </span>apache-tomcat-7.0.70 /usr/tomcat7
+<span class="o">[</span>root@ultraera ~]# useradd <span class="nt">-M</span> <span class="nt">-d</span> /usr/tomcat7 tomcat7
+<span class="o">[</span>root@ultraera ~]# <span class="nb">chown</span> <span class="nt">-R</span> tomcat7. /usr/tomcat7
+</code></pre></div></div>
+
+<h4 id="5-create-a-script--use-service-manage-tomcat7">5. create a script , use service manage tomcat7</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# <span class="nb">cat</span> /etc/rc.d/init.d/tomcat7
+ <span class="c">#!/bin/bash</span>
+
+<span class="c"># Tomcat7: Start/Stop Tomcat 7</span>
+<span class="c">#</span>
+<span class="c"># chkconfig: - 90 10</span>
+<span class="c"># description: Tomcat is a Java application Server.</span>
+
+<span class="nb">.</span> /etc/init.d/functions
+<span class="nb">.</span> /etc/sysconfig/network
+
+<span class="nv">CATALINA_HOME</span><span class="o">=</span>/usr/tomcat7
+<span class="nv">TOMCAT_USER</span><span class="o">=</span>tomcat7
+
+<span class="nv">LOCKFILE</span><span class="o">=</span>/var/lock/subsys/tomcat7
+
+<span class="nv">RETVAL</span><span class="o">=</span>0
+start<span class="o">(){</span>
+    <span class="nb">echo</span> <span class="s2">"Starting Tomcat7: "</span>
+    su - <span class="nv">$TOMCAT_USER</span> <span class="nt">-c</span> <span class="s2">"</span><span class="nv">$CATALINA_HOME</span><span class="s2">/bin/startup.sh"</span>
+    <span class="nv">RETVAL</span><span class="o">=</span><span class="nv">$?</span>
+    <span class="nb">echo</span>
+    <span class="o">[</span> <span class="nv">$RETVAL</span> <span class="nt">-eq</span> 0 <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">touch</span> <span class="nv">$LOCKFILE</span>
+    <span class="k">return</span> <span class="nv">$RETVAL</span>
+<span class="o">}</span>
+
+stop<span class="o">(){</span>
+    <span class="nb">echo</span> <span class="s2">"Shutting down Tomcat7: "</span>
+    <span class="nv">$CATALINA_HOME</span>/bin/shutdown.sh
+    <span class="nv">RETVAL</span><span class="o">=</span><span class="nv">$?</span>
+    <span class="nb">echo</span>
+    <span class="o">[</span> <span class="nv">$RETVAL</span> <span class="nt">-eq</span> 0 <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">rm</span> <span class="nt">-f</span> <span class="nv">$LOCKFILE</span>
+    <span class="k">return</span> <span class="nv">$RETVAL</span>
+<span class="o">}</span>
+
+<span class="k">case</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="k">in
+    </span>start<span class="p">)</span>
+        start
+        <span class="p">;;</span>
+    stop<span class="p">)</span>
+        stop
+        <span class="p">;;</span>
+    restart<span class="p">)</span>
+        stop
+        start
+        <span class="p">;;</span>
+    <span class="k">*</span><span class="p">)</span>
+        <span class="nb">echo</span> <span class="s2">$"Usage: </span><span class="nv">$0</span><span class="s2"> {start|stop|restart}"</span>
+        <span class="nb">exit </span>1
+        <span class="p">;;</span>
+<span class="k">esac</span>
+<span class="nb">exit</span> <span class="nv">$?</span>
+</code></pre></div></div>
+
+<h4 id="6-add-tomcat7-to-system-service">6. Add tomcat7 to system service</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# <span class="nb">chmod </span>755 /etc/rc.d/init.d/tomcat7
+<span class="o">[</span>root@ultraera ~]# /etc/rc.d/init.d/tomcat7 start
+Starting Tomcat7:
+Using CATALINA_BASE:   /usr/tomcat7
+Using CATALINA_HOME:   /usr/tomcat7
+Using CATALINA_TMPDIR: /usr/tomcat7/temp
+Using JRE_HOME:        /usr/java/default
+Using CLASSPATH:       /usr/tomcat7/bin/bootstrap.jar:/usr/tomcat7/bin/tomcat-juli.jar
+Tomcat started.
+<span class="o">[</span>root@ultraera ~]# netstat <span class="nt">-ntlp</span> | <span class="nb">grep </span>java
+tcp        0      0 ::ffff:127.0.0.1:8005       :::<span class="k">*</span>                        LISTEN      6326/java
+tcp        0      0 :::8009                     :::<span class="k">*</span>                        LISTEN      6326/java
+tcp        0      0 :::8080                    :::<span class="k">*</span>                        LISTEN      6326/java
+<span class="o">[</span>root@ultraera ~]# ps axu | <span class="nb">grep </span>java
+tomcat7       6326  8.3 85.6 5229768 2910176 ?     Sl   Aug22 3216:38 /usr/bin/java <span class="nt">-Djava</span>.util.logging.config.file<span class="o">=</span>/usr/tomcat7/conf/logging.properties <span class="nt">-Djava</span>.util.logging.manager<span class="o">=</span>org.apache.juli.ClassLoaderLogManager <span class="nt">-server</span> <span class="nt">-Djava</span>.endorsed.dirs<span class="o">=</span>/usr/tomcat7/endorsed <span class="nt">-classpath</span> /usr/tomcat7/bin/bootstrap.jar:/usr/tomcat7/bin/tomcat-juli.jar <span class="nt">-Dcatalina</span>.base<span class="o">=</span>/usr/tomcat7 <span class="nt">-Dcatalina</span>.home<span class="o">=</span>/usr/tomcat7 <span class="nt">-Djava</span>.io.tmpdir<span class="o">=</span>/usr/tomcat7/temp org.apache.catalina.startup.Bootstrap start
+<span class="o">[</span>root@ultraera ~]# chkconfig <span class="nt">--add</span> tomcat7
+<span class="o">[</span>root@ultraera ~]# chkconfig tomcat7 on
+</code></pre></div></div>
+
+<h4 id="7-打开浏览器测试-tomcat-server-搭建完成默认页面如下">7. 打开浏览器测试 Tomcat Server 搭建完成，默认页面如下</h4>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/2016/09/tomcat7.jpg" alt="image" /></p>
+
+<h4 id="8-使用-curl-测试">8. 使用 curl 测试</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# curl <span class="nt">-I</span> http://localhost:8080
+HTTP/1.1 200 OK
+Server: Apache-Coyote/1.1
+Content-Type: text/html<span class="p">;</span><span class="nv">charset</span><span class="o">=</span>ISO-8859-1
+Transfer-Encoding: chunked
+Date: Sun, 18 Sep 2016 11:14:06 GMT
+</code></pre></div></div>
+
+<h4 id="9-tomcat-文件树">9. Tomcat 文件树</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera /usr/tomcat7]# tree
+<span class="nb">.</span>
+├── bin
+│   ├── bootstrap.jar
+│   ├── catalina.bat
+│   ├── catalina.sh
+│   ├── catalina-tasks.xml
+│   ├── commons-daemon.jar
+│   ├── commons-daemon-native.tar.gz
+│   ├── configtest.bat
+│   ├── configtest.sh
+│   ├── daemon.sh
+│   ├── digest.bat
+│   ├── digest.sh
+│   ├── setclasspath.bat
+│   ├── setclasspath.sh
+│   ├── shutdown.bat
+│   ├── shutdown.sh
+│   ├── startup.bat
+│   ├── startup.sh
+│   ├── tomcat-juli.jar
+│   ├── tomcat-native.tar.gz
+│   ├── tool-wrapper.bat
+│   ├── tool-wrapper.sh
+│   ├── version.bat
+│   └── version.sh
+├── conf
+│   ├── catalina.policy
+│   ├── catalina.properties
+│   ├── context.xml
+│   ├── logging.properties
+│   ├── server.xml
+│   ├── tomcat-users.xml
+│   └── web.xml
+├── lib
+├── LICENSE
+├── logs
+│   ├── catalina.2016-09-18.log
+│   ├── catalina.out
+│   ├── host-manager.2016-09-18.log
+│   ├── localhost.2016-09-18.log
+│   └── manager.2016-09-18.log
+├── NOTICE
+├── RELEASE-NOTES
+├── RUNNING.txt
+├── temp
+├── webapps
+│   └── ROOT
+└── work
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-09-19</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Tomcat">Tomcat</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/08/%E4%BA%8C%E5%8D%81%E5%9B%9B%E5%B2%81.html">二十四岁</a></h1>
     <div class="post_at_index">
       <p>现在时间凌晨 2 点多，已经记不得这是第几个凌晨 2 点还没睡觉了，好像早睡已经是很久远的事情了，看书学习，刷视频，发呆，玩手机平板，总之不想睡觉；花在睡觉上的时间越来越少，感觉，其实挺累的，生活在大都市里啊，忙碌工作生活奔波，总感觉时间不够用，要做的事情太多，你总要面对很多事情和责任，与人相处；我很努力么，也不那么见得，一旦你成为这个社会一员，总有人或事再推着你前进，在你耳边脑海嚷嚷着不要停，不要停啊！</p>
@@ -1362,117 +1575,6 @@ service supervisord start
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/07/Yum%E4%B8%AD-releasever%E5%92%8C-basearch%E7%9A%84%E5%8F%96%E5%80%BC.html">Yum 中$releasever 和$basearch 的取值</a></h1>
-    <div class="post_at_index">
-      <h4 id="查看etcyumreposdcentos-baserepo">查看/etc/yum.repos.d/CentOS-Base.repo</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>base]
-<span class="nv">name</span><span class="o">=</span>CentOS-<span class="nv">$releasever</span> - Base
-<span class="nv">mirrorlist</span><span class="o">=</span>http://mirrorlist.centos.org/?release<span class="o">=</span><span class="nv">$releasever</span>&amp;arch<span class="o">=</span><span class="nv">$basearch</span>&amp;repo<span class="o">=</span>os&amp;infra<span class="o">=</span><span class="nv">$infra</span>
-<span class="c">#baseurl=http://mirror.centos.org/centos/$releasever/os/$basearch/</span>
-<span class="nv">gpgcheck</span><span class="o">=</span>1
-<span class="nv">gpgkey</span><span class="o">=</span>file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
-</code></pre></div></div>
-
-<p>其实在日常使用之中，我们在很多地方，特别是脚本内看到了调用<code class="language-plaintext highlighter-rouge">$releasever</code>和<code class="language-plaintext highlighter-rouge">$basearch</code></p>
-
-<ol>
-  <li>$releasever 的值，这个表示当前系统的发行版本</li>
-</ol>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera /]# rpm <span class="nt">-qi</span> centos-release
-Name        : centos-release               Relocations: <span class="o">(</span>not relocatable<span class="o">)</span>
-Version     : 6                                 Vendor: CentOS
-Release     : 7.el6.centos.12.3             Build Date: Tue 04 Aug 2015 12:13:46 AM CST
-Install Date: Sat 21 May 2016 03:31:27 AM CST      Build Host: c6b9.bsys.dev.centos.org
-Group       : System Environment/Base       Source RPM: centos-release-6-7.el6.centos.12.3.src.rpm
-Size        : 35634                            License: GPLv2
-Signature   : RSA/SHA1, Tue 04 Aug 2015 12:15:08 AM CST, Key ID 0946fca2c105b9de
-Packager    : CentOS BuildSystem &lt;http://bugs.centos.org&gt;
-Summary     : CentOS release file
-Description :
-CentOS release files
-
-<span class="c"># 其中Version 6 就是我们的版本号</span>
-</code></pre></div></div>
-
-<p>$basearch 是我们的系统硬件架构 (CPU 指令集),就是我们常说的 i386\i486\i586\i686\</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera /]# <span class="nb">arch
-</span>i386
-</code></pre></div></div>
-
-<p>但是，当我在命令行查看是却发现<code class="language-plaintext highlighter-rouge">$releasever</code>和<code class="language-plaintext highlighter-rouge">$basearch</code>是空的。</p>
-
-<p>Google 一下之后，说明 Yum 变量的说明可以在这里（5.3.3. Using Yum Variables）找到，说明如下：</p>
-<blockquote>
-  <p>5.3.3. Using Yum Variables</p>
-</blockquote>
-
-<p>You can use and reference the following built-in variables in yum commands and in all Yum configuration files (that is, /etc/yum.conf and all .repo files in the /etc/yum.repos.d/ directory):</p>
-
-<p>$releasever
-You can use this variable to reference the release version of Red Hat Enterprise Linux. Yum obtains the value of $releasever from the distroverpkg=value line in the /etc/yum.conf configuration file. If there is no such line in /etc/yum.conf, then yum infers the correct value by deriving the version number from the redhat-release package.</p>
-
-<p>$arch
-You can use this variable to refer to the system’s CPU architecture as returned when calling Python’s os.uname() function. Valid values for $arch include: i586, i686 and x86_64.</p>
-
-<p>$basearch
-You can use $basearch to reference the base architecture of the system. For example, i686 and i586 machines both have a base architecture of i386, and AMD64 and Intel64 machines have a base architecture of x86_64.</p>
-
-<p>$YUM0-9
-These ten variables are each replaced with the value of any shell environment variables with the same name. If one of these variables is referenced (in /etc/yum.conf for example) and a shell environment variable with the same name does not exist, then the configuration file variable is not replaced.</p>
-
-<p>To define a custom variable or to override the value of an existing one, create a file with the same name as the variable (without the “$” sign) in the /etc/yum/vars/ directory, and add the desired value on its first line.</p>
-
-<p>For example, repository descriptions often include the operating system name. To define a new variable called $osname, create a new file with “Red Hat Enterprise Linux” on the first line and save it as /etc/yum/vars/osname:</p>
-
-<p><code class="language-plaintext highlighter-rouge">echo "Red Hat Enterprise Linux" &gt; /etc/yum/vars/osname</code></p>
-
-<p>Instead of “Red Hat Enterprise Linux 6”, you can now use the following in the .repo files: name=$osname $releasever</p>
-
-<p>文中说到$releasever 的定义可以查看 /etc/yum.conf 文件的事 distroverpkg=value 行，打开 /etc/yum.conf 看一下，默认文件（我的是 CentOS 6）内容如下：</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>main]
-<span class="nv">cachedir</span><span class="o">=</span>/var/cache/yum/<span class="nv">$basearch</span>/<span class="nv">$releasever</span>
-<span class="nv">keepcache</span><span class="o">=</span>0
-<span class="nv">debuglevel</span><span class="o">=</span>2
-<span class="nv">logfile</span><span class="o">=</span>/var/log/yum.log
-<span class="nv">exactarch</span><span class="o">=</span>1
-<span class="nv">obsoletes</span><span class="o">=</span>1
-<span class="nv">gpgcheck</span><span class="o">=</span>1
-<span class="nv">plugins</span><span class="o">=</span>1
-<span class="nv">installonly_limit</span><span class="o">=</span>5
-<span class="nv">bugtracker_url</span><span class="o">=</span>http://bugs.centos.org/set_project.php?project_id<span class="o">=</span>16&amp;ref<span class="o">=</span>http://bugs.centos.org/bug_report_page.php?category<span class="o">=</span>yum
-<span class="nv">distroverpkg</span><span class="o">=</span>centos-release
-</code></pre></div></div>
-
-<p>distroverpkg=centos-release 代表什么？去哪找 centos-release。找到这里我再一次表示困惑。
-不过另一篇文章进行了我的视野：yum 的$releasever 真是太反动了，关键内空如下：
-在 /etc/yum.repos.d/ 目录下的软件库定义文件中，常常会在 baseurl 的路径中提到 $releasever 这个变量，表示当前发行版的大版本号，但大家知道这个变量是在哪设置的吗？我 grep 了整个 etc 目录都没找到，还是看了 yum.conf 才知道的，是在 yum.conf 文件里 distroverpkg 选项定义的。但这个选项就很有问题：
-distroverpkg 和 releasever 名字不同，且看不出什么联系
-distroverpkg 的值，并不是明文，而是“redhat-release”。不知道大家看到这个会有什么想法，反正我是首先想到了 /etc/redhat-release 文件，但我错了。实际上指的是 redhat-release 这个 RPM 包。所谓“distroverpkg=redhat-release”的意思，其实是将 $releasever 设置为 redhat-release 这个 RPM 包的版本号。</p>
-
-<h5 id="小结">小结</h5>
-
-<p>yum 中的$releasever 变量是取 redhat-release-server rpm 包的属性值 ( %{version})。
-[root@ldap01 ~]# rpm -q –qf %{version} redhat-release-server;echo
-6Server</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-07-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#CentOS">CentOS</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1590,7 +1692,7 @@ distroverpkg 的值，并不是明文，而是“redhat-release”。不知道�
      
     	
       <li><a href="/categories.html#Python">
-    		Python <span>45</span>
+    		Python <span>46</span>
     	</a></li>
      
     	
@@ -1659,6 +1761,13 @@ distroverpkg 的值，并不是明文，而是“redhat-release”。不知道�
       <ul>
         
         <li>
+          <a href="/post/2023/02/Ketbrains%E6%BF%80%E6%B4%BB%E6%9C%8D%E5%8A%A1%E5%99%A8.html">在线服务器激活 Ketbrains</a>
+          Ketbrains 激活服务器
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/12/raycast-01.html">Raycast 你的年度报告已到达</a>
           从 Alfred 切换到 Raycast 也就 2 个多月的时间；使用体验有着比较大的提升。
 
@@ -1682,13 +1791,6 @@ distroverpkg 的值，并不是明文，而是“redhat-release”。不知道�
         <li>
           <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
           项目起源
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
-          背景
 
 
         </li>

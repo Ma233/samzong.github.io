@@ -284,6 +284,42 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2017/01/Docker-Hub-%E5%9B%BD%E5%86%85%E5%8A%A0%E9%80%9F.html">Docker Hub 国内加速</a></h1>
+    <div class="post_at_index">
+      <p>因为 Docker Hub 没有在国内部署站点或者增加了国内的 CDN，这导致国内的开发者在使用 docker pull 获取 images 的时候速度非常的慢，甚至于因为网络的原因会失败。</p>
+
+<p>但是 Docker Hub 有着非常丰富的镜像资源，所以我这一直是个问题困扰着我，一次偶然机会发现了<a href="https://www.daocloud.io">DaoCloud</a>提供了国内镜像加速服务，并且提供的 Docker Hub Mirror 详细的文档。</p>
+
+<h4 id="1-注册-daocloud-账号">1. 注册 DaoCloud 账号</h4>
+
+<p>首先，你需要到一 DaoCloud 账号，注册很方便，点击地址：<a href="https://account.daocloud.io/signup">signup</a>
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/o6wh3.jpg" alt="image" /></p>
+
+<h4 id="2-登录到你的-daocloud-账号内然后入下图操作">2. 登录到你的 DaoCloud 账号内，然后入下图操作</h4>
+
+<p><img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/n9mt7.jpg" alt="image" /></p>
+
+<h4 id="3-查看你的-daocloud-加速器地址">3. 查看你的 DaoCloud 加速器地址</h4>
+
+<p><a href="https://www.daocloud.io/mirror#accelerator-doc">链接</a></p>
+
+<p>选择你相对应平台的的加速器设置
+<img src="https://samzong.oss-cn-shenzhen.aliyuncs.com/blog/4wuea.jpg" alt="image" /></p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2017-01-07</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#DockerHub">DockerHub</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/12/HowTo-Mount-OSS-Bucket-On-ECS.html">HowTo Mount OSS Bucket On ECS</a></h1>
     <div class="post_at_index">
       <blockquote>
@@ -1042,270 +1078,6 @@ JVM 堆的设置是指 java 程序运行过程中 JVM 可以调配使用的内�
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/11/HowTo-Install-LNMP-on-CentOS-6-x.html">HowTo Install LNMP on CentOS 6.x</a></h1>
-    <div class="post_at_index">
-      <blockquote>
-  <table>
-    <tbody>
-      <tr>
-        <td>egrep -v “^ *#</td>
-        <td>^*$”     去除所有以#号开头的文件</td>
-      </tr>
-    </tbody>
-  </table>
-</blockquote>
-
-<h4 id="demo-system">Demo system</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">uname</span> <span class="nt">-a</span>
-Linux Test01 2.6.32-504.el6.x86_64 <span class="c">#1 SMP Wed Oct 15 04:27:16 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux</span>
-<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span>ip addr | <span class="nb">grep </span>eth0
-2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP qlen 1000
-    inet 10.0.2.128/24 brd 10.0.2.255 scope global eth0
-</code></pre></div></div>
-
-<h4 id="install-httpd">Install httpd</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 yum.repos.d]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> httpd
-<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span>rpm <span class="nt">-qa</span> | <span class="nb">grep </span>httpd
-httpd-2.2.15-39.el6.centos.x86_64
-httpd-tools-2.2.15-39.el6.centos.x86_64
-
-<span class="c"># remove welcome page</span>
-<span class="o">[</span>Alex@Test01 yum.repos.d]<span class="nv">$ </span><span class="nb">sudo rm</span> <span class="nt">-f</span> /etc/httpd/conf.d/welcome.conf
-<span class="c"># remove default error page</span>
-<span class="o">[</span>Alex@Test01 yum.repos.d]<span class="nv">$ </span><span class="nb">sudo rm</span> <span class="nt">-f</span> /var/www/error/noindex.html
-</code></pre></div></div>
-
-<h4 id="configure-httpd--replace-the-server-name-to-you-own-one">Configure httpd . Replace the server name to you own one</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]# <span class="nb">sudo </span>vi /etc/httpd/conf/httpd.conf
-<span class="c"># line 44: change</span>
- ServerTokens Prod
-<span class="c"># line 76: change to ON</span>
- KeepAlive On
-<span class="c"># line 262: Admin's address</span>
- ServerAdmin luchuanjia@msn.com
-<span class="c"># line 338: change</span>
- AllowOverride All
-<span class="c"># line 276: change to your server's name</span>
- ServerName www.ultraera.org:80
-<span class="c"># line 402: add file name that it can access only with directory's name</span>
- DirectoryIndex index.html index.htm
-<span class="c"># line 536: change</span>
- ServerSignature Off
-<span class="c"># line 759: comment out</span>
-<span class="c"># AddDefaultCharset UTF-8</span>
-<span class="o">[</span>Alex@Test01 ~]# <span class="nb">sudo</span> /etc/init.d/httpd start
- Starting httpd:[  OK  <span class="o">]</span>
-<span class="o">[</span>Alex@Test01 ~]# <span class="nb">sudo </span>chkconfig httpd on     <span class="c"># set httpd start with system.</span>
-</code></pre></div></div>
-
-<h4 id="create-a-html-test-page">create a HTML test page</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]# <span class="nb">sudo </span>vi /var/www/html/index.html
-it<span class="s1">'s ok.
-</span></code></pre></div></div>
-
-<p><img src="http://s3.51cto.com/wyfs02/M00/70/DE/wKioL1XAUfuQoFfwAACC5LJWQgg039.jpg" alt="image" /></p>
-
-<h4 id="install-php">Install PHP</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo </span>yum <span class="nb">install</span> <span class="nt">-y</span> php php-mbstring php-pear
-<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span>rpm <span class="nt">-qa</span> | <span class="nb">grep </span>php
-php-common-5.3.3-46.el6_6.x86_64
-php-5.3.3-46.el6_6.x86_64
-php-mbstring-5.3.3-46.el6_6.x86_64
-php-cli-5.3.3-46.el6_6.x86_64
-php-pear-1.9.4-4.el6.noarch
-
-<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo </span>vi /etc/httpd/conf/httpd.conf
-<span class="c"># line 402 add file name that it can access only with directory's name</span>
-  DirectoryIndex index.html index.htm index.php
-<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo </span>vi /etc/php.ini
-<span class="c"># line 946 set your timezone</span>
-date.timezone <span class="o">=</span> <span class="s2">"Asia/Shanghai"</span>
-<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo</span> /etc/init.d/httpd restart
- Stopping httpd:[  OK  <span class="o">]</span>
- Starting httpd:[  OK  <span class="o">]</span>
-</code></pre></div></div>
-
-<h4 id="create-a-php-test-page">create a php test page</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]# <span class="nb">sudo </span>vi /var/www/html/index.php
-
-&lt;?php
-    phpinfo<span class="o">()</span><span class="p">;</span>
-?&gt;
-</code></pre></div></div>
-
-<p><img src="http://s3.51cto.com/wyfs02/M02/70/DE/wKioL1XAUguwJCl2AARE16t4hyw682.jpg" alt="image" /></p>
-
-<h4 id="install-mysql">Install MySQL</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo</span> <span class="nt">-y</span> <span class="nb">install </span>mysql-server
-<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span>rpm <span class="nt">-qa</span> | <span class="nb">grep </span>mysql-server
-mysql-server-5.1.73-5.el6_6.x86_64
-
-<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo </span>vi /etc/my.cnf
-<span class="o">[</span>mysqld]
-<span class="nv">datadir</span><span class="o">=</span>/var/lib/mysql
-<span class="nv">socket</span><span class="o">=</span>/var/lib/mysql/mysql.sock
-<span class="nv">user</span><span class="o">=</span>mysql
-<span class="c"># Disabling symbolic-links is recommended to prevent assorted security risks</span>
-symbolic-links<span class="o">=</span>0
-<span class="c"># add</span>
-character-set-server<span class="o">=</span>utf8
-
-<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo</span> /etc/rc.d/init.d/mysqld start
-
-Initializing MySQL database:  WARNING: The host <span class="s1">'www.ultraera.org'</span> could not be looked up with resolveip.
-This probably means that your libc libraries are not 100 % compatible
-with this binary MySQL version. The MySQL daemon, mysqld, should work
-normally with the exception that host name resolving will not work.
-This means that you should use IP addresses instead of hostnames
-when specifying MySQL privileges <span class="o">!</span>
-Installing MySQL system tables...
-OK
-Filling <span class="nb">help </span>tables...
-OK
-...
-...
-...
-You can <span class="nb">test </span>the MySQL daemon with mysql-test-run.pl
-<span class="nb">cd</span> /usr/mysql-test <span class="p">;</span> perl mysql-test-run.pl
-
-Please report any problems with the /usr/bin/mysqlbug script!
-
-                                              <span class="o">[</span>  OK  <span class="o">]</span>
-Starting mysqld:                      <span class="o">[</span>  OK  <span class="o">]</span>
-<span class="o">[</span>Alex@Test01 ~]<span class="nv">$ </span><span class="nb">sudo </span>chkconfig mysqld on
-</code></pre></div></div>
-
-<h4 id="initial-settings-for-mysql">Initial settings for MySQL</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@www ~]#mysql_secure_installation
-NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MySQL
-      SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
-
-In order to log into MySQL to secure it, we<span class="s1">'ll need the current
-password for the root user.  If you'</span>ve just installed MySQL, and
-you haven<span class="s1">'t set the root password yet, the password will be blank,
-so you should just press enter here.
-
-# Enter
- Enter current password for root (enter for none):
-OK, successfully used password, moving on...
-
-Setting the root password ensures that nobody can log into the MySQL
-root user without the proper authorisation.
-
-# set root password
- Set root password? [Y/n]y
- New password:    # input any password
- Re-enter new password:
-Password updated successfully!
-Reloading privilege tables..
- ... Success!
-
-By default, a MySQL installation has an anonymous user, allowing anyone
-to log into MySQL without having to have a user account created for
-them.  This is intended only for testing, and to make the installation
-go a bit smoother.  You should remove them before moving into a
-production environment.
-
-# remove anonymous users
- Remove anonymous users? [Y/n]y
-
- ... Success!
-
-Normally, root should only be allowed to connect from '</span>localhost<span class="s1">'.  This
-ensures that someone cannot guess at the root password from the network.
-
-# disallow root login remotely
- Disallow root login remotely? [Y/n]y
-
- ... Success!
-
-By default, MySQL comes with a database named '</span><span class="nb">test</span><span class="s1">' that anyone can
-access.  This is also intended only for testing, and should be removed
-before moving into a production environment.
-
-# remove test database
- Remove test database and access to it? [Y/n]y
-
- - Dropping test database...
- ... Success!
- - Removing privileges on test database...
- ... Success!
-
-Reloading the privilege tables will ensure that all changes made so far
-will take effect immediately.
-
-# reload privilege tables
- Reload privilege tables now? [Y/n]y
-
- ... Success!
-
-Cleaning up...
-
-All done!  If you'</span>ve completed all of the above steps, your MySQL
-installation should now be secure.
-
-Thanks <span class="k">for </span>using MySQL!
-
-<span class="c"># try to connect with root</span>
- <span class="o">[</span>root@www ~]#mysql <span class="nt">-u</span> root <span class="nt">-p</span>
- Enter password:# MySQL root password
-Welcome to the MySQL monitor.  Commands end with <span class="p">;</span> or <span class="se">\g</span><span class="nb">.</span>
-Your MySQL connection <span class="nb">id </span>is 10
-Server version: 5.1.73 Source distribution
-
-Copyright <span class="o">(</span>c<span class="o">)</span> 2000, 2013, Oracle and/or its affiliates. All rights reserved.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type <span class="s1">'help;'</span> or <span class="s1">'\h'</span> <span class="k">for </span>help. Type <span class="s1">'\c'</span> to clear the current input statement.
-
-<span class="c"># display user list</span>
- mysql&gt;select user,host,password from mysql.user<span class="p">;</span>
-+------+-----------+-------------------------------------------+
-| user | host      | password                                  |
-+------+-----------+-------------------------------------------+
-| root | localhost | <span class="k">*****************************************</span> |
-| root | 127.0.0.1 | <span class="k">*****************************************</span> |
-+------+-----------+-------------------------------------------+
-2 rows <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-
-<span class="c"># display database list</span>
- mysql&gt;show databases<span class="p">;</span>
-+--------------------+
-| Database           |
-+--------------------+
-| information_schema |
-| mysql              |
-+--------------------+
-2 rows <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
-mysql&gt;exit
-Bye
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-11-28</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#LNMP">LNMP</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1423,7 +1195,7 @@ Bye
      
     	
       <li><a href="/categories.html#Python">
-    		Python <span>45</span>
+    		Python <span>46</span>
     	</a></li>
      
     	
@@ -1492,6 +1264,13 @@ Bye
       <ul>
         
         <li>
+          <a href="/post/2023/02/Ketbrains%E6%BF%80%E6%B4%BB%E6%9C%8D%E5%8A%A1%E5%99%A8.html">在线服务器激活 Ketbrains</a>
+          Ketbrains 激活服务器
+
+
+        </li>
+        
+        <li>
           <a href="/post/2022/12/raycast-01.html">Raycast 你的年度报告已到达</a>
           从 Alfred 切换到 Raycast 也就 2 个多月的时间；使用体验有着比较大的提升。
 
@@ -1515,13 +1294,6 @@ Bye
         <li>
           <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
           项目起源
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/what-is-hukou.html">What is Hukou</a>
-          背景
 
 
         </li>

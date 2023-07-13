@@ -267,6 +267,248 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/03/MySQL-4-MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E7%A1%80.html">MySQL 数据库使用基础</a></h1>
+    <div class="post_at_index">
+      <h2 id="1-测试环境">1. 测试环境</h2>
+
+<ul>
+  <li>MacBook Pro 15’ i7 16GB</li>
+  <li>VMware Fushion 8 Pro</li>
+  <li>MySQL Version 5.1</li>
+  <li>CentOS Linux 6.x</li>
+</ul>
+
+<h2 id="2-实验步骤">2. 实验步骤</h2>
+
+<h3 id="21安装-mysql">2.1 安装 mysql</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera  ~]#  yum  install  mysql  mysql-server  mysql-devel
+
+</code></pre></div></div>
+
+<h3 id="22-启动-mysql并设置开机自启动">2.2 启动 mysql，并设置开机自启动</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera  ~]#  service  mysqld  start
+<span class="o">[</span>root@ultraera  ~]#  chkconfig  mysqld  on
+<span class="o">[</span>root@ultraera  ~]#  chkconfig  --list  |  grep  mysqld
+mysqld 0:off  1:off  2:on  3:on  4:on  5:on  6:off
+
+</code></pre></div></div>
+
+<h3 id="23-相关配置">2.3 相关配置</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/etc/my.cnf         mysql配置文件
+/var/lib/mysql      mysql数据库文件
+port:3306           mysql默认端口
+
+<span class="c"># Tips : MySQL 绝大对数语句都是以分号结尾，注意是英文模式下的分号。字符和字符串用 '' 引起；</span>
+</code></pre></div></div>
+
+<h3 id="24-mysql-初始化及登录">2.4 mysql 初始化及登录</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>root@ultraera ~]# mysql_secure_installation
+
+NOTE: RUNNING ALL PARTS OF THIS SCRIPT IS RECOMMENDED FOR ALL MySQL
+      SERVERS IN PRODUCTION USE!  PLEASE READ EACH STEP CAREFULLY!
+
+In order to log into MySQL to secure it, we<span class="s1">'ll need the current
+password for the root user.  If you'</span>ve just installed MySQL, and
+you haven<span class="s1">'t set the root password yet, the password will be blank,
+so you should just press enter here.
+
+Enter current password for root (enter for none):        # 首次登陆默认为空
+
+Setting the root password ensures that nobody can log into the MySQL
+root user without the proper authorisation.
+
+You already have a root password set, so you can safely answer '</span>n<span class="s1">'.
+
+Set the root password? [Y/n] y            # 设置root用户密码
+New password:
+Re-enter new password:
+Password updated successfully!
+Reloading privilege tables..
+ ... Success!
+
+
+By default, a MySQL installation has an anonymous user, allowing anyone
+to log into MySQL without having to have a user account created for
+them.  This is intended only for testing, and to make the installation
+go a bit smoother.  You should remove them before moving into a
+production environment.
+
+Remove anonymous users? [Y/n] y        # 删除匿名用户
+ ... Success!
+
+Normally, root should only be allowed to connect from '</span>localhost<span class="s1">'.  This
+ensures that someone cannot guess at the root password from the network.
+
+Disallow root login remotely? [Y/n] y        # 关闭root远程登陆
+ ... Success!
+
+By default, MySQL comes with a database named '</span><span class="nb">test</span><span class="s1">' that anyone can
+access.  This is also intended only for testing, and should be removed
+before moving into a production environment.
+
+Remove test database and access to it? [Y/n] y    # 删除 test 数据库
+ - Dropping test database...
+ERROR 1008 (HY000) at line 1: Can'</span>t drop database <span class="s1">'test'</span><span class="p">;</span> database doesn<span class="s1">'t exist
+ ... Failed!  Not critical, keep moving...
+ - Removing privileges on test database...
+ ... Success!
+
+Reloading the privilege tables will ensure that all changes made so far
+will take effect immediately.
+
+Reload privilege tables now? [Y/n] y    # 保存这些设置
+ ... Success!
+
+
+All done!  If you'</span>ve completed all of the above steps, your MySQL
+installation should now be secure.
+
+Thanks <span class="k">for </span>using MySQL!
+
+Cleaning up...
+<span class="o">[</span>root@ultraera ~]#
+
+<span class="o">[</span>root@ultraera  ~]# 
+<span class="o">[</span>root@ultraera  ~]# mysql  -u  root  -p  <span class="s1">'123456'</span>
+<span class="o">[</span>root@ultraera  ~]# mysql  -u  root  -p  -h  localhost “-h” 指定服务器地址
+</code></pre></div></div>
+
+<h3 id="25-创建查看及删除当前数据库">2.5 创建、查看及删除当前数据库</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">CREATE</span><span class="err">  </span><span class="k">DATABASE</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span>
+<span class="n">Query</span><span class="err">  </span><span class="n">OK</span><span class="p">,</span><span class="err">  </span><span class="mi">1</span><span class="err">  </span><span class="k">row</span><span class="err">  </span><span class="n">affected</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">SHOW</span><span class="err">  </span><span class="n">DATABASES</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">--------------------+</span>
+<span class="o">|</span><span class="err">  </span><span class="k">Database</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">--------------------+</span>
+<span class="o">|</span><span class="err">  </span><span class="n">information_schema</span><span class="err">  </span><span class="o">|</span>
+<span class="o">|</span><span class="err">  </span><span class="n">mysql</span> <span class="o">|</span>
+<span class="o">|</span><span class="err">  </span><span class="n">test</span> <span class="o">|</span>
+<span class="o">|</span><span class="err">  </span><span class="n">ultraera</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">--------------------+</span>
+<span class="mi">4</span><span class="err">  </span><span class="k">rows</span><span class="err">  </span><span class="k">in</span><span class="err">  </span><span class="k">set</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">DROP</span><span class="err">  </span><span class="k">DATABASE</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span>
+<span class="n">Query</span><span class="err">  </span><span class="n">OK</span><span class="p">,</span><span class="err">  </span><span class="mi">0</span><span class="err">  </span><span class="k">rows</span><span class="err">  </span><span class="n">affected</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h3 id="26-创建查看及删除当前表格">2.6 创建、查看及删除当前表格</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">#</span><span class="err">创建表格之前要先选择数据库</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="n">use</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span>
+<span class="k">Database</span><span class="err">  </span><span class="n">changed</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">CREATE</span><span class="err">  </span><span class="k">TABLE</span><span class="err">  </span><span class="n">ultraera</span><span class="p">(</span> <span class="o">#</span><span class="k">create</span><span class="err"> 创建表格，至少</span><span class="mi">1</span><span class="err">列</span>
+<span class="o">-&gt;</span><span class="err">  </span><span class="n">id</span><span class="err">  </span><span class="nb">int</span><span class="err">  </span><span class="k">NOT</span><span class="err">  </span><span class="k">NULL</span><span class="p">,</span> <span class="o">#</span><span class="k">NOT</span><span class="err">  </span><span class="k">NULL</span> <span class="err">不为空</span><span class="p">,</span><span class="nb">int</span><span class="err"> 整型</span>
+<span class="o">-&gt;</span><span class="err">  </span><span class="n">name</span><span class="err">  </span><span class="nb">char</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="err">  </span><span class="k">NOT</span><span class="err">  </span><span class="k">NULL</span><span class="p">,</span> <span class="o">#</span><span class="nb">char</span><span class="p">()</span><span class="err"> 字符型  </span><span class="p">,()</span><span class="err">内定义字符长度</span>
+<span class="o">-&gt;</span><span class="err">  </span><span class="n">age</span><span class="err">  </span><span class="nb">int</span><span class="err">  </span><span class="k">NOT</span><span class="err">  </span><span class="k">NULL</span>
+<span class="o">-&gt;</span><span class="err">  </span><span class="p">);</span>
+<span class="n">Query</span><span class="err">  </span><span class="n">OK</span><span class="p">,</span><span class="err">  </span><span class="mi">0</span><span class="err">  </span><span class="k">rows</span><span class="err">  </span><span class="n">affected</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">01</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">DESC</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span>
+<span class="o">+</span><span class="c1">-------+----------+------+-----+---------+----------------+</span>
+<span class="o">|</span><span class="err">  </span><span class="n">Field</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">Type</span> <span class="o">|</span><span class="err">  </span><span class="k">Null</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">Key</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">Default</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="n">Extra</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------+----------+------+-----+---------+----------------+</span>
+<span class="o">|</span><span class="err">  </span><span class="n">id</span> <span class="o">|</span><span class="err">  </span><span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">NO</span><span class="err">  </span><span class="o">|</span> <span class="o">|</span><span class="err">  </span><span class="k">NULL</span> <span class="o">|</span> <span class="o">|</span>
+<span class="o">|</span><span class="err">  </span><span class="n">name</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="nb">char</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">NO</span><span class="err">  </span><span class="o">|</span> <span class="o">|</span><span class="err">  </span><span class="k">NULL</span> <span class="o">|</span> <span class="o">|</span>
+<span class="o">|</span><span class="err">  </span><span class="n">age</span> <span class="o">|</span><span class="err">  </span><span class="nb">int</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span><span class="err">  </span><span class="o">|</span><span class="err">  </span><span class="k">NO</span><span class="err">  </span><span class="o">|</span> <span class="o">|</span><span class="err">  </span><span class="k">NULL</span> <span class="o">|</span> <span class="o">|</span>
+<span class="o">+</span><span class="c1">-------+----------+------+-----+---------+----------------+</span>
+<span class="mi">3</span><span class="err">  </span><span class="k">rows</span><span class="err">  </span><span class="k">in</span><span class="err">  </span><span class="k">set</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">DROP</span><span class="err">  </span><span class="k">TABLE</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="p">;</span>
+<span class="n">Query</span><span class="err">  </span><span class="n">OK</span><span class="p">,</span><span class="err">  </span><span class="mi">0</span><span class="err">  </span><span class="k">rows</span><span class="err">  </span><span class="n">affected</span><span class="err">  </span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">00</span><span class="err">  </span><span class="n">sec</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h3 id="27-修改表格信息">2.7 修改表格信息</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span><span class="p">.</span><span class="err">重命名表格</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">alter</span><span class="err">  </span><span class="k">table</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">rename</span><span class="err">  </span><span class="n">ultraera_org</span><span class="p">;</span>
+<span class="n">b</span><span class="p">.</span><span class="err">新增列</span>
+<span class="k">alter</span><span class="err">  </span><span class="k">table</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">add</span><span class="err">  </span><span class="n">address</span><span class="err">  </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+<span class="k">c</span><span class="p">.</span><span class="err">删除列</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">alter</span><span class="err">  </span><span class="k">table</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">drop</span><span class="err">  </span><span class="k">column</span><span class="err">  </span><span class="n">address</span><span class="p">;</span>
+<span class="n">d</span><span class="p">.</span><span class="err">修改一个列的数据类型</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">alter</span><span class="err">  </span><span class="k">table</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">modify</span><span class="err">  </span><span class="n">name</span><span class="err">  </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+<span class="n">e</span><span class="p">.</span><span class="err">重命名一个列</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">alter</span><span class="err">  </span><span class="k">table</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="n">change</span><span class="err">  </span><span class="k">column</span><span class="err">  </span><span class="n">NAME</span><span class="err">  </span><span class="n">name</span><span class="err">  </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="28-向表格中插入数据">2.8 向表格中插入数据</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span><span class="p">.</span><span class="err">  全局插入</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">insert</span><span class="err">  </span><span class="k">into</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">values</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">'name'</span><span class="p">,</span><span class="mi">18</span><span class="p">);</span>
+<span class="n">b</span><span class="p">.</span><span class="err">  根据列插入</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">insert</span><span class="err">  </span><span class="k">into</span><span class="err">  </span><span class="n">ultraera</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">age</span><span class="p">)</span><span class="err">  </span><span class="k">values</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="s1">'john'</span><span class="p">,</span><span class="mi">19</span><span class="p">);</span>
+<span class="o">###</span> <span class="mi">2</span><span class="p">.</span><span class="mi">9</span> <span class="err">查看表格中的数据：</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">select</span><span class="err">  </span><span class="o">*</span><span class="err">  </span><span class="k">from</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span> <span class="o">#</span><span class="err">  </span><span class="o">*</span><span class="err">匹配所有列，也可以只查询单个列，</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">select</span><span class="err">  </span><span class="n">name</span><span class="err">  </span><span class="k">from</span><span class="err">  </span><span class="n">ultraera</span><span class="p">;</span>
+
+</code></pre></div></div>
+
+<h3 id="210-where-运算符条件判断查询查询使用方法where列运算符值">2.10 where 运算符：条件判断查询，查询使用方法：where  列  运算符  值</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">where</span><span class="err">支持的运算符：</span><span class="o">=</span><span class="err">等于；</span><span class="o">&gt;</span><span class="err">大于；</span><span class="o">&lt;</span><span class="err">小于；</span><span class="o">&lt;&gt;</span><span class="err">不等于；</span><span class="o">&gt;=</span><span class="err">大于等于；</span><span class="o">&lt;=</span><span class="err">小于等于；</span><span class="k">BETWEEN</span><span class="err">在某范围之内；</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="o">&gt;=</span><span class="mi">1</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="o">&lt;=</span><span class="mi">1</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err"> </span><span class="k">select</span><span class="err"> </span><span class="o">*</span><span class="err"> </span><span class="k">from</span><span class="err"> </span><span class="n">ultraera</span><span class="err"> </span><span class="k">where</span><span class="err"> </span><span class="n">id</span><span class="err">  </span><span class="k">between</span><span class="err">  </span><span class="mi">1</span><span class="err">  </span><span class="k">and</span><span class="err">  </span><span class="mi">4</span><span class="p">;</span>
+
+</code></pre></div></div>
+
+<h3 id="211-删除表格中的一条记录同样可以匹配-where-运算符">2.11 删除表格中的一条记录（同样可以匹配 where 运算符）</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">delete</span><span class="err">  </span><span class="k">from</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">where</span><span class="err">  </span><span class="n">id</span><span class="err">  </span><span class="o">=</span><span class="err">  </span><span class="mi">4</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">delete</span><span class="err">  </span><span class="o">*</span><span class="err">  </span><span class="k">from</span><span class="err">  </span><span class="n">ultraera</span><span class="err"> ；</span> <span class="o">#</span><span class="err">清空一个表格的数据；</span>
+
+</code></pre></div></div>
+
+<h3 id="212-更新表中的一个数据">2.12 更新表中的一个数据</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">update</span><span class="err">  </span><span class="n">ultraera</span><span class="err">  </span><span class="k">set</span><span class="err">  </span><span class="n">age</span><span class="o">=</span><span class="mi">30</span><span class="err">  </span><span class="k">where</span><span class="err">  </span><span class="n">id</span><span class="o">=</span><span class="mi">3</span><span class="p">;</span>
+
+</code></pre></div></div>
+
+<h3 id="213-mysql-增加删除一个用户">2.13 MySQL 增加删除一个用户</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">create</span><span class="err">  </span><span class="k">user</span><span class="err">  </span><span class="n">user1</span><span class="err">  </span><span class="n">identified</span><span class="err">  </span><span class="k">by</span><span class="err">  </span><span class="s1">'123456'</span><span class="p">;</span> <span class="o">#</span><span class="n">user1</span><span class="err">，密码</span><span class="mi">123456</span><span class="err">，新用户没有权限，无法登录数据库</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">drop</span><span class="err">  </span><span class="k">user</span><span class="err">  </span><span class="n">user1</span><span class="p">;</span> <span class="o">#</span><span class="err">删除用户</span><span class="n">user1</span>
+
+</code></pre></div></div>
+
+<h3 id="214-给用户添加删除权限">2.14 给用户添加、删除权限</h3>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">grant</span><span class="err">  </span><span class="k">all</span><span class="err">  </span><span class="k">privileges</span><span class="err">  </span><span class="k">on</span><span class="err">  </span><span class="o">*</span><span class="p">.</span><span class="o">*</span><span class="err">  </span><span class="k">to</span><span class="err">  </span><span class="s1">'user1'</span><span class="o">@</span><span class="s1">'localhost'</span><span class="err">  </span><span class="n">identified</span><span class="err">  </span><span class="k">by</span><span class="err">  </span><span class="s1">'123456'</span><span class="p">;</span>
+<span class="n">mysql</span><span class="o">&gt;</span><span class="err">  </span><span class="k">revoke</span><span class="err">  </span><span class="k">all</span><span class="err">  </span><span class="k">privileges</span><span class="err">  </span><span class="k">from</span><span class="err">  </span><span class="n">user1</span><span class="p">;</span>
+
+</code></pre></div></div>
+
+<h3 id="215-使用-mysqldump-进行数据库备份">2.15 使用 mysqldump 进行数据库备份</h3>
+
+<p>数据库重命名：mysql 不能直接对数据库重命名，所以如果想要重名数据库的话，要先导出，接着创建一个新的数据库，然后将导出的 sql 文件再导入到新的数据库中</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> mysqldump  -u  root  -p  ultraera  &gt;  ultraera.sql     <span class="c">#备份</span>
+<span class="o">[</span>adam@ultraera  ~]<span class="nv">$ </span> mysql  -u  root  -p  new_ultraera  &lt;  ultraera.sql     <span class="c">#恢复到指定数据库</span>
+
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-03-29</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#MySQL">MySQL</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/03/Linux-%E4%B8%AD%E7%9A%84%E4%B8%89%E4%B8%AA%E7%89%B9%E6%AE%8A%E6%9D%83%E9%99%90.html">Linux 中的三个特殊权限</a></h1>
     <div class="post_at_index">
       <h2 id="权限介绍">权限介绍</h2>
@@ -2114,34 +2356,6 @@ Complete!
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/03/%E9%BE%99%E6%97%8F%E8%B7%AF%E6%98%8E%E9%9D%9E.html">龙族路明非</a></h1>
-    <div class="post_at_index">
-      <p>大概是多久了，没有在看完一本书之后写写读后感了；看书就行吃面包，饿的时候觉得特别美味，吃饱了也就炮诸脑后。</p>
-
-<p>今年一直都挺忙碌地，正好伴着腿伤在家里休息半个月，于是，一股脑地把《龙族》三部曲看完了，这是一部很好的书，我喜欢，很多人可能会觉得这是一个讲神秘、冒险、还有魔幻的小说，这里面有很多牛逼的任务，牛逼到打个喷嚏就能在太平洋引起一场海啸；可是，在我看来，这是一个看起来有点悲伤的故事。</p>
-
-<p>有个叫路明非的 Loser 主角，他身边有很多牛逼的朋友，可是这些都和他没有关系，没有理想，没有原则，没有底线，好像这个世界硬一点，他就缩一点，懦弱、犹豫、像个傻逼，虽然整本书的人都在帮他，可是这不是他想要的，刚开始看的时候，一直想主角什么时候牛逼起来啊，作者怎么不按套路出牌啊，后来，我开始不想让他牛逼，他要是一直懦弱下去该多好啊，这样，看着像真实地我们，这样，至少可以好好活下去；是啊，作为一个力挽狂澜的弑龙者多牛逼啊，像所有牛逼的角色，可这都是拿命换来的啊，“人是自私的生物，但是却愿意有那么一瞬间为了很少的人放弃一切甚至生命。”说的多好，听的人是那么的心疼；人的一生中总归有几个人是我们的逆鳞，我们希望她好胜过自己好，我们希望把所有一切都给她甚至生命，可是，那又怎样，那又怎样呢？</p>
-
-<p>另一个我很喜欢的人物，上杉越，一个隐世的牛逼老头子，在龙王复苏，整个东京城都要毁灭的时候，他选择了怯懦的逃离，很没骨气啊，可谁明白他呢，他是一个没有逆鳞的人了，活着只有自己，的确，我们都喜欢孤胆英雄式的角色，我们也渴望能够扮演这个角色，但是拯救世界这个事儿对我们来说太他妈难了，所以我们只能自私地保护自己重要的人；可是，最后一刻，老头留下来了，因为这里有他的逆鳞了，这很好，符合我们的价值观。</p>
-
-<p>最终，这一切都是一个梦，最起码是在路明非的世界，甚至路明非本身就是一个梦，一个提线木偶，一个，孤独又带点悲伤的角色，让人心疼。虽然这个小说也有瑕疵，就好像我不太喜欢第二部，但是不会妨碍我对这个小说的赞赏。</p>
-
-<p>所以，江南，我喜欢这个作者。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-03-07</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -2328,6 +2542,13 @@ Complete!
       <ul>
         
         <li>
+          <a href="/post/2023/07/Google-%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7%E6%95%B4%E7%90%86.html">Google 搜索技巧整理</a>
+          浏览器常用高级检索技巧
+
+
+        </li>
+        
+        <li>
           <a href="/post/2023/02/Ketbrains%E6%BF%80%E6%B4%BB%E6%9C%8D%E5%8A%A1%E5%99%A8.html">在线服务器激活 Ketbrains</a>
           Ketbrains 激活服务器
 
@@ -2351,13 +2572,6 @@ Complete!
         <li>
           <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
           前言
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
-          项目起源
 
 
         </li>

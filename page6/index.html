@@ -267,6 +267,162 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2022/04/Metabase-%E4%B8%8A%E6%89%8B-%E4%BD%BF%E7%94%A8Jar.html">Metabase 上手 - 使用 Jar 运行</a></h1>
+    <div class="post_at_index">
+      <h2 id="metabase-documentation">Metabase Documentation</h2>
+
+<p>这里主要是 metabase 的部署和使用方法，以及相关的组件的使用方法。</p>
+
+<p>我正在打造一个中文环境下 Metabase 交互的社群，如果你有任何关于 Metabase 的问题，请联系我们：</p>
+
+<blockquote>
+  <p>Metabase 中文交流 <strong><a href="https://t.me/metabase_zh">https://t.me/metabase_zh</a></strong></p>
+</blockquote>
+
+<h2 id="installation">Installation</h2>
+
+<p>Metabase 的安装方式有三种：</p>
+
+<ul>
+  <li>以 Jar 包的形式，在本地运行，只需要简单的步骤即可 <strong>(本文)</strong></li>
+  <li>以 Docker 容器的形式，部署到服务器上</li>
+</ul>
+
+<p>以 Jar 的方式来运行相对简单，对环境依赖也是比较少，只要的电脑上有 JDK 就可以了。</p>
+
+<h3 id="检查-java-环境">检查 Java 环境</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java <span class="nt">-version</span>
+
+<span class="o">=&gt;</span> java version <span class="s2">"1.8.0_311"</span>
+<span class="o">=&gt;</span> Java<span class="o">(</span>TM<span class="o">)</span> SE Runtime Environment <span class="o">(</span>build 1.8.0_311-b11<span class="o">)</span>
+<span class="o">=&gt;</span> Java HotSpot<span class="o">(</span>TM<span class="o">)</span> 64-Bit Server VM <span class="o">(</span>build 25.311-b11, mixed mode<span class="o">)</span>
+</code></pre></div></div>
+
+<p>Metabase 要求 Java 8 及以上，如果你的环境不支持，请先升级</p>
+
+<h3 id="获取-metabase-的-jar-包">获取 Metabase 的 Jar 包</h3>
+
+<blockquote>
+  <p><a href="https://metabase.com/start/jar.html">https://metabase.com/start/jar.html</a></p>
+</blockquote>
+
+<p>通过上方这个链接，可以很快的获取到 Metabase 的最新版本的 Jar 包</p>
+
+<h3 id="启动-metabase">启动 Metabase</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>java <span class="nt">-jar</span> metabase.jar
+</code></pre></div></div>
+
+<p>通过一个简单的命令，就可以启动 Metabase 了，这个命令会自动检查环境，如果环境没问题，就会自动启动 Metabase 了。</p>
+
+<blockquote>
+  <p>生产环境的 MetaBase 路径是 /data/product/metabase/</p>
+</blockquote>
+
+<p>成功启动后，Metabase 会运行在 3000 端口</p>
+
+<blockquote>
+  <p><a href="http://localhost:3000/">http://localhost:3000/</a></p>
+</blockquote>
+
+<h3 id="以后台方式运行-metabase">以后台方式运行 Metabase</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">nohup </span>java <span class="nt">-jar</span> metabase.jar <span class="o">&gt;</span> metabase.log 2&gt;&amp;1 &amp;
+</code></pre></div></div>
+
+<p>日志文件会保存在本地的 metabase.log 文件中，如果你想查看 Metabase 的日志，可以使用 tail -f metabase.log 来查看。</p>
+
+<h2 id="configuration">Configuration</h2>
+
+<h3 id="配置-metabase-的数据库">配置 Metabase 的数据库</h3>
+
+<p>Metabase 默认的采用的是 H2 的作为数据库存储，会存放在程序运行目录下的 <code class="language-plaintext highlighter-rouge">data</code> 目录下；但对于在正式环境中启用 Metabase，我们建议使用 MySQL 来作为数据库存储。</p>
+
+<p>而指定 Metabase 的数据库配置，可以很方便的加载到系统的默认环境中：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+vim ~/.bashrc
+
+<span class="c"># update metabase config at .bashrc</span>
+<span class="nb">export </span><span class="nv">MB_DB_TYPE</span><span class="o">=</span>mysql
+<span class="nb">export </span><span class="nv">MB_DB_DBNAME</span><span class="o">=</span>metabase
+<span class="nb">export </span><span class="nv">MB_DB_PORT</span><span class="o">=</span>3306
+<span class="nb">export </span><span class="nv">MB_DB_USER</span><span class="o">=</span>
+<span class="nb">export </span><span class="nv">MB_DB_PASS</span><span class="o">=</span>
+<span class="nb">export </span><span class="nv">MB_DB_HOST</span><span class="o">=</span>
+<span class="nb">export </span><span class="nv">MB_DB_CONNECTION_URI</span><span class="o">=</span><span class="s2">"mysql://MB_DB_HOST:MB_DB_PORT/MB_DB_DBNAME?user=MB_DB_USER&amp;password=MB_DB_PASS"</span>
+<span class="nb">export </span><span class="nv">JAVA_TIMEZONE</span><span class="o">=</span>Asia/Shanghai
+</code></pre></div></div>
+
+<h3 id="配置-metabase-的-nginx">配置 Metabase 的 Nginx</h3>
+
+<p>通过配置 Metabase 的 Nginx，可以让 Metabase 在网站上运行，这样可以开放外部服务给使用者</p>
+
+<p>对 Nginx 的配置，比较简单，可以参考这个文档：</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>server <span class="o">{</span>
+ listen 443 ssl<span class="p">;</span>
+ server_name example.com<span class="p">;</span>
+ root /var/www/example.com/public<span class="p">;</span>
+
+ <span class="c"># reverse proxy</span>
+ location /mb/ <span class="o">{</span>
+  proxy_pass http://127.0.0.1:3000<span class="p">;</span>
+  proxy_set_header Host <span class="nv">$Host</span><span class="p">;</span>
+ <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>overseas-metabase 的 配置文件放在 /etc/nginx/config.d/leyan.core 下，在 80.conf 内 引用</p>
+</blockquote>
+
+<h3 id="配置-metabase-的-clickhouse-插件">配置 Metabase 的 ClickHouse 插件</h3>
+
+<blockquote>
+  <p>Metabase 官方支持数据库 <a href="https://www.metabase.com/docs/latest/administration-guide/01-managing-databases.html#officially-supported-databases">https://www.metabase.com/docs/latest/administration-guide/01-managing-databases.html#officially-supported-databases</a></p>
+</blockquote>
+
+<p>Metabase 默认支持非常丰富数据库驱动，这些都会预置在 Jar 内，例如 MySQL、Oracle、SQL Server；但是 ClickHouse 不在其中，所以我们需要独立进行安装。</p>
+
+<p>ClickHouse 驱动：<a href="https://github.com/enqueue/metabase-clickhouse-driver#readme">https://github.com/enqueue/metabase-clickhouse-driver#readme</a>=</p>
+
+<ul>
+  <li>下载 <strong>合适的</strong> 驱动版本，放在 Metabase 的目录下的 plugin 文件夹下</li>
+  <li>重新启动 Metabase 即可</li>
+  <li>在 Metabase 的数据库管理中新增数据库，选择类型为 ClickHouse</li>
+</ul>
+
+<blockquote>
+  <p>更多三方驱动：<a href="https://www.metabase.com/docs/latest/developers-guide-drivers.html#how-to-use-a-community-built-driver">https://www.metabase.com/docs/latest/developers-guide-drivers.html#how-to-use-a-community-built-driver</a></p>
+</blockquote>
+
+<h2 id="tips">Tips</h2>
+
+<h3 id="1-如何重启-metabase-">1. 如何重启 Metabase ?</h3>
+
+<p>直接杀掉进程即可，如果为了以后方便，可以将下述命令保存为 stop.sh 放在目录下，后续直接执行</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">APP_NAME</span><span class="o">=</span><span class="s2">"metabase"</span>
+
+ps aux | <span class="nb">grep </span>python | <span class="nb">grep</span> <span class="k">${</span><span class="nv">APP_NAME</span><span class="k">}</span> | <span class="nb">awk</span> <span class="s1">'{print $2}'</span> | xargs <span class="nb">kill</span> <span class="nt">-9</span>
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2022-04-15</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Metabase">Metabase</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2022/04/SQL-%E5%AF%B9%E6%97%B6%E9%97%B4%E6%95%B4%E7%82%B9%E7%9A%84%E5%A4%84%E7%90%86.html">SQL 对时间整点的处理</a></h1>
     <div class="post_at_index">
       <h2 id="需要取值整点时间">需要取值整点时间</h2>
@@ -1525,59 +1681,6 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/03/%E6%96%B0%E7%9A%84%E7%9B%AE%E6%A0%87.html">2022 新的目标</a></h1>
-    <div class="post_at_index">
-      <p>年轻的人儿啊！要记得星空多美丽 ~</p>
-
-<blockquote>
-  <p>岁月如歌，大肠包小肠</p>
-</blockquote>
-
-<hr />
-
-<p><img src="http://ipic-typora-samzong.oss-cn-qingdao.aliyuncs.com//uPic/4817FA7F-3FF7-43C0-A6DE-96F1568C4259_1_105_c.jpeg" alt="image" /></p>
-
-<h2 id="终局">终局</h2>
-
-<p>新年结束，已经走完了 3 个月了，瞎忙碌碌无为，内心的焦灼，不断在每个独处时拷问心神，久久回响不息</p>
-
-<p>迷惘和挫败的情绪，积累了好久。</p>
-
-<p>最近重读了 柏拉图的理想国，耐着性子，花了接近一个月的时间才断断续续的看完。</p>
-
-<p>终于有个好消息，终于想清楚了，今年的目标。</p>
-
-<h2 id="新开始">新开始</h2>
-
-<blockquote>
-  <p>要做的是两件事</p>
-</blockquote>
-
-<ul>
-  <li>回归产品的初心，不负自己</li>
-  <li>确认真正想做的事情；既然想好了，就有大量的准备工作要开展，先留在心里</li>
-</ul>
-
-<h2 id="人生不如戏">人生不如戏</h2>
-
-<p>回想了下，找不到方向时，的确需要花很长的时间来走弯路。</p>
-
-<p>可是，不能放弃啊！</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-03-10</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#随笔">随笔</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1764,6 +1867,13 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
       <ul>
         
         <li>
+          <a href="/post/2023/07/Google-%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7%E6%95%B4%E7%90%86.html">Google 搜索技巧整理</a>
+          浏览器常用高级检索技巧
+
+
+        </li>
+        
+        <li>
           <a href="/post/2023/02/Ketbrains%E6%BF%80%E6%B4%BB%E6%9C%8D%E5%8A%A1%E5%99%A8.html">在线服务器激活 Ketbrains</a>
           Ketbrains 激活服务器
 
@@ -1787,13 +1897,6 @@ drwxr-xr-x  4 samzonglu  staff   128B  2 15 14:28 tests
         <li>
           <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
           前言
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
-          项目起源
 
 
         </li>

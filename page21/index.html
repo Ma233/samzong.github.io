@@ -267,6 +267,71 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/06/Tomcat-3-%E4%BC%98%E5%8C%96%E8%AE%BE%E5%AE%9A.html">Tomcat 优化设定</a></h1>
+    <div class="post_at_index">
+      <ul>
+  <li>设置 JVM 空间大小，Xms 和 Xmx 一样大：JVM 初始分配的内存由-Xms 指定，默认是物理内存的 1/64；JVM 最大分配的内存由-Xmx 指定，默认是物理内存的 1/4。默认空余堆内存小于 40% 时，JVM 就会增大堆直到-Xmx 的最大限制；空余堆内存大于 70% 时，JVM 会减少堆直到-Xms 的最小限制。因此服务器一般设置-Xms、 -Xmx 相等以避免在每次 GC 后调整堆的大小。</li>
+  <li>关闭 dns 查询</li>
+  <li>增加线程数量</li>
+  <li>maxThreads、acceptCount：增加并发，同时增加这两个的数量</li>
+  <li>
+    <p>内存优化： /tomcatbin/catalina.sh</p>
+  </li>
+  <li>JAVA_OPTS=”-XX:PermSize=64M -XX:MaxPermSize=128m -Xms512m -Xmx1024m -Duser.timezone=Asia/Shanghai”</li>
+  <li>缓存优化</li>
+  <li>并发优化，线程优化</li>
+  <li>&lt;Connector port=”80” protocol=”HTTP/1.1” maxThreads=”600” minSpareThreads=”100” maxSpareThreads=”500” acceptCount=”700”</li>
+  <li>connectionTimeout=”20000” redirectPort=”8443” /&gt;</li>
+  <li>关闭 DNS 查询 :修改 server.xml 文件中的 Connector 元素，修改属性 enableLookups 参数值：enableLookups=”false”</li>
+  <li>使用 apr 插件，提高 tomcat 响应时间</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="o">(</span>1<span class="o">)</span>安装APR tomcat-native
+    apr-1.3.8.tar.gz   安装在/usr/local/apr
+    <span class="c">#tar zxvf apr-1.3.8.tar.gz</span>
+    <span class="c">#cd apr-1.3.8</span>
+    <span class="c">#./configure;make;make install</span>
+
+    apr-util-1.3.9.tar.gz  安装在/usr/local/apr/lib
+    <span class="c">#tar zxvf apr-util-1.3.9.tar.gz</span>
+    <span class="c">#cd apr-util-1.3.9</span>
+    <span class="c">#./configure --with-apr=/usr/local/apr ----with-java-home=JDK;make;make install</span>
+
+    <span class="c">#cd apache-tomcat-6.0.20/bin</span>
+    <span class="c">#tar zxvf tomcat-native.tar.gz</span>
+    <span class="c">#cd tomcat-native/jni/native</span>
+    <span class="c">#./configure --with-apr=/usr/local/apr;make;make install</span>
+
+  <span class="o">(</span>2<span class="o">)</span>设置 Tomcat 整合 APR
+    修改 tomcat 的启动 shell （startup.sh），在该文件中加入启动参数：
+      <span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">"</span><span class="nv">$CATALINA_OPTS</span><span class="s2"> -Djava.library.path=/usr/local/apr/lib"</span> 。
+
+  <span class="o">(</span>3<span class="o">)</span>判断安装成功:
+    如果看到下面的启动日志，表示成功。
+      2007-4-26 15:34:32 org.apache.coyote.http11.Http11AprProtocol init
+</code></pre></div></div>
+
+<ul>
+  <li>开启 manager 管理</li>
+  <li>使用<a href="http://visualvm.Java.net/download.html">http://visualvm.Java.net/download.html</a> 工具监控 tomcat 的性能</li>
+  <li>JAVA_OPTS=’-Dcom.sun.management.jmxremote.port=8999 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false’</li>
+  <li>设置自动更新 autodeploy＝false</li>
+</ul>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-06-15</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Tomcat">Tomcat</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/06/%E4%BD%BF%E7%94%A8mosh%E4%BB%A3%E6%9B%BFssh%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8.html">使用 mosh 代替 ssh 连接服务器</a></h1>
     <div class="post_at_index">
       <p>身为一名服务器运维人员，每天打交道最多的就是服务器了，最常用的连接服务器的工具就是 SSH，因为 SSH 是一个不可持续的连接，当网络出现波动时，SSH 断开会导致当前正在运行的服务中断，对工作产生非常大的影响，无意间看到了 Mosh 这个东西，安装使用下，发现网络波动这种事情不会导致服务器连接断开了，特意查了下，原来 Mosh 使用的是 UDP 方式传输：虽然也支持使用 SSH 配置进行认证登录，但是数据传输本身是使用 UDP 方式的，Mosh 支持在会话中断时，不会立即退出，而是启用一个计时器，当网络恢复后会自动连接，同时会延续之前的会话，不会重新开启一个。</p>
@@ -699,32 +764,6 @@ pip <span class="nb">install </span>fabric
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/05/CentOS-7-1-%E4%BF%AE%E6%94%B9%E7%B3%BB%E7%BB%9F%E4%B8%BB%E6%9C%BA%E5%90%8D.html">CentOS 修改系统主机名</a></h1>
-    <div class="post_at_index">
-      <h2 id="centos-7-修改主机名">CentOS 7 修改主机名</h2>
-
-<h3 id="方法-1-hostname-主机名">方法 1: hostname 主机名</h3>
-
-<p>这种方式，只能修改临时的主机名，当重启机器后，主机名称又变回来了。</p>
-
-<h3 id="方法-2-hostnamectl-set-hostname-">方法 2: hostnamectl set-hostname <主机名></主机名></h3>
-
-<p>使用这种方式修改，可以永久性的修改主机名称！</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-05-05</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#CentOS">CentOS</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -911,6 +950,13 @@ pip <span class="nb">install </span>fabric
       <ul>
         
         <li>
+          <a href="/post/2023/07/Google-%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7%E6%95%B4%E7%90%86.html">Google 搜索技巧整理</a>
+          浏览器常用高级检索技巧
+
+
+        </li>
+        
+        <li>
           <a href="/post/2023/02/Ketbrains%E6%BF%80%E6%B4%BB%E6%9C%8D%E5%8A%A1%E5%99%A8.html">在线服务器激活 Ketbrains</a>
           Ketbrains 激活服务器
 
@@ -934,13 +980,6 @@ pip <span class="nb">install </span>fabric
         <li>
           <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
           前言
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
-          项目起源
 
 
         </li>

@@ -267,6 +267,147 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2023/07/Google-%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7%E6%95%B4%E7%90%86.html">Google 搜索技巧整理</a></h1>
+    <div class="post_at_index">
+      <h1 id="浏览器常用高级检索技巧">浏览器常用高级检索技巧</h1>
+
+<h2 id="笔记说明">笔记说明</h2>
+
+<blockquote>
+  <p>支持 google、部分 baidu 网页检索和图片检索等</p>
+</blockquote>
+
+<p><img src="https://img.samzong.me/202307111726902.png" alt="20230711172625" /></p>
+
+<ul>
+  <li>intitle: 仅在名称中查询
+    <ul>
+      <li>allintitle: 多个关键词查询</li>
+    </ul>
+  </li>
+  <li>intext: 仅在正文中查询
+    <ul>
+      <li>allintext: 多个关键词查询</li>
+    </ul>
+  </li>
+  <li>inurl: 仅在 url 中查询关键词
+    <ul>
+      <li>allinurl: 多个关键词</li>
+    </ul>
+  </li>
+  <li>site: 在对应的网站内查询</li>
+  <li>filetype: 查询对应的文件类型</li>
+  <li>支持 <code class="language-plaintext highlighter-rouge">.</code> 和 <code class="language-plaintext highlighter-rouge">*</code> 作为正则匹配查询</li>
+  <li>支持 <code class="language-plaintext highlighter-rouge">""</code> 作关键词精准查询</li>
+  <li>Index of 浏览网页的目录，就像浏览本地的普通目录</li>
+  <li>location: 指定查询的地区，返回对应地区的内容</li>
+</ul>
+
+<h2 id="命令参照表">命令参照表</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Keyworld</th>
+      <th>作用</th>
+      <th>示例</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>intitle</td>
+      <td>限定从网页标题中查询关键词</td>
+      <td>intitle:insight</td>
+    </tr>
+    <tr>
+      <td>allintitle</td>
+      <td>限定从网页标题中查询关键词，支持多个关键词</td>
+      <td>allintitle:insight kpanda</td>
+    </tr>
+    <tr>
+      <td>intext</td>
+      <td>限定从网页内容中查询关键词</td>
+      <td>intext:insight</td>
+    </tr>
+    <tr>
+      <td>allintext</td>
+      <td>限定从网页内容中查询关键词，支持多个关键词</td>
+      <td>allintext:insight kpanda</td>
+    </tr>
+    <tr>
+      <td>inurl</td>
+      <td>限定从网页 url 中查询关键词</td>
+      <td>inurl:insight</td>
+    </tr>
+    <tr>
+      <td>allinurl</td>
+      <td>限定从网页 url 中查询关键词，支持多个关键词</td>
+      <td>allinurl:insight</td>
+    </tr>
+    <tr>
+      <td>site</td>
+      <td>限定查询指定网址的内容</td>
+      <td>site:daocloud.io</td>
+    </tr>
+    <tr>
+      <td>””, 《》</td>
+      <td>使得查询字符不分开</td>
+      <td>intitle:”insight”</td>
+    </tr>
+    <tr>
+      <td>.</td>
+      <td>匹配任意单个字符</td>
+      <td>intitle:”i.sight”</td>
+    </tr>
+    <tr>
+      <td>*</td>
+      <td>匹配任意长度字符</td>
+      <td>inurl:”<em>*insight</em>”</td>
+    </tr>
+    <tr>
+      <td>-</td>
+      <td>在查询结果中，剔除关键词</td>
+      <td>intitle:insight -daocloud<br />intitle:insight  site:”daocloud.io” -docs</td>
+    </tr>
+    <tr>
+      <td>+</td>
+      <td>在查询结果中，保留关键词</td>
+      <td>intitle:insight +daocloud</td>
+    </tr>
+    <tr>
+      <td>””, 《》</td>
+      <td>使得查询字符不分开</td>
+      <td>intitle:《insight》</td>
+    </tr>
+    <tr>
+      <td>filetype</td>
+      <td>指定查询的文件类型，常用查询 ppt、PDF、等，结果可以直接下载</td>
+      <td>site:daocloud.io filetype:pdf intitle:insight</td>
+    </tr>
+    <tr>
+      <td>location</td>
+      <td>调整当前所在位置，用于解决浏览器基于不同地址反馈的数据权重问题</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>link</td>
+      <td>查看每一个引用了这个网址的网页</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2023-07-13</cite> <i class="icon-tag"></i>
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2023/02/Ketbrains%E6%BF%80%E6%B4%BB%E6%9C%8D%E5%8A%A1%E5%99%A8.html">在线服务器激活 Ketbrains</a></h1>
     <div class="post_at_index">
       <h2 id="ketbrains-激活服务器">Ketbrains 激活服务器</h2>
@@ -3749,149 +3890,6 @@ docker-compose up <span class="nt">-d</span> contact-center  <span class="c"># �
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2022/10/Redash-for-Docker-%E9%83%A8%E7%BD%B2.html">Redash for Docker 部署</a></h1>
-    <div class="post_at_index">
-      <blockquote>
-  <p>暗坑很多</p>
-</blockquote>
-
-<h2 id="部署过程">部署过程</h2>
-
-<ol>
-  <li>需要自行维护一个 env 作为配置文件</li>
-</ol>
-
-<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>REDASH_COOKIE_SECRET=a07cca441ab9f28b66c589f3118e0de48469b1bc6a5036eade7badbed305d96e
-POSTGRES_HOST_AUTH_METHOD=trust
-REDASH_REDIS_URL=redis://redis:6379/0
-REDASH_DATABASE_URL=postgresql://postgres
-</code></pre></div></div>
-
-<ul>
-  <li>
-    <p>需要创建一个 postgres-data 并配置 docker-compose.yml 的路径，数据库持久化</p>
-  </li>
-  <li>需要给 postgres 容器增加 sudo 命令
-    <ul>
-      <li>apk add sudo</li>
-    </ul>
-  </li>
-  <li>需要手工进入到 postgresql 容器内创建 role 和 database
-    <ul>
-      <li>createuser -U postgres redash</li>
-      <li>createdb -U postgres redash</li>
-    </ul>
-  </li>
-  <li>执行数据库初始化动作</li>
-  <li>docker-compose run –rm server create_db</li>
-  <li>然后重启 redash 全部服务即可 docker-compose down 后重启</li>
-</ul>
-
-<blockquote>
-  <p>postgresql 在执行 psql 命令时，默认会读取当前系统用户作为执行 role；但 psql 默认用户是 postgres</p>
-</blockquote>
-
-<p><a href="https://redash.io/help/open-source/setup">https://redash.io/help/open-source/setup</a>
-<a href="https://redash.io/help/open-source/dev-guide/docker">https://redash.io/help/open-source/dev-guide/docker</a>
-<a href="https://docs.victoriametrics.com/url-examples.html#apiv1exportcsv">https://docs.victoriametrics.com/url-examples.html#apiv1exportcsv</a></p>
-
-<p><a href="https://mp.weixin.qq.com/s?src=11\&amp;timestamp=1660629444\&amp;ver=3985\&amp;signature=verv70veamW*Ez2Sgc8e89yMJGwANIOzz4lfwbezyVV3wpWNT2d9SnGrDecUOwrbTJBR2o-Ax6ZS4Fpu2UxfX7Sy9xsk1LCXfY1wNr42ucl3tFePfJ7c536c8z*L-HOy\&amp;new=1">https://mp.weixin.qq.com/s?src=11\&amp;timestamp=1660629444\&amp;ver=3985\&amp;signature=verv70veamW<em>Ez2Sgc8e89yMJGwANIOzz4lfwbezyVV3wpWNT2d9SnGrDecUOwrbTJBR2o-Ax6ZS4Fpu2UxfX7Sy9xsk1LCXfY1wNr42ucl3tFePfJ7c536c8z</em>L-HOy\&amp;new=1</a></p>
-
-<p><a href="https://mp.weixin.qq.com/s?src=11&amp;timestamp=1660682601&amp;ver=3986&amp;signature=h8m0RzEX3qWsKcUo6Ee3azdsnzLQqUf3N8FdLhyWNa52U4vAvlbEaBFUCrTZnh54tT-YS2mODfkp-6Hemmzt3n*hzGHlEmXP-HO5830W0Fzmn4MMfnsOPBKLrcjaiU0h&amp;new=1">https://mp.weixin.qq.com/s?src=11&amp;timestamp=1660682601&amp;ver=3986&amp;signature=h8m0RzEX3qWsKcUo6Ee3azdsnzLQqUf3N8FdLhyWNa52U4vAvlbEaBFUCrTZnh54tT-YS2mODfkp-6Hemmzt3n*hzGHlEmXP-HO5830W0Fzmn4MMfnsOPBKLrcjaiU0h&amp;new=1</a></p>
-
-<ul>
-  <li>redash env 配置：<a href="https://redash.io/help/open-source/admin-guide/env-vars-settings">https://redash.io/help/open-source/admin-guide/env-vars-settings</a></li>
-  <li>postgres 权限问题 <a href="https://stackoverflow.com/a/25051632/5067657">https://stackoverflow.com/a/25051632/5067657</a></li>
-  <li><a href="https://techoverflow.net/2021/05/07/how-to-fix-alpine-linux-ash-sudo-not-found/">https://techoverflow.net/2021/05/07/how-to-fix-alpine-linux-ash-sudo-not-found/</a></li>
-  <li><a href="https://discuss.redash.io/t/error-99-connecting-to-localhost-6379-cannot-assign-requested-address/9716/7">https://discuss.redash.io/t/error-99-connecting-to-localhost-6379-cannot-assign-requested-address/9716/7</a></li>
-</ul>
-
-<h2 id="启动的服务介绍">启动的服务介绍</h2>
-
-<ul>
-  <li>v10-redashio_adhoc_worker_1     # 执行查询任务的 worker</li>
-  <li>v10-redashio_postgres_1       # 数据库</li>
-  <li>v10-redashio_redis_1        # 缓存</li>
-  <li>v10-redashio_scheduled_worker_1   # 执行计划任务的 worker</li>
-  <li>v10-redashio_scheduler_1      # 计划任务管理 server</li>
-  <li>v10-redashio_server_1        # 主体 server</li>
-</ul>
-
-<p>以上主要会设计到 3 个镜像，redis、pgsql、redash，其中核心是 redash，所以关注镜像版本也是这个</p>
-
-<h2 id="版本升级">版本升级</h2>
-
-<p>redash 的版本升级较为方便，更换 server 的镜像；然后升级数据库即可。</p>
-
-<blockquote>
-  <p>测试过从 v8 升级到 v10 , 和 v9 升级到 v10，都是 ok 的。</p>
-</blockquote>
-
-<ol>
-  <li>关闭 Redash 服务
-    <ol>
-      <li><code class="language-plaintext highlighter-rouge">docker-compose stop server scheduler scheduled_worker adhoc_worker</code></li>
-    </ol>
-  </li>
-  <li>更新 docker-compose.yml
-    <ol>
-      <li>基本上这一步，只需要更新 redash 的镜像版本即可</li>
-      <li>然后执行 <code class="language-plaintext highlighter-rouge">docker-compose pull</code> 拉取新镜像版本</li>
-    </ol>
-  </li>
-  <li>执行数据库升级
-    <ol>
-      <li><code class="language-plaintext highlighter-rouge">docker-compose run --rm server manage db upgrade</code></li>
-    </ol>
-  </li>
-  <li>启动全部服务即可
-    <ol>
-      <li><code class="language-plaintext highlighter-rouge">docker-compse up -d</code></li>
-    </ol>
-  </li>
-</ol>
-
-<h2 id="解决-es-的-https-问题">解决 ES 的 HTTPS 问题</h2>
-
-<p>由于我们的 es 地址访问地址采用 https，但为自签证书，所以在 request 之中会有些问题，所以我在这里更新了 elasticsearch 的插件，然后将其上传到我个人的 docker hub.
-<a href="https://hub.docker.com/r/samzong/redash">https://hub.docker.com/r/samzong/redash</a></p>
-
-<blockquote>
-  <p>带来的问题，页面上无法选择到 Elasticsearch 作为数据源，没时间去研究了</p>
-</blockquote>
-
-<p>看了下还是可以使用 redash 的 API 去创建的 <code class="language-plaintext highlighter-rouge">/api/data_sources</code>:</p>
-
-<h2 id="配置">配置</h2>
-
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"options"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"basic_auth_password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"-----"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"basic_auth_user"</span><span class="p">:</span><span class="w"> </span><span class="s2">"elastic"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"server"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://10.6.51.101:31001/"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"skip_tls_verification"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"elasticsearch"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test-es"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
-
-<p>创建完成后，就可以在页面上更新了。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2022-10-22</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Redash">Redash</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -4072,6 +4070,13 @@ REDASH_DATABASE_URL=postgresql://postgres
       <ul>
         
         <li>
+          <a href="/post/2023/07/Google-%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7%E6%95%B4%E7%90%86.html">Google 搜索技巧整理</a>
+          浏览器常用高级检索技巧
+
+
+        </li>
+        
+        <li>
           <a href="/post/2023/02/Ketbrains%E6%BF%80%E6%B4%BB%E6%9C%8D%E5%8A%A1%E5%99%A8.html">在线服务器激活 Ketbrains</a>
           Ketbrains 激活服务器
 
@@ -4095,13 +4100,6 @@ REDASH_DATABASE_URL=postgresql://postgres
         <li>
           <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
           前言
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
-          项目起源
 
 
         </li>

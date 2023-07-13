@@ -267,6 +267,47 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/09/%E7%94%9F%E8%80%85%E5%AD%A4%E7%8B%AC.html">生者孤独</a></h1>
+    <div class="post_at_index">
+      <p>张楚说：孤独是可耻的。
+我一直不愿承认的，我是一个孤独的人；或者这个世界上，没有人不会感到孤独吧；我的孤独，就好像在喧闹的人群中，突然就孤独了。</p>
+
+<p>小王子说：有一天，我看了四十四次日落！
+李寻欢问阿飞：你看这棵树上的梅花已经开了，你可知道已经开了多少朵？
+孔乙己问：你可知道茴的四种写法？
+鲁迅说：楼下一个男人病的要死，那间壁的一家唱着留声机；对面是弄孩子，楼上有两人狂笑，还有打牌声，河中的穿上有女人哭着她死去的母亲，人类的悲欢并不相通，我只是觉得她们吵闹。
+大话西游中说：你看那个人，好像一条狗！</p>
+
+<p>一千个读者，有一千个哈姆雷特！
+一个人走的太远太久了，便看腻了人潮似海。
+如果问，你所理解的孤独是什么？大概每个人都有自己的答案吧。
+突然觉得，原本以为亲密无间的伙伴并没有把我当朋友。
+小心翼翼地与人相处，把她当作真诚的伙伴，害怕隔阂，害怕犯错。
+或许，你所害怕的不是失去某个朋友，而是不够勇敢地去面对一个人的孤独。
+有人说，最孤独的事，不是不能跟一个人在一起，而是你根本不知道想跟谁在一起…</p>
+
+<p>其实，我们生来就是孤独;
+生命的本质就是孤独，不管你拥有什么，我们生来就是孤独。
+出现在这个世界本来就是一个偶然的事，谣言嘈杂的社会，人来人往，浮光掠影，匆匆碌碌。
+这个世界永远都是陌生的，理解是奢侈的，你永远想不起来来时的路，你永远无法让一个人不离你而去。
+不管你拥有什么，我们生来就是孤独。</p>
+
+<p>当我年轻的时候我想变成任何人，除了我自己。</p>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-09-20</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Zero">Zero</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/09/HowTo-Install-a-Tomcat-Server-7.html">HowTo Install a Tomcat Server 7</a></h1>
     <div class="post_at_index">
       <p>本文件是采用的模板是 CentOS 6，同样适用于 CentOS 系列其他发行版本。</p>
@@ -1393,171 +1434,6 @@ reboot
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/07/HowTo-Install-KVM-Manage-Server-webvirtmgr.html">HowTo Install KVM Manage Server webvirtmgr</a></h1>
-    <div class="post_at_index">
-      <p>生产环境的 KVM 宿主机越来越多，需要对宿主机的状态进行调控。这里用 webvirtmgr 进行管理。图形化的 WEB，让人能更方便的查看 kvm 宿主机的情况和操作。</p>
-
-<p><strong><em><a href="https://github.com/retspen/webvirtmgr">GitHub Project.</a></em></strong></p>
-
-<h3 id="install">Install</h3>
-
-<h4 id="安装支持的软件源">安装支持的软件源</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
-</code></pre></div></div>
-
-<h4 id="安装相关软件">安装相关软件</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">-y</span> <span class="nb">install </span>git python-pip libvirt-python libxml2-python python-websockify supervisor nginx
-</code></pre></div></div>
-
-<h4 id="从-git-hub-中下载相关的-webvirtmgr-代码">从 git-hub 中下载相关的 webvirtmgr 代码</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /usr/local/src/
-git clone git://github.com/retspen/webvirtmgr.git
-</code></pre></div></div>
-
-<h4 id="安装-webvirtmgr">安装 webvirtmgr</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>webvirtmgr/
-pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
-</code></pre></div></div>
-
-<h4 id="安装数据库">安装数据库</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install </span>python-sqlite2
-</code></pre></div></div>
-
-<h4 id="对-django-进行环境配置">对 django 进行环境配置</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./manage.py syncdb
-
-You just installed Django<span class="s1">'s auth system, which means you don'</span>t have any superusers defined.
-Would you like to create one now? <span class="o">(</span><span class="nb">yes</span>/no<span class="o">)</span>: <span class="nb">yes
-</span>Username <span class="o">(</span>leave blank to use <span class="s1">'root'</span><span class="o">)</span>: admin
-Email address: luchuanjia@msn.com
-Password:<span class="k">*********</span>
-Password <span class="o">(</span>again<span class="o">)</span>:<span class="k">*********</span>
-
-./manage.py collectstatic <span class="c">#生成配置文件</span>
-./manage.py createsuperuser <span class="c">#添加管理员账号</span>
-</code></pre></div></div>
-
-<h4 id="拷贝-web-到-相关目录">拷贝 web 到 相关目录</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ..
-<span class="nb">rm</span> <span class="nt">-rf</span> /var/www
-<span class="nb">mkdir</span> <span class="nt">-pv</span> /var/www
-<span class="nb">cp</span> <span class="nt">-Rv</span> webvirtmgr /var/www/webvirtmgr
-</code></pre></div></div>
-
-<h4 id="设置-ssh">设置 ssh</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen
-ssh-copy-id 192.168.2.32
-ssh 192.168.2.32 <span class="nt">-L</span> localhost:8000:localhost:8000 <span class="nt">-L</span> localhost:6080:localhost:6080
-</code></pre></div></div>
-
-<h4 id="编辑-nginx-配置文件">编辑 nginx 配置文件</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv</span> /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
-vim /etc/nginx/conf.d/webvirtmgr.conf  <span class="c">#添加下面内容到文件中</span>
-
-server <span class="o">{</span>
-    listen 80 default_server<span class="p">;</span>
-
-    server_name <span class="nv">$hostname</span><span class="p">;</span>
-    <span class="c">#access_log /var/log/nginx/webvirtmgr_access_log;</span>
-
-    location /static/ <span class="o">{</span>
-        root /var/www/webvirtmgr/webvirtmgr<span class="p">;</span> <span class="c"># or /srv instead of /var</span>
-        expires max<span class="p">;</span>
-    <span class="o">}</span>
-
-    location / <span class="o">{</span>
-        proxy_pass http://127.0.0.1:8000<span class="p">;</span>
-        proxy_set_header X-Real-IP <span class="nv">$remote_addr</span><span class="p">;</span>
-        proxy_set_header X-Forwarded-for <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
-        proxy_set_header Host <span class="nv">$host</span>:<span class="nv">$server_port</span><span class="p">;</span>
-        proxy_set_header X-Forwarded-Proto <span class="nv">$remote_addr</span><span class="p">;</span>
-        proxy_connect_timeout 600<span class="p">;</span>
-        proxy_read_timeout 600<span class="p">;</span>
-        proxy_send_timeout 600<span class="p">;</span>
-        client_max_body_size 1024M<span class="p">;</span> <span class="c"># Set higher depending on your needs</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-<h4 id="启动-nginx">启动 nginx</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service nginx start
-</code></pre></div></div>
-
-<h4 id="修改防火墙规则--如果关闭-selinux此步可省略">修改防火墙规则 ( 如果关闭 selinux，此步可省略)</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/sbin/setsebool httpd_can_network_connect <span class="nb">true</span>
-</code></pre></div></div>
-
-<h4 id="设置-supervisor">设置 supervisor</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chown</span> <span class="nt">-R</span> nginx:nginx /var/www/webvirtmgr
-vim /etc/supervisord.conf <span class="c">#在文件末尾添加</span>
-
-<span class="o">[</span>program:webvirtmgr]
-<span class="nb">command</span><span class="o">=</span>/usr/bin/python /var/www/webvirtmgr/manage.py run_gunicorn <span class="nt">-c</span> /var/www/webvirtmgr/conf/gunicorn.conf.py
-<span class="nv">directory</span><span class="o">=</span>/var/www/webvirtmgr
-<span class="nv">autostart</span><span class="o">=</span><span class="nb">true
-</span><span class="nv">autorestart</span><span class="o">=</span><span class="nb">true
-</span><span class="nv">logfile</span><span class="o">=</span>/var/log/supervisor/webvirtmgr.log
-<span class="nv">log_stderr</span><span class="o">=</span><span class="nb">true
-</span><span class="nv">user</span><span class="o">=</span>nginx
-
-<span class="o">[</span>program:webvirtmgr-console]
-<span class="nb">command</span><span class="o">=</span>/usr/bin/python /var/www/webvirtmgr/console/webvirtmgr-console
-<span class="nv">directory</span><span class="o">=</span>/var/www/webvirtmgr
-<span class="nv">autostart</span><span class="o">=</span><span class="nb">true
-</span><span class="nv">autorestart</span><span class="o">=</span><span class="nb">true
-</span><span class="nv">stdout_logfile</span><span class="o">=</span>/var/log/supervisor/webvirtmgr-console.log
-<span class="nv">redirect_stderr</span><span class="o">=</span><span class="nb">true
-</span><span class="nv">user</span><span class="o">=</span>nginx
-
-修改/var/www/webvirtmgr/conf/gunicorn.conf.py
-<span class="nb">bind</span> <span class="o">=</span> <span class="s2">"0:8000"</span>
-</code></pre></div></div>
-
-<h4 id="设置开机启动">设置开机启动</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chkconfig supervisord on
-chkconfig nginx on
-vim /etc/rc.local
-      /usr/sbin/setsebool httpd_can_network_connect <span class="nb">true</span>
-</code></pre></div></div>
-
-<h4 id="启动进程">启动进程</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service nginx start
-service supervisord start
-</code></pre></div></div>
-
-<h4 id="访问">访问</h4>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://<span class="nv">$server_ip</span>/login/
-</code></pre></div></div>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-07-27</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#KVM">KVM</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1744,6 +1620,13 @@ service supervisord start
       <ul>
         
         <li>
+          <a href="/post/2023/07/Google-%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7%E6%95%B4%E7%90%86.html">Google 搜索技巧整理</a>
+          浏览器常用高级检索技巧
+
+
+        </li>
+        
+        <li>
           <a href="/post/2023/02/Ketbrains%E6%BF%80%E6%B4%BB%E6%9C%8D%E5%8A%A1%E5%99%A8.html">在线服务器激活 Ketbrains</a>
           Ketbrains 激活服务器
 
@@ -1767,13 +1650,6 @@ service supervisord start
         <li>
           <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
           前言
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
-          项目起源
 
 
         </li>

@@ -267,6 +267,50 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/11/Tomcat-1-java-lang-OutOfMemoryError.html">Tomcat java.lang.OutOfMemoryError</a></h1>
+    <div class="post_at_index">
+      <h3 id="1-什么是-permgen-space-">1. 什么是 <em>PermGen space</em> ?</h3>
+
+<p>PermGen space 的全称是 Permanent Generation space，是指内存的永久保存区域，这块内存主要是被 JVM 存放 Class 和 Meta 信息的，Class 在被 Loader 时就会被放到 PermGen space 中，它和存放类实例 (Instance) 的 Heap 区域不同，GC(Garbage Collection) 不会在主程序运行期对 PermGen space 进行清理，所以如果你的应用中有很 CLASS 的话，就很可能出现 PermGen space 错误，这种错误常见在 web 服务器对 JSP 进行 pre compile 的时候。如果你的 WEB APP 下都用了大量的第三方 jar，其大小超过了 jvm 默认的大小 (4M) 那么就会产生此错误信息了。</p>
+
+<h3 id="2-解决方法">2. 解决方法</h3>
+
+<h4 id="21-手动设置-maxpermsize-大小">2.1 手动设置 MaxPermSize 大小</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 修改$TOMCAT_HOME/bin/catalina.sh，在“echo "Using CATALINA_BASE:   $CATALINA_BASE"”上面加入以下行：</span>
+<span class="nv">JAVA_OPTS</span><span class="o">=</span><span class="s2">"-server -Xms256m -Xmx512m -XX:PermSize=64M -XX:MaxPermSize=128m"</span>
+</code></pre></div></div>
+
+<h3 id="3-java-heap-space">3. Java heap space</h3>
+
+<h4 id="解释">解释</h4>
+
+<p>Heap size 设置
+JVM 堆的设置是指 java 程序运行过程中 JVM 可以调配使用的内存空间的设置.JVM 在启动的时候会自动设置 Heap size 的值，其初始空间 (即-Xms) 是物理内存的 1/64，最大空间 (-Xmx) 是物理内存的 1/4。可以利用 JVM 提供的-Xmn -Xms -Xmx 等选项可进行设置。Heap size 的大小是 Young Generation 和 Tenured Generaion 之和。</p>
+
+<ul>
+  <li>提示：在 JVM 中如果 98％的时间是用于 GC 且可用的 Heap size 不足 2％的时候将抛出此异常信息。</li>
+  <li>提示：Heap Size 最大不要超过可用物理内存的 80％，一般的要将-Xms 和-Xmx 选项设置为相同，而-Xmn 为 1/4 的-Xmx 值。</li>
+</ul>
+
+<blockquote>
+  <p>修改设置方法如 PermGen space</p>
+</blockquote>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-11-28</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#Tomcat">Tomcat</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/11/HowTo-Install-LNMP-on-CentOS-6-x.html">HowTo Install LNMP on CentOS 6.x</a></h1>
     <div class="post_at_index">
       <blockquote>
@@ -1581,47 +1625,6 @@ Pipeline process 11 <span class="o">(</span>aggregate fingerprint<span class="o"
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/09/%E7%94%9F%E8%80%85%E5%AD%A4%E7%8B%AC.html">生者孤独</a></h1>
-    <div class="post_at_index">
-      <p>张楚说：孤独是可耻的。
-我一直不愿承认的，我是一个孤独的人；或者这个世界上，没有人不会感到孤独吧；我的孤独，就好像在喧闹的人群中，突然就孤独了。</p>
-
-<p>小王子说：有一天，我看了四十四次日落！
-李寻欢问阿飞：你看这棵树上的梅花已经开了，你可知道已经开了多少朵？
-孔乙己问：你可知道茴的四种写法？
-鲁迅说：楼下一个男人病的要死，那间壁的一家唱着留声机；对面是弄孩子，楼上有两人狂笑，还有打牌声，河中的穿上有女人哭着她死去的母亲，人类的悲欢并不相通，我只是觉得她们吵闹。
-大话西游中说：你看那个人，好像一条狗！</p>
-
-<p>一千个读者，有一千个哈姆雷特！
-一个人走的太远太久了，便看腻了人潮似海。
-如果问，你所理解的孤独是什么？大概每个人都有自己的答案吧。
-突然觉得，原本以为亲密无间的伙伴并没有把我当朋友。
-小心翼翼地与人相处，把她当作真诚的伙伴，害怕隔阂，害怕犯错。
-或许，你所害怕的不是失去某个朋友，而是不够勇敢地去面对一个人的孤独。
-有人说，最孤独的事，不是不能跟一个人在一起，而是你根本不知道想跟谁在一起…</p>
-
-<p>其实，我们生来就是孤独;
-生命的本质就是孤独，不管你拥有什么，我们生来就是孤独。
-出现在这个世界本来就是一个偶然的事，谣言嘈杂的社会，人来人往，浮光掠影，匆匆碌碌。
-这个世界永远都是陌生的，理解是奢侈的，你永远想不起来来时的路，你永远无法让一个人不离你而去。
-不管你拥有什么，我们生来就是孤独。</p>
-
-<p>当我年轻的时候我想变成任何人，除了我自己。</p>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-09-20</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Zero">Zero</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1808,6 +1811,13 @@ Pipeline process 11 <span class="o">(</span>aggregate fingerprint<span class="o"
       <ul>
         
         <li>
+          <a href="/post/2023/07/Google-%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7%E6%95%B4%E7%90%86.html">Google 搜索技巧整理</a>
+          浏览器常用高级检索技巧
+
+
+        </li>
+        
+        <li>
           <a href="/post/2023/02/Ketbrains%E6%BF%80%E6%B4%BB%E6%9C%8D%E5%8A%A1%E5%99%A8.html">在线服务器激活 Ketbrains</a>
           Ketbrains 激活服务器
 
@@ -1831,13 +1841,6 @@ Pipeline process 11 <span class="o">(</span>aggregate fingerprint<span class="o"
         <li>
           <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
           前言
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
-          项目起源
 
 
         </li>

@@ -267,6 +267,171 @@
   <div class="col-xs-12 col-md-8">
     
     
+    <h1><a class="title" href="/post/2016/07/HowTo-Install-KVM-Manage-Server-webvirtmgr.html">HowTo Install KVM Manage Server webvirtmgr</a></h1>
+    <div class="post_at_index">
+      <p>生产环境的 KVM 宿主机越来越多，需要对宿主机的状态进行调控。这里用 webvirtmgr 进行管理。图形化的 WEB，让人能更方便的查看 kvm 宿主机的情况和操作。</p>
+
+<p><strong><em><a href="https://github.com/retspen/webvirtmgr">GitHub Project.</a></em></strong></p>
+
+<h3 id="install">Install</h3>
+
+<h4 id="安装支持的软件源">安装支持的软件源</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install</span> <span class="nt">-y</span> epel-release
+</code></pre></div></div>
+
+<h4 id="安装相关软件">安装相关软件</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nt">-y</span> <span class="nb">install </span>git python-pip libvirt-python libxml2-python python-websockify supervisor nginx
+</code></pre></div></div>
+
+<h4 id="从-git-hub-中下载相关的-webvirtmgr-代码">从 git-hub 中下载相关的 webvirtmgr 代码</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> /usr/local/src/
+git clone git://github.com/retspen/webvirtmgr.git
+</code></pre></div></div>
+
+<h4 id="安装-webvirtmgr">安装 webvirtmgr</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>webvirtmgr/
+pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
+</code></pre></div></div>
+
+<h4 id="安装数据库">安装数据库</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum <span class="nb">install </span>python-sqlite2
+</code></pre></div></div>
+
+<h4 id="对-django-进行环境配置">对 django 进行环境配置</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./manage.py syncdb
+
+You just installed Django<span class="s1">'s auth system, which means you don'</span>t have any superusers defined.
+Would you like to create one now? <span class="o">(</span><span class="nb">yes</span>/no<span class="o">)</span>: <span class="nb">yes
+</span>Username <span class="o">(</span>leave blank to use <span class="s1">'root'</span><span class="o">)</span>: admin
+Email address: luchuanjia@msn.com
+Password:<span class="k">*********</span>
+Password <span class="o">(</span>again<span class="o">)</span>:<span class="k">*********</span>
+
+./manage.py collectstatic <span class="c">#生成配置文件</span>
+./manage.py createsuperuser <span class="c">#添加管理员账号</span>
+</code></pre></div></div>
+
+<h4 id="拷贝-web-到-相关目录">拷贝 web 到 相关目录</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ..
+<span class="nb">rm</span> <span class="nt">-rf</span> /var/www
+<span class="nb">mkdir</span> <span class="nt">-pv</span> /var/www
+<span class="nb">cp</span> <span class="nt">-Rv</span> webvirtmgr /var/www/webvirtmgr
+</code></pre></div></div>
+
+<h4 id="设置-ssh">设置 ssh</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen
+ssh-copy-id 192.168.2.32
+ssh 192.168.2.32 <span class="nt">-L</span> localhost:8000:localhost:8000 <span class="nt">-L</span> localhost:6080:localhost:6080
+</code></pre></div></div>
+
+<h4 id="编辑-nginx-配置文件">编辑 nginx 配置文件</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mv</span> /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
+vim /etc/nginx/conf.d/webvirtmgr.conf  <span class="c">#添加下面内容到文件中</span>
+
+server <span class="o">{</span>
+    listen 80 default_server<span class="p">;</span>
+
+    server_name <span class="nv">$hostname</span><span class="p">;</span>
+    <span class="c">#access_log /var/log/nginx/webvirtmgr_access_log;</span>
+
+    location /static/ <span class="o">{</span>
+        root /var/www/webvirtmgr/webvirtmgr<span class="p">;</span> <span class="c"># or /srv instead of /var</span>
+        expires max<span class="p">;</span>
+    <span class="o">}</span>
+
+    location / <span class="o">{</span>
+        proxy_pass http://127.0.0.1:8000<span class="p">;</span>
+        proxy_set_header X-Real-IP <span class="nv">$remote_addr</span><span class="p">;</span>
+        proxy_set_header X-Forwarded-for <span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+        proxy_set_header Host <span class="nv">$host</span>:<span class="nv">$server_port</span><span class="p">;</span>
+        proxy_set_header X-Forwarded-Proto <span class="nv">$remote_addr</span><span class="p">;</span>
+        proxy_connect_timeout 600<span class="p">;</span>
+        proxy_read_timeout 600<span class="p">;</span>
+        proxy_send_timeout 600<span class="p">;</span>
+        client_max_body_size 1024M<span class="p">;</span> <span class="c"># Set higher depending on your needs</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="启动-nginx">启动 nginx</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service nginx start
+</code></pre></div></div>
+
+<h4 id="修改防火墙规则--如果关闭-selinux此步可省略">修改防火墙规则 ( 如果关闭 selinux，此步可省略)</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/sbin/setsebool httpd_can_network_connect <span class="nb">true</span>
+</code></pre></div></div>
+
+<h4 id="设置-supervisor">设置 supervisor</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">chown</span> <span class="nt">-R</span> nginx:nginx /var/www/webvirtmgr
+vim /etc/supervisord.conf <span class="c">#在文件末尾添加</span>
+
+<span class="o">[</span>program:webvirtmgr]
+<span class="nb">command</span><span class="o">=</span>/usr/bin/python /var/www/webvirtmgr/manage.py run_gunicorn <span class="nt">-c</span> /var/www/webvirtmgr/conf/gunicorn.conf.py
+<span class="nv">directory</span><span class="o">=</span>/var/www/webvirtmgr
+<span class="nv">autostart</span><span class="o">=</span><span class="nb">true
+</span><span class="nv">autorestart</span><span class="o">=</span><span class="nb">true
+</span><span class="nv">logfile</span><span class="o">=</span>/var/log/supervisor/webvirtmgr.log
+<span class="nv">log_stderr</span><span class="o">=</span><span class="nb">true
+</span><span class="nv">user</span><span class="o">=</span>nginx
+
+<span class="o">[</span>program:webvirtmgr-console]
+<span class="nb">command</span><span class="o">=</span>/usr/bin/python /var/www/webvirtmgr/console/webvirtmgr-console
+<span class="nv">directory</span><span class="o">=</span>/var/www/webvirtmgr
+<span class="nv">autostart</span><span class="o">=</span><span class="nb">true
+</span><span class="nv">autorestart</span><span class="o">=</span><span class="nb">true
+</span><span class="nv">stdout_logfile</span><span class="o">=</span>/var/log/supervisor/webvirtmgr-console.log
+<span class="nv">redirect_stderr</span><span class="o">=</span><span class="nb">true
+</span><span class="nv">user</span><span class="o">=</span>nginx
+
+修改/var/www/webvirtmgr/conf/gunicorn.conf.py
+<span class="nb">bind</span> <span class="o">=</span> <span class="s2">"0:8000"</span>
+</code></pre></div></div>
+
+<h4 id="设置开机启动">设置开机启动</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>chkconfig supervisord on
+chkconfig nginx on
+vim /etc/rc.local
+      /usr/sbin/setsebool httpd_can_network_connect <span class="nb">true</span>
+</code></pre></div></div>
+
+<h4 id="启动进程">启动进程</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service nginx start
+service supervisord start
+</code></pre></div></div>
+
+<h4 id="访问">访问</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://<span class="nv">$server_ip</span>/login/
+</code></pre></div></div>
+
+      
+    </div>
+    <br/>
+    <div>
+      <cite>2016-07-27</cite> <i class="icon-tag"></i>
+      <a href="/tags.html#KVM">KVM</a>
+      
+      
+      
+    </div>
+    <div style="clear: both;"></div>
+    <hr/>
+    
+    
     <h1><a class="title" href="/post/2016/07/Yum%E4%B8%AD-releasever%E5%92%8C-basearch%E7%9A%84%E5%8F%96%E5%80%BC.html">Yum 中$releasever 和$basearch 的取值</a></h1>
     <div class="post_at_index">
       <h4 id="查看etcyumreposdcentos-baserepo">查看/etc/yum.repos.d/CentOS-Base.repo</h4>
@@ -1547,71 +1712,6 @@ show variables like <span class="s1">'%lower_case_table_names%'</span>
     <div style="clear: both;"></div>
     <hr/>
     
-    
-    <h1><a class="title" href="/post/2016/06/Tomcat-3-%E4%BC%98%E5%8C%96%E8%AE%BE%E5%AE%9A.html">Tomcat 优化设定</a></h1>
-    <div class="post_at_index">
-      <ul>
-  <li>设置 JVM 空间大小，Xms 和 Xmx 一样大：JVM 初始分配的内存由-Xms 指定，默认是物理内存的 1/64；JVM 最大分配的内存由-Xmx 指定，默认是物理内存的 1/4。默认空余堆内存小于 40% 时，JVM 就会增大堆直到-Xmx 的最大限制；空余堆内存大于 70% 时，JVM 会减少堆直到-Xms 的最小限制。因此服务器一般设置-Xms、 -Xmx 相等以避免在每次 GC 后调整堆的大小。</li>
-  <li>关闭 dns 查询</li>
-  <li>增加线程数量</li>
-  <li>maxThreads、acceptCount：增加并发，同时增加这两个的数量</li>
-  <li>
-    <p>内存优化： /tomcatbin/catalina.sh</p>
-  </li>
-  <li>JAVA_OPTS=”-XX:PermSize=64M -XX:MaxPermSize=128m -Xms512m -Xmx1024m -Duser.timezone=Asia/Shanghai”</li>
-  <li>缓存优化</li>
-  <li>并发优化，线程优化</li>
-  <li>&lt;Connector port=”80” protocol=”HTTP/1.1” maxThreads=”600” minSpareThreads=”100” maxSpareThreads=”500” acceptCount=”700”</li>
-  <li>connectionTimeout=”20000” redirectPort=”8443” /&gt;</li>
-  <li>关闭 DNS 查询 :修改 server.xml 文件中的 Connector 元素，修改属性 enableLookups 参数值：enableLookups=”false”</li>
-  <li>使用 apr 插件，提高 tomcat 响应时间</li>
-</ul>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="o">(</span>1<span class="o">)</span>安装APR tomcat-native
-    apr-1.3.8.tar.gz   安装在/usr/local/apr
-    <span class="c">#tar zxvf apr-1.3.8.tar.gz</span>
-    <span class="c">#cd apr-1.3.8</span>
-    <span class="c">#./configure;make;make install</span>
-
-    apr-util-1.3.9.tar.gz  安装在/usr/local/apr/lib
-    <span class="c">#tar zxvf apr-util-1.3.9.tar.gz</span>
-    <span class="c">#cd apr-util-1.3.9</span>
-    <span class="c">#./configure --with-apr=/usr/local/apr ----with-java-home=JDK;make;make install</span>
-
-    <span class="c">#cd apache-tomcat-6.0.20/bin</span>
-    <span class="c">#tar zxvf tomcat-native.tar.gz</span>
-    <span class="c">#cd tomcat-native/jni/native</span>
-    <span class="c">#./configure --with-apr=/usr/local/apr;make;make install</span>
-
-  <span class="o">(</span>2<span class="o">)</span>设置 Tomcat 整合 APR
-    修改 tomcat 的启动 shell （startup.sh），在该文件中加入启动参数：
-      <span class="nv">CATALINA_OPTS</span><span class="o">=</span><span class="s2">"</span><span class="nv">$CATALINA_OPTS</span><span class="s2"> -Djava.library.path=/usr/local/apr/lib"</span> 。
-
-  <span class="o">(</span>3<span class="o">)</span>判断安装成功:
-    如果看到下面的启动日志，表示成功。
-      2007-4-26 15:34:32 org.apache.coyote.http11.Http11AprProtocol init
-</code></pre></div></div>
-
-<ul>
-  <li>开启 manager 管理</li>
-  <li>使用<a href="http://visualvm.Java.net/download.html">http://visualvm.Java.net/download.html</a> 工具监控 tomcat 的性能</li>
-  <li>JAVA_OPTS=’-Dcom.sun.management.jmxremote.port=8999 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false’</li>
-  <li>设置自动更新 autodeploy＝false</li>
-</ul>
-
-      
-    </div>
-    <br/>
-    <div>
-      <cite>2016-06-15</cite> <i class="icon-tag"></i>
-      <a href="/tags.html#Tomcat">Tomcat</a>
-      
-      
-      
-    </div>
-    <div style="clear: both;"></div>
-    <hr/>
-    
 
     <!-- Pagination links -->
     <nav>
@@ -1798,6 +1898,13 @@ show variables like <span class="s1">'%lower_case_table_names%'</span>
       <ul>
         
         <li>
+          <a href="/post/2023/07/Google-%E6%90%9C%E7%B4%A2%E6%8A%80%E5%B7%A7%E6%95%B4%E7%90%86.html">Google 搜索技巧整理</a>
+          浏览器常用高级检索技巧
+
+
+        </li>
+        
+        <li>
           <a href="/post/2023/02/Ketbrains%E6%BF%80%E6%B4%BB%E6%9C%8D%E5%8A%A1%E5%99%A8.html">在线服务器激活 Ketbrains</a>
           Ketbrains 激活服务器
 
@@ -1821,13 +1928,6 @@ show variables like <span class="s1">'%lower_case_table_names%'</span>
         <li>
           <a href="/post/2022/12/dce50.html">保姆式安装 DCE5.0</a>
           前言
-
-
-        </li>
-        
-        <li>
-          <a href="/post/2022/11/cskefu-opensource-project.html">开源项目 - 春松客服</a>
-          项目起源
 
 
         </li>

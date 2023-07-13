@@ -1,0 +1,127 @@
+<h1 id="浏览器常用高级检索技巧">浏览器常用高级检索技巧</h1>
+
+<h2 id="笔记说明">笔记说明</h2>
+
+<blockquote>
+  <p>支持 google、部分 baidu 网页检索和图片检索等</p>
+</blockquote>
+
+<p><img src="https://img.samzong.me/202307111726902.png" alt="20230711172625" /></p>
+
+<ul>
+  <li>intitle: 仅在名称中查询
+    <ul>
+      <li>allintitle: 多个关键词查询</li>
+    </ul>
+  </li>
+  <li>intext: 仅在正文中查询
+    <ul>
+      <li>allintext: 多个关键词查询</li>
+    </ul>
+  </li>
+  <li>inurl: 仅在 url 中查询关键词
+    <ul>
+      <li>allinurl: 多个关键词</li>
+    </ul>
+  </li>
+  <li>site: 在对应的网站内查询</li>
+  <li>filetype: 查询对应的文件类型</li>
+  <li>支持 <code class="language-plaintext highlighter-rouge">.</code> 和 <code class="language-plaintext highlighter-rouge">*</code> 作为正则匹配查询</li>
+  <li>支持 <code class="language-plaintext highlighter-rouge">""</code> 作关键词精准查询</li>
+  <li>Index of 浏览网页的目录，就像浏览本地的普通目录</li>
+  <li>location: 指定查询的地区，返回对应地区的内容</li>
+</ul>
+
+<h2 id="命令参照表">命令参照表</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Keyworld</th>
+      <th>作用</th>
+      <th>示例</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>intitle</td>
+      <td>限定从网页标题中查询关键词</td>
+      <td>intitle:insight</td>
+    </tr>
+    <tr>
+      <td>allintitle</td>
+      <td>限定从网页标题中查询关键词，支持多个关键词</td>
+      <td>allintitle:insight kpanda</td>
+    </tr>
+    <tr>
+      <td>intext</td>
+      <td>限定从网页内容中查询关键词</td>
+      <td>intext:insight</td>
+    </tr>
+    <tr>
+      <td>allintext</td>
+      <td>限定从网页内容中查询关键词，支持多个关键词</td>
+      <td>allintext:insight kpanda</td>
+    </tr>
+    <tr>
+      <td>inurl</td>
+      <td>限定从网页 url 中查询关键词</td>
+      <td>inurl:insight</td>
+    </tr>
+    <tr>
+      <td>allinurl</td>
+      <td>限定从网页 url 中查询关键词，支持多个关键词</td>
+      <td>allinurl:insight</td>
+    </tr>
+    <tr>
+      <td>site</td>
+      <td>限定查询指定网址的内容</td>
+      <td>site:daocloud.io</td>
+    </tr>
+    <tr>
+      <td>””, 《》</td>
+      <td>使得查询字符不分开</td>
+      <td>intitle:”insight”</td>
+    </tr>
+    <tr>
+      <td>.</td>
+      <td>匹配任意单个字符</td>
+      <td>intitle:”i.sight”</td>
+    </tr>
+    <tr>
+      <td>*</td>
+      <td>匹配任意长度字符</td>
+      <td>inurl:”<em>*insight</em>”</td>
+    </tr>
+    <tr>
+      <td>-</td>
+      <td>在查询结果中，剔除关键词</td>
+      <td>intitle:insight -daocloud<br />intitle:insight  site:”daocloud.io” -docs</td>
+    </tr>
+    <tr>
+      <td>+</td>
+      <td>在查询结果中，保留关键词</td>
+      <td>intitle:insight +daocloud</td>
+    </tr>
+    <tr>
+      <td>””, 《》</td>
+      <td>使得查询字符不分开</td>
+      <td>intitle:《insight》</td>
+    </tr>
+    <tr>
+      <td>filetype</td>
+      <td>指定查询的文件类型，常用查询 ppt、PDF、等，结果可以直接下载</td>
+      <td>site:daocloud.io filetype:pdf intitle:insight</td>
+    </tr>
+    <tr>
+      <td>location</td>
+      <td>调整当前所在位置，用于解决浏览器基于不同地址反馈的数据权重问题</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>link</td>
+      <td>查看每一个引用了这个网址的网页</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>

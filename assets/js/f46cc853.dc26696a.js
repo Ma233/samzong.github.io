@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[1931],{93659:a=>{a.exports=JSON.parse('{"label":"Yum","permalink":"/tags/yum","allTagsPath":"/tags","count":1}')}}]);

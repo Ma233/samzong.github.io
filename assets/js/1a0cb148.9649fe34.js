@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[27499],{19217:a=>{a.exports=JSON.parse('{"label":"OAuth","permalink":"/tags/o-auth","allTagsPath":"/tags","count":1}')}}]);

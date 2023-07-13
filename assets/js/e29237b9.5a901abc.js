@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[71494],{84379:a=>{a.exports=JSON.parse('{"label":"Metabase","permalink":"/tags/metabase","allTagsPath":"/tags","count":2}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[71094],{74417:e=>{e.exports=JSON.parse('{"permalink":"/tags/vpn","page":1,"postsPerPage":1,"totalPages":2,"totalCount":2,"nextPage":"/tags/vpn/page/2","blogDescription":"A Docusaurus powered blog!","blogTitle":"Samzong blog!"}')}}]);

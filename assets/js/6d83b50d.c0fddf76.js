@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[56357],{38765:e=>{e.exports=JSON.parse('{"label":"Openfire","permalink":"/tags/openfire","allTagsPath":"/tags","count":1}')}}]);

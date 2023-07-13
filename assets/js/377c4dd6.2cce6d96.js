@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[78484],{18121:a=>{a.exports=JSON.parse('{"label":"OpenStack","permalink":"/tags/open-stack","allTagsPath":"/tags","count":1}')}}]);

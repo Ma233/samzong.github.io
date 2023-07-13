@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[77728],{27883:e=>{e.exports=JSON.parse('{"permalink":"/tags/maria-db","page":1,"postsPerPage":1,"totalPages":1,"totalCount":1,"blogDescription":"A Docusaurus powered blog!","blogTitle":"Samzong blog!"}')}}]);

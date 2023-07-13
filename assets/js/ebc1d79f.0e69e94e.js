@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[99815],{25112:e=>{e.exports=JSON.parse('{"label":"Poetry","permalink":"/tags/poetry","allTagsPath":"/tags","count":1}')}}]);

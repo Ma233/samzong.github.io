@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[31994],{88257:a=>{a.exports=JSON.parse('{"label":"Skoala","permalink":"/tags/skoala","allTagsPath":"/tags","count":2}')}}]);

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[78374],{76023:e=>{e.exports=JSON.parse('{"permalink":"/tags/redmine","page":1,"postsPerPage":1,"totalPages":2,"totalCount":2,"nextPage":"/tags/redmine/page/2","blogDescription":"A Docusaurus powered blog!","blogTitle":"Samzong blog!"}')}}]);

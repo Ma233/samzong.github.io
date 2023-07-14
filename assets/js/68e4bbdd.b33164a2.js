@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[7530],{20181:a=>{a.exports=JSON.parse('{"label":"unix command","permalink":"/tags/unix-command","allTagsPath":"/tags","count":1}')}}]);

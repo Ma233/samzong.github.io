@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[37882],{42460:e=>{e.exports=JSON.parse('{"label":"Hexo","permalink":"/tags/hexo","allTagsPath":"/tags","count":2}')}}]);

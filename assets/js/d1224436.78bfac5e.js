@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[93150],{57868:e=>{e.exports=JSON.parse('{"label":"Webhook","permalink":"/tags/webhook","allTagsPath":"/tags","count":1}')}}]);

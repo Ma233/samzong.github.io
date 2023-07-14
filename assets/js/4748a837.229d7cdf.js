@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[99893],{12070:e=>{e.exports=JSON.parse('{"permalink":"/tags/k-8-s","page":1,"postsPerPage":1,"totalPages":2,"totalCount":2,"nextPage":"/tags/k-8-s/page/2","blogDescription":"A Docusaurus powered blog!","blogTitle":"Samzong blog!"}')}}]);

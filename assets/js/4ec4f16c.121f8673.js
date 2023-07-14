@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[92279],{89928:a=>{a.exports=JSON.parse('{"permalink":"/tags/skoala/page/2","page":2,"postsPerPage":1,"totalPages":2,"totalCount":2,"previousPage":"/tags/skoala","blogDescription":"A Docusaurus powered blog!","blogTitle":"Samzong blog!"}')}}]);

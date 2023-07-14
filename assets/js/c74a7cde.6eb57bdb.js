@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[73130],{25265:a=>{a.exports=JSON.parse('{"label":"LNMP","permalink":"/tags/lnmp","allTagsPath":"/tags","count":1}')}}]);

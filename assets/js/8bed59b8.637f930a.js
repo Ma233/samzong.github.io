@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[48484],{53801:s=>{s.exports=JSON.parse('{"label":"ClickHouse","permalink":"/tags/click-house","allTagsPath":"/tags","count":2}')}}]);

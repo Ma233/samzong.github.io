@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[92064],{97052:a=>{a.exports=JSON.parse('{"label":"Contour","permalink":"/tags/contour","allTagsPath":"/tags","count":5}')}}]);

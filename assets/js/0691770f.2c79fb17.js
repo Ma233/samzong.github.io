@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[50309],{75390:e=>{e.exports=JSON.parse('{"permalink":"/tags/click-house/page/2","page":2,"postsPerPage":1,"totalPages":2,"totalCount":2,"previousPage":"/tags/click-house","blogDescription":"A Docusaurus powered blog!","blogTitle":"Samzong blog!"}')}}]);

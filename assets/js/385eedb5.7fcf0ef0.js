@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[95406],{57193:a=>{a.exports=JSON.parse('{"label":"Kafka","permalink":"/tags/kafka","allTagsPath":"/tags","count":1}')}}]);

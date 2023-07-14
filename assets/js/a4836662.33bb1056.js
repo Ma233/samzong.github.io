@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[33037],{29825:e=>{e.exports=JSON.parse('{"label":"SourceTree","permalink":"/tags/source-tree","allTagsPath":"/tags","count":2}')}}]);

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[34745],{39510:a=>{a.exports=JSON.parse('{"label":"Mac","permalink":"/notes/tags/mac","allTagsPath":"/notes/tags","count":23}')}}]);

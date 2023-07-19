@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[80205],{91573:s=>{s.exports=JSON.parse('{"label":"Linux","permalink":"/notes/tags/linux","allTagsPath":"/notes/tags","count":10}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[57237],{97359:e=>{e.exports=JSON.parse('{"permalink":"/blog/tags/azure","page":1,"postsPerPage":20,"totalPages":1,"totalCount":3,"blogDescription":"Blog","blogTitle":"Samzong"}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[37007],{89064:e=>{e.exports=JSON.parse('{"label":"Docker","permalink":"/blog/tags/docker","allTagsPath":"/blog/tags","count":5}')}}]);

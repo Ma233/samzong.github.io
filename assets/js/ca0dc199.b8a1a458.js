@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[66797],{35174:e=>{e.exports=JSON.parse('{"permalink":"/tags/kubernetes/page/5","page":5,"postsPerPage":1,"totalPages":7,"totalCount":7,"previousPage":"/tags/kubernetes/page/4","nextPage":"/tags/kubernetes/page/6","blogDescription":"A Docusaurus powered blog!","blogTitle":"Samzong blog!"}')}}]);

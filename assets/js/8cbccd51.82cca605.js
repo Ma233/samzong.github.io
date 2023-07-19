@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[25244],{68507:a=>{a.exports=JSON.parse('{"permalink":"/tags/raycast/page/2","page":2,"postsPerPage":1,"totalPages":2,"totalCount":2,"previousPage":"/tags/raycast","blogDescription":"A Docusaurus powered blog!","blogTitle":"Samzong blog!"}')}}]);

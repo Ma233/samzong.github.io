@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[55595],{19936:a=>{a.exports=JSON.parse('{"label":"Piwik","permalink":"/tags/piwik","allTagsPath":"/tags","count":2}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[67622],{50194:e=>{e.exports=JSON.parse('{"permalink":"/blog/tags/docker","page":1,"postsPerPage":20,"totalPages":1,"totalCount":5,"blogDescription":"Blog","blogTitle":"Samzong"}')}}]);

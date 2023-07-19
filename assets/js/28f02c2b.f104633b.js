@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[53612],{15337:e=>{e.exports=JSON.parse('{"permalink":"/notes/tags/i-os","page":1,"postsPerPage":1,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Samzong"}')}}]);

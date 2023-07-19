@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[6652],{19724:a=>{a.exports=JSON.parse('{"label":"Github","permalink":"/blog/tags/github","allTagsPath":"/blog/tags","count":3}')}}]);

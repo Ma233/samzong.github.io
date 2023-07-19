@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[63150],{13625:e=>{e.exports=JSON.parse('{"label":"Microservice","permalink":"/notes/tags/microservice","allTagsPath":"/notes/tags","count":13}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[59815],{88256:s=>{s.exports=JSON.parse('{"label":"CloudStack","permalink":"/notes/tags/cloud-stack","allTagsPath":"/notes/tags","count":1}')}}]);

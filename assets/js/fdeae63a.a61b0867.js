@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[178],{72001:e=>{e.exports=JSON.parse('{"permalink":"/notes/tags/dao-cloud","page":1,"postsPerPage":1,"totalPages":2,"totalCount":2,"nextPage":"/notes/tags/dao-cloud/page/2","blogDescription":"Blog","blogTitle":"Samzong"}')}}]);

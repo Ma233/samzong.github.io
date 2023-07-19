@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[34726],{88153:a=>{a.exports=JSON.parse('{"label":"MariaDB","permalink":"/blog/tags/maria-db","allTagsPath":"/blog/tags","count":1}')}}]);

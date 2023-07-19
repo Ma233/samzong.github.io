@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[92733],{56881:a=>{a.exports=JSON.parse('{"label":"MongoDB","permalink":"/blog/tags/mongo-db","allTagsPath":"/blog/tags","count":1}')}}]);

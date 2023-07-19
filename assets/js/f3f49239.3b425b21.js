@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[82385],{14880:e=>{e.exports=JSON.parse('{"permalink":"/notes/tags/microservice/page/6","page":6,"postsPerPage":1,"totalPages":13,"totalCount":13,"previousPage":"/notes/tags/microservice/page/5","nextPage":"/notes/tags/microservice/page/7","blogDescription":"Blog","blogTitle":"Samzong"}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[14604],{34588:e=>{e.exports=JSON.parse('{"permalink":"/notes/tags/kubernetes/page/2","page":2,"postsPerPage":1,"totalPages":7,"totalCount":7,"previousPage":"/notes/tags/kubernetes","nextPage":"/notes/tags/kubernetes/page/3","blogDescription":"Blog","blogTitle":"Samzong"}')}}]);

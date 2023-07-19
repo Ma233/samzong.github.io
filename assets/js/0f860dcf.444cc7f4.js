@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[69856],{72035:e=>{e.exports=JSON.parse('{"label":"CentOS","permalink":"/notes/tags/cent-os","allTagsPath":"/notes/tags","count":17}')}}]);

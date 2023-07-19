@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[42139],{40890:e=>{e.exports=JSON.parse('{"permalink":"/blog/tags/maria-db","page":1,"postsPerPage":20,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Samzong"}')}}]);

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[13068],{1672:e=>{e.exports=JSON.parse('{"permalink":"/blog/tags/i-phone","page":1,"postsPerPage":20,"totalPages":1,"totalCount":2,"blogDescription":"Blog","blogTitle":"Samzong"}')}}]);

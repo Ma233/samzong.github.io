@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[758],{56150:e=>{e.exports=JSON.parse('{"permalink":"/notes/page/134","page":134,"postsPerPage":1,"totalPages":245,"totalCount":245,"previousPage":"/notes/page/133","nextPage":"/notes/page/135","blogDescription":"Blog","blogTitle":"Samzong"}')}}]);

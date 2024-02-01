@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[1905],{87280:s=>{s.exports=JSON.parse('{"label":"Parallels Desktop","permalink":"/tags/parallels-desktop","allTagsPath":"/tags","count":2,"unlisted":false}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[47037],{92215:e=>{e.exports=JSON.parse('{"label":"Telegram","permalink":"/tags/telegram","allTagsPath":"/tags","count":1,"unlisted":false}')}}]);

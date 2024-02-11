@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[69572],{40888:s=>{s.exports=JSON.parse('{"label":"KVM","permalink":"/tags/kvm","allTagsPath":"/tags","count":1,"unlisted":false}')}}]);

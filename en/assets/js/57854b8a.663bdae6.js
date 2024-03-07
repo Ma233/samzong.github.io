@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[700],{69462:a=>{a.exports=JSON.parse('{"label":"Raycast","permalink":"/en/tags/raycast","allTagsPath":"/en/tags","count":2,"unlisted":false}')}}]);

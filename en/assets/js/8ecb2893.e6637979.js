@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[41324],{1360:e=>{e.exports=JSON.parse('{"label":"Yotube","permalink":"/en/tags/yotube","allTagsPath":"/en/tags","count":1,"unlisted":false}')}}]);

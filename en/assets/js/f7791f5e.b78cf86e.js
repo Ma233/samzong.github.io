@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[35060],{59568:e=>{e.exports=JSON.parse('{"permalink":"/en/tags/azure","page":1,"postsPerPage":1,"totalPages":3,"totalCount":3,"nextPage":"/en/tags/azure/page/2","blogDescription":"Blog","blogTitle":"Notes"}')}}]);

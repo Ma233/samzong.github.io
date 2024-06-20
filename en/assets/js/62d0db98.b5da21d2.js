@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[76740],{40560:e=>{e.exports=JSON.parse('{"permalink":"/en/tags/frontend","page":1,"postsPerPage":1,"totalPages":3,"totalCount":3,"nextPage":"/en/tags/frontend/page/2","blogDescription":"Blog","blogTitle":"Notes"}')}}]);

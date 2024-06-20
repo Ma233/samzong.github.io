@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunksamzong_me=self.webpackChunksamzong_me||[]).push([[65488],{22371:e=>{e.exports=JSON.parse('{"permalink":"/en/tags/cent-os/page/8","page":8,"postsPerPage":1,"totalPages":17,"totalCount":17,"previousPage":"/en/tags/cent-os/page/7","nextPage":"/en/tags/cent-os/page/9","blogDescription":"Blog","blogTitle":"Notes"}')}}]);
